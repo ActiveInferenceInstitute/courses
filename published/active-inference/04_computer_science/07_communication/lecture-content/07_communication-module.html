@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 07: Communication — Multi-Agent Simulation and Signaling Games</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Build a multi-agent simulation where agents observe and influence each other.</li>
+<li>Implement a signaling game with sender and receiver Active Inference agents.</li>
+<li>Track mutual information to measure emergent communication.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Active Inference agents don't exist in isolation. When multiple agents share an environment, each agent's actions become part of the other agents' observations. This creates a rich dynamics: agents develop implicit communication by learning to predict and influence each other's behavior. This module builds multi-agent simulations from the single-agent tools developed in Modules 01–06.</p>
+<h2>Key Concepts</h2>
+<h3>1. Multi-Agent Architecture</h3>
+<p>In a multi-agent setup, each agent has its own generative model, but the environment's state includes the states and actions of all agents:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenerativeModel</span><span class="p">,</span> <span class="n">ActiveInferenceAgent</span><span class="p">,</span> <span class="n">DiscreteEnvironment</span>
+
+<span class="c1"># Agent 1: Sender</span>
+<span class="n">model_sender</span> <span class="o">=</span> <span class="n">GenerativeModel</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">A_sender</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B_sender</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C_sender</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="n">D_sender</span><span class="p">)</span>
+<span class="n">agent_sender</span> <span class="o">=</span> <span class="n">ActiveInferenceAgent</span><span class="p">(</span><span class="n">model_sender</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
+
+<span class="c1"># Agent 2: Receiver</span>
+<span class="n">model_receiver</span> <span class="o">=</span> <span class="n">GenerativeModel</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">A_receiver</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B_receiver</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C_receiver</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="n">D_receiver</span><span class="p">)</span>
+<span class="n">agent_receiver</span> <span class="o">=</span> <span class="n">ActiveInferenceAgent</span><span class="p">(</span><span class="n">model_receiver</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>2. The Signaling Game</h3>
+<p>A canonical test for emergent communication:</p>
+<ul>
+<li><strong>2 world states</strong>: food-left (0), food-right (1)</li>
+<li><strong>Sender</strong>: observes the true state, selects a signal (action 0 or 1)</li>
+<li><strong>Receiver</strong>: observes the sender's signal, selects a direction (go-left or go-right)</li>
+<li><strong>Success</strong>: the receiver reaches the food</li>
+</ul>
+<p>The sender's A-matrix allows it to observe the world state. The receiver's A-matrix maps signals to observations. Reward is shared — both agents prefer the receiver reaching the food.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Sender&#39;s A-matrix: directly observes the true state</span>
+<span class="n">A_sender</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># o = s (fully observable)</span>
+
+<span class="c1"># Receiver&#39;s A-matrix: observes the sender&#39;s action</span>
+<span class="n">A_receiver</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># initially: signal 0 → obs 0, signal 1 → obs 1</span>
+</code></pre></div>
+
+<h3>3. Multi-Agent Simulation Loop</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">mi_history</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+    <span class="c1"># Sender observes world state and produces a signal</span>
+    <span class="n">obs_sender</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get_observation</span><span class="p">(</span><span class="n">agent_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">agent_sender</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">obs_sender</span><span class="p">)</span>
+
+    <span class="c1"># Receiver observes the signal and selects an action</span>
+    <span class="n">obs_receiver</span> <span class="o">=</span> <span class="n">signal</span>  <span class="c1"># receiver sees sender&#39;s action</span>
+    <span class="n">direction</span> <span class="o">=</span> <span class="n">agent_receiver</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">obs_receiver</span><span class="p">)</span>
+
+    <span class="c1"># Environment evaluates: did receiver find food?</span>
+    <span class="n">reward</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+
+    <span class="c1"># Track mutual information between signals and world states</span>
+    <span class="n">mi</span> <span class="o">=</span> <span class="n">compute_mutual_information</span><span class="p">(</span><span class="n">signals</span><span class="p">,</span> <span class="n">states</span><span class="p">)</span>
+    <span class="n">mi_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mi</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>4. Measuring Communication with Mutual Information</h3>
+<p>Mutual information $I(X; Y)$ quantifies how much the sender's signals reduce uncertainty about the world state:</p>
+<p>$$I(\text{signal} ; \text{state}) = H(\text{signal}) + H(\text{state}) - H(\text{signal}, \text{state})$$</p>
+<p>If $I = 0$, signals are uncorrelated with states (no communication). If $I = H(\text{state})$, signals perfectly encode the state.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">mutual_information</span>
+
+<span class="c1"># Build a joint distribution from observed signal-state pairs</span>
+<span class="n">joint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">sig</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">world_states</span><span class="p">,</span> <span class="n">signals</span><span class="p">):</span>
+    <span class="n">joint</span><span class="p">[</span><span class="n">sig</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">joint</span> <span class="o">/=</span> <span class="n">joint</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="n">mi</span> <span class="o">=</span> <span class="n">mutual_information</span><span class="p">(</span><span class="n">joint</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mutual Information: </span><span class="si">{</span><span class="n">mi</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> bits&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>5. Learning to Communicate</h3>
+<p>Neither agent has a built-in communication protocol. Communication <strong>emerges</strong> through learning:</p>
+<ol>
+<li>The sender learns (via pA/pB updates) which signals lead to reward.</li>
+<li>The receiver learns which signals correlate with which world states.</li>
+<li>Over time, mutual information increases as the agents develop a shared code.</li>
+</ol>
+<h3>6. Scaling to More Agents</h3>
+<p>The same pattern extends to N agents:</p>
+<ul>
+<li>Each agent maintains its own <code>GenerativeModel</code> and <code>ActiveInferenceAgent</code></li>
+<li>The environment maps agent actions to other agents' observations</li>
+<li>Mutual information can be tracked pairwise</li>
+</ul>
+<h2>Applications</h2>
+<ul>
+<li><strong>Language evolution</strong>: How do symbolic systems emerge from non-linguistic agents?</li>
+<li><strong>Cooperative robotics</strong>: Agents that develop coordination protocols without pre-programmed signals.</li>
+<li><strong>Social inference</strong>: An agent that models other agents' beliefs (theory of mind) as part of its generative model.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>Multi-agent Active Inference extends the single-agent framework naturally: each agent's actions become observations for other agents. Communication emerges when agents learn that their signals systematically influence others' behavior. Module 08 extends the temporal dimension — planning over multiple future steps.</p>
+</body>
+</html>

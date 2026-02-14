@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>practice_quiz</title>
+</head>
+<body>
+<h1>Practice Quiz: Agents (Implementation)</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em> <strong>Date</strong>: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Part A: Multiple Choice</h2>
+<p><strong>1.</strong> The ActiveInferenceAgent class stores beliefs in:
+A) self.A
+B) self.qs — the posterior distribution over hidden states
+C) self.C
+D) self.gamma</p>
+<p><strong>2.</strong> The infer_states method implements:
+A) Policy evaluation
+B) Bayesian updating: posterior = normalize(likelihood × prior)
+C) Action selection
+D) Environment simulation</p>
+<p><strong>3.</strong> The _compute_efe method calculates:
+A) The observation likelihood
+B) Expected Free Energy by summing pragmatic and epistemic terms over predicted futures
+C) The transition probability
+D) The number of policies</p>
+<p><strong>4.</strong> The SimpleEnvironment generates observations by:
+A) Always returning the same value
+B) Sampling from P(o | s) using the true A matrix and current state
+C) Reading from a file
+D) Copying the agent's beliefs</p>
+<p><strong>5.</strong> The simulation loop connects agent and environment through:
+A) Shared memory
+B) Observe → Infer → Select → Act → Repeat
+C) A single function call
+D) Random steps</p>
+<p><strong>6.</strong> Setting gamma = 0 would cause the agent to:
+A) Always select the best policy
+B) Select policies nearly uniformly (random behavior) regardless of EFE
+C) Crash the program
+D) Move faster</p>
+<p><strong>7.</strong> The agent logs belief_history, action_history, and obs_history for:
+A) Entertainment
+B) Analysis and debugging — understanding the agent's decision-making over time
+C) Sending to another agent
+D) Reducing computation</p>
+<h2>Part B: Short Answer</h2>
+<p><strong>1.</strong> Write the key lines of the <code>infer_states</code> method and explain what each line does.</p>
+<p><strong>2.</strong> Explain what happens in the simulation loop when the agent's model (A matrix) is slightly wrong — different from the environment's true A matrix. How does this affect behavior?</p>
+<p><strong>3.</strong> Design a test to verify that the agent's policy selection is working correctly. What should happen when C strongly favors one observation? When C is uniform?</p>
+</body>
+</html>

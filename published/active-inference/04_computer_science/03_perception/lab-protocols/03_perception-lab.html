@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpgidkx_so</title>
+</head>
+<body>
+<h1>Lab 03: State Estimation and Belief Updating</h1>
+<h2>Objective</h2>
+<p>Implement and visualize belief updating using the A-matrix likelihood, compare inference with different observation noise levels, and analyze convergence behavior.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Completed Labs 01–02</li>
+<li>Understanding of Bayesian inference and VFE</li>
+<li>Access to the <code>active_inference</code> library</li>
+</ul>
+<h2>Part 1: Basic State Inference</h2>
+<p><strong>Goal</strong>: Run state inference on a simple 2-state system and examine the posterior.</p>
+<ol>
+<li>Create a <code>GenerativeModel</code> with a clear A-matrix ($A = [[0.9, 0.1], [0.1, 0.9]]$).</li>
+<li>Run <code>run_state_inference()</code> with a uniform prior and observation $o = 0$.</li>
+<li>Print the posterior, number of iterations, and whether convergence was achieved.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenerativeModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_state_inference</span>
+
+<span class="c1"># TODO: Create model and run state inference</span>
+<span class="c1"># TODO: Print result[&quot;q_s&quot;], result[&quot;converged&quot;], result[&quot;num_iters&quot;]</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Sequential Observation Updates</h2>
+<p><strong>Goal</strong>: Update beliefs across multiple observations.</p>
+<ol>
+<li>Start with a uniform prior $q(s) = [0.5, 0.5]$.</li>
+<li>Process the observation sequence $[0, 0, 1, 0, 1, 1]$.</li>
+<li>After each observation, use the posterior as the new prior.</li>
+<li>Record and plot the belief trajectory using <code>plot_beliefs()</code>.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_beliefs</span>
+
+<span class="n">beliefs_history</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">prior</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">obs</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">run_state_inference</span><span class="p">(</span><span class="n">prior</span><span class="o">=</span><span class="n">prior</span><span class="p">,</span> <span class="n">observation</span><span class="o">=</span><span class="n">obs</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">prior</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;q_s&quot;</span><span class="p">]</span>
+    <span class="n">beliefs_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prior</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+<span class="n">plot_beliefs</span><span class="p">(</span><span class="n">beliefs_history</span><span class="p">,</span> <span class="n">state_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;s0&quot;</span><span class="p">,</span> <span class="s2">&quot;s1&quot;</span><span class="p">],</span>
+             <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;output/lab03_beliefs.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Noise Comparison</h2>
+<p><strong>Goal</strong>: Compare inference under different A-matrix noise levels.</p>
+<ol>
+<li>Define three A-matrices: clear ($0.95/0.05$), moderate ($0.75/0.25$), noisy ($0.55/0.45$).</li>
+<li>For each, run inference on the same observation sequence $[0, 0, 0, 0, 0]$.</li>
+<li>Plot the posterior $q(s_0)$ after each observation for all three noise levels on the same graph.</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Convergence Analysis</h2>
+<p><strong>Goal</strong>: Visualize and analyze inference convergence.</p>
+<ol>
+<li>Run <code>run_state_inference()</code> with a tight threshold ($10^{-12}$) and 50 max iterations.</li>
+<li>Plot the convergence curve using <code>plot_convergence()</code>.</li>
+<li>Repeat with the noisy A-matrix and compare convergence speed.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_convergence</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">run_state_inference</span><span class="p">(</span>
+    <span class="n">prior</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">observation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span>
+    <span class="n">num_iterations</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">convergence_threshold</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plot_convergence</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;delta_history&quot;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span>
+                 <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;output/lab03_convergence.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Prediction Errors in a Live Agent</h2>
+<p><strong>Goal</strong>: Run an agent and examine prediction errors.</p>
+<ol>
+<li>Create an <code>ActiveInferenceAgent</code> and a <code>DiscreteEnvironment</code>.</li>
+<li>Run 20 steps of the perception-action loop.</li>
+<li>At each step, compute <code>agent.prediction_error(obs)</code> and store it.</li>
+<li>Visualize with <code>plot_prediction_errors()</code>.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_prediction_errors</span>
+
+<span class="c1"># TODO: Run loop, collect observations and predicted observations</span>
+<span class="c1"># TODO: Call plot_prediction_errors()</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Library Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Run standalone state inference</td>
+<td><code>run_state_inference()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Update beliefs across sequential observations</td>
+<td>Prior chaining</td>
+<td></td>
+</tr>
+<tr>
+<td>Compare inference under different noise levels</td>
+<td>Varying A-matrix</td>
+<td></td>
+</tr>
+<tr>
+<td>Visualize convergence diagnostics</td>
+<td><code>plot_convergence()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Compute and plot prediction errors</td>
+<td><code>agent.prediction_error()</code>, <code>plot_prediction_errors()</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

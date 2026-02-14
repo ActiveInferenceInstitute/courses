@@ -1,0 +1,43 @@
+# Lab: Pattern Maker
+
+## Goal
+
+To Create your own patterns and see if a friend can Solve (Perceive) them.
+
+## What You Need
+
+* Colored beads, Lego bricks, or Markers.
+* A friend (or parent).
+
+## Steps
+
+### 1. The Creator
+
+You are the Pattern Maker.
+Make a sequence but LEAVE THE END EMPTY.
+
+* Example: **Red, Blue, Red, Blue, ____**
+
+### 2. The Solver
+
+Ask your friend: "What comes next?"
+If they put a **Red** one, they found the rule!
+If they put a **Green** one, they were surprised!
+
+### 3. Tricky Patterns
+
+Make it harder!
+
+* AAB (Red, Red, Blue, Red, Red, Blue...)
+* ABC (Red, Blue, Green, Red, Blue, Green...)
+
+## My Pattern Log
+
+| My Pattern | The Rule | Did they solve it? |
+| :--- | :--- | :--- |
+| **Red, Blue** | AB | Yes |
+| **Red, Red, Yellow** | AAB | No (Tricky!) |
+
+## What We Learned
+
+We proved that our brains are Prediction Machines. We look at the past (the start of the line) to guess the future (the end of the line).

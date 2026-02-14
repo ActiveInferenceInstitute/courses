@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpo3kux1mk</title>
+</head>
+<body>
+<h1>Lab: Synaptic Plasticity as Model Updating</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Map neural learning mechanisms to Active Inference parameter and structure learning.</p>
+</blockquote>
+<h2>Part 1: Synaptic Plasticity Rule Mapping</h2>
+<p><strong>Exercise</strong>: Map each plasticity rule to the Active Inference operation it implements:</p>
+<table>
+<thead>
+<tr>
+<th>Plasticity Rule</th>
+<th>Neural Mechanism</th>
+<th>Active Inference Operation</th>
+<th>Matrix Updated</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LTP (Hebbian)</td>
+<td>Co-activation strengthens synapse</td>
+<td>Increase association parameter</td>
+<td>A matrix (observation likelihood)</td>
+<td>"Seeing red co-occurs with seeing an apple" → strengthen red-apple link</td>
+</tr>
+<tr>
+<td>LTD</td>
+<td>Failed co-activation weakens synapse</td>
+<td>Decrease association parameter</td>
+<td>A matrix</td>
+<td>"Expected green but saw red" → weaken green-apple link</td>
+</tr>
+<tr>
+<td>STDP (causal LTP)</td>
+<td>Pre-before-post → strengthen</td>
+<td>Learn causal transition</td>
+<td>B matrix (state transitions)</td>
+<td>"Pressing button causes light" → strengthen button→light transition</td>
+</tr>
+<tr>
+<td>STDP (acausal LTD)</td>
+<td>Post-before-pre → weaken</td>
+<td>Unlearn spurious causation</td>
+<td>B matrix</td>
+<td>"Light doesn't cause button press" → weaken light→button link</td>
+</tr>
+<tr>
+<td>Dopaminergic RPE</td>
+<td>Phasic DA encodes reward PE</td>
+<td>Update value/preference</td>
+<td>C vector (preferences)</td>
+<td>"This food was tastier than expected" → increase food-preference</td>
+</tr>
+<tr>
+<td>Cerebellar LTD</td>
+<td>Climbing fiber PE at PC synapse</td>
+<td>Update forward model</td>
+<td>Forward model parameters</td>
+<td>"My reach was off by 2cm" → adjust reach prediction</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 200-word analysis: How do these different plasticity rules, taken together, enable a complete generative model to be learned from scratch?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Memory Consolidation Timeline</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Trace the consolidation process from encoding to long-term storage.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Trace a specific memory (learning someone's name at a party) through the consolidation timeline:</p>
+<table>
+<thead>
+<tr>
+<th>Time Point</th>
+<th>Brain System</th>
+<th>Process</th>
+<th>What Is Happening to the Generative Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T=0 (encoding)</td>
+<td>Hippocampus (CA3/CA1)</td>
+<td>Rapid synaptic change</td>
+<td>New parameter: this face → this name (fast, fragile)</td>
+</tr>
+<tr>
+<td>T=30min</td>
+<td>Hippocampus</td>
+<td>Initial consolidation</td>
+<td>Protein synthesis stabilizes new synapses</td>
+</tr>
+<tr>
+<td>T=8hr (first sleep)</td>
+<td>Hippocampus → Neocortex</td>
+<td>SWR replay + spindle-gated LTP</td>
+<td>Parameter begins transfer to cortical face model</td>
+</tr>
+<tr>
+<td>Days 1-7</td>
+<td>Gradual transfer</td>
+<td>Repeated replay across multiple sleep cycles</td>
+<td>Cortical parameters strengthen; hippocampal trace weakens</td>
+</tr>
+<tr>
+<td>Weeks-months</td>
+<td>Neocortex</td>
+<td>Semantic integration</td>
+<td>Name becomes part of general social knowledge</td>
+</tr>
+<tr>
+<td>Reactivation</td>
+<td>Hippocampus (reconsolidation)</td>
+<td>Memory becomes labile</td>
+<td>Window opens for parameter revision</td>
+</tr>
+</tbody>
+</table>
+<p>What happens at each stage if the process is disrupted (e.g., sleep deprivation at T=8hr)?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Sleep as Bayesian Model Reduction</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze how sleep optimizes the generative model.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a student who studies intensely for an exam. Compare their brain state before and after sleep:</p>
+<p><strong>Before sleep</strong>:</p>
+<ul>
+<li>Many new synaptic connections formed during study (high parameter count)</li>
+<li>Some connections encode genuine patterns; others encode noise or irrelevant details</li>
+<li>Model is complex and potentially overfitting</li>
+</ul>
+<p><strong>During sleep</strong>:</p>
+<ol>
+<li>SWR replay selectively reactivates the most important patterns</li>
+<li>Global synaptic downscaling (synaptic homeostasis hypothesis) weakens all connections proportionally</li>
+<li>Connections encoding strong, reliable patterns survive the downscaling</li>
+<li>Connections encoding noise fall below threshold and are effectively pruned</li>
+</ol>
+<p><strong>After sleep</strong>:</p>
+<ul>
+<li>Fewer parameters but better generalization</li>
+<li>The student can answer novel questions (not just memorized ones)</li>
+</ul>
+<p>Write a 300-word analysis: How does this process implement Bayesian Model Reduction? How does it relate to Occam's Razor? Why is sleep deprivation harmful to learning?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Structure Learning Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze how the brain adds new representational capacity.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a person who moves to a new city. How does the hippocampus create a new "map" (generative model) for the new environment?</p>
+<ol>
+<li><strong>Neurogenesis</strong>: New neurons born in dentate gyrus — what purpose do they serve?</li>
+<li><strong>Place field formation</strong>: How quickly do new place cells form? What drives them?</li>
+<li><strong>Pattern separation</strong>: How does the new map avoid interfering with the old city's map?</li>
+<li><strong>Integration</strong>: How does the new map get integrated into the broader generative model (e.g., knowing both cities and how to navigate between them)?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Experimental Design</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design an experiment testing Active Inference learning predictions.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design an experiment to test whether sleep-dependent synaptic downscaling implements BMR:</p>
+<ol>
+<li><strong>Learning task</strong>: What task would participants learn? (e.g., statistical learning, pattern recognition)</li>
+<li><strong>Measurement</strong>: How would you measure generalization vs. memorization?</li>
+<li><strong>Sleep manipulation</strong>: How would you manipulate sleep? (full sleep, sleep deprivation, targeted memory reactivation)</li>
+<li><strong>Neural measurement</strong>: What brain signals would you record? (spindle density, SWR rate, synaptic markers)</li>
+<li><strong>Predictions</strong>: What specific result would support the BMR hypothesis?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Mechanistic mapping</td>
+<td>Plasticity rules → model updates</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Timeline tracing</td>
+<td>Memory consolidation process</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Theoretical analysis</td>
+<td>Sleep as BMR</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Systems reasoning</td>
+<td>Structure learning</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Experiment design</td>
+<td>Testing the BMR hypothesis</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

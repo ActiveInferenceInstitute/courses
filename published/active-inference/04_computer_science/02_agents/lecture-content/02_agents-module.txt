@@ -1,0 +1,76 @@
+Module 02: Agents — The Agent Class and A–E Matrices
+
+Learning Objectives
+
+Construct a GenerativeModel by specifying A, B, C, D, and E matrices with correct shapes and normalization.
+Initialize an ActiveInferenceAgent with a generative model, policies, and precision parameter γ.
+Run the basic perception-action loop: agent.step(observation) → action.
+
+Introduction
+
+An Active Inference agent is defined by its generative model — a set of matrices that encode what the agent believes about how observations are generated (A), how states evolve (B), which outcomes are preferred (C), what the initial state is (D), and which policies are habitual (E). This module walks through each matrix and shows how to assemble them into a working agent.
+
+Key Concepts
+
+The A-Matrix: Likelihood
+
+The A-matrix encodes $P(o \mid s)$ — the agent's belief about which observations arise from which states:
+
+Validation rule: Each column of A must sum to 1.0 (it is a conditional distribution over observations given a state).
+
+The B-Matrix: Transitions
+
+The B-matrix encodes $P(s' \mid s, a)$ — how hidden states evolve under each action:
+
+Shape: (numstates, numstates, numactions). Each slice B[:, :, a] is a column-stochastic transition matrix. A 2-D B (shape (N, N)) is treated as a single-action model.
+
+The C-Vector: Preferences
+
+The C-vector encodes the agent's log-preferences over observations. It answers: "Which observations does the agent want to experience?"
+
+C enters the Expected Free Energy (EFE) as the risk term: policies that lead to preferred observations have lower G(π). A uniform C (all zeros) means the agent has no preferences and will be purely epistemic (information-seeking).
+
+The D-Vector: Prior Over Initial States
+
+The D-vector is $P(s0)$ — the agent's prior belief about its starting state:
+
+Validation rule: D must sum to 1.0.
+
+The E-Vector: Habit Prior
+
+The optional E-vector encodes a habit prior over policies — $P(\pi)$ before considering EFE:
+
+When E is provided, the policy posterior becomes $q(\pi) = \sigma(-\gamma \cdot G(\pi) + \ln E(\pi))$. When E is None, a uniform prior is used.
+
+Assembling the GenerativeModel
+
+The constructor validates:
+
+A is 2-D with normalized columns
+B is 2-D or 3-D with normalized columns
+C has length numobs
+D has length numstates and sums to 1
+E (if provided) sums to 1
+
+The ActiveInferenceAgent
+
+The agent wraps a generative model and adds inference machinery:
+
+Key parameters:
+
+gamma (γ): precision of policy selection. Higher γ → more exploitative.
+policies: list of action sequences (default: one single-step policy per action).
+
+The Perception-Action Loop
+
+The agent.step(obs) method is a convenience that calls inferstates(obs), inferpolicies(), and select_action() in sequence.
+
+Applications
+
+T-Maze: A classic benchmark with 4 states (center, left arm, right arm, cue location), 3 observations (center, reward, no-reward), and 3 actions (stay, go-left, go-right). The C-vector encodes preference for the reward observation.
+Minimal 2-state model: The simplest possible Active Inference agent that can be fully analyzed by hand — useful for pedagogical derivations.
+Precision tuning: Varying γ from 0.01 (random policy selection) to 100 (greedy) reveals the exploration–exploitation tradeoff.
+
+Conclusion
+
+The A–E matrices fully specify an Active Inference agent's generative model. With these matrices validated and an ActiveInferenceAgent instantiated, the agent can perceive, decide, and act. Module 03 will dive into the perception step — how beliefs are updated using the A-matrix and variational inference.

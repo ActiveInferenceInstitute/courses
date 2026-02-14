@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmppcil9nyr</title>
+</head>
+<body>
+<h1>Lab 05: Policy Selection and the T-Maze</h1>
+<h2>Objective</h2>
+<p>Compute EFE, decompose it into risk and ambiguity, select policies, and analyze T-maze exploration–exploitation behavior.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Completed Labs 01–04</li>
+<li>Understanding of EFE formula and softmax function</li>
+</ul>
+<h2>Part 1: Computing EFE for Individual Actions</h2>
+<p><strong>Goal</strong>: Compute and compare EFE values for each action in a 2-state system.</p>
+<ol>
+<li>Create a <code>GenerativeModel</code> with <code>A = [[0.9, 0.1], [0.1, 0.9]]</code>, identity B for action 0, swap B for action 1, <code>C = [2, -2]</code>, uniform D.</li>
+<li>Set $q(s) = [0.8, 0.2]$.</li>
+<li>Compute <code>compute_efe()</code> and <code>compute_efe_components()</code> for both actions.</li>
+<li>Print a table of risk, ambiguity, and total G for each action.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_efe</span><span class="p">,</span> <span class="n">compute_efe_components</span>
+
+<span class="c1"># TODO: Compute and compare EFE for action 0 vs action 1</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Policy Inference with Varying Precision</h2>
+<p><strong>Goal</strong>: Run <code>run_policy_inference()</code> across γ values and observe policy posterior changes.</p>
+<ol>
+<li>Use the model from Part 1. Create policies <code>[[0], [1]]</code>.</li>
+<li>Run policy inference for γ ∈ {0.1, 0.5, 1, 2, 4, 8, 16}.</li>
+<li>Record $q(\pi)$ for each γ.</li>
+<li>Plot results using <code>plot_precision_sweep()</code>.</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: T-Maze Simulation</h2>
+<p><strong>Goal</strong>: Build and run a full T-maze agent-environment loop.</p>
+<ol>
+<li>Set up the T-maze model (4 states, 3 obs, 3 actions) from Module 02.</li>
+<li>Create the corresponding <code>DiscreteEnvironment</code> and <code>ActiveInferenceAgent</code>.</li>
+<li>Run 8 steps. Record states, observations, actions, and EFE values.</li>
+<li>Did the agent visit the cue location before choosing an arm?</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: EFE Decomposition Over Time</h2>
+<p><strong>Goal</strong>: Track risk and ambiguity across the simulation.</p>
+<ol>
+<li>At each step of the T-maze loop, compute <code>compute_efe_components()</code> for the selected action.</li>
+<li>Store risk and ambiguity values.</li>
+<li>Plot with <code>plot_efe_decomposition()</code>.</li>
+<li>Identify when ambiguity dominates (information-seeking phase) and when risk dominates (goal-seeking phase).</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Analysis Questions</h2>
+<ol>
+<li>In the 2-state system, which action had lower G? Does this match your intuition given the C-vector?</li>
+<li>At what γ value did the T-maze agent become reliably goal-directed?</li>
+<li>Did the agent's EFE decomposition show an ambiguity-driven phase followed by a risk-driven phase?</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Library Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compute EFE and its components</td>
+<td><code>compute_efe()</code>, <code>compute_efe_components()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Run policy inference</td>
+<td><code>run_policy_inference()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Visualize EFE decomposition</td>
+<td><code>plot_efe_decomposition()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Build and run a T-maze simulation</td>
+<td>T-maze model + agent-env loop</td>
+<td></td>
+</tr>
+<tr>
+<td>Analyze exploration vs exploitation</td>
+<td>Risk vs ambiguity over time</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

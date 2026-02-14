@@ -1,0 +1,59 @@
+Module 07: Communication — Coupled Inference, Shared Generative Models, and Multi-Agent Free Energy
+
+Learning Objectives
+
+Formalize communication as coupled inference: two agents mutually predicting each other's behavior.
+Derive the multi-agent free energy and show how it decomposes into individual and interaction terms.
+Develop the mathematics of generalized synchrony between coupled dynamical systems.
+
+Introduction
+
+When two Active Inference agents interact, each treats the other as part of its environment — a generative model that must be inferred. Communication arises when both agents are simultaneously inferring each other's hidden states, producing a coupled dynamical system. This module develops the mathematics of multi-agent Active Inference.
+
+Key Concepts
+
+Coupled Inference Between Two Agents
+
+Consider agents A and B. Agent A's generative model includes a model of agent B:
+
+pA(oA, sA, sB) = pA(oA | sA, sB) · pA(sA) · pA(sB)
+
+Agent A treats B's states sB as hidden causes of its own observations oA. Symmetrically, agent B models agent A. Each agent minimizes its own free energy:
+
+FA = E{qA}[ln qA(sA, sB) - ln pA(oA, sA, sB)]
+FB = E{qB}[ln qB(sA, sB) - ln pB(oB, sA, sB)]
+
+The coupling arises because A's actions influence B's observations and vice versa, creating a feedback loop.
+
+Multi-Agent (Joint) Free Energy
+
+For a system of N agents, the joint free energy is:
+
+Fjoint = ∑ᵢ Fi - Imutual
+
+where Fi is agent i's individual free energy and Imutual captures the mutual information between agents' states. Joint free energy minimization implies:
+
+Each agent minimizes its own free energy (individual inference)
+The agents' beliefs become mutually consistent (generalized synchrony)
+
+The interaction term measures the degree to which the agents' generative models align — successful communication corresponds to low interaction free energy (high mutual predictability).
+
+Generalized Synchrony
+
+Two dynamical systems x₁ and x₂ are in generalized synchrony if there exists a smooth function h such that:
+
+x₂(t) = h(x₁(t)) for all t
+
+For coupled Active Inference agents, generalized synchrony means the agents' internal states (sufficient statistics) become functionally related — each agent's beliefs can be predicted from the other's. This is the mathematical formalization of "mutual understanding."
+
+The synchronization manifold is stabilized when the coupling strength exceeds the Lyapunov exponent of the uncoupled systems — a condition analogous to "paying enough attention to each other."
+
+Derivation Exercises
+
+For two coupled Gaussian agents, derive the joint free energy Fjoint and show how it separates into individual and interaction terms.
+Derive the condition for generalized synchrony: when does the synchronization manifold become an attractor?
+Show that communication minimizes joint free energy by aligning the agents' generative models.
+
+Conclusion
+
+Communication is coupled inference — two agents minimizing their joint free energy through reciprocal prediction. The mathematics of generalized synchrony provides the formal framework for understanding how mutual understanding emerges from the dynamics of interacting generative models. Module 08 completes the mathematical framework with planning and sophisticated inference.

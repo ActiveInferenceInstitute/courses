@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>practice_quiz</title>
+</head>
+<body>
+<h1>Practice Quiz: Systems (Advanced Theory)</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em> <strong>Date</strong>: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Part A: Multiple Choice</h2>
+<p><strong>1.</strong> Variational free energy is defined as:
+A) The temperature of a system
+B) F[q] = E_q[-ln p(o, s)] + E_q[ln q(s)] = Energy + negative Entropy, an upper bound on negative log model evidence
+C) The total energy of a physical system
+D) The cost of computation</p>
+<p><strong>2.</strong> The Complexity minus Accuracy decomposition shows that:
+A) More complex models are always better
+B) Free energy minimization automatically balances model complexity (KL from prior) against data fit (expected log-likelihood) — implementing Occam's Razor
+C) Accuracy is irrelevant
+D) Complexity should be maximized</p>
+<p><strong>3.</strong> The mean-field approximation assumes:
+A) All variables interact
+B) The approximate posterior factorizes into independent groups: q(s₁, s₂, ...) = ∏ᵢ qᵢ(sᵢ)
+C) Variables are deterministic
+D) The model is linear</p>
+<p><strong>4.</strong> On a factor graph, free energy decomposes into:
+A) A single global quantity
+B) Local free energies at each factor node, enabling distributed message-passing optimization
+C) Random components
+D) Physical energies</p>
+<p><strong>5.</strong> The Laplace approximation:
+A) Is always exact
+B) Approximates the posterior as a Gaussian centered at the MAP estimate — efficient but misses multimodality
+C) Uses sampling
+D) Requires infinite computation</p>
+<p><strong>6.</strong> When q(s) = p(s|o) exactly:
+A) Free energy is maximized
+B) F[q] = -ln p(o) — free energy equals negative log evidence, and the KL approximation error is zero
+C) The model is wrong
+D) Entropy is zero</p>
+<p><strong>7.</strong> KL divergence's mode-seeking property (D_KL[q||p]) means:
+A) q spreads everywhere
+B) The variational approximation tends to "lock onto" one mode of p, potentially missing others
+C) q is always uniform
+D) KL is symmetric</p>
+<h2>Part B: Essay Questions</h2>
+<p><strong>1.</strong> Derive the free energy functional from first principles for a general generative model p(o, s). Show all three decompositions. For each decomposition, explain the computational significance — what does each term tell the brain (or the modeler) about the quality of inference? (500 words, include mathematical notation)</p>
+<p><strong>2.</strong> Compare mean-field variational inference, the Laplace approximation, and belief propagation (Bethe). For each: state the factorization assumption, derive the update equations, identify when it works well and when it fails. Which is most biologically plausible, and why? (500 words)</p>
+<p><strong>3.</strong> The free energy principle claims that all self-organizing systems minimize variational free energy. But variational free energy requires a generative model, an approximate posterior, and a definition of "observations." Critically examine: what is the justification for applying this mathematical framework to physical systems (not just brains)? Where does the framework break down at the boundaries? (400 words)</p>
+</body>
+</html>

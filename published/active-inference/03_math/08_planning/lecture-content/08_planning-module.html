@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 08: Planning — Sophisticated Inference, Deep Temporal Models, and Hierarchical POMDPs</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Derive <strong>sophisticated inference</strong>: recursive belief updating where the agent models its own future beliefs and actions.</li>
+<li>Formalize <strong>deep temporal models</strong> (multi-step planning) through policy trees and Expected Free Energy evaluation.</li>
+<li>Introduce <strong>hierarchical POMDPs</strong> for multi-timescale planning.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Planning is the most computationally demanding component of Active Inference — it requires the agent to evaluate the consequences of action sequences extending into the future. This module develops three levels of mathematical sophistication: basic policy evaluation (flat EFE), sophisticated inference (recursive belief updating), and hierarchical POMDPs (multi-timescale planning).</p>
+<h2>Key Concepts</h2>
+<h3>1. Deep Temporal Planning</h3>
+<p>The Expected Free Energy for a policy π of length T is:</p>
+<p><strong>G(π) = ∑_{τ=t}^{T} G_τ(π)</strong></p>
+<p>where each term evaluates the expected free energy at future time τ under policy π. This requires:</p>
+<ol>
+<li><strong>State prediction</strong>: q(s_τ | π) = ∑<em τ-1="τ-1">{s</em> | π)}} B(π_τ) · q(s_{τ-1</li>
+<li><strong>Outcome prediction</strong>: q(o_τ | π) = A · q(s_τ | π)</li>
+<li><strong>EFE evaluation</strong>: G_τ(π) = E_q[ln q(s_τ|π) - ln p(o_τ, s_τ)]</li>
+</ol>
+<p>The number of policies grows exponentially with planning horizon: K^T policies for K actions over T steps. This necessitates pruning strategies.</p>
+<h3>2. Sophisticated Inference</h3>
+<p><strong>Sophisticated inference</strong> (Friston et al., 2021) extends basic policy evaluation by having the agent model <em>what it will believe</em> in the future:</p>
+<p><strong>q(s_{t+1} | π) → q(s_{t+1} | o_{t+1}, π)</strong></p>
+<p>The agent simulates not just future states but future observations and the belief updates they will produce. At each future timestep:</p>
+<ol>
+<li>Predict future observation: q(o_{τ+1} | s_{τ+1})</li>
+<li>Update future beliefs: q(s_{τ+1} | o_{τ+1}) using Bayesian updating</li>
+<li>Evaluate EFE with these updated future beliefs</li>
+</ol>
+<p>This recursive structure means the agent anticipates how its own beliefs will change — a form of meta-cognition. The recursion can be extended to arbitrary depth: the agent models what it will believe, about what it will believe, about what it will believe...</p>
+<h3>3. Hierarchical POMDPs</h3>
+<p>For multi-timescale planning, the generative model is organized hierarchically:</p>
+<p><strong>Level 1 (fast)</strong>: p(o | s₁, a₁) — moment-to-moment actions (e.g., individual keystrokes)
+<strong>Level 2 (slow)</strong>: p(s₁ | s₂, a₂) — mid-level sub-goals (e.g., typing a word)
+<strong>Level 3 (slowest)</strong>: p(s₂ | s₃, a₃) — high-level goals (e.g., writing a paragraph)</p>
+<p>Higher levels set contexts (prior preferences, initial states) for lower levels. The temporal scale of each level is determined by its time constant — higher levels evolve more slowly.</p>
+<p>The free energy minimization operates across levels:
+<strong>F_total = F₁ + F₂ + F₃</strong></p>
+<p>with top-down and bottom-up messages connecting levels, analogous to the perceptual hierarchy but extended to the action-planning domain.</p>
+<h2>Derivation Exercises</h2>
+<ol>
+<li>Derive the EFE for a two-step, two-action POMDP. Enumerate all policies and compute G for each.</li>
+<li>Show how sophisticated inference modifies the EFE by incorporating future belief updates into the evaluation.</li>
+<li>Write the generative model for a two-level hierarchical POMDP and derive the free energy for each level.</li>
+</ol>
+<h2>Conclusion</h2>
+<p>Planning completes the Active Inference framework by extending inference into the future — from single-step EFE evaluation through sophisticated recursive belief simulation to multi-timescale hierarchical planning. Together, the eight modules provide the complete mathematical foundation: from Markov Blankets (systems) through generative models (agents), perception, precision, action, learning, communication, and planning — a unified mathematics of mind.</p>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpo8y7znqz</title>
+</head>
+<body>
+<h1>Lab: Bayesian Mechanics and the Free Energy Principle</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze the mathematical foundations of Bayesian mechanics, working through the particular partition, Helmholtz decomposition, and path integral formulations.</p>
+</blockquote>
+<h2>Part 1: Particular Partition Analysis</h2>
+<p><strong>Exercise</strong>: For each of the following systems, identify the four partition states:</p>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>External (η)</th>
+<th>Sensory (s)</th>
+<th>Active (a)</th>
+<th>Internal (μ)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cell</td>
+<td>Nutrient concentrations, toxins</td>
+<td>Membrane receptors, ion channels</td>
+<td>Metabolic outputs, motility</td>
+<td>Intracellular signaling, gene expression</td>
+</tr>
+<tr>
+<td>Brain (neuroscience)</td>
+<td>World state</td>
+<td>Sensory neurons (retina, cochlea)</td>
+<td>Motor neurons, glands</td>
+<td>Cortical neurons, subcortical circuits</td>
+</tr>
+<tr>
+<td>Thermostat</td>
+<td>Room temperature</td>
+<td>Temperature sensor</td>
+<td>Heater on/off switch</td>
+<td>Electronic comparator circuits</td>
+</tr>
+<tr>
+<td>Bacterium</td>
+<td>Chemical gradient</td>
+<td>Chemoreceptors</td>
+<td>Flagellar motors</td>
+<td>Intracellular signaling cascades</td>
+</tr>
+</tbody>
+</table>
+<p>For the cell example, verify: (a) External states influence sensory but not internal states directly. (b) Internal states influence active but not external states directly. (c) The Markov blanket is formed by sensory + active states.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Helmholtz Decomposition Exercise</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Decompose dynamics into dissipative and solenoidal components.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a 2D system with states x = (x₁, x₂) and dynamics:</p>
+<p>dx₁/dt = -x₁ + 2x₂ + noise
+dx₂/dt = -2x₁ - x₂ + noise</p>
+<ol>
+<li>Identify the dissipative component (symmetric part of the drift matrix): Γ = ?</li>
+<li>Identify the solenoidal component (antisymmetric part): Q = ?</li>
+<li>What does the dissipative component do? (Gradient descent toward the mode)</li>
+<li>What does the solenoidal component do? (Rotational flow around the mode)</li>
+<li>Sketch the combined flow field. Note: the system spirals toward the fixed point.</li>
+</ol>
+<p>Relate this to neural dynamics: the dissipative component = inference (converging to a belief), the solenoidal component = exploration (oscillatory dynamics).</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: NESS and Inference</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Understand when physical dynamics are equivalent to inference.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Write out the conditions for the Free Energy Lemma to apply:</p>
+<ol>
+<li><strong>Stationarity</strong>: The system must be at NESS — time-invariant probability density</li>
+<li><strong>Markov blanket</strong>: The particular partition must hold</li>
+<li><strong>Smooth dynamics</strong>: The drift must be differentiable</li>
+<li><strong>Ergodicity</strong>: The system must visit its typical states</li>
+</ol>
+<p>Now consider a violation of each condition: What happens to the inference interpretation if...</p>
+<ul>
+<li>The system is not at steady state (e.g., developing embryo)?</li>
+<li>The Markov blanket leaks (internal states directly influence external states)?</li>
+<li>The dynamics are discontinuous (phase transitions)?</li>
+<li>The system is not ergodic (irreversible transitions)?</li>
+</ul>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Path Integral Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Work with path-integral formulations of free energy.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a system evolving from state x₀ at t=0 to state x_T at t=T:</p>
+<ol>
+<li>Write the action functional S[x(t)] = ∫₀ᵀ L(x, dx/dt) dt</li>
+<li>The most likely path minimizes S. How does this connect to the principle of least action?</li>
+<li>Why must we consider <em>distributions over paths</em> rather than single paths?</li>
+<li>How does path-integral free energy F[q(x(t))] generalize instantaneous free energy?</li>
+<li>What is the "temporal cost" of changing beliefs quickly vs. slowly?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Critique and Limits</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Critically evaluate the scope and limits of Bayesian mechanics.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Evaluate these critiques:</p>
+<table>
+<thead>
+<tr>
+<th>Critique</th>
+<th>Strength (1-5)</th>
+<th>Your Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"FEP is unfalsifiable — any system at NESS can be described this way"</td>
+<td></td>
+<td>Is mathematical equivalence a scientific claim?</td>
+</tr>
+<tr>
+<td>"Markov blankets in biological systems are approximate, not exact"</td>
+<td></td>
+<td>How does this affect the formal results?</td>
+</tr>
+<tr>
+<td>"The dual-aspect interpretation overrelates inference and physics"</td>
+<td></td>
+<td>Where does the analogy break down?</td>
+</tr>
+<tr>
+<td>"Bayesian mechanics is just a re-description, not an explanation"</td>
+<td></td>
+<td>What explanatory work does it do?</td>
+</tr>
+<tr>
+<td>"The gauge freedom makes the beliefs unidentifiable"</td>
+<td></td>
+<td>Does gauge freedom undermine the interpretation?</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 300-word analysis: What is the epistemological status of the FEP? Is it a law, a principle, a framework, or a tautology?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>System analysis</td>
+<td>Particular partition identification</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Mathematical analysis</td>
+<td>Helmholtz decomposition</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Formal conditions</td>
+<td>NESS and inference equivalence</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Advanced mathematics</td>
+<td>Path integral formulation</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Critical evaluation</td>
+<td>Epistemological status of FEP</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

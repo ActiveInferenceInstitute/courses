@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 08: Planning — Deep Temporal Models and Long-Horizon Inference</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Extend EFE computation to multi-step policies with temporal depth T.</li>
+<li>Implement marginal message passing (MMP) using <code>run_mmp()</code> for deep temporal inference.</li>
+<li>Build and simulate a gridworld environment with long-horizon planning.</li>
+</ol>
+<h2>Introduction</h2>
+<p>In Modules 01–07, the agent operated at single-step or short-horizon timescales. Real-world problems require <strong>planning</strong> — evaluating sequences of actions that unfold over many future steps. Deep temporal models maintain beliefs about states at multiple time points and evaluate policies by accumulating EFE across an entire action sequence.</p>
+<h2>Key Concepts</h2>
+<h3>1. Multi-Step Policies</h3>
+<p>A policy $\pi = [a_0, a_1, \ldots, a_{T-1}]$ specifies actions for $T$ future timesteps. The agent evaluates each policy by unrolling the predicted state trajectory:</p>
+<p>$$q(s_{\tau+1} \mid \pi) = \mathbf{B}<em>{a</em>\tau} \cdot q(s_\tau \mid \pi) \quad \text{for } \tau = 0, \ldots, T-1$$</p>
+<p>EFE is accumulated over all steps:</p>
+<p>$$G(\pi) = \sum_{\tau=0}^{T-1} G_\tau(\pi)$$</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Define multi-step policies for a 3-action system</span>
+<span class="n">policies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># stay, stay, stay</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># left, stay, stay</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># left, right, stay</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># right, left, stay</span>
+<span class="p">]</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">ActiveInferenceAgent</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">policies</span><span class="o">=</span><span class="n">policies</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>2. Marginal Message Passing (MMP)</h3>
+<p>For deep temporal models, <code>run_mmp()</code> performs inference over beliefs at multiple time points simultaneously. Instead of just inferring $q(s_t)$, MMP infers $q(s_\tau)$ for $\tau \in {0, 1, \ldots, T}$:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_mmp</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">run_mmp</span><span class="p">(</span>
+    <span class="n">prior</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">D</span><span class="p">,</span>
+    <span class="n">observations</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>     <span class="c1"># sequence of past observations</span>
+    <span class="n">A</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span>
+    <span class="n">B</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">,</span>
+    <span class="n">policy</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>           <span class="c1"># action sequence</span>
+    <span class="n">num_iterations</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">])</span>         <span class="c1"># list of belief vectors, one per timestep</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;converged&quot;</span><span class="p">])</span>       <span class="c1"># convergence status</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;delta_history&quot;</span><span class="p">])</span>   <span class="c1"># convergence trace</span>
+</code></pre></div>
+
+<p>MMP passes messages both forward (prior × transition) and backward (likelihood) to refine beliefs at each time point.</p>
+<h3>3. Temporal Depth T</h3>
+<p>The temporal depth $T$ controls how far ahead the agent plans:</p>
+<table>
+<thead>
+<tr>
+<th>T</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T = 1</td>
+<td>Reactive — considers only the next step (Modules 01–05)</td>
+</tr>
+<tr>
+<td>T = 2–3</td>
+<td>Short-horizon — can sequence actions (e.g., go-to-cue, then go-to-reward)</td>
+</tr>
+<tr>
+<td>T = 5+</td>
+<td>Deep planning — can navigate gridworlds, handle delayed rewards</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tradeoff</strong>: Larger T gives better plans but exponentially increases the number of possible policies ($N_a^T$ for $N_a$ actions).</p>
+<h3>4. Gridworld Implementation</h3>
+<p>Gridworlds are the natural testbed for planning. A gridworld has:</p>
+<ul>
+<li>$N \times M$ grid of states (flattened to $N \cdot M$ states)</li>
+<li>4 or 5 actions (up, down, left, right, stay)</li>
+<li>Walls/obstacles encoded in the B-matrix (self-transitions for blocked moves)</li>
+<li>A goal state with preferred observation via C</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_gridworld</span>
+
+<span class="c1"># Visualize a 4x4 gridworld</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">obstacles</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="n">path</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+<span class="n">goal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">plot_gridworld</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">obstacles</span><span class="o">=</span><span class="n">obstacles</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">goal</span><span class="o">=</span><span class="n">goal</span><span class="p">,</span>
+               <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;output/lab08_gridworld.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>5. T-Maze with Delayed Reward</h3>
+<p>The T-maze with temporal depth demonstrates the power of planning:</p>
+<ul>
+<li><strong>T = 1</strong>: Agent cannot sequence cue-then-reward. It picks randomly.</li>
+<li><strong>T = 2</strong>: Agent can plan: go-to-cue first, then go-to-reward-arm. The cue visit reduces ambiguity at step 1, enabling a risk-minimizing choice at step 2.</li>
+</ul>
+<h3>6. Policy Evaluation for Deep Models</h3>
+<p>For deep models, each policy's EFE is the sum over timesteps:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_efe</span>
+
+<span class="n">total_G</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">q_current</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">q_s</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">action</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">policy</span><span class="p">):</span>
+    <span class="n">G_t</span> <span class="o">=</span> <span class="n">compute_efe</span><span class="p">(</span><span class="n">q_current</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">action</span><span class="p">)</span>
+    <span class="n">total_G</span> <span class="o">+=</span> <span class="n">G_t</span>
+    <span class="n">q_current</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">action</span><span class="p">]</span> <span class="o">@</span> <span class="n">q_current</span>  <span class="c1"># predict next-state</span>
+</code></pre></div>
+
+<h3>7. Simulation Dashboard</h3>
+<p>The <code>plot_simulation_dashboard()</code> function provides a 5-panel overview of a complete simulation:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_simulation_dashboard</span>
+
+<span class="n">plot_simulation_dashboard</span><span class="p">(</span>
+    <span class="n">beliefs_history</span><span class="o">=</span><span class="n">agent</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">],</span>
+    <span class="n">vfe_history</span><span class="o">=</span><span class="n">agent</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;vfe&quot;</span><span class="p">],</span>
+    <span class="n">observations</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;observations&quot;</span><span class="p">],</span>
+    <span class="n">predictions</span><span class="o">=</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">@</span> <span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">agent</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">]],</span>
+    <span class="n">efe_history</span><span class="o">=</span><span class="n">agent</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;efe&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;output/lab08_dashboard.png&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2>Applications</h2>
+<ul>
+<li><strong>Robot navigation</strong>: Gridworld planning maps directly to physical navigation tasks.</li>
+<li><strong>Delayed gratification</strong>: Agents that plan ahead can forgo immediate rewards for larger future rewards.</li>
+<li><strong>Hierarchical planning</strong>: Multiple levels of temporal depth enable abstract plans (goals) and concrete actions.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>Planning extends Active Inference from reactive to deliberative behavior. By evaluating multi-step policies through accumulated EFE and using MMP for deep state inference, agents can handle complex environments with delayed rewards and long horizons. This completes the 8-module Computational Active Inference course — from systems and agents through perception, cognition, action, learning, communication, and planning.</p>
+</body>
+</html>

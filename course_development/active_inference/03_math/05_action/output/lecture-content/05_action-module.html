@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 05: Action — Active Inference, Expected Free Energy, and the POMDP Framework</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Derive the <strong>action equation</strong>: how actions minimize free energy by changing sensory states.</li>
+<li>Define the <strong>Expected Free Energy (EFE)</strong> functional G(π) and decompose it into epistemic and pragmatic components.</li>
+<li>Formalize the <strong>POMDP</strong> (Partially Observed Markov Decision Process) framework for Active Inference policy selection.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Action in Active Inference is not governed by a separate optimization principle (like reward maximization). Instead, actions serve the same objective as perception: minimizing free energy. But where perception updates beliefs (internal states), action changes the world (blanket states). This module derives the mathematics of action selection and introduces the Expected Free Energy functional.</p>
+<h2>Key Concepts</h2>
+<h3>1. The Action Equation</h3>
+<p>The free energy F depends on sensory states s, which depend on actions a:</p>
+<p><strong>a* = argmin_a F(s(a), μ)</strong></p>
+<p>For continuous systems, action follows gradient descent:</p>
+<p><strong>da/dt = -∂F/∂a = -∂F/∂s · ∂s/∂a</strong></p>
+<p>The first factor (∂F/∂s) is the prediction error at the sensory level. The second factor (∂s/∂a) is the sensorimotor mapping. Together, they drive action to fulfill sensory predictions — if the brain predicts the arm is <em>here</em>, action moves the arm to make that prediction true.</p>
+<h3>2. Expected Free Energy</h3>
+<p>For discrete-time planning over policies π = (a₁, a₂, ..., aT), the agent evaluates the <strong>Expected Free Energy</strong> G(π):</p>
+<p><strong>G(π) = ∑ₜ E_{q(oₜ,sₜ|π)}[ln q(sₜ|π) - ln p(oₜ, sₜ)]</strong></p>
+<p>This decomposes into:</p>
+<p><strong>G(π) = -∑ₜ E_q[ln p(oₜ)] + ∑ₜ E_q[H[p(oₜ|sₜ)]]</strong></p>
+<p>where:</p>
+<ul>
+<li><strong>-E_q[ln p(oₜ)]</strong> is the <strong>pragmatic value</strong> — negative log-prior preferences (how much the expected outcomes align with preferred outcomes)</li>
+<li><strong>E_q[H[p(oₜ|sₜ)]]</strong> is the <strong>epistemic value</strong> — expected ambiguity (how much information the policy provides about hidden states)</li>
+</ul>
+<p>Alternatively:</p>
+<p><strong>G(π) = ∑ₜ {-E_q[D_KL[q(sₜ|oₜ,π) ‖ q(sₜ|π)]] + E_q[-ln p(oₜ)]}</strong></p>
+<p>where the first term is <strong>information gain</strong> (negative) — policies that resolve uncertainty about states are preferred.</p>
+<h3>3. Policy Selection via Softmax</h3>
+<p>Policies are selected according to a softmax function over negative Expected Free Energy:</p>
+<p><strong>P(π) = σ(-γ · G(π))</strong></p>
+<p>where γ is an <strong>inverse temperature</strong> parameter controlling the precision of policy selection. High γ → deterministic selection of the best policy; low γ → more random (exploratory) selection.</p>
+<h3>4. The POMDP Framework</h3>
+<p>Active Inference in discrete time is implemented within a POMDP:</p>
+<ul>
+<li><strong>A</strong> matrix: p(oₜ | sₜ) — likelihood mapping</li>
+<li><strong>B</strong> matrix: p(sₜ | sₜ₋₁, aₜ₋₁) — transition dynamics conditioned on action</li>
+<li><strong>C</strong> vector: ln p(oₜ) — log-prior preferences over outcomes</li>
+<li><strong>D</strong> vector: p(s₁) — prior over initial states</li>
+</ul>
+<p>The agent inverts this model to infer hidden states and select policies that minimize Expected Free Energy.</p>
+<h2>Derivation Exercises</h2>
+<ol>
+<li>Derive the action equation da/dt = -∂F/∂a for a continuous system with linear sensorimotor mapping.</li>
+<li>Starting from G(π) = ∑ₜ E_q[ln q(sₜ|π) - ln p(oₜ, sₜ)], derive the pragmatic-epistemic decomposition.</li>
+<li>Show that maximizing information gain is equivalent to minimizing expected ambiguity.</li>
+</ol>
+<h2>Conclusion</h2>
+<p>Action and perception are two sides of the same coin — both minimize (expected) free energy. The EFE decomposition reveals that intelligent behavior naturally balances exploitation (pragmatic value) and exploration (epistemic value). Module 06 extends this to the mathematics of learning.</p>
+</body>
+</html>

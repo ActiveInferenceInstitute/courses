@@ -1,0 +1,73 @@
+# Module 02: Agents — Neural Architecture of Active Inference Agents
+
+> **Course**: Active Inference 101 | **Unit**: Computational Neuroscience | **Audience**: First-semester undergraduates
+
+## Learning Objectives
+
+1. Identify the **brain regions** that implement active inference: cortex, basal ganglia, thalamus, cerebellum.
+2. Explain how **dopamine** functions as a precision signal for expected outcomes.
+3. Describe the **cortical hierarchy** as a stack of generative models, each predicting the level below.
+
+## Introduction
+
+Module 02 in the Cognitive Science unit asked: "What makes something an agent?" Here we ask the neuroscience version: "How does the brain implement an active inference agent?" The answer involves a beautiful interplay of cortical hierarchies, subcortical circuits, and neuromodulatory systems.
+
+## Key Concepts
+
+### 1. The Cortical Hierarchy
+
+The cerebral cortex is organized in layers and hierarchies:
+
+- **Lower areas** (e.g., primary visual cortex, V1) process concrete, fast-changing sensory features
+- **Higher areas** (e.g., prefrontal cortex, PFC) represent abstract, slowly-changing contexts and goals
+
+In Active Inference, each level generates **top-down predictions** about the level below, and receives **bottom-up prediction errors** when those predictions fail. This hierarchy is the brain's generative model.
+
+### 2. The Basal Ganglia — Action Selection
+
+The **basal ganglia** are a group of subcortical structures that select which policy (action sequence) to execute:
+
+- They receive information about current context from the cortex
+- They evaluate policies based on Expected Free Energy
+- **Dopamine** from the ventral tegmental area (VTA) and substantia nigra signals the precision of expected outcomes — essentially telling the basal ganglia how confident to be about each policy
+
+When dopamine is depleted (as in Parkinson's disease), policy selection breaks down → difficulty initiating movement.
+
+### 3. The Thalamus — Precision Gating
+
+The **thalamus** sits at the center of the brain and acts as a relay/gate:
+
+- Almost all sensory information passes through the thalamus before reaching the cortex
+- The thalamus can **boost or suppress** signals — implementing precision weighting
+- Cortical feedback to the thalamus adjusts which sensory signals get amplified (attention)
+
+Think of the thalamus as a switchboard operator who decides which calls get through.
+
+### 4. The Cerebellum — Forward Models
+
+The **cerebellum** contains more neurons than the rest of the brain combined and specializes in **forward models** — predicting the sensory consequences of your own actions:
+
+- When you reach for a cup, the cerebellum predicts what it will feel like
+- If the prediction is wrong (the cup is heavier than expected), the cerebellum generates a prediction error and adjusts
+- This is why cerebellar damage causes clumsy, uncoordinated movement — the forward model is broken
+
+### 5. Neuromodulators — Precision Tuning
+
+Different neurotransmitter systems tune different aspects of precision:
+
+| Neurotransmitter | Source | Role in Active Inference |
+|-----------------|--------|------------------------|
+| **Dopamine** | VTA, substantia nigra | Precision of expected outcomes; policy selection confidence |
+| **Acetylcholine** | Basal forebrain | Sensory precision; "pay attention to incoming data" |
+| **Noradrenaline** | Locus coeruleus | Overall arousal; global precision (fight-or-flight) |
+| **Serotonin** | Raphe nuclei | Temporal discounting; patience in planning |
+
+## Summary
+
+The brain implements active inference through a distributed network: the cortical hierarchy serves as the generative model, the basal ganglia select policies, the thalamus gates precision, and the cerebellum generates forward models. Neuromodulators tune precision across the system, with dopamine, acetylcholine, noradrenaline, and serotonin each playing distinct roles.
+
+## Further Reading
+
+- Friston, K. J. et al. (2017). Active inference, curiosity and insight. *Neural Computation*, 29(10), 2633-2683.
+- Schwartenbeck, P. et al. (2015). Optimal inference with suboptimal models. *Journal of Mathematical Psychology*, 56, 47-66.
+- Parr, T. & Friston, K. J. (2018). The anatomy of inference. *Cortex*, 107, 66-76.

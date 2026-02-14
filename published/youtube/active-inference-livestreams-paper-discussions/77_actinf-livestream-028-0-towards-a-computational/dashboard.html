@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard: Actinf-Livestream-028-0-Towards-A-Computational — Active-Inference-Livestreams-Paper-Discussions</title>
+    <style>
+        :root {
+            --accent: #38bdf8;
+            --accent-glow: #38bdf822;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --border: #334155;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --dim: #64748b;
+            --green: #22c55e;
+            --red: #ef4444;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+
+        /* Hero */
+        .hero { background:linear-gradient(135deg, #6366f1, #a855f7); padding:48px 24px 36px; text-align:center; }
+        .hero h1 { font-size:2rem; color:#fff; margin-bottom:8px; }
+        .hero .sub { font-size:1.1rem; color:rgba(255,255,255,.85); margin-bottom:12px; }
+        .hero .tag { display:inline-block; background:rgba(255,255,255,.2); color:#fff; padding:4px 14px; border-radius:20px; font-size:.8rem; backdrop-filter:blur(4px); }
+
+        /* Nav */
+        .nav { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; padding:14px 24px; background:#1a2332; border-bottom:1px solid var(--border); }
+        .nav a { color:var(--muted); text-decoration:none; font-size:.85rem; padding:6px 14px; border:1px solid var(--border); border-radius:8px; transition:all .2s; }
+        .nav a:hover,.nav a.active { color:var(--accent); border-color:var(--accent); background:var(--accent-glow); }
+
+        .content { max-width:1100px; margin:0 auto; padding:24px; }
+        .stitle { color:var(--accent); font-size:1.25rem; margin:32px 0 16px; padding-bottom:8px; border-bottom:2px solid var(--border); }
+        .stitle:first-child { margin-top:0; }
+
+        /* Cards */
+        .cgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+        .concept-card { background:var(--card); padding:20px; border-radius:12px; border:1px solid var(--border); cursor:pointer; transition:transform .2s,border-color .2s; }
+        .concept-card:hover { transform:translateY(-2px); border-color:var(--accent); }
+        .concept-card h3 { display:flex; justify-content:space-between; align-items:center; font-size:1rem; margin-bottom:8px; }
+        .concept-card h3 .toggle { font-size:1.2rem; color:var(--dim); transition:transform .3s; }
+        .concept-card.open h3 .toggle { transform:rotate(45deg); }
+        .concept-card .brief { color:var(--muted); font-size:.9rem; }
+        .concept-card .detail { display:none; color:var(--muted); font-size:.85rem; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); line-height:1.7; }
+        .concept-card.open .detail { display:block; }
+        .meter { background:var(--border); border-radius:8px; height:6px; overflow:hidden; margin-top:14px; }
+        .meter-fill { height:100%; border-radius:8px; background:linear-gradient(90deg,var(--accent),#38bdf888); transition:width 1s ease; }
+        .meter-label { color:var(--dim); font-size:.7rem; margin-top:4px; }
+
+        /* Quiz */
+        .quiz-box { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .qprog { color:var(--dim); font-size:.85rem; margin-bottom:12px; }
+        .qq { font-size:1rem; margin-bottom:16px; font-weight:500; }
+        .qbtn { background:rgba(255,255,255,.03); color:var(--text); border:1px solid var(--border); padding:12px 16px; border-radius:10px; cursor:pointer; display:block; width:100%; text-align:left; margin:6px 0; transition:all .2s; font-size:.9rem; }
+        .qbtn:hover:not(:disabled) { background:rgba(255,255,255,.08); border-color:var(--accent); }
+        .qbtn.correct { background:#166534; border-color:var(--green); color:#bbf7d0; }
+        .qbtn.wrong { background:#7f1d1d; border-color:var(--red); color:#fecaca; }
+        .qbtn:disabled { cursor:default; opacity:.85; }
+        .qexp { margin-top:12px; padding:12px; border-radius:10px; font-size:.9rem; display:none; animation:fadeIn .3s; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+        .qnav { display:flex; gap:8px; margin-top:16px; }
+        .qnav button { background:rgba(255,255,255,.05); color:var(--text); border:1px solid var(--border); padding:8px 18px; border-radius:8px; cursor:pointer; transition:all .2s; font-size:.85rem; }
+        .qnav button:hover:not(:disabled) { border-color:var(--accent); color:var(--accent); }
+        .qnav button:disabled { opacity:.3; cursor:default; }
+        #score-box { display:none; margin-top:16px; padding:20px; background:rgba(0,0,0,.2); border-radius:12px; text-align:center; animation:fadeIn .5s; }
+
+        /* Checklist */
+        .cklist { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .cklist label { display:flex; align-items:flex-start; gap:10px; padding:8px 0; color:var(--muted); font-size:.9rem; cursor:pointer; transition:color .2s; }
+        .cklist label:hover { color:var(--text); }
+        .cklist input[type=checkbox] { margin-top:3px; accent-color:var(--accent); width:18px; height:18px; flex-shrink:0; }
+        .cklist .done { color:var(--accent); text-decoration:line-through; opacity:.7; }
+        .pbar { background:var(--border); border-radius:8px; height:8px; overflow:hidden; margin-top:16px; }
+        .pfill { height:100%; border-radius:8px; background:var(--accent); transition:width .5s ease; width:0; }
+        .ptxt { color:var(--dim); font-size:.8rem; margin-top:6px; }
+
+        /* Module nav */
+        .mnav { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .mgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
+        .module-link { display:block; padding:14px; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:var(--muted); text-decoration:none; font-size:.85rem; transition:all .2s; }
+        .module-link:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
+        .module-link.current { border-color:var(--accent); background:var(--accent-glow); }
+        .module-link strong { display:block; color:var(--text); margin-bottom:2px; font-size:.9rem; }
+        .module-link.current strong { color:var(--accent); }
+
+        footer { margin-top:48px; padding:24px; text-align:center; color:var(--dim); font-size:.8rem; border-top:1px solid var(--border); }
+        @media(max-width:600px) { .hero h1{font-size:1.5rem;} .cgrid,.mgrid{grid-template-columns:1fr;} .content{padding:16px;} }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Module 77: Topic in Youtube</h1>
+        <p class="sub">Applications</p>
+        <span class="tag">YouTube Transcripts — Active-Inference-Livestreams-Paper-Discussions</span>
+    </div>
+
+    <nav class="nav">
+        <a href="module.md">Lecture</a>
+        <a href="questions.md">Questions</a>
+        <a href="practice_quiz.md">Quiz</a>
+        <a href="lab.md">Lab</a>
+        <a class="active" href="#">Dashboard</a>
+    </nav>
+
+    <div class="content">
+        <h2 class="stitle">Key Concepts</h2>
+        <div class="cgrid">
+<p style="color:#94a3b8">No key concepts defined for this module.</p>
+        </div>
+
+        <h2 class="stitle">Self-Assessment Quiz</h2>
+        <div class="quiz-box">
+            <div class="qprog" id="qprog">Question 1 of 2</div>
+            <div id="qc"></div>
+            <div class="qnav">
+                <button id="pbtn" onclick="prevQ()" disabled>&larr; Previous</button>
+                <button id="nbtn" onclick="nextQ()">Next &rarr;</button>
+            </div>
+            <div id="score-box"></div>
+        </div>
+
+        <h2 class="stitle">Learning Objectives</h2>
+        <div class="cklist" id="cklist">
+<label><input type="checkbox"> Define Topic within the context of Youtube.</label>
+<label><input type="checkbox"> Analyze how Topic interacts with other components of the Active Inference framework.</label>
+<label><input type="checkbox"> Apply specific constraints of Youtube to the formal definition of Topic.</label>
+            <div class="pbar"><div class="pfill" id="pfill"></div></div>
+            <p class="ptxt" id="ptxt">0 of 3 complete</p>
+        </div>
+
+        <h2 class="stitle">Module Navigation</h2>
+        <div class="mnav">
+            <div class="mgrid">
+<a class="module-link" href="../01_actinf-livestream-001-1-narrative-as-active-inference/dashboard.html"><strong>Module 01: Actinf-Livestream-001-1-Narrative-As-Active-Inference</strong>Module 01: Systems in Youtube</a>
+<a class="module-link" href="../02_active-inference-livestream-002-1-is-the-free-energy/dashboard.html"><strong>Module 02: Active-Inference-Livestream-002-1-Is-The-Free-Energy</strong>Module 02: Agents in Youtube</a>
+<a class="module-link" href="../03_actinf-livestream-003-1-a-world-unto-itself-human/dashboard.html"><strong>Module 03: Actinf-Livestream-003-1-A-World-Unto-Itself-Human</strong>Module 03: Perception in Youtube</a>
+<a class="module-link" href="../04_actinf-livestream-003-2-a-world-unto-itself-human/dashboard.html"><strong>Module 04: Actinf-Livestream-003-2-A-World-Unto-Itself-Human</strong>Module 04: Cognition in Youtube</a>
+<a class="module-link" href="../05_actinf-livestream-004-1-cultural-affordances-scaffolding/dashboard.html"><strong>Module 05: Actinf-Livestream-004-1-Cultural-Affordances-Scaffolding</strong>Module 05: Action in Youtube</a>
+<a class="module-link" href="../06_actinf-livestream-004-2-cultural-affordances-scaffolding/dashboard.html"><strong>Module 06: Actinf-Livestream-004-2-Cultural-Affordances-Scaffolding</strong>Module 06: Learning in Youtube</a>
+<a class="module-link" href="../07_actinf-livestream-005-0-context-for-multiscale-integration/dashboard.html"><strong>Module 07: Actinf-Livestream-005-0-Context-For-Multiscale-Integration</strong>Module 07: Communication in Youtube</a>
+<a class="module-link" href="../08_actinf-livestream-005-1-multiscale-integration-beyond/dashboard.html"><strong>Module 08: Actinf-Livestream-005-1-Multiscale-Integration-Beyond</strong>Module 08: Planning in Youtube</a>
+<a class="module-link" href="../09_actinf-livestream-005-2-multiscale-integration-beyond/dashboard.html"><strong>Module 09: Actinf-Livestream-005-2-Multiscale-Integration-Beyond</strong>Module 09: Topic in Youtube</a>
+<a class="module-link" href="../100_actinf-livestream-035-0-a-tale-of-two-architectures-free/dashboard.html"><strong>Module 10: Actinf-Livestream-035-0-A-Tale-Of-Two-Architectures-Free</strong>Module 10: Topic in Youtube</a>
+<a class="module-link" href="../101_actinf-livestream-035-1-a-tale-of-two-architectures-free/dashboard.html"><strong>Module 10: Actinf-Livestream-035-1-A-Tale-Of-Two-Architectures-Free</strong>Module 10: Topic in Youtube</a>
+<a class="module-link" href="../102_actinf-livestream-035-2-a-tale-of-two-architectures-free/dashboard.html"><strong>Module 10: Actinf-Livestream-035-2-A-Tale-Of-Two-Architectures-Free</strong>Module 10: Topic in Youtube</a>
+<a class="module-link" href="../103_actinf-livestream-036-0-modelling-ourselves-what-the-free/dashboard.html"><strong>Module 10: Actinf-Livestream-036-0-Modelling-Ourselves-What-The-Free</strong>Module 10: Topic in Youtube</a>
+<a class="module-link" href="../104_actinf-livestream-036-1-modelling-ourselves-what-the-free/dashboard.html"><strong>Module 10: Actinf-Livestream-036-1-Modelling-Ourselves-What-The-Free</strong>Module 10: Topic in Youtube</a>
+<a class="module-link" href="../105_actinf-livestream-036-2-modelling-ourselves-what-the-free/dashboard.html"><strong>Module 10: Actinf-Livestream-036-2-Modelling-Ourselves-What-The-Free</strong>Module 10: Topic in Youtube</a>
+<a class="module-link" href="../106_actinf-livestream-037-0-free-energy-a-user-s-guide/dashboard.html"><strong>Module 10: Actinf-Livestream-037-0-Free-Energy-A-User-S-Guide</strong>Module 10: Topic in Youtube</a>
+<a class="module-link" href="../107_actinf-livestream-037-1-free-energy-a-user-s-guide/dashboard.html"><strong>Module 10: Actinf-Livestream-037-1-Free-Energy-A-User-S-Guide</strong>Module 10: Topic in Youtube</a>
+<a class="module-link" href="../108_actinf-livestream-037-2-free-energy-a-user-s-guide/dashboard.html"><strong>Module 10: Actinf-Livestream-037-2-Free-Energy-A-User-S-Guide</strong>Module 10: Topic in Youtube</a>
+<a class="module-link" href="../109_actinf-livestream-038-0-brain-architectures-for-predictive/dashboard.html"><strong>Module 10: Actinf-Livestream-038-0-Brain-Architectures-For-Predictive</strong>Module 10: Topic in Youtube</a>
+<a class="module-link" href="../10_active-inference-livestream-006-0-a-tale-of-two-densities/dashboard.html"><strong>Module 10: Active-Inference-Livestream-006-0-A-Tale-Of-Two-Densities</strong>Module 10: Topic in Youtube</a>
+<a class="module-link" href="../110_actinf-livestream-038-1-the-evolution-of-brain/dashboard.html"><strong>Module 11: Actinf-Livestream-038-1-The-Evolution-Of-Brain</strong>Module 11: Topic in Youtube</a>
+<a class="module-link" href="../111_actinf-livestream-038-2-the-evolution-of-brain/dashboard.html"><strong>Module 11: Actinf-Livestream-038-2-The-Evolution-Of-Brain</strong>Module 11: Topic in Youtube</a>
+<a class="module-link" href="../112_actinf-livestream-039-0-morphogenesis-as-bayesian-inference/dashboard.html"><strong>Module 11: Actinf-Livestream-039-0-Morphogenesis-As-Bayesian-Inference</strong>Module 11: Topic in Youtube</a>
+<a class="module-link" href="../113_actinf-livestream-039-1-morphogenesis-as-bayesian-inference/dashboard.html"><strong>Module 11: Actinf-Livestream-039-1-Morphogenesis-As-Bayesian-Inference</strong>Module 11: Topic in Youtube</a>
+<a class="module-link" href="../114_actinf-livestream-039-2-morphogenesis-as-bayesian-inference/dashboard.html"><strong>Module 11: Actinf-Livestream-039-2-Morphogenesis-As-Bayesian-Inference</strong>Module 11: Topic in Youtube</a>
+<a class="module-link" href="../115_actinf-livestream-040-0-a-free-energy-principle-for-generic/dashboard.html"><strong>Module 11: Actinf-Livestream-040-0-A-Free-Energy-Principle-For-Generic</strong>Module 11: Topic in Youtube</a>
+<a class="module-link" href="../116_actinf-livestream-040-1-a-free-energy-principle-for-generic/dashboard.html"><strong>Module 11: Actinf-Livestream-040-1-A-Free-Energy-Principle-For-Generic</strong>Module 11: Topic in Youtube</a>
+<a class="module-link" href="../117_actinf-livestream-040-2-a-free-energy-principle-for-generic/dashboard.html"><strong>Module 11: Actinf-Livestream-040-2-A-Free-Energy-Principle-For-Generic</strong>Module 11: Topic in Youtube</a>
+<a class="module-link" href="../118_actinf-livestream-041-0-extended-active-inference/dashboard.html"><strong>Module 11: Actinf-Livestream-041-0-Extended-Active-Inference</strong>Module 11: Topic in Youtube</a>
+<a class="module-link" href="../119_actinf-livestream-041-1-extended-active-inference/dashboard.html"><strong>Module 11: Actinf-Livestream-041-1-Extended-Active-Inference</strong>Module 11: Topic in Youtube</a>
+<a class="module-link" href="../11_actinf-livestream-006-1-a-tale-of-two-densities-active/dashboard.html"><strong>Module 11: Actinf-Livestream-006-1-A-Tale-Of-Two-Densities-Active</strong>Module 11: Topic in Youtube</a>
+<a class="module-link" href="../120_actinf-livestream-041-2-extended-active-inference/dashboard.html"><strong>Module 12: Actinf-Livestream-041-2-Extended-Active-Inference</strong>Module 12: Topic in Youtube</a>
+<a class="module-link" href="../121_actinf-livestream-042-0-robot-navigation-as-hierarchical/dashboard.html"><strong>Module 12: Actinf-Livestream-042-0-Robot-Navigation-As-Hierarchical</strong>Module 12: Topic in Youtube</a>
+<a class="module-link" href="../122_actinf-livestream-042-1-robot-navigation-as-hierarchical/dashboard.html"><strong>Module 12: Actinf-Livestream-042-1-Robot-Navigation-As-Hierarchical</strong>Module 12: Topic in Youtube</a>
+<a class="module-link" href="../123_actinf-livestream-042-2-robot-navigation-as-hierarchical/dashboard.html"><strong>Module 12: Actinf-Livestream-042-2-Robot-Navigation-As-Hierarchical</strong>Module 12: Topic in Youtube</a>
+<a class="module-link" href="../124_actinf-livestream-043-0-predictive-coding-a-theoretical-and/dashboard.html"><strong>Module 12: Actinf-Livestream-043-0-Predictive-Coding-A-Theoretical-And</strong>Module 12: Topic in Youtube</a>
+<a class="module-link" href="../125_actinf-livestream-043-1-predictive-coding-a-theoretical-and/dashboard.html"><strong>Module 12: Actinf-Livestream-043-1-Predictive-Coding-A-Theoretical-And</strong>Module 12: Topic in Youtube</a>
+<a class="module-link" href="../126_actinf-livestream-043-2-predictive-coding-a-theoretical-and/dashboard.html"><strong>Module 12: Actinf-Livestream-043-2-Predictive-Coding-A-Theoretical-And</strong>Module 12: Topic in Youtube</a>
+<a class="module-link" href="../127_actinf-livestream-044-0-therapeutic-alliance-as-active/dashboard.html"><strong>Module 12: Actinf-Livestream-044-0-Therapeutic-Alliance-As-Active</strong>Module 12: Topic in Youtube</a>
+<a class="module-link" href="../128_actinf-livestream-044-1-therapeutic-alliance-as-active/dashboard.html"><strong>Module 12: Actinf-Livestream-044-1-Therapeutic-Alliance-As-Active</strong>Module 12: Topic in Youtube</a>
+<a class="module-link" href="../129_actinf-livestream-044-2-therapeutic-alliance-as-active/dashboard.html"><strong>Module 12: Actinf-Livestream-044-2-Therapeutic-Alliance-As-Active</strong>Module 12: Topic in Youtube</a>
+<a class="module-link" href="../12_actinf-livestream-006-2-a-tale-of-two-densities-2020/dashboard.html"><strong>Module 12: Actinf-Livestream-006-2-A-Tale-Of-Two-Densities-2020</strong>Module 12: Topic in Youtube</a>
+<a class="module-link" href="../130_actinf-livestream-045-0-the-free-energy-principle-made/dashboard.html"><strong>Module 13: Actinf-Livestream-045-0-The-Free-Energy-Principle-Made</strong>Module 13: Topic in Youtube</a>
+<a class="module-link" href="../131_actinf-livestream-045-1-the-free-energy-principle-made/dashboard.html"><strong>Module 13: Actinf-Livestream-045-1-The-Free-Energy-Principle-Made</strong>Module 13: Topic in Youtube</a>
+<a class="module-link" href="../132_actinf-livestream-045-2-the-free-energy-principle-made/dashboard.html"><strong>Module 13: Actinf-Livestream-045-2-The-Free-Energy-Principle-Made</strong>Module 13: Topic in Youtube</a>
+<a class="module-link" href="../133_actinf-livestream-046-0-active-inference-models-do-not/dashboard.html"><strong>Module 13: Actinf-Livestream-046-0-Active-Inference-Models-Do-Not</strong>Module 13: Topic in Youtube</a>
+<a class="module-link" href="../134_actinf-livestream-046-1-active-inference-models-do-not/dashboard.html"><strong>Module 13: Actinf-Livestream-046-1-Active-Inference-Models-Do-Not</strong>Module 13: Topic in Youtube</a>
+<a class="module-link" href="../135_actinf-livestream-046-2-active-inference-models-do-not/dashboard.html"><strong>Module 13: Actinf-Livestream-046-2-Active-Inference-Models-Do-Not</strong>Module 13: Topic in Youtube</a>
+<a class="module-link" href="../136_actinf-livestream-047-0-enactive-dynamic-social-cognition/dashboard.html"><strong>Module 13: Actinf-Livestream-047-0-Enactive-Dynamic-Social-Cognition</strong>Module 13: Topic in Youtube</a>
+<a class="module-link" href="../137_actinf-livestream-047-1-enactive-dynamic-social-cognition/dashboard.html"><strong>Module 13: Actinf-Livestream-047-1-Enactive-Dynamic-Social-Cognition</strong>Module 13: Topic in Youtube</a>
+<a class="module-link" href="../138_actinf-livestream-047-2-enactive-dynamic-social-cognition/dashboard.html"><strong>Module 13: Actinf-Livestream-047-2-Enactive-Dynamic-Social-Cognition</strong>Module 13: Topic in Youtube</a>
+<a class="module-link" href="../139_actinf-livestream-048-0-communication-as-socially-extended/dashboard.html"><strong>Module 13: Actinf-Livestream-048-0-Communication-As-Socially-Extended</strong>Module 13: Topic in Youtube</a>
+<a class="module-link" href="../13_actinf-livestream-007-0-variational-ecology-and-the-physics/dashboard.html"><strong>Module 13: Actinf-Livestream-007-0-Variational-Ecology-And-The-Physics</strong>Module 13: Topic in Youtube</a>
+<a class="module-link" href="../140_actinf-livestream-048-1-communication-as-socially-extended/dashboard.html"><strong>Module 14: Actinf-Livestream-048-1-Communication-As-Socially-Extended</strong>Module 14: Topic in Youtube</a>
+<a class="module-link" href="../141_actinf-livestream-048-2-communication-as-socially-extended/dashboard.html"><strong>Module 14: Actinf-Livestream-048-2-Communication-As-Socially-Extended</strong>Module 14: Topic in Youtube</a>
+<a class="module-link" href="../142_actinf-livestream-049-0-a-worked-example-of-the-bayesian/dashboard.html"><strong>Module 14: Actinf-Livestream-049-0-A-Worked-Example-Of-The-Bayesian</strong>Module 14: Topic in Youtube</a>
+<a class="module-link" href="../143_actinf-livestream-049-1-a-worked-example-of-the-bayesian/dashboard.html"><strong>Module 14: Actinf-Livestream-049-1-A-Worked-Example-Of-The-Bayesian</strong>Module 14: Topic in Youtube</a>
+<a class="module-link" href="../144_actinf-livestream-049-2-a-worked-example-of-the-bayesian/dashboard.html"><strong>Module 14: Actinf-Livestream-049-2-A-Worked-Example-Of-The-Bayesian</strong>Module 14: Topic in Youtube</a>
+<a class="module-link" href="../145_actinf-livestream-050-0-interoception-as-modeling/dashboard.html"><strong>Module 14: Actinf-Livestream-050-0-Interoception-As-Modeling</strong>Module 14: Topic in Youtube</a>
+<a class="module-link" href="../146_actinf-livestream-050-1-interoception-as-modeling/dashboard.html"><strong>Module 14: Actinf-Livestream-050-1-Interoception-As-Modeling</strong>Module 14: Topic in Youtube</a>
+<a class="module-link" href="../147_actinf-livestream-051-0-canonical-neural-networks-perform/dashboard.html"><strong>Module 14: Actinf-Livestream-051-0-Canonical-Neural-Networks-Perform</strong>Module 14: Topic in Youtube</a>
+<a class="module-link" href="../148_actinf-livestream-051-1-canonical-neural-networks-perform/dashboard.html"><strong>Module 14: Actinf-Livestream-051-1-Canonical-Neural-Networks-Perform</strong>Module 14: Topic in Youtube</a>
+<a class="module-link" href="../149_actinf-livestream-050-2-interoception-as-modeling/dashboard.html"><strong>Module 14: Actinf-Livestream-050-2-Interoception-As-Modeling</strong>Module 14: Topic in Youtube</a>
+<a class="module-link" href="../14_actinf-livestream-007-1-variational-ecology-and-the-physics/dashboard.html"><strong>Module 14: Actinf-Livestream-007-1-Variational-Ecology-And-The-Physics</strong>Module 14: Topic in Youtube</a>
+<a class="module-link" href="../150_actinf-livestream-051-2-canonical-neural-networks-perform/dashboard.html"><strong>Module 15: Actinf-Livestream-051-2-Canonical-Neural-Networks-Perform</strong>Module 15: Topic in Youtube</a>
+<a class="module-link" href="../151_actinf-livestream-052-0-geometric-methods-for-sampling/dashboard.html"><strong>Module 15: Actinf-Livestream-052-0-Geometric-Methods-For-Sampling</strong>Module 15: Topic in Youtube</a>
+<a class="module-link" href="../152_actinf-livestream-052-1-geometric-methods-for-sampling/dashboard.html"><strong>Module 15: Actinf-Livestream-052-1-Geometric-Methods-For-Sampling</strong>Module 15: Topic in Youtube</a>
+<a class="module-link" href="../153_actinf-livestream-052-2-geometric-methods-for-sampling/dashboard.html"><strong>Module 15: Actinf-Livestream-052-2-Geometric-Methods-For-Sampling</strong>Module 15: Topic in Youtube</a>
+<a class="module-link" href="../154_actinf-livestream-053-0-snakes-and-ladders-in/dashboard.html"><strong>Module 15: Actinf-Livestream-053-0-Snakes-And-Ladders-In</strong>Module 15: Topic in Youtube</a>
+<a class="module-link" href="../155_actinf-livestream-053-1-snakes-and-ladders-in/dashboard.html"><strong>Module 15: Actinf-Livestream-053-1-Snakes-And-Ladders-In</strong>Module 15: Topic in Youtube</a>
+<a class="module-link" href="../156_actinf-livestream-053-2-snakes-and-ladders-in/dashboard.html"><strong>Module 15: Actinf-Livestream-053-2-Snakes-And-Ladders-In</strong>Module 15: Topic in Youtube</a>
+<a class="module-link" href="../157_active-inference-livestream-054-0-compositional-account-of/dashboard.html"><strong>Module 15: Active-Inference-Livestream-054-0-Compositional-Account-Of</strong>Module 15: Topic in Youtube</a>
+<a class="module-link" href="../158_active-inference-livestream-054-1-compositional-account-of/dashboard.html"><strong>Module 15: Active-Inference-Livestream-054-1-Compositional-Account-Of</strong>Module 15: Topic in Youtube</a>
+<a class="module-link" href="../159_active-inference-livestream-054-2-compositional-account-of/dashboard.html"><strong>Module 15: Active-Inference-Livestream-054-2-Compositional-Account-Of</strong>Module 15: Topic in Youtube</a>
+<a class="module-link" href="../15_actinf-livestream-007-2-variational-ecology-and-the-physics/dashboard.html"><strong>Module 15: Actinf-Livestream-007-2-Variational-Ecology-And-The-Physics</strong>Module 15: Topic in Youtube</a>
+<a class="module-link" href="../160_actinf-livestream-055-0-realising-synthetic-active/dashboard.html"><strong>Module 16: Actinf-Livestream-055-0-Realising-Synthetic-Active</strong>Module 16: Topic in Youtube</a>
+<a class="module-link" href="../161_actinf-livestream-055-1-realising-synthetic-active/dashboard.html"><strong>Module 16: Actinf-Livestream-055-1-Realising-Synthetic-Active</strong>Module 16: Topic in Youtube</a>
+<a class="module-link" href="../162_actinf-livestream-055-2-realising-synthetic-active/dashboard.html"><strong>Module 16: Actinf-Livestream-055-2-Realising-Synthetic-Active</strong>Module 16: Topic in Youtube</a>
+<a class="module-link" href="../163_active-inference-livestream-056-0-neural-coding-predictive/dashboard.html"><strong>Module 16: Active-Inference-Livestream-056-0-Neural-Coding-Predictive</strong>Module 16: Topic in Youtube</a>
+<a class="module-link" href="../164_active-inference-livestream-056-1-neural-coding-predictive/dashboard.html"><strong>Module 16: Active-Inference-Livestream-056-1-Neural-Coding-Predictive</strong>Module 16: Topic in Youtube</a>
+<a class="module-link" href="../165_active-inference-livestream-056-2-neural-generative-coding/dashboard.html"><strong>Module 16: Active-Inference-Livestream-056-2-Neural-Generative-Coding</strong>Module 16: Topic in Youtube</a>
+<a class="module-link" href="../166_active-inference-livestream-057-0-active-data-selection-and/dashboard.html"><strong>Module 16: Active-Inference-Livestream-057-0-Active-Data-Selection-And</strong>Module 16: Topic in Youtube</a>
+<a class="module-link" href="../167_active-inference-livestream-057-1-active-data-selection-and/dashboard.html"><strong>Module 16: Active-Inference-Livestream-057-1-Active-Data-Selection-And</strong>Module 16: Topic in Youtube</a>
+<a class="module-link" href="../168_active-inference-livestream-057-2-active-data-selection-and/dashboard.html"><strong>Module 16: Active-Inference-Livestream-057-2-Active-Data-Selection-And</strong>Module 16: Topic in Youtube</a>
+<a class="module-link" href="../169_active-inference-livestream-058-0-from-pixels-to-planning/dashboard.html"><strong>Module 16: Active-Inference-Livestream-058-0-From-Pixels-To-Planning</strong>Module 16: Topic in Youtube</a>
+<a class="module-link" href="../16_actinf-livestream-008-0-scaling-active-inference-2019/dashboard.html"><strong>Module 16: Actinf-Livestream-008-0-Scaling-Active-Inference-2019</strong>Module 16: Topic in Youtube</a>
+<a class="module-link" href="../170_active-inference-livestream-058-1-from-pixels-to-planning/dashboard.html"><strong>Module 17: Active-Inference-Livestream-058-1-From-Pixels-To-Planning</strong>Module 17: Topic in Youtube</a>
+<a class="module-link" href="../171_livestream-058-2-from-pixels-to-planning-scale-free-active/dashboard.html"><strong>Module 17: Livestream-058-2-From-Pixels-To-Planning-Scale-Free-Active</strong>Module 17: Topic in Youtube</a>
+<a class="module-link" href="../17_actinf-livestream-008-1-scaling-active-inference-2019/dashboard.html"><strong>Module 17: Actinf-Livestream-008-1-Scaling-Active-Inference-2019</strong>Module 17: Topic in Youtube</a>
+<a class="module-link" href="../18_actinf-livestream-008-2-scaling-active-inference-2019/dashboard.html"><strong>Module 18: Actinf-Livestream-008-2-Scaling-Active-Inference-2019</strong>Module 18: Topic in Youtube</a>
+<a class="module-link" href="../19_actinf-livestream-009-0-the-projective-consciousness-model/dashboard.html"><strong>Module 19: Actinf-Livestream-009-0-The-Projective-Consciousness-Model</strong>Module 19: Topic in Youtube</a>
+<a class="module-link" href="../20_active-inference-stream-009-1-the-projective-consciousness/dashboard.html"><strong>Module 20: Active-Inference-Stream-009-1-The-Projective-Consciousness</strong>Module 20: Topic in Youtube</a>
+<a class="module-link" href="../21_active-inference-stream-009-2-the-projective-consciousness/dashboard.html"><strong>Module 21: Active-Inference-Stream-009-2-The-Projective-Consciousness</strong>Module 21: Topic in Youtube</a>
+<a class="module-link" href="../22_actinf-livestream-010-0-a-variational-approach-to-scripts/dashboard.html"><strong>Module 22: Actinf-Livestream-010-0-A-Variational-Approach-To-Scripts</strong>Module 22: Topic in Youtube</a>
+<a class="module-link" href="../23_active-inference-stream-010-1-a-variational-approach-to/dashboard.html"><strong>Module 23: Active-Inference-Stream-010-1-A-Variational-Approach-To</strong>Module 23: Topic in Youtube</a>
+<a class="module-link" href="../24_actinf-livestream-010-2-a-variational-approach-to-scripts/dashboard.html"><strong>Module 24: Actinf-Livestream-010-2-A-Variational-Approach-To-Scripts</strong>Module 24: Topic in Youtube</a>
+<a class="module-link" href="../25_actinf-livestream-011-0-sophisticated-affective-inference/dashboard.html"><strong>Module 25: Actinf-Livestream-011-0-Sophisticated-Affective-Inference</strong>Module 25: Topic in Youtube</a>
+<a class="module-link" href="../26_actinf-livestream-011-1-sophisticated-affective-inference/dashboard.html"><strong>Module 26: Actinf-Livestream-011-1-Sophisticated-Affective-Inference</strong>Module 26: Topic in Youtube</a>
+<a class="module-link" href="../27_actinf-livestream-011-2-sophisticated-affective-inference/dashboard.html"><strong>Module 27: Actinf-Livestream-011-2-Sophisticated-Affective-Inference</strong>Module 27: Topic in Youtube</a>
+<a class="module-link" href="../28_actinf-livestream-012-0-2020-review-and-2021-directions/dashboard.html"><strong>Module 28: Actinf-Livestream-012-0-2020-Review-And-2021-Directions</strong>Module 28: Topic in Youtube</a>
+<a class="module-link" href="../29_actinf-livestream-013-0-cybernetic-big-five-theory-with-the/dashboard.html"><strong>Module 29: Actinf-Livestream-013-0-Cybernetic-Big-Five-Theory-With-The</strong>Module 29: Topic in Youtube</a>
+<a class="module-link" href="../30_actinf-livestream-013-1-cybernetic-big-five-theory-with-the/dashboard.html"><strong>Module 30: Actinf-Livestream-013-1-Cybernetic-Big-Five-Theory-With-The</strong>Module 30: Topic in Youtube</a>
+<a class="module-link" href="../31_actinf-livestream-013-2-cybernetic-big-five-theory-with-the/dashboard.html"><strong>Module 31: Actinf-Livestream-013-2-Cybernetic-Big-Five-Theory-With-The</strong>Module 31: Topic in Youtube</a>
+<a class="module-link" href="../32_actinf-livestream-014-0-the-math-is-not-the-territory/dashboard.html"><strong>Module 32: Actinf-Livestream-014-0-The-Math-Is-Not-The-Territory</strong>Module 32: Topic in Youtube</a>
+<a class="module-link" href="../33_actinf-livestream-014-1-the-math-is-not-the-territory/dashboard.html"><strong>Module 33: Actinf-Livestream-014-1-The-Math-Is-Not-The-Territory</strong>Module 33: Topic in Youtube</a>
+<a class="module-link" href="../34_actinf-livestream-014-2-the-math-is-not-the-territory/dashboard.html"><strong>Module 34: Actinf-Livestream-014-2-The-Math-Is-Not-The-Territory</strong>Module 34: Topic in Youtube</a>
+<a class="module-link" href="../35_actinf-livestream-015-0-free-energy-principle/dashboard.html"><strong>Module 35: Actinf-Livestream-015-0-Free-Energy-Principle</strong>Module 35: Topic in Youtube</a>
+<a class="module-link" href="../36_actinf-livestream-015-1-free-energy-principle/dashboard.html"><strong>Module 36: Actinf-Livestream-015-1-Free-Energy-Principle</strong>Module 36: Topic in Youtube</a>
+<a class="module-link" href="../37_actinf-livestream-015-2-free-energy-principle/dashboard.html"><strong>Module 37: Actinf-Livestream-015-2-Free-Energy-Principle</strong>Module 37: Topic in Youtube</a>
+<a class="module-link" href="../38_actinf-livestream-016-0-neural-correlates-of-consciousness/dashboard.html"><strong>Module 38: Actinf-Livestream-016-0-Neural-Correlates-Of-Consciousness</strong>Module 38: Topic in Youtube</a>
+<a class="module-link" href="../39_actinf-livestream-016-1-neural-correlates-of-consciousness/dashboard.html"><strong>Module 39: Actinf-Livestream-016-1-Neural-Correlates-Of-Consciousness</strong>Module 39: Topic in Youtube</a>
+<a class="module-link" href="../40_actinf-livestream-017-0-information-flow-in-context/dashboard.html"><strong>Module 40: Actinf-Livestream-017-0-Information-Flow-In-Context</strong>Module 40: Topic in Youtube</a>
+<a class="module-link" href="../41_actinf-livestream-017-1-information-flow-in-context/dashboard.html"><strong>Module 41: Actinf-Livestream-017-1-Information-Flow-In-Context</strong>Module 41: Topic in Youtube</a>
+<a class="module-link" href="../42_actinf-livestream-017-2-information-flow-in-context/dashboard.html"><strong>Module 42: Actinf-Livestream-017-2-Information-Flow-In-Context</strong>Module 42: Topic in Youtube</a>
+<a class="module-link" href="../43_actinf-livestream-018-0-the-predictive-global-neuronal/dashboard.html"><strong>Module 43: Actinf-Livestream-018-0-The-Predictive-Global-Neuronal</strong>Module 43: Topic in Youtube</a>
+<a class="module-link" href="../44_actinf-livestream-018-1-the-predictive-global-neuronal/dashboard.html"><strong>Module 44: Actinf-Livestream-018-1-The-Predictive-Global-Neuronal</strong>Module 44: Topic in Youtube</a>
+<a class="module-link" href="../45_actinf-livestream-018-2-the-predictive-global-neuronal/dashboard.html"><strong>Module 45: Actinf-Livestream-018-2-The-Predictive-Global-Neuronal</strong>Module 45: Topic in Youtube</a>
+<a class="module-link" href="../46_actinf-livestream-019-0-deeply-felt-affect-the-emergence-of/dashboard.html"><strong>Module 46: Actinf-Livestream-019-0-Deeply-Felt-Affect-The-Emergence-Of</strong>Module 46: Topic in Youtube</a>
+<a class="module-link" href="../47_actinf-livestream-019-1-deeply-felt-affect-the-emergence-of/dashboard.html"><strong>Module 47: Actinf-Livestream-019-1-Deeply-Felt-Affect-The-Emergence-Of</strong>Module 47: Topic in Youtube</a>
+<a class="module-link" href="../48_actinf-livestream-021-01-john-boik/dashboard.html"><strong>Module 48: Actinf-Livestream-021-01-John-Boik</strong>Module 48: Topic in Youtube</a>
+<a class="module-link" href="../49_actinf-livestream-021-02-john-boik/dashboard.html"><strong>Module 49: Actinf-Livestream-021-02-John-Boik</strong>Module 49: Topic in Youtube</a>
+<a class="module-link" href="../50_actinf-livestream-019-2-deeply-felt-affect-the-emergence-of/dashboard.html"><strong>Module 50: Actinf-Livestream-019-2-Deeply-Felt-Affect-The-Emergence-Of</strong>Module 50: Topic in Youtube</a>
+<a class="module-link" href="../51_actinf-livestream-020-0-the-emperor-s-new-markov-blankets/dashboard.html"><strong>Module 51: Actinf-Livestream-020-0-The-Emperor-S-New-Markov-Blankets</strong>Module 51: Topic in Youtube</a>
+<a class="module-link" href="../52_actinf-livestream-020-1-the-emperor-s-new-markov-blankets/dashboard.html"><strong>Module 52: Actinf-Livestream-020-1-The-Emperor-S-New-Markov-Blankets</strong>Module 52: Topic in Youtube</a>
+<a class="module-link" href="../53_actinf-livestream-021-03-john-boik/dashboard.html"><strong>Module 53: Actinf-Livestream-021-03-John-Boik</strong>Module 53: Topic in Youtube</a>
+<a class="module-link" href="../54_actinf-livestream-020-2-the-emperor-s-new-markov-blankets/dashboard.html"><strong>Module 54: Actinf-Livestream-020-2-The-Emperor-S-New-Markov-Blankets</strong>Module 54: Topic in Youtube</a>
+<a class="module-link" href="../55_actinf-livestream-021-04-john-boik/dashboard.html"><strong>Module 55: Actinf-Livestream-021-04-John-Boik</strong>Module 55: Topic in Youtube</a>
+<a class="module-link" href="../56_actinf-livestream-021-1-john-boik/dashboard.html"><strong>Module 56: Actinf-Livestream-021-1-John-Boik</strong>Module 56: Topic in Youtube</a>
+<a class="module-link" href="../57_actinf-livestream-021-2-john-boik/dashboard.html"><strong>Module 57: Actinf-Livestream-021-2-John-Boik</strong>Module 57: Topic in Youtube</a>
+<a class="module-link" href="../58_actinf-livestream-022-0-psychophysical-identity-and-free/dashboard.html"><strong>Module 58: Actinf-Livestream-022-0-Psychophysical-Identity-And-Free</strong>Module 58: Topic in Youtube</a>
+<a class="module-link" href="../59_actinf-livestream-022-1-psychophysical-identity-and-free/dashboard.html"><strong>Module 59: Actinf-Livestream-022-1-Psychophysical-Identity-And-Free</strong>Module 59: Topic in Youtube</a>
+<a class="module-link" href="../60_actinf-livestream-022-2-psychophysical-identity-and-free/dashboard.html"><strong>Module 60: Actinf-Livestream-022-2-Psychophysical-Identity-And-Free</strong>Module 60: Topic in Youtube</a>
+<a class="module-link" href="../61_actinf-livestream-023-0-embodied-skillful-performance-where/dashboard.html"><strong>Module 61: Actinf-Livestream-023-0-Embodied-Skillful-Performance-Where</strong>Module 61: Topic in Youtube</a>
+<a class="module-link" href="../62_actinf-livestream-023-1-embodied-skillful-performance-where/dashboard.html"><strong>Module 62: Actinf-Livestream-023-1-Embodied-Skillful-Performance-Where</strong>Module 62: Topic in Youtube</a>
+<a class="module-link" href="../63_actinf-livestream-023-2-embodied-skillful-performance-where/dashboard.html"><strong>Module 63: Actinf-Livestream-023-2-Embodied-Skillful-Performance-Where</strong>Module 63: Topic in Youtube</a>
+<a class="module-link" href="../64_actinf-livestream-024-0-an-empirical-evaluation-of-active/dashboard.html"><strong>Module 64: Actinf-Livestream-024-0-An-Empirical-Evaluation-Of-Active</strong>Module 64: Topic in Youtube</a>
+<a class="module-link" href="../65_actinf-livestream-024-1-an-empirical-evaluation-of-active/dashboard.html"><strong>Module 65: Actinf-Livestream-024-1-An-Empirical-Evaluation-Of-Active</strong>Module 65: Topic in Youtube</a>
+<a class="module-link" href="../67_actinf-livestream-024-2-an-empirical-evaluation-of-active/dashboard.html"><strong>Module 67: Actinf-Livestream-024-2-An-Empirical-Evaluation-Of-Active</strong>Module 67: Topic in Youtube</a>
+<a class="module-link" href="../68_actinf-livestream-025-0-the-computational-boundary-of-a-self/dashboard.html"><strong>Module 68: Actinf-Livestream-025-0-The-Computational-Boundary-Of-A-Self</strong>Module 68: Topic in Youtube</a>
+<a class="module-link" href="../69_actinf-livestream-025-1-the-computational-boundary-of-a-self/dashboard.html"><strong>Module 69: Actinf-Livestream-025-1-The-Computational-Boundary-Of-A-Self</strong>Module 69: Topic in Youtube</a>
+<a class="module-link" href="../70_actinf-livestream-025-2-the-computational-boundary-of-a-self/dashboard.html"><strong>Module 70: Actinf-Livestream-025-2-The-Computational-Boundary-Of-A-Self</strong>Module 70: Topic in Youtube</a>
+<a class="module-link" href="../71_actinf-livestream-026-0-bayesian-mechanics-for-stationary/dashboard.html"><strong>Module 71: Actinf-Livestream-026-0-Bayesian-Mechanics-For-Stationary</strong>Module 71: Topic in Youtube</a>
+<a class="module-link" href="../72_actinf-livestream-026-1-bayesian-mechanics-for-stationary/dashboard.html"><strong>Module 72: Actinf-Livestream-026-1-Bayesian-Mechanics-For-Stationary</strong>Module 72: Topic in Youtube</a>
+<a class="module-link" href="../73_actinf-livestream-026-2-bayesian-mechanics-for-stationary/dashboard.html"><strong>Module 73: Actinf-Livestream-026-2-Bayesian-Mechanics-For-Stationary</strong>Module 73: Topic in Youtube</a>
+<a class="module-link" href="../74_actinf-livestream-027-0-active-inference-applicability-to/dashboard.html"><strong>Module 74: Actinf-Livestream-027-0-Active-Inference-Applicability-To</strong>Module 74: Topic in Youtube</a>
+<a class="module-link" href="../75_actinf-livestream-027-1-active-inference-applicability-to/dashboard.html"><strong>Module 75: Actinf-Livestream-027-1-Active-Inference-Applicability-To</strong>Module 75: Topic in Youtube</a>
+<a class="module-link" href="../76_actinf-livestream-027-2-active-inference-applicability-to/dashboard.html"><strong>Module 76: Actinf-Livestream-027-2-Active-Inference-Applicability-To</strong>Module 76: Topic in Youtube</a>
+<a class="module-link current" href="#"><strong>Module 77: Actinf-Livestream-028-0-Towards-A-Computational</strong>Module 77: Topic in Youtube</a>
+<a class="module-link" href="../78_actinf-livestream-028-1-towards-a-computational/dashboard.html"><strong>Module 78: Actinf-Livestream-028-1-Towards-A-Computational</strong>Module 78: Topic in Youtube</a>
+<a class="module-link" href="../79_actinf-livestream-028-2-towards-a-computational/dashboard.html"><strong>Module 79: Actinf-Livestream-028-2-Towards-A-Computational</strong>Module 79: Topic in Youtube</a>
+<a class="module-link" href="../80_actinf-livestream-029-0-active-inferants-an-active/dashboard.html"><strong>Module 80: Actinf-Livestream-029-0-Active-Inferants-An-Active</strong>Module 80: Topic in Youtube</a>
+<a class="module-link" href="../81_actinf-livestream-029-1-active-inferants-an-active/dashboard.html"><strong>Module 81: Actinf-Livestream-029-1-Active-Inferants-An-Active</strong>Module 81: Topic in Youtube</a>
+<a class="module-link" href="../82_actinf-livestream-029-2-active-inferants-an-active/dashboard.html"><strong>Module 82: Actinf-Livestream-029-2-Active-Inferants-An-Active</strong>Module 82: Topic in Youtube</a>
+<a class="module-link" href="../83_actinf-livestream-030-0-how-to-count-biological-minds/dashboard.html"><strong>Module 83: Actinf-Livestream-030-0-How-To-Count-Biological-Minds</strong>Module 83: Topic in Youtube</a>
+<a class="module-link" href="../84_actinf-livestream-030-1-how-to-count-biological-minds/dashboard.html"><strong>Module 84: Actinf-Livestream-030-1-How-To-Count-Biological-Minds</strong>Module 84: Topic in Youtube</a>
+<a class="module-link" href="../85_actinf-livestream-030-2-how-to-count-biological-minds/dashboard.html"><strong>Module 85: Actinf-Livestream-030-2-How-To-Count-Biological-Minds</strong>Module 85: Topic in Youtube</a>
+<a class="module-link" href="../86_actinf-livestream-031-0-non-equilibrium-thermodynamics-and/dashboard.html"><strong>Module 86: Actinf-Livestream-031-0-Non-Equilibrium-Thermodynamics-And</strong>Module 86: Topic in Youtube</a>
+<a class="module-link" href="../87_actinf-livestream-031-1-non-equilibrium-thermodynamics-and/dashboard.html"><strong>Module 87: Actinf-Livestream-031-1-Non-Equilibrium-Thermodynamics-And</strong>Module 87: Topic in Youtube</a>
+<a class="module-link" href="../88_actinf-livestream-031-2-non-equilibrium-thermodynamics-and/dashboard.html"><strong>Module 88: Actinf-Livestream-031-2-Non-Equilibrium-Thermodynamics-And</strong>Module 88: Topic in Youtube</a>
+<a class="module-link" href="../89_actinf-livestream-032-0-stochastic-chaos-and-markov-blankets/dashboard.html"><strong>Module 89: Actinf-Livestream-032-0-Stochastic-Chaos-And-Markov-Blankets</strong>Module 89: Topic in Youtube</a>
+<a class="module-link" href="../90_actinf-livestream-032-1-stochastic-chaos-and-markov-blankets/dashboard.html"><strong>Module 90: Actinf-Livestream-032-1-Stochastic-Chaos-And-Markov-Blankets</strong>Module 90: Topic in Youtube</a>
+<a class="module-link" href="../91_actinf-livestream-032-2-stochastic-chaos-and-markov-blankets/dashboard.html"><strong>Module 91: Actinf-Livestream-032-2-Stochastic-Chaos-And-Markov-Blankets</strong>Module 91: Topic in Youtube</a>
+<a class="module-link" href="../92_actinf-livestream-033-0-thinking-like-a-state-embodied/dashboard.html"><strong>Module 92: Actinf-Livestream-033-0-Thinking-Like-A-State-Embodied</strong>Module 92: Topic in Youtube</a>
+<a class="module-link" href="../93_actinf-livestream-033-1-thinking-like-a-state-embodied/dashboard.html"><strong>Module 93: Actinf-Livestream-033-1-Thinking-Like-A-State-Embodied</strong>Module 93: Topic in Youtube</a>
+<a class="module-link" href="../95_actinf-livestream-032-3-stochastic-chaos-and-markov-blankets/dashboard.html"><strong>Module 95: Actinf-Livestream-032-3-Stochastic-Chaos-And-Markov-Blankets</strong>Module 95: Topic in Youtube</a>
+<a class="module-link" href="../96_actinf-livestream-034-0-the-free-energy-principle-it-s-not/dashboard.html"><strong>Module 96: Actinf-Livestream-034-0-The-Free-Energy-Principle-It-S-Not</strong>Module 96: Topic in Youtube</a>
+<a class="module-link" href="../97_actinf-livestream-034-1-the-free-energy-principle-it-s-not/dashboard.html"><strong>Module 97: Actinf-Livestream-034-1-The-Free-Energy-Principle-It-S-Not</strong>Module 97: Topic in Youtube</a>
+<a class="module-link" href="../98_actinf-livestream-034-2-the-free-energy-principle-it-s-not/dashboard.html"><strong>Module 98: Actinf-Livestream-034-2-The-Free-Energy-Principle-It-S-Not</strong>Module 98: Topic in Youtube</a>
+<a class="module-link" href="../99_actinf-reviewstream-2021-end-of-2021-paper-review-stream/dashboard.html"><strong>Module 99: Actinf-Reviewstream-2021-End-Of-2021-Paper-Review-Stream</strong>Module 99: Topic in Youtube</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>Active Inference Institute &mdash; YouTube Transcripts — Active-Inference-Livestreams-Paper-Discussions — Module 77: Actinf-Livestream-028-0-Towards-A-Computational</footer>
+
+    <script>
+    /* Concept cards */
+    document.querySelectorAll('.concept-card').forEach(function(c){
+        c.addEventListener('click',function(){c.classList.toggle('open');});
+    });
+
+    /* Quiz engine */
+    var Q=[{"q": "A primary learning goal of this module is to:", "opts": ["Skip foundational concepts and focus only on advanced material.", "Review content from a completely different subject area.", "Define Topic within the context of Youtube.", "Memorize all definitions without applying them to real situations."], "correct": 2, "explain": "This module focuses on: Define Topic within the context of Youtube."}, {"q": "By the end of this module you should also be able to:", "opts": ["Complete unrelated worksheets for extra credit.", "Watch videos without taking notes or reflecting.", "Apply specific constraints of Youtube to the formal definition of Topic.", "Repeat previous module content without new application."], "correct": 2, "explain": "Another key goal: Apply specific constraints of Youtube to the formal definition of Topic."}];
+    var ci=0,ans=new Array(Q.length).fill(null),sc=0;
+
+    function renderQ(){
+        var q=Q[ci],done=ans[ci]!==null;
+        var h='<p class="qq"><strong>Q'+(ci+1)+'.</strong> '+q.q+'</p>';
+        q.opts.forEach(function(o,i){
+            var c='qbtn';
+            if(done){if(i===q.correct)c+=' correct';else if(i===ans[ci])c+=' wrong';}
+            h+='<button class="'+c+'" onclick="pickA('+i+')" '+(done?'disabled':'')+'>'+String.fromCharCode(65+i)+') '+o+'</button>';
+        });
+        if(done){
+            var ok=ans[ci]===q.correct;
+            h+='<div class="qexp" style="display:block;background:'+(ok?'#166534':'#7f1d1d')+';">'+(ok?'Correct! ':'Incorrect. ')+q.explain+'</div>';
+        }
+        document.getElementById('qc').innerHTML=h;
+        document.getElementById('qprog').textContent='Question '+(ci+1)+' of '+Q.length;
+        document.getElementById('pbtn').disabled=ci===0;
+        document.getElementById('nbtn').textContent=ci===Q.length-1?'See Score':'Next \u2192';
+    }
+
+    function pickA(i){
+        if(ans[ci]!==null)return;
+        ans[ci]=i;
+        if(i===Q[ci].correct)sc++;
+        renderQ();
+    }
+
+    function nextQ(){
+        if(ci<Q.length-1){ci++;renderQ();}
+        else{
+            var pct=Math.round(sc/Q.length*100);
+            var d=document.getElementById('score-box');
+            d.style.display='block';
+            d.innerHTML='<h3 style="color:'+(pct>=60?'var(--green)':'var(--red)')+'">'+sc+'/'+Q.length+' ('+pct+'%)</h3><p style="color:var(--muted);margin-top:8px">'+(pct>=80?'Excellent understanding of the material!':pct>=60?'Good foundation. Review the concepts you missed.':'Consider re-reading the module before moving on.')+'</p>';
+        }
+    }
+
+    function prevQ(){if(ci>0){ci--;renderQ();}}
+
+    /* Checklist with localStorage */
+    var SK='ai_youtube_active-inference-livestreams-paper-discussions_77_actinf-livestream-028-0-towards-a-computational';
+    var QK=SK+'_quiz';
+    function initCL(){
+        var saved=JSON.parse(localStorage.getItem(SK)||'[]');
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        boxes.forEach(function(cb,i){
+            if(saved[i])cb.checked=true;
+            if(cb.checked)cb.parentElement.classList.add('done');
+            cb.addEventListener('change',function(){
+                cb.parentElement.classList.toggle('done',cb.checked);
+                saveCL();updProg();
+            });
+        });
+        updProg();
+    }
+    function saveCL(){
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        localStorage.setItem(SK,JSON.stringify(Array.from(boxes).map(function(c){return c.checked;})));
+    }
+    function updProg(){
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        var n=boxes.length,done=Array.from(boxes).filter(function(c){return c.checked;}).length;
+        document.getElementById('pfill').style.width=(n?done/n*100:0)+'%';
+        document.getElementById('ptxt').textContent=done+' of '+n+' complete';
+    }
+
+    /* Quiz persistence */
+    function saveQuiz(){
+        localStorage.setItem(QK,JSON.stringify({ci:ci,ans:ans,sc:sc}));
+    }
+    function loadQuiz(){
+        try{
+            var d=JSON.parse(localStorage.getItem(QK));
+            if(d&&d.ans&&d.ans.length===Q.length){
+                ci=d.ci||0;ans=d.ans;sc=d.sc||0;
+            }
+        }catch(e){}
+    }
+    /* Patch pickA to persist */
+    var _origPickA=pickA;
+    pickA=function(i){_origPickA(i);saveQuiz();};
+
+    /* Init */
+    document.addEventListener('DOMContentLoaded',function(){
+        document.querySelectorAll('.meter-fill').forEach(function(f){
+            var w=f.style.width;f.style.width='0%';
+            setTimeout(function(){f.style.width=w;},200);
+        });
+        loadQuiz();
+        renderQ();
+        initCL();
+    });
+    </script>
+</body>
+</html>

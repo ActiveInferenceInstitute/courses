@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmp17p97yjv</title>
+</head>
+<body>
+<h1>Lab: Behavioral Paradigms for Active Inference</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design, analyze, and evaluate behavioral experiments testing Active Inference predictions.</p>
+</blockquote>
+<h2>Part 1: Eye-Tracking Experiment Design</h2>
+<p><strong>Exercise</strong>: Design an eye-tracking study testing epistemic foraging:</p>
+<p><strong>Task</strong>: Visual scene containing objects at 8 locations. Some locations are familiar (low uncertainty), others novel (high uncertainty). Participant's goal: identify all objects.</p>
+<p><strong>Active Inference prediction</strong>: First fixations should be directed toward high-uncertainty (novel) locations — epistemic foraging maximizes information gain.</p>
+<p>Specify:</p>
+<ol>
+<li><strong>Stimulus design</strong>: 8 objects, 4 familiar (seen in training) + 4 novel</li>
+<li><strong>Dependent variable</strong>: Proportion of first fixations to novel vs. familiar locations</li>
+<li><strong>Expected result</strong>: &gt;70% first fixations to novel locations</li>
+<li><strong>Control experiment</strong>: Repeat with explicit reward at specific locations (pragmatic motive) — does pragmatic value override epistemic foraging?</li>
+<li><strong>Analysis</strong>: Compute information gain for each fixation sequence and correlate with scanpath data</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Pupillometry Experiment</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design a pupillometry study testing precision and surprise.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Task = auditory oddball with 3 conditions:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Standard Probability</th>
+<th>Deviant Probability</th>
+<th>Expected Pupil Response to Deviant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Predictable</td>
+<td>90%</td>
+<td>10%</td>
+<td>Large dilation (high PE due to strong prediction)</td>
+</tr>
+<tr>
+<td>Moderate</td>
+<td>70%</td>
+<td>30%</td>
+<td>Moderate dilation</td>
+</tr>
+<tr>
+<td>Unpredictable</td>
+<td>50%</td>
+<td>50%</td>
+<td>Small dilation (weak prediction = small PE)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Prediction</strong>: Pupil dilation to deviants scales with prediction strength (more predictable contexts → larger PE → larger pupil dilation).</p>
+<p>Additionally measure <strong>tonic pupil size</strong>:</p>
+<ul>
+<li>Unpredictable condition → larger tonic pupils (higher uncertainty / volatility)</li>
+<li>Predictable condition → smaller tonic pupils</li>
+</ul>
+<p>Specify the analysis: How do you isolate the phasic (event-related) from tonic pupil components?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Reversal Learning Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze computational signatures in reversal learning data.</p>
+</blockquote>
+<p><strong>Exercise</strong>: A participant completes 200 trials of probabilistic reversal learning (2 options, reward reversals every ~30 trials):</p>
+<p><strong>Behavioral signatures to identify</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Signature</th>
+<th>Description</th>
+<th>Computational Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Win-stay probability</td>
+<td>P(repeat choice</td>
+<td>previous reward)</td>
+</tr>
+<tr>
+<td>Lose-shift probability</td>
+<td>P(switch</td>
+<td>previous loss)</td>
+</tr>
+<tr>
+<td>Post-reversal perseveration</td>
+<td>Trials to switch after reversal</td>
+<td>Prior volatility ω (low ω → more perseveration)</td>
+</tr>
+<tr>
+<td>Pre-reversal switching</td>
+<td>Premature switches before reversal</td>
+<td>High ω (over-estimating volatility)</td>
+</tr>
+<tr>
+<td>Choice consistency</td>
+<td>Overall stability of choice patterns</td>
+<td>β (policy precision)</td>
+</tr>
+</tbody>
+</table>
+<p>Estimate the participant's computational phenotype from these behavioral signatures.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Information Sampling Task</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design a task that measures the exploration-exploitation trade-off.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design a "when to commit" task:</p>
+<p><strong>Task</strong>: Participant sees 12 boxes. Each box hides a token (red or blue). They can open boxes (information sampling) or commit to guessing which color is majority (decision). Reward if correct.</p>
+<p><strong>Active Inference prediction</strong>: Agent opens boxes until EFE(commit) &lt; EFE(sample):</p>
+<ul>
+<li>G(commit) = risk of wrong guess (pragmatic cost)  </li>
+<li>G(sample) = cost of time + expected information gain</li>
+</ul>
+<p><strong>Manipulation</strong>: Vary the cost of sampling (low cost vs. high cost per box opened)</p>
+<table>
+<thead>
+<tr>
+<th>Sampling Cost</th>
+<th>Predicted Behavior</th>
+<th>AI Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Low (1 point per box)</td>
+<td>Open many boxes (~8-10)</td>
+<td>High epistemic value threshold</td>
+</tr>
+<tr>
+<td>High (5 points per box)</td>
+<td>Open few boxes (~3-4)</td>
+<td>Lower threshold, accept more risk</td>
+</tr>
+</tbody>
+</table>
+<p>How would clinical populations differ? (Jumping-to-conclusions in schizophrenia → open fewer boxes)</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 300 words, reflect: Behavioral experiments are necessarily indirect — we observe choices, reaction times, and eye movements, not prediction errors or precision. How confident can we be that the computational variables we infer actually correspond to brain processes? What additional evidence (neural, pharmacological) is needed?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Experiment design</td>
+<td>Epistemic foraging via eye-tracking</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Pupillometry design</td>
+<td>Precision and surprise measurement</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Data interpretation</td>
+<td>Computational phenotyping from behavior</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Task design</td>
+<td>Exploration-exploitation trade-off</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Critical reflection</td>
+<td>Inference-to-brain mapping</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

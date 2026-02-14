@@ -1,0 +1,99 @@
+# Lab: Computational Psychiatry and Clinical Applications
+
+> **Learning Goal:** Apply Active Inference to analyze psychiatric conditions as specific patterns of inference failure, and propose treatment targets.
+
+## Part 1: Diagnostic Mapping
+
+**Exercise**: For each condition, specify the computational failure, the neural substrate, the key symptom it explains, and the treatment target:
+
+| Condition | Computational Failure | Key Neural Substrate | Symptom Explained | Treatment Target |
+|-----------|----------------------|---------------------|-------------------|-----------------|
+| Schizophrenia (positive) | ↑ sensory PE precision (aberrant salience) | Mesolimbic DA pathway, superior temporal gyrus | Auditory hallucinations | Reduce DA-mediated error precision |
+| Schizophrenia (negative) | ↓ motivational precision / ↓ policy evaluation | Mesocortical DA pathway, PFC | Avolition, flat affect | Restore policy precision (motivation) |
+| Major depression | Pessimistic priors + ↓ positive PE precision | vmPFC, anterior insula, raphe nuclei | Persistent sadness, anhedonia | Update priors via behavioral activation |
+| Generalized anxiety | ↑ expected environmental volatility | Locus coeruleus, amygdala, ACC | Chronic worry, hypervigilance | Reduce expected volatility (exposure, SSRIs) |
+| Panic disorder | Catastrophic interoceptive inference | Anterior insula, PAG | Panic attacks | Recalibrate interoceptive model |
+| Autism (sensory) | Inflexibly ↑ sensory PE precision | Primary sensory cortices | Sensory overwhelm, detail focus | Environmental accommodations, flexible precision training |
+| Autism (social) | ↓ social prediction precision | STS, mPFC, TPJ | Social communication difficulties | Explicit rule teaching, social scripts |
+| Addiction | Hijacked policy precision (drug-seeking dominates) | Ventral striatum, OFC | Compulsive drug use despite harm | Restore policy competition (contingency management) |
+| OCD | ↑ precision on error signals + inability to resolve | Cortico-striatal loops, ACC | Intrusive thoughts, compulsive rituals | ERP therapy (tolerate unresolved PEs) |
+| PTSD | Traumatic model locked by terror priors | Amygdala, hippocampus, vmPFC | Flashbacks, hyperarousal | Reconsolidation-based exposure, EMDR |
+
+Now choose one condition and write a 300-word analysis tracing the full computational pathway from neural mechanism to symptom experience.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 2: Case Formulation
+
+> **Learning Goal:** Develop an Active Inference case formulation for a clinical scenario.
+
+**Exercise**: Read the following case and formulate it in Active Inference terms:
+
+**Case**: A 32-year-old woman presents with 6 months of increasing anxiety. She avoids social situations, constantly checks her phone for reassurance texts from friends, and has developed insomnia. She reports feeling "like something terrible is about to happen" most of the time, and experiences her heart racing at work. She had a stable childhood but reports a recent breakup as the trigger.
+
+1. **Generative model analysis**: What are her current priors? (Threat = likely; social rejection = likely; bodily symptoms = dangerous)
+2. **Precision profile**: Which prediction errors have excessive precision? (Interoceptive errors, social threat errors)
+3. **Policy analysis**: What policies is she using to minimize free energy? (Avoidance = reduce exposure to threatening sensory input; reassurance-seeking = reduce uncertainty)
+4. **Maintenance mechanisms**: How do these policies maintain the problem? (Avoidance prevents model updating; reassurance provides temporary PE reduction but maintains the prior that threat is real)
+5. **Treatment targets**: What would need to change in her generative model?
+
+Write a complete Active Inference case formulation (400 words).
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 3: Treatment Design
+
+> **Learning Goal:** Design treatment based on computational psychiatry principles.
+
+**Exercise**: For two of the following conditions, design a treatment protocol that targets the specific computational failure:
+
+**Option A — Depression**: Design a behavioral activation protocol. Explain: (a) why behavioral activation generates positive prediction errors, (b) how these errors update pessimistic priors, (c) what role therapist guidance plays in precision weighting, (d) how to handle the patient's tendency to down-weight positive evidence.
+
+**Option B — Social anxiety**: Design an exposure protocol. Explain: (a) what the maladaptive prior is ("others will judge me negatively"), (b) how social exposure generates corrective prediction errors, (c) why avoidance maintains the problem, (d) how precision affects whether exposure is effective.
+
+**Option C — PTSD**: Design a reconsolidation-based intervention. Explain: (a) how the traumatic memory is an overly precise prior, (b) how reactivation makes the memory labile, (c) how introducing novel information during the reconsolidation window updates the traumatic model, (d) what makes this potentially more effective than standard exposure.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 4: Pharmacological Analysis
+
+> **Learning Goal:** Analyze psychopharmacology through Active Inference.
+
+**Exercise**: For each medication class, explain the computational mechanism:
+
+| Medication | Primary Action | Active Inference Interpretation |
+|-----------|---------------|-------------------------------|
+| Antipsychotics (haloperidol) | Block D2 receptors in striatum | Reduce precision of sensory PEs → less aberrant salience, fewer hallucinations/delusions |
+| SSRIs (fluoxetine) | Increase serotonin availability | Modulate temporal precision → reduce urgency of aversive signals, increase patience/long-horizon thinking |
+| Benzodiazepines (diazepam) | Enhance GABA inhibition | Globally reduce precision of prediction errors → reduced anxiety but also reduced sensitivity |
+| Stimulants (methylphenidate) | Increase DA/NE availability | Increase policy precision → improved sustained attention and task focus |
+| Psychedelics (psilocybin) | 5-HT2A agonism, disrupt DMN | Relax overly rigid priors → enable model revision for depression, PTSD, addiction |
+| Ketamine | NMDA antagonism | Acutely disrupt top-down predictions → enable new learning patterns; rapid antidepressant effect |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 5: Reflection
+
+In 300 words, reflect: Computational psychiatry promises personalized treatment based on individual computational profiles. But psychiatric diagnosis is currently based on symptom checklists (DSM-5), not computational measurements. What would need to change in clinical practice for computational psychiatry to become practical? What barriers exist?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Lab Summary
+
+| Part | Skill Practiced | Key Concept |
+|------|----------------|-------------|
+| 1 | Diagnostic mapping | Condition → computational failure |
+| 2 | Case formulation | Individual clinical analysis |
+| 3 | Treatment design | Computationally targeted intervention |
+| 4 | Pharmacological reasoning | Medication mechanisms |
+| 5 | Clinical reflection | Implementation barriers |

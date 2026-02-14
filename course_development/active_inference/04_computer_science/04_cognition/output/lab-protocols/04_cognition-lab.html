@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmph3l2vjwn</title>
+</head>
+<body>
+<h1>Lab 04: Preferences, Priors, and Precision Tuning</h1>
+<h2>Objective</h2>
+<p>Explore how C, D, E vectors and precision γ shape agent behavior.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Completed Labs 01–03</li>
+<li>Understanding of EFE decomposition (risk + ambiguity)</li>
+</ul>
+<h2>Part 1: C-Vector Effects</h2>
+<p><strong>Goal</strong>: Compare agent behavior with different preference vectors.</p>
+<ol>
+<li>Create a T-maze <code>GenerativeModel</code> (4 states, 3 obs, 3 actions).</li>
+<li>Run the perception-action loop for 15 steps with three C-vectors:</li>
+<li><code>C_neutral = [0, 0, 0]</code> (no preferences)</li>
+<li><code>C_reward = [0, 3, -3]</code> (prefer reward)</li>
+<li><code>C_explore = [0, 0, 0]</code> with a noisy A-matrix (epistemic drive)</li>
+<li>Record and compare the action sequences and states visited.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1"># TODO: Create models with different C-vectors</span>
+<span class="c1"># TODO: Run loops and compare</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: D-Vector Effects</h2>
+<p><strong>Goal</strong>: Investigate how the initial state prior affects early behavior.</p>
+<ol>
+<li>Fix C and E. Create two agents with:</li>
+<li><code>D_certain = [1, 0, 0, 0]</code> (confident at center)</li>
+<li><code>D_uncertain = [0.25, 0.25, 0.25, 0.25]</code> (uniform)</li>
+<li>Run 5 steps. Compare the first action selected and the VFE trajectory.</li>
+<li>Visualize both D-vectors using <code>plot_D_prior()</code>.</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: E-Vector and Habit Formation</h2>
+<p><strong>Goal</strong>: Demonstrate how habits bias action selection.</p>
+<ol>
+<li>Create an agent with <code>E = [0.8, 0.1, 0.1]</code> (strong stay habit) and γ = 0.5.</li>
+<li>Create an agent with <code>E = None</code> and the same γ.</li>
+<li>Run both for 20 steps. Count how often each agent selects action 0 (stay).</li>
+<li>Visualize habits using <code>plot_E_habits()</code>.</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Precision Sweep</h2>
+<p><strong>Goal</strong>: Map the exploration–exploitation tradeoff across γ values.</p>
+<ol>
+<li>For γ ∈ {0.1, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0}:</li>
+<li>Run <code>run_policy_inference()</code> with the same beliefs and C-vector</li>
+<li>Record the resulting $q(\pi)$</li>
+<li>Visualize with <code>plot_precision_sweep()</code>.</li>
+<li>Identify the γ value where the agent transitions from near-random to near-deterministic.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_policy_inference</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_precision_sweep</span>
+
+<span class="c1"># TODO: Sweep γ and collect q(π) matrix</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Analysis Questions</h2>
+<ol>
+<li>Did the agent with <code>C = [0, 3, -3]</code> consistently reach the reward arm? If not, what prevented it?</li>
+<li>How many steps did the habit-biased agent waste on action 0 compared to a habit-free agent?</li>
+<li>At which γ value did policy selection become effectively deterministic? How does this relate to the magnitude of EFE differences?</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Library Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Design C-vectors for goal-directed behavior</td>
+<td><code>GenerativeModel(C=...)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Visualize preferences, priors, and habits</td>
+<td><code>plot_C_preferences()</code>, <code>plot_D_prior()</code>, <code>plot_E_habits()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Investigate precision effects</td>
+<td><code>run_policy_inference(gamma=...)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Map the exploration–exploitation tradeoff</td>
+<td><code>plot_precision_sweep()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Compare agents with different cognitive configurations</td>
+<td>Multi-agent experiment design</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

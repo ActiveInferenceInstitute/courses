@@ -1,0 +1,66 @@
+# Active Inference Institute 
+# Course Publishing Configuration
+# This file controls the publish pipeline: which courses to render
+# and which output formats to generate.
+#
+# Usage:
+#   python publish.py                           # Full pipeline per this config
+#   python publish.py --dry-run                 # Preview what would be generated
+#   python publish.py --course ai-philosophy    # Only one course
+#   python publish.py --override-formats txt,md # Quick text-only generation
+#   python publish.py --publish-only            # Re-publish without regenerating
+
+[general]
+# Output directory for all published course materials (relative to repo root)
+output_dir = "published"
+# Whether to clean the output directory before publishing
+clean_before_publish = true
+
+[formats]
+# Toggle which output formats to generate.
+# pdf/docx require system libraries: brew install cairo pango gdk-pixbuf glib
+# mp3 requires TTS service access
+pdf = true
+docx = true
+html = true
+txt = true
+mp3 = false
+md = true
+
+[courses]
+# Toggle which courses to include in the publish run.
+# Set to false to skip a course.
+# Courses must have a matching entry in software/src/batch_processing/config.py
+
+# --- Active Inference Core (4-course sequence) ---
+active-inference = true      # Consolidated Core Course
+ai-philosophy = false        # Philosophy of Active Inference
+ai-cognitive-science = false # Cognitive Science of Active Inference
+ai-math = false              # Mathematics of Active Inference
+ai-computer-science = false  # Computer Science of Active Inference
+
+# --- Level-Adapted (age/education level) ---
+ai-es = true     # Elementary School (ages 6-10)
+ai-family = true # Family (multi-generational, ages 5+)
+ai-ms = true     # Middle School (ages 11-13)
+ai-hs = true     # High School (ages 14-18)
+ai-101 = true    # College Introductory (undergraduate)
+ai-401 = true    # Advanced PhD Seminar (4 units x 8 modules = 32 modules)
+
+# --- Domain-Specific ---
+ai-embodied = true      # Embodied Active Inference (robotics, morphological computation)
+ai-organizations = true # Active Inference for Organizations (management, governance)
+ai-robotics = true      # Robotics Applications of Active Inference
+
+# --- YouTube Transcript Archive ---
+youtube = true           # All YouTube playlists (~2600 video transcripts)
+
+[options]
+# Generate module websites (index.html per module)
+generate_website = true
+# Generate interactive dashboards (dashboard.html per module)
+generate_dashboards = true
+# Skip lab manual rendering (lab.md files)
+skip_labs = false
+# Verbose output logging (passed to generate_all_outputs.py)
+verbose = false

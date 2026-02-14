@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpixy2212p</title>
+</head>
+<body>
+<h1>Lab 02: Building an Active Inference Agent</h1>
+<h2>Objective</h2>
+<p>Construct a complete <code>GenerativeModel</code> with A–E matrices, create an <code>ActiveInferenceAgent</code>, and run a perception-action loop against a <code>DiscreteEnvironment</code>.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Completed Lab 01 (Systems)</li>
+<li>Understanding of probability distributions, matrix normalization</li>
+<li>Access to the <code>active_inference</code> library</li>
+</ul>
+<h2>Part 1: Defining the A–E Matrices</h2>
+<p><strong>Goal</strong>: Build a T-maze generative model with 4 states, 3 observations, and 3 actions.</p>
+<p>States: center (0), left arm (1), right arm (2), cue location (3)
+Observations: neutral (0), reward (1), no-reward (2)
+Actions: stay (0), go-left (1), go-right (2)</p>
+<ol>
+<li>Define the A-matrix (3×4) encoding: center and cue give neutral observation; left arm gives reward; right arm gives no-reward (with some noise).</li>
+<li>Define the B-tensor (4×4×3) encoding the transition dynamics.</li>
+<li>Define C = [0, 3, -3] (prefer reward, avoid no-reward).</li>
+<li>Define D = [1, 0, 0, 0] (start at center).</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenerativeModel</span>
+
+<span class="c1"># TODO: Define A, B, C, D matrices</span>
+<span class="c1"># TODO: Create model = GenerativeModel(A=A, B=B, C=C, D=D)</span>
+<span class="c1"># TODO: Print model</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Visualizing the Model</h2>
+<p><strong>Goal</strong>: Use the visualization functions to inspect your model.</p>
+<ol>
+<li>Call <code>plot_model_summary(model)</code> to see all matrices at once.</li>
+<li>Call <code>plot_A_matrix(model)</code> with custom observation and state labels.</li>
+<li>Call <code>plot_B_transition_graph(model)</code> to see the state transition graph.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">plot_model_summary</span><span class="p">,</span> <span class="n">plot_A_matrix</span><span class="p">,</span> <span class="n">plot_B_transition_graph</span>
+<span class="p">)</span>
+
+<span class="n">obs_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;neutral&quot;</span><span class="p">,</span> <span class="s2">&quot;reward&quot;</span><span class="p">,</span> <span class="s2">&quot;no-reward&quot;</span><span class="p">]</span>
+<span class="n">state_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;cue&quot;</span><span class="p">]</span>
+
+<span class="c1"># TODO: Generate visualizations</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Creating the Agent and Running the Loop</h2>
+<p><strong>Goal</strong>: Run 10 steps of the perception-action loop.</p>
+<ol>
+<li>Create a <code>DiscreteEnvironment</code> with the same A and B matrices, starting in state 0.</li>
+<li>Create an <code>ActiveInferenceAgent</code> with γ=4.0.</li>
+<li>Run 10 steps, printing the observation, beliefs, and selected action at each step.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiscreteEnvironment</span><span class="p">,</span> <span class="n">ActiveInferenceAgent</span>
+
+<span class="c1"># TODO: Create environment and agent</span>
+<span class="c1"># TODO: Run perception-action loop for 10 steps</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Precision Sweep</h2>
+<p><strong>Goal</strong>: Investigate how γ affects action selection.</p>
+<ol>
+<li>Run the same scenario with γ = 0.1, 1.0, 4.0, and 16.0.</li>
+<li>For each γ, record which actions the agent selects over 10 steps.</li>
+<li>Plot or tabulate the results and describe the trend.</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Analysis Questions</h2>
+<ol>
+<li>
+<p>Did the agent visit the reward arm (state 1)? If not, what changes to the model would encourage it?</p>
+</li>
+<li>
+<p>How did increasing γ change the agent's behavior? At what γ value did the agent become nearly deterministic?</p>
+</li>
+<li>
+<p>What happens if you set C = [0, 0, 0]? Run the loop and compare with your original results.</p>
+</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Library Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Define A, B, C, D, E matrices with correct shapes</td>
+<td><code>GenerativeModel(A, B, C, D, E)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Visualize model structure</td>
+<td><code>plot_model_summary()</code>, <code>plot_A_matrix()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Create and run an Active Inference agent</td>
+<td><code>ActiveInferenceAgent(model, gamma)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Investigate precision-action tradeoff</td>
+<td>Varying γ in <code>ActiveInferenceAgent</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Understand the T-maze benchmark</td>
+<td>4 states, 3 obs, 3 actions, reward preference</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

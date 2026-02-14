@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpz9ma1054</title>
+</head>
+<body>
+<h1>Lab: Deep Temporal Models and Hierarchical Inference</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze multi-scale temporal models, trace message passing, and evaluate planning at multiple temporal depths.</p>
+</blockquote>
+<h2>Part 1: Constructing a Deep Temporal Model</h2>
+<p><strong>Exercise</strong>: Design a 3-level deep temporal model for driving a car:</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Temporal Scale</th>
+<th>States Represented</th>
+<th>Transition Dynamics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 (Fast)</td>
+<td>~100ms</td>
+<td>Steering angle, acceleration, brake pressure</td>
+<td>Continuous motor control dynamics</td>
+</tr>
+<tr>
+<td>2 (Medium)</td>
+<td>~5-30s</td>
+<td>Lane position, speed, following distance, maneuver type (cruising, turning, stopping)</td>
+<td>Discrete events: lane change, turn, stop</td>
+</tr>
+<tr>
+<td>3 (Slow)</td>
+<td>~minutes-hours</td>
+<td>Route, destination, traffic conditions, trip context</td>
+<td>High-level navigation plan</td>
+</tr>
+</tbody>
+</table>
+<p>For each level, specify:</p>
+<ol>
+<li>What observations does it receive (or generate for lower levels)?</li>
+<li>What predictions does it send to the level below?</li>
+<li>What prediction errors does it send to the level above?</li>
+</ol>
+<p>Now trace what happens during a surprising event: a traffic light turns red unexpectedly.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Message Passing Trace</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Trace ascending and descending messages through a concrete scenario.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Using the driving model from Part 1, trace the messages during a lane change:</p>
+<p><strong>Time t₀</strong>: Driver decides to change lanes (Level 3 decision)</p>
+<ol>
+<li><strong>Descending L3 → L2</strong>: Prediction: "Begin lane change maneuver"</li>
+<li><strong>L2 update</strong>: L2 updates its belief: maneuver = lane_change. This generates...</li>
+<li><strong>Descending L2 → L1</strong>: Prediction: "Steering angle should shift by X degrees over Y seconds"</li>
+<li><strong>L1 execution</strong>: Motor system generates proprioceptive predictions fulfilled by steering reflexes</li>
+</ol>
+<p><strong>Time t₁</strong>: A car appears in the blind spot (unexpected!) → Level 1 sensory prediction error</p>
+<ol>
+<li><strong>Ascending L1 → L2</strong>: PE: "Something is in the target lane — large visual prediction error"</li>
+<li><strong>L2 update</strong>: L2 revises maneuver → abort lane change</li>
+<li><strong>Ascending L2 → L3</strong>: PE: "Lane change failed, alternative route needed"</li>
+<li><strong>L3 update</strong>: Route plan may need revision</li>
+</ol>
+<p>Write a 200-word analysis: How does precision weighting determine whether the ascending PE is strong enough to override the descending prediction?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Planning at Multiple Scales</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze how expected free energy operates at different temporal scales.</p>
+</blockquote>
+<p><strong>Exercise</strong>: For a student planning their day, compute expected free energy at three levels:</p>
+<p><strong>Level 3 (Day plan)</strong>: Policies: {go to class, skip class, study at home}</p>
+<ul>
+<li>G₃(go to class) = pragmatic value (learns material) + epistemic value (resolves exam uncertainty)</li>
+<li>G₃(skip class) = pragmatic value (rest) + epistemic cost (misses material)</li>
+</ul>
+<p><strong>Level 2 (Hour plan, given "go to class")</strong>: Policies: {sit front, sit back, participate actively}</p>
+<ul>
+<li>G₂(participate) = pragmatic (better grade) + epistemic (gets feedback on understanding)</li>
+<li>G₂(sit back) = lower engagement cost but lower information gain</li>
+</ul>
+<p><strong>Level 1 (Moment plan, given "participate actively")</strong>: Policies: {raise hand, type notes, listen}</p>
+<ul>
+<li>G₁(raise hand) = epistemic value (resolve specific confusion)</li>
+</ul>
+<p>How do higher-level policies constrain lower-level EFE calculations?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Imagination and Counterfactuals</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze how deep temporal models enable mental simulation.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design a counterfactual reasoning scenario:</p>
+<p>Scenario: You are deciding between two job offers — Company A (safe, stable, known) and Company B (exciting, risky, unknown).</p>
+<ol>
+<li><strong>Generative model forward pass for Company A</strong>: Run the model forward 5 years. What does Level 3 predict? Level 2 (yearly events)? Level 1 (daily experience)?</li>
+<li><strong>Forward pass for Company B</strong>: Same exercise. Note the higher uncertainty (wider distributions) at each level.</li>
+<li><strong>EFE comparison</strong>: Company A has lower pragmatic uncertainty (known reward) but lower epistemic value (nothing to learn). Company B has higher epistemic value but higher pragmatic uncertainty.</li>
+<li><strong>How does the model resolve this?</strong> What role does risk tolerance (precision on C vector) play?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 300 words, reflect: Deep temporal models suggest that consciousness may be related to the depth of the temporal hierarchy — deeper models enable richer subjective experience. Do you find this plausible? What aspects of consciousness does it explain? What does it miss?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Model construction</td>
+<td>Multi-level temporal architecture</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Message tracing</td>
+<td>Ascending/descending information flow</td>
+</tr>
+<tr>
+<td>3</td>
+<td>EFE computation</td>
+<td>Multi-scale planning</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Counterfactual reasoning</td>
+<td>Mental simulation through forward model</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Philosophical reflection</td>
+<td>Temporal depth and consciousness</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

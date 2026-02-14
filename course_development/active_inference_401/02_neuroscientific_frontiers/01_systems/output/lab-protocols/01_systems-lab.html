@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpbneh4z7x</title>
+</head>
+<body>
+<h1>Lab: Neural Architecture for Active Inference</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Map cortical circuitry and subcortical systems onto Active Inference computations, analyzing empirical evidence.</p>
+</blockquote>
+<h2>Part 1: Cortical Hierarchy Mapping</h2>
+<p><strong>Exercise</strong>: For each brain region, specify its level in the generative hierarchy, the type of predictions it generates, and the prediction errors it receives:</p>
+<table>
+<thead>
+<tr>
+<th>Brain Region</th>
+<th>Hierarchy Level</th>
+<th>Predictions Generated (top-down)</th>
+<th>Prediction Errors Received (bottom-up)</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1 (primary visual)</td>
+<td>Lowest visual</td>
+<td>Oriented edge expectations</td>
+<td>Retinal contrast mismatches</td>
+<td>Predicting edge at 45°</td>
+</tr>
+<tr>
+<td>V4 (color/shape)</td>
+<td>Intermediate visual</td>
+<td>Shape and color expectations</td>
+<td>V1 feature-combination errors</td>
+<td>Predicting "round and red"</td>
+</tr>
+<tr>
+<td>Inferior temporal (IT)</td>
+<td>High visual</td>
+<td>Object identity expectations</td>
+<td>V4 shape errors</td>
+<td>Predicting "apple"</td>
+</tr>
+<tr>
+<td>Prefrontal cortex</td>
+<td>Highest</td>
+<td>Goal/context expectations</td>
+<td>IT object relevance errors</td>
+<td>Predicting "kitchen context"</td>
+</tr>
+</tbody>
+</table>
+<p>Now trace a specific percept (e.g., recognizing a friend's face) through this hierarchy. What predictions flow down? What errors flow up? How is the percept "constructed"?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Canonical Microcircuit Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze how cortical layers implement predictive coding operations.</p>
+</blockquote>
+<p><strong>Exercise</strong>: For the Bastos et al. (2012) canonical microcircuit, explain the computational role of each layer and how damage to that layer would disrupt Active Inference:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Computation</th>
+<th>Effect of Damage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1 (apical dendrites)</td>
+<td>Receives top-down context modulation</td>
+<td>Loss of contextual modulation; perception becomes context-free</td>
+</tr>
+<tr>
+<td>L2/3 (superficial pyramidal)</td>
+<td>Computes and sends prediction errors upward</td>
+<td>Loss of error signaling; higher levels receive no updates</td>
+</tr>
+<tr>
+<td>L4 (stellate cells)</td>
+<td>Receives feedforward driving input</td>
+<td>Sensory input is disconnected from cortical processing</td>
+</tr>
+<tr>
+<td>L5 (deep pyramidal, thick)</td>
+<td>Generates motor output and deep predictions</td>
+<td>Loss of action generation and deep generative structure</td>
+</tr>
+<tr>
+<td>L6 (deep pyramidal, thin)</td>
+<td>Sends predictions to L4 and L1 of lower area</td>
+<td>Loss of top-down predictions; perception becomes purely bottom-up</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 200-word analysis: What would perception look like if only feedforward connections remained (all feedback removed)? What does this predict about the experience of patients with specific lesion patterns?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Subcortical System Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Map subcortical structures to Active Inference computations.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Complete the analysis for each subcortical structure:</p>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Active Inference Function</th>
+<th>Key Neural Circuit</th>
+<th>Clinical Significance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Basal ganglia (striatum)</td>
+<td>Policy evaluation — expected value of actions</td>
+<td>Cortex→Striatum→Pallidum→Thalamus→Cortex</td>
+<td>Parkinson's: impaired policy selection</td>
+</tr>
+<tr>
+<td>Cerebellum</td>
+<td>Forward models for motor prediction</td>
+<td>Pontine nuclei→cerebellum→red nucleus/thalamus</td>
+<td>Ataxia: prediction errors in motor control</td>
+</tr>
+<tr>
+<td>Thalamus (pulvinar)</td>
+<td>Precision gating of prediction errors</td>
+<td>Reticular nucleus inhibition of relay cells</td>
+<td>Neglect syndromes: precision mis-allocation</td>
+</tr>
+<tr>
+<td>Hippocampus</td>
+<td>Temporal inference and episodic memory</td>
+<td>CA3 recurrent collaterals→CA1→entorhinal</td>
+<td>Amnesia: inability to contextualize in time</td>
+</tr>
+</tbody>
+</table>
+<p>For each structure, explain what would happen to Active Inference if it were removed.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Neuromodulation and Precision</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze how neuromodulators implement precision weighting.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design a simple thought experiment for each neuromodulator:</p>
+<ol>
+<li><strong>Dopamine (too much / too little)</strong>: How does dopamine excess (e.g., schizophrenia) vs. deficiency (e.g., Parkinson's) affect policy selection and reward prediction?</li>
+<li><strong>Norepinephrine (too high / too low)</strong>: How does NE excess (e.g., panic attack) vs. deficiency (e.g., inattention) affect precision of environmental volatility?</li>
+<li><strong>Acetylcholine (too high / too low)</strong>: How does ACh excess vs. deficiency (e.g., Alzheimer's) affect sensory precision?</li>
+<li><strong>Serotonin (too high / too low)</strong>: How does serotonin excess vs. deficiency affect temporal discounting?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Empirical Evidence Evaluation</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Critically assess the evidence for neural Active Inference.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Evaluate three key predictions of neural Active Inference against empirical evidence:</p>
+<table>
+<thead>
+<tr>
+<th>Prediction</th>
+<th>Evidence For</th>
+<th>Evidence Against</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feedforward = errors, feedback = predictions</td>
+<td>Laminar fMRI, electrophysiology, lesion studies</td>
+<td>Some feedback connections seem to carry error signals</td>
+<td></td>
+</tr>
+<tr>
+<td>Cortical columns = generative model nodes</td>
+<td>Anatomical organization, computational modeling</td>
+<td>Column boundaries are less clear than assumed</td>
+<td></td>
+</tr>
+<tr>
+<td>Neuromodulators = precision weighting</td>
+<td>Psychopharmacology data, computational modeling</td>
+<td>Multiple functions of each neuromodulator</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Write a 300-word assessment: Is neural Active Inference well-supported, or is it still largely theoretical?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Anatomical mapping</td>
+<td>Cortical hierarchy ↔ generative model</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Circuit analysis</td>
+<td>Canonical microcircuit</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Systems analysis</td>
+<td>Subcortical contributions</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Clinical reasoning</td>
+<td>Neuromodulation and precision</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Evidence evaluation</td>
+<td>Empirical support</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

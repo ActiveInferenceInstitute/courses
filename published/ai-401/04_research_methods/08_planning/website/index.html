@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08_Planning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>08_Planning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>08_Planning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 08: Planning — Research Frontiers and the Future of Active Inference</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 401 | <strong>Unit</strong>: Research Methods | <strong>Audience</strong>: Graduate students / researchers</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Identify the <strong>most promising research frontiers</strong> for Active Inference.</li>
+<li>Design a <strong>complete research proposal</strong> applying Active Inference to a novel problem.</li>
+<li>Synthesize the entire 401 course into a unified understanding of Active Inference research.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. Current Research Frontiers</h3>
+<p>Active Inference research is expanding rapidly across multiple frontiers:</p>
+<p><strong>Frontier 1: Scale — from neurons to societies</strong>
+The mathematical framework applies at every scale: synapses (precision modulation), neurons (prediction error computation), circuits (hierarchical inference), brains (perception-action), organisms (homeostasis), ecosystems (niche construction), societies (cultural evolution). Connecting these scales formally — showing how micro-level free energy minimization produces macro-level behavior — is a central challenge.</p>
+<p><strong>Frontier 2: Artificial Intelligence</strong>
+Active Inference offers an alternative to deep reinforcement learning for building intelligent agents. Key research questions: Can Active Inference scale to real-world complexity? How do deep neural networks serve as generative models? Can Active Inference provide inherent safety guarantees (agents that don't pursue unbounded objectives)?</p>
+<p><strong>Frontier 3: Consciousness</strong>
+Active Inference provides necessary conditions for consciousness: self-modeling, temporal depth, counterfactual reasoning. But necessary ≠ sufficient. Research at this frontier seeks the additional constraints: What distinguishes conscious from unconscious prediction? Does consciousness require a specific kind of generative model structure?</p>
+<p><strong>Frontier 4: Morphogenesis and Biology</strong>
+The Free Energy Principle may explain how biological form emerges: cells minimize free energy through differentiation, tissue organization, and morphological adaptation. This connects Active Inference to developmental biology, cancer (as pathological self-organization), and synthetic biology (designing organisms that minimize custom free energies).</p>
+<p><strong>Frontier 5: Climate and Ecology</strong>
+Ecosystems as Active Inference systems: organisms modify their environmental niche to minimize free energy. This provides a formal framework for understanding ecological resilience, biodiversity, and climate adaptation strategies.</p>
+<h3>2. Designing a Research Proposal</h3>
+<p>A strong Active Inference research proposal includes:</p>
+<p><strong>Background</strong>: What is known? What gap does the project address?
+<strong>Theoretical contribution</strong>: What new Active Inference model or extension is proposed?
+<strong>Empirical contribution</strong>: What new data will be collected? What predictions are tested?
+<strong>Methods</strong>: Specify computational models, experimental designs, and analysis plans
+<strong>Significance</strong>: What does this add to Active Inference as a field? What broader impacts?
+<strong>Feasibility</strong>: What resources are needed? What is the timeline?</p>
+<p><strong>Proposal structure</strong> (standard grant format):</p>
+<ol>
+<li>Specific Aims (1 page): Concise statement of goals and hypotheses</li>
+<li>Significance (2-3 pages): Why this matters, what gap it fills</li>
+<li>Innovation (1-2 pages): What is new about the approach</li>
+<li>Approach (5-10 pages): Detailed methods, preliminary data</li>
+<li>Timeline and milestones</li>
+</ol>
+<h3>3. Course Synthesis: The Four Tracks</h3>
+<p>This module completes a journey through four complementary perspectives:</p>
+<table>
+<thead>
+<tr>
+<th>Track</th>
+<th>Focus</th>
+<th>Key Achievement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Philosophical Foundations</td>
+<td>Why Active Inference matters</td>
+<td>Grounded in epistemology, phenomenology, pragmatism — not just an algorithm but a theory of mind</td>
+</tr>
+<tr>
+<td>Neuroscientific Frontiers</td>
+<td>How the brain implements it</td>
+<td>Cortical hierarchies, precision modulation, neural coding, clinical applications</td>
+</tr>
+<tr>
+<td>Advanced Theory</td>
+<td>The mathematics</td>
+<td>Variational calculus, information geometry, Bayesian mechanics, scale-free dynamics, model selection</td>
+</tr>
+<tr>
+<td>Research Methods</td>
+<td>How to do research</td>
+<td>DCM, computational phenotyping, electrophysiology, behavioral paradigms, robotics, clinical translation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Integration</strong>: Each track contributes essential knowledge. Philosophy tells us WHAT we're explaining and WHY. Neuroscience tells us WHERE it happens. Mathematics tells us HOW it works formally. Research methods tell us HOW TO TEST it.</p>
+<h3>4. The Active Inference Research Ecosystem</h3>
+<p><strong>Key labs</strong>: Wellcome Centre for Human Neuroimaging (UCL-Friston), VERSES AI, monash University (Razi), Max Planck (Tittgemeyer), and many more.</p>
+<p><strong>Key venues</strong>: <em>NeuroImage</em>, <em>PLoS Computational Biology</em>, <em>Biological Psychiatry</em>, <em>Neural Computation</em>, <em>Frontiers in Computational Neuroscience</em>, Active Inference Symposium.</p>
+<p><strong>Key tools</strong>: SPM, pymdp, RxInfer.jl, and emerging frameworks.</p>
+<p><strong>Key resources</strong>: Active Inference Institute, Parr-Pezzulo-Friston textbook, Buckley et al. tutorial.</p>
+<h3>5. What's Next: Your Research Journey</h3>
+<p>After completing this course, you are equipped to:</p>
+<ol>
+<li><strong>Read and critically evaluate</strong> Active Inference papers across all domains</li>
+<li><strong>Design experiments</strong> testing specific Active Inference predictions</li>
+<li><strong>Implement models</strong> using standard software tools</li>
+<li><strong>Apply computational phenotyping</strong> to clinical and behavioral data</li>
+<li><strong>Write grant proposals</strong> for Active Inference research</li>
+<li><strong>Communicate</strong> findings to diverse audiences</li>
+<li><strong>Contribute</strong> to the growing Active Inference community</li>
+</ol>
+<h2>Summary</h2>
+<p>Active Inference research spans scales from neurons to societies, with frontiers in AI, consciousness, biology, and ecology. Strong research proposals combine theoretical innovation with empirical rigor. The four tracks of this course — philosophy, neuroscience, theory, methods — provide the complete toolkit for Active Inference research.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Friston, K. J. (2019). A free energy principle for a particular physics. <em>arXiv preprint</em> arXiv:1906.10184.</li>
+<li>Parr, T., Pezzulo, G. &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Ramstead, M. J. D. et al. (2023). On Bayesian mechanics: A physics of and by beliefs. <em>Interface Focus</em>, 13(3), 20220029.</li>
+</ul></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Research Frontiers and Course Capstone</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Synthesize all 401 course content into a research proposal and demonstrate mastery of Active Inference research methods.</p>
+</blockquote>
+<h2>Part 1: Frontier Analysis</h2>
+<p><strong>Exercise</strong>: For each frontier, assess the current state and identify the most impactful next experiment:</p>
+<table>
+<thead>
+<tr>
+<th>Frontier</th>
+<th>Maturity (1-10)</th>
+<th>Strongest Evidence</th>
+<th>Biggest Gap</th>
+<th>Next Key Experiment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Neuroscience (brain implementation)</td>
+<td>7</td>
+<td>DCM connectivity studies, MMN precision effects</td>
+<td>Laminar-level validation of canonical microcircuit</td>
+<td>Multi-electrode laminar recordings during prediction paradigm</td>
+</tr>
+<tr>
+<td>Computational psychiatry</td>
+<td>5</td>
+<td>Schizophrenia precision models, depression computational phenotyping</td>
+<td>Lack of treatment trials using computational enrichment</td>
+<td>RCT with computational phenotype-based patient selection</td>
+</tr>
+<tr>
+<td>AI and robotics</td>
+<td>4</td>
+<td>pymdp/RxInfer implementations, simple robot demos</td>
+<td>Scalability to real-world complexity</td>
+<td>Active Inference agent competing on standard RL benchmarks</td>
+</tr>
+<tr>
+<td>Consciousness</td>
+<td>3</td>
+<td>Self-modeling theory, depth predictions</td>
+<td>No operational test distinguishing AI predictions</td>
+<td>Paradigm generating consciousness-specific Active Inference prediction</td>
+</tr>
+<tr>
+<td>Biology/morphogenesis</td>
+<td>2</td>
+<td>Theoretical papers on FEP and development</td>
+<td>Almost no empirical biological validation</td>
+<td>In vitro cell system testing FEP morphogenesis predictions</td>
+</tr>
+</tbody>
+</table>
+<p>Choose one frontier and write a 200-word research vision.</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: Research Proposal</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Write the Specific Aims page for a research proposal.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Write a 1-page Specific Aims for an Active Inference research proposal:</p>
+<p><strong>Template</strong>:</p>
+<hr />
+<p><strong>Title</strong>: [Your title]</p>
+<p><strong>Background</strong>: [2-3 sentences on the problem and significance]</p>
+<p><strong>Overall objective</strong>: [1 sentence stating the overarching goal]</p>
+<p><strong>Central hypothesis</strong>: [1 sentence stating the key hypothesis, grounded in Active Inference]</p>
+<p><strong>Rationale</strong>: [2-3 sentences explaining why Active Inference is the right framework and what evidence supports feasibility]</p>
+<p><strong>Specific Aim 1</strong>: [Title] — [1-2 sentences describing the aim, approach, and expected outcome]</p>
+<p><strong>Specific Aim 2</strong>: [Title] — [1-2 sentences]</p>
+<p><strong>Specific Aim 3</strong>: [Title] — [1-2 sentences]</p>
+<p><strong>Expected outcomes and impact</strong>: [2-3 sentences on what success looks like and why it matters]</p>
+<hr />
+<p>{fill:textarea}</p>
+<h2>Part 3: Methods Integration</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Demonstrate ability to combine methods from multiple course modules.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design a study that uses methods from at least 4 of the 8 Research Methods modules:</p>
+<table>
+<thead>
+<tr>
+<th>Module Used</th>
+<th>Method</th>
+<th>Its Role in Your Study</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01 (DCM)</td>
+<td>Dynamic Causal Modelling</td>
+<td>Estimate effective connectivity changes</td>
+</tr>
+<tr>
+<td>02 (Phenotyping)</td>
+<td>Computational phenotyping</td>
+<td>Characterize individual computational profiles</td>
+</tr>
+<tr>
+<td>03 (Electrophysiology)</td>
+<td>EEG/MMN</td>
+<td>Measure precision-weighted prediction errors</td>
+</tr>
+<tr>
+<td>04 (Behavioral)</td>
+<td>Reversal learning task</td>
+<td>Dissociate learning rate and volatility estimates</td>
+</tr>
+<tr>
+<td>05 (Robotics)</td>
+<td>pymdp simulation</td>
+<td>Generate model predictions for comparison</td>
+</tr>
+<tr>
+<td>06 (Clinical)</td>
+<td>Clinical translation</td>
+<td>Apply to patient population</td>
+</tr>
+<tr>
+<td>07 (Interdisciplinary)</td>
+<td>Open science practices</td>
+<td>Pre-register, share data, open-source code</td>
+</tr>
+<tr>
+<td>08 (Frontiers)</td>
+<td>Novel frontier</td>
+<td>Apply to emerging domain</td>
+</tr>
+</tbody>
+</table>
+<p>Describe how these methods integrate into a coherent study design.</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Critical Evaluation</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Demonstrate ability to critically evaluate Active Inference research.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Read the following claim and write a 300-word critical evaluation:</p>
+<p><strong>Claim</strong>: "Active Inference will replace reinforcement learning as the dominant framework for artificial intelligence because it provides a mathematically principled account of exploration, model-based reasoning, and multi-agent coordination that RL lacks."</p>
+<p>Evaluate by addressing: (a) In what respects is this claim supported? (b) In what respects is it overconfident? (c) What would need to be demonstrated empirically for this claim to be credible? (d) What are RL's genuine advantages that Active Inference currently lacks?</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Course Capstone Reflection</h2>
+<p><strong>Exercise</strong>: Write a 500-word essay reflecting on the entire 401 course. Address:</p>
+<ol>
+<li>
+<p><strong>What is Active Inference?</strong> After all four tracks, how do you define it — a theory, framework, principle, mathematical language, research program, or something else?</p>
+</li>
+<li>
+<p><strong>What have you learned?</strong> What is the single most important insight from each track?</p>
+</li>
+<li>Philosophical Foundations: _____</li>
+<li>Neuroscientific Frontiers: _____</li>
+<li>Advanced Theory: _____</li>
+<li>
+<p>Research Methods: _____</p>
+</li>
+<li>
+<p><strong>What are the limits?</strong> What are Active Inference's three biggest weaknesses or unsolved problems?</p>
+</li>
+<li>
+<p><strong>What will you do next?</strong> How will you apply what you've learned? What research question will you pursue?</p>
+</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Frontier analysis</td>
+<td>Research landscape assessment</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Proposal writing</td>
+<td>Specific Aims development</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Methods integration</td>
+<td>Multi-modal study design</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Critical evaluation</td>
+<td>Balanced assessment of claims</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Course synthesis</td>
+<td>401 capstone reflection</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Planning / Research Frontiers (Research Methods)</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em> <strong>Date</strong>: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Part A: Multiple Choice</h2>
+<p><strong>1.</strong> The most mature empirical application of Active Inference is:
+A) Robot control
+B) Dynamic Causal Modelling — with thousands of neuroimaging studies using its framework for effective connectivity inference
+C) Social media analysis
+D) Climate modeling</p>
+<p><strong>2.</strong> Active Inference's potential advantage over deep RL for AI safety is:
+A) It's slower
+B) Agents with prior preferences (C vector) pursue bounded objectives rather than unbounded reward maximization — potentially providing inherent safety constraints
+C) It requires more data
+D) It's less mathematical</p>
+<p><strong>3.</strong> The scale problem in Active Inference refers to:
+A) Model size
+B) Connecting free energy minimization at micro-levels (synapses, neurons) to macro-levels (behavior, societies) through formal multi-scale frameworks
+C) Hardware scaling
+D) Data volume</p>
+<p><strong>4.</strong> A strong Active Inference research proposal includes:
+A) Only theory
+B) Theoretical contribution, empirical predictions, detailed methods, preliminary data, and significance — bridging formal models with testable outcomes
+C) Only data
+D) Only code</p>
+<p><strong>5.</strong> The four tracks of the 401 course integrate by providing:
+A) Redundant information
+B) Philosophy (what and why) + neuroscience (where) + mathematics (how formally) + methods (how to test) — the complete toolkit for Active Inference research
+C) Only mathematical skill
+D) Only clinical training</p>
+<p><strong>6.</strong> After completing this course, a researcher should be able to:
+A) Only read papers
+B) Read/evaluate papers, design experiments, implement models, apply computational phenotyping, write proposals, and communicate findings — functioning as an independent Active Inference researcher
+C) Only run analyses
+D) Only write code</p>
+<p><strong>7.</strong> The FEP's application to morphogenesis suggests:
+A) Cells are conscious
+B) Biological development can be modeled as free energy minimization — cells differentiate and organize to minimize prediction error about their expected phenotype
+C) Only neural systems use FEP
+D) DNA directly encodes free energy</p>
+<h2>Part B: Capstone Essay Questions</h2>
+<p><strong>1.</strong> Write a complete research proposal abstract (300 words) for an Active Inference study at one of the five frontiers (AI, consciousness, biology, ecology, scale). Include: background, objective, hypothesis, methods, expected results, significance.</p>
+<p><strong>2.</strong> <strong>Course capstone essay</strong>: Evaluate Active Inference as a scientific research program. Using Lakatos's framework of progressive vs. degenerative research programs, assess: (a) Does Active Inference generate novel predictions? (b) Have those predictions been confirmed? (c) Is the research program expanding or contracting? (d) What would constitute a "crucial experiment" for or against Active Inference? Cite specific examples from across the 401 course. (600 words)</p>
+<p><strong>3.</strong> <strong>Final synthesis</strong>: Imagine you are writing a review article titled "Active Inference at 20: Progress, Challenges, and Future Directions." Structure the review around: (a) the original vision (Friston 2006), (b) theoretical developments (variational calculus, information geometry, Bayesian mechanics), (c) empirical achievements (DCM, computational psychiatry, robotics), (d) philosophical contributions (enactivism, 4E cognition), (e) open challenges and future research priorities. This is your opportunity to demonstrate mastery of the entire 401 curriculum. (600 words)</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

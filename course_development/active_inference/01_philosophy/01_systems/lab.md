@@ -1,0 +1,80 @@
+# Lab: Thought Experiment — Drawing Boundaries
+
+## Objective
+
+Explore the philosophical implications of system boundaries by constructing and analyzing thought experiments about where systems begin and end.
+
+## Prerequisites
+
+* Familiarity with the concepts of Markov Blankets, autopoiesis, and the life-mind continuity thesis from this module's lecture.
+
+## Part 1: The Boundary Problem
+
+**Goal**: Identify the assumptions hidden in everyday boundary attributions.
+
+Consider three candidate systems: (a) a single cell, (b) a human being walking through a city, (c) a jazz quartet improvising a piece. For each, answer:
+
+* Where would you intuitively place the boundary between the system and its environment?
+* What criteria did you use (spatial, functional, informational, phenomenological)?
+
+{fill:textarea}
+
+## Part 2: Applying the Markov Blanket
+
+**Goal**: Translate the intuitive boundary into the formal language of Active Inference.
+
+For the human walking through a city (case b above), identify plausible candidates for:
+
+* **Sensory states (s)**: What aspects of the environment does the person sample?
+* **Active states (a)**: What actions does the person take that change the environment?
+* **Internal states (μ)**: What hidden states are shielded from the environment by the blanket?
+* **External states (η)**: What environmental states are relevant but only known through the blanket?
+
+Does the blanket fall at the skin? Or does it extend further — to include the phone in the person's hand, the headphones, the navigation app?
+
+{fill:textarea}
+
+## Part 3: Life-Mind Continuity Challenge
+
+**Goal**: Construct an argument for or against attributing "mind" to a minimal living system.
+
+Consider a bacterium performing chemotaxis — swimming toward nutrients and away from toxins. The bacterium has internal metabolic states, a membrane (blanket), and active locomotion.
+
+* In what sense, if any, does the bacterium "perceive" its environment?
+* Does it have "beliefs" about where nutrients are? Or is this merely a useful metaphor?
+* Write a short argument (3-5 sentences) either defending or criticizing the attribution of mind to the bacterium.
+
+{fill:textarea}
+
+## Part 4: The Ship of Theseus Revisited
+
+**Goal**: Apply the Markov Blanket perspective to a classical philosophical puzzle.
+
+A ship has every plank replaced, one by one, over the course of a decade. The old planks are assembled into a second ship. Which is the Ship of Theseus?
+
+Reframe this puzzle using the concept of Markov Blanket dynamics. Is identity a property of material constitution or of dynamical pattern? Does the Markov Blanket framework dissolve the paradox, or does it merely relocate it?
+
+{fill:textarea}
+
+## Part 5: Synthesis and Peer Review
+
+**Goal**: Develop and defend your own philosophical position.
+
+Write a 200-word position statement on one of the following:
+* "Markov Blankets are real boundaries in nature, not mere mathematical conveniences."
+* "The life-mind continuity thesis is a category error dressed in formal clothing."
+* "The Free Energy Principle is best understood as a principle of organization, not a law of physics."
+
+Share your position with a peer. Identify the strongest objection to your view and respond to it.
+
+{fill:textarea}
+
+## Lab Summary
+
+| Part | Skill Developed | Key Philosophical Move |
+|------|----------------|----------------------|
+| 1 | Boundary identification | Exposing hidden assumptions in everyday system attributions |
+| 2 | Formal translation | Mapping intuitive boundaries onto the Markov Blanket formalism |
+| 3 | Argumentative construction | Building and critiquing the life-mind continuity thesis |
+| 4 | Conceptual analysis | Applying dynamical identity to classical puzzles |
+| 5 | Position defense | Articulating and defending a philosophical position under objection |

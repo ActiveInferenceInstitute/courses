@@ -1,0 +1,75 @@
+# Lab: Motor Circuits and Action
+
+> **Learning Goal:** Trace motor control circuits and analyze disorders through the Active Inference lens.
+
+## Part 1: The Basal Ganglia Loop
+
+**Exercise**: Complete the diagram of the cortico-basal ganglia-thalamo-cortical loop:
+
+1. Draw or describe the five steps: Cortex → Striatum → Direct/Indirect pathway → Globus pallidus → Thalamus → back to Cortex
+2. Label where dopamine acts and its effect on each pathway
+3. Predict what happens when: (a) dopamine is high (b) dopamine is low (c) dopamine is absent
+
+{fill:textarea}
+
+## Part 2: Motor Predictions vs. Motor Commands
+
+> **Learning Goal:** Contrast the traditional and Active Inference views of motor control.
+
+**Scenario**: You reach for a glass of water and bring it to your lips.
+
+| Step | Traditional "Command" View | Active Inference "Prediction" View |
+|------|---------------------------|----------------------------------|
+| Planning | | |
+| Initiation | | |
+| Execution | | |
+| Error correction | | |
+| Completion | | |
+
+Fill in both columns to contrast the two perspectives.
+
+{fill:textarea}
+
+## Part 3: Cerebellar Learning Simulation
+
+> **Learning Goal:** Trace the error-correction circuit in the cerebellum.
+
+**Exercise**: You're learning to throw darts at a target.
+
+1. First throw: You aim for center, the dart lands far right. What is the climbing fiber error signal?
+2. How does this error modify the parallel fiber–Purkinje cell synapses?
+3. After 100 throws: What has happened to the prediction error? What has happened to cerebellar predictions?
+4. If you suddenly switch to a heavier dart, what happens? How does the cerebellum adapt?
+
+{fill:textarea}
+
+## Part 4: Motor Disorder Analysis
+
+> **Learning Goal:** Map motor disorders to specific circuit disruptions.
+
+**For each disorder**, identify the neural structure affected, the Active Inference component disrupted, and one observable symptom:
+
+| Disorder | Structure | AI Component | Symptom |
+|----------|-----------|-------------|---------|
+| Parkinson's disease | | | |
+| Huntington's disease | | | |
+| Cerebellar ataxia | | | |
+| Tourette syndrome | | | |
+
+{fill:textarea}
+
+## Part 5: Reflection
+
+In 150 words, reflect: If the motor cortex sends predictions rather than commands, does this change how we think about voluntary vs. involuntary movement? Are these categories real, or are they different points on a precision continuum?
+
+{fill:textarea}
+
+## Lab Summary
+
+| Part | Skill Practiced | Key Concept |
+|------|----------------|-------------|
+| 1 | Circuit diagramming | Basal ganglia Go/No-Go pathways |
+| 2 | Framework comparison | Commands vs. predictions |
+| 3 | Error-tracing | Cerebellar learning circuit |
+| 4 | Clinical mapping | Motor disorders and circuit damage |
+| 5 | Philosophical reflection | Voluntary vs. involuntary action |

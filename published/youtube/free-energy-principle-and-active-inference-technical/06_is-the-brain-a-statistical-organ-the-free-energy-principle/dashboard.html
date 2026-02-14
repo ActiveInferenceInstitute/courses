@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard: Is-The-Brain-A-Statistical-Organ-The-Free-Energy-Principle — Free-Energy-Principle-And-Active-Inference-Technical</title>
+    <style>
+        :root {
+            --accent: #38bdf8;
+            --accent-glow: #38bdf822;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --border: #334155;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --dim: #64748b;
+            --green: #22c55e;
+            --red: #ef4444;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+
+        /* Hero */
+        .hero { background:linear-gradient(135deg, #6366f1, #a855f7); padding:48px 24px 36px; text-align:center; }
+        .hero h1 { font-size:2rem; color:#fff; margin-bottom:8px; }
+        .hero .sub { font-size:1.1rem; color:rgba(255,255,255,.85); margin-bottom:12px; }
+        .hero .tag { display:inline-block; background:rgba(255,255,255,.2); color:#fff; padding:4px 14px; border-radius:20px; font-size:.8rem; backdrop-filter:blur(4px); }
+
+        /* Nav */
+        .nav { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; padding:14px 24px; background:#1a2332; border-bottom:1px solid var(--border); }
+        .nav a { color:var(--muted); text-decoration:none; font-size:.85rem; padding:6px 14px; border:1px solid var(--border); border-radius:8px; transition:all .2s; }
+        .nav a:hover,.nav a.active { color:var(--accent); border-color:var(--accent); background:var(--accent-glow); }
+
+        .content { max-width:1100px; margin:0 auto; padding:24px; }
+        .stitle { color:var(--accent); font-size:1.25rem; margin:32px 0 16px; padding-bottom:8px; border-bottom:2px solid var(--border); }
+        .stitle:first-child { margin-top:0; }
+
+        /* Cards */
+        .cgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+        .concept-card { background:var(--card); padding:20px; border-radius:12px; border:1px solid var(--border); cursor:pointer; transition:transform .2s,border-color .2s; }
+        .concept-card:hover { transform:translateY(-2px); border-color:var(--accent); }
+        .concept-card h3 { display:flex; justify-content:space-between; align-items:center; font-size:1rem; margin-bottom:8px; }
+        .concept-card h3 .toggle { font-size:1.2rem; color:var(--dim); transition:transform .3s; }
+        .concept-card.open h3 .toggle { transform:rotate(45deg); }
+        .concept-card .brief { color:var(--muted); font-size:.9rem; }
+        .concept-card .detail { display:none; color:var(--muted); font-size:.85rem; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); line-height:1.7; }
+        .concept-card.open .detail { display:block; }
+        .meter { background:var(--border); border-radius:8px; height:6px; overflow:hidden; margin-top:14px; }
+        .meter-fill { height:100%; border-radius:8px; background:linear-gradient(90deg,var(--accent),#38bdf888); transition:width 1s ease; }
+        .meter-label { color:var(--dim); font-size:.7rem; margin-top:4px; }
+
+        /* Quiz */
+        .quiz-box { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .qprog { color:var(--dim); font-size:.85rem; margin-bottom:12px; }
+        .qq { font-size:1rem; margin-bottom:16px; font-weight:500; }
+        .qbtn { background:rgba(255,255,255,.03); color:var(--text); border:1px solid var(--border); padding:12px 16px; border-radius:10px; cursor:pointer; display:block; width:100%; text-align:left; margin:6px 0; transition:all .2s; font-size:.9rem; }
+        .qbtn:hover:not(:disabled) { background:rgba(255,255,255,.08); border-color:var(--accent); }
+        .qbtn.correct { background:#166534; border-color:var(--green); color:#bbf7d0; }
+        .qbtn.wrong { background:#7f1d1d; border-color:var(--red); color:#fecaca; }
+        .qbtn:disabled { cursor:default; opacity:.85; }
+        .qexp { margin-top:12px; padding:12px; border-radius:10px; font-size:.9rem; display:none; animation:fadeIn .3s; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+        .qnav { display:flex; gap:8px; margin-top:16px; }
+        .qnav button { background:rgba(255,255,255,.05); color:var(--text); border:1px solid var(--border); padding:8px 18px; border-radius:8px; cursor:pointer; transition:all .2s; font-size:.85rem; }
+        .qnav button:hover:not(:disabled) { border-color:var(--accent); color:var(--accent); }
+        .qnav button:disabled { opacity:.3; cursor:default; }
+        #score-box { display:none; margin-top:16px; padding:20px; background:rgba(0,0,0,.2); border-radius:12px; text-align:center; animation:fadeIn .5s; }
+
+        /* Checklist */
+        .cklist { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .cklist label { display:flex; align-items:flex-start; gap:10px; padding:8px 0; color:var(--muted); font-size:.9rem; cursor:pointer; transition:color .2s; }
+        .cklist label:hover { color:var(--text); }
+        .cklist input[type=checkbox] { margin-top:3px; accent-color:var(--accent); width:18px; height:18px; flex-shrink:0; }
+        .cklist .done { color:var(--accent); text-decoration:line-through; opacity:.7; }
+        .pbar { background:var(--border); border-radius:8px; height:8px; overflow:hidden; margin-top:16px; }
+        .pfill { height:100%; border-radius:8px; background:var(--accent); transition:width .5s ease; width:0; }
+        .ptxt { color:var(--dim); font-size:.8rem; margin-top:6px; }
+
+        /* Module nav */
+        .mnav { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .mgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
+        .module-link { display:block; padding:14px; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:var(--muted); text-decoration:none; font-size:.85rem; transition:all .2s; }
+        .module-link:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
+        .module-link.current { border-color:var(--accent); background:var(--accent-glow); }
+        .module-link strong { display:block; color:var(--text); margin-bottom:2px; font-size:.9rem; }
+        .module-link.current strong { color:var(--accent); }
+
+        footer { margin-top:48px; padding:24px; text-align:center; color:var(--dim); font-size:.8rem; border-top:1px solid var(--border); }
+        @media(max-width:600px) { .hero h1{font-size:1.5rem;} .cgrid,.mgrid{grid-template-columns:1fr;} .content{padding:16px;} }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Module 06: Learning in Youtube</h1>
+        <p class="sub">Applications</p>
+        <span class="tag">YouTube Transcripts — Free-Energy-Principle-And-Active-Inference-Technical</span>
+    </div>
+
+    <nav class="nav">
+        <a href="module.md">Lecture</a>
+        <a href="questions.md">Questions</a>
+        <a href="practice_quiz.md">Quiz</a>
+        <a href="lab.md">Lab</a>
+        <a class="active" href="#">Dashboard</a>
+    </nav>
+
+    <div class="content">
+        <h2 class="stitle">Key Concepts</h2>
+        <div class="cgrid">
+<p style="color:#94a3b8">No key concepts defined for this module.</p>
+        </div>
+
+        <h2 class="stitle">Self-Assessment Quiz</h2>
+        <div class="quiz-box">
+            <div class="qprog" id="qprog">Question 1 of 2</div>
+            <div id="qc"></div>
+            <div class="qnav">
+                <button id="pbtn" onclick="prevQ()" disabled>&larr; Previous</button>
+                <button id="nbtn" onclick="nextQ()">Next &rarr;</button>
+            </div>
+            <div id="score-box"></div>
+        </div>
+
+        <h2 class="stitle">Learning Objectives</h2>
+        <div class="cklist" id="cklist">
+<label><input type="checkbox"> Define Learning within the context of Youtube.</label>
+<label><input type="checkbox"> Analyze how Learning interacts with other components of the Active Inference framework.</label>
+<label><input type="checkbox"> Apply specific constraints of Youtube to the formal definition of Learning.</label>
+            <div class="pbar"><div class="pfill" id="pfill"></div></div>
+            <p class="ptxt" id="ptxt">0 of 3 complete</p>
+        </div>
+
+        <h2 class="stitle">Module Navigation</h2>
+        <div class="mnav">
+            <div class="mgrid">
+<a class="module-link" href="../01_exploring-the-hard-problems-of-mind-and-life-conversations/dashboard.html"><strong>Module 01: Exploring-The-Hard-Problems-Of-Mind-And-Life-Conversations</strong>Module 01: Systems in Youtube</a>
+<a class="module-link" href="../02_karl-friston-intelligence-3-0/dashboard.html"><strong>Module 02: Karl-Friston-Intelligence-3-0</strong>Module 02: Agents in Youtube</a>
+<a class="module-link" href="../03_geoffrey-hinton-reasons-why-ai-will-kill-us-all/dashboard.html"><strong>Module 03: Geoffrey-Hinton-Reasons-Why-Ai-Will-Kill-Us-All</strong>Module 03: Perception in Youtube</a>
+<a class="module-link" href="../04_physics-as-information-processing/dashboard.html"><strong>Module 04: Physics-As-Information-Processing</strong>Module 04: Cognition in Youtube</a>
+<a class="module-link" href="../05_thomas-parr-the-neurobiology-of-active-inference/dashboard.html"><strong>Module 05: Thomas-Parr-The-Neurobiology-Of-Active-Inference</strong>Module 05: Action in Youtube</a>
+<a class="module-link current" href="#"><strong>Module 06: Is-The-Brain-A-Statistical-Organ-The-Free-Energy-Principle</strong>Module 06: Learning in Youtube</a>
+<a class="module-link" href="../07_karl-friston-adam-goldstein-and-michael-levin-discuss/dashboard.html"><strong>Module 07: Karl-Friston-Adam-Goldstein-And-Michael-Levin-Discuss</strong>Module 07: Communication in Youtube</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>Active Inference Institute &mdash; YouTube Transcripts — Free-Energy-Principle-And-Active-Inference-Technical — Module 06: Is-The-Brain-A-Statistical-Organ-The-Free-Energy-Principle</footer>
+
+    <script>
+    /* Concept cards */
+    document.querySelectorAll('.concept-card').forEach(function(c){
+        c.addEventListener('click',function(){c.classList.toggle('open');});
+    });
+
+    /* Quiz engine */
+    var Q=[{"q": "A primary learning goal of this module is to:", "opts": ["Skip foundational concepts and focus only on advanced material.", "Memorize all definitions without applying them to real situations.", "Define Learning within the context of Youtube.", "Review content from a completely different subject area."], "correct": 2, "explain": "This module focuses on: Define Learning within the context of Youtube."}, {"q": "By the end of this module you should also be able to:", "opts": ["Apply specific constraints of Youtube to the formal definition of Learning.", "Complete unrelated worksheets for extra credit.", "Watch videos without taking notes or reflecting.", "Repeat previous module content without new application."], "correct": 0, "explain": "Another key goal: Apply specific constraints of Youtube to the formal definition of Learning."}];
+    var ci=0,ans=new Array(Q.length).fill(null),sc=0;
+
+    function renderQ(){
+        var q=Q[ci],done=ans[ci]!==null;
+        var h='<p class="qq"><strong>Q'+(ci+1)+'.</strong> '+q.q+'</p>';
+        q.opts.forEach(function(o,i){
+            var c='qbtn';
+            if(done){if(i===q.correct)c+=' correct';else if(i===ans[ci])c+=' wrong';}
+            h+='<button class="'+c+'" onclick="pickA('+i+')" '+(done?'disabled':'')+'>'+String.fromCharCode(65+i)+') '+o+'</button>';
+        });
+        if(done){
+            var ok=ans[ci]===q.correct;
+            h+='<div class="qexp" style="display:block;background:'+(ok?'#166534':'#7f1d1d')+';">'+(ok?'Correct! ':'Incorrect. ')+q.explain+'</div>';
+        }
+        document.getElementById('qc').innerHTML=h;
+        document.getElementById('qprog').textContent='Question '+(ci+1)+' of '+Q.length;
+        document.getElementById('pbtn').disabled=ci===0;
+        document.getElementById('nbtn').textContent=ci===Q.length-1?'See Score':'Next \u2192';
+    }
+
+    function pickA(i){
+        if(ans[ci]!==null)return;
+        ans[ci]=i;
+        if(i===Q[ci].correct)sc++;
+        renderQ();
+    }
+
+    function nextQ(){
+        if(ci<Q.length-1){ci++;renderQ();}
+        else{
+            var pct=Math.round(sc/Q.length*100);
+            var d=document.getElementById('score-box');
+            d.style.display='block';
+            d.innerHTML='<h3 style="color:'+(pct>=60?'var(--green)':'var(--red)')+'">'+sc+'/'+Q.length+' ('+pct+'%)</h3><p style="color:var(--muted);margin-top:8px">'+(pct>=80?'Excellent understanding of the material!':pct>=60?'Good foundation. Review the concepts you missed.':'Consider re-reading the module before moving on.')+'</p>';
+        }
+    }
+
+    function prevQ(){if(ci>0){ci--;renderQ();}}
+
+    /* Checklist with localStorage */
+    var SK='ai_youtube_free-energy-principle-and-active-inference-technical_06_is-the-brain-a-statistical-organ-the-free-energy-principle';
+    var QK=SK+'_quiz';
+    function initCL(){
+        var saved=JSON.parse(localStorage.getItem(SK)||'[]');
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        boxes.forEach(function(cb,i){
+            if(saved[i])cb.checked=true;
+            if(cb.checked)cb.parentElement.classList.add('done');
+            cb.addEventListener('change',function(){
+                cb.parentElement.classList.toggle('done',cb.checked);
+                saveCL();updProg();
+            });
+        });
+        updProg();
+    }
+    function saveCL(){
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        localStorage.setItem(SK,JSON.stringify(Array.from(boxes).map(function(c){return c.checked;})));
+    }
+    function updProg(){
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        var n=boxes.length,done=Array.from(boxes).filter(function(c){return c.checked;}).length;
+        document.getElementById('pfill').style.width=(n?done/n*100:0)+'%';
+        document.getElementById('ptxt').textContent=done+' of '+n+' complete';
+    }
+
+    /* Quiz persistence */
+    function saveQuiz(){
+        localStorage.setItem(QK,JSON.stringify({ci:ci,ans:ans,sc:sc}));
+    }
+    function loadQuiz(){
+        try{
+            var d=JSON.parse(localStorage.getItem(QK));
+            if(d&&d.ans&&d.ans.length===Q.length){
+                ci=d.ci||0;ans=d.ans;sc=d.sc||0;
+            }
+        }catch(e){}
+    }
+    /* Patch pickA to persist */
+    var _origPickA=pickA;
+    pickA=function(i){_origPickA(i);saveQuiz();};
+
+    /* Init */
+    document.addEventListener('DOMContentLoaded',function(){
+        document.querySelectorAll('.meter-fill').forEach(function(f){
+            var w=f.style.width;f.style.width='0%';
+            setTimeout(function(){f.style.width=w;},200);
+        });
+        loadQuiz();
+        renderQ();
+        initCL();
+    });
+    </script>
+</body>
+</html>

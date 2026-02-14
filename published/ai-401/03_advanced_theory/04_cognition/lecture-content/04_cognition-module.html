@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 04: Cognition — Deep Temporal Models and Hierarchical Inference</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 401 | <strong>Unit</strong>: Advanced Theory | <strong>Audience</strong>: Graduate students / researchers</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Analyze <strong>deep temporal models</strong> — hierarchical generative models with multiple temporal scales.</li>
+<li>Evaluate the mathematical structure of <strong>hierarchical message passing</strong> — ascending and descending messages across levels.</li>
+<li>Examine the role of <strong>temporal depth</strong> in planning, imagination, and counterfactual reasoning.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. The Problem of Temporal Depth</h3>
+<p>Simple generative models update beliefs moment-by-moment. But intelligent behavior requires modeling the past and future over long horizons:</p>
+<p><strong>Temporal abstraction</strong>: The world operates at multiple timescales simultaneously — from millisecond neural events to decadal life plans. A flat model treating all time points equally is computationally intractable. Deep temporal models address this through hierarchy.</p>
+<p><strong>The key architecture</strong>: A deep temporal model has L levels, each operating at a progressively slower timescale:</p>
+<ul>
+<li>Level 1: Fast dynamics (sensory fluctuations, milliseconds)</li>
+<li>Level 2: Medium dynamics (events, seconds to minutes)</li>
+<li>Level 3: Slow dynamics (contexts, hours to days)</li>
+<li>Level L: Slowest dynamics (life narratives, years)</li>
+</ul>
+<p>Each level generates predictions about the level below, and receives prediction errors from it.</p>
+<h3>2. Hierarchical Generative Model Structure</h3>
+<p>The mathematical structure of a deep temporal model:</p>
+<p><strong>State at level l, time t</strong>: s_t^(l)</p>
+<p><strong>Transition model</strong>: s_{t+1}^(l) ~ p(s_{t+1}^(l) | s_t^(l), s_t^(l+1))</p>
+<p>States at level l transition based on their own dynamics AND the contextual influence of the level above.</p>
+<p><strong>Observation model</strong>: Only the lowest level generates observations:</p>
+<p>o_t ~ p(o_t | s_t^(1))</p>
+<p><strong>Key property</strong>: Higher levels evolve more slowly because they represent more abstract, temporally stable features. The "clock speed" decreases with level — higher levels change less frequently.</p>
+<h3>3. Hierarchical Message Passing</h3>
+<p>Inference in deep temporal models involves message passing between levels:</p>
+<p><strong>Ascending messages</strong> (bottom-up): Prediction errors from level l to level l+1. These carry information about what the lower level's predictions got wrong, compressed into summary statistics that inform the higher level's context estimation.</p>
+<p><strong>Descending messages</strong> (top-down): Predictions from level l+1 to level l. These carry the higher level's expectations about what should be happening at the lower level, constraining lower-level inference.</p>
+<p><strong>Update equations</strong>: At each level l, the belief update integrates:</p>
+<ul>
+<li>Prediction error from below (ascending): ε^(l-1) = o - g(s^(l)) or s^(l-1) - f(s^(l))</li>
+<li>Contextual prior from above (descending): p(s^(l) | s^(l+1))</li>
+<li>Lateral dynamics: p(s_t^(l) | s_{t-1}^(l))</li>
+</ul>
+<p>The precision weighting determines how much weight each message receives.</p>
+<h3>4. Planning as Inference in Deep Temporal Models</h3>
+<p>Planning in Active Inference is formalized as inference about future actions (policies). Deep temporal models extend this:</p>
+<p><strong>Multi-scale planning</strong>:</p>
+<ul>
+<li>Level 1: "Should I move my hand left or right" (motor-level policy)</li>
+<li>Level 2: "Should I reach for the cup or the phone" (action-level policy)</li>
+<li>Level 3: "Should I have coffee or tea" (goal-level policy)</li>
+<li>Level L: "Should I pursue career A or career B" (life-level policy)</li>
+</ul>
+<p>Higher-level policies constrain lower-level policies through descending messages.</p>
+<p><strong>Expected free energy at multiple scales</strong>: Each level evaluates its own expected free energy:</p>
+<p>G^(l)(π) = E_q[ln q(s^(l)_τ | π) - ln p(o_τ, s^(l)_τ | π)]</p>
+<p>Higher levels consider outcomes over longer horizons, using more abstract representations.</p>
+<h3>5. Imagination and Counterfactual Reasoning</h3>
+<p>Deep temporal models enable imagination — the generative model can be "run forward" without sensory input:</p>
+<p><strong>Generative replay</strong>: The model generates predicted future trajectories by sampling from the transition model at each level. This is mental simulation — evaluating what would happen under different policies.</p>
+<p><strong>Counterfactual reasoning</strong>: By "clamping" different policy choices and running the model forward, the agent can evaluate what <em>would</em> happen if it did X vs. Y. This corresponds to the expected free energy calculation — comparing G(π₁) vs. G(π₂).</p>
+<p><strong>Dreaming and creativity</strong>: During sleep or rest, the model can be run in "generative mode" without constraining observations. This produces novel combinations of states — the basis for creativity and insight.</p>
+<h2>Summary</h2>
+<p>Deep temporal models address the challenge of multi-scale temporal inference through hierarchical generative models with ascending (bottom-up prediction error) and descending (top-down prediction) messages. Planning at multiple scales is implemented as inference about nested policies. Imagination and counterfactual reasoning emerge from running the generative model forward without sensory constraint.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Friston, K. et al. (2017). Deep temporal models and active inference. <em>Neuroscience &amp; Biobehavioral Reviews</em>, 77, 388-402.</li>
+<li>Hesp, C. et al. (2021). Deeply felt affect. <em>Psychological Review</em>, 128(4), 723-760.</li>
+<li>Parr, T. &amp; Friston, K. (2018). The anatomy of inference: Generative models and brain structure. <em>Frontiers in Computational Neuroscience</em>, 12, 90.</li>
+</ul>
+</body>
+</html>

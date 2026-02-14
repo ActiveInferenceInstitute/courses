@@ -1,0 +1,45 @@
+# Lab: The Body Map
+
+## Goal
+
+To see how all the parts of the body connect.
+
+## What You Need
+
+* Butcher paper or sidewalk chalk.
+* Markers.
+* A volunteer model.
+
+## Steps
+
+### 1. The Trace
+
+Lie down on the paper (or pavement).
+Have someone trace your outline with a marker/chalk.
+Stand up and look at "You"!
+
+### 2. The Systems
+
+Draw the parts inside.
+
+* **Brain**: Draw a cloud in the head.
+* **Heart**: Draw a heart in the chest.
+* **Stomach**: Draw a bag in the belly.
+* **Muscles**: Draw scribbles on the arms and legs.
+
+### 3. The Connections
+
+Draw lines to show how they help each other.
+
+* Line from Brain to Leg ("Walk!").
+* Line from Stomach to Muscles ("Here is energy!").
+
+## Discussion
+
+* Could you run without a heart? (No).
+* Could you think without a brain? (No).
+* Every part is important for the System.
+
+## What We Learned
+
+Our body is a team of organs working together 24/7 to keep us alive and playing.

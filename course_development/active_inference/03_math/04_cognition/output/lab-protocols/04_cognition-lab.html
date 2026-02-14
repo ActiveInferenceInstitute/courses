@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmp7o8k1436</title>
+</head>
+<body>
+<h1>Lab: Derivation Exercise — Precision Optimization and Attention</h1>
+<h2>Objective</h2>
+<p>Derive the mathematical equations governing precision estimation and show how precision optimization implements attention in hierarchical models.</p>
+<h2>Part 1: Univariate Precision Estimation</h2>
+<p><strong>Goal</strong>: Derive the optimal precision for the simplest Gaussian model.</p>
+<p><strong>Model</strong>: p(o|μ) = N(o; μ, π⁻¹), with known mean μ and unknown precision π. Prior: p(π) = Gamma(π; α₀, β₀).</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Write the log-likelihood ln p(o₁:N | μ, π) for N observations</li>
+<li>Combine with the log-prior ln p(π) = (α₀ - 1)ln π - β₀π + const</li>
+<li>Find the posterior p(π | o₁:N) by recognizing it as a Gamma distribution with updated parameters</li>
+<li>Show that the posterior mean E[π | o₁:N] is related to the inverse sample variance</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Precision in Hierarchical Predictive Coding</h2>
+<p><strong>Goal</strong>: Derive how precision modulates message passing at each level.</p>
+<p><strong>Model</strong>: Two-level hierarchy with precision parameters π₁ (observation level) and π₂ (state level):</p>
+<ul>
+<li>p(o|s₁) = N(o; s₁, π₁⁻¹)</li>
+<li>p(s₁|s₂) = N(s₁; s₂, π₂⁻¹)</li>
+</ul>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Write the free energy F as a function of sufficient statistics μ₁, μ₂ and precision parameters π₁, π₂</li>
+<li>Compute ∂F/∂μ₁ and show it depends on the ratio π₁/π₂ — the relative precision of sensory and prior prediction errors</li>
+<li>Show that when π₁ &gt;&gt; π₂ (high sensory precision), updates are driven primarily by sensory data; when π₂ &gt;&gt; π₁ (high prior precision), updates are driven primarily by priors</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Log-Precision Dynamics</h2>
+<p><strong>Goal</strong>: Derive the gradient flow for log-precision γ = ln π.</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Express free energy as a function of γ (not π directly)</li>
+<li>Compute ∂F/∂γ = ∂F/∂π · ∂π/∂γ = ∂F/∂π · π</li>
+<li>Show that the dynamics dγ/dt = -∂F/∂γ stably estimate precision from prediction error statistics</li>
+<li>Explain why using log-precision (which ranges over all reals) is numerically more stable than raw precision (which must be positive)</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Fisher Information and Confidence</h2>
+<p><strong>Goal</strong>: Connect precision to the information content of observations.</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Compute the Fisher information I(θ) = -E[∂²ln p(o|θ)/∂θ²] for p(o|θ) = N(θ, π⁻¹)</li>
+<li>Show that I(θ) = π — higher precision observations carry more information about hidden states</li>
+<li>State the Cramér-Rao bound: Var(θ̂) ≥ 1/I(θ). Explain what this means for inference under different precision regimes</li>
+<li>Discuss the implication: attention (increasing π) → more Fisher information → tighter Cramér-Rao bound → more confident inference</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Synthesis</h2>
+<p>In 200 words, explain how precision serves as the mathematical bridge between free energy theory (abstract variational inference) and attention (concrete cognitive process). Connect the derivations from Parts 1-4 into a unified account.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Developed</th>
+<th>Mathematical Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Bayesian estimation</td>
+<td>Conjugate precision estimation (Gamma-Gaussian)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Hierarchical analysis</td>
+<td>Precision ratio modulates sensory vs. prior influence</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Dynamical systems</td>
+<td>Log-precision gradient flow</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Information geometry</td>
+<td>Fisher information = precision; Cramér-Rao bound</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Conceptual integration</td>
+<td>Precision as the math of attention</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

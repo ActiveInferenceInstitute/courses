@@ -1,0 +1,51 @@
+# Practice Quiz: The Multiplication Master
+
+## Part A: Pick the Best Answer
+
+1. What is the "Shortcut" for counting?
+    A) Memorizing or Knowing
+    B) Running
+    C) Skipping numbers
+    D) Using a calculator
+
+2. If you make a mistake, what should you do?
+    A) Cry
+    B) Learn from it and fix the pattern
+    C) Hide under the bed
+    D) Eat paper
+
+3. Why do we practice?
+    A) To make the brain's prediction faster
+    B) To be bored
+    C) To wear out our pencils
+    D) No reason
+
+4. What turns "Slow Thinking" into "Fast Thinking"?
+    A) Magic
+    B) Learning (Practice)
+    C) Sleeping
+    D) Eating candy
+
+5. Which is easier to learn?
+    A) A pattern (2, 4, 6, 8)
+    B) A mess (5, 1, 9, 3)
+    C) Invisible numbers
+    D) Static
+
+6. Does your brain change when you learn?
+    A) Yes! It builds new connections (bridges).
+    B) No, it stays the same forever.
+    C) It shrinks.
+    D) It turns green.
+
+7. Can you learn from a friend?
+    A) Yes (Copying their good patterns)
+    B) No
+    C) Only if they are a robot
+    D) Maybe
+
+## Part B: Tell Us What You Think
+
+1. Write down one thing you are good at practicing (Math? Sports? Drawing?).
+2. If you wanted to learn to juggle, what would you do first?
+3. Draw a picture of your brain getting stronger (maybe lifting weights?).

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 01: Systems — Generative Process vs Generative Model</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Distinguish the <strong>generative process</strong> (the true environment) from the <strong>generative model</strong> (the agent's internal model).</li>
+<li>Implement a <code>DiscreteEnvironment</code> with true A and B matrices and step through it programmatically.</li>
+<li>Explain how observations are sampled from the true likelihood matrix and how states transition under the true dynamics.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Every Active Inference agent lives inside a world it cannot access directly. The <strong>generative process</strong> is the real causal structure of that world — the true states, transition probabilities, and observation likelihoods. The <strong>generative model</strong> is the agent's <em>approximation</em> of that structure, encoded in matrices it can update.</p>
+<p>This distinction is the starting point for everything in computational Active Inference. If the generative model perfectly matched the generative process, free energy would be zero and the agent would have nothing left to learn. In practice, the mismatch between the two is exactly what drives perception, action, and learning.</p>
+<p>In the <code>active_inference</code> library, these two sides of the coin are represented by separate classes:</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Class</th>
+<th>Matrices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generative Process</td>
+<td><code>DiscreteEnvironment</code></td>
+<td><code>true_A</code>, <code>true_B</code> (ground truth)</td>
+</tr>
+<tr>
+<td>Generative Model</td>
+<td><code>GenerativeModel</code></td>
+<td><code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code> (agent's beliefs)</td>
+</tr>
+</tbody>
+</table>
+<h2>Key Concepts</h2>
+<h3>1. The Generative Process as Ground Truth</h3>
+<p>The generative process defines the true causal structure of the environment. In the discrete case, this consists of:</p>
+<ul>
+<li><strong>True states</strong> $s \in {0, 1, \ldots, N_s - 1}$: the hidden states of the world.</li>
+<li><strong>True likelihood</strong> $\mathbf{A}_{\text{true}}$: a matrix where $A[o, s] = P(o \mid s)$ — the probability of observing $o$ when the world is in state $s$.</li>
+<li><strong>True transitions</strong> $\mathbf{B}_{\text{true}}$: a tensor where $B[s', s, a] = P(s' \mid s, a)$ — the probability of transitioning to state $s'$ given the current state $s$ and action $a$.</li>
+</ul>
+<p>In code, you create a <code>DiscreteEnvironment</code> by supplying these matrices:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiscreteEnvironment</span>
+
+<span class="c1"># True likelihood: observation 0 is strong evidence for state 0</span>
+<span class="n">true_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]])</span>
+
+<span class="c1"># True transitions: action 0 = stay, action 1 = swap</span>
+<span class="n">true_B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">true_B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>           <span class="c1"># stay</span>
+<span class="n">true_B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                              <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>  <span class="c1"># swap</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">DiscreteEnvironment</span><span class="p">(</span><span class="n">true_A</span><span class="p">,</span> <span class="n">true_B</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>2. Observation Generation</h3>
+<p>When the environment is queried, it samples an observation from the true likelihood column corresponding to the current hidden state:</p>
+<p>$$o_t \sim \text{Cat}(\mathbf{A}_{\text{true}}[\cdot, s_t])$$</p>
+<p>This is implemented via <code>env.step(action)</code>, which:</p>
+<ol>
+<li>Transitions the hidden state: $s_{t+1} \sim \text{Cat}(\mathbf{B}_{\text{true}}[\cdot, s_t, a_t])$</li>
+<li>Generates an observation: $o_{t+1} \sim \text{Cat}(\mathbf{A}<em t_1="t+1">{\text{true}}[\cdot, s</em>])$</li>
+<li>Returns the observation index</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>   <span class="c1"># sample first observation</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>            <span class="c1"># take swap action, get new observation</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;State: </span><span class="si">{</span><span class="n">env</span><span class="o">.</span><span class="n">state</span><span class="si">}</span><span class="s2">, Obs: </span><span class="si">{</span><span class="n">obs</span><span class="si">}</span><span class="s2">, Timestep: </span><span class="si">{</span><span class="n">env</span><span class="o">.</span><span class="n">timestep</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>3. State-Space Dimensionality</h3>
+<p>The environment's dimensionality is derived from the matrices:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Derivation</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>num_obs</code></td>
+<td>Rows of A</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>num_states</code></td>
+<td>Columns of A</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>num_actions</code></td>
+<td>Third dimension of B (or 1 if B is 2-D)</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>A 2-D B matrix is treated as a single-action environment (the agent has no choice).</p>
+<h3>4. History Tracking</h3>
+<p>The environment records a complete trajectory:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">env</span> <span class="o">=</span> <span class="n">DiscreteEnvironment</span><span class="p">(</span><span class="n">true_A</span><span class="p">,</span> <span class="n">true_B</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]:</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;states&quot;</span><span class="p">])</span>        <span class="c1"># [0, 0, 1, 0, 0]  (initial + 4 steps)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;observations&quot;</span><span class="p">])</span>  <span class="c1"># [obs0, obs1, obs2, obs3]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">])</span>       <span class="c1"># [0, 1, 1, 0]</span>
+</code></pre></div>
+
+<p>This history can be visualized with <code>plot_environment_trajectory()</code>.</p>
+<h3>5. The Generative Model as the Agent's Hypothesis</h3>
+<p>While the environment uses <code>true_A</code> and <code>true_B</code>, the agent constructs its own hypothesis — a <code>GenerativeModel</code> — with matrices that may or may not match reality:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenerativeModel</span>
+
+<span class="c1"># Agent&#39;s model (might differ from truth)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GenerativeModel</span><span class="p">(</span>
+    <span class="n">A</span><span class="o">=</span><span class="n">true_A</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>       <span class="c1"># agent&#39;s likelihood beliefs</span>
+    <span class="n">B</span><span class="o">=</span><span class="n">true_B</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>       <span class="c1"># agent&#39;s transition beliefs</span>
+    <span class="n">C</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>         <span class="c1"># preferences (log scale)</span>
+    <span class="n">D</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span> <span class="c1"># prior over initial state</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>The gap between <code>model.A</code> and <code>true_A</code> (and similarly for B) is what the agent must close through perception and learning. This is the fundamental asymmetry of Active Inference.</p>
+<h2>Applications</h2>
+<ul>
+<li><strong>Sensory noise</strong>: A <code>true_A</code> with off-diagonal probability &gt; 0 simulates noisy observations. Setting <code>true_A = np.eye(N)</code> creates a fully observable environment.</li>
+<li><strong>Stochastic dynamics</strong>: A <code>true_B</code> that is not a permutation matrix creates environments where actions have uncertain effects (e.g., slippery gridworlds).</li>
+<li><strong>Benchmarking</strong>: By comparing the agent's learned A against <code>true_A</code>, you can measure how accurately the agent has recovered the environment's causal structure.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>The generative process / generative model distinction structures every Active Inference computation. The <code>DiscreteEnvironment</code> class encodes this process, providing the ground truth that agents must infer. In Module 02, we build the agent class that maintains and updates a <code>GenerativeModel</code> to minimize the mismatch.</p>
+</body>
+</html>

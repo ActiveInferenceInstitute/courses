@@ -1,0 +1,55 @@
+# Practice Quiz: Planning / Computational Psychiatry (Neuroscientific Frontiers)
+
+**Name**: _________________ **Date**: _________________
+
+## Part A: Multiple Choice
+
+**1.** Computational psychiatry understands psychiatric symptoms as:
+A) Random brain malfunctions
+B) Consequences of inference under a faulty generative model — specific patterns of precision failure, model misspecification, or structural inadequacy
+C) Moral weakness
+D) Purely genetic
+
+**2.** Hallucinations in schizophrenia result from:
+A) Imagination
+B) Abnormally high precision on sensory prediction errors — treating random neural noise as meaningful external signals
+C) Hearing real sounds
+D) Memory replay
+
+**3.** Depression involves:
+A) Only chemical imbalance
+B) Persistently pessimistic priors combined with low precision on positive prediction errors — preventing the model from updating toward positive expectations
+C) Only social factors
+D) Only genetic factors
+
+**4.** Panic attacks are understood as:
+A) Heart attacks
+B) Catastrophic interoceptive inference — a minor bodily fluctuation is interpreted through tight interoceptive priors as evidence of life-threatening danger
+C) Faking
+D) Only psychological
+
+**5.** The HIPPEA hypothesis explains autism as:
+A) Lack of empathy
+B) Inflexibly high precision on sensory prediction errors, preventing normal abstraction and generalization
+C) Intellectual disability
+D) Parenting failure
+
+**6.** Addiction involves:
+A) Only willpower failure
+B) Hijacking of policy precision — the drug-seeking policy receives excessive dopamine-mediated precision, dominating all alternatives
+C) Only genetic risk
+D) Only social influence
+
+**7.** Psychedelics may treat depression by:
+A) Providing escape
+B) Relaxing overly rigid priors (especially in the DMN-mediated self-model), enabling fundamental model revision
+C) Causing amnesia
+D) Increasing serotonin permanently
+
+## Part B: Essay Questions
+
+**1.** Take a specific patient presentation (either from Part 2 of the lab or one you create) and provide a complete Active Inference formulation. Include: (a) the generative model structure (what the patient believes about the world and themselves), (b) the precision profile (what is over- or under-weighted), (c) the resulting behavior (policies deployed to minimize free energy), (d) why these policies maintain the problem, and (e) a treatment plan targeting the specific computational failures. (500 words)
+
+**2.** Compare Active Inference computational psychiatry with two alternative frameworks: (a) the biomedical model (psychiatric conditions = brain diseases requiring medication) and (b) the cognitive-behavioral model (psychiatric conditions = learned maladaptive cognitions and behaviors). What does each framework explain well? What does each miss? Can they be integrated under Active Inference? (400 words)
+
+**3.** Write a capstone essay reflecting on the entire Neuroscientific Frontiers track. How does the neural implementation of Active Inference (cortical hierarchy, oscillations, neuromodulation, motor control, plasticity, social circuits, clinical applications) hold together as a unified account of brain function? Where is the evidence strongest? Where are the gaps? What would you want to see validated in the next 10 years of neuroscience research? (500 words)

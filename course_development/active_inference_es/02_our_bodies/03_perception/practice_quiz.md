@@ -1,0 +1,51 @@
+# Practice Quiz: The Five Spies
+
+## Part A: Pick the Best Answer
+
+1. Which spy helps you know if an apple is red?
+    A) Agent Ear
+    B) Agent Eye
+    C) Agent Nose
+    D) Agent Elbow
+
+2. Which spy helps you know if music is playing?
+    A) Agent Eye
+    B) Agent Tongue
+    C) Agent Ear
+    D) Agent Knee
+
+3. What clues does Agent Skin bring?
+    A) Colors (Red, Blue)
+    B) Sounds (Loud, Quiet)
+    C) Feelings (Hot, Cold, Soft, Rough)
+    D) Smells (Stinky, Sweet)
+
+4. If you smell smoke, what does your brain guess?
+    A) "Someone is baking cookies!"
+    B) "There might be a fire!"
+    C) "It is raining!"
+    D) "Time to sleep!"
+
+5. What happens if you hold your nose while eating?
+    A) Your eyes close
+    B) You can't taste the flavor very well
+    C) You turn purple
+    D) Nothing
+
+6. Why does Captain Brain need clues?
+    A) Because she is locked in the dark tower (skull)
+    B) To win a prize
+    C) To make a sandwich
+    D) Because she is bored
+
+7. Can our senses sometimes trick us (Optical Illusion)?
+    A) No, never
+    B) Yes, sometimes
+    C) Only on Tuesdays
+    D) Only if you are a robot
+
+## Part B: Tell Us What You Think
+
+1. Draw a face and circle the Sense Organs (Eyes, Ears, Nose, Mouth).
+2. What is the loudest sound you ever heard? What made it?
+3. Imagine you have a "Sixth Sense." What would it do? (See through walls? Hear ants?)

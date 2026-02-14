@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04_Cognition - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>04_Cognition</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>04_Cognition</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 04: Cognition — Preferences, Priors, and Habits</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Construct and interpret the C-vector (log-preferences), D-vector (initial state prior), and E-vector (habit prior).</li>
+<li>Analyze how precision γ modulates the balance between epistemic and pragmatic behavior.</li>
+<li>Visualize preference, prior, and habit structures using the <code>active_inference</code> visualization functions.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Modules 01–03 covered the environment (generative process), the agent's model structure (A, B matrices), and perception (state inference). This module completes the agent's inner life by examining the three vectors that define its <em>cognitive stance</em>: what it wants (C), where it thinks it starts (D), and what it habitually does (E). These vectors don't just parameterize inference — they define the agent's character.</p>
+<h2>Key Concepts</h2>
+<h3>1. The C-Vector: Log-Preferences Over Observations</h3>
+<p>The C-vector encodes which observations the agent prefers on a log scale:</p>
+<p>$$C[o] = \ln P_{\text{preferred}}(o)$$</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># T-maze: strongly prefer reward, strongly avoid no-reward</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.0</span><span class="p">])</span>  <span class="c1"># [neutral, reward, no-reward]</span>
+</code></pre></div>
+
+<p>C enters the Expected Free Energy (EFE) through the <strong>risk</strong> term:</p>
+<p>$$\text{risk}(\pi) = D_{KL}[q(o \mid \pi) | \tilde{P}(o)]$$</p>
+<p>where $\tilde{P}(o) = \sigma(C)$ is the preferred observation distribution. When $C$ is all zeros, the risk term vanishes and the agent becomes purely epistemic.</p>
+<p><strong>Visualizing C</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_C_preferences</span>
+<span class="n">plot_C_preferences</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">obs_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;neutral&quot;</span><span class="p">,</span> <span class="s2">&quot;reward&quot;</span><span class="p">,</span> <span class="s2">&quot;no-reward&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<p>This produces a bar chart of log-preferences with a softmax probability overlay.</p>
+<h3>2. The D-Vector: Prior Over Initial States</h3>
+<p>The D-vector is $P(s_0)$ — the agent's belief about which state it starts in:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>  <span class="c1"># certain: start at center</span>
+</code></pre></div>
+
+<p>D serves as the initial prior for state inference. If D is uniform, the agent begins with maximum uncertainty. If D is peaked, the agent starts confident about its location.</p>
+<p><strong>Visualizing D</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_D_prior</span>
+<span class="n">plot_D_prior</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">state_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;cue&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<p>The plot annotates the entropy of D — $H(D) = 0$ means the agent is fully certain about its initial state.</p>
+<h3>3. The E-Vector: Habit Prior Over Policies</h3>
+<p>The optional E-vector encodes a prior over policies before EFE is considered:</p>
+<p>$$q(\pi) = \sigma(-\gamma \cdot G(\pi) + \ln E(\pi))$$</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Strong habit favoring policy 0 (stay)</span>
+<span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
+</code></pre></div>
+
+<p>When γ is low, habits dominate — the agent acts according to E regardless of EFE. When γ is high, EFE dominates and habits have little effect. When E is <code>None</code>, a uniform habit prior is used.</p>
+<p><strong>Visualizing E</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_E_habits</span>
+<span class="n">plot_E_habits</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">policy_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;stay&quot;</span><span class="p">,</span> <span class="s2">&quot;go-left&quot;</span><span class="p">,</span> <span class="s2">&quot;go-right&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<h3>4. Precision γ: The Exploration–Exploitation Knob</h3>
+<p>The precision parameter γ controls how sharply the agent commits to the policy with lowest EFE:</p>
+<table>
+<thead>
+<tr>
+<th>γ value</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>γ → 0</td>
+<td>Random policy selection — exploration dominates (or habits dominate if E is set)</td>
+</tr>
+<tr>
+<td>γ ≈ 1–4</td>
+<td>Balanced — considers both EFE and randomness</td>
+</tr>
+<tr>
+<td>γ → ∞</td>
+<td>Greedy/exploitative — always picks the policy with lowest G</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Precision sweep</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_precision_sweep</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_efe</span><span class="p">,</span> <span class="n">softmax</span>
+
+<span class="n">gamma_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">16.0</span><span class="p">]</span>
+<span class="c1"># Compute q(π) for each γ and visualize</span>
+<span class="n">plot_precision_sweep</span><span class="p">(</span><span class="n">gamma_values</span><span class="p">,</span> <span class="n">q_pi_matrix</span><span class="p">,</span>
+                     <span class="n">policy_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;stay&quot;</span><span class="p">,</span> <span class="s2">&quot;go-left&quot;</span><span class="p">,</span> <span class="s2">&quot;go-right&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<h3>5. Interaction Between C, D, E, and γ</h3>
+<p>These components interact in a principled way:</p>
+<div class="codehilite"><pre><span></span><code>┌──────────────┐     ┌──────────────┐
+│  D-vector    │────▶│  State       │
+│  P(s₀)      │     │  Inference   │
+└──────────────┘     └──────┬───────┘
+                            │ q(s)
+                            ▼
+┌──────────────┐     ┌──────────────┐     ┌───────────┐
+│  C-vector    │────▶│    EFE       │────▶│  Policy   │
+│  ln P(o)     │     │  G(π)       │     │  q(π)     │
+└──────────────┘     └──────────────┘     └─────┬─────┘
+                            ▲                     │
+┌──────────────┐            │              ┌─────▼─────┐
+│  E-vector    │────────────┘              │  Action   │
+│  P(π)        │     ┌──────────────┐      │  Selection│
+└──────────────┘     │  γ precision │──────┘           │
+                     └──────────────┘                   ▼
+</code></pre></div>
+
+<ul>
+<li><strong>D</strong> initializes perception and determines the starting beliefs used for policy evaluation.</li>
+<li><strong>C</strong> shapes the risk term in EFE — driving <strong>pragmatic</strong> (goal-directed) behavior.</li>
+<li><strong>A</strong> shapes the ambiguity term in EFE — driving <strong>epistemic</strong> (information-seeking) behavior.</li>
+<li><strong>E</strong> biases the policy posterior toward habitual actions.</li>
+<li><strong>γ</strong> controls how much EFE matters relative to habits and randomness.</li>
+</ul>
+<h2>Applications</h2>
+<ul>
+<li><strong>Goal-directed vs. curious agents</strong>: By varying C from peaked to flat, you can create agents that are purely exploitative, purely exploratory, or balanced between the two.</li>
+<li><strong>Habitual behavior</strong>: Setting a strong E-vector can model agents that default to familiar actions unless the situation is clearly novel.</li>
+<li><strong>Anxiety and avoidance</strong>: A C-vector with very negative entries for certain observations models agents that actively avoid aversive outcomes.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>C, D, E, and γ define the agent's cognitive character: what it values, what it assumes, what it defaults to, and how decisive it is. With all five matrix components (A, B, C, D, E) and precision in hand, Module 05 can now show how these components combine to select actions through Expected Free Energy.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab 04: Preferences, Priors, and Precision Tuning</h1>
+<h2>Objective</h2>
+<p>Explore how C, D, E vectors and precision γ shape agent behavior.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Completed Labs 01–03</li>
+<li>Understanding of EFE decomposition (risk + ambiguity)</li>
+</ul>
+<h2>Part 1: C-Vector Effects</h2>
+<p><strong>Goal</strong>: Compare agent behavior with different preference vectors.</p>
+<ol>
+<li>Create a T-maze <code>GenerativeModel</code> (4 states, 3 obs, 3 actions).</li>
+<li>Run the perception-action loop for 15 steps with three C-vectors:</li>
+<li><code>C_neutral = [0, 0, 0]</code> (no preferences)</li>
+<li><code>C_reward = [0, 3, -3]</code> (prefer reward)</li>
+<li><code>C_explore = [0, 0, 0]</code> with a noisy A-matrix (epistemic drive)</li>
+<li>Record and compare the action sequences and states visited.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1"># TODO: Create models with different C-vectors</span>
+<span class="c1"># TODO: Run loops and compare</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 2: D-Vector Effects</h2>
+<p><strong>Goal</strong>: Investigate how the initial state prior affects early behavior.</p>
+<ol>
+<li>Fix C and E. Create two agents with:</li>
+<li><code>D_certain = [1, 0, 0, 0]</code> (confident at center)</li>
+<li><code>D_uncertain = [0.25, 0.25, 0.25, 0.25]</code> (uniform)</li>
+<li>Run 5 steps. Compare the first action selected and the VFE trajectory.</li>
+<li>Visualize both D-vectors using <code>plot_D_prior()</code>.</li>
+</ol>
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 3: E-Vector and Habit Formation</h2>
+<p><strong>Goal</strong>: Demonstrate how habits bias action selection.</p>
+<ol>
+<li>Create an agent with <code>E = [0.8, 0.1, 0.1]</code> (strong stay habit) and γ = 0.5.</li>
+<li>Create an agent with <code>E = None</code> and the same γ.</li>
+<li>Run both for 20 steps. Count how often each agent selects action 0 (stay).</li>
+<li>Visualize habits using <code>plot_E_habits()</code>.</li>
+</ol>
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 4: Precision Sweep</h2>
+<p><strong>Goal</strong>: Map the exploration–exploitation tradeoff across γ values.</p>
+<ol>
+<li>For γ ∈ {0.1, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0}:</li>
+<li>Run <code>run_policy_inference()</code> with the same beliefs and C-vector</li>
+<li>Record the resulting $q(\pi)$</li>
+<li>Visualize with <code>plot_precision_sweep()</code>.</li>
+<li>Identify the γ value where the agent transitions from near-random to near-deterministic.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_policy_inference</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_precision_sweep</span>
+
+<span class="c1"># TODO: Sweep γ and collect q(π) matrix</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 5: Analysis Questions</h2>
+<ol>
+<li>Did the agent with <code>C = [0, 3, -3]</code> consistently reach the reward arm? If not, what prevented it?</li>
+<li>How many steps did the habit-biased agent waste on action 0 compared to a habit-free agent?</li>
+<li>At which γ value did policy selection become effectively deterministic? How does this relate to the magnitude of EFE differences?</li>
+</ol>
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Library Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Design C-vectors for goal-directed behavior</td>
+<td><code>GenerativeModel(C=...)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Visualize preferences, priors, and habits</td>
+<td><code>plot_C_preferences()</code>, <code>plot_D_prior()</code>, <code>plot_E_habits()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Investigate precision effects</td>
+<td><code>run_policy_inference(gamma=...)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Map the exploration–exploitation tradeoff</td>
+<td><code>plot_precision_sweep()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Compare agents with different cognitive configurations</td>
+<td>Multi-agent experiment design</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Cognition</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>The C-vector encodes:
+A) Transition probabilities between states
+B) Log-preferences over observations
+C) Prior beliefs over initial states
+D) The agent's learning rate</p>
+</li>
+<li>
+<p>If <code>C = [0, 0, 0]</code>, the agent's behavior is driven entirely by:
+A) Risk (pragmatic value)
+B) Ambiguity (epistemic value)
+C) Habits (E-vector)
+D) Nothing — the agent is frozen</p>
+</li>
+<li>
+<p>The D-vector is used in Active Inference as:
+A) The posterior after the first observation
+B) The initial prior for state inference
+C) The reward signal
+D) The transition dynamics prior</p>
+</li>
+<li>
+<p>What role does the E-vector play in the policy posterior equation?
+A) It replaces EFE entirely
+B) It adds a log-prior bias to each policy's score
+C) It scales the precision parameter
+D) It modifies the A-matrix</p>
+</li>
+<li>
+<p>When precision γ = 0.01, the agent's policy selection is:
+A) Nearly deterministic
+B) Nearly random (or dominated by habits if E is set)
+C) Identical to maximum EFE selection
+D) Always action 0</p>
+</li>
+<li>
+<p>The risk component of EFE is $D_{KL}[q(o|\pi) | \tilde{P}(o)]$. The target distribution $\tilde{P}(o)$ is:
+A) The empirical observation frequency
+B) $\sigma(C)$ — the softmax of the C-vector
+C) The A-matrix likelihood
+D) A uniform distribution</p>
+</li>
+<li>
+<p><code>plot_D_prior()</code> annotates the bar chart with:
+A) The VFE value
+B) The entropy of D
+C) The number of states
+D) The D-vector norm</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>An agent has <code>C = [0, 5, -5]</code> for (neutral, food, predator). Its current beliefs are $q(s) = [0.5, 0.5]$. The A-matrix maps state 0 to observation 1 (food) and state 1 to observation 2 (predator). Describe qualitatively what policy the agent should prefer and why, in terms of the risk component.</p>
+</li>
+<li>
+<p>Write code to create an <code>ActiveInferenceAgent</code> with a habit prior that strongly favors policy 1 (go-left) and a low precision γ = 0.1. Explain why this agent would almost always go left regardless of observations.</p>
+</li>
+<li>
+<p>Design an experiment to determine the "critical γ" at which an agent transitions from exploratory to exploitative behavior. Describe the setup, the measurement, and what plot you would produce.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

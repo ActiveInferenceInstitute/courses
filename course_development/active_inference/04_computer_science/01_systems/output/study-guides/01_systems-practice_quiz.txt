@@ -1,0 +1,53 @@
+Practice Quiz: Systems
+
+Part A: Multiple Choice
+
+What does the trueA matrix in a DiscreteEnvironment represent?
+A) The agent's beliefs about observations
+B) The true probability of observing $o$ given hidden state $s$
+C) The transition dynamics between states
+D) The agent's prior over initial states
+
+If trueA has shape (5, 3), the environment has:
+A) 5 states and 3 observations
+B) 3 states and 5 observations
+C) 5 observations and 3 states
+D) 15 state-observation pairs
+
+When env.step(action) is called, what happens first?
+A) An observation is generated from the current state
+B) The hidden state transitions according to trueB
+C) The agent updates its beliefs
+D) Free energy is computed
+
+A fully observable environment corresponds to:
+A) trueA being all zeros
+B) trueA being the identity matrix
+C) trueB being the identity matrix
+D) trueA having uniform columns
+
+If trueB is passed as a 2-D matrix (shape (N, N)), the environment assumes:
+A) There are N possible actions
+B) There is exactly 1 action
+C) The transitions are stochastic
+D) The B matrix is invalid
+
+After calling env.reset(initialstate=0) followed by 10 calls to env.step(), how many entries does env.history["states"] contain?
+A) 10
+B) 11
+C) 9
+D) 12
+
+The key difference between DiscreteEnvironment and GenerativeModel is:
+A) DiscreteEnvironment uses continuous states
+B) GenerativeModel represents ground truth; DiscreteEnvironment is an approximation
+C) DiscreteEnvironment represents ground truth; GenerativeModel is the agent's hypothesis
+D) There is no difference; they use the same matrices
+
+Part B: Short Answer
+
+Write Python code to create a DiscreteEnvironment for a 3-state system where observations are deterministic (identity A-matrix) and action 0 keeps the state while action 1 cycles through states. Show the trueA and trueB matrices.
+
+Explain why columns (not rows) of the trueA matrix must sum to 1.0. What probability is each column encoding, and what would go wrong if the normalization were over rows instead?
+
+You observe the sequence $[0, 0, 1, 0, 1]$ from a 2-state environment. Using Bayes' rule and the trueA matrix $\begin{bmatrix} 0.9 & 0.2 \\ 0.1 & 0.8 \end{bmatrix}$, compute $P(s0 = 0 \mid o0 = 0)$ assuming a uniform prior $P(s0) = [0.5, 0.5]$.

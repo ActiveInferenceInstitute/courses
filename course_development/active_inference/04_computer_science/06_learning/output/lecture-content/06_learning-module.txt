@@ -1,0 +1,71 @@
+Module 06: Learning — Updating Dirichlet Concentrations
+
+Learning Objectives
+
+Implement parameter learning using Dirichlet concentration updates for the A and B matrices.
+Compute expected parameter matrices from Dirichlet posteriors and compare with ground truth.
+Evaluate model quality using Bayesian Model Reduction (BMR).
+
+Introduction
+
+In Modules 01–05, the agent's generative model was fixed — the A, B, C, D, E matrices were set once and never changed. But a truly adaptive agent must learn: it should update its beliefs about the environment's causal structure based on experience. In Active Inference, learning means updating the Dirichlet concentration parameters (pA, pB) that parameterize the agent's beliefs about A and B.
+
+Key Concepts
+
+Why Dirichlet Distributions?
+
+Each column of the A-matrix is a categorical distribution. The Bayesian conjugate prior for a categorical distribution is the Dirichlet distribution. Instead of storing point estimates for A, the agent maintains concentration parameters $\mathbf{p}A$ where:
+
+$$P(\mathbf{A}[:, s]) = \text{Dir}(\mathbf{p}A[:, s])$$
+
+The expected (mean) A-matrix is:
+
+$$\mathbb{E}[\mathbf{A}[:, s]] = \frac{\mathbf{p}A[:, s]}{\sumo \mathbf{p}A[o, s]}$$
+
+Updating pA: Learning the Likelihood
+
+After each observation-state pair $(ot, qs)$, the agent updates pA:
+
+$$\mathbf{p}A[ot, :] \mathrel{+}= q(s) \cdot \eta$$
+
+where $\eta$ is the learning rate. This is an outer-product update weighted by the posterior beliefs.
+
+Updating pB: Learning the Transitions
+
+Similarly, the transition concentrations are updated after each (state, action, next-state) triple:
+
+$$\mathbf{p}B[:, s, a] \mathrel{+}= q(s') \cdot q(s) \cdot \eta$$
+
+Online Learning Loop
+
+The full perception-action-learning loop at each timestep:
+
+Tracking Learning Progress
+
+Use KL divergence to measure how close the learned model is to the truth:
+
+Visualize with plotlearningprogress():
+
+Dirichlet Entropy
+
+The entropy of the Dirichlet distribution measures the agent's uncertainty about a parameter column:
+
+$$H[\text{Dir}(\boldsymbol{\alpha})] = \ln B(\boldsymbol{\alpha}) + (\alpha0 - K) \psi(\alpha0) - \sumk (\alphak - 1) \psi(\alphak)$$
+
+Bayesian Model Reduction (BMR)
+
+BMR compares a full model against a reduced (simpler) model by computing the change in free energy:
+
+$$\Delta F = F{\text{reduced}} - F_{\text{full}}$$
+
+A negative ΔF means the reduced model is better (simpler and equally good).
+
+Applications
+
+Multi-episode training: Run many episodes, accumulating pA and pB across episodes. The agent develops increasingly accurate models.
+Catastrophic forgetting: Monitor whether learning in one context degrades performance in another.
+Model comparison: Use BMR to prune unnecessary parameters from the model.
+
+Conclusion
+
+Learning closes the loop: the agent not only perceives and acts but also improves its generative model over time. Dirichlet updates provide a principled Bayesian mechanism for this improvement. Module 07 extends these ideas to multi-agent settings where agents learn about each other.

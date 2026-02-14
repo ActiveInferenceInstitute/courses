@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpbco2tf3c</title>
+</head>
+<body>
+<h1>Lab 01: Building and Exploring a Discrete Environment</h1>
+<h2>Objective</h2>
+<p>Build a <code>DiscreteEnvironment</code> from scratch, step through it, record trajectories, and visualize the generative process.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Python with NumPy and matplotlib installed</li>
+<li>Familiarity with probability distributions and matrix notation</li>
+<li>Access to the <code>active_inference</code> library (<code>src/active_inference/</code>)</li>
+</ul>
+<h2>Part 1: Constructing the Environment</h2>
+<p><strong>Goal</strong>: Create a 3-state, 2-observation environment with 2 actions.</p>
+<ol>
+<li>Define a <code>true_A</code> matrix of shape <code>(2, 3)</code> where:</li>
+<li>State 0 produces observation 0 with probability 0.8</li>
+<li>State 1 produces each observation with equal probability</li>
+<li>
+<p>State 2 produces observation 1 with probability 0.9</p>
+</li>
+<li>
+<p>Define a <code>true_B</code> tensor of shape <code>(3, 3, 2)</code> where:</p>
+</li>
+<li>Action 0 is the identity (stay in current state)</li>
+<li>
+<p>Action 1 rotates: state 0 → 1, state 1 → 2, state 2 → 0</p>
+</li>
+<li>
+<p>Create a <code>DiscreteEnvironment</code> starting in state 0.</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiscreteEnvironment</span>
+
+<span class="c1"># TODO: Define true_A and true_B</span>
+<span class="c1"># TODO: Create environment</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Running a Trajectory</h2>
+<p><strong>Goal</strong>: Step the environment for 20 timesteps using a fixed action sequence.</p>
+<ol>
+<li>Reset the environment to state 0.</li>
+<li>Alternate between action 0 (stay) and action 1 (rotate) for 20 steps.</li>
+<li>Record the state, observation, and action at each step.</li>
+<li>Print the full trajectory.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">action</span> <span class="o">=</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">2</span>  <span class="c1"># alternate stay/rotate</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t=</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">: action=</span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">, state=</span><span class="si">{</span><span class="n">env</span><span class="o">.</span><span class="n">state</span><span class="si">}</span><span class="s2">, obs=</span><span class="si">{</span><span class="n">obs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Visualizing the Trajectory</h2>
+<p><strong>Goal</strong>: Use <code>plot_environment_trajectory</code> to visualize the state-observation-action sequence.</p>
+<ol>
+<li>After running Part 2, extract <code>env.history</code>.</li>
+<li>Call <code>plot_environment_trajectory</code> to generate a figure.</li>
+<li>Save the figure to <code>output/lab01_trajectory.png</code>.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_environment_trajectory</span>
+
+<span class="n">plot_environment_trajectory</span><span class="p">(</span>
+    <span class="n">states</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;states&quot;</span><span class="p">],</span>
+    <span class="n">observations</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;observations&quot;</span><span class="p">],</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;output/lab01_trajectory.png&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Empirical Likelihood Estimation</h2>
+<p><strong>Goal</strong>: Verify the <code>true_A</code> matrix by collecting observations.</p>
+<ol>
+<li>Reset the environment. Fix the state by using action 0 (identity) from a known starting state.</li>
+<li>Collect 1000 observations from each state (reset to each state, step with identity action 1000 times).</li>
+<li>Compute the empirical frequency of each observation per state.</li>
+<li>Compare with the original <code>true_A</code> matrix.</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Analysis Questions</h2>
+<ol>
+<li>
+<p>When you ran 20 steps with alternating actions, how many unique states did the trajectory visit? Was this predictable from the <code>true_B</code> matrix?</p>
+</li>
+<li>
+<p>Did your empirical likelihood estimates in Part 4 converge to the true values? How many samples were needed for 2-decimal accuracy?</p>
+</li>
+<li>
+<p>What would change if you made <code>true_A = np.eye(3, 2).T</code> (a non-square identity-like matrix)? Would the environment still be valid?</p>
+</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Library Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create environments with custom A and B matrices</td>
+<td><code>DiscreteEnvironment(true_A, true_B)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Step through environments and collect trajectories</td>
+<td><code>env.step(action)</code>, <code>env.history</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Visualize state-observation trajectories</td>
+<td><code>plot_environment_trajectory()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Empirically verify likelihood matrices</td>
+<td>Manual frequency counting vs <code>true_A</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Understand the generative process abstraction</td>
+<td>Generative process ≠ generative model</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

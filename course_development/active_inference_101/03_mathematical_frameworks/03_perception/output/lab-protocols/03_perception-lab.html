@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpv3xcg8gu</title>
+</head>
+<body>
+<h1>Lab: Free Energy and Perceptual Inference</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Compute free energy and precision-weighted prediction errors for simple scenarios.</p>
+</blockquote>
+<h2>Part 1: Computing Prediction Error</h2>
+<p><strong>Exercise</strong>: For each scenario, identify o, g(s), and compute the prediction error (o - g(s)):</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Observation o</th>
+<th>Prediction g(s)</th>
+<th>Error</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>You expect the room to be 20°C but measure 24°C</td>
+<td>24</td>
+<td>20</td>
+<td></td>
+</tr>
+<tr>
+<td>You predict your friend will arrive at 7:00 PM and they arrive at 7:00 PM</td>
+<td>7:00</td>
+<td>7:00</td>
+<td></td>
+</tr>
+<tr>
+<td>You expect a package to weigh 1kg but it weighs 3kg</td>
+<td>3</td>
+<td>1</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Precision Weighting</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> See how precision changes the influence of prediction errors.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Using the formula F ∝ ½ π(o - g(s))², compute weighted prediction error for:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Error (o - g(s))</th>
+<th>Precision π</th>
+<th>Weighted error ½π(o-g(s))²</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trusting a digital thermometer</td>
+<td>4</td>
+<td>10</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Trusting a broken thermometer</td>
+<td>4</td>
+<td>0.1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Slight color difference in bright light</td>
+<td>2</td>
+<td>5</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Slight color difference in dim light</td>
+<td>2</td>
+<td>0.5</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Which errors matter more? Why?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Free Energy Decomposition</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze the accuracy-complexity trade-off.</p>
+</blockquote>
+<p><strong>Scenario</strong>: Two models explain why your friend is late:</p>
+<ul>
+<li>Model A (simple): "Traffic is bad" — complexity = 1, accuracy = 5</li>
+<li>
+<p>Model B (complex): "There was a traffic jam caused by a circus elephant that escaped and a simultaneous meteor shower" — complexity = 10, accuracy = 6</p>
+</li>
+<li>
+<p>Compute F = complexity - accuracy for each (note: lower F is better)</p>
+</li>
+<li>Which model does the free energy principle prefer? Why?</li>
+<li>How does this relate to Occam's razor?</li>
+</ul>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Hierarchical Prediction Error</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Trace prediction errors up and predictions down through a hierarchy.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a 3-level hierarchy for reading a word:</p>
+<ul>
+<li>Level 3 (context): Predicts the sentence topic</li>
+<li>Level 2 (word): Predicts the next word based on context</li>
+<li>Level 1 (letters): Predicts which letters based on the word</li>
+</ul>
+<p>You're reading: "The cat sat on the ___" and the next word is "mat."</p>
+<ol>
+<li>What does Level 3 predict? Is there prediction error?</li>
+<li>What does Level 2 predict? Is there prediction error?</li>
+<li>What does Level 1 predict? Is there prediction error?</li>
+<li>Now change the word to "xylophone." Where are the prediction errors largest?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 150 words, reflect: The equation F ∝ ½ π(o - g(s))² is remarkably simple — yet it formalizes perception, attention, and belief updating. Why is mathematical simplicity valuable in a scientific theory?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Prediction error computation</td>
+<td>Basic prediction error</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Precision analysis</td>
+<td>Weighted prediction errors</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Trade-off evaluation</td>
+<td>Accuracy-complexity balance</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Hierarchical tracing</td>
+<td>Multi-level prediction errors</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Theory reflection</td>
+<td>Value of mathematical formalization</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

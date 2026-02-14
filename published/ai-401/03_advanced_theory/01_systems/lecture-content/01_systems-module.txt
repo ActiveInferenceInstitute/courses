@@ -1,0 +1,110 @@
+Module 01: Systems — Variational Calculus and the Free Energy Functional
+
+> Course: Active Inference 401 | Unit: Advanced Theory | Audience: Graduate students / researchers
+
+Learning Objectives
+
+Derive the free energy functional from first principles using variational calculus.
+Analyze the mathematical properties of variational free energy — its decomposition into energy and entropy, and its relationship to KL divergence and model evidence.
+Evaluate the conditions under which free energy minimization is equivalent to exact Bayesian inference.
+
+Key Concepts
+
+Variational Calculus Foundations
+
+Variational calculus deals with finding functions that optimize functionals — functionals being mappings from function spaces to real numbers. Active Inference uses this framework because the quantity being optimized (free energy) is a functional of a probability distribution q(s), which is itself a function.
+
+The fundamental problem: Given a functional F[q] that maps a probability distribution q(s) to a real number, find the distribution q(s) that minimizes F[q].
+
+Euler-Lagrange equation: For a functional F[q] = ∫ L(q, q', s) ds, the minimizer satisfies:
+
+∂L/∂q - d/ds (∂L/∂q') = 0
+
+In Active Inference, the Lagrangian L involves the log joint probability (energy) and the entropy of q, and the Euler-Lagrange solution yields the optimal approximate posterior.
+
+Deriving the Free Energy Functional
+
+Starting from Bayes' theorem and the concept of model evidence:
+
+Step 1 — Model evidence: For a generative model p(o, s | m) specifying how observations o and hidden states s are jointly distributed under model m:
+
+ln p(o | m) = ln ∫ p(o, s | m) ds
+
+This integral is generally intractable.
+
+Step 2 — Introduce approximate posterior: Introduce a variational distribution q(s) and use Jensen's inequality:
+
+ln p(o | m) = ln ∫ p(o, s | m) · [q(s) / q(s)] ds ≥ ∫ q(s) ln [p(o, s | m) / q(s)] ds
+
+Step 3 — Define free energy: The variational free energy is:
+
+F[q] = - ∫ q(s) ln [p(o, s | m) / q(s)] ds = Eq[-ln p(o, s)] + Eq[ln q(s)]
+
+This decomposes as: F = Energy - Entropy
+
+Step 4 — Relate to model evidence:
+
+ln p(o | m) = -F[q] + DKL[q(s) || p(s | o, m)]
+
+Since KL divergence ≥ 0, we have: F[q] ≥ -ln p(o | m)
+
+Free energy is an upper bound on surprise (negative log evidence). Minimizing F with respect to q tightens this bound, making q approach the true posterior.
+
+Decompositions of Free Energy
+
+Variational free energy admits several illuminating decompositions:
+
+Decomposition 1 — Energy minus Entropy:
+
+F = Eq[-ln p(o, s)] - H[q]
+
+The first term is the expected "energy" (negative log joint probability under q). The second term is the entropy of q. Minimizing F balances accuracy (fitting the data) with complexity (keeping q simple/entropic).
+
+Decomposition 2 — Complexity minus Accuracy:
+
+F = DKL[q(s) || p(s)] - Eq[ln p(o | s)]
+
+The first term is the complexity cost — how far the approximate posterior q(s) diverges from the prior p(s). The second term is the accuracy — how well q predicts the observations. This decomposition shows that free energy minimization implements automatic Occam's Razor — it penalizes models that deviate too far from their priors.
+
+Decomposition 3 — Surprise plus KL divergence:
+
+F = -ln p(o) + DKL[q(s) || p(s | o)]
+
+Free energy equals surprise (neg-log-evidence) plus the approximation error (KL from q to the true posterior). When q = p(s|o) exactly, F = -ln p(o) exactly.
+
+Mean-Field and Factorized Approximations
+
+When the exact posterior is intractable, structured approximations constrain q:
+
+Mean-field approximation: Assume q factorizes across groups of hidden states:
+
+q(s₁, s₂, ..., sₙ) = ∏ᵢ qᵢ(sᵢ)
+
+Each factor is updated independently: qᵢ(sᵢ) ∝ exp(E{q₋ᵢ}[ln p(o, s)])
+
+This iterative scheme (variational message passing) converges to a local minimum of F.
+
+Bethe approximation: Relaxes mean-field by allowing pairwise interactions, corresponding to belief propagation on factor graphs. This is the mathematical foundation for the message-passing algorithms used in Active Inference implementations.
+
+Laplace approximation: Assume q is Gaussian, centered on the MAP estimate. This is computationally efficient and is the basis of Dynamic Causal Modelling (DCM) in neuroimaging.
+
+Variational Free Energy on Factor Graphs
+
+When the generative model is represented as a factor graph, variational free energy decomposes into local contributions:
+
+Each factor node fa contributes a local free energy: Fa = -E{q(sa)}[ln fa(sa, oa)] + terms involving q
+
+Message passing on the factor graph (variational message passing, belief propagation) implements distributed minimization of total free energy F = Σa F_a, with messages carrying sufficient statistics between factor nodes.
+
+This provides the bridge between the abstract variational calculus and the concrete implementations of Active Inference.
+
+Summary
+
+The free energy functional is derived from the intractability of Bayesian model evidence, using variational methods to create a tractable upper bound. Free energy decomposes into energy minus entropy (or equivalently, complexity minus accuracy, or surprise plus approximation error). Structured approximations (mean-field, Bethe, Laplace) enable tractable optimization. On factor graphs, free energy decomposes into local contributions enabling distributed message passing.
+
+Further Reading
+
+Blei, D. M. et al. (2017). Variational inference: A review for statisticians. JASA, 112(518), 859-877.
+Beal, M. J. (2003). Variational Algorithms for Approximate Bayesian Inference. PhD thesis, UCL.
+Dauwels, J. (2007). On variational message passing on factor graphs. IEEE ISIT, 2546-2550.
+Parr, T. et al. (2022). Active Inference. MIT Press, Chapters 2-4.

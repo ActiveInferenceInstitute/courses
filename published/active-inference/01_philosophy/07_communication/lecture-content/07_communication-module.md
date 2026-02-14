@@ -1,0 +1,42 @@
+# Module 07: Communication — Intersubjectivity, Theory of Mind, and Shared Inference
+
+## Learning Objectives
+
+1. Explain how Active Inference models communication as **generalized synchrony** between coupled inference systems.
+2. Analyze the philosophical problem of other minds and how Active Inference provides a formal framework for intersubjectivity.
+3. Evaluate how language, social norms, and cultural practices function as shared generative models.
+
+## Introduction
+
+Communication is the bridge between individual minds. How do isolated inferential systems — each trapped behind its own Markov Blanket — manage to share meaning, coordinate action, and build shared understanding? This is one of the oldest problems in philosophy, from Wittgenstein's private language argument to Husserl's fifth *Cartesian Meditation*.
+
+Active Inference offers a distinctive answer: **communication is generalized synchrony** — two or more agents whose generative models become coupled through shared observations and actions, causing their internal states to converge. When I speak and you understand, our generative models have temporarily synchronized.
+
+## Key Concepts
+
+### 1. Generalized Synchrony and Coupled Inference
+
+When two Active Inference agents interact, each becomes part of the other's environment. Your actions become my observations, and my actions become yours. Over time, this mutual coupling can cause the agents' internal states to **synchronize** — they come to carry similar information about the shared world.
+
+Friston and Frith (2015) formalize this through the concept of **generalized synchrony**: two dynamical systems are generalized-synchronized when there exists a continuous mapping between their state spaces. In communication, this mapping is the shared generative model — the common framework that allows my words to update your beliefs in the way I intend.
+
+### 2. Theory of Mind as Hierarchical Inference
+
+**Theory of Mind (ToM)** — the capacity to attribute mental states (beliefs, desires, intentions) to others — is recast in Active Inference as hierarchical inference. I model you as an Active Inference agent with your own generative model. My model of you includes a representation of your model of the world. This recursive embedding — "I believe that you believe that I believe..." — is what makes communication so powerful and so fragile.
+
+This connects to Husserl's concept of **Einfühlung** (empathy): understanding another person requires constructing a model of their perspective, not just observing their behavior. It also relates to Levinas's ethics of the face: the encounter with another mind imposes an ethical demand precisely because the other is an autonomous inference system with its own vulnerability.
+
+### 3. Language as Shared Generative Model
+
+Language, from an Active Inference perspective, is humanity's most powerful technology for constructing and transmitting shared generative models. Words are not mere labels for objects but **cues that activate specific patterns in the listener's generative model**. Grammar is the structure of the shared model; metaphor is the creative extension of model structure to new domains.
+
+Wittgenstein's insight that "the limits of my language are the limits of my world" takes on precise meaning: the generative model that language provides determines what predictions the agent can form and therefore what aspects of reality it can engage with.
+
+## Applications
+
+* **Miscommunication**: Communication fails when the sender's and receiver's generative models diverge — they assign different meanings to the same signals. Active Inference predicts that miscommunication increases with model divergence and decreases with shared context.
+* **Cultural Evolution**: Cultural practices (rituals, institutions, norms) function as long-duration mechanisms for maintaining shared generative models across generations.
+
+## Conclusion
+
+Communication is the most complex form of inference: it involves not only modeling the world but modeling other minds modeling the world. Active Inference shows how isolated inference systems can bridge the gulf between them through coupled dynamics and shared generative models. Module 08 examines the temporal dimension of inference — how agents plan for the future.

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmppdvulny1</title>
+</head>
+<body>
+<h1>Lab: Grand Unification — Active Inference as Universal Theory</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Synthesize the entire Advanced Theory track through comparative analysis, integration exercises, and critical evaluation.</p>
+</blockquote>
+<h2>Part 1: Framework Comparison Table</h2>
+<p><strong>Exercise</strong>: Complete this comprehensive comparison:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Active Inference</th>
+<th>Reinforcement Learning</th>
+<th>Optimal Control</th>
+<th>Bayesian Brain Hypothesis</th>
+<th>Thermodynamics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core principle</td>
+<td>Free energy minimization</td>
+<td>Reward maximization</td>
+<td>Cost minimization</td>
+<td>Posterior updating</td>
+<td>Free energy minimization</td>
+</tr>
+<tr>
+<td>Exploration</td>
+<td>Epistemic value (built-in)</td>
+<td>ε-greedy, UCB</td>
+<td>Not inherent</td>
+<td>Not directly addressed</td>
+<td>Fluctuations</td>
+</tr>
+<tr>
+<td>Model</td>
+<td>Generative model (required)</td>
+<td>Optional (model-free exists)</td>
+<td>Forward model</td>
+<td>Generative model</td>
+<td>Partition function</td>
+</tr>
+<tr>
+<td>Learning</td>
+<td>Parameter/structure update via F</td>
+<td>TD learning, policy gradient</td>
+<td>System identification</td>
+<td>Parameter updating</td>
+<td>Relaxation</td>
+</tr>
+<tr>
+<td>Action</td>
+<td>Minimize F w.r.t. active states</td>
+<td>Maximize value function</td>
+<td>Minimize cost-to-go</td>
+<td>Usually not addressed</td>
+<td>Entropy production</td>
+</tr>
+<tr>
+<td>Uncertainty</td>
+<td>Full posterior over states</td>
+<td>Point estimates typically</td>
+<td>Kalman filtering</td>
+<td>Full posterior</td>
+<td>Boltzmann distribution</td>
+</tr>
+<tr>
+<td>Multi-agent</td>
+<td>Shared models, recursive inference</td>
+<td>Multi-agent RL</td>
+<td>Differential games</td>
+<td>Independent agents</td>
+<td>Statistical mechanics</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 200-word analysis: Which framework handles each domain best? Where does Active Inference uniquely excel?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Cross-Track Integration</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Connect mathematical tools across the entire Advanced Theory track.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Show how the tools from each module connect:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Tool</th>
+<th>How It Connects to Other Modules</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01 Systems</td>
+<td>Variational calculus</td>
+<td>Foundation for ALL subsequent analysis — defines F</td>
+</tr>
+<tr>
+<td>02 Agents</td>
+<td>Information geometry</td>
+<td>Provides the metric for belief dynamics (used in Module 04 for belief updating efficiency)</td>
+</tr>
+<tr>
+<td>03 Perception</td>
+<td>Bayesian mechanics</td>
+<td>Connects F to physics — explains WHY free energy minimization occurs (Module 05 RG, Module 08 thermo)</td>
+</tr>
+<tr>
+<td>04 Cognition</td>
+<td>Deep temporal models</td>
+<td>Temporal depth enables planning (Module 08) and hierarchical learning (Module 06)</td>
+</tr>
+<tr>
+<td>05 Action</td>
+<td>Renormalization group</td>
+<td>Provides multi-scale framework — connects to BMS (Module 06) and multi-agent (Module 07)</td>
+</tr>
+<tr>
+<td>06 Learning</td>
+<td>BMS/BMR</td>
+<td>Model selection implements the "Occam" term in F (Module 01 decomposition)</td>
+</tr>
+<tr>
+<td>07 Communication</td>
+<td>Multi-agent</td>
+<td>Extends single-agent framework to societies — connects to scale-free RG (Module 05)</td>
+</tr>
+<tr>
+<td>08 Planning</td>
+<td>Unification</td>
+<td>Synthesizes all the above into a coherent whole</td>
+</tr>
+</tbody>
+</table>
+<p>Draw (or describe) an integration diagram showing the connections between all modules.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Active Inference vs. RL Deep Dive</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Rigorously compare Active Inference and Reinforcement Learning on a specific task.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a foraging task: an agent must explore a grid world to find food while avoiding predators.</p>
+<p><strong>RL approach</strong>:</p>
+<ol>
+<li>Define reward: +10 for food, -100 for predator, -1 per step</li>
+<li>Learn value function V(s) or Q(s, a) through experience</li>
+<li>Exploration: ε-greedy (with ε decay)</li>
+<li>Result: agent learns to exploit known food locations</li>
+</ol>
+<p><strong>Active Inference approach</strong>:</p>
+<ol>
+<li>Define preferences (C): high probability of food states, low probability of predator states</li>
+<li>Define generative model: beliefs about food/predator locations, transition dynamics</li>
+<li>Policy selection: minimize G(π) = pragmatic value (reach food) + epistemic value (explore uncertain locations)</li>
+<li>Result: agent naturally explores uncertain regions while moving toward preferred states</li>
+</ol>
+<p>Write a 300-word comparative analysis: (a) Which approach discovers food faster? (b) Which adapts better to environmental changes? (c) Which handles partial observability better? (d) What does each lose?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Open Problem Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Identify and analyze the most important unsolved problems.</p>
+</blockquote>
+<p><strong>Exercise</strong>: For each open problem, assess its severity:</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Severity (1-10)</th>
+<th>Most Promising Resolution</th>
+<th>Your Analysis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consciousness: FEP provides necessary but not sufficient conditions</td>
+<td>8</td>
+<td>Integrated Information Theory + FEP hybrid?</td>
+<td></td>
+</tr>
+<tr>
+<td>Scalability: Current models handle tiny state spaces</td>
+<td>9</td>
+<td>Amortized inference, deep learning integration</td>
+<td></td>
+</tr>
+<tr>
+<td>Emergence: Can gradient descent produce genuine novelty?</td>
+<td>7</td>
+<td>Solenoidal flow + stochastic exploration</td>
+<td></td>
+</tr>
+<tr>
+<td>Falsifiability: What would disprove FEP?</td>
+<td>8</td>
+<td>Identify specific empirical predictions that fail</td>
+<td></td>
+</tr>
+<tr>
+<td>AGI: Can Active Inference build general intelligence?</td>
+<td>9</td>
+<td>Structure learning + deep temporal models + social cognition</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Write a 200-word assessment of the single most important open problem and your proposed research direction.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Capstone Synthesis</h2>
+<p><strong>Exercise</strong>: Write a 500-word essay synthesizing the entire Advanced Theory track. Address:</p>
+<ol>
+<li>How does variational calculus (Module 01) provide the mathematical foundation?</li>
+<li>How does information geometry (Module 02) optimize that foundation?</li>
+<li>How does Bayesian mechanics (Module 03) connect it to physics?</li>
+<li>How do deep temporal models (Module 04) extend it through time?</li>
+<li>How does the renormalization group (Module 05) extend it across scales?</li>
+<li>How does BMS/BMR (Module 06) enable scientific model comparison?</li>
+<li>How does multi-agent theory (Module 07) extend it to social systems?</li>
+<li>How does this module's unification (Module 08) connect it to other frameworks?</li>
+</ol>
+<p>Conclude: What is Active Inference? Is it a theory, a framework, a principle, a mathematical language, or something else entirely?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Comparative analysis</td>
+<td>Framework comparison</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Integration</td>
+<td>Cross-module connections</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Deep comparison</td>
+<td>Active Inference vs. RL</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Problem identification</td>
+<td>Open research questions</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Track synthesis</td>
+<td>Grand unification</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

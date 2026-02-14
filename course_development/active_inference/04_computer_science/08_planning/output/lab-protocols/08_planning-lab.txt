@@ -1,0 +1,80 @@
+Lab 08: Deep Temporal Planning and Gridworlds
+
+Objective
+
+Implement multi-step policy evaluation, run MMP for deep inference, and build a gridworld agent with long-horizon planning.
+
+Prerequisites
+
+Completed Labs 01–07
+Understanding of EFE accumulation and multi-step policies
+
+Part 1: Multi-Step Policy Evaluation
+
+Goal: Evaluate multi-step policies by unrolling predicted state trajectories.
+
+Create a 2-state model with identity A, swap-or-stay B, C = [2, -2], uniform D.
+Define policies: [[0, 0], [0, 1], [1, 0], [1, 1]] (all 2-step combinations).
+For each policy, compute total EFE by accumulating $Gt$ across steps.
+Print a ranked table of policies by total G.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 2: Marginal Message Passing
+
+Goal: Run MMP on a 3-step observation sequence.
+
+Using the model from Part 1, create an observation sequence [0, 1, 0].
+Run runmmp() with a 3-step policy.
+Print the beliefs at each time point.
+Visualize convergence using plotconvergence().
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 3: Gridworld Environment
+
+Goal: Build a 4×4 gridworld and visualize it.
+
+Create a 16-state environment (flattened 4×4 grid).
+Define 4 actions (up, down, left, right) with walls at positions (1,1) and (1,2).
+Set C to prefer state 15 (bottom-right corner).
+Visualize with plotgridworld().
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 4: Planning Agent on the Gridworld
+
+Goal: Run an agent with multi-step policies on the gridworld.
+
+Define 3-step policies (a subset of all 4³ = 64 possible).
+Create an ActiveInferenceAgent with these policies and γ = 4.0.
+Run the agent for 20 steps.
+Visualize the trajectory using plotgridworld() with the path overlay.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 5: T-Maze with Temporal Depth
+
+Goal: Compare T-maze performance with T = 1 vs T = 2 policies.
+
+Set up the T-maze model from Module 05.
+Run with single-step policies (T = 1): how often does the agent reach the reward?
+Run with two-step policies (T = 2): e.g., [go-cue, go-left], [go-cue, go-right], etc.
+Compare success rates across 20 trials.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Summary
+
+| Skill | Library Component | Status |
+|-------|------------------|--------|
+| Evaluate multi-step policies | computeefe() in loop, policy unrolling | |
+| Run deep temporal inference | run_mmp() | |
+| Build gridworld environments | DiscreteEnvironment with grid B-matrix | |
+| Run planning agents on gridworlds | ActiveInferenceAgent(policies=...) | |
+| Compare planning depths | T=1 vs T=2 policy performance | |

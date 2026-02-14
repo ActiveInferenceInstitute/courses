@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpwhccsnnr</title>
+</head>
+<body>
+<h1>Lab: Computational Phenotyping and Individual Differences</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design and validate computational phenotyping studies.</p>
+</blockquote>
+<h2>Part 1: Parameter Recovery Design</h2>
+<p><strong>Exercise</strong>: For a probabilistic reversal learning task with an Active Inference POMDP model, design a parameter recovery study:</p>
+<p><strong>Model parameters</strong> to recover:</p>
+<ol>
+<li>α (learning rate): How quickly beliefs about reward probabilities update</li>
+<li>ω (prior volatility): How much the agent expects the environment to change</li>
+<li>β (policy precision): How deterministically actions follow the softmax policy</li>
+<li>C_reward (preference strength): How strongly the agent prefers reward vs. no-reward</li>
+</ol>
+<p><strong>Recovery procedure</strong>:</p>
+<ol>
+<li>Choose 100 parameter combinations spanning the realistic range</li>
+<li>For each, simulate 200 trials of behavior</li>
+<li>Fit the model to each simulated dataset</li>
+<li>Plot recovered vs. true parameters</li>
+</ol>
+<p><strong>Expected results table</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Range</th>
+<th>Recovery r²</th>
+<th>Common Issues</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>α</td>
+<td>[0.1, 0.9]</td>
+<td>Should be &gt;0.85</td>
+<td>May be confounded with ω</td>
+</tr>
+<tr>
+<td>ω</td>
+<td>[0.01, 0.5]</td>
+<td>Should be &gt;0.80</td>
+<td>Boundary effects near 0</td>
+</tr>
+<tr>
+<td>β</td>
+<td>[1, 10]</td>
+<td>Should be &gt;0.90</td>
+<td>Well-identified by choice variability</td>
+</tr>
+<tr>
+<td>C_reward</td>
+<td>[1, 5]</td>
+<td>Should be &gt;0.85</td>
+<td>Confounded with β if no explicit reward manipulation</td>
+</tr>
+</tbody>
+</table>
+<p>What would you do if α and ω are poorly separated (r² &lt; 0.5)?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Model Fitting to Data</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Practice fitting Active Inference models to empirical data.</p>
+</blockquote>
+<p><strong>Exercise</strong>: You have behavioral data from a reversal learning task. A participant made 200 choices with outcomes. Key patterns:</p>
+<ul>
+<li>Trials 1-80: Chose option A consistently (A rewarded 80% of the time)</li>
+<li>Trials 81-100: Continued choosing A after reversal (slow to switch)</li>
+<li>Trials 101-200: Gradually shifted to B</li>
+</ul>
+<p>What do these behavioral patterns suggest about the computational phenotype?</p>
+<table>
+<thead>
+<tr>
+<th>Observation</th>
+<th>Parameter Implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consistent initial choice</td>
+<td>Moderate β (confident in policy)</td>
+</tr>
+<tr>
+<td>Slow reversal detection</td>
+<td>Low ω (prior: environment is stable) + moderate α</td>
+</tr>
+<tr>
+<td>Gradual shift</td>
+<td>Not extreme in any parameter</td>
+</tr>
+</tbody>
+</table>
+<p>Estimate: Is this a "stable learner" (low ω, moderate α) or a "confused learner" (low α, high β)?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Clinical Application</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design study using computational phenotyping for clinical classification.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design a computational phenotyping study for anxiety disorders:</p>
+<p><strong>Hypothesis</strong>: Patients with generalized anxiety disorder (GAD) have elevated precision on threat-related prediction errors (ω_threat ↑) and exaggerated volatility estimates (heightened uncertainty about safety).</p>
+<ol>
+<li><strong>Task</strong>: Go/No-Go task with threat and safe cues. Shock (unconditioned stimulus) follows threat cues with 70% probability. Safe cues never paired with shock.</li>
+<li><strong>Model</strong>: Active Inference POMDP with parameters: threat precision (ω_threat), safety precision (ω_safe), learning rate (α), policy precision (β)</li>
+<li><strong>Groups</strong>: 30 GAD patients, 30 matched controls</li>
+<li><strong>Analysis plan</strong>: Fit model to each participant → PEB group comparison → identify parameters that differ between groups</li>
+<li><strong>Expected results</strong>: GAD patients show higher ω_threat (over-weighting threat PEs) and possibly lower ω_safe (under-weighting safety evidence)</li>
+</ol>
+<p>What additional analyses would strengthen the clinical utility? (Normative modeling? Treatment prediction? Longitudinal tracking?)</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Normative Modeling</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Apply normative modeling to identify individual deviations.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Given a population of N=200 healthy controls, each with a 4-parameter computational phenotype (α, ω, β, C), construct a normative model:</p>
+<ol>
+<li>Fit a multivariate Gaussian to the control group: N(μ_control, Σ_control)</li>
+<li>For a new patient, compute the Mahalanobis distance from the population center</li>
+<li>Identify which parameters deviate most from the normative distribution</li>
+</ol>
+<p>Example: Patient X has parameters α=0.9 (very high), ω=0.05 (very low), β=8 (high), C=2 (moderate)</p>
+<p>Is this profile within the normative range or pathological? Which parameter(s) are most deviant?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 300 words, reflect: Computational phenotyping promises personalized psychiatry, but faces challenges: model misspecification, test-retest reliability, and the question of whether computational parameters truly capture stable traits or fluctuating states. How should these challenges be addressed?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Validation design</td>
+<td>Parameter recovery</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Data interpretation</td>
+<td>Behavioral-to-computational mapping</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Clinical study design</td>
+<td>Computational phenotyping for psychiatry</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Statistical modeling</td>
+<td>Normative modeling</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Critical evaluation</td>
+<td>Practical challenges</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

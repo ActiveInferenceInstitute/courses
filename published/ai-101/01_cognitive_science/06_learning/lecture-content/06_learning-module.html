@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 06: Learning — How Agents Improve Over Time</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 101 | <strong>Unit</strong>: Cognitive Science | <strong>Audience</strong>: First-semester undergraduates</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Explain how learning in Active Inference means updating the <strong>parameters</strong> of the generative model, not just updating beliefs about the current state.</li>
+<li>Describe <strong>structure learning</strong>: how agents simplify their models by pruning unnecessary complexity.</li>
+<li>Connect learning to memory formation, skill acquisition, and the role of sleep.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Perception updates beliefs about what's happening <em>right now</em>. Learning goes deeper — it updates the generative model itself, changing what the agent expects <em>in general</em>. When you learn that stoves are hot, you're not just updating your belief about this particular stove — you're updating your model so that future encounters with stoves automatically include the prediction "hot."</p>
+<h2>Key Concepts</h2>
+<h3>1. Two Timescales of Inference</h3>
+<p>Active Inference operates on multiple timescales:</p>
+<ul>
+<li><strong>Fast (perception)</strong>: Updating beliefs about current hidden states ("What's happening right now?")</li>
+<li><strong>Slow (learning)</strong>: Updating model parameters ("How does the world generally work?")</li>
+</ul>
+<p>Perception changes what you <em>believe</em>; learning changes what you <em>expect</em>.</p>
+<p><strong>Example</strong>: The first time you see snow, perception tells you "that white stuff is cold." After many encounters, learning updates your model: "white flaky precipitation = snow = cold." Now you predict cold before you even touch it.</p>
+<h3>2. Parameter Learning — Refining Connections</h3>
+<p>In a POMDP (the formal model used in Active Inference), learning means updating the matrices that define the generative model:</p>
+<ul>
+<li><strong>A matrix (Likelihood)</strong>: Learning which observations go with which states. Example: Learning that dark clouds → rain.</li>
+<li><strong>B matrix (Transitions)</strong>: Learning how states change. Example: Learning that cloudy mornings often lead to rainy afternoons.</li>
+<li><strong>D vector (Priors)</strong>: Learning what states are common. Example: Learning that it rains more in April than in July.</li>
+</ul>
+<p>Each of these improves with experience — like a table that gets more entries the more data you collect.</p>
+<h3>3. Structure Learning — Simplifying the Model</h3>
+<p>Sometimes learning means <em>removing</em> unnecessary complexity:</p>
+<ul>
+<li>A child might start with a complex, messy model of animal categories, then gradually simplify it into clean categories (dogs, cats, birds)</li>
+<li>An expert chess player doesn't consider every possible move — they've pruned their model down to a few good patterns</li>
+</ul>
+<p>This is called <strong>Bayesian Model Reduction (BMR)</strong>: the brain evaluates whether parts of the model are actually doing useful work, and prunes those that aren't. Interestingly, this may happen primarily during <strong>sleep</strong> — explaining why sleep is so important for learning.</p>
+<h3>4. Habituation and Skill Learning</h3>
+<p>As you practice a skill, it gradually moves from effortful to automatic:</p>
+<ul>
+<li><strong>Beginner</strong>: High prediction error, slow, deliberate, lots of conscious attention</li>
+<li><strong>Intermediate</strong>: Decreasing prediction error, faster, some automaticity</li>
+<li><strong>Expert</strong>: Very low prediction error, fast, automatic, "muscle memory"</li>
+</ul>
+<p>In Active Inference terms, the generative model becomes so well-calibrated that prediction errors are minimal — the agent can predict its own actions and their outcomes with high precision.</p>
+<h3>5. Sleep and Memory Consolidation</h3>
+<p>Sleep plays a crucial role in learning:</p>
+<ul>
+<li>During <strong>slow-wave sleep</strong>, the brain replays experiences and consolidates parameter updates</li>
+<li>During <strong>REM sleep</strong>, the brain may perform structure learning (BMR) — pruning unnecessary model complexity</li>
+<li>This is why a good night's sleep after studying improves memory and performance</li>
+</ul>
+<h2>Summary</h2>
+<p>Learning is inference over longer timescales — updating not just moment-to-moment beliefs but the parameters and structure of the generative model itself. Through parameter learning, agents refine their expectations with experience. Through structure learning, they simplify their models by pruning unnecessary complexity. Sleep consolidates both processes.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Friston, K. J., Lin, M., Frith, C., Pezzulo, G., Hobson, J. A., &amp; Ondobaka, S. (2017). Active inference, curiosity and insight. <em>Neural Computation</em>, 29(10), 2633-2683.</li>
+<li>Diekelmann, S. &amp; Born, J. (2010). The memory function of sleep. <em>Nature Reviews Neuroscience</em>, 11(2), 114-126.</li>
+<li>Tenenbaum, J. B., Kemp, C., Griffiths, T. L., &amp; Goodman, N. D. (2011). How to grow a mind. <em>Science</em>, 331(6022), 1279-1285.</li>
+</ul>
+</body>
+</html>

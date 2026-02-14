@@ -1,0 +1,55 @@
+Practice Quiz: Agents (Implementation)
+
+Name: ______________ Date: _____________
+
+Part A: Multiple Choice
+
+The ActiveInferenceAgent class stores beliefs in:
+A) self.A
+B) self.qs — the posterior distribution over hidden states
+C) self.C
+D) self.gamma
+
+The inferstates method implements:
+A) Policy evaluation
+B) Bayesian updating: posterior = normalize(likelihood × prior)
+C) Action selection
+D) Environment simulation
+
+The computeefe method calculates:
+A) The observation likelihood
+B) Expected Free Energy by summing pragmatic and epistemic terms over predicted futures
+C) The transition probability
+D) The number of policies
+
+The SimpleEnvironment generates observations by:
+A) Always returning the same value
+B) Sampling from P(o | s) using the true A matrix and current state
+C) Reading from a file
+D) Copying the agent's beliefs
+
+The simulation loop connects agent and environment through:
+A) Shared memory
+B) Observe → Infer → Select → Act → Repeat
+C) A single function call
+D) Random steps
+
+Setting gamma = 0 would cause the agent to:
+A) Always select the best policy
+B) Select policies nearly uniformly (random behavior) regardless of EFE
+C) Crash the program
+D) Move faster
+
+The agent logs beliefhistory, actionhistory, and obshistory for:
+A) Entertainment
+B) Analysis and debugging — understanding the agent's decision-making over time
+C) Sending to another agent
+D) Reducing computation
+
+Part B: Short Answer
+
+Write the key lines of the inferstates method and explain what each line does.
+
+Explain what happens in the simulation loop when the agent's model (A matrix) is slightly wrong — different from the environment's true A matrix. How does this affect behavior?
+
+Design a test to verify that the agent's policy selection is working correctly. What should happen when C strongly favors one observation? When C is uniform?

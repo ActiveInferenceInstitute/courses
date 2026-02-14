@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_Agents - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>02_Agents</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>02_Agents</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 02: Agents — Neural Correlates of the Self-Model</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 401 | <strong>Unit</strong>: Neuroscientific Frontiers | <strong>Audience</strong>: Advanced undergraduates / graduate students</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Identify the <strong>neural substrates</strong> of the self-model — interoceptive, proprioceptive, and narrative self-representations.</li>
+<li>Analyze the <strong>default mode network (DMN)</strong> as the neural basis of the generative model of self.</li>
+<li>Evaluate how <strong>interoceptive inference</strong> grounds subjective experience and emotional awareness.</li>
+<li>Connect self-model neuroscience to the Philosophical Foundations treatment of selfhood as inference (Track 1, Module 02).</li>
+</ol>
+<h2>Introduction</h2>
+<p>If Active Inference treats every agent as a generative model, then selfhood is a specific kind of prediction — the model the brain constructs about its own states. This module maps the "self as model" onto specific neural circuits.</p>
+<blockquote>
+<p><strong>Key Insight — The Self is a Prediction</strong>: The self is not a fixed entity residing somewhere in the brain. It is a continuously updated predictive model — the brain's best hypothesis about who it is, what it feels, and where it stands in the world. Self-model disruptions produce some of the most dramatic clinical phenomena in neurology and psychiatry.</p>
+</blockquote>
+<h2>Key Concepts</h2>
+<h3>1. The Default Mode Network as Self-Model</h3>
+<p>The DMN — a network of brain regions active during rest, mind-wandering, and self-referential thought — has been proposed as the neural substrate of the self-model in Active Inference:</p>
+<p><strong>Key DMN regions and their self-model functions</strong>:</p>
+<ul>
+<li><strong>Medial prefrontal cortex (mPFC)</strong>: Self-referential processing — "what am I thinking/feeling?" Encodes higher-order predictions about one's own mental states.</li>
+<li><strong>Posterior cingulate cortex (PCC)</strong>: Autobiographical memory and narrative self — "who am I over time?" Integrates past experiences into a coherent self-narrative.</li>
+<li><strong>Angular gyrus / temporoparietal junction (TPJ)</strong>: Self-other distinction and perspective-taking — "how do others see me?" The interface between self-model and social inference.</li>
+<li><strong>Hippocampal formation</strong>: Episodic memory and temporal self — "where am I in my life story?" Provides the temporal scaffolding for narrative identity.</li>
+<li><strong>Precuneus</strong>: Visuospatial self-representation and first-person perspective — "where am I in space?" Implements the spatial component of the embodied self.</li>
+</ul>
+<p>The DMN implements the <strong>highest levels of the generative model</strong> — the most abstract, temporally extended predictions about oneself and one's situation. When externally directed attention is not required, the DMN generates predictions about the self's past, present, and future states.</p>
+<blockquote>
+<p><strong>Cross-Track Connection — Philosophical Foundations (Module 02)</strong>: The philosophical distinction between the "minimal self" (pre-reflective bodily awareness) and the "narrative self" (autobiographical identity) maps onto the neural distinction between interoceptive/proprioceptive circuits (insular cortex, somatosensory cortex) and the DMN (mPFC, PCC, hippocampus). Philosophy identified the distinction; neuroscience localizes it.</p>
+</blockquote>
+<h3>2. Interoceptive Inference and the Embodied Self</h3>
+<p>Seth &amp; Friston (2016) propose that <strong>interoceptive inference</strong> — the brain's predictions about the body's internal states — is the foundation of subjective experience:</p>
+<p><strong>The interoceptive hierarchy</strong>:</p>
+<ul>
+<li><strong>Peripheral level</strong>: Visceral receptors detect heart rate, respiration, gut motility, blood chemistry, temperature</li>
+<li><strong>Brainstem level</strong>: Nucleus of the solitary tract (NTS) and parabrachial nucleus process raw visceral signals</li>
+<li><strong>Insular cortex</strong>: The primary interoceptive cortex — builds a map of the body's internal state. The posterior insula processes raw interoceptive signals; middle insula integrates these with contextual information</li>
+<li><strong>Anterior insula</strong>: Integrates interoceptive signals with emotional, cognitive, and social context — the "sentient self." The anterior insula is consistently activated during subjective emotional experience across all emotion categories</li>
+</ul>
+<p><strong>The key insight</strong>: Emotions are interoceptive prediction errors. When you feel anxious, your brain is predicting a deviation from expected bodily states (elevated heart rate, shallow breathing). The <em>feeling</em> of anxiety is the interoceptive prediction error itself — the discrepancy between predicted and actual bodily states.</p>
+<blockquote>
+<p><strong>Clinical Vignette — Heartbeat Evoked Potentials</strong>: The heartbeat evoked potential (HEP) — a cortical response time-locked to each heartbeat — is larger in individuals with better interoceptive accuracy and correlates with anterior insular thickness. Patients with alexithymia (difficulty identifying emotions) show reduced HEPs, supporting the link between interoceptive precision and emotional awareness.</p>
+</blockquote>
+<h3>3. Proprioceptive Inference and Body Ownership</h3>
+<p>The sense of owning and controlling one's body depends on proprioceptive inference:</p>
+<p><strong>Body schema</strong>: A dynamic generative model of the body's position, posture, and boundaries. This model is maintained by continuous proprioceptive prediction and correction. The posterior parietal cortex maintains the body schema; the premotor cortex generates predictions about upcoming body states.</p>
+<p><strong>The rubber hand illusion</strong>: When visual and tactile information is artificially correlated with a fake hand, the proprioceptive generative model updates to "incorporate" the fake hand — prediction errors are minimized by shifting the body boundary. Brain imaging shows this illusion is associated with changes in premotor and intraparietal cortex, and a decrease in proprioceptive precision over the real hand.</p>
+<p><strong>Phantom limbs</strong>: After amputation, the proprioceptive model persists, generating predictions about a limb that no longer exists. The resulting prediction errors (which cannot be resolved) produce phantom sensations. Mirror therapy works by providing visual prediction error that can recalibrate the phantom limb model.</p>
+<p><strong>Full-body illusions</strong>: Virtual reality induction of full-body ownership transfer demonstrates that the body model is remarkably plastic. The multisensory integration hypothesis (Blanke, 2012) maps onto Active Inference: body ownership reflects the posterior probability that "this body is mine" given multisensory evidence.</p>
+<h3>4. Neural Markers of Self-Model Disruption</h3>
+<p>Disruptions to the self-model produce characteristic clinical phenomena:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Neural Basis</th>
+<th>Self-Model Disruption</th>
+<th>Active Inference Mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Depersonalization</td>
+<td>Reduced insular and DMN activity</td>
+<td>Weakened interoceptive self-model; "I don't feel real"</td>
+<td>Low precision on interoceptive prediction errors</td>
+</tr>
+<tr>
+<td>Out-of-body experience</td>
+<td>TPJ disruption</td>
+<td>Disrupted proprioceptive self-localization</td>
+<td>Conflict between vestibular and visual self-model</td>
+</tr>
+<tr>
+<td>Anosognosia</td>
+<td>Right parietal damage</td>
+<td>Inability to update self-model to include deficit</td>
+<td>Fixed prior that "I am able" resists error-driven updating</td>
+</tr>
+<tr>
+<td>Dissociative identity</td>
+<td>Altered DMN functional connectivity</td>
+<td>Fragmented self-model with multiple modes</td>
+<td>Multiple competing generative models of self</td>
+</tr>
+<tr>
+<td>Alien hand syndrome</td>
+<td>SMA lesion</td>
+<td>Action without self-attribution</td>
+<td>Motor model disconnected from self-model</td>
+</tr>
+<tr>
+<td>Cotard's syndrome</td>
+<td>Insular/DMN disconnection</td>
+<td>Belief that one is dead</td>
+<td>Catastrophic interoceptive prediction error — no "aliveness" signal</td>
+</tr>
+<tr>
+<td>Somatoparaphrenia</td>
+<td>Right parietal damage</td>
+<td>Denial of limb ownership</td>
+<td>Proprioceptive model excludes the limb</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Key Insight — The Self as Hypothesis, Not Axiom</strong>: Notice that the self-model is not inviolable — it can fragment, shift, expand, shrink, or even conclude that the host organism is dead (Cotard's). The self is the brain's "best guess" about its own identity, and like all guesses, it can be systematically wrong. This has profound implications for understanding both psychopathology and contemplative practices (meditation, which may systematically reduce self-model precision).</p>
+</blockquote>
+<h3>5. The Minimal Self and Neural Correlates of Consciousness</h3>
+<p>The "minimal self" (Zahavi, 2005) — the pre-reflective sense of being a subject of experience — may correspond to the most basic level of interoceptive and proprioceptive inference:</p>
+<p><strong>Hypothesis</strong>: Consciousness is present whenever a system maintains an active self-model — a predictive model of its own internal and bodily states. NCC (neural correlates of consciousness) should therefore track interoceptive and proprioceptive prediction circuits rather than specific content (faces, colors, etc.).</p>
+<p><strong>Evidence</strong>: Anesthesia disproportionately disrupts interoceptive and DMN processing; loss of consciousness correlates with loss of self-referential prediction rather than loss of sensory processing. The posterior "hot zone" (posterior cingulate, precuneus, lateral temporal-parietal cortex) identified by Koch et al. (2016) overlaps significantly with the self-modeling network.</p>
+<p><strong>The dreaming puzzle</strong>: During REM sleep, the self-model is partially maintained (you experience yourself as an agent in the dream) but decoupled from sensory prediction. This dissociation supports the view that consciousness tracks the self-model rather than sensory processing per se.</p>
+<h3>6. Development of the Self-Model</h3>
+<p>The self-model is not innate but develops through experience:</p>
+<p><strong>Neonatal period</strong>: Basic interoceptive self — distinguishing self-generated from external touch (based on predicted sensory consequences of motor actions). Newborns already show differential responses to self-touch vs. external touch.</p>
+<p><strong>First year</strong>: Body schema development — integrating proprioceptive, vestibular, and visual information into a coherent body model. The mirror self-recognition test (passing around 18-24 months) marks a milestone in higher-order self-modeling.</p>
+<p><strong>Childhood-adolescence</strong>: Narrative self-construction — building autobiographical memory and integrating social feedback into the self-model. DMN functional connectivity matures throughout adolescence.</p>
+<h2>Summary</h2>
+<p>The self-model is neurally implemented across the DMN (narrative self), insular cortex (interoceptive self), and proprioceptive circuits (bodily self). Emotions arise as interoceptive prediction errors. Clinical disruptions of the self-model (depersonalization, phantom limbs, out-of-body experiences, Cotard's syndrome) confirm that selfhood is an inference that can systematically fail. Consciousness may track the integrity of the self-model. The self-model develops through experience from basic interoceptive differentiation to full narrative identity.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Seth, A. K. (2013). Interoceptive inference, emotion and the embodied self. <em>Trends in Cognitive Sciences</em>, 17(11), 565-573.</li>
+<li>Blanke, O. (2012). Multisensory brain mechanisms of bodily self-consciousness. <em>Nature Reviews Neuroscience</em>, 13(8), 556-571.</li>
+<li>Andrews-Hanna, J. R. et al. (2014). The default network and self-generated thought. <em>Annals NY Acad Sciences</em>, 1316, 29-52.</li>
+<li>Koch, C. et al. (2016). Neural correlates of consciousness: progress and problems. <em>Nature Reviews Neuroscience</em>, 17(5), 307-321.</li>
+<li>Tsakiris, M. (2010). My body in the brain: A neurocognitive model of body-ownership. <em>Neuropsychologia</em>, 48(3), 703-712.</li>
+</ul></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Neural Correlates of the Self-Model</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze the neural architecture of the self using the Active Inference framework.</p>
+</blockquote>
+<h2>Part 1: Mapping the Self-Model Network</h2>
+<p><strong>Exercise</strong>: Map each component of the self-model to its neural substrate and the type of self-representation it implements:</p>
+<table>
+<thead>
+<tr>
+<th>Self-Model Component</th>
+<th>Primary Brain Region</th>
+<th>Type of Self-Representation</th>
+<th>What Happens if Damaged</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"What am I thinking/feeling?"</td>
+<td>medial PFC</td>
+<td>Reflective self</td>
+<td>Difficulty understanding own mental states</td>
+</tr>
+<tr>
+<td>"Who am I over time?"</td>
+<td>Posterior cingulate</td>
+<td>Narrative self (autobiography)</td>
+<td>Loss of autobiographical memory</td>
+</tr>
+<tr>
+<td>"How do others see me?"</td>
+<td>TPJ / angular gyrus</td>
+<td>Social self (perspective-taking)</td>
+<td>Impaired theory of mind</td>
+</tr>
+<tr>
+<td>"Where have I been?"</td>
+<td>Hippocampus</td>
+<td>Temporal self (episodic memory)</td>
+<td>Amnesia, no temporal identity</td>
+</tr>
+<tr>
+<td>"Where am I in space?"</td>
+<td>Precuneus</td>
+<td>Spatial self (first-person perspective)</td>
+<td>Disorientation, OBE vulnerability</td>
+</tr>
+<tr>
+<td>"What does my body feel like?"</td>
+<td>Anterior insula</td>
+<td>Interoceptive self (sentient self)</td>
+<td>Alexithymia, emotional flatness</td>
+</tr>
+</tbody>
+</table>
+<p>Now answer: Which components must be intact for the "minimal self" (basic pre-reflective awareness of being a subject)? Which are needed only for the "narrative self" (autobiographical identity)?</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: Interoceptive Inference Thought Experiment</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Understand emotions as interoceptive prediction errors.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Work through the following scenario step by step using interoceptive inference:</p>
+<p><strong>Scenario</strong>: You're about to give a public presentation. Here is a moment-by-moment Active Inference analysis:</p>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Body State</th>
+<th>Brain's Prediction</th>
+<th>Prediction Error</th>
+<th>Emotion Felt</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T-5 min</td>
+<td>Slight heart rate increase</td>
+<td>"Heart should be at resting rate"</td>
+<td>Moderate — HR above predicted</td>
+<td>Mild anxiety</td>
+<td>Internal — "It's just preparation" (model update)</td>
+</tr>
+<tr>
+<td>T-2 min</td>
+<td>Heart racing, dry mouth, sweaty palms</td>
+<td>"Heart should be at resting rate"</td>
+<td>LARGE — multiple interoceptive deviations</td>
+<td>Strong anxiety</td>
+<td>?</td>
+</tr>
+<tr>
+<td>T-0</td>
+<td>You step on stage, crowd smiles</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>T+5 min</td>
+<td>You're in flow, voice steady</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>T+30 min</td>
+<td>Presentation finished, applause</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<p>Complete the table for T-2 through T+30. For each row, specify: (a) the brain's prediction, (b) the prediction error, (c) the emotion felt, and (d) the action taken (belief update or physical action).</p>
+<p>{fill:textarea}</p>
+<h2>Part 3: Clinical Self-Model Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Apply Active Inference to clinical disorders of selfhood.</p>
+</blockquote>
+<p><strong>Exercise</strong>: For each clinical case, identify: (a) which component of the self-model is disrupted, (b) the Active Inference mechanism, and (c) a prediction for treatment.</p>
+<p><strong>Case 1 — Depersonalization</strong>: A 28-year-old reports "I look in the mirror and it doesn't look like me. I feel like I'm watching my life from outside my body. I can't feel my emotions properly."</p>
+<ul>
+<li>Which self-model component is disrupted?</li>
+<li>What is the Active Inference mechanism? (Hint: interoceptive precision)</li>
+<li>What treatment approach does this mechanism suggest?</li>
+</ul>
+<p>{fill:textarea}</p>
+<p><strong>Case 2 — Cotard's Syndrome</strong>: A 65-year-old stroke patient insists "I am dead. My organs have stopped working. I don't exist."</p>
+<ul>
+<li>Which self-model component is disrupted?</li>
+<li>What is the Active Inference mechanism? (Hint: catastrophic interoceptive inference failure)</li>
+<li>How does this relate to the anterior insula?</li>
+</ul>
+<p>{fill:textarea}</p>
+<p><strong>Case 3 — Phantom Limb</strong>: A veteran who lost his left arm reports: "I can still feel my arm. Sometimes it burns, sometimes it clenches into a fist. I know it's not there but I can FEEL it."</p>
+<ul>
+<li>Which self-model component is disrupted?</li>
+<li>What is the Active Inference mechanism? (Hint: prophylactic proprioceptive model)</li>
+<li>Why does mirror therapy work? (Explain using prediction error and model updating)</li>
+</ul>
+<p>{fill:textarea}</p>
+<h2>Part 4: The Rubber Hand Illusion</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Understand body ownership as Bayesian inference.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Describe the rubber hand illusion step by step using Active Inference:</p>
+<ol>
+<li>
+<p><strong>Before stimulation</strong>: The brain's body model includes the real hand. How confident is the model? (precision = high)</p>
+</li>
+<li>
+<p><strong>During synchronous stroking</strong>: Visual observation (seeing rubber hand being stroked) and tactile sensation (feeling your real hand being stroked) become correlated. What prediction error arises? How does the brain resolve the conflict?</p>
+</li>
+<li>
+<p><strong>During asynchronous stroking (control condition)</strong>: Why does the illusion NOT occur? What is different about the prediction errors?</p>
+</li>
+<li>
+<p><strong>After illusion onset</strong>: Participants report a temperature drop in the real hand. What does this reveal about the brain's proprioceptive precision weighting? (It reduces precision for the real hand because the model has "reassigned" ownership)</p>
+</li>
+<li>
+<p><strong>Extension</strong>: Design a variation of the rubber hand illusion that would test a specific Active Inference prediction about body ownership. What would you change, and what would the result tell you?</p>
+</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 5: Meditation and the Self-Model</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze contemplative practices through the lens of self-model modulation.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Experienced meditators report: "The sense of being a fixed, separate self dissolves during deep meditation. The boundary between self and world becomes less rigid."</p>
+<ol>
+<li>What would this look like in Active Inference terms? Which precision parameter(s) are being modulated?</li>
+<li>Neuroimaging studies show reduced DMN activity during meditation. How does this connect to the Active Inference interpretation?</li>
+<li>If the self is a prediction that can be temporarily suspended, what does this imply about the nature of selfhood?</li>
+<li>Is meditation "delusional" (the self-model becomes less accurate) or "clarifying" (the self-model was always an approximation, and meditation reveals this)? Argue both sides.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Network mapping</td>
+<td>DMN regions and self-model components</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Process tracing</td>
+<td>Interoceptive inference moment by moment</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Clinical analysis</td>
+<td>Self-model disruptions (depersonalization, Cotard's, phantom limb)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Experimental reasoning</td>
+<td>Rubber hand illusion as body ownership inference</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Philosophical analysis</td>
+<td>Meditation and self-model modulation</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Agents — Neural Correlates of the Self-Model</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em> <strong>Date</strong>: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Part A: Multiple Choice</h2>
+<p><strong>1.</strong> The default mode network (DMN) is proposed to implement:
+A) Motor control during complex tasks
+B) The neural substrate of the self-model — the brain's most abstract, temporally extended predictions about oneself
+C) Primary sensory processing during passive observation
+D) Cerebellar coordination of movement</p>
+<p><strong>2.</strong> An emotion, according to interoceptive inference, is:
+A) A pre-programmed response stored in the limbic system
+B) An interoceptive prediction error — the discrepancy between predicted and actual bodily states
+C) A purely cognitive judgment with no bodily component
+D) Random neural noise that the brain interprets post-hoc</p>
+<p><strong>3.</strong> The rubber hand illusion demonstrates:
+A) That humans are easily tricked by visual stimuli
+B) That body ownership is an inference — a posterior probability updated by multisensory evidence — not a fixed property
+C) That the brain ignores proprioceptive information
+D) That visual information always overrides touch</p>
+<p><strong>4.</strong> In depersonalization, the Active Inference mechanism is:
+A) Excessive interoceptive precision causing overwhelming emotions
+B) Low precision on interoceptive prediction errors — the "aliveness signal" is attenuated, producing feelings of unreality
+C) Hyperactive DMN producing excessive self-referential thought
+D) Normal interoceptive processing with delusional overlay</p>
+<p><strong>5.</strong> Cotard's syndrome (believing one is dead) is best explained by:
+A) Brain death affecting cognition
+B) Catastrophic interoceptive inference failure — the self-model receives so little interoceptive evidence that the best Bayesian hypothesis is "I am dead"
+C) Frontal lobe damage causing confabulation
+D) Malingering for attention</p>
+<p><strong>6.</strong> The anterior insula is critical for:
+A) Language production (Broca's area)
+B) Integrating interoceptive signals with emotional, cognitive, and social context — implementing the "sentient self"
+C) Visual processing of faces
+D) Spatial navigation</p>
+<p><strong>7.</strong> Alexithymia (difficulty identifying emotions) is associated with:
+A) Damage to the motor cortex
+B) Reduced interoceptive precision — the person cannot reliably distinguish interoceptive prediction errors, so emotions feel undifferentiated
+C) Enhanced cognitive processing at the expense of emotional processing
+D) Normal interoceptive processing with a language deficit</p>
+<p><strong>8.</strong> During anesthesia, which self-model component is disrupted first?
+A) Motor planning — patients stop moving
+B) Interoceptive and DMN self-referential processing — the self-model is lost before specific sensory content processing
+C) Visual processing — patients go blind
+D) Memory consolidation — patients can't form new memories</p>
+<h2>Part B: Short Answer</h2>
+<p><strong>1.</strong> A patient with somatoparaphrenia (following right parietal stroke) looks at her own left arm and says: "That's not my arm. Someone put a stranger's arm in my bed." Explain this using Active Inference: What component of the self-model has failed? Why does the brain prefer "this is not my arm" over "my brain has a deficit"? (Hint: the prior that "I am intact" has very high precision.) (250 words)</p>
+<p><strong>2.</strong> Experienced meditators show reduced DMN activity and report dissolution of the sense of a fixed self. Does this mean meditation is "brain damage"? Argue why reducing self-model precision is fundamentally different from pathological self-model disruption (depersonalization). What is the key difference? (250 words)</p>
+<h2>Part C: Essay</h2>
+<p><strong>1.</strong> The "minimal self" (pre-reflective bodily awareness) and the "narrative self" (autobiographical identity) dissociate in several clinical conditions. Amnestic patients (like H.M.) lose the narrative self but retain the minimal self. Depersonalization patients retain the narrative self but lose the minimal self. Write a 400-word analysis explaining each case in Active Inference terms, mapping each to specific neural substrates and precision parameters. What does this double dissociation reveal about the architecture of the self?</p>
+<p><strong>2.</strong> A colleague claims: "The self is obviously real — you can't deny your own existence. Active Inference's claim that the self is 'just a prediction' is absurd." Write a 400-word response that: (a) acknowledges why the self <em>feels</em> real and certain, (b) explains why Active Inference's claim is not that the self is "unreal" but that it is an actively maintained inference, and (c) provides three clinical examples where the self-model systematically fails, showing that selfhood IS indeed an inference that can go wrong.</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

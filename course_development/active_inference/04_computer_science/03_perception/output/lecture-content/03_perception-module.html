@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 03: Perception — State Estimation via Variational Inference</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Implement belief updating using the A-matrix likelihood and fixed-point iteration.</li>
+<li>Use <code>run_state_inference()</code> to infer hidden states from observations.</li>
+<li>Visualize posterior beliefs and convergence diagnostics.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Perception in Active Inference is the process of updating the agent's beliefs about hidden states given a new observation. This is not passive pattern matching — it is an active <em>inference</em> process that minimizes Variational Free Energy (VFE) by finding the posterior distribution $q(s)$ that best reconciles the observation with the agent's prior beliefs.</p>
+<h2>Key Concepts</h2>
+<h3>1. The Inference Problem</h3>
+<p>Given:</p>
+<ul>
+<li>Prior beliefs: $q(s)$ (initially $D$, or the previous posterior)</li>
+<li>New observation: $o_t$ (an integer index)</li>
+<li>Likelihood model: $\mathbf{A}$ where $A[o, s] = P(o \mid s)$</li>
+</ul>
+<p>Find the posterior $q(s \mid o_t)$ that minimizes VFE:</p>
+<p>$$F = D_{KL}[q(s) | p(s)] - \mathbb{E}_{q(s)}[\ln P(o_t \mid s)]$$</p>
+<h3>2. Fixed-Point Iteration</h3>
+<p>The <code>run_state_inference()</code> function solves this via iterative message passing:</p>
+<p>$$q(s) \propto P(o_t \mid s) \cdot q_{\text{prior}}(s)$$</p>
+<p>At each iteration:</p>
+<ol>
+<li>Compute the log-posterior: $\ln q(s) = \ln A[o_t, :] + \ln q_{\text{prior}}(s)$</li>
+<li>Normalize via softmax: $q(s) = \sigma(\ln q(s))$</li>
+<li>Check convergence: $\delta = | q^{(k)} - q^{(k-1)} |$</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_state_inference</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">run_state_inference</span><span class="p">(</span>
+    <span class="n">prior</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span>   <span class="c1"># uniform prior</span>
+    <span class="n">observation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>                 <span class="c1"># observed o=0</span>
+    <span class="n">A</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span>                     <span class="c1"># likelihood matrix</span>
+    <span class="n">num_iterations</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>             <span class="c1"># max iterations</span>
+    <span class="n">convergence_threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>    <span class="c1"># stop when delta &lt; threshold</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;q_s&quot;</span><span class="p">])</span>           <span class="c1"># posterior beliefs</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;converged&quot;</span><span class="p">])</span>     <span class="c1"># True/False</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;num_iters&quot;</span><span class="p">])</span>     <span class="c1"># iterations used</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;delta_history&quot;</span><span class="p">])</span> <span class="c1"># convergence trace</span>
+</code></pre></div>
+
+<h3>3. How the A-Matrix Shapes Perception</h3>
+<p>The A-matrix determines how informative each observation is:</p>
+<table>
+<thead>
+<tr>
+<th>A-matrix structure</th>
+<th>Perceptual effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity (A = I)</td>
+<td>Fully observable — each observation uniquely identifies a state</td>
+</tr>
+<tr>
+<td>Uniform columns</td>
+<td>Observations carry no information — beliefs don't update</td>
+</tr>
+<tr>
+<td>High diagonal</td>
+<td>Clear signal — beliefs shift strongly toward the matching state</td>
+</tr>
+<tr>
+<td>Ambiguous (similar columns)</td>
+<td>Weak evidence — beliefs change slowly, need more observations</td>
+</tr>
+</tbody>
+</table>
+<div class="codehilite"><pre><span></span><code><span class="c1"># High-information A: observation 0 strongly implies state 0</span>
+<span class="n">A_clear</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">]])</span>
+
+<span class="c1"># Low-information A: observations are nearly uninformative</span>
+<span class="n">A_noisy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.55</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">]])</span>
+</code></pre></div>
+
+<h3>4. Agent-Level Inference</h3>
+<p>The <code>ActiveInferenceAgent.infer_states(obs)</code> method wraps <code>run_state_inference()</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActiveInferenceAgent</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">ActiveInferenceAgent</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
+<span class="n">agent</span><span class="o">.</span><span class="n">infer_states</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>         <span class="c1"># observe o=0, update beliefs</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">q_s</span><span class="p">)</span>              <span class="c1"># posterior</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;vfe&quot;</span><span class="p">])</span>   <span class="c1"># VFE logged after each inference</span>
+</code></pre></div>
+
+<p>After inference, <code>agent.q_s</code> holds the updated posterior and VFE is appended to the history.</p>
+<h3>5. The Log-Likelihood Vector</h3>
+<p><code>model.log_likelihood(obs)</code> returns the vector $\ln A[o, :]$ — the log-evidence that each state could have produced the observation:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">ll</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">log_likelihood</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>   <span class="c1"># shape: (num_states,)</span>
+<span class="c1"># For A = [[0.9, 0.1], [0.1, 0.9]]:</span>
+<span class="c1"># ll ≈ [-0.105, -2.303]  (state 0 is much more likely to produce obs 0)</span>
+</code></pre></div>
+
+<h3>6. Prediction Errors</h3>
+<p>After updating beliefs, the agent can compute prediction errors:</p>
+<p>$$\varepsilon = \mathbf{e}_o - \mathbf{A} \cdot q(s)$$</p>
+<p>where $\mathbf{e}_o$ is a one-hot vector for the actual observation:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">agent</span><span class="o">.</span><span class="n">infer_states</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">pe</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">prediction_error</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>    <span class="c1"># shape: (num_obs,)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pe</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>                    <span class="c1"># ≈ 0 (prediction errors sum to zero)</span>
+</code></pre></div>
+
+<h3>7. Convergence Diagnostics</h3>
+<p>Use <code>plot_convergence()</code> to visualize how quickly inference settles:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_convergence</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">run_state_inference</span><span class="p">(</span><span class="n">prior</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">observation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+<span class="n">plot_convergence</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;delta_history&quot;</span><span class="p">],</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+</code></pre></div>
+
+<h2>Applications</h2>
+<ul>
+<li><strong>Ambiguous stimuli</strong>: With a noisy A-matrix, a single observation may not resolve the state — the agent needs multiple observations to gain confidence (like viewing a blurry image).</li>
+<li><strong>Bayesian surprise</strong>: The magnitude of the belief shift after inference measures how surprising the observation was.</li>
+<li><strong>Prior-observation conflict</strong>: When the prior strongly favors one state but the observation favors another, the posterior is a compromise weighted by the relative strengths.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>Perception reduces to variational inference over hidden states. The A-matrix, prior beliefs, and observation jointly determine the posterior through iterated message passing. Module 04 extends this by introducing preferences (C), priors (D), and habits (E) as constraints on the agent's internal model.</p>
+</body>
+</html>

@@ -1,0 +1,55 @@
+# Practice Quiz: Communication (Philosophical Foundations)
+
+**Name**: _________________ **Date**: _________________
+
+## Part A: Multiple Choice
+
+**1.** Active Inference addresses the problem of other minds by:
+A) Proving other minds exist through logic
+B) Treating other agents as systems with their own generative models, and inferring their beliefs from observed behavior
+C) Denying other minds exist
+D) Using brain scanners to read thoughts directly
+
+**2.** The language-as-active-inference hypothesis proposes that:
+A) Language is a separate module from cognition
+B) Communication is a special case of coupled Active Inference — speakers select utterances that minimize the listener's uncertainty
+C) Language is purely innate (Chomsky)
+D) Animals cannot communicate
+
+**3.** Wittgenstein's "meaning is use" aligns with Active Inference because:
+A) Both reject math
+B) Both hold that meaning arises from practical deployment within shared contexts (generative models), not from abstract correspondence
+C) Both focus on grammar
+D) Both are about private language
+
+**4.** Grice's maxim of quantity ("be as informative as required") can be derived from EFE because:
+A) EFE penalizes long utterances
+B) The optimal utterance maximally reduces the listener's uncertainty without unnecessary complexity
+C) All maxims are about grammar
+D) Grice was a Bayesian
+
+**5.** Primary intersubjectivity involves:
+A) Complex mentalizing
+B) Direct, pre-linguistic sensorimotor attunement between agents — mutual gaze, turn-taking, emotional resonance
+C) Reading theory of mind papers
+D) Institutional structure
+
+**6.** "Cultural Markov Blankets" refers to:
+A) Physical boundaries around cultures
+B) Social institutions and shared norms that create group-level statistical boundaries, enabling collective cognition
+C) Marketing campaigns
+D) Genetic boundaries
+
+**7.** Gadamer's "fusion of horizons" maps onto Active Inference as:
+A) Averaging beliefs
+B) The convergence of two agents' posterior distributions through iterated message exchange and prior alignment
+C) Physical proximity
+D) Reading the same book
+
+## Part B: Essay Questions
+
+**1.** Analyze a specific social institution (your choice) as a shared generative model. What priors constitute it? How is it maintained through communicative action? What would cause it to break down? How does this relate to Searle's concept of institutional facts? (400 words)
+
+**2.** Active Inference models communication as mutual model alignment. But conversations also involve persuasion, deception, humor, and poetry. Choose one of these "non-standard" communicative acts and analyze whether Active Inference can account for it. What modifications to the basic framework would be needed? (400 words)
+
+**3.** Compare Active Inference's account of intersubjectivity with one alternative account (phenomenological, simulation theory, or theory theory). Which provides a better explanation of (a) infant social cognition, (b) cross-cultural misunderstanding, and (c) institutional reality? Justify your assessment with specific examples. (400 words)

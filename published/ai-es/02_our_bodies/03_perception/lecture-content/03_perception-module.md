@@ -1,0 +1,67 @@
+# Module 03: Perception — The Five Spies
+
+## Learning Objectives
+
+1. Identify the **5 Senses**: Sight, Sound, Smell, Taste, Touch.
+2. Understand that senses are like **Spies** that bring secrets to the Brain.
+3. Learn that "Perception" means guessing what is out there based on clues.
+
+## Introduction: The Five Spies
+
+Captain Brain sits in the dark tower. She cannot see outside!
+So she sends out her **Five Spies** to look for clues:
+
+1. **Agent Eyes**: "I see something red and round!"
+2. **Agent Nose**: "I smell something sweet!"
+3. **Agent Hands**: "I feel something smooth!"
+4. **Agent Ears**: "I hear a *crunch*!"
+5. **Agent Tongue**: "Yum! It's an apple!"
+
+Captain Brain puts all the clues together. "Aha! It is an apple!"
+
+## Key Concepts
+
+### 1. Clues (Sensory Data)
+
+Your senses don't tell you *everything*. They just give you pieces of the puzzle.
+
+* Eyes give you Light clues.
+* Ears give you Sound clues.
+* Nose gives you Smell clues.
+
+### 2. The Guess (Inference)
+
+The Brain has to **Guess** what the clues mean.
+If you see a grey tail and hear "Meow," your Brain guesses: "Cat!"
+If you hear "Woof," your Brain guesses: "Dog!"
+
+### 3. Illusions (Tricky Clues)
+
+Sometimes the spies get tricked!
+Have you ever seen a stick in water that looks bent?
+That is an **illusion**. The Brain makes a wrong guess because the clue was tricky.
+
+## Activities
+
+### Activity 1: The Mystery Box
+
+Put a secret object in a box (like a spoon or a toy car).
+Don't look! Use your **Hands** spy.
+Can you guess what it is just by touching?
+How did your Brain know? (Shape, hardness, texture).
+
+### Activity 2: The Taste Test
+
+Close your eyes and hold your nose.
+Eat a jellybean. Can you taste the flavor?
+Now let go of your nose. Whoa!
+Your Nose and Tongue work together to make "Flavor."
+
+## Summary
+
+Perception is how Captain Brain knows what is happening outside the ship. The Five Spies (Senses) bring in clues, and the Brain solves the mystery!
+
+## References
+
+* *The Magic School Bus Explores the Senses* by Joanna Cole
+* *Brown Bear, Brown Bear, What Do You See?* by Bill Martin Jr.

@@ -1,0 +1,73 @@
+# Module 06: Learning — Practice Makes Perfect
+
+## Learning Objectives
+
+1. Understand that **Practice** is how we get better at games.
+2. Learn about **Skills** (Things you can do well).
+3. Know that even the best players started as beginners.
+
+## Introduction: The Video Game Level Up
+
+When you start a new video game, you are Level 1.
+You are weak. You don't know the controls.
+You start playing. You lose. You play again.
+Suddenly, you are Level 10!
+You have "Leveled Up" your brain.
+This is Learning.
+
+## Key Concepts
+
+### 1. Repetition (The Grind)
+
+To learn a skill (like shooting a basketball), you have to do it 1,000 times.
+
+* Throw 1: Miss.
+* Throw 50: Miss.
+* Throw 100: Swish!
+Your brain needs the data from the misses to find the swish.
+
+### 2. Muscle Memory (The Body Brain)
+
+After enough practice, you don't have to think anymore.
+
+* Tie shoes? Easy.
+* Ride bike? Easy.
+Your muscles "remember" the movement.
+This frees up your brain to think about STRATEGY.
+
+### 3. Coaching (The Teacher)
+
+A Coach is someone who has already made the mistakes.
+They give you a shortcut.
+"Bend your knees."
+"Keep your eye on the ball."
+Listening to a coach helps you learn faster.
+
+## Activities
+
+### Activity 1: The 10-Second Challenge
+
+Can you stand on one leg for 10 seconds?
+Try it.
+Easy? Now close your eyes.
+Harder!
+Practice 5 times. Does it get easier?
+
+### Activity 2: The Skill Swap
+
+Teach your partner something ONLY YOU know how to do.
+
+* A specific dance move.
+* A magic trick.
+* How to whistle.
+Now switch.
+What does it feel like to be the Beginner? The Teacher?
+
+## Summary
+
+No one is born a Master. We become Masters by showing up, trying hard, and never giving up.
+
+## References
+
+* *The Little Engine That Could* by Watty Piper
+* *Giraffes Can't Dance* by Giles Andreae

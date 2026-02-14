@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 07: Communication — Multi-Agent Active Inference</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 101 | <strong>Unit</strong>: Mathematical Frameworks | <strong>Audience</strong>: First-semester undergraduates</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Formalize communication as <strong>coupled inference</strong> between multiple agents with shared generative models.</li>
+<li>Define <strong>generalized synchrony</strong> mathematically — when agents' beliefs converge.</li>
+<li>Introduce the mathematics of <strong>shared narratives</strong> and cultural norms as shared priors.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Everything so far has described a single agent. But communication involves <em>multiple</em> agents whose models interact. This module formalizes multi-agent Active Inference.</p>
+<h2>Key Concepts</h2>
+<h3>1. Two Agents, Two Generative Models</h3>
+<p>Each agent i has its own generative model: P_i(o, s) = P_i(o | s) × P_i(s)</p>
+<p>In communication, one agent's actions become another agent's observations:</p>
+<ul>
+<li>Agent A's speech → Agent B's auditory observations</li>
+<li>Agent B's facial expression → Agent A's visual observations</li>
+</ul>
+<p>Mathematically: <strong>o_B = f(a_A)</strong> — Agent B's observations are a function of Agent A's actions.</p>
+<h3>2. Coupled Free Energy Minimization</h3>
+<p>When agents communicate, they jointly minimize a coupled free energy:</p>
+<p><strong>F_total = F_A + F_B + F_coupling</strong></p>
+<p>The coupling term ensures both agents' models converge — they form <strong>shared beliefs</strong>. This happens because:</p>
+<ul>
+<li>Agent A generates predictions about what Agent B believes</li>
+<li>Agent B generates predictions about what Agent A believes</li>
+<li>Both minimize their respective free energies, which includes modeling the other agent</li>
+</ul>
+<h3>3. Generalized Synchrony</h3>
+<p><strong>Generalized synchrony</strong> occurs when two agents' internal states become statistically dependent:</p>
+<p><strong>I(s_A; s_B) &gt; 0</strong> (mutual information between internal states is positive)</p>
+<p>This is the mathematical definition of "being on the same page." In successful communication:</p>
+<ul>
+<li>Agent A's beliefs about hidden state s converge with Agent B's beliefs</li>
+<li>The prediction error between agents' models approaches zero</li>
+<li>Both agents' posteriors become aligned</li>
+</ul>
+<h3>4. Language as Compressed Generative Models</h3>
+<p>Language can be formalized as an efficient encoding of generative models:</p>
+<ul>
+<li><strong>Words</strong> are compressed representations of hidden states or observation categories</li>
+<li><strong>Grammar</strong> encodes the transition structure (B matrix) — how states relate temporally</li>
+<li><strong>Pragmatics</strong> encodes shared preferences (C vector) — what matters in context</li>
+</ul>
+<p>A sentence like "The cat sat on the mat" transmits:</p>
+<ul>
+<li>State information (cat, mat)</li>
+<li>Relational structure (sat on)</li>
+<li>The speaker's generative model compressed into a few words</li>
+</ul>
+<h3>5. Cultural Norms as Shared Priors</h3>
+<p>Cultural norms are <strong>shared D vectors</strong> — common priors that a population of agents agrees on:</p>
+<ul>
+<li>"Shake hands when greeting" = shared prior about appropriate action in greeting contexts</li>
+<li>"Stop at red lights" = shared prior about traffic behavior</li>
+</ul>
+<p>These shared priors reduce the mutual free energy of social interaction — when everyone expects the same things, prediction errors are minimized.</p>
+<h2>Summary</h2>
+<p>Communication is coupled inference between agents whose actions are each other's observations. Generalized synchrony measures the alignment of beliefs. Language compresses generative models for efficient transmission, and cultural norms are shared priors that minimize collective prediction error.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Friston, K. J. &amp; Frith, C. D. (2015). A duet for one. <em>Consciousness and Cognition</em>, 36, 390-405.</li>
+<li>Vasil, J. et al. (2020). A world unto itself: Human communication as active inference. <em>Frontiers in Psychology</em>, 11, 417.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press. (Chapter 9)</li>
+</ul>
+</body>
+</html>

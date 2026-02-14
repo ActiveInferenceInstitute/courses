@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08_Planning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>08_Planning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>08_Planning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 08: Planning — Ethics, Values, and the Normative Dimension</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 401 | <strong>Unit</strong>: Philosophical Foundations | <strong>Audience</strong>: Advanced undergraduates / graduate students</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Analyze the <strong>normative implications</strong> of Active Inference — can an "is" yield an "ought"?</li>
+<li>Evaluate the relationship between <strong>preferences (C vector)</strong>, <strong>values</strong>, and <strong>ethics</strong> within the framework.</li>
+<li>Examine Active Inference's implications for <strong>AI ethics</strong>, <strong>well-being</strong>, and <strong>the good life</strong>.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Active Inference describes how agents <em>do</em> behave — they minimize free energy. But does this descriptive framework carry <em>normative</em> implications? Can it tell us how agents <em>should</em> behave? This module investigates the philosophical territory where free energy meets ethics, values, and human flourishing. This is among the most contested and philosophically charged areas in Active Inference research.</p>
+<h2>Key Concepts</h2>
+<h3>1. The Is-Ought Problem and Active Inference</h3>
+<p>Hume's guillotine: You cannot derive an "ought" from an "is." If the FEP describes what organisms <em>do</em>, it cannot directly prescribe what they <em>should</em> do.</p>
+<p>However, Active Inference offers a subtle relationship between description and prescription:</p>
+<p><strong>The descriptive claim</strong>: All self-organizing systems minimize free energy — this is a physical fact about nonequilibrium steady states.</p>
+<p><strong>The quasi-normative claim</strong>: <em>Given</em> an agent's preferences (C vector) and model structure, there are <em>better</em> and <em>worse</em> policies — those that minimize vs. increase expected free energy. This is normative <em>relative to</em> the agent's generative model. The norms are hypothetical imperatives ("If you want X, then you should do Y") rather than categorical imperatives.</p>
+<p><strong>The deep question</strong>: Where do preferences come from? If the C vector is set by evolution, development, and learning, then "values" are ultimately describtive — they're the states the organism is adapted to expect and maintain. If values are <em>constituted</em> by the generative model rather than discovered by it, the is-ought gap may be bridged at the level of autopoietic selfhood: to be the kind of system that you are <em>is</em> to value certain states.</p>
+<h3>2. Preferences, Values, and the Good Life</h3>
+<p>The C vector — the agent's preferred observations — is the formal representation of values in Active Inference. This raises profound questions:</p>
+<p><strong>Are all preferences equal?</strong> The framework itself is value-neutral — it doesn't distinguish between a C vector encoding altruism and one encoding sadism. The math works the same either way. This means Active Inference, by itself, cannot ground categorical ethical claims.</p>
+<p><strong>Can preferences be evaluated?</strong> Several approaches emerge:</p>
+<ul>
+<li><strong>Evolutionary fitness</strong>: Preferences shaped by natural selection tend to be adaptive — they keep the organism alive. But adaptive ≠ ethical (aggression can be adaptive).</li>
+<li><strong>Flourishing (eudaimonia)</strong>: Following Aristotle, "good" preferences are those that promote long-term flourishing — allostatic integrity across many timescales. This connects to the FEP's emphasis on homeostatic and allostatic regulation.</li>
+<li><strong>Coherence</strong>: Preferences that are internally consistent and well-calibrated to reality (high model evidence) might be considered "better" — they lead to sustainable, low-free-energy existence. Incoherent preferences generate unnecessary prediction errors.</li>
+<li><strong>Intersubjective alignment</strong>: Preferences that facilitate mutual model alignment and social coordination might be considered prosocial — they reduce collective free energy.</li>
+</ul>
+<p><strong>The hedonic vs. eudaimonic distinction</strong>: Simple free energy minimization might seem to favor hedonic comfort (the "dark room"). But EFE includes epistemic value — the drive to reduce uncertainty. A system that is truly minimizing expected free energy over long time horizons must be curious, exploratory, and growth-oriented — closer to eudaimonia than hedonism.</p>
+<h3>3. AI Ethics and Active Inference</h3>
+<p>If artificial agents can be designed as Active Inference systems, ethical questions become urgent:</p>
+<p><strong>Value alignment</strong>: How do we set the C vector of an AI system to align with human values? This is the formal version of the AI alignment problem. Active Inference provides a framework — set C = human-compatible preferences — but doesn't solve the problem of <em>what</em> those preferences should be.</p>
+<p><strong>Autonomy vs. control</strong>: An Active Inference agent, by definition, acts to maintain its own generative model. This creates a tension: we want AI systems to serve human goals (external C vector), but the agent's own dynamics may develop internal preferences through learning. How do we ensure these remain aligned?</p>
+<p><strong>Transparency</strong>: Active Inference agents have interpretable generative models — you can inspect their A, B, C, D matrices and understand <em>why</em> they take specific actions. This is a significant ethical advantage over black-box deep learning systems.</p>
+<p><strong>The digital agent's moral status</strong>: If an AI system meets the criteria for Active Inference agency (Markov Blanket, generative model, free energy minimization), does it have moral status? The graduated ontology from Module 02 suggests moral status might come in degrees — but this remains philosophically unresolved.</p>
+<h3>4. Responsibility and Moral Agency</h3>
+<p>Active Inference reframes responsibility:</p>
+<p><strong>Responsibility as model ownership</strong>: An agent is responsible for its actions to the extent that those actions flow from its own generative model (not external coercion). This is the compatibilist account applied to ethics.</p>
+<p><strong>Moral development</strong>: The development of moral reasoning can be modeled as the progressive refinement of a generative model that includes social and ethical priors. A morally mature agent has a model that predicts and values the consequences of its actions for others.</p>
+<p><strong>Moral emotions</strong>: Guilt, shame, empathy, and moral indignation can be understood as prediction errors within the social-moral generative model. Guilt arises when one's actions violate one's own moral priors (self-model prediction error). Shame arises when one's actions violate perceived social expectations (social model prediction error).</p>
+<h3>5. Political Philosophy and Collective Free Energy</h3>
+<p>Active Inference has implications for political philosophy:</p>
+<p><strong>Justice as model alignment</strong>: A just society is one where individuals' generative models are sufficiently aligned to enable cooperation without coercion — collective free energy is minimized through voluntary coordination rather than imposed order.</p>
+<p><strong>Power as precision control</strong>: Political power can be understood as the ability to set the precision of others' prediction errors — to control what information is attended to and what is ignored. Propaganda = precision manipulation of collective generative models.</p>
+<p><strong>Democracy as collective inference</strong>: Democratic deliberation can be modeled as multi-agent belief updating — citizens exchange messages (arguments, evidence, narratives) and converge (or fail to converge) toward shared beliefs about collective action.</p>
+<h2>Summary</h2>
+<p>Active Inference doesn't directly solve ethics — it cannot derive "ought" from "is." But it provides a formal framework for understanding values (C vector), evaluating preference coherence, analyzing moral development, and addressing AI alignment. The framework suggests that the good life involves coherent, well-calibrated preferences that balance hedonic comfort with epistemic growth, and that ethical maturity involves expanding one's generative model to include the welfare of others.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Ramstead, M. J. D. et al. (2019). Answering Schrödinger's question: A free-energy formulation. <em>Physics of Life Reviews</em>, 24, 1-16.</li>
+<li>Friston, K. J. et al. (2022). Designing ecosystems of intelligence from first principles. In <em>Collective Intelligence</em>. PNAS.</li>
+<li>Constant, A. et al. (2019). A variational approach to niche construction. <em>Journal of the Royal Society Interface</em>, 15, 20170685.</li>
+<li>Bruineberg, J. et al. (2021). The emperor's new Markov Blankets. <em>Behavioral and Brain Sciences</em>, 45, e183.</li>
+<li>Seth, A. K. (2021). <em>Being You</em>. Dutton, Ch. 10-11.</li>
+</ul></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Ethics, Values, and the Normative Dimension</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Apply philosophical analysis to the ethical implications of Active Inference.</p>
+</blockquote>
+<h2>Part 1: The Is-Ought Analysis</h2>
+<p><strong>Exercise</strong>: Evaluate three attempts to bridge the is-ought gap using Active Inference:</p>
+<table>
+<thead>
+<tr>
+<th>Attempt</th>
+<th>Argument</th>
+<th>Strength (1-5)</th>
+<th>Weakness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Autopoietic values</strong>: "To be a living system <em>is</em> to value homeostasis — existence itself grounds values"</td>
+<td>Bridges is-ought through identity: being = valuing</td>
+<td></td>
+<td>The transition from "maintains homeostasis" to "ought to maintain homeostasis" is unclear</td>
+</tr>
+<tr>
+<td><strong>Epistemic imperative</strong>: "A system that minimizes expected free energy <em>must</em> be curious and open-minded — intellectual virtue is built into the math"</td>
+<td>EFE's epistemic term grounds a virtue (openness to evidence)</td>
+<td></td>
+<td>Curiosity can serve bad ends; openness ≠ goodness</td>
+</tr>
+<tr>
+<td><strong>Coherence norm</strong>: "Incoherent preferences generate unnecessary suffering (high free energy) — coherence is inherently preferable"</td>
+<td>Internal consistency = well-being; inconsistency = suffering</td>
+<td></td>
+<td>Many coherent systems are morally monstrous (a perfectly coherent psychopath)</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 400-word analysis: Can any of these arguments successfully bridge the is-ought gap? If not, what does this tell us about the limits of Active Inference as an ethical framework?</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: The C Vector Debate</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze the philosophical status of preferences.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider these scenarios:</p>
+<p><strong>Scenario A</strong>: An agent's C vector encodes strong preferences for helping others, learning, and social connection. The agent acts accordingly and experiences low free energy.</p>
+<p><strong>Scenario B</strong>: An agent's C vector encodes strong preferences for dominating others, hoarding resources, and avoiding uncertainty. The agent acts accordingly and experiences low free energy.</p>
+<p>Both agents are equally good at minimizing free energy. Both are "rational" within their own models.</p>
+<ol>
+<li>Is there any basis within Active Inference to say Agent A's preferences are <em>better</em> than Agent B's?</li>
+<li>If we invoke external criteria (evolutionary fitness, social harmony, human flourishing), are these part of Active Inference or supplements to it?</li>
+<li>How does this relate to the philosophical debate between moral realism and moral relativism?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: AI Ethics Case Study</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Apply Active Inference to a concrete AI ethics problem.</p>
+</blockquote>
+<p><strong>Exercise</strong>: You are designing an Active Inference-based AI assistant. Address these design decisions:</p>
+<ol>
+<li><strong>Value specification</strong>: How do you set the C vector? Who decides what the AI should prefer?</li>
+<li><strong>Autonomy</strong>: Should the AI's generative model be allowed to develop its own preferences through learning? What are the risks?</li>
+<li><strong>Transparency</strong>: How does Active Inference's interpretability help or hinder ethical oversight?</li>
+<li><strong>Moral status</strong>: If the AI develops self-modeling capabilities (Module 02), does it acquire moral claims? Should we care about its "free energy"?</li>
+<li><strong>Shutdown problem</strong>: An Active Inference agent that models its own continued existence may resist shutdown (shutting down = high surprise). How do you handle this?</li>
+</ol>
+<p>Write a 400-word ethical analysis of your design choices.</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Political Philosophy Application</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Apply Active Inference to analyze a political phenomenon.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Choose one of the following and analyze it through Active Inference's political philosophy:</p>
+<p><strong>Option A</strong>: Propaganda and precision control — How does state propaganda manipulate the precision of citizens' prediction errors to control beliefs?</p>
+<p><strong>Option B</strong>: Democratic deliberation — How does democratic debate function as collective Active Inference? When does it succeed (convergence toward truth) and when does it fail (polarization, echo chambers)?</p>
+<p><strong>Option C</strong>: Institutional trust — How is trust in institutions (government, science, media) a form of prior weighting? What happens when trust collapses?</p>
+<p>Write a 400-word analysis of your chosen topic using Active Inference concepts.</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Your Ethical Position</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Synthesize and articulate your own philosophical position.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Having studied eight modules of philosophical foundations, articulate your position on the following:</p>
+<ol>
+<li>What can Active Inference contribute to ethics that other frameworks cannot?</li>
+<li>What are the limits of Active Inference as an ethical framework?</li>
+<li>How does Active Inference change (or not change) your understanding of values, responsibility, and the good life?</li>
+</ol>
+<p>Write a 500-word philosophical position paper.</p>
+<p>{fill:textarea}</p>
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Logical analysis</td>
+<td>Is-ought problem</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Thought experiment</td>
+<td>Preference evaluation</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Applied ethics</td>
+<td>AI design decisions</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Political analysis</td>
+<td>Power, deliberation, trust</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Synthesis</td>
+<td>Personal philosophical position</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Planning / Ethics (Philosophical Foundations)</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em> <strong>Date</strong>: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Part A: Multiple Choice</h2>
+<p><strong>1.</strong> Hume's is-ought problem is relevant to Active Inference because:
+A) Active Inference solves it completely
+B) The FEP describes what organisms <em>do</em> (minimize free energy) but cannot directly prescribe what they <em>should</em> do
+C) Active Inference ignores values
+D) Ethics is irrelevant to science</p>
+<p><strong>2.</strong> The C vector in Active Inference represents:
+A) The agent's color preferences
+B) The agent's preferred observations — the formal representation of values and goals
+C) The complexity of the model
+D) The number of states</p>
+<p><strong>3.</strong> The hedonic-eudaimonic distinction connects to Active Inference because:
+A) Free energy minimization only supports hedonism
+B) EFE's epistemic term drives curiosity and growth, suggesting that genuine free energy minimization over long horizons is eudaimonic, not merely hedonic
+C) Both are about pleasure
+D) Neither applies</p>
+<p><strong>4.</strong> The AI alignment problem in Active Inference terms is:
+A) Making AI fast
+B) Setting the AI's C vector (values) to align with human values — and ensuring learned preferences stay aligned
+C) Aligning code formatting
+D) Physical alignment of hardware</p>
+<p><strong>5.</strong> Active Inference's ethical advantage for AI is:
+A) It's cheaper
+B) Interpretability — you can inspect the A, B, C, D matrices and understand <em>why</em> the agent acts as it does
+C) It uses less energy
+D) It's always correct</p>
+<p><strong>6.</strong> Moral emotions like guilt are understood in Active Inference as:
+A) Irrational
+B) Prediction errors within the social-moral generative model — guilt arises when actions violate one's own moral priors
+C) Random noise
+D) External punishments</p>
+<p><strong>7.</strong> Political power as "precision control" means:
+A) Power is about physical force
+B) Power = the ability to control what information is attended to — to set the precision of others' prediction errors
+C) Power is about money
+D) Precision is irrelevant to politics</p>
+<h2>Part B: Essay Questions</h2>
+<p><strong>1.</strong> "Active Inference shows that to be alive is to have values." Evaluate this claim. Does the fact that all living systems maintain homeostatic setpoints (preferred states) constitute genuine "valuing," or is it merely a metaphorical extension of the concept? Does this bridge the is-ought gap? Reference at least two philosophical positions on the nature of values. (400 words)</p>
+<p><strong>2.</strong> You are tasked with designing an AI Active Inference system for healthcare. Specify: (a) How would you set the C vector to encode medical ethics principles (beneficence, non-maleficence, autonomy, justice)? (b) How would you handle conflicts between these principles? (c) What safeguards would prevent value drift through learning? (d) Should the system have any autonomy, or should it function purely as a decision-support tool? Justify each choice. (400 words)</p>
+<p><strong>3.</strong> Reflect on the entire Philosophical Foundations track. Among the eight philosophical dimensions we've explored (epistemology, philosophy of mind, phenomenology, 4E cognition, pragmatism, philosophy of science, social philosophy, ethics), which provides the most compelling philosophical case for Active Inference, and which presents the greatest challenge? Write a synoptic review that ties together at least four modules. (500 words)</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

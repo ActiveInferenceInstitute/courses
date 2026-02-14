@@ -1,0 +1,84 @@
+# Module 07: Communication — Social Neuroscience and Mirror Systems
+
+> **Course**: Active Inference 401 | **Unit**: Neuroscientific Frontiers | **Audience**: Advanced undergraduates / graduate students
+
+## Learning Objectives
+
+1. Analyze the **neural mechanisms of social inference** — how the brain models other minds.
+2. Evaluate the **mirror neuron system** and its reinterpretation through Active Inference as predictive social modeling.
+3. Examine the neuroscience of **language processing** as hierarchical predictive inference.
+
+## Key Concepts
+
+### 1. The Social Brain Network
+
+Social cognition recruits a distributed network of brain regions that implement different aspects of modeling other minds:
+
+**Medial prefrontal cortex (mPFC)**: Mentalizing — inferring others' beliefs, desires, and intentions. The mPFC generates predictions about what others are thinking, using a hierarchical model of their generative model. Dorsal mPFC handles explicit mentalizing (deliberate perspective-taking); ventral mPFC handles implicit mentalizing (automatic social prediction).
+
+**Temporoparietal junction (TPJ)**: Self-other distinction and perspective-taking. The right TPJ is critical for distinguishing one's own beliefs from others' — maintaining separate generative models for self and other. Damage to rTPJ impairs the ability to reason about others' false beliefs (theory of mind tasks).
+
+**Superior temporal sulcus (STS)**: Biological motion perception and action intention — inferring others' goals from their movements. The STS reads body language, gaze direction, and gesture by predicting the hidden intentions that cause observable behavior.
+
+**Anterior insula and ACC**: Empathy and shared emotional states — mapping others' interoceptive states onto one's own. When you see someone in pain, your anterior insula activates as though you were in pain — this is not simulation but predictive modeling of the other's interoceptive state.
+
+**Fusiform face area (FFA)**: Face processing — the primary cortical area for extracting identity, expression, and social signals from faces. The FFA generates predictions about facial identity and expression, with prediction errors encoding surprise at unexpected faces or expressions.
+
+### 2. Mirror Neurons Reinterpreted
+
+Mirror neurons — neurons that fire both when an agent acts and when it observes another agent performing the same action — were originally interpreted as providing a direct "motor resonance" with others. Active Inference offers a more nuanced interpretation:
+
+**Original mirror neuron theory**: Mirror neurons enable understanding others' actions by internally simulating them on one's own motor system. This is direct motor matching — "I simulate your action to understand it."
+
+**Active Inference reinterpretation**: Mirror neurons are not special "matching" neurons — they are ordinary neurons in a predictive model that happens to generate the same predictions for self-action and observed-action. When I watch you grasp a cup, my motor-predictive model generates the same predictions it would generate if I were grasping (because the same generative model underlies both producing and understanding actions). The firing isn't "resonance" — it's the generative model running the same predictions regardless of the source.
+
+**Key distinction**: The Active Inference account doesn't require a dedicated mirror system — it requires a generative model sophisticated enough to predict both one's own actions and others' actions. Mirror responses are a *consequence* of this shared model, not a *mechanism* of understanding.
+
+**Evidence supporting the reinterpretation**:
+
+- Mirror responses scale with prior experience (pianists show stronger motor activation watching piano than non-pianists), consistent with model sophistication
+- Mirror responses are modulated by context and expectations (top-down effects), inconsistent with simple bottom-up matching
+- Damage to "mirror" regions doesn't abolish action understanding, as direct matching theory would predict
+
+### 3. Interbrain Synchronization
+
+Recent hyperscanning studies (simultaneous brain recording from two or more people) have revealed that interacting brains show **neural synchronization**:
+
+**Interpersonal neural coupling**: During face-to-face conversation, speaker and listener brains show correlated activity — the listener's brain activity mirrors the speaker's with a slight temporal lag. Better coupling predicts better comprehension.
+
+**Mutual prediction**: Active Inference interpretation: both speaker and listener are running generative models of each other. When these models align, neural activity synchronizes because both brains are generating similar predictions. The temporal lag reflects the listener predicting the speaker's upcoming states.
+
+**Leader-follower dynamics**: In cooperative tasks, one brain often leads (generates predictions first) while the other follows (updates based on the leader's signals). The leader-follower relationship can switch within a conversation, reflecting who is currently driving the communicative exchange.
+
+### 4. Neural Basis of Language Processing
+
+Language processing is implemented as hierarchical predictive inference across perisylvian cortex:
+
+**Phonological level**: Superior temporal gyrus (STG) predicts upcoming speech sounds, generating phoneme-level prediction errors for unexpected sounds (mismatch negativity for speech).
+
+**Lexical level**: Middle/posterior temporal gyrus predicts upcoming words based on sentence context. N400 ERP component = word-level prediction error (semantically unexpected words produce large N400).
+
+**Syntactic level**: Left inferior frontal gyrus (Broca's area) generates syntactic predictions — expectations about grammatical structure. P600 ERP component = syntactic prediction error (ungrammatical sentences produce large P600).
+
+**Discourse level**: Bilateral prefrontal and temporal pole regions maintain discourse-level predictions — expectations about topic, narrative arc, and pragmatic intent.
+
+**Predictive processing of speech**: We don't passively decode language — we actively predict it. Speech perception improves in predictable contexts because top-down predictions "pre-activate" expected linguistic units, reducing the prediction error that needs to be processed.
+
+### 5. Oxytocin and Social Precision
+
+Oxytocin — the "social hormone" — may function as a precision modulator for social prediction errors:
+
+**Social salience hypothesis**: Oxytocin increases the precision (gain) of social prediction errors, making social information more salient and influential. This enhances social bonding, trust, and empathy by increasing the precision weighting of social observations relative to non-social observations.
+
+**In-group/out-group effects**: Oxytocin increases prosocial behavior toward in-group members but can increase hostility toward out-group members. Active Inference interpretation: oxytocin increases social precision *within* the existing social generative model, which includes in-group preferences.
+
+## Summary
+
+Social cognition recruits a distributed brain network implementing different aspects of predictive social modeling. Mirror neurons are reinterpreted as predictions from a generative model shared between self-action and observed-action. Interbrain synchronization reflects mutual model alignment. Language processing involves hierarchical prediction at phonological, lexical, syntactic, and discourse levels. Oxytocin modulates the precision of social prediction errors.
+
+## Further Reading
+
+- Frith, C. D. & Frith, U. (2012). Mechanisms of social cognition. *Annual Review of Psychology*, 63, 287-313.
+- Kilner, J. M. et al. (2007). Predictive coding: an account of the mirror neuron system. *Cognitive Processing*, 8(3), 159-166.
+- Hasson, U. et al. (2012). Brain-to-brain coupling: a mechanism for creating and sharing a social world. *Trends in Cognitive Sciences*, 16(2), 114-121.
+- Kuperberg, G. R. & Jaeger, T. F. (2016). What do we mean by prediction in language comprehension? *Language, Cognition and Neuroscience*, 31(1), 32-59.

@@ -1,0 +1,45 @@
+# Lab: Number Hopscotch
+
+## Goal
+
+To use your whole body to explore the Number System.
+
+## What You Need
+
+* Chalk (for outside) or masking tape (for inside).
+* A stone or beanbag per player.
+
+## Steps
+
+### 1. The Grid
+
+Draw a Hopscotch grid on the ground.
+Boxes numbered 1 to 10.
+Some single boxes (1 foot), some double boxes (2 feet).
+
+### 2. The Toss
+
+Throw your stone into Box 1.
+If it lands outside, you miss your turn! (Precision!)
+
+### 3. The Jump
+
+Jump through the boxes: 2, 3, 4... up to 10.
+Don't step in the box with the stone!
+Pick up the stone on your way back.
+
+### 4. The Count
+
+You must say the number out loud as you land on it.
+"One! Two! Three!"
+
+## My Action Log
+
+| Round | Highest Number Reached | Did I fall? |
+| :--- | :--- | :--- |
+| **Round 1** | 4 | Yes (Lost balance) |
+| **Round 2** | 8 | No (Good balance!) |
+
+## What We Learned
+
+Hopscotch teaches us Balance, Aim (Precision), and Counting all at once. Your body learns where the numbers are in space!

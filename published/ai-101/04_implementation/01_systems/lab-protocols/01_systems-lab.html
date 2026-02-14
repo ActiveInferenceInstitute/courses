@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmp84gpujpl</title>
+</head>
+<body>
+<h1>Lab: Setting Up the Active Inference Toolkit</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Implement core data structures and utility functions for Active Inference in Python.</p>
+</blockquote>
+<h2>Part 1: Environment Setup</h2>
+<p><strong>Exercise</strong>: Set up your Python environment and verify it works.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Run this to verify your setup</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NumPy version: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create a simple probability distribution</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distribution: </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sums to: </span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Should be 1.0</span>
+</code></pre></div>
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Implement Utility Functions</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Code the mathematical building blocks.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Implement these functions and test them:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">normalize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize a vector to sum to 1.&quot;&quot;&quot;</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">log_stable</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-16</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Numerically stable log.&quot;&quot;&quot;</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert log-probabilities to probabilities.&quot;&quot;&quot;</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">entropy</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute entropy H(p) = -sum(p * log(p)).&quot;&quot;&quot;</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kl_divergence</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute KL divergence D_KL(q || p).&quot;&quot;&quot;</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">pass</span>
+
+<span class="c1"># Test cases</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entropy of p: </span><span class="si">{</span><span class="n">entropy</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># ~1.03</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;KL(q || p): </span><span class="si">{</span><span class="n">kl_divergence</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># should be &gt; 0</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;KL(p || p): </span><span class="si">{</span><span class="n">kl_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># should be ~0</span>
+</code></pre></div>
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Build a Generative Model</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Create the A, B, C, D data structures for a specific scenario.</p>
+</blockquote>
+<p><strong>Scenario</strong>: A foraging agent.</p>
+<ul>
+<li>States: {food_left, food_right} (2 states)</li>
+<li>Observations: {see_food, see_nothing} (2 observations)</li>
+<li>Actions: {go_left, go_right} (2 actions)</li>
+<li>
+<p>Preference: Agent prefers seeing food</p>
+</li>
+<li>
+<p>Define A: The agent has 80% chance of correctly observing food at its location</p>
+</li>
+<li>Define B: go_left reliably moves to left state, go_right to right state</li>
+<li>Define C: Preference for see_food over see_nothing</li>
+<li>Define D: Uniform initial belief</li>
+<li>Validate all matrices</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="c1"># YOUR CODE HERE</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># (2, 2)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">B</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span>  <span class="c1"># go_left</span>
+<span class="n">B</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span>  <span class="c1"># go_right</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Bayesian Update in Code</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Implement belief updating.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Given your foraging model, implement a single Bayesian update:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">bayesian_update</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">prior</span><span class="p">,</span> <span class="n">observation</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute posterior = normalize(likelihood * prior)</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        A: observation model (num_obs x num_states)</span>
+<span class="sd">        prior: prior beliefs over states (num_states,)</span>
+<span class="sd">        observation: integer index of observation</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        posterior: updated beliefs over states</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># YOUR CODE HERE</span>
+    <span class="k">pass</span>
+
+<span class="c1"># Test: Agent starts with uniform prior, observes see_food</span>
+<span class="n">prior</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">posterior</span> <span class="o">=</span> <span class="n">bayesian_update</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">prior</span><span class="p">,</span> <span class="n">observation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># 0 = see_food</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prior: </span><span class="si">{</span><span class="n">prior</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior after seeing food: </span><span class="si">{</span><span class="n">posterior</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 150 words, reflect: What did you learn from implementing the math in code that you didn't understand from the equations alone? Were there any "aha" moments?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Environment setup</td>
+<td>Python + NumPy</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Function implementation</td>
+<td>normalize, softmax, entropy, KL</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Model construction</td>
+<td>A, B, C, D matrices</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Inference coding</td>
+<td>Bayesian belief update</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Metacognitive reflection</td>
+<td>Learning by implementing</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

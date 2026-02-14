@@ -1,0 +1,51 @@
+# Practice Quiz: Agents
+
+## Part A: Multiple Choice
+
+1. Interoception is the perception of:
+A) External visual stimuli
+B) Internal bodily states such as heartbeat, breathing, and gut sensations
+C) Other people's emotional states
+D) The spatial layout of the environment
+
+2. The anterior insular cortex is primarily associated with:
+A) Visual perception and object recognition
+B) Interoceptive processing and integration of internal bodily signals
+C) Motor planning and execution
+D) Language production (Broca's area)
+
+3. The rubber hand illusion demonstrates that:
+A) Visual perception always overrides tactile perception
+B) Body ownership is an inference based on multisensory prediction error minimization
+C) The brain cannot distinguish between real and artificial limbs
+D) Touch is the most reliable sensory modality
+
+4. In Active Inference, depersonalization may result from:
+A) Excessive precision on interoceptive prediction errors
+B) Low precision on interoceptive prediction errors, attenuating the self-model
+C) Damage to the motor cortex
+D) Overactivity in the visual cortex
+
+5. Body integrity identity disorder (BIID) illustrates:
+A) A mismatch between the physical body and the generative model's body representation
+B) A purely psychiatric condition with no neurological basis
+C) Normal variation in body image
+D) A failure of motor control
+
+6. Emotional experience, according to interoceptive inference accounts, is:
+A) A purely cognitive judgment about a situation
+B) A prediction about the causes of interoceptive signals (a "gut feeling" is literally a prediction)
+C) An entirely separate system from perception and cognition
+D) A behavioral response with no subjective component
+
+7. The somatic marker hypothesis (Damasio) proposes that:
+A) The body has no role in decision-making
+B) Bodily signals (heart rate, gut feelings) function as emotional tags that guide decisions
+C) Somatic markers are always accurate
+D) All emotional processing occurs in the amygdala
+
+## Part B: Short Answer
+
+1. Explain how the rubber hand illusion could be disrupted if the experimenter introduced asynchronous stroking (200ms delay). What does this predict about the temporal precision requirements of multisensory integration?
+2. Patient describes feeling "detached" from his body after trauma. Suggest a therapeutic approach based on Active Inference (increasing interoceptive precision) and explain why it might help.
+3. Compare phantom limb syndrome (present model, missing limb) with body integrity identity disorder (missing model component, present limb). How are they inverse disruptions of the same self-modeling process?

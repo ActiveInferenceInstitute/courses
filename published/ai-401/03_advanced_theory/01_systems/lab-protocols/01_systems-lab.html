@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpcm_q6l2d</title>
+</head>
+<body>
+<h1>Lab: Variational Calculus and the Free Energy Functional</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Derive, decompose, and analyze variational free energy through mathematical exercises.</p>
+</blockquote>
+<h2>Part 1: Derivation Exercise</h2>
+<p><strong>Exercise</strong>: Starting from the definition of model evidence, derive the variational free energy bound step by step.</p>
+<p>Given: A generative model p(o, s) = p(o|s) p(s), observations o, hidden states s, and approximate posterior q(s).</p>
+<ol>
+<li>Write the log model evidence: ln p(o) = ln ∫ p(o, s) ds</li>
+<li>Multiply and divide by q(s) inside the integral</li>
+<li>Apply Jensen's inequality to obtain the ELBO</li>
+<li>Define F[q] = -ELBO and show F[q] = E_q[-ln p(o, s)] + E_q[ln q(s)]</li>
+<li>Show F[q] = -ln p(o) + D_KL[q(s) || p(s|o)]</li>
+<li>Conclude that F[q] ≥ -ln p(o) with equality iff q(s) = p(s|o)</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Decomposition Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Work through all three decompositions and understand their computational significance.</p>
+</blockquote>
+<p><strong>Exercise</strong>: For a simple model — p(s) = N(0, σ²_p), p(o|s) = N(s, σ²_o), and q(s) = N(μ_q, σ²_q) — compute each decomposition analytically:</p>
+<p><strong>Decomposition 1</strong> (Energy - Entropy):</p>
+<ul>
+<li>Energy = E_q[-ln p(o, s)] = ?</li>
+<li>Entropy = H[q] = ½ ln(2πe σ²_q)</li>
+<li>F = Energy - Entropy</li>
+</ul>
+<p><strong>Decomposition 2</strong> (Complexity - Accuracy):</p>
+<ul>
+<li>Complexity = D_KL[q(s) || p(s)] = ?</li>
+<li>Accuracy = E_q[ln p(o|s)] = ?</li>
+<li>F = Complexity - Accuracy</li>
+</ul>
+<p><strong>Decomposition 3</strong> (Surprise + KL):</p>
+<ul>
+<li>Compute p(o) analytically for this Gaussian model</li>
+<li>Surprise = -ln p(o) = ?</li>
+<li>KL = D_KL[q(s) || p(s|o)] = ?</li>
+<li>Verify F = Surprise + KL</li>
+</ul>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Mean-Field Updates</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Derive and apply mean-field variational updates.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a model with two hidden state groups s₁ and s₂:</p>
+<p>p(o, s₁, s₂) = p(o | s₁, s₂) · p(s₁) · p(s₂)</p>
+<p>Assume mean-field factorization: q(s₁, s₂) = q₁(s₁) · q₂(s₂)</p>
+<ol>
+<li>Derive the optimal q₁*(s₁) by taking the functional derivative of F with respect to q₁ and setting to zero</li>
+<li>Show that ln q₁*(s₁) = E_{q₂}[ln p(o, s₁, s₂)] + const</li>
+<li>Explain why this creates an iterative scheme (q₁ depends on q₂ and vice versa)</li>
+<li>Under what conditions does this scheme converge? (Are there guarantees?)</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Free Energy on a Factor Graph</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Decompose free energy into local contributions on a simple factor graph.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a Hidden Markov Model with 3 time steps:</p>
+<p>p(s₁, s₂, s₃, o₁, o₂, o₃) = p(s₁) · p(s₂|s₁) · p(s₃|s₂) · p(o₁|s₁) · p(o₂|s₂) · p(o₃|s₃)</p>
+<ol>
+<li>Draw the factor graph (variable nodes and factor nodes)</li>
+<li>Write the total free energy as a sum of local free energies (one per factor node)</li>
+<li>What messages need to pass between variable and factor nodes?</li>
+<li>How does updating beliefs at one node affect neighboring nodes?</li>
+<li>What is the computational advantage of this decomposition vs. computing F globally?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Approximation Comparison</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Compare variational approximation methods.</p>
+</blockquote>
+<p><strong>Exercise</strong>: For a bimodal posterior p(s|o) (two well-separated modes), compare:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Approximation</th>
+<th>What It Gets Right</th>
+<th>What It Gets Wrong</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean-field (factorized Gaussian)</td>
+<td>Single Gaussian</td>
+<td>Captures one mode location</td>
+<td>Misses the other mode entirely (mode-seeking)</td>
+</tr>
+<tr>
+<td>Laplace</td>
+<td>Gaussian at MAP</td>
+<td>Captures the MAP mode accurately</td>
+<td>Misses second mode; underestimates uncertainty</td>
+</tr>
+<tr>
+<td>Bethe</td>
+<td>Pairwise interactions</td>
+<td>Better for structured models</td>
+<td>Still struggles with multimodality</td>
+</tr>
+<tr>
+<td>MCMC (for comparison)</td>
+<td>Samples from true posterior</td>
+<td>Both modes captured</td>
+<td>Computationally expensive; convergence unclear</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 300-word analysis: What are the trade-offs between accuracy and computational cost? Why does Active Inference typically use mean-field or Laplace rather than MCMC?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Mathematical derivation</td>
+<td>Free energy bound</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Analytical computation</td>
+<td>Decompositions in Gaussian models</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Variational updates</td>
+<td>Mean-field optimization</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Graphical models</td>
+<td>Factor graph decomposition</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Method comparison</td>
+<td>Approximation trade-offs</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,69 @@
+# Module 04: Cognition — The Guessing Game
+
+## Learning Objectives
+
+1. Understand that **Cognition** (Thinking) helps us **Estimate**.
+2. Learn the difference between **Counting** (Exact) and **Guessing** (Estimating).
+3. Know that your Brain makes a "Best Guess" before it counts.
+
+## Introduction: The Guessing Game
+
+Look at a jar of jellybeans.
+Do you count them all? (1, 2, 3... 105?)
+No! That takes too long.
+Detective Brain does a fast trick called **Estimation**.
+"It looks like... about 100!"
+This is a Super Prediction.
+
+## Key Concepts
+
+### 1. Estimation (The Smart Guess)
+
+Estimation is not just a random guess.
+
+* Random Guess: "One million!" (Too big).
+* Estimation: "Maybe 20?" (Close).
+Your brain uses what it *sees* (Perception) to *think* (Cognition) of a close number.
+
+### 2. More or Less?
+
+This is the first step of thinking.
+
+* Is the pile Big or Small?
+* Are there **More** red beans or **Less** red beans?
+You can know this without counting!
+
+### 3. Probability (Events)
+
+Thinking also helps us guess *what will happen*.
+If I flip a coin:
+
+* Will it be Heads?
+* Will it be Tails?
+It's a 50/50 chance! Your brain knows the odds.
+
+## Activities
+
+### Activity 1: The Jar Challenge
+
+Fill a small jar with marbles (or pasta).
+Look at it for 3 seconds.
+**Estimate**: Write down your guess.
+Now **Count** them.
+How close were you? (My Guess: 20. Actual: 25. Close!)
+
+### Activity 2: Coin Flipper
+
+Flip a coin 10 times.
+Before each flip, **Predict**: "I think it will be Heads."
+Mark if you were Right or Wrong.
+Did you get them all right? (Probably not! Random things are hard to predict).
+
+## Summary
+
+Cognition helps us handle numbers when we don't have time to count. Estimation is a powerful tool for making quick decisions. It's okay to be close, even if you aren't perfect!
+
+## References
+
+* *Betcha!* by Stuart J. Murphy
+* *Great Estimations* by Bruce Goldstone

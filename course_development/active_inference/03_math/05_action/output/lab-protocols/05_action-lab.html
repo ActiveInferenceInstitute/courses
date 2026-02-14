@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpyr_cfkw5</title>
+</head>
+<body>
+<h1>Lab: Derivation Exercise — Expected Free Energy and Policy Selection</h1>
+<h2>Objective</h2>
+<p>Derive the Expected Free Energy functional and its decomposition, then apply it to a concrete POMDP to compute policy values.</p>
+<h2>Part 1: Continuous Action</h2>
+<p><strong>Goal</strong>: Derive the action equation for a continuous system.</p>
+<p><strong>Model</strong>: Sensory state s depends on action a via s = h(a) + ω (e.g., h(a) = a for direct motor control). Free energy F = ½π(s - g(μ))².</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Compute ∂F/∂a using the chain rule: ∂F/∂a = ∂F/∂s · ∂s/∂a</li>
+<li>Show that da/dt = -∂F/∂a drives s toward g(μ) — action fulfills the sensory prediction</li>
+<li>Interpret: action is "making predictions come true" through the sensorimotor mapping</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: EFE Decomposition</h2>
+<p><strong>Goal</strong>: Derive the pragmatic-epistemic decomposition of G.</p>
+<p>Starting from: <strong>G(π) = E_{q(oₜ,sₜ|π)}[ln q(sₜ|π) - ln p(oₜ, sₜ)]</strong></p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Expand p(oₜ, sₜ) = p(oₜ|sₜ) · p(sₜ) using the generative model</li>
+<li>Add and subtract E_q[ln q(sₜ|oₜ, π)]</li>
+<li>Show that G decomposes into:</li>
+<li><strong>Information gain</strong>: -E_q[D_KL[q(sₜ|oₜ,π) ‖ q(sₜ|π)]] (epistemic value)</li>
+<li><strong>Pragmatic value</strong>: E_q[-ln p(oₜ)] (how much outcomes deviate from preferences)</li>
+<li>Explain why information gain is always negative (policies always have non-negative epistemic value)</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Concrete POMDP Computation</h2>
+<p><strong>Goal</strong>: Compute EFE for a simple POMDP.</p>
+<p>Consider a T-maze POMDP with:</p>
+<ul>
+<li>4 states: {left-reward, right-reward, left-no-reward, right-no-reward}</li>
+<li>4 observations: {reward, no-reward, left-cue, right-cue}</li>
+<li>2 actions: {go-left, go-right}</li>
+<li>Preferences: C = [ln 2, ln(1/2), 0, 0] (prefer reward, avoid no-reward, neutral on cues)</li>
+</ul>
+<p>The A matrix (likelihood):</p>
+<div class="codehilite"><pre><span></span><code>A = [0.9  0.1  0.5  0.5;
+     0.1  0.9  0.5  0.5;
+     0.5  0.5  0.8  0.2;
+     0.5  0.5  0.2  0.8]
+</code></pre></div>
+
+<p><strong>Task</strong>:</p>
+<ol>
+<li>For policy π₁ = go-left and state belief q(s) = [0.5, 0.5, 0, 0], compute the expected observations E_q[p(o|s)]</li>
+<li>Compute the pragmatic value: E_q[-ln p(o)] using the C vector</li>
+<li>Compute the epistemic value: expected information gain</li>
+<li>Determine which policy (go-left vs go-right) has lower EFE</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Softmax Policy Selection</h2>
+<p><strong>Goal</strong>: Derive the policy posterior from EFE values.</p>
+<p>Given computed EFE values G(π₁), G(π₂), ..., G(πK):</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Write the softmax: P(πₖ) = exp(-γ · G(πₖ)) / ∑ⱼ exp(-γ · G(πⱼ))</li>
+<li>Compute P(π) for the T-maze example with γ = 1 and γ = 16</li>
+<li>Show how increasing γ (inverse temperature) makes policy selection more deterministic</li>
+<li>Discuss: what does γ → ∞ correspond to? What about γ → 0?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Synthesis</h2>
+<p>In 200 words, explain how the EFE framework unifies exploration (epistemic value) and exploitation (pragmatic value) under a single objective, and how this resolves the exploration-exploitation dilemma that plagues classical reinforcement learning.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Developed</th>
+<th>Mathematical Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Continuous calculus</td>
+<td>Action equation via chain rule</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Functional decomposition</td>
+<td>EFE → epistemic + pragmatic components</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Numerical computation</td>
+<td>EFE for a concrete POMDP</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Softmax analysis</td>
+<td>Temperature-dependent policy selection</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Conceptual integration</td>
+<td>Exploration-exploitation unification</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

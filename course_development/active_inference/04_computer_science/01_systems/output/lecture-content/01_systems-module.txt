@@ -1,0 +1,78 @@
+Module 01: Systems — Generative Process vs Generative Model
+
+Learning Objectives
+
+Distinguish the generative process (the true environment) from the generative model (the agent's internal model).
+Implement a DiscreteEnvironment with true A and B matrices and step through it programmatically.
+Explain how observations are sampled from the true likelihood matrix and how states transition under the true dynamics.
+
+Introduction
+
+Every Active Inference agent lives inside a world it cannot access directly. The generative process is the real causal structure of that world — the true states, transition probabilities, and observation likelihoods. The generative model is the agent's approximation of that structure, encoded in matrices it can update.
+
+This distinction is the starting point for everything in computational Active Inference. If the generative model perfectly matched the generative process, free energy would be zero and the agent would have nothing left to learn. In practice, the mismatch between the two is exactly what drives perception, action, and learning.
+
+In the activeinference library, these two sides of the coin are represented by separate classes:
+
+| Concept | Class | Matrices |
+|---------|-------|----------|
+| Generative Process | DiscreteEnvironment | trueA, trueB (ground truth) |
+| Generative Model | GenerativeModel | A, B, C, D, E (agent's beliefs) |
+
+Key Concepts
+
+The Generative Process as Ground Truth
+
+The generative process defines the true causal structure of the environment. In the discrete case, this consists of:
+
+True states $s \in \{0, 1, \ldots, Ns - 1\}$: the hidden states of the world.
+True likelihood $\mathbf{A}{\text{true}}$: a matrix where $A[o, s] = P(o \mid s)$ — the probability of observing $o$ when the world is in state $s$.
+True transitions $\mathbf{B}{\text{true}}$: a tensor where $B[s', s, a] = P(s' \mid s, a)$ — the probability of transitioning to state $s'$ given the current state $s$ and action $a$.
+
+In code, you create a DiscreteEnvironment by supplying these matrices:
+
+Observation Generation
+
+When the environment is queried, it samples an observation from the true likelihood column corresponding to the current hidden state:
+
+$$ot \sim \text{Cat}(\mathbf{A}{\text{true}}[\cdot, st])$$
+
+This is implemented via env.step(action), which:
+
+Transitions the hidden state: $s{t+1} \sim \text{Cat}(\mathbf{B}{\text{true}}[\cdot, st, at])$
+Generates an observation: $o{t+1} \sim \text{Cat}(\mathbf{A}{\text{true}}[\cdot, s{t+1}])$
+Returns the observation index
+
+State-Space Dimensionality
+
+The environment's dimensionality is derived from the matrices:
+
+| Property | Derivation | Example |
+|----------|-----------|---------|
+| numobs | Rows of A | 2 |
+| numstates | Columns of A | 2 |
+| numactions | Third dimension of B (or 1 if B is 2-D) | 2 |
+
+A 2-D B matrix is treated as a single-action environment (the agent has no choice).
+
+History Tracking
+
+The environment records a complete trajectory:
+
+This history can be visualized with plotenvironmenttrajectory().
+
+The Generative Model as the Agent's Hypothesis
+
+While the environment uses trueA and trueB, the agent constructs its own hypothesis — a GenerativeModel — with matrices that may or may not match reality:
+
+The gap between model.A and trueA (and similarly for B) is what the agent must close through perception and learning. This is the fundamental asymmetry of Active Inference.
+
+Applications
+
+Sensory noise: A trueA with off-diagonal probability > 0 simulates noisy observations. Setting trueA = np.eye(N) creates a fully observable environment.
+Stochastic dynamics: A trueB that is not a permutation matrix creates environments where actions have uncertain effects (e.g., slippery gridworlds).
+Benchmarking: By comparing the agent's learned A against trueA, you can measure how accurately the agent has recovered the environment's causal structure.
+
+Conclusion
+
+The generative process / generative model distinction structures every Active Inference computation. The DiscreteEnvironment class encodes this process, providing the ground truth that agents must infer. In Module 02, we build the agent class that maintains and updates a GenerativeModel to minimize the mismatch.

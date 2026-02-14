@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpj1w99u_s</title>
+</head>
+<body>
+<h1>Lab: Derivation Exercise — Predictive Coding Message Passing</h1>
+<h2>Objective</h2>
+<p>Derive the predictive coding equations step by step for increasingly complex generative models, connecting the mathematics to the neural architecture.</p>
+<h2>Part 1: Single-Level Gaussian Inference</h2>
+<p><strong>Goal</strong>: Derive belief updating for the simplest possible model.</p>
+<p><strong>Generative model</strong>: p(s) = N(s; μ₀, σ₀²), p(o|s) = N(o; s, σ_o²)</p>
+<p><strong>Recognition density</strong>: q(s) = N(s; μ, σ²)</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Write the free energy F = -E_q[ln p(o|s)] + D_KL[q(s) ‖ p(s)]</li>
+<li>Expand each term analytically using Gaussian integrals</li>
+<li>Compute ∂F/∂μ and set to zero → derive μ*</li>
+<li>Show that μ* = (σ_o² · μ₀ + σ₀² · o) / (σ_o² + σ₀²) — a precision-weighted average of prior and observation</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Two-Level Hierarchical Model</h2>
+<p><strong>Goal</strong>: Derive message passing in a hierarchy.</p>
+<p><strong>Generative model</strong>:</p>
+<ul>
+<li>Level 2 prior: p(s₂) = N(s₂; μ₂₀, σ₂₀²)</li>
+<li>Level 2 → Level 1: p(s₁|s₂) = N(s₁; g₂(s₂), σ₂²) where g₂(s₂) = A·s₂ (linear)</li>
+<li>Level 1 → Observations: p(o|s₁) = N(o; g₁(s₁), σ₁²) where g₁(s₁) = C·s₁ (linear)</li>
+</ul>
+<p><strong>Recognition density</strong>: q(s₁) = N(μ₁, Σ₁), q(s₂) = N(μ₂, Σ₂)</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Write the free energy as a sum of terms across levels</li>
+<li>Compute ∂F/∂μ₁ and ∂F/∂μ₂</li>
+<li>Identify the prediction errors ε₁ = o - C·μ₁ and ε₂ = μ₁ - A·μ₂</li>
+<li>Show that each level's update depends on bottom-up prediction errors (from below) and top-down predictions (from above)</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Nonlinear Extensions</h2>
+<p><strong>Goal</strong>: Extend to nonlinear generative mappings.</p>
+<p>Replace g₁(s₁) = C·s₁ with a nonlinear function g₁(s₁) (e.g., sigmoid, polynomial).</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Derive the modified prediction error equation using the Jacobian ∂g₁/∂s₁</li>
+<li>Show that the gradient ∂F/∂μ₁ now involves the Jacobian transposed times the precision-weighted prediction error</li>
+<li>Explain why this requires the Laplace approximation (evaluating the Jacobian at the current estimate μ₁)</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Generalized Coordinates</h2>
+<p><strong>Goal</strong>: Extend predictive coding to temporal dynamics using generalized coordinates.</p>
+<p>In generalized coordinates, the state vector is extended to include the state and its temporal derivatives: x̃ = [x, x', x'', ...]</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Write the generalized state-space model: p(o|s̃) and p(s̃) in generalized coordinates</li>
+<li>Show that the free energy gradient in generalized coordinates has the form: dμ̃/dt = Dμ̃ - ∂F/∂μ̃, where D is the shift operator</li>
+<li>Explain how this enables the system to predict the temporal evolution of sensory input</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Synthesis</h2>
+<p>In 200 words, explain how Parts 1-4 build a complete mathematical framework: from single-level inference to hierarchical message passing to temporal prediction — and how this framework maps onto the cortical hierarchy.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Developed</th>
+<th>Mathematical Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Gaussian inference</td>
+<td>Precision-weighted averaging (Bayesian updating)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Hierarchical derivation</td>
+<td>Bottom-up/top-down message passing</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Nonlinear extension</td>
+<td>Jacobian-based prediction error propagation</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Temporal dynamics</td>
+<td>Generalized coordinates and prediction</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Integration</td>
+<td>Connecting math to neural predictive coding</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

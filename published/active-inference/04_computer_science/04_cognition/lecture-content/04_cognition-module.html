@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 04: Cognition — Preferences, Priors, and Habits</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Construct and interpret the C-vector (log-preferences), D-vector (initial state prior), and E-vector (habit prior).</li>
+<li>Analyze how precision γ modulates the balance between epistemic and pragmatic behavior.</li>
+<li>Visualize preference, prior, and habit structures using the <code>active_inference</code> visualization functions.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Modules 01–03 covered the environment (generative process), the agent's model structure (A, B matrices), and perception (state inference). This module completes the agent's inner life by examining the three vectors that define its <em>cognitive stance</em>: what it wants (C), where it thinks it starts (D), and what it habitually does (E). These vectors don't just parameterize inference — they define the agent's character.</p>
+<h2>Key Concepts</h2>
+<h3>1. The C-Vector: Log-Preferences Over Observations</h3>
+<p>The C-vector encodes which observations the agent prefers on a log scale:</p>
+<p>$$C[o] = \ln P_{\text{preferred}}(o)$$</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># T-maze: strongly prefer reward, strongly avoid no-reward</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.0</span><span class="p">])</span>  <span class="c1"># [neutral, reward, no-reward]</span>
+</code></pre></div>
+
+<p>C enters the Expected Free Energy (EFE) through the <strong>risk</strong> term:</p>
+<p>$$\text{risk}(\pi) = D_{KL}[q(o \mid \pi) | \tilde{P}(o)]$$</p>
+<p>where $\tilde{P}(o) = \sigma(C)$ is the preferred observation distribution. When $C$ is all zeros, the risk term vanishes and the agent becomes purely epistemic.</p>
+<p><strong>Visualizing C</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_C_preferences</span>
+<span class="n">plot_C_preferences</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">obs_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;neutral&quot;</span><span class="p">,</span> <span class="s2">&quot;reward&quot;</span><span class="p">,</span> <span class="s2">&quot;no-reward&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<p>This produces a bar chart of log-preferences with a softmax probability overlay.</p>
+<h3>2. The D-Vector: Prior Over Initial States</h3>
+<p>The D-vector is $P(s_0)$ — the agent's belief about which state it starts in:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>  <span class="c1"># certain: start at center</span>
+</code></pre></div>
+
+<p>D serves as the initial prior for state inference. If D is uniform, the agent begins with maximum uncertainty. If D is peaked, the agent starts confident about its location.</p>
+<p><strong>Visualizing D</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_D_prior</span>
+<span class="n">plot_D_prior</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">state_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;cue&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<p>The plot annotates the entropy of D — $H(D) = 0$ means the agent is fully certain about its initial state.</p>
+<h3>3. The E-Vector: Habit Prior Over Policies</h3>
+<p>The optional E-vector encodes a prior over policies before EFE is considered:</p>
+<p>$$q(\pi) = \sigma(-\gamma \cdot G(\pi) + \ln E(\pi))$$</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Strong habit favoring policy 0 (stay)</span>
+<span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
+</code></pre></div>
+
+<p>When γ is low, habits dominate — the agent acts according to E regardless of EFE. When γ is high, EFE dominates and habits have little effect. When E is <code>None</code>, a uniform habit prior is used.</p>
+<p><strong>Visualizing E</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_E_habits</span>
+<span class="n">plot_E_habits</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">policy_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;stay&quot;</span><span class="p">,</span> <span class="s2">&quot;go-left&quot;</span><span class="p">,</span> <span class="s2">&quot;go-right&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<h3>4. Precision γ: The Exploration–Exploitation Knob</h3>
+<p>The precision parameter γ controls how sharply the agent commits to the policy with lowest EFE:</p>
+<table>
+<thead>
+<tr>
+<th>γ value</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>γ → 0</td>
+<td>Random policy selection — exploration dominates (or habits dominate if E is set)</td>
+</tr>
+<tr>
+<td>γ ≈ 1–4</td>
+<td>Balanced — considers both EFE and randomness</td>
+</tr>
+<tr>
+<td>γ → ∞</td>
+<td>Greedy/exploitative — always picks the policy with lowest G</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Precision sweep</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_precision_sweep</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_efe</span><span class="p">,</span> <span class="n">softmax</span>
+
+<span class="n">gamma_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">16.0</span><span class="p">]</span>
+<span class="c1"># Compute q(π) for each γ and visualize</span>
+<span class="n">plot_precision_sweep</span><span class="p">(</span><span class="n">gamma_values</span><span class="p">,</span> <span class="n">q_pi_matrix</span><span class="p">,</span>
+                     <span class="n">policy_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;stay&quot;</span><span class="p">,</span> <span class="s2">&quot;go-left&quot;</span><span class="p">,</span> <span class="s2">&quot;go-right&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<h3>5. Interaction Between C, D, E, and γ</h3>
+<p>These components interact in a principled way:</p>
+<div class="codehilite"><pre><span></span><code>┌──────────────┐     ┌──────────────┐
+│  D-vector    │────▶│  State       │
+│  P(s₀)      │     │  Inference   │
+└──────────────┘     └──────┬───────┘
+                            │ q(s)
+                            ▼
+┌──────────────┐     ┌──────────────┐     ┌───────────┐
+│  C-vector    │────▶│    EFE       │────▶│  Policy   │
+│  ln P(o)     │     │  G(π)       │     │  q(π)     │
+└──────────────┘     └──────────────┘     └─────┬─────┘
+                            ▲                     │
+┌──────────────┐            │              ┌─────▼─────┐
+│  E-vector    │────────────┘              │  Action   │
+│  P(π)        │     ┌──────────────┐      │  Selection│
+└──────────────┘     │  γ precision │──────┘           │
+                     └──────────────┘                   ▼
+</code></pre></div>
+
+<ul>
+<li><strong>D</strong> initializes perception and determines the starting beliefs used for policy evaluation.</li>
+<li><strong>C</strong> shapes the risk term in EFE — driving <strong>pragmatic</strong> (goal-directed) behavior.</li>
+<li><strong>A</strong> shapes the ambiguity term in EFE — driving <strong>epistemic</strong> (information-seeking) behavior.</li>
+<li><strong>E</strong> biases the policy posterior toward habitual actions.</li>
+<li><strong>γ</strong> controls how much EFE matters relative to habits and randomness.</li>
+</ul>
+<h2>Applications</h2>
+<ul>
+<li><strong>Goal-directed vs. curious agents</strong>: By varying C from peaked to flat, you can create agents that are purely exploitative, purely exploratory, or balanced between the two.</li>
+<li><strong>Habitual behavior</strong>: Setting a strong E-vector can model agents that default to familiar actions unless the situation is clearly novel.</li>
+<li><strong>Anxiety and avoidance</strong>: A C-vector with very negative entries for certain observations models agents that actively avoid aversive outcomes.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>C, D, E, and γ define the agent's cognitive character: what it values, what it assumes, what it defaults to, and how decisive it is. With all five matrix components (A, B, C, D, E) and precision in hand, Module 05 can now show how these components combine to select actions through Expected Free Energy.</p>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 05: Action — Expected Free Energy</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 101 | <strong>Unit</strong>: Mathematical Frameworks | <strong>Audience</strong>: First-semester undergraduates</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Define <strong>Expected Free Energy (EFE)</strong> G(π) as the criterion for policy selection.</li>
+<li>Show how EFE decomposes into <strong>pragmatic value</strong> (goal-seeking) and <strong>epistemic value</strong> (information-seeking).</li>
+<li>Explain how this decomposition naturally balances <strong>exploitation and exploration</strong>.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Modules 01-04 covered how agents infer hidden states. But agents also need to <em>act</em>. How does the math handle action selection? The answer is <strong>Expected Free Energy</strong> — a quantity the agent evaluates for each possible policy to decide what to do.</p>
+<h2>Key Concepts</h2>
+<h3>1. Expected Free Energy — Definition</h3>
+<p>Expected Free Energy G(π) evaluates a policy π by asking: "If I follow this policy, how much free energy will I expect in the future?"</p>
+<p><strong>G(π) = E_q̃[log q̃(s_τ) - log P(o_τ, s_τ)]</strong></p>
+<p>Where q̃ denotes the posterior predictive distribution — what the agent predicts will happen <em>if</em> it follows policy π.</p>
+<p>Lower G(π) = better policy. The agent selects policies with the lowest expected free energy.</p>
+<h3>2. Policy Selection via Softmax</h3>
+<p>Policies are selected probabilistically using a softmax function:</p>
+<p><strong>P(π) = σ(-γ × G(π))</strong></p>
+<p>Where:</p>
+<ul>
+<li><strong>σ</strong>: The softmax function — converts scores into probabilities</li>
+<li><strong>γ</strong>: The precision parameter for policy selection — higher γ means more decisive action selection</li>
+</ul>
+<h3>3. The Key Decomposition — Pragmatic + Epistemic Value</h3>
+<p>EFE decomposes into two terms:</p>
+<p><strong>G(π) ≈ -E_q̃[log P(o_τ)] + E_q̃[H[P(o_τ | s_τ)]]</strong></p>
+<p>Or equivalently:
+<strong>G(π) = -Pragmatic Value - Epistemic Value</strong></p>
+<ul>
+<li><strong>Pragmatic value</strong> = -E_q̃[log P(o_τ)]: Do expected observations match preferences (the C vector)? High when future observations are preferred.</li>
+<li><strong>Epistemic value</strong> = -E_q̃[H[P(o_τ | s_τ)]]: How much will I learn? High when the policy leads to informative observations that reduce uncertainty.</li>
+</ul>
+<h3>4. Pragmatic Value — Goal-Seeking (Exploitation)</h3>
+<p>Pragmatic value captures "Will this policy help me get what I want?":</p>
+<p><strong>Pragmatic value = E_q̃[log P(o_τ)]</strong></p>
+<p>If the expected observations under policy π match the preferred observations C, pragmatic value is high. This drives <strong>exploitation</strong> — taking actions to achieve goals.</p>
+<h3>5. Epistemic Value — Information-Seeking (Exploration)</h3>
+<p>Epistemic value captures "Will this policy help me learn about the world?":</p>
+<p><strong>Epistemic value = -E_q̃[H[P(o_τ | s_τ)]] ≈ I[s_τ; o_τ | π]</strong></p>
+<p>This measures how much mutual information there is between future states and observations under policy π. High epistemic value means the policy reduces uncertainty about hidden states. This drives <strong>exploration</strong> — seeking information.</p>
+<h3>6. The Exploration-Exploitation Balance</h3>
+<p>EFE automatically balances exploration and exploitation:</p>
+<ul>
+<li><strong>When uncertainty is high</strong>: Epistemic value dominates → the agent explores (seeks information)</li>
+<li><strong>When uncertainty is low</strong>: Pragmatic value dominates → the agent exploits (pursues goals)</li>
+</ul>
+<p>This is not a parameter you tune — it emerges naturally from the math.</p>
+<h2>Summary</h2>
+<p>Expected Free Energy G(π) is the criterion for selecting policies in Active Inference. It decomposes into pragmatic value (goal-seeking/exploitation) and epistemic value (information-seeking/exploration). The softmax function converts EFE scores into policy probabilities, with precision γ controlling decisiveness. The exploration-exploitation balance emerges naturally from the mathematics.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Friston, K. J. et al. (2015). Active inference and epistemic value. <em>Cognitive Neuroscience</em>, 6(4), 187-214.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press. (Chapter 6)</li>
+<li>Sajid, N. et al. (2021). Active inference: Demystified and compared. <em>Neural Computation</em>, 33(3), 674-712.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmp0ia785ps</title>
+</head>
+<body>
+<h1>Lab: Probability and Generative Models</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Build intuition for probabilistic reasoning and generative model construction.</p>
+</blockquote>
+<h2>Part 1: Bayesian Reasoning Practice</h2>
+<p><strong>Exercise</strong>: For each scenario, identify the prior, likelihood, and compute the posterior using Bayes' theorem.</p>
+<ol>
+<li>
+<p><strong>Medical test</strong>: A disease affects 1% of the population (prior). A test has 95% sensitivity (P(positive | disease) = 0.95) and 90% specificity (P(negative | no disease) = 0.90). You test positive. What's the probability you actually have the disease?</p>
+</li>
+<li>
+<p><strong>Email spam</strong>: 40% of your emails are spam (prior). P(contains "free" | spam) = 0.8, P(contains "free" | not spam) = 0.1. An email contains the word "free." What's the probability it's spam?</p>
+</li>
+</ol>
+<p>Show your calculations step by step.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Building Generative Models</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Construct a simple generative model from scratch.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Build a generative model for weather and clothing:</p>
+<ul>
+<li>Hidden state s ∈ {sunny, rainy}</li>
+<li>
+<p>Observation o ∈ {umbrella, sunglasses, jacket}</p>
+</li>
+<li>
+<p>Define P(s) — the prior on weather states</p>
+</li>
+<li>Define P(o | s) — the likelihood of each observation given each weather state</li>
+<li>Verify: Does your model make intuitive sense? (P(umbrella | rainy) should be high)</li>
+<li>Use Bayes' theorem: If you observe someone carrying an umbrella, what's the posterior P(s | umbrella)?</li>
+</ul>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Hidden Markov Model</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Extend static models to dynamic sequences.</p>
+</blockquote>
+<p><strong>Scenario</strong>: A simple weather HMM:</p>
+<ul>
+<li>States: {sunny, rainy}</li>
+<li>Transition: P(sunny → sunny) = 0.7, P(sunny → rainy) = 0.3, P(rainy → rainy) = 0.6, P(rainy → sunny) = 0.4</li>
+<li>Observation: P(umbrella | rainy) = 0.9, P(umbrella | sunny) = 0.2</li>
+</ul>
+<p>Day 1: You observe an umbrella. Day 2: You observe sunglasses. Day 3: You observe an umbrella.</p>
+<ol>
+<li>What's the most likely weather sequence?</li>
+<li>How does the inference at each step depend on the previous day?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Connecting Math to Concepts</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Bridge mathematical formalism to cognitive science concepts.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Map each mathematical object to its cognitive science equivalent:</p>
+<table>
+<thead>
+<tr>
+<th>Math</th>
+<th>Cognitive Science</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P(s) — prior</td>
+<td></td>
+</tr>
+<tr>
+<td>P(o | s) — likelihood</td>
+<td></td>
+</tr>
+<tr>
+<td>P(s | o) — posterior</td>
+<td></td>
+</tr>
+<tr>
+<td>s — hidden state</td>
+<td></td>
+</tr>
+<tr>
+<td>o — observation</td>
+<td></td>
+</tr>
+<tr>
+<td>P(s_t | s_{t-1}) — transition</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 150 words, reflect: Why is it useful to formalize intuitive concepts (like "belief" and "surprise") in mathematical language? What do we gain and what do we lose?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Bayesian computation</td>
+<td>Prior × Likelihood → Posterior</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Model building</td>
+<td>Generative model construction</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Temporal reasoning</td>
+<td>Hidden Markov Models</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Concept mapping</td>
+<td>Math ↔ Cognitive science bridge</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Epistemological reflection</td>
+<td>Value of formalization</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

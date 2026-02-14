@@ -1,0 +1,72 @@
+# Module 06: Learning — Practice Power
+
+## Learning Objectives
+
+1. Understand how your Brain learns new moves.
+2. Learn about **Practice** (doing it again and again).
+3. Know that making mistakes is part of learning!
+
+## Introduction: The Wobbly Bike
+
+Do you remember learning to ride a bike (or tie your shoes)?
+At first, you were **Wobbly**.
+
+* Brain: "I predict... we will fall!"
+* Body: "Whoa!" *Crash.*
+
+But you tried again and again.
+
+* Day 1: Very wobbly.
+* Day 2: A little wobbly.
+* Day 3: Zoom! Smooth riding!
+
+Your Brain built a new Map for "Riding a Bike."
+Now you don't even have to think about it. That is **Learning**.
+
+## Key Concepts
+
+### 1. Building the Path
+
+Imagine walking through tall grass. The first time, it is hard.
+But if you walk the same way every day, you make a clear **Path**.
+Your brain works the same way. Practice makes the path clear and fast.
+
+### 2. Mistakes are Good
+
+When you fall or make a mistake, your Brain says: "Oops! Surprise!"
+It uses that Surprise to fix the map.
+"Next time, lean to the left!"
+If you never make mistakes, you never learn.
+
+### 3. Muscle Memory
+
+After lots of practice, your brain moves the muscles automatically.
+This is called **Muscle Memory**.
+You can brush your teeth while thinking about cartoons!
+
+## Activities
+
+### Activity 1: The Other Hand
+
+Write your name with your "Good Hand." Easy, right?
+Now switch. Write your name with your "Other Hand."
+
+* Is it messy?
+* Is it slow?
+* Does your brain feel funny?
+That is what it feels like before you have a Path!
+
+### Activity 2: The Backward Drawing
+
+Look in a mirror. Try to draw a circle while looking ONLY in the mirror.
+It is so hard! Your brain predicts "Up," but your hand goes "Down."
+Keep trying. Can you learn it?
+
+## Summary
+
+Learning takes time. Your Brain has to build new paths. Practice helps turn a "Wobbly" prediction into a "Smooth" one. Don't be afraid of mistakes—they help you learn!
+
+## References
+
+* *The Little Engine That Could* by Watty Piper
+* *Giraffes Can't Dance* by Giles Andreae

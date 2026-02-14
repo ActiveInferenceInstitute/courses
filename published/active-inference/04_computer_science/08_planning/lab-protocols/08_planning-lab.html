@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpzs5dhhmi</title>
+</head>
+<body>
+<h1>Lab 08: Deep Temporal Planning and Gridworlds</h1>
+<h2>Objective</h2>
+<p>Implement multi-step policy evaluation, run MMP for deep inference, and build a gridworld agent with long-horizon planning.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Completed Labs 01–07</li>
+<li>Understanding of EFE accumulation and multi-step policies</li>
+</ul>
+<h2>Part 1: Multi-Step Policy Evaluation</h2>
+<p><strong>Goal</strong>: Evaluate multi-step policies by unrolling predicted state trajectories.</p>
+<ol>
+<li>Create a 2-state model with identity A, swap-or-stay B, C = [2, -2], uniform D.</li>
+<li>Define policies: <code>[[0, 0], [0, 1], [1, 0], [1, 1]]</code> (all 2-step combinations).</li>
+<li>For each policy, compute total EFE by accumulating $G_t$ across steps.</li>
+<li>Print a ranked table of policies by total G.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_efe</span>
+
+<span class="n">policies</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="k">for</span> <span class="n">pi</span> <span class="ow">in</span> <span class="n">policies</span><span class="p">:</span>
+    <span class="n">total_G</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">pi</span><span class="p">:</span>
+        <span class="n">G_t</span> <span class="o">=</span> <span class="n">compute_efe</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">action</span><span class="p">)</span>
+        <span class="n">total_G</span> <span class="o">+=</span> <span class="n">G_t</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">action</span><span class="p">]</span> <span class="o">@</span> <span class="n">q</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Policy </span><span class="si">{</span><span class="n">pi</span><span class="si">}</span><span class="s2">: G = </span><span class="si">{</span><span class="n">total_G</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Marginal Message Passing</h2>
+<p><strong>Goal</strong>: Run MMP on a 3-step observation sequence.</p>
+<ol>
+<li>Using the model from Part 1, create an observation sequence [0, 1, 0].</li>
+<li>Run <code>run_mmp()</code> with a 3-step policy.</li>
+<li>Print the beliefs at each time point.</li>
+<li>Visualize convergence using <code>plot_convergence()</code>.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_mmp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_convergence</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">run_mmp</span><span class="p">(</span>
+    <span class="n">prior</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">A</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">beliefs</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t=</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">: q(s) = </span><span class="si">{</span><span class="n">beliefs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">plot_convergence</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;delta_history&quot;</span><span class="p">],</span>
+                 <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;output/lab08_mmp_convergence.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Gridworld Environment</h2>
+<p><strong>Goal</strong>: Build a 4×4 gridworld and visualize it.</p>
+<ol>
+<li>Create a 16-state environment (flattened 4×4 grid).</li>
+<li>Define 4 actions (up, down, left, right) with walls at positions (1,1) and (1,2).</li>
+<li>Set C to prefer state 15 (bottom-right corner).</li>
+<li>Visualize with <code>plot_gridworld()</code>.</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Planning Agent on the Gridworld</h2>
+<p><strong>Goal</strong>: Run an agent with multi-step policies on the gridworld.</p>
+<ol>
+<li>Define 3-step policies (a subset of all 4³ = 64 possible).</li>
+<li>Create an <code>ActiveInferenceAgent</code> with these policies and γ = 4.0.</li>
+<li>Run the agent for 20 steps.</li>
+<li>Visualize the trajectory using <code>plot_gridworld()</code> with the path overlay.</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: T-Maze with Temporal Depth</h2>
+<p><strong>Goal</strong>: Compare T-maze performance with T = 1 vs T = 2 policies.</p>
+<ol>
+<li>Set up the T-maze model from Module 05.</li>
+<li>Run with single-step policies (T = 1): how often does the agent reach the reward?</li>
+<li>Run with two-step policies (T = 2): e.g., [go-cue, go-left], [go-cue, go-right], etc.</li>
+<li>Compare success rates across 20 trials.</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Library Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Evaluate multi-step policies</td>
+<td><code>compute_efe()</code> in loop, policy unrolling</td>
+<td></td>
+</tr>
+<tr>
+<td>Run deep temporal inference</td>
+<td><code>run_mmp()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Build gridworld environments</td>
+<td><code>DiscreteEnvironment</code> with grid B-matrix</td>
+<td></td>
+</tr>
+<tr>
+<td>Run planning agents on gridworlds</td>
+<td><code>ActiveInferenceAgent(policies=...)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Compare planning depths</td>
+<td>T=1 vs T=2 policy performance</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

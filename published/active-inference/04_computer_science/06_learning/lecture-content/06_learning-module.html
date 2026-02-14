@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 06: Learning — Updating Dirichlet Concentrations</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Implement parameter learning using Dirichlet concentration updates for the A and B matrices.</li>
+<li>Compute expected parameter matrices from Dirichlet posteriors and compare with ground truth.</li>
+<li>Evaluate model quality using Bayesian Model Reduction (BMR).</li>
+</ol>
+<h2>Introduction</h2>
+<p>In Modules 01–05, the agent's generative model was fixed — the A, B, C, D, E matrices were set once and never changed. But a truly adaptive agent must <strong>learn</strong>: it should update its beliefs about the environment's causal structure based on experience. In Active Inference, learning means updating the <strong>Dirichlet concentration parameters</strong> (pA, pB) that parameterize the agent's beliefs about A and B.</p>
+<h2>Key Concepts</h2>
+<h3>1. Why Dirichlet Distributions?</h3>
+<p>Each column of the A-matrix is a categorical distribution. The Bayesian conjugate prior for a categorical distribution is the <strong>Dirichlet distribution</strong>. Instead of storing point estimates for A, the agent maintains concentration parameters $\mathbf{p}_A$ where:</p>
+<p>$$P(\mathbf{A}[:, s]) = \text{Dir}(\mathbf{p}_A[:, s])$$</p>
+<p>The expected (mean) A-matrix is:</p>
+<p>$$\mathbb{E}[\mathbf{A}[:, s]] = \frac{\mathbf{p}_A[:, s]}{\sum_o \mathbf{p}_A[o, s]}$$</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">expected_A</span>
+
+<span class="n">pA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">]])</span>
+
+<span class="n">A_expected</span> <span class="o">=</span> <span class="n">expected_A</span><span class="p">(</span><span class="n">pA</span><span class="p">)</span>
+<span class="c1"># A_expected ≈ [[0.909, 0.091], [0.091, 0.909]]</span>
+</code></pre></div>
+
+<h3>2. Updating pA: Learning the Likelihood</h3>
+<p>After each observation-state pair $(o_t, q_s)$, the agent updates pA:</p>
+<p>$$\mathbf{p}_A[o_t, :] \mathrel{+}= q(s) \cdot \eta$$</p>
+<p>where $\eta$ is the learning rate. This is an outer-product update weighted by the posterior beliefs.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_dirichlet_A</span>
+
+<span class="n">pA_new</span> <span class="o">=</span> <span class="n">update_dirichlet_A</span><span class="p">(</span>
+    <span class="n">pA</span><span class="o">=</span><span class="n">pA</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+    <span class="n">observation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">q_s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]),</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># pA_new[0, 0] increased by 0.9 (matched obs-state pair)</span>
+<span class="c1"># pA_new[0, 1] increased by 0.1 (secondary belief)</span>
+</code></pre></div>
+
+<h3>3. Updating pB: Learning the Transitions</h3>
+<p>Similarly, the transition concentrations are updated after each (state, action, next-state) triple:</p>
+<p>$$\mathbf{p}_B[:, s, a] \mathrel{+}= q(s') \cdot q(s) \cdot \eta$$</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_dirichlet_B</span>
+
+<span class="n">pB_new</span> <span class="o">=</span> <span class="n">update_dirichlet_B</span><span class="p">(</span>
+    <span class="n">pB</span><span class="o">=</span><span class="n">pB</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+    <span class="n">q_s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]),</span>
+    <span class="n">q_s_next</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]),</span>
+    <span class="n">action</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3>4. Online Learning Loop</h3>
+<p>The full perception-action-learning loop at each timestep:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="c1"># 1. Perceive</span>
+    <span class="n">action</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+    <span class="c1"># 2. Learn A</span>
+    <span class="n">pA</span> <span class="o">=</span> <span class="n">update_dirichlet_A</span><span class="p">(</span><span class="n">pA</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">agent</span><span class="o">.</span><span class="n">q_s</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">agent</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">expected_A</span><span class="p">(</span><span class="n">pA</span><span class="p">)</span>
+
+    <span class="c1"># 3. Act and observe</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+    <span class="c1"># 4. Learn B</span>
+    <span class="n">pB</span> <span class="o">=</span> <span class="n">update_dirichlet_B</span><span class="p">(</span><span class="n">pB</span><span class="p">,</span> <span class="n">q_s_prev</span><span class="p">,</span> <span class="n">agent</span><span class="o">.</span><span class="n">q_s</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">agent</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">expected_B</span><span class="p">(</span><span class="n">pB</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>5. Tracking Learning Progress</h3>
+<p>Use KL divergence to measure how close the learned model is to the truth:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">kl_divergence</span>
+
+<span class="c1"># Compare each column of learned A vs true A</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_states</span><span class="p">):</span>
+    <span class="n">kl</span> <span class="o">=</span> <span class="n">kl_divergence</span><span class="p">(</span><span class="n">expected_A</span><span class="p">(</span><span class="n">pA</span><span class="p">)[:,</span> <span class="n">s</span><span class="p">],</span> <span class="n">true_A</span><span class="p">[:,</span> <span class="n">s</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;KL[learned || true] for state </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">kl</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Visualize with <code>plot_learning_progress()</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_learning_progress</span>
+<span class="n">plot_learning_progress</span><span class="p">(</span><span class="n">kl_history</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>6. Dirichlet Entropy</h3>
+<p>The entropy of the Dirichlet distribution measures the agent's uncertainty about a parameter column:</p>
+<p>$$H[\text{Dir}(\boldsymbol{\alpha})] = \ln B(\boldsymbol{\alpha}) + (\alpha_0 - K) \psi(\alpha_0) - \sum_k (\alpha_k - 1) \psi(\alpha_k)$$</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">dirichlet_entropy</span>
+
+<span class="c1"># Low entropy = confident about the parameter</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">dirichlet_entropy</span><span class="p">(</span><span class="n">pA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entropy of pA column 0: </span><span class="si">{</span><span class="n">H</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>7. Bayesian Model Reduction (BMR)</h3>
+<p>BMR compares a full model against a reduced (simpler) model by computing the change in free energy:</p>
+<p>$$\Delta F = F_{\text{reduced}} - F_{\text{full}}$$</p>
+<p>A negative ΔF means the reduced model is better (simpler and equally good).</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">bayesian_model_reduction</span>
+
+<span class="n">delta_F</span> <span class="o">=</span> <span class="n">bayesian_model_reduction</span><span class="p">(</span><span class="n">pA_full</span><span class="p">,</span> <span class="n">pA_reduced</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ΔF = </span><span class="si">{</span><span class="n">delta_F</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Negative = reduced model preferred</span>
+</code></pre></div>
+
+<h2>Applications</h2>
+<ul>
+<li><strong>Multi-episode training</strong>: Run many episodes, accumulating pA and pB across episodes. The agent develops increasingly accurate models.</li>
+<li><strong>Catastrophic forgetting</strong>: Monitor whether learning in one context degrades performance in another.</li>
+<li><strong>Model comparison</strong>: Use BMR to prune unnecessary parameters from the model.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>Learning closes the loop: the agent not only perceives and acts but also improves its generative model over time. Dirichlet updates provide a principled Bayesian mechanism for this improvement. Module 07 extends these ideas to multi-agent settings where agents learn about each other.</p>
+</body>
+</html>

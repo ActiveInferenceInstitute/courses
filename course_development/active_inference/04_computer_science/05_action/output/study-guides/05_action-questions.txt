@@ -1,0 +1,41 @@
+Study Questions: Action
+
+Write the formula for Expected Free Energy $G(\pi)$ and identify the two component terms.
+
+Explain the difference between risk and ambiguity in EFE. Which drives goal-directed behavior and which drives information-seeking?
+
+How does computeefe(qs, A, B, C, action) compute the predicted next-state distribution $q(s' \mid \pi)$?
+
+What happens to EFE when the C-vector is all zeros? Which component vanishes and which remains?
+
+Write the policy posterior equation $q(\pi)$. What role does the negative sign in front of γ play?
+
+Why is softmax used to convert EFE values to policy probabilities instead of simply picking the minimum $G$?
+
+Compute $G(\pi)$ by hand for a 2-state system with $q(s) = [1, 0]$, $A = I$, $B{a=0} = I$, $C = [1, -1]$. Show both risk and ambiguity components.
+
+In runpolicyinference(), what does the return value Gvalues contain? What is its shape?
+
+How does the agent select a specific action from $q(\pi)$? Is it deterministic or stochastic?
+
+Explain why an agent in the T-maze visits the cue location before choosing an arm. Which EFE component is responsible?
+
+If the A-matrix is the identity (fully observable), what is the ambiguity for every policy? What behavior results?
+
+Write code to compute and print the EFE for all 3 actions in a T-maze model, then determine which action has the lowest G.
+
+How would you modify the C-vector to create an agent that explores without any particular preference? What would its behavior look like?
+
+What is result["selectedaction"] from runpolicyinference()? How is it computed from q(π)?
+
+If γ is very large, the policy with the lowest $G$ gets nearly all the probability mass. What is the computational danger for multi-step policies?
+
+Describe how multi-step policies are evaluated. If a policy is $[a0, a1, a2]$, how does EFE aggregate across the three steps?
+
+Use plotpolicyvalues() to visualize EFE over time. What should the plot look like when the agent has fully located the reward?
+
+Use plotefedecomposition() to visualize risk and ambiguity components. When does ambiguity dominate risk in the T-maze?
+
+Compare two agents on the T-maze: one with γ = 1 and one with γ = 16. Which one reaches the reward arm more consistently? Which explores more?
+
+What is the computational complexity of evaluating $G(\pi)$ for $K$ policies, each of length $T$, in a system with $Ns$ states and $No$ observations? How does it scale?

@@ -1,0 +1,106 @@
+# Module 07: Communication — How Agents Interact
+
+> **Course**: Active Inference 101 | **Unit**: Cognitive Science | **Audience**: First-semester undergraduates
+
+## Learning Objectives
+
+1. Explain communication as **shared inference** — agents aligning their generative models.
+2. Describe how **Theory of Mind** works in Active Inference: modeling another agent's beliefs and expectations.
+3. Analyze how language, culture, and norms emerge from the alignment of generative models.
+4. Apply these concepts to modern communication challenges (echo chambers, misinformation).
+
+## Introduction
+
+So far, we've focused on a single agent sensing, thinking, acting, and learning in its environment. But humans don't exist alone — we communicate. We talk, gesture, write, sing, and build entire cultures around shared understanding. How does Active Inference explain communication?
+
+The key insight: communication is not just information transfer (like sending a file). It's **shared inference** — two or more agents actively aligning their generative models so they can predict each other.
+
+> **Key Insight**: When you understand someone — really understand them — what has happened is that your generative model and their generative model have become temporarily aligned. You can predict what they'll say next, anticipate their reactions, and fill in what they left unsaid. Misunderstanding is the failure of this alignment.
+
+## Key Concepts
+
+### 1. Communication as Coupled Inference
+
+When two people communicate, each one is:
+
+1. **Generating** actions (speech, gestures) that they predict the other will interpret correctly
+2. **Perceiving** the other's actions and inferring what hidden states (beliefs, intentions) caused them
+3. **Updating** their own model of the other person based on the exchange
+
+Each agent is performing Active Inference about the other. This creates a **coupled dynamic** — I model you modeling me, and you model me modeling you. Successful communication happens when our models converge — when we come to share a common understanding.
+
+> **Real-World Example — Ordering Coffee**: When you walk up to a barista and say "large latte," an enormous amount of shared inference is occurring. The barista infers your intention (you want a drink), predicts your preferences (hot, not iced, unless specified), and generates appropriate actions (making the drink). You predict that the barista will understand, and monitor for signs of confusion (raised eyebrow = prediction error → clarify). The whole exchange is two generative models dancing together.
+
+### 2. Theory of Mind — Modeling Other Minds
+
+**Theory of Mind (ToM)** is the ability to attribute mental states (beliefs, desires, intentions) to others. In Active Inference terms, ToM means including another agent's hidden states in your own generative model:
+
+- "She looked at the menu and frowned" → Your model infers: she's unhappy with the options (her hidden states)
+- "He's studying for the exam" → Your model infers: he believes the exam is important (his beliefs)
+- "The baby is reaching for the toy" → Your model infers: the baby wants the toy (her desires)
+
+ToM develops in childhood (around age 4-5 for explicit ToM) and is crucial for all social interaction. Without ToM, you can only respond to what others DO — not what they THINK or WANT.
+
+**Levels of ToM**:
+
+- **First-order**: I know what you think ("She thinks it's raining")
+- **Second-order**: I know what you think I think ("She thinks I think it's raining")  
+- **Third-order and beyond**: I know what you think I know you know... (essential for complex social games, negotiation, and irony)
+
+### 3. Language as a Shared Generative Model
+
+Language is perhaps the most powerful tool for aligning generative models:
+
+- **Words** are shortcuts that activate similar patterns in speaker and listener's minds
+- **Grammar** provides a shared structure for combining meanings
+- **Context** resolves ambiguity by activating shared priors
+- **Metaphor** extends the model by mapping familiar domains onto unfamiliar ones
+
+When I say "the cat sat on the mat," I'm activating a generative model in your mind that lets you predict the same situation I'm describing. If our models weren't shared, communication would fail.
+
+**Ambiguity and prediction**: The sentence "I saw her duck" is ambiguous — but your brain resolves it instantly using contextual priors (is she at a pond or in a baseball game?). This automatic disambiguation is the generative model at work.
+
+### 4. Cultural Norms as Shared Priors
+
+Culture can be understood as a large-scale shared generative model:
+
+| Cultural Element | Generative Model Component | What It Predicts |
+|-----------------|--------------------------|-----------------|
+| **Norms** | Shared prior expectations about behavior | "People will shake hands when meeting" |
+| **Institutions** | Structural priors about conflict resolution | "disputes go to courts, not to violence" |
+| **Rituals** | Synchronization protocols for group models | "We all stand during the anthem" |
+| **Manners** | Social prediction error minimizers | "Say thank you to reduce social friction" |
+| **Taboos** | High-precision priors with strong violation signals | "Don't discuss salary openly" → large social PE |
+
+When shared priors break down (culture clash, miscommunication), prediction errors spike and social interaction becomes effortful and error-prone.
+
+### 5. Social Media, Echo Chambers, and Model Divergence
+
+Active Inference offers powerful insights into modern communication challenges:
+
+- **Echo chambers**: People seek information that confirms their existing model → reduced prediction error → increased confidence in potentially incorrect beliefs. Algorithms amplify this by showing you content that matches your priors
+- **Misinformation**: False information that aligns with certain generative models is readily accepted because it has low prediction error relative to existing priors. The problem isn't that people are gullible — it's that the misinformation fits their model
+- **Polarization**: Groups develop increasingly divergent generative models, making cross-group communication progressively harder. Each group's priors become more extreme, increasing prediction error when encountering the other group's perspective
+- **Viral content**: Content goes viral when it generates optimal prediction error — surprising enough to be interesting, but not so surprising that it's incomprehensible. The sweet spot of moderate surprise drives sharing
+
+> **Key Insight — Understanding Disagreement**: When you disagree with someone, it's not usually because one of you is "wrong" and the other is "right." It's because you have different generative models with different priors. Productive disagreement requires recognizing this asymmetry and asking: "What must you believe about the world for your view to make sense?" This is active inference about another person's generative model.
+
+### 6. Non-Verbal Communication
+
+Communication isn't just verbal. Active Inference applies to all channels:
+
+- **Facial expressions**: Your face broadcasts prediction-relevant signals (surprise, disgust, joy). Others' brains automatically infer your hidden states from these signals
+- **Body language**: Posture, gesture, and proximity communicate confidence, attention, and social status
+- **Prosody**: The melody of speech carries emotional and pragmatic information (irony, urgency, question vs. statement)
+- **Synchronization**: When people are socially connected, their body movements, breathing, and even heartbeats synchronize — a physical manifestation of model alignment
+
+## Summary
+
+Communication is coupled inference — agents predicting each other and aligning their generative models. Theory of Mind enables this by modeling other minds at multiple levels. Language and culture arise as shared structures that make prediction across agents efficient. Social media dynamics (echo chambers, misinformation, polarization) follow naturally from the optimization of prediction errors in social networks. Understanding disagreement requires recognizing that different agents have different generative models with different priors.
+
+## Further Reading
+
+- Frith, C. D. & Frith, U. (2006). The neural basis of mentalizing. *Neuron*, 50(4), 531-534.
+- Veissière, S. P. L., Constant, A., Ramstead, M. J. D., Friston, K. J., & Kirmayer, L. J. (2020). Thinking through other minds: A variational approach to cognition and culture. *Behavioral and Brain Sciences*, 43, e90.
+- Tomasello, M. (2014). *A Natural History of Human Thinking*. Harvard University Press.
+- Berger, J. (2013). *Contagious: Why Things Catch On*. Simon & Schuster.

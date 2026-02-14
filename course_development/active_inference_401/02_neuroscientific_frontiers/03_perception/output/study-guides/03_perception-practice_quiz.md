@@ -1,0 +1,55 @@
+# Practice Quiz: Perception (Neuroscientific Frontiers)
+
+**Name**: _________________ **Date**: _________________
+
+## Part A: Multiple Choice
+
+**1.** Gamma oscillations (30-100 Hz) in predictive coding carry:
+A) Top-down predictions
+B) Bottom-up prediction errors — generated in superficial layers (L2/3) and transmitted feedforward
+C) Attentional gating
+D) Motor commands
+
+**2.** Beta oscillations (13-30 Hz) are associated with:
+A) Error signaling
+B) Feedback predictions — generated in deep layers (L5/6) and increasing when predictions are confirmed
+C) Sensory input
+D) Sleep states
+
+**3.** Alpha oscillations implement attention by:
+A) Increasing everywhere during attention
+B) Decreasing over attended regions (opening the precision gate) and increasing over unattended regions (closing the gate)
+C) Remaining constant
+D) Only occurring during sleep
+
+**4.** The mismatch negativity (MMN) is best understood as:
+A) A muscle artifact
+B) A neural prediction error signal — the brain's response to unexpected violations of an established predictive pattern
+C) A memory trace
+D) Language processing
+
+**5.** Ketamine disrupts predictive coding by:
+A) Enhancing predictions
+B) Blocking NMDA receptors that mediate feedback (top-down) connections, preventing predictions from suppressing prediction errors
+C) Improving attention
+D) Inducing sleep
+
+**6.** Phase-amplitude coupling implements:
+A) Random noise
+B) Hierarchical control — the phase of slow oscillations (predictions from higher levels) modulates the amplitude of fast oscillations (errors from lower levels)
+C) Simple reflexes
+D) Motor coordination only
+
+**7.** Self-generated touch is attenuated because:
+A) Our skin is numb
+B) The motor system predicts the sensory consequences, subtracting the predicted signal from the actual signal, reducing prediction error
+C) We habituate to all touch
+D) Touch receptors fatigue
+
+## Part B: Essay Questions
+
+**1.** Design a neuroimaging experiment to test the "gamma = errors, beta = predictions" hypothesis. Specify: (a) stimulus paradigm, (b) predicted oscillatory patterns at each stage, (c) what result would support the hypothesis, and (d) what result would challenge it. Reference at least one existing study. (400 words)
+
+**2.** How does the oscillatory framework explain hallucinations (auditory hallucinations in schizophrenia)? If predictions are carried by beta and errors by gamma, what oscillatory abnormality would produce a "prediction without input" — hearing a voice with no external stimulus? What pharmacological evidence supports this account? (400 words)
+
+**3.** Compare Active Inference's attention-as-precision with two alternative theories of attention (e.g., Posner's spotlight theory, Desimone & Duncan's biased competition, Treisman's feature integration theory). What unique predictions does the precision framework make? What experiments could distinguish them? (400 words)

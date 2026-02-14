@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmp8z6239ht</title>
+</head>
+<body>
+<h1>Lab: Derivation Exercise — Coupled Inference and Multi-Agent Free Energy</h1>
+<h2>Objective</h2>
+<p>Derive the mathematics of communication between Active Inference agents, from coupled generative models to generalized synchrony conditions.</p>
+<h2>Part 1: Two-Agent Generative Models</h2>
+<p><strong>Goal</strong>: Formalize how two agents model each other.</p>
+<p><strong>Setup</strong>: Agent A and Agent B, each with 2 states. Agent A's generative model:</p>
+<ul>
+<li>p_A(o_A | s_A, s_B) — likelihood depends on both agents' states</li>
+<li>p_A(s_A) = N(s_A; 0, 1) — prior over own states</li>
+<li>p_A(s_B) = N(s_B; 0, σ²_B) — prior over B's states (higher uncertainty)</li>
+</ul>
+<p>Agent B's generative model is symmetric.</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Write A's free energy F_A as a function of q_A(s_A) and q_A(s_B)</li>
+<li>Derive the update equations for A's beliefs about s_A and s_B</li>
+<li>Show that A's beliefs about B depend on A's observations (which are influenced by B's actions)</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Joint Free Energy Decomposition</h2>
+<p><strong>Goal</strong>: Derive the relationship between individual and joint free energy.</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Write the joint free energy: F_joint = F_A + F_B - I(s_A; s_B)</li>
+<li>Show that the mutual information I(s_A; s_B) = E[ln q(s_A, s_B) / (q(s_A)q(s_B))] captures the coupling</li>
+<li>Explain why minimizing F_joint simultaneously minimizes individual free energies and maximizes mutual predictability</li>
+<li>Interpret: when I(s_A; s_B) is high, the agents are in tight communication; when it is low, they are operating independently</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Generalized Synchrony Conditions</h2>
+<p><strong>Goal</strong>: Derive the conditions for synchronization.</p>
+<p><strong>Setup</strong>: Two coupled dynamical systems:</p>
+<ul>
+<li>dx₁/dt = f₁(x₁) + κ · (x₂ - x₁)</li>
+<li>dx₂/dt = f₂(x₂) + κ · (x₁ - x₂)</li>
+</ul>
+<p>where κ is the coupling strength.</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Define the synchronization error e = x₁ - x₂</li>
+<li>Derive the dynamics of e: de/dt = f₁(x₁) - f₂(x₂) - 2κ · e</li>
+<li>Show that for identical systems (f₁ = f₂ = f), e → 0 is stable if κ &gt; λ_max/2, where λ_max is the maximum Lyapunov exponent of f</li>
+<li>Interpret: coupling must be strong enough relative to the internal dynamics for synchronization to occur</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Theory of Mind as Hierarchical Modeling</h2>
+<p><strong>Goal</strong>: Formalize Theory of Mind mathematically.</p>
+<p><strong>Setup</strong>: Agent A's hierarchical model:</p>
+<ul>
+<li>Level 1: p_A(o_A | s_A) — how A's states generate A's observations</li>
+<li>Level 2: p_A(s_A | s_B model) — how B's model of the world influences A's states</li>
+<li>Level 3: p_A(s_B model | s_B meta-model) — A's model of B's model of A</li>
+</ul>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Write the free energy for this three-level hierarchy</li>
+<li>Show how increasing hierarchical depth enables more sophisticated social inference</li>
+<li>Compute the additional cost (complexity) of each added level</li>
+<li>Discuss: what is the optimal depth of Theory of Mind modeling?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Synthesis</h2>
+<p>In 200 words, explain how the mathematics of coupled inference, joint free energy, and generalized synchrony provide a unified account of communication — from simple biological coordination to human language.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Developed</th>
+<th>Mathematical Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Multi-agent modeling</td>
+<td>Two-agent free energy formulation</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Information theory</td>
+<td>Joint free energy decomposition</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Dynamical systems</td>
+<td>Synchronization stability conditions</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Hierarchical modeling</td>
+<td>Theory of Mind as recursive generative models</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Conceptual integration</td>
+<td>Connecting mathematical communication to natural language</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

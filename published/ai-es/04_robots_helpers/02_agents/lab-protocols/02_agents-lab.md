@@ -1,0 +1,42 @@
+# Lab: Program a Parent
+
+## Goal
+
+To learn how to give precise instructions (Code) to an Agent.
+
+## What You Need
+
+* A "Robot" (A parent or friend).
+* A Goal (e.g., Get a glass of water, Walk to the door).
+
+## Steps
+
+### 1. The Challenge
+
+The "Parent Robot" only listens to EXACT commands.
+They cannot guess!
+
+### 2. The Code
+
+Give commands one by one:
+
+* "Move Forward 2 steps."
+* "Turn Right."
+* "Pick up Cup."
+
+### 3. The Debugging (Fixing Mistakes)
+
+If you say "Pick up Cup" but they are too far away... the Robot will grab air!
+**Error!**
+You must fix your code: "Move Forward 1 more step. THEN pick up cup."
+
+## My Code Log
+
+| Goal | Did it work? | What went wrong? |
+| :--- | :--- | :--- |
+| **Walk to door** | No | Hit the sofa! Needed to turn left. |
+| **Walk to door (Try 2)** | Yes! | Perfect code. |
+
+## What We Learned
+
+Robots aren't smart like people. They are very obedient. They do EXACTLY what you say, even if it is wrong! You have to be a careful programmer.

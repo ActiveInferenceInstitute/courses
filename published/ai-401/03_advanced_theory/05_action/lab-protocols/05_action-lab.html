@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmptxqi58m1</title>
+</head>
+<body>
+<h1>Lab: Renormalization Group and Scale-Free Active Inference</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Apply RG concepts to Active Inference at multiple scales, analyzing coarse-graining, criticality, and multi-scale organization.</p>
+</blockquote>
+<h2>Part 1: Multi-Scale Markov Blanket Identification</h2>
+<p><strong>Exercise</strong>: For the human body, identify the Markov blanket at each organizational scale:</p>
+<table>
+<thead>
+<tr>
+<th>Scale</th>
+<th>System</th>
+<th>External States</th>
+<th>Sensory States</th>
+<th>Active States</th>
+<th>Internal States</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Molecular</td>
+<td>Single protein</td>
+<td>Solvent molecules, ligands</td>
+<td>Binding sites, allosteric sites</td>
+<td>Conformational changes, enzymatic activity</td>
+<td>Intramolecular dynamics</td>
+</tr>
+<tr>
+<td>Cellular</td>
+<td>Neuron</td>
+<td>Extracellular environment</td>
+<td>Receptors, ion channels, synaptic inputs</td>
+<td>Axon terminals, neurotransmitter release</td>
+<td>Intracellular signaling, gene expression</td>
+</tr>
+<tr>
+<td>Circuit</td>
+<td>Cortical column</td>
+<td>Other columns, subcortical input</td>
+<td>Input layer neurons (L4)</td>
+<td>Output layer neurons (L5/6)</td>
+<td>Internal processing layers (L2/3)</td>
+</tr>
+<tr>
+<td>Organ</td>
+<td>Brain</td>
+<td>Body, environment</td>
+<td>Sensory nerves</td>
+<td>Motor nerves, endocrine</td>
+<td>Cortical and subcortical processing</td>
+</tr>
+<tr>
+<td>Organism</td>
+<td>Person</td>
+<td>Physical/social environment</td>
+<td>Sense organs (eyes, ears)</td>
+<td>Muscles, voice, hands</td>
+<td>Brain, viscera</td>
+</tr>
+<tr>
+<td>Social</td>
+<td>Family</td>
+<td>Other families, institutions</td>
+<td>Communication received</td>
+<td>Communication sent, actions</td>
+<td>Shared beliefs, family dynamics</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 200-word analysis: At which scale does the Markov blanket identification become most controversial? Why?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Coarse-Graining Exercise</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Perform a conceptual RG transformation on a neural system.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a network of 100 spiking neurons. Perform two levels of coarse-graining:</p>
+<p><strong>Level 0 (Microscopic)</strong>: 100 individual neurons with spiking dynamics</p>
+<ul>
+<li>States: individual membrane potentials V₁, V₂, ..., V₁₀₀</li>
+<li>Interactions: synaptic weights w_{ij}</li>
+</ul>
+<p><strong>Level 1 (Mesoscopic)</strong>: Group into 10 neural populations of 10 neurons each</p>
+<ul>
+<li>States: mean firing rates r₁, r₂, ..., r₁₀</li>
+<li>Effective interactions: population coupling J_{IJ} = some function of {w_{ij}}</li>
+</ul>
+<p><strong>Level 2 (Macroscopic)</strong>: Group into 2 brain regions of 5 populations each</p>
+<ul>
+<li>States: regional activity levels R₁, R₂</li>
+<li>Effective interaction: inter-regional coupling</li>
+</ul>
+<p>At each level: (a) What information is lost? (b) What information is preserved? (c) Does the generative model structure (A, B matrices) change form?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Criticality Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Evaluate the evidence for neural criticality.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Evaluate the following evidence for brain criticality:</p>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>Finding</th>
+<th>Supports Criticality?</th>
+<th>Alternative Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Neural avalanches</td>
+<td>Power-law size distribution with exponent ~3/2</td>
+<td>Yes — matches critical Ising model</td>
+<td>Could be subcritical with weak correlations</td>
+</tr>
+<tr>
+<td>1/f noise</td>
+<td>Power spectrum ~1/f across broad frequency range</td>
+<td>Yes — scale invariance</td>
+<td>Could result from multiple uncorrelated processes</td>
+</tr>
+<tr>
+<td>Long-range correlations</td>
+<td>fMRI shows correlations across distant brain regions</td>
+<td>Yes — divergent correlation length</td>
+<td>Could reflect anatomical connectivity</td>
+</tr>
+<tr>
+<td>Maximal dynamic range</td>
+<td>Neural systems at criticality respond to widest range of input intensities</td>
+<td>Yes — optimal sensitivity</td>
+<td>Could be selected for without criticality</td>
+</tr>
+<tr>
+<td>Information capacity</td>
+<td>Criticality maximizes mutual information between input and output</td>
+<td>Yes — optimal coding</td>
+<td>Other mechanisms achieve good coding</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 300-word assessment: Is the brain at criticality, near criticality, or is this a misleading framework?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Society as Active Inference</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Apply scale-free Active Inference to social systems.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Model a political election as Active Inference at the social scale:</p>
+<ol>
+<li><strong>Social generative model</strong>: What is the "shared model" of a political party? (Beliefs about the economy, society, threats, opportunities)</li>
+<li><strong>Social prediction errors</strong>: What events generate prediction errors in the social model? (Unexpected economic data, scandals, crises)</li>
+<li><strong>Social active inference</strong>: How does the party act to minimize free energy? (Policy proposals = active states; media = sensory management)</li>
+<li><strong>Social learning</strong>: How does the party's model update after an election loss?</li>
+<li><strong>Echo chambers as precision traps</strong>: How do echo chambers function as excessive precision on prior beliefs, preventing model updating?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 300 words, reflect: The scale-free claim of Active Inference — that the same principles apply from molecules to societies — is either the framework's greatest strength or its greatest weakness. If it applies to everything, does it predict anything? Compare this to other "universal" frameworks (thermodynamics, natural selection, information theory). Are they similarly general, and are they similarly useful?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Multi-scale identification</td>
+<td>Nested Markov blankets</td>
+</tr>
+<tr>
+<td>2</td>
+<td>RG transformation</td>
+<td>Coarse-graining neural systems</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Evidence evaluation</td>
+<td>Neural criticality</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Social application</td>
+<td>Scale-free framework</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Philosophical critique</td>
+<td>Universality vs. predictive power</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

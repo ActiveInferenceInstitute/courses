@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmp3bwprm__</title>
+</head>
+<body>
+<h1>Lab: Implementing Parameter Learning</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Build a learning agent, track its improvement, and analyze learning dynamics.</p>
+</blockquote>
+<h2>Part 1: Initialize a Learning Agent</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Weak prior (agent knows little about the environment)</span>
+<span class="n">A_prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1.0</span>  <span class="c1"># uniform Dirichlet prior</span>
+<span class="n">B_prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1.0</span>
+
+<span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">LearningAgent</span><span class="p">(</span><span class="n">A_prior</span><span class="p">,</span> <span class="n">B_prior</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial A:</span><span class="se">\n</span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial learning rate: </span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">get_effective_learning_rate</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Learn from Experience</h2>
+<p>Run the agent for 50 steps and watch A converge:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># True environment</span>
+<span class="n">true_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]])</span>
+<span class="n">true_B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">true_B</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">true_B</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">SimpleEnvironment</span><span class="p">(</span><span class="n">true_A</span><span class="p">,</span> <span class="n">true_B</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">true_A</span><span class="p">[:,</span> <span class="n">env</span><span class="o">.</span><span class="n">state</span><span class="p">])</span>
+    <span class="n">agent</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t=</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">: A =</span><span class="se">\n</span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">  LR = </span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">get_effective_learning_rate</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>How close is the learned A to the true A after 50 steps?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Learning Rate Tracking</h2>
+<p>Plot or tabulate the learning rate over time:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">lrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="n">agent</span><span class="o">.</span><span class="n">learning_log</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">49</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t=</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">: learning rate = </span><span class="si">{</span><span class="n">lrs</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Does the learning rate decay match the theoretical prediction (1/total_count)?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Strong vs. Weak Priors</h2>
+<p><strong>Exercise</strong>: Compare agents with different prior strengths:</p>
+<ul>
+<li>Weak: A_prior = ones * 1.0</li>
+<li>Strong wrong: A_prior = [[10, 1], [1, 10]] (confident but reversed!)</li>
+</ul>
+<p>Run both for 100 steps. Which learns faster? Which gets stuck?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 150 words, reflect: What did you learn about the relationship between prior strength and learning speed? When is a strong prior helpful vs. harmful?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Agent initialization</td>
+<td>Dirichlet priors</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Learning observation</td>
+<td>A matrix convergence</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Rate analysis</td>
+<td>Learning rate decay</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Prior comparison</td>
+<td>Strong vs. weak priors</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Reflection</td>
+<td>Prior-learning trade-off</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

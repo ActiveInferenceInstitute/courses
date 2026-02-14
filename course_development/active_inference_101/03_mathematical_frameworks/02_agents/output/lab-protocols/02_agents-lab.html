@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmprgzxvsbd</title>
+</head>
+<body>
+<h1>Lab: Variational Inference</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Build intuition for approximate inference through worked examples and conceptual exercises.</p>
+</blockquote>
+<h2>Part 1: Why Exact Inference Fails</h2>
+<p><strong>Exercise</strong>: Consider a simple model with 3 binary hidden states (s₁, s₂, s₃).</p>
+<ol>
+<li>List all possible state combinations (there should be 2³ = 8).</li>
+<li>Now consider 10 binary states: How many combinations? 20 states? 50 states?</li>
+<li>If evaluating each combination takes 1 nanosecond, how long would it take to evaluate all combinations for 50 binary states?</li>
+<li>Why does this demonstrate the need for approximate inference?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: KL Divergence Computation</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Compute and interpret KL divergence for simple distributions.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider two discrete distributions over outcomes {A, B, C}:</p>
+<ul>
+<li>P = {0.5, 0.3, 0.2}</li>
+<li>Q₁ = {0.4, 0.35, 0.25}</li>
+<li>
+<p>Q₂ = {0.1, 0.1, 0.8}</p>
+</li>
+<li>
+<p>Compute D_KL[Q₁ || P] = Σ Q₁(x) × log(Q₁(x)/P(x))</p>
+</li>
+<li>Compute D_KL[Q₂ || P]</li>
+<li>Which approximation (Q₁ or Q₂) is closer to P? Does this match your intuition?</li>
+</ul>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: The ELBO Decomposition</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Understand accuracy vs. complexity in model fitting.</p>
+</blockquote>
+<p><strong>Scenario</strong>: Two students build models to predict exam scores:</p>
+<ul>
+<li>Student A's model: "Everyone gets a B" (simple but inaccurate)</li>
+<li>
+<p>Student B's model: "Score depends on study hours, GPA, sleep, mood, day of week, horoscope, weather, shirt color..." (accurate on training data but overly complex)</p>
+</li>
+<li>
+<p>Which model has higher accuracy? Which has lower complexity?</p>
+</li>
+<li>Which model would the ELBO prefer? Why?</li>
+<li>What would an optimal model look like?</li>
+</ul>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Connecting Free Energy to Cognition</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Map mathematical quantities to cognitive concepts.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Mathematical Quantity</th>
+<th>Cognitive Equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>q(s)</td>
+<td></td>
+</tr>
+<tr>
+<td>P(s | o)</td>
+<td></td>
+</tr>
+<tr>
+<td>F (free energy)</td>
+<td></td>
+</tr>
+<tr>
+<td>D_KL[q || p]</td>
+<td></td>
+</tr>
+<tr>
+<td>Accuracy term</td>
+<td></td>
+</tr>
+<tr>
+<td>Complexity term</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Fill in the cognitive equivalents (hint: beliefs, perfect inference, surprise, error, fit, simplicity).</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 150 words, reflect: The brain can't perform exact Bayesian inference, so it approximates. Does this mean our beliefs are always "wrong" to some degree? Is approximate inference a limitation or an advantage?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Exponential growth analysis</td>
+<td>Intractability of exact inference</td>
+</tr>
+<tr>
+<td>2</td>
+<td>KL divergence computation</td>
+<td>Measuring distribution closeness</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Trade-off analysis</td>
+<td>ELBO accuracy-complexity balance</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Concept mapping</td>
+<td>Math ↔ Cognition bridge</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Epistemological reflection</td>
+<td>Approximate vs. exact inference</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

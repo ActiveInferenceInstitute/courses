@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmp5b7xpfat</title>
+</head>
+<body>
+<h1>Lab: Derivation Exercise — Generative Models and Variational Inference</h1>
+<h2>Objective</h2>
+<p>Derive the variational inference update equations for a concrete generative model, connecting the abstract mathematics to explicit computations.</p>
+<h2>Part 1: Hidden Markov Model Specification</h2>
+<p><strong>Goal</strong>: Write out a complete generative model.</p>
+<p>Consider a Hidden Markov Model with:</p>
+<ul>
+<li>K = 3 hidden states (s ∈ {1, 2, 3})</li>
+<li>Observation model: p(oₜ | sₜ = k) = N(oₜ; μₖ, σₖ²) with known parameters</li>
+<li>Transition model: p(sₜ | sₜ₋₁) given by a 3×3 matrix <strong>A</strong> with rows summing to 1</li>
+<li>Prior: p(s₁) = categorical with probabilities [0.5, 0.3, 0.2]</li>
+</ul>
+<p><strong>Task</strong>: Write the complete joint distribution p(o₁:T, s₁:T) for T = 3 timesteps. Expand the product notation fully.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Variational Free Energy for the HMM</h2>
+<p><strong>Goal</strong>: Derive the free energy for this model.</p>
+<p>Let q(s₁:T) = ∏ₜ q(sₜ) be the mean-field recognition density, where each q(sₜ) is a categorical distribution with parameters (probabilities) rₜ = [rₜ₁, rₜ₂, rₜ₃].</p>
+<p><strong>Task</strong>: Write the variational free energy:</p>
+<p>F = E_q[ln q(s₁:T)] - E_q[ln p(o₁:T, s₁:T)]</p>
+<p>Expand each term. The first term is the negative entropy of q. The second term involves the log-likelihood and log-transition probabilities.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Optimal Update Equations</h2>
+<p><strong>Goal</strong>: Derive the fixed-point equations for the sufficient statistics.</p>
+<p>Taking the derivative ∂F/∂rₜₖ = 0 (with the constraint ∑ₖ rₜₖ = 1), derive the optimal q*(sₜ):</p>
+<p><strong>ln q*(sₜ = k) ∝ ln p(oₜ | sₜ = k) + E_{q(sₜ₋₁)}[ln p(sₜ = k | sₜ₋₁)] + E_{q(sₜ₊₁)}[ln p(sₜ₊₁ | sₜ = k)]</strong></p>
+<p>Show all steps. Explain why the update depends on messages from both the past (sₜ₋₁) and the future (sₜ₊₁).</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Gaussian State-Space Model</h2>
+<p><strong>Goal</strong>: Repeat the derivation for a continuous model.</p>
+<p>Consider a linear Gaussian state-space model:</p>
+<ul>
+<li>p(sₜ | sₜ₋₁) = N(sₜ; A·sₜ₋₁, Q) — state dynamics</li>
+<li>p(oₜ | sₜ) = N(oₜ; C·sₜ, R) — observation model</li>
+<li>p(s₁) = N(s₁; μ₀, Σ₀) — prior</li>
+</ul>
+<p>With recognition density q(sₜ) = N(sₜ; mₜ, Vₜ).</p>
+<p><strong>Task</strong>: Derive the update equations for the sufficient statistics mₜ (mean) and Vₜ (covariance) by minimizing F. Show that these correspond to Kalman filter/smoother equations.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Synthesis</h2>
+<p>In 200 words, explain the common mathematical structure across Parts 2-4: in both discrete and continuous cases, the optimal recognition density arises from minimizing free energy, and the update equations combine likelihood (data-driven) terms with transition (model-driven) terms.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Developed</th>
+<th>Mathematical Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Model specification</td>
+<td>Writing the HMM joint distribution</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Free energy derivation</td>
+<td>Expanding F for mean-field HMM</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Variational calculus</td>
+<td>Deriving optimal update equations</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Continuous extension</td>
+<td>Gaussian state-space / Kalman filtering</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Conceptual synthesis</td>
+<td>Unifying discrete and continuous cases</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmp1nsa1k_i</title>
+</head>
+<body>
+<h1>Lab: Derivation Exercise — Parameter Learning and Model Reduction</h1>
+<h2>Objective</h2>
+<p>Derive the parameter learning equations and Bayesian Model Reduction formula, applying them to concrete examples.</p>
+<h2>Part 1: Dirichlet-Categorical Conjugacy</h2>
+<p><strong>Goal</strong>: Derive the conjugate update from first principles.</p>
+<p><strong>Setup</strong>: Prior: p(θ) = Dir(θ; α₁, α₂, α₃) with α = [2, 3, 1]. Likelihood: p(x|θ) = Cat(x; θ). Data: 10 observations: {1, 1, 2, 1, 3, 2, 1, 1, 2, 1} (category counts: n₁=6, n₂=3, n₃=1).</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Write Bayes' rule: p(θ|x₁:N) ∝ p(x₁:N|θ) · p(θ)</li>
+<li>Expand the likelihood as ∏ₖ θₖ^nₖ and the prior as ∏ₖ θₖ^(αₖ-1)</li>
+<li>Show the posterior is Dir(θ; α₁+n₁, α₂+n₂, α₃+n₃) = Dir(θ; 8, 6, 2)</li>
+<li>Compute the posterior mean E[θ|data] and compare with the MLE</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: A-Matrix Learning in a POMDP</h2>
+<p><strong>Goal</strong>: Track how the A matrix evolves with experience.</p>
+<p><strong>Setup</strong>: A 2-state, 2-observation POMDP. Initial A matrix concentration:</p>
+<p>a = [[10, 1], [1, 10]]  (state 1 → observation 1; state 2 → observation 2)</p>
+<p>The agent experiences 20 trials where state 1 produces observation 1 (18 times) and observation 2 (2 times).</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Apply the Dirichlet update rule: a_ij ← a_ij + n_ij</li>
+<li>Compute the updated concentration parameters</li>
+<li>Compute the updated expected A matrix (posterior mean)</li>
+<li>How has the A matrix changed? How much more confident is the agent?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Bayesian Model Reduction</h2>
+<p><strong>Goal</strong>: Apply BMR to decide whether a parameter should be pruned.</p>
+<p><strong>Setup</strong>: After learning, a 3-state POMDP has posterior A matrix concentrations:</p>
+<p>a_full = [[50, 2, 1], [2, 48, 1], [1, 1, 45]]</p>
+<p>Consider a reduced model where states 2 and 3 are merged (reducing from 3 to 2 states), with reduced prior concentrations:</p>
+<p>ã₀ = [[50, 3], [2, 49]]</p>
+<p>Original prior: a₀ = [[10, 1, 1], [1, 10, 1], [1, 1, 10]]</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Compute the BMR evidence ratio using: ΔF ≈ ln B(ã₀) - ln B(a₀) - ln B(ã) + ln B(a)</li>
+<li>Where ã = a + ã₀ - a₀</li>
+<li>Determine whether the reduced model is preferred (ΔF &lt; 0)</li>
+<li>Explain what this means: is the third state "doing work" or can it be pruned?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Learning Rate and Forgetting</h2>
+<p><strong>Goal</strong>: Analyze the effect of learning rate and forgetting on parameter trajectories.</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>For the Dirichlet update a ← a + η · n, analyze the effect of η &lt; 1 (slow learning) and η &gt; 1 (fast learning)</li>
+<li>Consider a forgetting mechanism: a ← λ · a + η · n, where λ &lt; 1 is a decay factor. Show that this implements exponential forgetting</li>
+<li>Compute the effective "memory window" as a function of λ</li>
+<li>Discuss: when is forgetting adaptive? When is it maladaptive?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Synthesis</h2>
+<p>In 200 words, explain how parameter learning (Dirichlet updates) and structure learning (BMR) together enable the agent to both refine and simplify its generative model, and how this maps onto the neuroscience of waking learning and sleep consolidation.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Developed</th>
+<th>Mathematical Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Bayesian updating</td>
+<td>Dirichlet-Categorical conjugate derivation</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Matrix learning</td>
+<td>A-matrix concentration update tracking</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Model comparison</td>
+<td>Bayesian Model Reduction evidence ratio</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Dynamical analysis</td>
+<td>Learning rate and forgetting trade-offs</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Conceptual integration</td>
+<td>Connecting learning math to neuroscience</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

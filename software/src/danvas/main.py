@@ -1,0 +1,226 @@
+"""Danvas — lightweight course management HTTP server.
+
+Serves a web UI for browsing courses, managing enrollments, gradebook,
+announcements, and calendar.  Built on ``http.server`` — zero external
+framework dependencies.
+
+The heavy lifting is delegated to:
+
+- :mod:`danvas.router` — URL pattern matching
+- :mod:`danvas.handlers` — page / form / API request handlers
+- :mod:`danvas.middleware` — feature flags, permissions, logging
+
+Usage::
+
+    python -m src.danvas.main --repo-root /path/to/courses
+"""
+
+import argparse
+import json
+import sys
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from pathlib import Path
+from typing import Any, Dict, Optional
+from urllib.parse import parse_qs, urlparse
+
+from . import config, templates
+from . import handlers as _handlers
+from . import router as _router
+from . import middleware as _mw
+
+try:
+    from ..batch_processing.logging_config import get_logger
+except Exception:
+    import logging
+
+    def get_logger(name: str) -> logging.Logger:
+        logger = logging.getLogger(name)
+        if not logger.handlers:
+            handler = logging.StreamHandler()
+            handler.setFormatter(logging.Formatter("%(levelname)s | %(name)s | %(message)s"))
+            logger.addHandler(handler)
+            logger.setLevel(logging.INFO)
+        return logger
+
+
+logger = get_logger("danvas.main")
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Request handler
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+class DanvasHandler(BaseHTTPRequestHandler):
+    """HTTP request handler for Danvas.
+
+    ``server.repo_root`` and ``server.data_dir`` must be set on the
+    ``HTTPServer`` instance before requests are served.
+
+    Delegates URL matching to :mod:`router` and request handling to
+    :mod:`handlers`.
+    """
+
+    @property
+    def repo_root(self) -> Path:
+        return self.server.repo_root  # type: ignore[attr-defined]
+
+    @property
+    def data_dir(self) -> Path:
+        return self.server.data_dir  # type: ignore[attr-defined]
+
+    # ── Dispatch ──────────────────────────────────────────────────────────
+
+    def do_GET(self) -> None:  # noqa: N802
+        self._dispatch("GET")
+
+    def do_POST(self) -> None:  # noqa: N802
+        self._dispatch("POST")
+
+    def _dispatch(self, method: str) -> None:
+        parsed = urlparse(self.path)
+        path = parsed.path.rstrip("/") or "/"
+
+        result = _router.dispatch(method, path)
+        if result is None:
+            _mw.log_request(method, path, None)
+            self._send_html(templates.render_404(), status=404)
+            return
+
+        handler_name, kwargs = result
+        _mw.log_request(method, path, handler_name)
+
+        # Feature-flag check
+        if not _mw.check_feature_flag(handler_name):
+            self._send_html(templates.render_404(), status=404)
+            return
+
+        handler_fn = getattr(_handlers, handler_name, None)
+        if handler_fn:
+            handler_fn(self, **kwargs)
+        else:
+            self._send_html(templates.render_404(), status=404)
+
+    # ── Helpers ───────────────────────────────────────────────────────────
+
+    def _send_html(self, html: str, status: int = 200) -> None:
+        self.send_response(status)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        body = html.encode("utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _send_json(self, data: Any, status: int = 200) -> None:
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        body = json.dumps(data, indent=2, default=str).encode("utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _redirect(self, url: str) -> None:
+        self.send_response(303)
+        self.send_header("Location", url)
+        self.end_headers()
+
+    def _read_form(self) -> Dict[str, str]:
+        """Read URL-encoded POST body and return a flat dict."""
+        length = int(self.headers.get("Content-Length", 0))
+        raw = self.rfile.read(length).decode("utf-8")
+        parsed = parse_qs(raw)
+        return {k: v[0] for k, v in parsed.items()}
+
+    # ── Logging ───────────────────────────────────────────────────────────
+
+    def log_message(self, format: str, *args: Any) -> None:
+        logger.info("%s %s", self.address_string(), format % args)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Server entry point
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+def start_server(
+    repo_root: Path,
+    port: int = config.DANVAS_PORT,
+    host: str = config.DANVAS_HOST,
+    data_dir: Optional[Path] = None,
+) -> HTTPServer:
+    """Create and start the Danvas HTTP server.
+
+    Args:
+        repo_root: Root of the courses repository.
+        port: Port number.
+        host: Bind address.
+        data_dir: Override for state storage directory.
+
+    Returns:
+        The running ``HTTPServer`` instance.
+    """
+    server = HTTPServer((host, port), DanvasHandler)
+    server.repo_root = repo_root  # type: ignore[attr-defined]
+    server.data_dir = data_dir or config.DANVAS_DATA_DIR  # type: ignore[attr-defined]
+
+    logger.info(
+        "Danvas starting on http://%s:%d  (repo=%s, data=%s)",
+        host, port, repo_root, server.data_dir,
+    )
+
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        logger.info("Danvas shutting down.")
+    finally:
+        server.server_close()
+
+    return server
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CLI
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+def _parse_args(argv: list = None) -> argparse.Namespace:
+    """Parse CLI arguments."""
+    parser = argparse.ArgumentParser(
+        prog="danvas",
+        description="Danvas — lightweight course management server",
+    )
+    parser.add_argument(
+        "--repo-root",
+        type=Path,
+        default=Path.cwd(),
+        help="Root of the courses repository (default: cwd)",
+    )
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=config.DANVAS_PORT,
+        help=f"Port to listen on (default: {config.DANVAS_PORT})",
+    )
+    parser.add_argument(
+        "--host",
+        type=str,
+        default=config.DANVAS_HOST,
+        help=f"Host to bind to (default: {config.DANVAS_HOST})",
+    )
+    parser.add_argument(
+        "--data-dir",
+        type=Path,
+        default=None,
+        help="Directory for Danvas state files (default: ~/.danvas/)",
+    )
+    return parser.parse_args(argv)
+
+
+if __name__ == "__main__":
+    args = _parse_args()
+    start_server(
+        repo_root=args.repo_root,
+        port=args.port,
+        host=args.host,
+        data_dir=args.data_dir,
+    )

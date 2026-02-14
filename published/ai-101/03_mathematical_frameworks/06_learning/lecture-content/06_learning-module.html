@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 06: Learning — Parameter and Structure Learning</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 101 | <strong>Unit</strong>: Mathematical Frameworks | <strong>Audience</strong>: First-semester undergraduates</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Define <strong>parameter learning</strong> mathematically: updating the sufficient statistics of the A, B, C, D matrices.</li>
+<li>Introduce <strong>Bayesian Model Reduction</strong> (BMR) as the mechanism for structure learning.</li>
+<li>Explain how learning operates on a <strong>slower timescale</strong> than perception using Dirichlet distributions.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Perception updates beliefs about hidden states (fast timescale). Learning updates the model itself — its parameters and structure (slow timescale). This module formalizes the difference mathematically.</p>
+<h2>Key Concepts</h2>
+<h3>1. Parameter Learning — Updating Model Parameters</h3>
+<p>In the POMDP, the A and B matrices are initially uncertain. <strong>Parameter learning</strong> means updating them based on experience.</p>
+<p>Mathematically, we represent uncertainty about parameters using <strong>Dirichlet distributions</strong>:</p>
+<ul>
+<li>Before experience: The A matrix starts with weak beliefs — A_prior = small concentration parameters (e.g., α = 1)</li>
+<li>After experience: Each time the agent observes state-observation pair (s, o), the corresponding entry is incremented: α(o, s) → α(o, s) + 1</li>
+<li>Over time: The entries grow, the distribution sharpens, and the A matrix becomes more certain</li>
+</ul>
+<p>This is <strong>Dirichlet-Categorical conjugacy</strong> — a mathematically elegant property where the posterior stays in the same distribution family as the prior.</p>
+<h3>2. Concentration Parameters and Confidence</h3>
+<p>The concentration parameters α control how confident the agent is:</p>
+<ul>
+<li><strong>Small α (e.g., [1, 1, 1])</strong>: Maximum uncertainty — all outcomes equally likely</li>
+<li><strong>Large α (e.g., [100, 5, 5])</strong>: High confidence — heavily favors the first outcome</li>
+<li><strong>Sum of α</strong>: Total "experience count" — larger sum = stronger confidence = slower updating</li>
+</ul>
+<p>This explains why young animals learn fast (small α, weak priors) while experienced adults change slowly (large α, strong priors).</p>
+<h3>3. Learning Rate Emerges from Experience</h3>
+<p>The effective learning rate decreases naturally:</p>
+<ul>
+<li>After 1 observation: Learning rate ≈ 1/2 (each new data point has 50% influence)</li>
+<li>After 100 observations: Learning rate ≈ 1/101 (each new data point has ~1% influence)</li>
+<li>After 1000 observations: Learning rate ≈ 1/1001 (~0.1% influence)</li>
+</ul>
+<p>This automatic decay of learning rate is optimal — early observations should matter more, later observations refine but don't fundamentally change the model.</p>
+<h3>4. Structure Learning — Bayesian Model Reduction (BMR)</h3>
+<p><strong>Structure learning</strong> asks: "Does my model have the right structure?" — too many states? Wrong factorization? Unnecessary connections?</p>
+<p><strong>Bayesian Model Reduction</strong> compares the current model to simpler alternatives:</p>
+<ul>
+<li>Compute the model evidence F for the current model</li>
+<li>Compute F for simpler models (with some connections removed)</li>
+<li>If a simpler model has equal or better evidence → adopt it</li>
+</ul>
+<p>BMR prunes unnecessary model complexity, implementing the mathematical version of Occam's razor. It's done offline (during rest/sleep) and is computationally cheap once the full model is learned.</p>
+<h3>5. Learning vs. Inference — Timescale Separation</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Inference (Perception)</th>
+<th>Learning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What updates?</td>
+<td>q(s) — beliefs about states</td>
+<td>Parameters α — the model itself</td>
+</tr>
+<tr>
+<td>Timescale</td>
+<td>Milliseconds</td>
+<td>Minutes to years</td>
+</tr>
+<tr>
+<td>Mathematical object</td>
+<td>Posterior over states</td>
+<td>Posterior over parameters</td>
+</tr>
+<tr>
+<td>Effect of one observation</td>
+<td>Can completely change beliefs</td>
+<td>Slight nudge to parameters</td>
+</tr>
+</tbody>
+</table>
+<h2>Summary</h2>
+<p>Parameter learning updates the A and B matrices using Dirichlet distributions, with learning rate naturally decreasing with experience. Structure learning (BMR) prunes unnecessary model complexity by comparing simpler alternatives. Learning operates on a slower timescale than perception, with the timescale separation emerging naturally from the accumulation of concentration parameters.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Friston, K. J. et al. (2016). Active inference and learning. <em>Neuroscience &amp; Biobehavioral Reviews</em>, 68, 862-879.</li>
+<li>Friston, K. J. et al. (2018). Bayesian model reduction. <em>arXiv:1805.07092</em>.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press. (Chapter 7)</li>
+</ul>
+</body>
+</html>

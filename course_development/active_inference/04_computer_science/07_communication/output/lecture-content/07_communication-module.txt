@@ -1,0 +1,64 @@
+Module 07: Communication — Multi-Agent Simulation and Signaling Games
+
+Learning Objectives
+
+Build a multi-agent simulation where agents observe and influence each other.
+Implement a signaling game with sender and receiver Active Inference agents.
+Track mutual information to measure emergent communication.
+
+Introduction
+
+Active Inference agents don't exist in isolation. When multiple agents share an environment, each agent's actions become part of the other agents' observations. This creates a rich dynamics: agents develop implicit communication by learning to predict and influence each other's behavior. This module builds multi-agent simulations from the single-agent tools developed in Modules 01–06.
+
+Key Concepts
+
+Multi-Agent Architecture
+
+In a multi-agent setup, each agent has its own generative model, but the environment's state includes the states and actions of all agents:
+
+The Signaling Game
+
+A canonical test for emergent communication:
+
+2 world states: food-left (0), food-right (1)
+Sender: observes the true state, selects a signal (action 0 or 1)
+Receiver: observes the sender's signal, selects a direction (go-left or go-right)
+Success: the receiver reaches the food
+
+The sender's A-matrix allows it to observe the world state. The receiver's A-matrix maps signals to observations. Reward is shared — both agents prefer the receiver reaching the food.
+
+Multi-Agent Simulation Loop
+
+Measuring Communication with Mutual Information
+
+Mutual information $I(X; Y)$ quantifies how much the sender's signals reduce uncertainty about the world state:
+
+$$I(\text{signal} ; \text{state}) = H(\text{signal}) + H(\text{state}) - H(\text{signal}, \text{state})$$
+
+If $I = 0$, signals are uncorrelated with states (no communication). If $I = H(\text{state})$, signals perfectly encode the state.
+
+Learning to Communicate
+
+Neither agent has a built-in communication protocol. Communication emerges through learning:
+
+The sender learns (via pA/pB updates) which signals lead to reward.
+The receiver learns which signals correlate with which world states.
+Over time, mutual information increases as the agents develop a shared code.
+
+Scaling to More Agents
+
+The same pattern extends to N agents:
+
+Each agent maintains its own GenerativeModel and ActiveInferenceAgent
+The environment maps agent actions to other agents' observations
+Mutual information can be tracked pairwise
+
+Applications
+
+Language evolution: How do symbolic systems emerge from non-linguistic agents?
+Cooperative robotics: Agents that develop coordination protocols without pre-programmed signals.
+Social inference: An agent that models other agents' beliefs (theory of mind) as part of its generative model.
+
+Conclusion
+
+Multi-agent Active Inference extends the single-agent framework naturally: each agent's actions become observations for other agents. Communication emerges when agents learn that their signals systematically influence others' behavior. Module 08 extends the temporal dimension — planning over multiple future steps.

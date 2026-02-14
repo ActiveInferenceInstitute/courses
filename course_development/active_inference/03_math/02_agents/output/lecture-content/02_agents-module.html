@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 02: Agents — Generative Models, Sufficient Statistics, and the Free Energy Principle</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Define a <strong>generative model</strong> formally as a joint probability distribution p(o, s, θ) and distinguish it from the recognition density q(s, θ).</li>
+<li>Derive the <strong>sufficient statistics</strong> of the recognition density and explain how they parameterize the agent's beliefs.</li>
+<li>State the <strong>Free Energy Principle</strong> precisely: internal states parameterize a recognition density that minimizes free energy.</li>
+</ol>
+<h2>Introduction</h2>
+<p>An agent, in the Active Inference framework, is a system whose internal states can be interpreted as parameterizing a recognition density — a probability distribution encoding beliefs about hidden states. This module formalizes what it means for a system to be an "agent" by developing the mathematics of generative models, sufficient statistics, and the Free Energy Principle.</p>
+<h2>Key Concepts</h2>
+<h3>1. The Generative Model</h3>
+<p>A generative model specifies how observations are generated from hidden causes:</p>
+<p><strong>p(o₁:T, s₁:T, θ) = p(θ) ∏ₜ p(oₜ | sₜ, θ) · p(sₜ | sₜ₋₁, θ)</strong></p>
+<p>where:</p>
+<ul>
+<li><strong>o₁:T</strong> are observations (sensory data) over time</li>
+<li><strong>s₁:T</strong> are hidden states (causes of observations)</li>
+<li><strong>θ</strong> are parameters (fixed properties of the environment)</li>
+<li><strong>p(oₜ | sₜ, θ)</strong> is the likelihood (how states generate observations)</li>
+<li><strong>p(sₜ | sₜ₋₁, θ)</strong> are transition probabilities (how states evolve)</li>
+<li><strong>p(θ)</strong> is the prior over parameters</li>
+</ul>
+<p>This is a partially observed Markov decision process (POMDP) when extended with actions.</p>
+<h3>2. The Recognition Density and Sufficient Statistics</h3>
+<p>Since exact Bayesian inference p(s, θ | o) is intractable for most models, the agent maintains an approximate posterior — the <strong>recognition density</strong> q(s, θ):</p>
+<p><strong>q(s, θ) ≈ p(s, θ | o)</strong></p>
+<p>Under the mean-field approximation, this factorizes:</p>
+<p><strong>q(s, θ) = q(s) · q(θ)</strong></p>
+<p>For exponential family distributions, q is fully specified by its <strong>sufficient statistics</strong>. For example, a Gaussian q(s) = N(s; μ, Σ) is parameterized by mean μ and covariance Σ. These sufficient statistics are the <strong>internal states</strong> of the agent — the quantities that the brain (or any self-organizing system) must track.</p>
+<h3>3. The Free Energy Principle (Formal Statement)</h3>
+<p><strong>Free Energy Principle</strong>: For any system with a Markov Blanket at nonequilibrium steady state, the internal states μ can be described as parameterizing a recognition density q_μ(η) whose variational free energy is minimized:</p>
+<p><strong>μ* = argmin_μ F(s, μ) = argmin_μ E_{qμ}[ln q_μ(η) - ln p(η, s)]</strong></p>
+<p>This is not a claim that all systems <em>compute</em> free energy. It is that the dynamics of any Markov-blanketed system can be <em>described as if</em> they minimize free energy — a formal duality between physics and inference.</p>
+<h2>Derivation Exercises</h2>
+<ol>
+<li>Write the generative model for a simple Hidden Markov Model with K discrete states and D-dimensional Gaussian observations. Identify all parameters.</li>
+<li>For a Gaussian recognition density q(s) = N(μ, σ²), compute the free energy F = E_q[ln q(s)] - E_q[ln p(o, s)] for a generative model p(s) = N(0, 1), p(o|s) = N(s, σ_o²).</li>
+<li>Derive the update equations for the sufficient statistics μ and σ² by setting ∂F/∂μ = 0 and ∂F/∂σ² = 0.</li>
+</ol>
+<h2>Conclusion</h2>
+<p>The agent is defined by its generative model and its recognition density. The Free Energy Principle establishes that any self-organizing system can be interpreted as performing approximate Bayesian inference through free energy minimization. Module 03 extends this to perception — updating beliefs about hidden states given new observations.</p>
+</body>
+</html>

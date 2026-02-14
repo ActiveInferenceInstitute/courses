@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmp4m9z8sva</title>
+</head>
+<body>
+<h1>Lab: Derivation Exercise — Free Energy and Markov Blankets</h1>
+<h2>Objective</h2>
+<p>Derive the core mathematical results underlying Active Inference: the Markov Blanket partition, the variational free energy bound, and the decomposition of free energy into accuracy and complexity.</p>
+<h2>Part 1: Markov Blanket Derivation</h2>
+<p><strong>Goal</strong>: Prove the conditional independence conditions from the graphical model.</p>
+<p>Given a Bayesian network with four variable sets: internal (μ), external (η), sensory (s), active (a), where:</p>
+<ul>
+<li>η → s (external states cause sensory states)</li>
+<li>μ → a (internal states cause active states)</li>
+<li>s → μ (sensory states influence internal states)</li>
+<li>a → s (active states influence sensory states)</li>
+</ul>
+<p><strong>Derivation task</strong>: Using the d-separation criterion, prove that μ ⊥ η | {s, a}.</p>
+<p>Show all steps, starting from the graphical structure and applying the d-separation rules (blocking via conditioning on colliders vs. non-colliders).</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: The Free Energy Bound</h2>
+<p><strong>Goal</strong>: Derive the ELBO inequality.</p>
+<p>Starting from:</p>
+<p>F = E_q[ln q(η) - ln p(η, s)]</p>
+<p><strong>Step 1</strong>: Expand p(η, s) = p(η|s) · p(s)</p>
+<p><strong>Step 2</strong>: Substitute and rearrange to obtain:</p>
+<p>F = D_KL[q(η) ‖ p(η|s)] - ln p(s)</p>
+<p><strong>Step 3</strong>: Since D_KL ≥ 0, conclude F ≥ -ln p(s)</p>
+<p>Write out each step of the derivation completely, showing all algebraic manipulations.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Accuracy-Complexity Decomposition</h2>
+<p><strong>Goal</strong>: Derive the alternative decomposition of free energy.</p>
+<p>Starting from F = E_q[ln q(η) - ln p(η, s)], show that:</p>
+<p><strong>F = -E_q[ln p(s|η)] + D_KL[q(η) ‖ p(η)]</strong></p>
+<p>where:</p>
+<ul>
+<li><strong>-E_q[ln p(s|η)]</strong> is the <em>negative accuracy</em> (expected negative log-likelihood)</li>
+<li><strong>D_KL[q(η) ‖ p(η)]</strong> is the <em>complexity</em> (divergence of posterior from prior)</li>
+</ul>
+<p>Explain why minimizing F requires balancing accuracy (explaining the data) with complexity (not deviating too far from priors).</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Gaussian Example</h2>
+<p><strong>Goal</strong>: Compute free energy analytically for Gaussian distributions.</p>
+<p>Let the generative model be:</p>
+<p>p(η) = N(η; μ₀, σ₀²)
+p(s|η) = N(s; η, σ_s²)</p>
+<p>And the recognition density be: q(η) = N(η; μ_q, σ_q²)</p>
+<p><strong>Task</strong>: Compute F = -E_q[ln p(s|η)] + D_KL[q(η) ‖ p(η)] analytically. Show all integrals.</p>
+<p>Then find the optimal μ_q and σ_q by setting ∂F/∂μ_q = 0 and ∂F/∂σ_q = 0.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Synthesis</h2>
+<p><strong>Goal</strong>: Connect the mathematical results to the conceptual framework.</p>
+<p>In 200 words, explain how the three derivations (Markov Blanket, ELBO, accuracy-complexity) together establish the mathematical foundation of Active Inference: that a self-organizing system with a Markov Blanket can always be described as minimizing free energy, which entails approximate Bayesian inference.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Developed</th>
+<th>Mathematical Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Graphical model reasoning</td>
+<td>Markov Blanket conditional independence proof</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Variational calculus</td>
+<td>ELBO derivation and bound proof</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Decomposition</td>
+<td>Accuracy-complexity trade-off</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Analytic computation</td>
+<td>Gaussian free energy optimization</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Mathematical-conceptual integration</td>
+<td>Connecting derivations to Active Inference</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

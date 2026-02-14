@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpz73pfzvp</title>
+</head>
+<body>
+<h1>Lab: The T-Maze</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Build, run, and analyze the canonical T-Maze Active Inference benchmark.</p>
+</blockquote>
+<h2>Part 1: Build the T-Maze</h2>
+<p><strong>Exercise</strong>: Using the code from the module:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">build_tmaze</span><span class="p">(</span><span class="n">reward_prob</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">cue_reliability</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+<span class="c1"># Verify dimensions</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">] shape: </span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, columns sum: </span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;B shape: </span><span class="si">{</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;D shape: </span><span class="si">{</span><span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, sum: </span><span class="si">{</span><span class="n">D</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Verify all matrices are well-formed (columns sum to 1).</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Run the Agent</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Observe exploration-exploitation behavior.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Run 10 trials of the T-Maze and record the agent's behavior:</p>
+<table>
+<thead>
+<tr>
+<th>Trial</th>
+<th>Step 1 Action</th>
+<th>Step 2 Action</th>
+<th>Got Reward?</th>
+<th>Visited Cue?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>...</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>How often does the agent visit the cue before choosing an arm?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Parameter Manipulation</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Explore how parameters affect behavior.</p>
+</blockquote>
+<p><strong>Experiments</strong>:</p>
+<ol>
+<li><strong>Cue reliability = 0.5</strong> (useless cue) — Does the agent still visit the cue?</li>
+<li><strong>Cue reliability = 1.0</strong> (perfect cue) — How does behavior change?</li>
+<li><strong>C_reward = [0, 0, 0]</strong> (no preferences) — What does the agent do?</li>
+<li><strong>C_reward = [10, -10, 0]</strong> (strong preferences) — How does behavior change?</li>
+</ol>
+<p>Record results for each experiment.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Analyze EFE Components</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Decompose EFE into pragmatic and epistemic terms.</p>
+</blockquote>
+<p><strong>Exercise</strong>: For the agent's policy evaluation at the first time step:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Compute EFE for each action and decompose</span>
+<span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="c1"># YOUR CODE: compute pragmatic and epistemic value</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Action </span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">: Pragmatic=</span><span class="si">{</span><span class="n">prag</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, Epistemic=</span><span class="si">{</span><span class="n">epist</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, Total=</span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Which action has the highest epistemic value? Why?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 150 words, reflect: The T-Maze is a simple environment, yet it demonstrates a profound insight — that curiosity and goal-seeking emerge from one objective (EFE). Is this simplicity a strength or limitation of the benchmark?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>POMDP construction</td>
+<td>Multi-modal T-Maze</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Agent evaluation</td>
+<td>Exploration-exploitation behavior</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Parameter sensitivity</td>
+<td>Cue reliability and preference effects</td>
+</tr>
+<tr>
+<td>4</td>
+<td>EFE decomposition</td>
+<td>Pragmatic vs. epistemic value</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Critical reflection</td>
+<td>Benchmark evaluation</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

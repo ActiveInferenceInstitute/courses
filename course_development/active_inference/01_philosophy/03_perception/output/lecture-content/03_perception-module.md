@@ -1,0 +1,42 @@
+# Module 03: Perception — Direct Perception, Inferentialism, and the User-Interface Theory
+
+## Learning Objectives
+
+1. Compare direct realist, representationalist, and inferentialist accounts of perception and explain how Active Inference adjudicates between them.
+2. Articulate the philosophical significance of treating perception as inference rather than passive reception.
+3. Evaluate the claim that the brain is a "prediction machine" against phenomenological and ecological alternatives.
+
+## Introduction
+
+Perception seems immediate — you open your eyes and the world is simply *there*. But philosophy reveals that this seeming immediacy conceals deep puzzles. How does physical stimulation of nerve endings become the rich, meaningful experience of seeing a sunset or hearing a symphony? Is perception a window onto reality, a construction of the brain, or something else entirely?
+
+Active Inference offers a distinctive answer: perception is **inference**. The brain does not passively receive sensory data; it actively predicts what that data should be, and perception is the process of updating those predictions in light of what actually arrives. This module traces the philosophical implications of this "predictive processing" view.
+
+## Key Concepts
+
+### 1. The Philosophical Problem of Perception
+
+The history of philosophy is haunted by the question of perceptual access. **Direct realism** (Gibson, 1979) holds that we perceive the environment as it is — no internal representations required. **Representationalism** (Locke, Descartes) holds that we perceive only internal representations, raising the specter of skepticism. **Inferentialism** (Helmholtz, Active Inference) holds that perception is unconscious inference — the brain constructs its best guess about the causes of sensory stimulation.
+
+Active Inference is firmly inferentialist: the agent possesses a **generative model** P(o, s) that specifies the expected relationship between hidden states of the world (s) and observations (o). Perception amounts to inverting this model — computing P(s | o) — to infer what is out there.
+
+### 2. Prediction Error and the Phenomenology of Surprise
+
+When the generative model's predictions match incoming sensory data, perception proceeds smoothly and transparently. When they do not, a **prediction error** occurs — the discrepancy between expected and actual observations. This prediction error is the driving force of perceptual updating.
+
+Phenomenologically, prediction error corresponds to disruption, surprise, or salience. Merleau-Ponty described how a tool that one is using fluently becomes "transparent" — one sees *through* the hammer to the nail. But when the hammer breaks, it suddenly becomes conspicuous. Active Inference formalizes this: transparency is the absence of prediction error; breakdown is its presence.
+
+### 3. Hoffman's User-Interface Theory and Active Inference
+
+Donald Hoffman (2019) argues that perception is not a window onto reality but a **user interface** — a species-specific set of icons that evolved for fitness, not truth. We see a desktop with files, not the voltage patterns in the hardware.
+
+Active Inference offers a nuanced version of this claim. The generative model is not a mirror of reality but a *sufficient* model for action — one that minimizes free energy given the organism's needs and niche. Whether this model "matches" reality is philosophically secondary; what matters is that it supports successful action. This connects to pragmatist epistemology (James, Dewey): truth is what works.
+
+## Applications
+
+* **Hallucinations**: If perception is inference, hallucinations are not "errors" but the predictive machinery running without sufficient sensory constraint — predictions dominating the evidence.
+* **Perceptual Learning**: Experts see things novices cannot — the radiologist sees the tumor, the birder sees the species. In Active Inference, expertise is a refined generative model with higher-precision predictions.
+
+## Conclusion
+
+Perception, far from being passive reception, is the brain's most basic form of inference. This insight connects Active Inference to a long philosophical tradition and raises profound questions about the relationship between appearance and reality. Module 04 turns to the cognitive processes that shape how this inference is conducted.

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 02: Agents — The Agent Class and A–E Matrices</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Construct a <code>GenerativeModel</code> by specifying A, B, C, D, and E matrices with correct shapes and normalization.</li>
+<li>Initialize an <code>ActiveInferenceAgent</code> with a generative model, policies, and precision parameter γ.</li>
+<li>Run the basic perception-action loop: <code>agent.step(observation) → action</code>.</li>
+</ol>
+<h2>Introduction</h2>
+<p>An Active Inference agent is defined by its <strong>generative model</strong> — a set of matrices that encode what the agent believes about how observations are generated (A), how states evolve (B), which outcomes are preferred (C), what the initial state is (D), and which policies are habitual (E). This module walks through each matrix and shows how to assemble them into a working agent.</p>
+<h2>Key Concepts</h2>
+<h3>1. The A-Matrix: Likelihood</h3>
+<p>The A-matrix encodes $P(o \mid s)$ — the agent's belief about which observations arise from which states:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenerativeModel</span>
+
+<span class="c1"># 2 observations, 2 states</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>   <span class="c1"># P(o=0 | s=0) = 0.9, P(o=0 | s=1) = 0.1</span>
+              <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]])</span>   <span class="c1"># P(o=1 | s=0) = 0.1, P(o=1 | s=1) = 0.9</span>
+</code></pre></div>
+
+<p><strong>Validation rule</strong>: Each column of A must sum to 1.0 (it is a conditional distribution over observations given a state).</p>
+<h3>2. The B-Matrix: Transitions</h3>
+<p>The B-matrix encodes $P(s' \mid s, a)$ — how hidden states evolve under each action:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 2 states, 2 actions</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                <span class="c1"># action 0: stay</span>
+<span class="n">B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>       <span class="c1"># action 1: swap</span>
+</code></pre></div>
+
+<p><strong>Shape</strong>: <code>(num_states, num_states, num_actions)</code>. Each slice <code>B[:, :, a]</code> is a column-stochastic transition matrix. A 2-D B (shape <code>(N, N)</code>) is treated as a single-action model.</p>
+<h3>3. The C-Vector: Preferences</h3>
+<p>The C-vector encodes the agent's <strong>log-preferences</strong> over observations. It answers: "Which observations does the agent want to experience?"</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Prefer observation 0 over observation 1</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">])</span>   <span class="c1"># log scale</span>
+</code></pre></div>
+
+<p>C enters the Expected Free Energy (EFE) as the <strong>risk</strong> term: policies that lead to preferred observations have lower G(π). A uniform C (all zeros) means the agent has no preferences and will be purely epistemic (information-seeking).</p>
+<h3>4. The D-Vector: Prior Over Initial States</h3>
+<p>The D-vector is $P(s_0)$ — the agent's prior belief about its starting state:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>   <span class="c1"># uniform prior</span>
+</code></pre></div>
+
+<p><strong>Validation rule</strong>: D must sum to 1.0.</p>
+<h3>5. The E-Vector: Habit Prior</h3>
+<p>The optional E-vector encodes a <strong>habit prior</strong> over policies — $P(\pi)$ before considering EFE:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>   <span class="c1"># prefer policy 0</span>
+</code></pre></div>
+
+<p>When E is provided, the policy posterior becomes $q(\pi) = \sigma(-\gamma \cdot G(\pi) + \ln E(\pi))$. When E is <code>None</code>, a uniform prior is used.</p>
+<h3>6. Assembling the GenerativeModel</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">GenerativeModel</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">E</span><span class="o">=</span><span class="n">E</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>  <span class="c1"># GenerativeModel(obs=2, states=2, actions=2)</span>
+</code></pre></div>
+
+<p>The constructor validates:</p>
+<ul>
+<li>A is 2-D with normalized columns</li>
+<li>B is 2-D or 3-D with normalized columns</li>
+<li>C has length <code>num_obs</code></li>
+<li>D has length <code>num_states</code> and sums to 1</li>
+<li>E (if provided) sums to 1</li>
+</ul>
+<h3>7. The ActiveInferenceAgent</h3>
+<p>The agent wraps a generative model and adds inference machinery:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActiveInferenceAgent</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">ActiveInferenceAgent</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="p">)</span>  <span class="c1"># ActiveInferenceAgent(γ=4.0, policies=2)</span>
+</code></pre></div>
+
+<p>Key parameters:</p>
+<ul>
+<li><code>gamma</code> (γ): precision of policy selection. Higher γ → more exploitative.</li>
+<li><code>policies</code>: list of action sequences (default: one single-step policy per action).</li>
+</ul>
+<h3>8. The Perception-Action Loop</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiscreteEnvironment</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">DiscreteEnvironment</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">ActiveInferenceAgent</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
+
+<span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">action</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>     <span class="c1"># infer states → infer policies → select action</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>       <span class="c1"># environment transitions and emits observation</span>
+</code></pre></div>
+
+<p>The <code>agent.step(obs)</code> method is a convenience that calls <code>infer_states(obs)</code>, <code>infer_policies()</code>, and <code>select_action()</code> in sequence.</p>
+<h2>Applications</h2>
+<ul>
+<li><strong>T-Maze</strong>: A classic benchmark with 4 states (center, left arm, right arm, cue location), 3 observations (center, reward, no-reward), and 3 actions (stay, go-left, go-right). The C-vector encodes preference for the reward observation.</li>
+<li><strong>Minimal 2-state model</strong>: The simplest possible Active Inference agent that can be fully analyzed by hand — useful for pedagogical derivations.</li>
+<li><strong>Precision tuning</strong>: Varying γ from 0.01 (random policy selection) to 100 (greedy) reveals the exploration–exploitation tradeoff.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>The A–E matrices fully specify an Active Inference agent's generative model. With these matrices validated and an <code>ActiveInferenceAgent</code> instantiated, the agent can perceive, decide, and act. Module 03 will dive into the perception step — how beliefs are updated using the A-matrix and variational inference.</p>
+</body>
+</html>

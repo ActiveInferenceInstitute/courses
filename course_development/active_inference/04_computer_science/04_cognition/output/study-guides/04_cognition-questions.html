@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>questions</title>
+</head>
+<body>
+<h1>Study Questions: Cognition</h1>
+<ol>
+<li>
+<p>What does each entry of the C-vector represent, and on what scale is it expressed (linear probability, log probability, or utility)?</p>
+</li>
+<li>
+<p>Write the formula for the preferred observation distribution $\tilde{P}(o)$ in terms of the C-vector. What function converts C to a valid probability distribution?</p>
+</li>
+<li>
+<p>If <code>C = np.zeros(num_obs)</code>, what does the risk term in EFE evaluate to? What type of behavior results?</p>
+</li>
+<li>
+<p>Construct a C-vector for a 4-observation system where observation 2 is strongly preferred, observations 0 and 1 are neutral, and observation 3 is strongly avoided.</p>
+</li>
+<li>
+<p>Explain the difference between $D$ (prior over initial states) and $q(s)$ (current posterior). When are they equal?</p>
+</li>
+<li>
+<p>If $D = [1, 0, 0]$, the agent starts with zero entropy over initial states. What is the computational implication for the first state inference step?</p>
+</li>
+<li>
+<p>What validation does <code>GenerativeModel</code> perform on the D-vector? Write the two conditions that must hold.</p>
+</li>
+<li>
+<p>How does the E-vector enter the policy posterior formula? Write the equation for $q(\pi)$ with and without E.</p>
+</li>
+<li>
+<p>If <code>E = np.array([0.99, 0.005, 0.005])</code> and γ = 0.01, which policy will the agent almost certainly select? Why?</p>
+</li>
+<li>
+<p>What happens to policy selection when γ = 0? Does the agent still use EFE, or does it rely entirely on E?</p>
+</li>
+<li>
+<p>Design an experiment that isolates the effect of the C-vector: keep A, B, D, E, and γ fixed, vary only C, and predict how agent behavior changes.</p>
+</li>
+<li>
+<p>Explain precision γ in terms of the inverse temperature of a Boltzmann distribution. What is the policy posterior equation in this form?</p>
+</li>
+<li>
+<p>How would you use <code>plot_C_preferences()</code> to verify that your C-vector matches your intended preference structure? What should you look for in the plot?</p>
+</li>
+<li>
+<p>What does <code>plot_D_prior()</code> annotate on the bar chart beyond the prior probabilities? Why is this annotation useful?</p>
+</li>
+<li>
+<p>Write code to create two agents with identical A, B, C, D but different E-vectors, run them in the same environment, and compare their action sequences.</p>
+</li>
+<li>
+<p>At what value of γ does the policy posterior transition from near-uniform to near-deterministic? How would you determine this experimentally?</p>
+</li>
+<li>
+<p>Use <code>plot_precision_sweep()</code> to visualize $q(\pi)$ across γ values. Describe the expected shape of the curves.</p>
+</li>
+<li>
+<p>If C-vector entries are in log-probability, can negative C values occur? What do they mean?</p>
+</li>
+<li>
+<p>How would you model an agent that prefers to stay in its current state? Which component(s) — C, D, E, or B — would you modify?</p>
+</li>
+<li>
+<p>Explain why an agent with strong C-preferences and low γ might still act randomly. What is the mathematical mechanism?</p>
+</li>
+</ol>
+</body>
+</html>

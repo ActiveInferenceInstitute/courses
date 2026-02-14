@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpcbdkg82q</title>
+</head>
+<body>
+<h1>Lab: Planning and Deep Temporal Models</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Trace policy evaluation, analyze habit formation, and explore hierarchical planning.</p>
+</blockquote>
+<h2>Part 1: Policy Evaluation</h2>
+<p><strong>Scenario</strong>: An agent in a 2-state world (left, right) with 2 actions (go_left, go_right) and time horizon T=2. Food is on the right.</p>
+<p>Policies:</p>
+<ul>
+<li>π₁ = [go_right, go_right]</li>
+<li>π₂ = [go_left, go_right]</li>
+<li>π₃ = [go_left, go_left]</li>
+</ul>
+<p>C = [left: -1, right: +3]</p>
+<ol>
+<li>For each policy, trace the expected trajectory (what state at each time step)</li>
+<li>Compute pragmatic value for each policy</li>
+<li>Rank the policies. Which has lowest EFE?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Habit Formation Dynamics</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> See how policy priors P(π) strengthen with experience.</p>
+</blockquote>
+<p><strong>Exercise</strong>: An agent has 3 policies. Track how P(π) evolves:</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>P(π₁)</th>
+<th>P(π₂)</th>
+<th>P(π₃)</th>
+<th>Behavior Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day 1 (no experience)</td>
+<td>0.33</td>
+<td>0.33</td>
+<td>0.33</td>
+<td>Goal-directed</td>
+</tr>
+<tr>
+<td>After 10 successes with π₁</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>After 100 successes with π₁</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>After 1000 successes with π₁</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>At what point does behavior become "habitual"? How can you tell?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Deep Temporal Model Design</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Build a 2-level hierarchical planning model.</p>
+</blockquote>
+<p><strong>Scenario</strong>: Planning a trip to a conference.</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Timescale</th>
+<th>States</th>
+<th>Actions</th>
+<th>Goal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>High</td>
+<td>Days</td>
+<td>{home, airport, conference, hotel}</td>
+<td>{travel, attend, rest}</td>
+<td>Attend and present</td>
+</tr>
+<tr>
+<td>Low</td>
+<td>Hours</td>
+<td>{packing, driving, checking_in, presenting}</td>
+<td>{pack, drive, register, speak}</td>
+<td>Execute high-level plan</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>How does the high level set goals for the low level?</li>
+<li>What happens if the low level encounters an unexpected obstacle (flight cancelled)?</li>
+<li>How does prediction error propagate between levels?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: The Complete Algorithm Trace</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Walk through the full Active Inference algorithm for one time step.</p>
+</blockquote>
+<p><strong>Setup</strong>: Simple 2-state, 2-action POMDP. Current beliefs: q(s) = [0.3, 0.7]. Observation: o₁.</p>
+<p>Trace each step:</p>
+<ol>
+<li><strong>Observe</strong>: o₁ received</li>
+<li><strong>Infer states</strong>: How does q(s) update? (given A matrix)</li>
+<li><strong>Evaluate policies</strong>: Compute G(π) for 2 policies</li>
+<li><strong>Select policy</strong>: Apply softmax with γ = 1</li>
+<li><strong>Act</strong>: Which action is executed?</li>
+<li><strong>Learn</strong>: What parameters are updated?</li>
+</ol>
+<p>Show your reasoning at each step (use simple placeholder numbers if needed).</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 150 words, reflect: Active Inference unifies perception, action, learning, communication, and planning under one mathematical framework. Is this unification a strength (elegant and powerful) or a weakness (too abstract, loses meaningful distinctions)? What does unification gain us as scientists?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Policy evaluation</td>
+<td>EFE computation and ranking</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Dynamics analysis</td>
+<td>Habit formation and policy priors</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Hierarchical design</td>
+<td>Deep temporal models</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Algorithm tracing</td>
+<td>Complete Active Inference loop</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Theoretical reflection</td>
+<td>Value of theoretical unification</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

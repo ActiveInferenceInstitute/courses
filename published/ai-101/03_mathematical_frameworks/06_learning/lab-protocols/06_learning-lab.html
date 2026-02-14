@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpgw61lbqi</title>
+</head>
+<body>
+<h1>Lab: Parameter and Structure Learning</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Compute Dirichlet updates and analyze Bayesian Model Reduction.</p>
+</blockquote>
+<h2>Part 1: Dirichlet Updating</h2>
+<p><strong>Exercise</strong>: An agent starts with a uniform prior over a 3-outcome observation:
+α_prior = [1, 1, 1] (total count = 3)</p>
+<p>After 10 trials, it observes: outcome 1 (6 times), outcome 2 (3 times), outcome 3 (1 time)</p>
+<ol>
+<li>Compute α_posterior = α_prior + counts = ?</li>
+<li>Expected probabilities (mean of Dirichlet) = α_i / Σα_i for each outcome</li>
+<li>Now imagine 100 more observations with the same proportions. Compute the new α and probabilities.</li>
+<li>How much did the probabilities change between step 2 and step 3? Why?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Learning Rate Decay</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> See how the learning rate decreases naturally.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Track the effective learning rate (1/(total_count + 1)) after each batch:</p>
+<table>
+<thead>
+<tr>
+<th>Experience Level</th>
+<th>Total α count</th>
+<th>Learning rate</th>
+<th>Effect of 1 new observation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Novice (10 observations)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Intermediate (100 observations)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Expert (1000 observations)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>What pattern do you see? How does this match the intuition that experts are "harder to convince"?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Bayesian Model Reduction</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Compare models of different complexity.</p>
+</blockquote>
+<p><strong>Scenario</strong>: You've learned that a friend is either at home, at work, or at the gym on weekdays. After 100 observations:</p>
+<ul>
+<li>Home: 5 times</li>
+<li>Work: 92 times</li>
+<li>
+<p>Gym: 3 times</p>
+</li>
+<li>
+<p>Full model (3 states): What is the approximate likelihood (model evidence)?</p>
+</li>
+<li>Reduced model (2 states: work/not-work): What is lost by collapsing home and gym into "not-work"?</li>
+<li>Reduced model (1 state: always-work): What is lost? Is this model too simple?</li>
+<li>Which model does BMR prefer and why?</li>
+</ul>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: A vs. B Matrix Learning</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Compare learning observation model vs. transition model.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider an agent learning about a new environment:</p>
+<table>
+<thead>
+<tr>
+<th>What it learns</th>
+<th>Which matrix</th>
+<th>Example</th>
+<th>How long to learn?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Red lights mean stop"</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>"Pressing the button turns on the light"</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>"Rain clouds produce rain"</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>"Studying leads to good grades"</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>For each, indicate whether it updates the A matrix (observations) or B matrix (transitions), and estimate relative difficulty of learning.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 150 words, reflect: The mathematical framework shows that learning rate decreases automatically with experience. Is this always adaptive, or can it become maladaptive? Think about situations where an "expert" should update their beliefs rapidly but can't.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Dirichlet computation</td>
+<td>Parameter updating with counts</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Rate analysis</td>
+<td>Learning rate decay</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Model comparison</td>
+<td>BMR and model complexity</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Matrix classification</td>
+<td>A vs. B matrix learning</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Critical reflection</td>
+<td>When slow learning fails</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

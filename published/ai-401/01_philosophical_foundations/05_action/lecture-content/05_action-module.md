@@ -1,0 +1,91 @@
+# Module 05: Action — Pragmatism and the Primacy of Practice
+
+> **Course**: Active Inference 401 | **Unit**: Philosophical Foundations | **Audience**: Advanced undergraduates / graduate students
+
+## Learning Objectives
+
+1. Connect Active Inference to the **American pragmatist tradition** (James, Dewey, Peirce).
+2. Analyze the **primacy of practice** — the philosophical claim that action is more fundamental than representation.
+3. Examine the relationship between **affordances** (Gibson) and **expected free energy**.
+
+## Key Concepts
+
+### 1. Pragmatism and Active Inference
+
+American pragmatism holds that the *meaning* of a concept is its practical consequences — truth is what works. Active Inference formalizes key pragmatist insights:
+
+**Peirce's inquiry**: Belief is a habit of action; doubt triggers inquiry; inquiry aims to settle belief. Active Inference: beliefs are posterior distributions; surprise (prediction error) triggers inference; inference aims to minimize free energy.
+
+**James's pragmatic theory of truth**: A belief is "true" if it works — if it leads to successful prediction and action. Active Inference: model evidence (marginal likelihood) is the formal measure of "working" — models with high evidence are "true" in the pragmatic sense.
+
+**Dewey's instrumentalism**: Cognition is a tool for coping with the environment, not a mirror of nature. Active Inference: the generative model is an instrument for survival, not a representation aiming at correspondence truth.
+
+### 2. Affordances and Expected Free Energy
+
+Gibson's **affordances** — the action possibilities that the environment offers to an organism — find a formal home in Active Inference:
+
+- An **affordance** is a policy with favorable expected free energy
+- What the environment "affords" depends on the agent's body, capabilities, and generative model
+- Affordance detection = policy evaluation: the agent evaluates which actions would minimize EFE
+
+This resolves a long-standing puzzle: how are affordances perceived? In Active Inference, affordance perception is just policy evaluation — assessing which actions would reduce future free energy.
+
+### 3. The Primacy of Practice
+
+The philosophical claim: **action is not secondary to cognition — it is constitutive of it**. Active Inference supports this through:
+
+- **Active inference** literally: inference is completed through action, not just passive observation
+- **Epistemic actions**: the agent acts to gather information, not just to achieve goals
+- **Motor theories of perception**: Even "passive" perception involves micro-actions (saccades, active touch)
+
+The primacy of practice dissolves the classical perception-then-action pipeline and replaces it with a continuous perception-action loop where both are aspects of the same inferential process.
+
+### 4. Habit, Skill, and Expertise
+
+Dewey's philosophy of habit is formalized in Active Inference through policy priors:
+
+- **Habit**: A policy prior sharpened through repeated successful action — the agent "defaults" to well-practiced policies
+- **Skill**: A hierarchical generative model refined through practice — enabling fluent, low-free-energy performance
+- **Expertise**: The ability to maintain low free energy in complex, uncertain situations through deep, well-calibrated models
+
+Dreyfus's phenomenological account of expert skill (novice → advanced beginner → competent → proficient → expert) maps onto the progressive refinement of the generative model and policy priors.
+
+### 5. Social Practice and Shared Affordances
+
+Active Inference extends pragmatism to social practice:
+
+- **Shared generative models** → shared understanding of what the environment affords
+- **Institutional affordances** → behaviors that are "afforded" by social structures (voting, trading, educating)
+- **Normative affordances** → actions that are appropriate/inappropriate given shared priors (cultural norms)
+
+### 6. Tool Use and the Extended Body
+
+Active Inference offers a compelling account of tool use — a uniquely human capacity:
+
+**Tool incorporation**: When a blind person uses a cane, the cane becomes part of the Markov Blanket — the generative model predicts sensory consequences at the cane's tip, not at the hand. This *extension of the body model* is formalized in Active Inference as the expansion of the proprioceptive generative model to include the tool's dynamics.
+
+**Iriki's seminal findings**: Macaque bimodal neurons (responding to both visual and tactile input) extend their receptive fields after tool use — the brain literally updates its body model. Active Inference: the proprioceptive generative model acquires new parameters encoding tool geometry, changing what affordances are perceived.
+
+**Technology as extended prediction**: Telescopes, microscopes, and computational tools extend the generative model's predictive reach beyond biological limits. The pragmatist consequence: truth (predictive success) is not limited to biological perception — the generative model expands through technological augmentation.
+
+### 7. Moral Action and Normative Inference
+
+The pragmatist tradition connects action to ethics, and Active Inference follows:
+
+**Dewey's moral imagination**: Moral reasoning is not rule-following but *imaginative rehearsal* of action consequences — modeling how actions affect the well-being of self and others. Active Inference: moral deliberation is policy evaluation over deep temporal horizons, where the C vector (preferences) includes the well-being of others modeled through the social generative model.
+
+**Normative prediction errors**: Moral emotions (guilt, shame, indignation) can be understood as prediction errors in normative generative models — violations of expected social outcomes. These errors drive social learning, updating the agent's model of appropriate behavior within a community.
+
+> **Cross-Track Connection — Neuroscientific Frontiers (Module 05)**: The basal ganglia policy selection mechanisms described in the motor action module implement the rapid evaluation of moral vs. immoral action options. The hyperdirect pathway's global "stop" signal may correspond to moral inhibition — the reflexive halting of actions predicted to violate normative expectations.
+
+## Summary
+
+Pragmatism and Active Inference share deep affinities: truth as predictive success, cognition as instrument for coping, and the primacy of practice over representation. Affordances are formalized as policies with favorable EFE. Habit and expertise emerge from the sharpening of policy priors and generative models. Tool use extends the body model and the generative model's predictive reach. Moral action is normative policy evaluation — connecting pragmatist ethics to Active Inference's computational framework.
+
+## Further Reading
+
+- Engel, A. K. et al. (2016). Where's the action? The pragmatic turn in cognitive science. *Trends in Cognitive Sciences*, 17(5), 202-209.
+- Bruineberg, J. & Rietveld, E. (2014). Self-organization, free energy minimization, and optimal grip on a field of affordances. *Frontiers in Human Neuroscience*, 8, 599.
+- Gallagher, S. (2017). *Enactivist Interventions*. Oxford University Press.
+- Iriki, A. & Taoka, M. (2012). Triadic (ecological, neural, cognitive) niche construction: A scenario of human brain evolution. *Neuroscience & Biobehavioral Reviews*, 36(4), 1219-1231.
+- Veissière, S. P. L. et al. (2020). Thinking through other minds: A variational approach to cognition and culture. *Behavioral and Brain Sciences*, 43, e90.

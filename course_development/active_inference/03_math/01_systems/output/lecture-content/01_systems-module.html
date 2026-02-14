@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 01: Systems — Markov Blankets, Dynamic Systems, and the Free Energy Bound</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Derive the <strong>Markov Blanket</strong> conditions from a factorized joint distribution and explain their implications for system-environment separation.</li>
+<li>Formalize the dynamics of a self-organizing system using stochastic differential equations with a Markov Blanket partition.</li>
+<li>Derive the <strong>variational free energy</strong> upper bound on surprise and explain its role as a tractable objective.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Active Inference begins with a mathematical fact: any system that maintains its structural integrity over time can be described as if it possesses a Markov Blanket — a statistical boundary separating internal states from external states through sensory and active states. This module develops the formal mathematics of this partition and derives the free energy bound that is the foundation of the entire framework.</p>
+<h2>Key Concepts</h2>
+<h3>1. Markov Blanket Formalism</h3>
+<p>Consider a set of random variables partitioned into four subsets: <strong>internal states</strong> μ, <strong>external states</strong> η, <strong>sensory states</strong> s, and <strong>active states</strong> a. The set {s, a} forms a <strong>Markov Blanket</strong> if and only if:</p>
+<p><strong>p(μ | η, s, a) = p(μ | s, a)</strong></p>
+<p>That is, internal states are conditionally independent of external states given the blanket states. Equivalently:</p>
+<p><strong>p(η | μ, s, a) = p(η | s, a)</strong></p>
+<p>External states are conditionally independent of internal states given the blanket states. This means all information exchange between internal and external states is mediated by the blanket.</p>
+<p>The full joint distribution factorizes as:</p>
+<p><strong>p(η, s, a, μ) = p(η) · p(s | η, a) · p(a | μ) · p(μ | s, a)</strong></p>
+<h3>2. Stochastic Dynamics on a Markov Blanket</h3>
+<p>The dynamics of the system are governed by a Langevin equation:</p>
+<p><strong>dx/dt = f(x) + ω</strong></p>
+<p>where x = (η, s, a, μ), f(x) is the flow field, and ω is a Wiener process (random fluctuations). The Markov Blanket conditions constrain f:</p>
+<ul>
+<li><strong>f_η</strong> depends only on (η, s, a), not directly on μ</li>
+<li><strong>f_μ</strong> depends only on (μ, s, a), not directly on η</li>
+</ul>
+<p>At nonequilibrium steady state, the system converges to a characteristic density p*(x). Any system that reaches such a steady state possesses a Markov Blanket structure.</p>
+<h3>3. The Free Energy Bound</h3>
+<p>The <strong>variational free energy</strong> F is an upper bound on <strong>surprise</strong> (negative log-evidence):</p>
+<p><strong>F = E_q [ln q(η) - ln p(η, s)] ≥ -ln p(s)</strong></p>
+<p>where q(η) is a <strong>recognition density</strong> (the agent's "belief" about external states) and p(η, s) is the generative model. This decomposes into:</p>
+<p><strong>F = D_KL[q(η) ‖ p(η|s)] - ln p(s)</strong></p>
+<p>Since the KL divergence is non-negative, minimizing F simultaneously:</p>
+<ol>
+<li>Minimizes surprise (maximizes model evidence)</li>
+<li>Brings q(η) close to the true posterior p(η|s)</li>
+</ol>
+<p>This is the mathematical foundation of Active Inference: by minimizing variational free energy, the agent both explains its sensory data and infers the hidden causes that generated it.</p>
+<h2>Derivation Exercises</h2>
+<ol>
+<li>Starting from the joint distribution p(η, s, a, μ), prove that conditional independence μ ⊥ η | {s, a} is equivalent to the absence of edges between μ and η in the Bayesian network.</li>
+<li>Show that F = E_q[ln q(η) - ln p(η, s)] = D_KL[q(η) ‖ p(η|s)] - ln p(s).</li>
+<li>Prove that F ≥ -ln p(s) (ELBO inequality).</li>
+</ol>
+<h2>Conclusion</h2>
+<p>The Markov Blanket and variational free energy provide the mathematical foundation for the entire Active Inference framework. Every subsequent module builds on this: agents (Module 02) are systems with particular internal dynamics; perception (Module 03) is the optimization of q; and action (Module 05) changes s and a to reduce F.</p>
+</body>
+</html>

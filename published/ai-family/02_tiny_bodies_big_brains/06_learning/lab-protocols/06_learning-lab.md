@@ -1,0 +1,46 @@
+# Lab: The Paper Toss
+
+## Goal
+
+To use Feedback to improve your aim (Motor Learning).
+
+## What You Need
+
+* A trash can or bucket.
+* 5 sheets of scrap paper (crumpled into balls).
+
+## Steps
+
+### 1. The Setup
+
+Put the bucket on one side of the room.
+Stand 5 steps away.
+
+### 2. The First Toss
+
+Throw one paper ball.
+Where did it go?
+
+* Too short? (Error: Need more power).
+* Too Left? (Error: Aim right).
+
+### 3. The Adjustment
+
+Throw the second ball.
+Use the data from the first throw!
+If it was short, throw HARDER.
+
+### 4. The Streak
+
+Try to get 3 in a row.
+Once you get it, move back 2 steps! (Make it harder).
+
+## Discussion
+
+* Did you get better?
+* Your brain was doing complex math (Trajectory/Force) without you knowing it.
+* The "Error" (Missing) taught you how to "Hit."
+
+## What We Learned
+
+You don't need a coach to learn. You just need to pay attention to your mistakes and adjust.

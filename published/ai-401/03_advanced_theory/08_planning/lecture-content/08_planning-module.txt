@@ -1,0 +1,116 @@
+Module 08: Planning — Grand Unification: Active Inference as Universal Theory
+
+> Course: Active Inference 401 | Unit: Advanced Theory | Audience: Graduate students / researchers
+
+Learning Objectives
+
+Evaluate the scope and limits of Active Inference as a universal theory of adaptive systems.
+Analyze the connections between Active Inference and other major theoretical frameworks.
+Synthesize the Advanced Theory track into a unified understanding of the formal foundations.
+
+Key Concepts
+
+The Unification Claim
+
+Active Inference claims to unify multiple theoretical frameworks under a single variational principle:
+
+Perception, action, learning, and planning are all aspects of free energy minimization:
+
+Perception = updating beliefs about hidden states (minimizing F w.r.t. q)
+Action = changing sensory states to match predictions (minimizing F w.r.t. a)
+Learning = updating model parameters (minimizing F w.r.t. θ)
+Planning = selecting policies that minimize expected free energy (minimizing G w.r.t. π)
+
+The deep claim: These are not four separate processes with a superficial mathematical similarity. They are literally the same process — variational free energy minimization — operating on different variables at different timescales:
+
+Perception: fastest (milliseconds), operates on sufficient statistics of q
+Action: fast (hundreds of milliseconds), operates on active states a
+Attention: medium (seconds), operates on precision parameters γ
+Learning: slow (hours to days), operates on model parameters θ
+Development: slowest (years), operates on model structure m
+
+Active Inference and Control Theory
+
+Active Inference subsumes classical control theory:
+
+PID control as special case: The proportional-integral-derivative controller is a limiting case of Active Inference where:
+
+Proportional: current prediction error (PE)
+Integral: accumulated PE (parameter learning)
+Derivative: rate of change of PE (hierarchical prediction)
+
+Optimal control: The expected free energy G(π) generalizes the cost function in optimal control. The difference: G includes both pragmatic value (reaching preferred states) and epistemic value (reducing uncertainty). Classical optimal control only considers pragmatic value.
+
+Model predictive control (MPC): MPC plans by simulating forward and selecting the best action sequence. This is exactly what policy selection in Active Inference does — except Active Inference additionally accounts for uncertainty in the forward simulation.
+
+Active Inference and Reinforcement Learning
+
+Active Inference provides a principled alternative to reinforcement learning:
+
+Key distinction: RL learns a reward function or value function from experience. Active Inference specifies preferences as priors (the C vector) and derives behavior from inference about how to fulfill those preferences.
+
+| Feature | Reinforcement Learning | Active Inference |
+|---------|----------------------|-----------------|
+| Reward | External signal | Prior preferences (C vector) |
+| Exploration | ε-greedy, UCB, curiosity bonuses | Epistemic value (built-in) |
+| Exploitation | Value function maximization | Pragmatic value |
+| Model | Model-free or model-based | Always model-based |
+| Learning | Policy gradient, TD learning | Free energy minimization |
+| Planning | Rollouts, tree search | Expected free energy evaluation |
+
+Advantage of Active Inference: Exploration emerges naturally from the epistemic component of G, without requiring ad-hoc exploration bonuses. Intrinsic motivation is built into the framework rather than bolted on.
+
+Active Inference and Thermodynamics
+
+The connections to thermodynamics are deep, not merely analogical:
+
+Free energy in physics: The Helmholtz free energy F = U - TS (internal energy minus temperature × entropy) governs the equilibrium of thermodynamic systems. The system minimizes F by balancing energetic stability (U) against entropic disorder (TS).
+
+Variational free energy: F = Energy - Entropy, with the same structure. The "energy" is the negative log-joint probability; the "entropy" is the entropy of the approximate posterior. The formal analogy is:
+
+| Thermodynamics | Active Inference |
+|---------------|-----------------|
+| Internal energy U | Eq[-ln p(o, s)] |
+| Temperature T | 1 (or precision⁻¹) |
+| Entropy S | H[q] |
+| Free energy F = U - TS | F = Energy - Entropy |
+| Equilibrium | Steady-state beliefs |
+
+Second law: The second law of thermodynamics (entropy of an isolated system increases) has an analogue: over time, an Active Inference agent's free energy cannot systematically increase, because the dynamics are (approximately) gradient descent on F.
+
+Active Inference and Information Theory
+
+Active Inference connects deeply to information-theoretic concepts:
+
+Mutual information: The epistemic component of expected free energy equals the expected information gain — the expected reduction in uncertainty about hidden states:
+
+Epistemic value = Eπ[I(s; o)] = mutual information between states and observations under policy π
+
+Rate-distortion theory: The complexity cost D_KL[q || p] in free energy corresponds to the rate in rate-distortion theory — how many "bits" the posterior uses beyond what the prior provides. This formalizes the cost of information processing.
+
+Minimum entropy production: Active Inference agents that achieve NESS produce the minimum entropy necessary to maintain their far-from-equilibrium organization. This connects to Prigogine's dissipative structures.
+
+Open Questions and Future Directions
+
+Despite its power, significant open questions remain:
+
+Consciousness: Active Inference provides necessary conditions for consciousness (deep temporal models, self-models, metacognition) but not sufficient conditions. What additional constraints yield subjective experience?
+
+Scalability: Current implementations handle small state spaces. How do we scale to the complexity of real brains (10¹¹ neurons)?
+
+Emergence: How do genuine novelty and creativity emerge from a system whose dynamics are (approximately) gradient descent? Is free energy minimization fundamentally conservative?
+
+Empirical falsification: What experimental result would definitively falsify Active Inference? The framework's generality makes this difficult but essential for scientific credibility.
+
+Artificial General Intelligence: Can Active Inference provide the blueprint for AGI? What's needed beyond the current mathematical framework?
+
+Summary
+
+Active Inference provides a unified framework connecting perception, action, learning, and planning through variational free energy minimization. It subsumes classical control theory, provides a principled alternative to reinforcement learning, connects to thermodynamics through formal analogy of free energy, and links to information theory through mutual information and rate-distortion theory. Open questions remain about consciousness, scalability, emergence, falsifiability, and AGI.
+
+Further Reading
+
+Friston, K. J. et al. (2022). Active Inference: The Free Energy Principle in Mind, Brain, and Behavior. MIT Press.
+Millidge, B. et al. (2021). Whence the expected free energy? Neural Computation, 33(2), 447-482.
+Da Costa, L. et al. (2020). Active inference on discrete state-spaces: A synthesis. Journal of Mathematical Psychology, 99, 102447.
+Sajid, N. et al. (2021). Active inference: demystified and compared. Neural Computation, 33(3), 674-712.

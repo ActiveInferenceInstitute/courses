@@ -1,0 +1,35 @@
+# Module 05: Action — Motor Control, Active Sensing, and Embodied Cognition
+
+## Learning Objectives
+
+1. Explain how motor control in Active Inference is implemented through **proprioceptive predictions** and spinal reflex arcs.
+2. Describe active sensing (saccades, haptic exploration) as epistemic action driven by expected ambiguity resolution.
+3. Analyze apraxia, Parkinson's disease, and functional motor disorders as disruptions of the prediction-based motor system.
+
+## Introduction
+
+Motor control has been traditionally modeled as a feedforward process: the motor cortex computes a desired trajectory, sends commands down the corticospinal tract, and the muscles execute. Active Inference overturns this: **movement arises from proprioceptive predictions**. The motor cortex sends a prediction of the expected proprioceptive (body position) state to the spinal cord. Spinal reflex arcs then generate movement to *fulfill* this prediction — canceling the prediction error between the predicted and actual body position.
+
+## Key Concepts
+
+### 1. Proprioceptive Predictions and Spinal Reflexes
+
+In the Active Inference account (Adams et al., 2013), motor commands are not explicit commands to muscles but **precision-weighted proprioceptive predictions**. The motor cortex predicts that the arm *is* in a particular position; the spinal cord detects a discrepancy between this prediction and the actual proprioceptive feedback; and the classical stretch reflex acts to eliminate this discrepancy by moving the arm to the predicted position.
+
+This reinterprets the role of the spinal reflex: it is not a primitive, automatic response but the final stage of a hierarchical inference process. The motor cortex sets the prediction; the spinal cord resolves the prediction error.
+
+### 2. Active Sensing and Epistemic Action
+
+Not all actions serve pragmatic goals (reaching for a cup). Some actions serve **epistemic** goals — they generate sensory data to reduce uncertainty. Saccadic eye movements are a paradigm case: the eyes move to fixate on locations of high uncertainty, sampling information to refine the generative model. Friston et al. (2012) showed that saccadic patterns in natural scene viewing can be predicted from the Expected Free Energy framework — the eyes move to locations that maximally reduce expected ambiguity.
+
+Similarly, haptic exploration (running fingers over a surface) generates tactile prediction errors that refine the brain's model of the object's shape, texture, and material properties.
+
+### 3. Clinical Motor Disorders
+
+* **Parkinson's disease**: Loss of dopaminergic neurons in the substantia nigra reduces precision on motor predictions → the brain cannot commit confidently to any single motor plan → bradykinesia (slowness), rigidity, and tremor.
+* **Functional motor disorder**: Motor symptoms (paralysis, tremor) with no identifiable neurological cause. Active Inference explains this as aberrant precision on a prior belief about inability — the brain strongly "predicts" that the limb cannot move, and this prediction overrides motor predictions.
+* **Apraxia**: Impaired ability to perform skilled movements despite intact motor strength. Interpreted as loss of the hierarchical motor model — the high-level "recipe" for complex actions has been damaged, even though the low-level reflex machinery is intact.
+
+## Conclusion
+
+Motor control in Active Inference is inference embodied: the brain predicts, the body enacts, and the world responds. This framework unifies voluntary action, reflexes, active sensing, and motor pathology under a single principle. Module 06 examines how this motor-perceptual system changes with experience — the neuroscience of learning.

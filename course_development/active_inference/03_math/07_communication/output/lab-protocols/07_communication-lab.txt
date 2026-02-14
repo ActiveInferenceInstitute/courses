@@ -1,0 +1,93 @@
+Lab: Derivation Exercise — Coupled Inference and Multi-Agent Free Energy
+
+Objective
+
+Derive the mathematics of communication between Active Inference agents, from coupled generative models to generalized synchrony conditions.
+
+Part 1: Two-Agent Generative Models
+
+Goal: Formalize how two agents model each other.
+
+Setup: Agent A and Agent B, each with 2 states. Agent A's generative model:
+
+pA(oA | sA, sB) — likelihood depends on both agents' states
+pA(sA) = N(sA; 0, 1) — prior over own states
+pA(sB) = N(sB; 0, σ²B) — prior over B's states (higher uncertainty)
+
+Agent B's generative model is symmetric.
+
+Task:
+
+Write A's free energy FA as a function of qA(sA) and qA(sB)
+Derive the update equations for A's beliefs about sA and sB
+Show that A's beliefs about B depend on A's observations (which are influenced by B's actions)
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 2: Joint Free Energy Decomposition
+
+Goal: Derive the relationship between individual and joint free energy.
+
+Task:
+
+Write the joint free energy: Fjoint = FA + FB - I(sA; sB)
+Show that the mutual information I(sA; sB) = E[ln q(sA, sB) / (q(sA)q(sB))] captures the coupling
+Explain why minimizing Fjoint simultaneously minimizes individual free energies and maximizes mutual predictability
+Interpret: when I(sA; sB) is high, the agents are in tight communication; when it is low, they are operating independently
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 3: Generalized Synchrony Conditions
+
+Goal: Derive the conditions for synchronization.
+
+Setup: Two coupled dynamical systems:
+
+dx₁/dt = f₁(x₁) + κ · (x₂ - x₁)
+dx₂/dt = f₂(x₂) + κ · (x₁ - x₂)
+
+where κ is the coupling strength.
+
+Task:
+
+Define the synchronization error e = x₁ - x₂
+Derive the dynamics of e: de/dt = f₁(x₁) - f₂(x₂) - 2κ · e
+Show that for identical systems (f₁ = f₂ = f), e → 0 is stable if κ > λmax/2, where λmax is the maximum Lyapunov exponent of f
+Interpret: coupling must be strong enough relative to the internal dynamics for synchronization to occur
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 4: Theory of Mind as Hierarchical Modeling
+
+Goal: Formalize Theory of Mind mathematically.
+
+Setup: Agent A's hierarchical model:
+
+Level 1: pA(oA | sA) — how A's states generate A's observations
+Level 2: pA(sA | sB model) — how B's model of the world influences A's states
+Level 3: pA(sB model | s_B meta-model) — A's model of B's model of A
+
+Task:
+
+Write the free energy for this three-level hierarchy
+Show how increasing hierarchical depth enables more sophisticated social inference
+Compute the additional cost (complexity) of each added level
+Discuss: what is the optimal depth of Theory of Mind modeling?
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 5: Synthesis
+
+In 200 words, explain how the mathematics of coupled inference, joint free energy, and generalized synchrony provide a unified account of communication — from simple biological coordination to human language.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Lab Summary
+
+| Part | Skill Developed | Mathematical Result |
+|------|----------------|-------------------|
+| 1 | Multi-agent modeling | Two-agent free energy formulation |
+| 2 | Information theory | Joint free energy decomposition |
+| 3 | Dynamical systems | Synchronization stability conditions |
+| 4 | Hierarchical modeling | Theory of Mind as recursive generative models |
+| 5 | Conceptual integration | Connecting mathematical communication to natural language |

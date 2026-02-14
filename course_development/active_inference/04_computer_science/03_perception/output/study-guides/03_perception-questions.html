@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>questions</title>
+</head>
+<body>
+<h1>Study Questions: Perception</h1>
+<ol>
+<li>
+<p>Write the VFE formula in terms of complexity and accuracy. Which term encourages the posterior to stay close to the prior, and which encourages it to explain the observation?</p>
+</li>
+<li>
+<p>In <code>run_state_inference()</code>, what does the <code>convergence_threshold</code> parameter control? What happens if you set it to 0?</p>
+</li>
+<li>
+<p>If the prior is $q(s) = [0.5, 0.5]$ and the A-matrix is the identity, what is the posterior after observing $o = 0$?</p>
+</li>
+<li>
+<p>Explain why <code>result["delta_history"]</code> generally decreases over iterations. Under what conditions might it not decrease monotonically?</p>
+</li>
+<li>
+<p>What is <code>model.log_likelihood(obs)</code> and how is it used during state inference? Write the formula.</p>
+</li>
+<li>
+<p>If the A-matrix has uniform columns ($A[:, s] = 1/N_o$ for all $s$), what happens to beliefs after state inference? Why?</p>
+</li>
+<li>
+<p>Write code that runs state inference for 3 sequential observations $[0, 0, 1]$, updating the prior with the posterior from each step.</p>
+</li>
+<li>
+<p>How does <code>agent.infer_states(obs)</code> differ from calling <code>run_state_inference()</code> directly? What additional bookkeeping does the agent method perform?</p>
+</li>
+<li>
+<p>Compute the prediction error $\varepsilon$ by hand for a 2-state system where $q(s) = [0.8, 0.2]$, $A = [[0.9, 0.1], [0.1, 0.9]]$, and the observation is $o = 0$.</p>
+</li>
+<li>
+<p>What does <code>agent.prediction_error(obs).sum()</code> return, and why? Prove it algebraically.</p>
+</li>
+<li>
+<p>How would you detect that an observation is "surprising" to an agent from the <code>run_state_inference()</code> result? Name two quantitative indicators.</p>
+</li>
+<li>
+<p>Compare the posterior after observing $o = 0$ with a clear A-matrix ($A = [[0.95, 0.05], [0.05, 0.95]]$) versus a noisy one ($A = [[0.6, 0.4], [0.4, 0.6]]$). Which produces a more peaked posterior?</p>
+</li>
+<li>
+<p>What is the maximum number of iterations <code>run_state_inference()</code> will perform by default? What happens if convergence is not reached?</p>
+</li>
+<li>
+<p>How does the prior $q(s)$ influence the posterior when the observation is weakly informative? Give a concrete numerical example.</p>
+</li>
+<li>
+<p>Write code to visualize the convergence of state inference using <code>plot_convergence()</code> and interpret the resulting plot.</p>
+</li>
+<li>
+<p>Explain the connection between <code>model.surprisal(obs, q_s)</code> and VFE. How are they related mathematically?</p>
+</li>
+<li>
+<p>If an agent receives the same observation 10 times in a row, describe qualitatively how $q(s)$ evolves. Does it converge, and to what?</p>
+</li>
+<li>
+<p>What is the shape of <code>agent.get_predicted_observation()</code> and what does it represent? How is it computed from $q(s)$ and $A$?</p>
+</li>
+<li>
+<p>In a 3-state system, state inference with $o = 1$ and a uniform prior yields $q(s) = [0.1, 0.8, 0.1]$. What can you infer about the second column of A?</p>
+</li>
+<li>
+<p>Design a scenario where the agent's A-matrix significantly mismatches the environment's true A-matrix. What happens to the agent's beliefs over time? How would you detect this misspecification?</p>
+</li>
+</ol>
+</body>
+</html>

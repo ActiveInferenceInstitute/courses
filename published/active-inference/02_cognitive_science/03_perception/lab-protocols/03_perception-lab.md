@@ -1,0 +1,71 @@
+# Lab: Case Study Analysis — Perceptual Inference Gone Wrong
+
+## Objective
+
+Analyze clinical and experimental cases where the predictive coding mechanism produces aberrant perceptual experiences, applying Active Inference to interpret each.
+
+## Part 1: Self-Tickle and Sensory Attenuation
+
+**Case**: Blakemore et al. (1998) showed that self-generated tactile stimuli are rated as less intense and less ticklish than externally generated identical stimuli. However, patients with schizophrenia rate self-generated and externally generated touch as equally ticklish.
+
+- Explain the normal sensory attenuation mechanism in Active Inference terms (efference copy → predicted sensory consequence → attenuated prediction error).
+- Why might schizophrenia disrupt this mechanism? What has happened to the precision of self-generated predictions?
+- What does this reveal about the relationship between agency and perception?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 2: Auditory Hallucinations in Schizophrenia
+
+**Case**: Patient K.L., 28, with paranoid schizophrenia, reports hearing a voice commenting on her actions: "She's getting up now. She's going to the kitchen." The voice feels external—as if coming from behind her left shoulder. Brain imaging shows increased activity in her auditory cortex during hallucination episodes.
+
+- Interpret this case in Active Inference terms. What is the brain generating, and why is it experienced as external?
+- How does failed sensory attenuation of inner speech relate to this experience?
+- What intervention might reduce hallucination intensity by addressing the precision imbalance?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 3: Charles Bonnet Syndrome
+
+**Case**: Patient E.W., 82, with advanced macular degeneration, reports vivid visual hallucinations: detailed faces, flowers, and patterns of brickwork. She is cognitively intact and understands the hallucinations are not real, but they are perceptually vivid.
+
+- How does Active Inference explain hallucinations arising from sensory *loss* (deafferentation)?
+- What is the role of precision on top-down predictions when bottom-up sensory input is severely reduced?
+- Compare this with hallucinations in schizophrenia: both involve high-precision predictions, but the underlying cause differs. Explain.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 4: Predictive Coding in the Lab
+
+**Case**: In an EEG experiment, participants hear a sequence of tones: "beep-beep-beep-beep-BOOP." The mismatch negativity (MMN) response to the "BOOP" is measured. The MMN is larger when the deviant is more unexpected (e.g., after longer standard sequences) and smaller after repeated exposure to deviants.
+
+- Interpret the MMN as a prediction error signal. What level of the generative model is involved?
+- Why does the MMN habituate with repeated deviants? How does the model update?
+- What would Active Inference predict about the MMN in patients with chronic schizophrenia?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 5: Synthesis
+
+Write a 200-word synthesis connecting these four cases to the central claim: perception is precision-weighted prediction error minimization, and clinical perceptual phenomena arise from specific disturbances in this machinery.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Lab Summary
+
+| Part | Skill Developed | Case Type |
+|------|----------------|-----------|
+| 1 | Mechanism analysis | Self-tickle and sensory attenuation |
+| 2 | Clinical reasoning | Auditory hallucinations in schizophrenia |
+| 3 | Comparative analysis | Charles Bonnet syndrome (deafferentation hallucinations) |
+| 4 | EEG interpretation | Mismatch negativity and prediction error |
+| 5 | Integrative synthesis | Connecting perceptual cases to predictive coding |

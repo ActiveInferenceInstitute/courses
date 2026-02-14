@@ -1,0 +1,44 @@
+# Lab: Simon Says (Captain Says)
+
+## Goal
+
+To see how the Brain sends orders to the Body, and what happens if the order isn't clear!
+
+## What You Need
+
+* A group of friends or family.
+* One leader ("Captain Brain").
+
+## Steps
+
+### 1. The Good Captain
+
+The leader stands in front.
+Leader says: "Captain Says... Touch your nose!"
+Everyone must touch their nose.
+Leader says: "Captain Says... Jump!"
+Everyone jumps.
+
+### 2. The Trick
+
+Leader says: "Clap your hands!" (Without saying "Captain Says").
+If you clap, you are out!
+Why? Because the Captain didn't give the official order!
+
+### 3. Be the Boss
+
+Switch leaders. Now YOU are Captain Brain.
+Give commands to your friends' bodies.
+"Captain Says... Dance like a chicken!"
+
+## My Captain Log
+
+| Command | Did the Body OBEY? | Why? |
+| :--- | :--- | :--- |
+| **"Captain Says Jump"** | Yes | Proper command |
+| **"Jump"** | No | Captain didn't say so! |
+| **"Captain Says Sleep"** | Yes | Brain is boss |
+
+## What We Learned
+
+Your brain is in charge. It has to pay attention to know when to act!

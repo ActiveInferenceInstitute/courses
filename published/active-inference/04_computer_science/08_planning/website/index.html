@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08_Planning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>08_Planning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>08_Planning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 08: Planning — Deep Temporal Models and Long-Horizon Inference</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Extend EFE computation to multi-step policies with temporal depth T.</li>
+<li>Implement marginal message passing (MMP) using <code>run_mmp()</code> for deep temporal inference.</li>
+<li>Build and simulate a gridworld environment with long-horizon planning.</li>
+</ol>
+<h2>Introduction</h2>
+<p>In Modules 01–07, the agent operated at single-step or short-horizon timescales. Real-world problems require <strong>planning</strong> — evaluating sequences of actions that unfold over many future steps. Deep temporal models maintain beliefs about states at multiple time points and evaluate policies by accumulating EFE across an entire action sequence.</p>
+<h2>Key Concepts</h2>
+<h3>1. Multi-Step Policies</h3>
+<p>A policy $\pi = [a_0, a_1, \ldots, a_{T-1}]$ specifies actions for $T$ future timesteps. The agent evaluates each policy by unrolling the predicted state trajectory:</p>
+<p>$$q(s_{\tau+1} \mid \pi) = \mathbf{B}<em>{a</em>\tau} \cdot q(s_\tau \mid \pi) \quad \text{for } \tau = 0, \ldots, T-1$$</p>
+<p>EFE is accumulated over all steps:</p>
+<p>$$G(\pi) = \sum_{\tau=0}^{T-1} G_\tau(\pi)$$</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Define multi-step policies for a 3-action system</span>
+<span class="n">policies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># stay, stay, stay</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># left, stay, stay</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># left, right, stay</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># right, left, stay</span>
+<span class="p">]</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">ActiveInferenceAgent</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">policies</span><span class="o">=</span><span class="n">policies</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>2. Marginal Message Passing (MMP)</h3>
+<p>For deep temporal models, <code>run_mmp()</code> performs inference over beliefs at multiple time points simultaneously. Instead of just inferring $q(s_t)$, MMP infers $q(s_\tau)$ for $\tau \in {0, 1, \ldots, T}$:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_mmp</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">run_mmp</span><span class="p">(</span>
+    <span class="n">prior</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">D</span><span class="p">,</span>
+    <span class="n">observations</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>     <span class="c1"># sequence of past observations</span>
+    <span class="n">A</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span>
+    <span class="n">B</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">,</span>
+    <span class="n">policy</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>           <span class="c1"># action sequence</span>
+    <span class="n">num_iterations</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">])</span>         <span class="c1"># list of belief vectors, one per timestep</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;converged&quot;</span><span class="p">])</span>       <span class="c1"># convergence status</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;delta_history&quot;</span><span class="p">])</span>   <span class="c1"># convergence trace</span>
+</code></pre></div>
+
+<p>MMP passes messages both forward (prior × transition) and backward (likelihood) to refine beliefs at each time point.</p>
+<h3>3. Temporal Depth T</h3>
+<p>The temporal depth $T$ controls how far ahead the agent plans:</p>
+<table>
+<thead>
+<tr>
+<th>T</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T = 1</td>
+<td>Reactive — considers only the next step (Modules 01–05)</td>
+</tr>
+<tr>
+<td>T = 2–3</td>
+<td>Short-horizon — can sequence actions (e.g., go-to-cue, then go-to-reward)</td>
+</tr>
+<tr>
+<td>T = 5+</td>
+<td>Deep planning — can navigate gridworlds, handle delayed rewards</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tradeoff</strong>: Larger T gives better plans but exponentially increases the number of possible policies ($N_a^T$ for $N_a$ actions).</p>
+<h3>4. Gridworld Implementation</h3>
+<p>Gridworlds are the natural testbed for planning. A gridworld has:</p>
+<ul>
+<li>$N \times M$ grid of states (flattened to $N \cdot M$ states)</li>
+<li>4 or 5 actions (up, down, left, right, stay)</li>
+<li>Walls/obstacles encoded in the B-matrix (self-transitions for blocked moves)</li>
+<li>A goal state with preferred observation via C</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_gridworld</span>
+
+<span class="c1"># Visualize a 4x4 gridworld</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">obstacles</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="n">path</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+<span class="n">goal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">plot_gridworld</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">obstacles</span><span class="o">=</span><span class="n">obstacles</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">goal</span><span class="o">=</span><span class="n">goal</span><span class="p">,</span>
+               <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;output/lab08_gridworld.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>5. T-Maze with Delayed Reward</h3>
+<p>The T-maze with temporal depth demonstrates the power of planning:</p>
+<ul>
+<li><strong>T = 1</strong>: Agent cannot sequence cue-then-reward. It picks randomly.</li>
+<li><strong>T = 2</strong>: Agent can plan: go-to-cue first, then go-to-reward-arm. The cue visit reduces ambiguity at step 1, enabling a risk-minimizing choice at step 2.</li>
+</ul>
+<h3>6. Policy Evaluation for Deep Models</h3>
+<p>For deep models, each policy's EFE is the sum over timesteps:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_efe</span>
+
+<span class="n">total_G</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">q_current</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">q_s</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">action</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">policy</span><span class="p">):</span>
+    <span class="n">G_t</span> <span class="o">=</span> <span class="n">compute_efe</span><span class="p">(</span><span class="n">q_current</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">action</span><span class="p">)</span>
+    <span class="n">total_G</span> <span class="o">+=</span> <span class="n">G_t</span>
+    <span class="n">q_current</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">action</span><span class="p">]</span> <span class="o">@</span> <span class="n">q_current</span>  <span class="c1"># predict next-state</span>
+</code></pre></div>
+
+<h3>7. Simulation Dashboard</h3>
+<p>The <code>plot_simulation_dashboard()</code> function provides a 5-panel overview of a complete simulation:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_simulation_dashboard</span>
+
+<span class="n">plot_simulation_dashboard</span><span class="p">(</span>
+    <span class="n">beliefs_history</span><span class="o">=</span><span class="n">agent</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">],</span>
+    <span class="n">vfe_history</span><span class="o">=</span><span class="n">agent</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;vfe&quot;</span><span class="p">],</span>
+    <span class="n">observations</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;observations&quot;</span><span class="p">],</span>
+    <span class="n">predictions</span><span class="o">=</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">A</span> <span class="o">@</span> <span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">agent</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">]],</span>
+    <span class="n">efe_history</span><span class="o">=</span><span class="n">agent</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;efe&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;output/lab08_dashboard.png&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2>Applications</h2>
+<ul>
+<li><strong>Robot navigation</strong>: Gridworld planning maps directly to physical navigation tasks.</li>
+<li><strong>Delayed gratification</strong>: Agents that plan ahead can forgo immediate rewards for larger future rewards.</li>
+<li><strong>Hierarchical planning</strong>: Multiple levels of temporal depth enable abstract plans (goals) and concrete actions.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>Planning extends Active Inference from reactive to deliberative behavior. By evaluating multi-step policies through accumulated EFE and using MMP for deep state inference, agents can handle complex environments with delayed rewards and long horizons. This completes the 8-module Computational Active Inference course — from systems and agents through perception, cognition, action, learning, communication, and planning.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab 08: Deep Temporal Planning and Gridworlds</h1>
+<h2>Objective</h2>
+<p>Implement multi-step policy evaluation, run MMP for deep inference, and build a gridworld agent with long-horizon planning.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Completed Labs 01–07</li>
+<li>Understanding of EFE accumulation and multi-step policies</li>
+</ul>
+<h2>Part 1: Multi-Step Policy Evaluation</h2>
+<p><strong>Goal</strong>: Evaluate multi-step policies by unrolling predicted state trajectories.</p>
+<ol>
+<li>Create a 2-state model with identity A, swap-or-stay B, C = [2, -2], uniform D.</li>
+<li>Define policies: <code>[[0, 0], [0, 1], [1, 0], [1, 1]]</code> (all 2-step combinations).</li>
+<li>For each policy, compute total EFE by accumulating $G_t$ across steps.</li>
+<li>Print a ranked table of policies by total G.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_efe</span>
+
+<span class="n">policies</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="k">for</span> <span class="n">pi</span> <span class="ow">in</span> <span class="n">policies</span><span class="p">:</span>
+    <span class="n">total_G</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">pi</span><span class="p">:</span>
+        <span class="n">G_t</span> <span class="o">=</span> <span class="n">compute_efe</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">action</span><span class="p">)</span>
+        <span class="n">total_G</span> <span class="o">+=</span> <span class="n">G_t</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">action</span><span class="p">]</span> <span class="o">@</span> <span class="n">q</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Policy </span><span class="si">{</span><span class="n">pi</span><span class="si">}</span><span class="s2">: G = </span><span class="si">{</span><span class="n">total_G</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 2: Marginal Message Passing</h2>
+<p><strong>Goal</strong>: Run MMP on a 3-step observation sequence.</p>
+<ol>
+<li>Using the model from Part 1, create an observation sequence [0, 1, 0].</li>
+<li>Run <code>run_mmp()</code> with a 3-step policy.</li>
+<li>Print the beliefs at each time point.</li>
+<li>Visualize convergence using <code>plot_convergence()</code>.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_mmp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_convergence</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">run_mmp</span><span class="p">(</span>
+    <span class="n">prior</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">A</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">beliefs</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;beliefs&quot;</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t=</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">: q(s) = </span><span class="si">{</span><span class="n">beliefs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">plot_convergence</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;delta_history&quot;</span><span class="p">],</span>
+                 <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;output/lab08_mmp_convergence.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 3: Gridworld Environment</h2>
+<p><strong>Goal</strong>: Build a 4×4 gridworld and visualize it.</p>
+<ol>
+<li>Create a 16-state environment (flattened 4×4 grid).</li>
+<li>Define 4 actions (up, down, left, right) with walls at positions (1,1) and (1,2).</li>
+<li>Set C to prefer state 15 (bottom-right corner).</li>
+<li>Visualize with <code>plot_gridworld()</code>.</li>
+</ol>
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 4: Planning Agent on the Gridworld</h2>
+<p><strong>Goal</strong>: Run an agent with multi-step policies on the gridworld.</p>
+<ol>
+<li>Define 3-step policies (a subset of all 4³ = 64 possible).</li>
+<li>Create an <code>ActiveInferenceAgent</code> with these policies and γ = 4.0.</li>
+<li>Run the agent for 20 steps.</li>
+<li>Visualize the trajectory using <code>plot_gridworld()</code> with the path overlay.</li>
+</ol>
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 5: T-Maze with Temporal Depth</h2>
+<p><strong>Goal</strong>: Compare T-maze performance with T = 1 vs T = 2 policies.</p>
+<ol>
+<li>Set up the T-maze model from Module 05.</li>
+<li>Run with single-step policies (T = 1): how often does the agent reach the reward?</li>
+<li>Run with two-step policies (T = 2): e.g., [go-cue, go-left], [go-cue, go-right], etc.</li>
+<li>Compare success rates across 20 trials.</li>
+</ol>
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Library Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Evaluate multi-step policies</td>
+<td><code>compute_efe()</code> in loop, policy unrolling</td>
+<td></td>
+</tr>
+<tr>
+<td>Run deep temporal inference</td>
+<td><code>run_mmp()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Build gridworld environments</td>
+<td><code>DiscreteEnvironment</code> with grid B-matrix</td>
+<td></td>
+</tr>
+<tr>
+<td>Run planning agents on gridworlds</td>
+<td><code>ActiveInferenceAgent(policies=...)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Compare planning depths</td>
+<td>T=1 vs T=2 policy performance</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Planning</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>A multi-step policy specifies:
+A) A single action
+B) A sequence of actions over T future timesteps
+C) A probability distribution over actions
+D) A belief update rule</p>
+</li>
+<li>
+<p>The total EFE of a 3-step policy is computed by:
+A) Taking the EFE at the first step only
+B) Taking the maximum EFE across steps
+C) Summing $G_\tau(\pi)$ for $\tau = 0, 1, 2$
+D) Multiplying the three step EFEs</p>
+</li>
+<li>
+<p>Marginal Message Passing differs from single-step inference because it:
+A) Uses the C-vector
+B) Infers beliefs at multiple time points simultaneously
+C) Only works for gridworlds
+D) Does not use the A-matrix</p>
+</li>
+<li>
+<p>For a 3-action system with temporal depth T = 4, the number of exhaustive policies is:
+A) 12
+B) 64
+C) 81
+D) 256</p>
+</li>
+<li>
+<p>In a gridworld, walls are encoded by:
+A) Removing states from the state space
+B) Setting the B-matrix to have self-transitions at wall positions
+C) Modifying the A-matrix
+D) Setting C to zero at wall states</p>
+</li>
+<li>
+<p>Why does the T-maze require T ≥ 2 for reliable performance?
+A) The environment has more than 2 states
+B) The agent must visit the cue (step 1) before choosing an arm (step 2)
+C) The B-matrix requires 2 transitions
+D) Precision γ must equal 2</p>
+</li>
+<li>
+<p><code>plot_simulation_dashboard()</code> displays:
+A) A single belief plot
+B) 5 panels: beliefs, VFE, predictions, prediction errors, and EFE
+C) The gridworld state space
+D) The A and B matrices</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Write code to define all 2-step policies for a 3-action system. How many policies are there? Display them as a list of lists.</p>
+</li>
+<li>
+<p>Explain why the computational cost of planning scales exponentially with temporal depth T. Describe one strategy to manage this complexity (e.g., pruning, hierarchical policies, or Monte Carlo sampling).</p>
+</li>
+<li>
+<p>Design a delayed-reward gridworld where a greedy (T = 1) agent gets stuck but a planning (T = 3) agent succeeds. Sketch the grid, identify the obstacle, and explain why depth matters.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

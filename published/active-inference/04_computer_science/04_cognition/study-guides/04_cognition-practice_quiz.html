@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>practice_quiz</title>
+</head>
+<body>
+<h1>Practice Quiz: Cognition</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>The C-vector encodes:
+A) Transition probabilities between states
+B) Log-preferences over observations
+C) Prior beliefs over initial states
+D) The agent's learning rate</p>
+</li>
+<li>
+<p>If <code>C = [0, 0, 0]</code>, the agent's behavior is driven entirely by:
+A) Risk (pragmatic value)
+B) Ambiguity (epistemic value)
+C) Habits (E-vector)
+D) Nothing — the agent is frozen</p>
+</li>
+<li>
+<p>The D-vector is used in Active Inference as:
+A) The posterior after the first observation
+B) The initial prior for state inference
+C) The reward signal
+D) The transition dynamics prior</p>
+</li>
+<li>
+<p>What role does the E-vector play in the policy posterior equation?
+A) It replaces EFE entirely
+B) It adds a log-prior bias to each policy's score
+C) It scales the precision parameter
+D) It modifies the A-matrix</p>
+</li>
+<li>
+<p>When precision γ = 0.01, the agent's policy selection is:
+A) Nearly deterministic
+B) Nearly random (or dominated by habits if E is set)
+C) Identical to maximum EFE selection
+D) Always action 0</p>
+</li>
+<li>
+<p>The risk component of EFE is $D_{KL}[q(o|\pi) | \tilde{P}(o)]$. The target distribution $\tilde{P}(o)$ is:
+A) The empirical observation frequency
+B) $\sigma(C)$ — the softmax of the C-vector
+C) The A-matrix likelihood
+D) A uniform distribution</p>
+</li>
+<li>
+<p><code>plot_D_prior()</code> annotates the bar chart with:
+A) The VFE value
+B) The entropy of D
+C) The number of states
+D) The D-vector norm</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>An agent has <code>C = [0, 5, -5]</code> for (neutral, food, predator). Its current beliefs are $q(s) = [0.5, 0.5]$. The A-matrix maps state 0 to observation 1 (food) and state 1 to observation 2 (predator). Describe qualitatively what policy the agent should prefer and why, in terms of the risk component.</p>
+</li>
+<li>
+<p>Write code to create an <code>ActiveInferenceAgent</code> with a habit prior that strongly favors policy 1 (go-left) and a low precision γ = 0.1. Explain why this agent would almost always go left regardless of observations.</p>
+</li>
+<li>
+<p>Design an experiment to determine the "critical γ" at which an agent transitions from exploratory to exploitative behavior. Describe the setup, the measurement, and what plot you would produce.</p>
+</li>
+</ol>
+</body>
+</html>

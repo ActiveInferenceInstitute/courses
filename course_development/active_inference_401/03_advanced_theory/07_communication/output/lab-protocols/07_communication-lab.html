@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpnwqiy7jv</title>
+</head>
+<body>
+<h1>Lab: Multi-Agent Active Inference and Shared Generative Models</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze multi-agent scenarios using Active Inference, exploring coordination, communication, and collective intelligence.</p>
+</blockquote>
+<h2>Part 1: Recursive Modeling Depth</h2>
+<p><strong>Exercise</strong>: Consider a conversation between two people (A and B) discussing a controversial topic:</p>
+<table>
+<thead>
+<tr>
+<th>ToM Level</th>
+<th>A's Model</th>
+<th>Effect on Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Level 0</td>
+<td>A has beliefs about the topic</td>
+<td>A states opinions directly</td>
+</tr>
+<tr>
+<td>Level 1</td>
+<td>A models B's beliefs about the topic</td>
+<td>A adjusts message based on B's likely knowledge</td>
+</tr>
+<tr>
+<td>Level 2</td>
+<td>A models B's model of A's beliefs</td>
+<td>A anticipates B's response to A's statement, and pre-addresses objections</td>
+</tr>
+<tr>
+<td>Level 3</td>
+<td>A models B's model of A's model of B</td>
+<td>A considers how B will react to A's anticipation of B's objection</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>At what level does the recursion become practically useful vs. computationally intractable?</li>
+<li>How does autism (proposed as reduced ToM depth) affect conversational dynamics?</li>
+<li>How does Machiavellianism (proposed as deep ToM used for self-serving purposes) use deep recursion?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Game Theory as Active Inference</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Recast classical games in Active Inference terms.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Analyze the Prisoner's Dilemma using Active Inference:</p>
+<p>Two agents each choose: Cooperate (C) or Defect (D). Payoffs: CC=(3,3), CD=(0,5), DC=(5,0), DD=(1,1).</p>
+<p><strong>Standard game theory</strong>: Nash equilibrium = (D, D) — both defect.</p>
+<p><strong>Active Inference reformulation</strong>:</p>
+<ol>
+<li>Each agent has a generative model of the other agent's likely action</li>
+<li>Expected free energy for Cooperate = G(C) depends on the predicted probability that the other cooperates</li>
+<li>Expected free energy for Defect = G(D) depends on the same prediction</li>
+</ol>
+<p>If Agent A believes (with high precision) that B will cooperate → A's best policy is Defect (exploiting trust)
+If Agent A is uncertain → EFE may favor Cooperate (epistemic value of maintaining relationship)</p>
+<p><strong>Key question</strong>: Under what conditions does cooperation emerge?</p>
+<ul>
+<li>When agents have repeated interactions (iterated PD) — long-term model updating favors cooperation</li>
+<li>When agents' C vectors include social preferences (prosocial preferences)</li>
+<li>When reputation mechanisms provide additional observations about trustworthiness</li>
+</ul>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Shared Model Formation</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Trace how shared generative models form through communication.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Model the formation of a scientific consensus:</p>
+<ol>
+<li><strong>Initial state</strong>: 20 scientists, each with their own generative model of a phenomenon. Models differ significantly.</li>
+<li><strong>Communication</strong>: Scientists publish papers (signals encoding their beliefs + evidence)</li>
+<li><strong>Model updating</strong>: Each scientist updates their model based on received papers (weighted by precision of the evidence and credibility of the source)</li>
+<li><strong>Convergence</strong>: Over multiple rounds, models converge → shared generative model emerges</li>
+</ol>
+<p>Map this process:</p>
+<table>
+<thead>
+<tr>
+<th>Round</th>
+<th>Communication Event</th>
+<th>Effect on Model Diversity</th>
+<th>Collective Free Energy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Initial hypotheses published</td>
+<td>High diversity, high collective F</td>
+<td>Maximum (conflicting models)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Experimental results shared</td>
+<td>Diversity decreases for well-supported views</td>
+<td>Decreasing</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Review papers synthesize</td>
+<td>Further convergence, outliers identified</td>
+<td>Declining</td>
+</tr>
+<tr>
+<td>N</td>
+<td>Consensus forms</td>
+<td>Low diversity on core claims, ongoing debate at frontiers</td>
+<td>Near minimum</td>
+</tr>
+</tbody>
+</table>
+<p>What happens when evidence dramatically contradicts the consensus? (Paradigm shift = collective model revision)</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Stigmergic Communication</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze indirect communication through environment modification.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Model an ant colony foraging task using stigmergy:</p>
+<ol>
+<li><strong>Individual agent</strong>: Each ant minimizes free energy given local sensory information (pheromone concentration, food detection)</li>
+<li><strong>Active states</strong>: Lay pheromone (strength proportional to food quality), move in direction of pheromone gradient</li>
+<li><strong>Collective behavior</strong>: Pheromone trails form between nest and food sources. Shorter paths accumulate more pheromone (faster round-trip). Longer paths lose pheromone to evaporation.</li>
+<li><strong>Emergent optimization</strong>: The colony converges on the shortest path — without any ant knowing the global map.</li>
+</ol>
+<p>How does this implement: (a) collective inference about food locations, (b) model updating through environmental modification, (c) Bayesian model selection (short path wins)?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 300 words, reflect: Multi-agent Active Inference treats human communication as mutual model alignment. But is genuine understanding more than model alignment? When two people deeply understand each other, is something happening beyond having similar generative models?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Recursive analysis</td>
+<td>Theory of Mind levels</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Game-theoretic reasoning</td>
+<td>EFE in strategic interactions</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Process tracing</td>
+<td>Shared model formation</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Collective behavior</td>
+<td>Stigmergic communication</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Philosophical reflection</td>
+<td>Understanding vs. alignment</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

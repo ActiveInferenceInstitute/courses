@@ -1,0 +1,73 @@
+# Module 06: Learning — How Agents Improve Over Time
+
+> **Course**: Active Inference 101 | **Unit**: Cognitive Science | **Audience**: First-semester undergraduates
+
+## Learning Objectives
+
+1. Explain how learning in Active Inference means updating the **parameters** of the generative model, not just updating beliefs about the current state.
+2. Describe **structure learning**: how agents simplify their models by pruning unnecessary complexity.
+3. Connect learning to memory formation, skill acquisition, and the role of sleep.
+
+## Introduction
+
+Perception updates beliefs about what's happening *right now*. Learning goes deeper — it updates the generative model itself, changing what the agent expects *in general*. When you learn that stoves are hot, you're not just updating your belief about this particular stove — you're updating your model so that future encounters with stoves automatically include the prediction "hot."
+
+## Key Concepts
+
+### 1. Two Timescales of Inference
+
+Active Inference operates on multiple timescales:
+
+- **Fast (perception)**: Updating beliefs about current hidden states ("What's happening right now?")
+- **Slow (learning)**: Updating model parameters ("How does the world generally work?")
+
+Perception changes what you *believe*; learning changes what you *expect*.
+
+**Example**: The first time you see snow, perception tells you "that white stuff is cold." After many encounters, learning updates your model: "white flaky precipitation = snow = cold." Now you predict cold before you even touch it.
+
+### 2. Parameter Learning — Refining Connections
+
+In a POMDP (the formal model used in Active Inference), learning means updating the matrices that define the generative model:
+
+- **A matrix (Likelihood)**: Learning which observations go with which states. Example: Learning that dark clouds → rain.
+- **B matrix (Transitions)**: Learning how states change. Example: Learning that cloudy mornings often lead to rainy afternoons.
+- **D vector (Priors)**: Learning what states are common. Example: Learning that it rains more in April than in July.
+
+Each of these improves with experience — like a table that gets more entries the more data you collect.
+
+### 3. Structure Learning — Simplifying the Model
+
+Sometimes learning means *removing* unnecessary complexity:
+
+- A child might start with a complex, messy model of animal categories, then gradually simplify it into clean categories (dogs, cats, birds)
+- An expert chess player doesn't consider every possible move — they've pruned their model down to a few good patterns
+
+This is called **Bayesian Model Reduction (BMR)**: the brain evaluates whether parts of the model are actually doing useful work, and prunes those that aren't. Interestingly, this may happen primarily during **sleep** — explaining why sleep is so important for learning.
+
+### 4. Habituation and Skill Learning
+
+As you practice a skill, it gradually moves from effortful to automatic:
+
+- **Beginner**: High prediction error, slow, deliberate, lots of conscious attention
+- **Intermediate**: Decreasing prediction error, faster, some automaticity
+- **Expert**: Very low prediction error, fast, automatic, "muscle memory"
+
+In Active Inference terms, the generative model becomes so well-calibrated that prediction errors are minimal — the agent can predict its own actions and their outcomes with high precision.
+
+### 5. Sleep and Memory Consolidation
+
+Sleep plays a crucial role in learning:
+
+- During **slow-wave sleep**, the brain replays experiences and consolidates parameter updates
+- During **REM sleep**, the brain may perform structure learning (BMR) — pruning unnecessary model complexity
+- This is why a good night's sleep after studying improves memory and performance
+
+## Summary
+
+Learning is inference over longer timescales — updating not just moment-to-moment beliefs but the parameters and structure of the generative model itself. Through parameter learning, agents refine their expectations with experience. Through structure learning, they simplify their models by pruning unnecessary complexity. Sleep consolidates both processes.
+
+## Further Reading
+
+- Friston, K. J., Lin, M., Frith, C., Pezzulo, G., Hobson, J. A., & Ondobaka, S. (2017). Active inference, curiosity and insight. *Neural Computation*, 29(10), 2633-2683.
+- Diekelmann, S. & Born, J. (2010). The memory function of sleep. *Nature Reviews Neuroscience*, 11(2), 114-126.
+- Tenenbaum, J. B., Kemp, C., Griffiths, T. L., & Goodman, N. D. (2011). How to grow a mind. *Science*, 331(6022), 1279-1285.

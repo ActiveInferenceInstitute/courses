@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmpvalwxhst</title>
+</head>
+<body>
+<h1>Lab: Information Geometry and Natural Gradients</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Work through the mathematics of statistical manifolds and natural gradient optimization.</p>
+</blockquote>
+<h2>Part 1: Fisher Information Computation</h2>
+<p><strong>Exercise</strong>: Compute the Fisher information matrix for these distribution families:</p>
+<p><strong>a) Bernoulli(p)</strong>: q(x; p) = p^x (1-p)^{1-x}</p>
+<ol>
+<li>Compute ∂/∂p ln q(x; p) = x/p - (1-x)/(1-p)</li>
+<li>Compute E[(∂/∂p ln q)²] = 1/(p(1-p))</li>
+<li>The Fisher information G(p) = 1/(p(1-p)). Note: this diverges at p = 0 and p = 1 — distribution changes near certainty are "large"</li>
+</ol>
+<p><strong>b) Exponential(λ)</strong>: q(x; λ) = λ exp(-λx), x ≥ 0</p>
+<ol>
+<li>Compute G(λ) = ?</li>
+<li>Interpret the result geometrically</li>
+</ol>
+<p><strong>c) Multivariate Gaussian N(μ, Σ)</strong>: Compute the Fisher information with respect to mean μ and covariance Σ.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Natural vs. Euclidean Gradient Comparison</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> See the difference between natural and Euclidean gradients.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider minimizing F(θ) = D_KL[q(x; θ) || p(x)] where q is Gaussian N(μ, σ²) and p is a fixed target distribution N(3, 4). Starting from θ₀ = (μ₀, σ₀²) = (0, 1):</p>
+<ol>
+<li>Compute the Euclidean gradient ∇_θ F at θ₀</li>
+<li>Compute the Fisher information G(θ₀) for Gaussian parameters (μ, σ²)</li>
+<li>Compute the natural gradient G⁻¹ ∇_θ F at θ₀</li>
+<li>Take one step of each (with learning rate η = 0.1) and compare the resulting distributions</li>
+<li>Which step produces a larger change in the distribution? Which produces a larger change in parameters?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Exponential Family Geometry</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Explore the dual geometry of exponential families.</p>
+</blockquote>
+<p><strong>Exercise</strong>: For the Gaussian family N(μ, σ²):</p>
+<p><strong>Natural parameters</strong>: η₁ = μ/σ², η₂ = -1/(2σ²)
+<strong>Expectation parameters</strong>: m₁ = μ, m₂ = μ² + σ²</p>
+<ol>
+<li>Express the KL divergence D_KL[q(η₁) || q(η₂)] in natural parameters</li>
+<li>Express the same KL divergence in expectation parameters  </li>
+<li>How does the duality between these coordinate systems simplify computation?</li>
+<li>What is the log-partition function A(η)? Verify that ∂A/∂ηᵢ = mᵢ</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Geodesics on the Gaussian Manifold</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Visualize belief updating as geodesic flow.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider updating a belief from N(0, 1) to N(3, 4):</p>
+<ol>
+<li>The geodesic (shortest path on the manifold) connects these two Gaussians. In the (μ, σ²) plane, this is NOT a straight line — it curves due to the metric.</li>
+<li>Sketch (or describe) the geodesic path from (0, 1) to (3, 4) in the (μ, σ²) plane, noting that the Fisher metric scales distances differently in each direction.</li>
+<li>Compare this to the straight-line (Euclidean) path from (0, 1) to (3, 4). Which path is shorter in parameter space? Which is shorter in distributional space (Fisher metric)?</li>
+<li>How does this relate to belief updating in the brain?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 300 words, reflect: Information geometry provides an elegant mathematical framework, but does the brain actually perform natural gradient descent? What neural evidence supports or challenges this hypothesis? Is the Fisher information matrix biologically computable?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Mathematical derivation</td>
+<td>Fisher information computation</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Comparison analysis</td>
+<td>Natural vs. Euclidean gradients</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Exponential family theory</td>
+<td>Dual geometry</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Geometric reasoning</td>
+<td>Geodesics on manifolds</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Critical reflection</td>
+<td>Biological plausibility</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

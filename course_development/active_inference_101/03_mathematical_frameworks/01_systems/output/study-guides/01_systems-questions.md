@@ -1,0 +1,22 @@
+# Mathematical Frameworks — Module 01: Systems — Study Questions
+
+1. What is a random variable? How does it differ from a regular variable in algebra?
+2. What is the difference between a discrete and continuous probability distribution? Give a real-world example of each.
+3. Explain the difference between joint, marginal, and conditional probability using a weather-and-umbrella example.
+4. Write Bayes' theorem from memory. Name each of the four components (posterior, likelihood, prior, evidence). Which component is hardest to compute and why?
+5. Work through a complete Bayesian updating example: you hear a noise at night. Your prior: P(cat) = 0.9, P(burglar) = 0.1. Likelihood: P(noise|cat) = 0.7, P(noise|burglar) = 0.4. Compute the posterior P(cat|noise) and P(burglar|noise).
+6. What is a generative model mathematically? What does the joint distribution P(o, s) = P(o|s) × P(s) represent?
+7. How does a generative model formalize the brain's "model of the world" from the Cognitive Science unit? What is P(o|s) and what is P(s) in neural terms?
+8. What is a Hidden Markov Model (HMM)? Why do we need the "hidden" in Hidden Markov Model? What would a non-hidden model look like?
+9. Write the joint distribution for an HMM factored into initial state, transitions, and observations. Explain each factor.
+10. Why is inference (computing P(s|o) from P(o,s)) generally harder than generation (sampling o from P(o,s))? What makes the inverse problem difficult?
+11. What does it mean for two variables to be independent? What does it mean for them to be conditionally independent? How does this relate to the Markov Blanket?
+12. What is the evidence (marginal likelihood) P(o)? Why is it a sum over all hidden states? Why is this sum often intractable?
+13. How does the accuracy-complexity trade-off in free energy relate to the bias-variance trade-off in statistics? Are these the same thing?
+14. Derive what happens to Bayes' theorem when the prior is uniform (all states equally likely). What determines the posterior in this case?
+15. Critically evaluate: Bayesian inference requires specifying a prior. Is this a strength (allowing incorporation of background knowledge) or a weakness (allowing subjective bias)? How does Active Inference handle this tension?
+16. What happens when a Bayesian agent encounters data that is extremely unlikely under ALL of its models (both prior and alternative hypotheses)? How does this relate to the concept of "model surprise" and why might it trigger structure learning — changing the model itself?
+17. Explain the relationship between entropy and the amount of information gained by an observation. If you roll a fair die and it comes up "3," you gain more information than if you flip a biased coin (90% heads) and it comes up heads. Quantify this difference using Shannon information.
+18. What is the difference between "inference" and "learning" in the mathematical framework? Inference updates beliefs about hidden states given a fixed model; learning updates the model parameters themselves. Why does Active Inference need both, and how do their timescales differ?
+19. How does the concept of "sufficient statistics" simplify Bayesian inference? If a distribution can be summarized by a small set of numbers (e.g., mean and variance for a Gaussian), what does this imply for the computational demands on the brain?
+20. Derive what happens in Bayes' theorem when you receive two independent observations sequentially. Show that the posterior from the first observation becomes the prior for the second. What does this tell you about how the brain might implement incremental learning?

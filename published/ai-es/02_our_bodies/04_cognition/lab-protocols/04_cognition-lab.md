@@ -1,0 +1,40 @@
+# Lab: The Prediction Box
+
+## Goal
+
+To test your brain's prediction power and see how it handles Surprise!
+
+## What You Need
+
+* A box.
+* A heavy rock.
+* A fluffy feather (or tissue).
+
+## Steps
+
+### 1. The Heavy Lift
+
+Put the rock in the box (don't show your friend).
+Ask your friend to lift the box.
+**Prediction**: "It looks like a small box, so it will be light."
+**Result**: "Whoa! It's heavy!" (Surprise!)
+Their arm muscles predicted "light," but the world said "heavy."
+
+### 2. The Light Lift
+
+Now put the feather in the box.
+Ask them to lift it again.
+**Prediction**: "Last time it was heavy, so I will pull hard!"
+**Result**: The box flies up! (Surprise!)
+Their brain updated the model ("Box = Heavy"), but the world changed ("Box = Light").
+
+## My Prediction Log
+
+| Round | What I thought (Prediction) | What Happened (Result) | Was I Surprised? |
+| :--- | :--- | :--- | :--- |
+| **1 (Rock)** | Light Box | Heavy! | YES |
+| **2 (Feather)** | Heavy Box | Flying Box! | YES |
+
+## What We Learned
+
+We are always predicting how heavy things are before we touch them. When we are wrong, we feel "Surprise" and have to update our Brain Model.

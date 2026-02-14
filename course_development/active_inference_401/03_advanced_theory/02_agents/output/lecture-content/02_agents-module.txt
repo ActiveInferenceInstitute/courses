@@ -1,0 +1,102 @@
+Module 02: Agents — Information Geometry and Natural Gradients
+
+> Course: Active Inference 401 | Unit: Advanced Theory | Audience: Graduate students / researchers
+
+Learning Objectives
+
+Analyze the geometry of probability distributions — statistical manifolds, Fisher information, and the natural gradient.
+Evaluate how Active Inference operates on curved statistical manifolds rather than flat Euclidean space.
+Examine the consequences of information geometry for the speed and stability of inference.
+
+Key Concepts
+
+Statistical Manifolds
+
+A statistical manifold is the space of all probability distributions parameterized by some parameter vector θ. Each point on this manifold corresponds to a specific distribution q(s; θ):
+
+The manifold structure: The family of distributions {q(s; θ) : θ ∈ Θ} forms a manifold M where the coordinates are the parameters θ. For Gaussian distributions q(s; μ, σ²), the manifold is 2-dimensional (parameterized by mean and variance).
+
+The key insight: This manifold is curved — equal changes in parameter values do not correspond to equal changes in the distribution itself. Moving μ from 0 to 1 changes a Gaussian by the same amount regardless of σ. But moving σ from 0.01 to 0.02 (doubling the variance) is a much larger distributional change than moving σ from 100 to 100.01.
+
+Consequence for inference: Gradient descent in parameter space (Euclidean gradient) is inefficient because it ignores this curvature. A step that is "large" in parameter space may be "small" in distributional space, and vice versa.
+
+Fisher Information Metric
+
+The Fisher information matrix G(θ) provides the natural metric on statistical manifolds:
+
+G{ij}(θ) = E{q(s;θ)} [∂i ln q(s; θ) · ∂j ln q(s; θ)]
+
+This measures how sensitively the distribution changes as each parameter varies:
+
+Riemannian distance: The infinitesimal distance between neighboring distributions q(s; θ) and q(s; θ + dθ) is:
+
+ds² = Σ{ij} G{ij} dθi dθj = dθ^T G dθ
+
+This is the proper measure of "how different" two nearby distributions are.
+
+Connection to KL divergence: For infinitesimally close distributions:
+
+DKL[q(θ) || q(θ + dθ)] ≈ ½ dθ^T G(θ) dθ
+
+The Fisher metric is the local quadratic approximation to KL divergence.
+
+For Gaussians: The Fisher information matrix for a univariate Gaussian N(μ, σ²) with parameters θ = (μ, σ²) is:
+
+G = diag(1/σ², 1/(2σ⁴))
+
+This shows that the metric depends on the current parameter values — the manifold is curved.
+
+Natural Gradient Descent
+
+The natural gradient replaces Euclidean gradient descent with a geometry-aware update:
+
+Euclidean gradient: θ{t+1} = θt - η ∇F(θt)
+
+This treats parameter space as flat — all directions are equivalent.
+
+Natural gradient: θ{t+1} = θt - η G(θt)⁻¹ ∇F(θt)
+
+The Fisher matrix G⁻¹ "rotates and rescales" the gradient to account for the manifold curvature. The natural gradient is the steepest descent direction in the space of distributions (not parameters).
+
+Properties:
+
+Parameterization invariant: The natural gradient gives the same distributional update regardless of how the parameters are chosen. Euclidean gradient depends on the arbitrary parameterization.
+Faster convergence: Natural gradient descent converges faster than Euclidean gradient descent, especially near saddle points and plateaus.
+Fisher efficiency: The natural gradient achieves the Cramér-Rao lower bound — it is the most efficient update given the available information.
+
+Information Geometry in Active Inference
+
+Active Inference performs inference on statistical manifolds, not flat spaces:
+
+Belief updating as geodesic flow: When the brain updates its beliefs from q(s; θold) to q(s; θnew), the optimal path on the statistical manifold is a geodesic — the shortest path with respect to the Fisher metric. This suggests that neural belief updating follows the natural gradient.
+
+Neuronal implementation: The natural gradient requires computing G⁻¹, which is computationally expensive in general. However, for specific distribution families (exponential family distributions), the natural gradient has simple closed-form expressions that can be implemented by neural circuits.
+
+Free energy and geodesics: Minimizing free energy F[q(θ)] with respect to θ using the natural gradient produces a trajectory on the statistical manifold that follows the path of maximum evidence increase per unit distributional change.
+
+α-Connections and Dual Geometry
+
+Information geometry reveals a rich geometric structure beyond the Fisher metric:
+
+α-connections: The statistical manifold admits a family of affine connections parameterized by α ∈ ℝ. The α = 1 connection (exponential connection) and α = -1 connection (mixture connection) are particularly important:
+
+Exponential connection: Natural for exponential family distributions
+Mixture connection: Natural for mixture models
+
+Dual flatness: For exponential families, the manifold is flat with respect to the exponential connection in natural parameters, and flat with respect to the mixture connection in expectation parameters. This duality means:
+
+Natural parameters η (e.g., precision × mean for Gaussians): flat in one coordinate system
+Expectation parameters μ (e.g., mean, variance for Gaussians): flat in the dual coordinate system
+
+Bregman divergence: The KL divergence between exponential family members can be expressed as a Bregman divergence, which has elegant properties in the dual coordinate system. This is the mathematical foundation for many efficient inference algorithms.
+
+Summary
+
+Information geometry provides the natural framework for understanding belief dynamics in Active Inference. Probability distributions live on curved statistical manifolds equipped with the Fisher information metric. The natural gradient — the steepest descent direction on this manifold — is parameterization-invariant and more efficient than Euclidean gradients. Active Inference can be understood as geodesic flow on statistical manifolds, and the dual geometry of exponential families provides elegant mathematical structure for inference algorithms.
+
+Further Reading
+
+Amari, S. (2016). Information Geometry and Its Applications. Springer.
+Amari, S. (1998). Natural gradient works efficiently in learning. Neural Computation, 10(2), 251-276.
+Ay, N. et al. (2017). Information Geometry. Springer.
+Da Costa, L. et al. (2021). Neural dynamics under active inference: plausibility and efficiency of energy minimization. Entropy, 23(4), 454.

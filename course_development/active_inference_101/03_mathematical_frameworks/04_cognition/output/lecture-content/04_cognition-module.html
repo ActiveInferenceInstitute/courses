@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 04: Cognition — Partially Observable Markov Decision Processes</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 101 | <strong>Unit</strong>: Mathematical Frameworks | <strong>Audience</strong>: First-semester undergraduates</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Define the <strong>POMDP</strong> (Partially Observable Markov Decision Process) as the mathematical framework for decision-making under uncertainty.</li>
+<li>Identify the five components of a POMDP: <strong>A</strong> (observation), <strong>B</strong> (transition), <strong>C</strong> (preferences), <strong>D</strong> (initial state), and <strong>policies π</strong>.</li>
+<li>Explain how cognition involves jointly inferring hidden states and selecting actions.</li>
+</ol>
+<h2>Introduction</h2>
+<p>The brain doesn't just perceive — it also decides and acts. To formalize this, we need a framework that handles both uncertainty (partial observability) and decision-making. This is the POMDP.</p>
+<h2>Key Concepts</h2>
+<h3>1. From HMMs to POMDPs</h3>
+<p>An HMM (Module 01) models passive observation. A <strong>POMDP</strong> adds agency — the ability to choose actions that change the world:</p>
+<p><strong>HMM</strong>: P(o₁:T, s₁:T) — states evolve on their own
+<strong>POMDP</strong>: P(o₁:T, s₁:T | π) — states evolve depending on the agent's policy π</p>
+<h3>2. The Five Components of a POMDP</h3>
+<p>Active Inference uses five matrices/vectors (the "A, B, C, D" formulation):</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Name</th>
+<th>What It Encodes</th>
+<th>Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong></td>
+<td>Observation model</td>
+<td>P(o | s) — how states generate observations</td>
+<td>observations × states</td>
+</tr>
+<tr>
+<td><strong>B</strong></td>
+<td>Transition model</td>
+<td>P(s_t | s_{t-1}, a) — how actions change states</td>
+<td>states × states × actions</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td>Preference vector</td>
+<td>log P(o) — which observations the agent prefers</td>
+<td>observations × 1</td>
+</tr>
+<tr>
+<td><strong>D</strong></td>
+<td>Initial state prior</td>
+<td>P(s₁) — beliefs about the initial state</td>
+<td>states × 1</td>
+</tr>
+<tr>
+<td><strong>π</strong></td>
+<td>Policies</td>
+<td>Sequences of actions to evaluate</td>
+<td>time × policies</td>
+</tr>
+</tbody>
+</table>
+<h3>3. The A Matrix — Observation Model</h3>
+<p>The <strong>A matrix</strong> maps hidden states to observations:</p>
+<p><strong>Example</strong> (simple weather):</p>
+<div class="codehilite"><pre><span></span><code>         sunny   rainy
+umbrella [ 0.1    0.9 ]
+no_umb   [ 0.9    0.1 ]
+</code></pre></div>
+
+<p>This says: if it's sunny, 90% chance of no umbrella; if it's rainy, 90% chance of umbrella. Each column sums to 1.</p>
+<h3>4. The B Matrix — Transition Model</h3>
+<p>The <strong>B matrix</strong> determines how states change under each action:</p>
+<p><strong>Example</strong> (thermostat with actions: heat, cool, nothing):</p>
+<div class="codehilite"><pre><span></span><code>B[:,:,heat] =   cold  warm  hot        B[:,:,cool] =   cold  warm  hot
+         cold  [0.0   0.0   0.0]                cold  [0.7   0.6   0.1]
+         warm  [0.8   0.5   0.2]                warm  [0.3   0.3   0.3]
+         hot   [0.2   0.5   0.8]                hot   [0.0   0.1   0.6]
+</code></pre></div>
+
+<h3>5. The C Vector — Preferences</h3>
+<p>The <strong>C vector</strong> encodes which observations the agent prefers (what it values):</p>
+<p><strong>Example</strong>: C = [preferred temperature = warm]</p>
+<div class="codehilite"><pre><span></span><code>C = [cold: -2, warm: +2, hot: -1]
+</code></pre></div>
+
+<p>Positive values = preferred observations. Negative = avoided. This replaces the reward function in traditional decision-making.</p>
+<h3>6. Putting It Together — Belief Updating</h3>
+<p>At each time step t:</p>
+<ol>
+<li><strong>Observe</strong> o_t</li>
+<li><strong>Update beliefs</strong>: q(s_t) ∝ A(o_t, :) × B(:, :, a_{t-1}) × q(s_{t-1})</li>
+<li><strong>Evaluate policies</strong>: Score each policy π based on Expected Free Energy (Module 05)</li>
+<li><strong>Select action</strong>: Choose the best policy and execute its next action</li>
+<li><strong>Repeat</strong></li>
+</ol>
+<p>This is the perception-action loop formalized mathematically.</p>
+<h2>Summary</h2>
+<p>The POMDP provides the complete mathematical framework for Active Inference agents. Five components (A, B, C, D, π) specify everything the agent needs: how observations are generated, how actions change states, what's preferred, and what's believed initially. Cognition is the joint process of updating beliefs and evaluating policies.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press. (Chapter 5)</li>
+<li>Smith, R. et al. (2022). A step-by-step tutorial on active inference. <em>Journal of Mathematical Psychology</em>, 107, 102632.</li>
+<li>Kaelbling, L. P., Littman, M. L., &amp; Cassandra, A. R. (1998). Planning and acting in partially observable stochastic domains. <em>Artificial Intelligence</em>, 101, 99-134.</li>
+</ul>
+</body>
+</html>

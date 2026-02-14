@@ -1,0 +1,40 @@
+# Lab: Silent Charades
+
+## Goal
+
+To practice sending and receiving non-verbal signals.
+
+## What You Need
+
+* Scrap paper with words (Snake, Airplane, Eating Spaghetti, Sleeping).
+* A bowl.
+
+## Steps
+
+### 1. The Draw
+
+Pick a slip of paper.
+Don't show anyone!
+
+### 2. The Act
+
+Act it out.
+NO TALKING.
+NO NOISES.
+Use your body, face, and hands.
+
+### 3. The Guess
+
+The other players guess.
+"Are you a bird?" No (Shake head).
+"Are you a plane?" Yes (Nod head)!
+
+## Discussion
+
+* How did you know what they meant?
+* Did you use your Mirror Neurons?
+* Was it frustrating when they didn't understand?
+
+## What We Learned
+
+We can say a lot without saying a word.

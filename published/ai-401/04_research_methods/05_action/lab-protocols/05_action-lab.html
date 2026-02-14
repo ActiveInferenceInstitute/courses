@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmppugxlwf4</title>
+</head>
+<body>
+<h1>Lab: Robotics and Embodied Active Inference</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design and analyze Active Inference implementations for robotic systems.</p>
+</blockquote>
+<h2>Part 1: Discrete POMDP Design (pymdp)</h2>
+<p><strong>Exercise</strong>: Design a discrete Active Inference agent for a simple grid navigation task:</p>
+<p><strong>Environment</strong>: 4×4 grid, agent starts at (0,0), goal at (3,3), obstacle at (2,2).</p>
+<p><strong>State space</strong>: 16 grid positions (4×4)
+<strong>Observation space</strong>: Visual observation of current position (with 10% noise)
+<strong>Action space</strong>: {up, down, left, right, stay}</p>
+<p><strong>POMDP specification</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Matrix</th>
+<th>Dimensions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A (observation)</td>
+<td>16 × 16</td>
+<td>Noisy identity (0.9 on diagonal, 0.1/15 elsewhere)</td>
+</tr>
+<tr>
+<td>B (transition)</td>
+<td>16 × 16 × 5</td>
+<td>Deterministic grid transitions per action</td>
+</tr>
+<tr>
+<td>C (preferences)</td>
+<td>16 × 1</td>
+<td>High value at (3,3), negative at (2,2), zero elsewhere</td>
+</tr>
+<tr>
+<td>D (prior on start)</td>
+<td>16 × 1</td>
+<td>Peaked at (0,0)</td>
+</tr>
+</tbody>
+</table>
+<p>Write the expected free energy G(π) for a policy π = [right, right, down, down, down, right]:</p>
+<ul>
+<li>Pragmatic: Does it reach the goal?</li>
+<li>Epistemic: Does it reduce uncertainty about position?</li>
+</ul>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Continuous Control Design</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design a continuous Active Inference controller.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design a controller for a robotic arm reaching task:</p>
+<p><strong>Generative model</strong>:</p>
+<ul>
+<li>States: joint angles θ = (θ₁, θ₂) and velocities θ̇ = (θ̇₁, θ̇₂)</li>
+<li>Observations: end-effector position (x, y) via forward kinematics</li>
+<li>Desired state: end-effector at target position (x<em>, y</em>)</li>
+</ul>
+<p><strong>Free energy</strong>: F = ½ ε_s^T Π_s ε_s + ½ ε_p^T Π_p ε_p</p>
+<p>Where:</p>
+<ul>
+<li>ε_s = sensory PE (observed position - predicted position)</li>
+<li>ε_p = prior PE (current position - desired position)</li>
+<li>Π_s, Π_p = precision matrices</li>
+</ul>
+<p><strong>Action generation</strong>: a = -∂F/∂a — motor commands are the gradient of free energy with respect to action</p>
+<p>Design the precision parameters Π_s and Π_p for:</p>
+<ol>
+<li>Normal reaching (balanced vision and proprioception)</li>
+<li>Vision occluded (low Π_s, rely on proprioception)</li>
+<li>Novel environment (low Π_p, exploratory behavior)</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Framework Comparison</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Compare Active Inference software tools.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Complete this comparison for implementing a T-maze navigation task:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>pymdp (Python)</th>
+<th>SPM (MATLAB)</th>
+<th>RxInfer.jl (Julia)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>State space</td>
+<td>Discrete (POMDP)</td>
+<td>Discrete (POMDP) + continuous (DCM)</td>
+<td>Discrete + continuous</td>
+</tr>
+<tr>
+<td>Inference method</td>
+<td>Variational message passing</td>
+<td>Variational Bayes</td>
+<td>Reactive message passing</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Moderate</td>
+<td>Slower (MATLAB overhead)</td>
+<td>Fast (Julia compilation)</td>
+</tr>
+<tr>
+<td>Scalability</td>
+<td>Small-medium state spaces</td>
+<td>Small state spaces</td>
+<td>Scales to larger models</td>
+</tr>
+<tr>
+<td>Real-time capability</td>
+<td>No (not designed for it)</td>
+<td>No</td>
+<td>Yes (reactive, streaming)</td>
+</tr>
+<tr>
+<td>Hierarchical models</td>
+<td>Manual construction</td>
+<td>Built-in deep temporal</td>
+<td>Factor graph composition</td>
+</tr>
+<tr>
+<td>Community</td>
+<td>Growing, open-source</td>
+<td>Established, neuroimaging</td>
+<td>Growing, probabilistic programming</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Prototyping, education</td>
+<td>Neuroimaging analysis</td>
+<td>Real-time robotics, production</td>
+</tr>
+</tbody>
+</table>
+<p>Which tool would you choose for: (a) a classroom demo? (b) an fMRI study? (c) a real-time robot controller?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Human-Robot Interaction Design</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design an HRI experiment using multi-agent Active Inference.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design a collaborative object sorting task:</p>
+<ol>
+<li><strong>Robot's generative model of human</strong>: Models human's preferences (C_human), attention (precision), and action tendencies</li>
+<li><strong>Shared task model</strong>: Both agents have models of the sorting rules and object locations</li>
+<li><strong>Communication</strong>: Robot infers human's sorting intent from observed actions; adjusts its behavior to complement (not duplicate) human actions</li>
+<li><strong>Active Inference prediction</strong>: Robot should anticipate human's next action and prepare complementary action</li>
+</ol>
+<p>Describe: What observations does the robot use to model the human? How does it update its model in real-time? What does coordination look like when it succeeds vs. fails?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Reflection</h2>
+<p>In 300 words, reflect: Active Inference robotics promises a unified perception-action framework, but current implementations are far from human-level dexterity. What are the main bottlenecks? Is the mathematical framework sound but the engineering immature? Or are there fundamental limitations to the approach?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>POMDP design</td>
+<td>Discrete Active Inference</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Controller design</td>
+<td>Continuous generalized coordinates</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Tool evaluation</td>
+<td>Software framework comparison</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Multi-agent robotics</td>
+<td>Human-robot interaction</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Critical evaluation</td>
+<td>Approach limitations</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

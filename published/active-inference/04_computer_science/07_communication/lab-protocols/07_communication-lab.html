@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>tmphmlix4h5</title>
+</head>
+<body>
+<h1>Lab 07: Multi-Agent Signaling Game</h1>
+<h2>Objective</h2>
+<p>Build a 2-agent signaling game, run it with learning, and measure emergent communication via mutual information.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Completed Labs 01–06</li>
+<li>Understanding of mutual information and multi-agent dynamics</li>
+</ul>
+<h2>Part 1: Setting Up the Agents</h2>
+<p><strong>Goal</strong>: Create sender and receiver agents for a 2-state signaling game.</p>
+<ol>
+<li>Define the sender's model: A = identity (observes true state), B = identity, C = [reward preference], D = uniform.</li>
+<li>Define the receiver's model: A = identity (maps signal to observation), B shaped by the sender's action, C = same reward preference.</li>
+<li>Instantiate both <code>ActiveInferenceAgent</code> instances with γ = 4.0.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenerativeModel</span><span class="p">,</span> <span class="n">ActiveInferenceAgent</span>
+
+<span class="c1"># TODO: Define sender and receiver models</span>
+<span class="c1"># TODO: Create agents</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Running the Signaling Loop</h2>
+<p><strong>Goal</strong>: Run 100 rounds of the signaling game.</p>
+<ol>
+<li>At each round: randomly sample a world state (0 or 1).</li>
+<li>Sender observes the state and selects a signal.</li>
+<li>Receiver observes the signal and selects a direction.</li>
+<li>Record success (receiver chose correct direction) and the (signal, state) pair.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="n">signals</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">states</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">successes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">world_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">agent_sender</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">world_state</span><span class="p">)</span>
+    <span class="n">direction</span> <span class="o">=</span> <span class="n">agent_receiver</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="n">success</span> <span class="o">=</span> <span class="p">(</span><span class="n">direction</span> <span class="o">==</span> <span class="n">world_state</span><span class="p">)</span>
+
+    <span class="n">signals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">world_state</span><span class="p">)</span>
+    <span class="n">successes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">success</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Adding Learning</h2>
+<p><strong>Goal</strong>: Add Dirichlet learning so agents can develop a communication protocol.</p>
+<ol>
+<li>Add <code>update_dirichlet_A()</code> for both agents after each round.</li>
+<li>Update expected A-matrices for subsequent inference.</li>
+<li>Run 200 rounds with learning enabled.</li>
+<li>Compare success rate in rounds 1–50 vs rounds 151–200.</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Measuring Mutual Information</h2>
+<p><strong>Goal</strong>: Track mutual information between signals and world states over time.</p>
+<ol>
+<li>Compute MI using a sliding window of 20 rounds.</li>
+<li>Build the joint distribution from the windowed (signal, state) pairs.</li>
+<li>Plot MI over time. It should increase if communication emerges.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">mutual_information</span>
+
+<span class="n">mi_history</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">window</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signals</span><span class="p">)):</span>
+    <span class="n">joint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">sig</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="n">window</span><span class="p">:</span><span class="n">t</span><span class="p">],</span> <span class="n">signals</span><span class="p">[</span><span class="n">t</span><span class="o">-</span><span class="n">window</span><span class="p">:</span><span class="n">t</span><span class="p">]):</span>
+        <span class="n">joint</span><span class="p">[</span><span class="n">sig</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">joint</span> <span class="o">/=</span> <span class="n">joint</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">mi_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mutual_information</span><span class="p">(</span><span class="n">joint</span><span class="p">))</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Analysis Questions</h2>
+<ol>
+<li>Did mutual information increase over time? What was the final MI compared to the maximum ($\ln 2 \approx 0.693$)?</li>
+<li>Did the sender develop a consistent mapping between world states and signals? What was the mapping?</li>
+<li>How many rounds were needed before the receiver's accuracy exceeded 80%?</li>
+</ol>
+<p><strong>Response</strong>: </p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Library Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Build multi-agent Active Inference systems</td>
+<td>Multiple <code>ActiveInferenceAgent</code> instances</td>
+<td></td>
+</tr>
+<tr>
+<td>Implement a signaling game loop</td>
+<td>Sender-receiver architecture</td>
+<td></td>
+</tr>
+<tr>
+<td>Add Dirichlet learning to multi-agent settings</td>
+<td><code>update_dirichlet_A()</code> per agent</td>
+<td></td>
+</tr>
+<tr>
+<td>Measure emergent communication</td>
+<td><code>mutual_information()</code> on joint distributions</td>
+<td></td>
+</tr>
+<tr>
+<td>Analyze communication development over time</td>
+<td>Sliding-window MI tracking</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
