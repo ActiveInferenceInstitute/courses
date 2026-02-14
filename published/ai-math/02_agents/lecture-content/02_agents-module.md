@@ -1,0 +1,60 @@
+# Module 02: Agents — Generative Models, Sufficient Statistics, and the Free Energy Principle
+
+## Learning Objectives
+
+1. Define a **generative model** formally as a joint probability distribution p(o, s, θ) and distinguish it from the recognition density q(s, θ).
+2. Derive the **sufficient statistics** of the recognition density and explain how they parameterize the agent's beliefs.
+3. State the **Free Energy Principle** precisely: internal states parameterize a recognition density that minimizes free energy.
+
+## Introduction
+
+An agent, in the Active Inference framework, is a system whose internal states can be interpreted as parameterizing a recognition density — a probability distribution encoding beliefs about hidden states. This module formalizes what it means for a system to be an "agent" by developing the mathematics of generative models, sufficient statistics, and the Free Energy Principle.
+
+## Key Concepts
+
+### 1. The Generative Model
+
+A generative model specifies how observations are generated from hidden causes:
+
+**p(o₁:T, s₁:T, θ) = p(θ) ∏ₜ p(oₜ | sₜ, θ) · p(sₜ | sₜ₋₁, θ)**
+
+where:
+
+- **o₁:T** are observations (sensory data) over time
+- **s₁:T** are hidden states (causes of observations)
+- **θ** are parameters (fixed properties of the environment)
+- **p(oₜ | sₜ, θ)** is the likelihood (how states generate observations)
+- **p(sₜ | sₜ₋₁, θ)** are transition probabilities (how states evolve)
+- **p(θ)** is the prior over parameters
+
+This is a partially observed Markov decision process (POMDP) when extended with actions.
+
+### 2. The Recognition Density and Sufficient Statistics
+
+Since exact Bayesian inference p(s, θ | o) is intractable for most models, the agent maintains an approximate posterior — the **recognition density** q(s, θ):
+
+**q(s, θ) ≈ p(s, θ | o)**
+
+Under the mean-field approximation, this factorizes:
+
+**q(s, θ) = q(s) · q(θ)**
+
+For exponential family distributions, q is fully specified by its **sufficient statistics**. For example, a Gaussian q(s) = N(s; μ, Σ) is parameterized by mean μ and covariance Σ. These sufficient statistics are the **internal states** of the agent — the quantities that the brain (or any self-organizing system) must track.
+
+### 3. The Free Energy Principle (Formal Statement)
+
+**Free Energy Principle**: For any system with a Markov Blanket at nonequilibrium steady state, the internal states μ can be described as parameterizing a recognition density q_μ(η) whose variational free energy is minimized:
+
+**μ* = argmin_μ F(s, μ) = argmin_μ E_{qμ}[ln q_μ(η) - ln p(η, s)]**
+
+This is not a claim that all systems *compute* free energy. It is that the dynamics of any Markov-blanketed system can be *described as if* they minimize free energy — a formal duality between physics and inference.
+
+## Derivation Exercises
+
+1. Write the generative model for a simple Hidden Markov Model with K discrete states and D-dimensional Gaussian observations. Identify all parameters.
+2. For a Gaussian recognition density q(s) = N(μ, σ²), compute the free energy F = E_q[ln q(s)] - E_q[ln p(o, s)] for a generative model p(s) = N(0, 1), p(o|s) = N(s, σ_o²).
+3. Derive the update equations for the sufficient statistics μ and σ² by setting ∂F/∂μ = 0 and ∂F/∂σ² = 0.
+
+## Conclusion
+
+The agent is defined by its generative model and its recognition density. The Free Energy Principle establishes that any self-organizing system can be interpreted as performing approximate Bayesian inference through free energy minimization. Module 03 extends this to perception — updating beliefs about hidden states given new observations.

@@ -1,23 +1,61 @@
-# Lab: Exploring Perception
+# Lab: Data Analytics Maturity Assessment
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Assess your organization's analytics maturity and design improvements to close the data-to-decision gap.
 
-Design and simulate a simple agent that demonstrates the principles of **Perception**.
+---
 
-## Prerequisites
+## Part 1: Analytics Maturity Assessment (10 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Perception.
+| Function | Current Level (Descriptive/Diagnostic/Predictive/Prescriptive) | Key Data Sources | Gap to Next Level |
+|---------|--------------------------------------------------------------|-----------------|------------------|
+| Sales | | | |
+| Operations | | | |
+| Customer | | | |
+| Finance | | | |
 
-## Steps
+{fill:textarea, placeholder: "Assess analytics maturity by function"}
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Perception.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Perception (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+---
 
-## Discussion Requirements
+## Part 2: Data Quality Assessment (10 min)
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Perception.
+| Data Asset | Completeness (1-5) | Accuracy (1-5) | Timeliness (1-5) | Bias Risk (H/M/L) |
+|-----------|-------------------|----------------|-----------------|-------------------|
+| | | | | |
+| | | | | |
+
+{fill:textarea, placeholder: "Assess data quality"}
+
+---
+
+## Part 3: Data-to-Decision Gap Analysis (15 min)
+
+| Decision | Data Available | Data Used | Gap | Reason for Gap |
+|---------|---------------|----------|-----|---------------|
+| | | | | |
+| | | | | |
+
+{fill:textarea, placeholder: "Analyze the data-to-decision gap"}
+
+---
+
+## Part 4: Sensing System Improvement (15 min)
+
+| Improvement | Current State | Target State | Investment | Expected Impact |
+|------------|--------------|-------------|-----------|----------------|
+| | | | | |
+| | | | | |
+
+{fill:textarea, placeholder: "Design analytics improvements"}
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Overall analytics maturity | |
+| Biggest data quality issue | |
+| Priority data-to-decision improvement | |

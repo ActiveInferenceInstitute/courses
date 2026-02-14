@@ -263,6 +263,7 @@ def scaffold_course_directory(
     youtube_courses_dir: Path,
     course_metadata: Dict[str, Any],
     skip_whisper: bool = False,
+    force: bool = False,
 ) -> Dict[str, Any]:
     """Create course directory structure with module.md files.
 
@@ -278,6 +279,7 @@ def scaffold_course_directory(
         youtube_courses_dir: Base directory for YouTube courses
         course_metadata: Dict with playlist title, url, id
         skip_whisper: Skip Whisper fallback for missing transcripts
+        force: Overwrite existing module.md files instead of skipping
 
     Returns:
         Dict with scaffolding results: created, skipped, failed counts
@@ -316,11 +318,13 @@ def scaffold_course_directory(
         module_dir = course_dir / module_name
         module_md_path = module_dir / "module.md"
 
-        # Skip if module.md already exists
-        if module_md_path.exists():
+        # Skip if module.md already exists (unless force=True)
+        if module_md_path.exists() and not force:
             skipped += 1
             modules.append({"name": module_name, "status": "skipped"})
             continue
+        elif module_md_path.exists() and force:
+            logger.info(f"  Force-overwriting {module_name}/module.md")
 
         # Find or fetch transcript
         transcript_file = transcripts_path / f"{video_id}.txt"

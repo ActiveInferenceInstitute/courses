@@ -1,23 +1,75 @@
-# Lab: Exploring Communication
+# Lab: Strategic Narrative Design
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Construct and evaluate strategic narratives for different stakeholder audiences.
 
-Design and simulate a simple agent that demonstrates the principles of **Communication**.
+---
 
-## Prerequisites
+## Part 1: Current Narrative Audit (10 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Communication.
+| Audience | Current Narrative (what you tell them) | Is It Credible? | Evidence Backing It |
+|----------|--------------------------------------|----------------|-------------------|
+| Investors | | Y/N | |
+| Customers | | Y/N | |
+| Employees | | Y/N | |
+| Competitors (implicit) | | Y/N | |
 
-## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Communication.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Communication (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
 
-## Discussion Requirements
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Communication.
+---
+
+## Part 2: Signal Inventory (10 min)
+
+| Signal | Type (Credible/Cheap Talk/Ambiguous) | Audience | Intended Message |
+|--------|--------------------------------------|---------|-----------------|
+| | | | |
+| | | | |
+| | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: Narrative Redesign (20 min)
+
+Design an improved strategic narrative for one stakeholder:
+
+| Element | Design |
+|---------|--------|
+| Target audience | |
+| Core message | |
+| Supporting evidence (credible signals) | |
+| Key action that backs the narrative | |
+| How to monitor if the narrative is working | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Competitive Signal Analysis (10 min)
+
+| Competitor Signal | Type | What It Tells Us | Our Response |
+|------------------|------|-----------------|-------------|
+| | | | |
+| | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Biggest narrative gap | |
+| Most effective current signal | |
+| Priority narrative improvement | |

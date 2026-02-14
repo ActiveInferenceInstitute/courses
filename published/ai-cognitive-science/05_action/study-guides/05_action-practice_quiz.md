@@ -1,0 +1,51 @@
+# Practice Quiz: Action
+
+## Part A: Multiple Choice
+
+1. In Active Inference, motor commands are best understood as:
+A) Explicit signals from motor cortex to muscles specifying force and direction
+B) Precision-weighted proprioceptive predictions resolved by spinal reflex arcs
+C) Random motor outputs filtered by reinforcement learning
+D) Copies of sensory signals reflected back to the periphery
+
+2. The spinal stretch reflex, in the Active Inference framework, functions as:
+A) A primitive safety mechanism unrelated to cognition
+B) The final stage of hierarchical inference — resolving prediction error between predicted and actual body position
+C) A feedback mechanism operating independently from cortical predictions
+D) A learned reflex that requires extensive practice
+
+3. Active sensing (e.g., saccadic eye movements) is driven by:
+A) Random exploration of the visual field
+B) Expected Free Energy — moving the eyes to locations that maximally reduce expected ambiguity
+C) Bottom-up visual contrast only
+D) Social cues about where to look
+
+4. Bradykinesia in Parkinson's disease is explained in Active Inference as:
+A) Muscle weakness from motor neuron degeneration
+B) Reduced precision on motor predictions due to dopamine loss — the brain cannot commit to a single motor plan
+C) Excessive motor predictions leading to uncontrolled movement
+D) An emotional reluctance to move
+
+5. Functional motor disorder (paralysis with no neurological cause) is explained as:
+A) A psychological choice to not move
+B) A strong prior belief about inability that overrides motor predictions through high precision
+C) Subclinical damage too small to detect on MRI
+D) A purely linguistic misunderstanding of the patient's symptoms
+
+6. In the visuomotor adaptation paradigm (prism glasses), the "aftereffect" occurs because:
+A) The muscles have become physically reshaped
+B) The generative model has updated to expect the prism-shifted mapping, producing errors when the prisms are removed
+C) The participant consciously remembers the prism shift
+D) The cerebellum has been permanently altered
+
+7. Mirror neuron activity during action observation can be interpreted as:
+A) The brain automatically predicting the motor trajectory of the observed action
+B) Simple imitation with no inferential component
+C) Emotional contagion unrelated to motor prediction
+D) An artifact of fMRI methodology
+
+## Part B: Short Answer
+
+1. Compare optimal control theory (computing motor commands to minimize a cost function) with Active Inference (generating proprioceptive predictions resolved by reflexes). What is the key conceptual difference?
+2. A patient with functional tremor shows tremor that changes frequency when distracted. Explain why this is consistent with the Active Inference account (the prior belief about inability competes with other cognitive demands for precision) but inconsistent with a neurological tremor.
+3. Design a brief experiment using eye-tracking to test whether saccadic patterns in visual search are better predicted by Expected Free Energy (ambiguity reduction) or by bottom-up saliency (visual contrast).

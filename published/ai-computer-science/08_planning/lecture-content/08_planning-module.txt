@@ -1,0 +1,75 @@
+Module 08: Planning — Deep Temporal Models and Long-Horizon Inference
+
+Learning Objectives
+
+Extend EFE computation to multi-step policies with temporal depth T.
+Implement marginal message passing (MMP) using runmmp() for deep temporal inference.
+Build and simulate a gridworld environment with long-horizon planning.
+
+Introduction
+
+In Modules 01–07, the agent operated at single-step or short-horizon timescales. Real-world problems require planning — evaluating sequences of actions that unfold over many future steps. Deep temporal models maintain beliefs about states at multiple time points and evaluate policies by accumulating EFE across an entire action sequence.
+
+Key Concepts
+
+Multi-Step Policies
+
+A policy $\pi = [a0, a1, \ldots, a{T-1}]$ specifies actions for $T$ future timesteps. The agent evaluates each policy by unrolling the predicted state trajectory:
+
+$$q(s{\tau+1} \mid \pi) = \mathbf{B}{a\tau} \cdot q(s\tau \mid \pi) \quad \text{for } \tau = 0, \ldots, T-1$$
+
+EFE is accumulated over all steps:
+
+$$G(\pi) = \sum{\tau=0}^{T-1} G\tau(\pi)$$
+
+Marginal Message Passing (MMP)
+
+For deep temporal models, runmmp() performs inference over beliefs at multiple time points simultaneously. Instead of just inferring $q(st)$, MMP infers $q(s\tau)$ for $\tau \in \{0, 1, \ldots, T\}$:
+
+MMP passes messages both forward (prior × transition) and backward (likelihood) to refine beliefs at each time point.
+
+Temporal Depth T
+
+The temporal depth $T$ controls how far ahead the agent plans:
+
+| T | Behavior |
+|---|----------|
+| T = 1 | Reactive — considers only the next step (Modules 01–05) |
+| T = 2–3 | Short-horizon — can sequence actions (e.g., go-to-cue, then go-to-reward) |
+| T = 5+ | Deep planning — can navigate gridworlds, handle delayed rewards |
+
+Tradeoff: Larger T gives better plans but exponentially increases the number of possible policies ($Na^T$ for $Na$ actions).
+
+Gridworld Implementation
+
+Gridworlds are the natural testbed for planning. A gridworld has:
+
+$N \times M$ grid of states (flattened to $N \cdot M$ states)
+4 or 5 actions (up, down, left, right, stay)
+Walls/obstacles encoded in the B-matrix (self-transitions for blocked moves)
+A goal state with preferred observation via C
+
+T-Maze with Delayed Reward
+
+The T-maze with temporal depth demonstrates the power of planning:
+
+T = 1: Agent cannot sequence cue-then-reward. It picks randomly.
+T = 2: Agent can plan: go-to-cue first, then go-to-reward-arm. The cue visit reduces ambiguity at step 1, enabling a risk-minimizing choice at step 2.
+
+Policy Evaluation for Deep Models
+
+For deep models, each policy's EFE is the sum over timesteps:
+
+Simulation Dashboard
+
+The plotsimulation_dashboard() function provides a 5-panel overview of a complete simulation:
+
+Applications
+
+Robot navigation: Gridworld planning maps directly to physical navigation tasks.
+Delayed gratification: Agents that plan ahead can forgo immediate rewards for larger future rewards.
+Hierarchical planning: Multiple levels of temporal depth enable abstract plans (goals) and concrete actions.
+
+Conclusion
+
+Planning extends Active Inference from reactive to deliberative behavior. By evaluating multi-step policies through accumulated EFE and using MMP for deep state inference, agents can handle complex environments with delayed rewards and long horizons. This completes the 8-module Computational Active Inference course — from systems and agents through perception, cognition, action, learning, communication, and planning.

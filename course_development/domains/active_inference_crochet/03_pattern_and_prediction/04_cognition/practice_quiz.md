@@ -1,0 +1,53 @@
+# Practice Quiz: Cognition — Mental Models of the Finished Piece
+
+## Part A: Multiple Choice
+
+1. Visualizing the finished piece from written instructions is best described as:
+A) Guessing what it will look like
+B) Running a generative model simulation forward
+C) Copying from a photo
+D) Unnecessary for crochet
+
+2. When you instantly decode "dc" into a prediction of stitch height, texture, and motion, this reflects:
+A) Simple memorization
+B) A well-trained generative model that expands compressed symbols into rich predictions
+C) Reading ability
+D) Luck
+
+3. The mental arithmetic required to place increases evenly is:
+A) Optional and unnecessary
+B) Model-based computation predicting the fabric's future shape
+C) Something only designers need to do
+D) Too difficult for crocheters
+
+4. Reading your fabric to determine which row you are on is:
+A) Impossible without a row counter
+B) Cognitive inverse inference — using visual observations to reconstruct abstract pattern state
+C) Cheating
+D) Only possible for simple patterns
+
+5. Recognizing a pattern repeat allows your model to:
+A) Skip reading the pattern entirely
+B) Predict the next several stitches without reading each instruction
+C) Work faster without accuracy
+D) Ignore stitch counts
+
+6. Understanding construction logic (how pieces become garments) reflects:
+A) Following instructions mechanically
+B) Hierarchical model structure — thinking at multiple levels simultaneously
+C) Fashion knowledge only
+D) Sewing skill, not crochet skill
+
+7. A crocheter who can look at a finished hat and reverse-engineer the pattern is using:
+A) Photographic memory
+B) Inverse inference — determining causes from observed effects using a powerful generative model
+C) Insider knowledge from the designer
+D) Simple counting
+
+## Part B: Short Answer
+
+1. Take the instruction "Ch 4, 2 dc in 4th ch from hook, [3 dc in next ch] twice, 5 dc in last ch." Walk through the mental simulation step by step: what does your generative model predict the result will look like?
+
+2. Explain why gauge conversion (translating between your gauge and the pattern's gauge) is a form of model-based computation. What variables must your model account for?
+
+3. An experienced crocheter looks at a swatch of mixed stitches and can identify every stitch type. A beginner sees only bumps and loops. What has changed in the cognitive model between these two agents?

@@ -1,52 +1,144 @@
-# Module 01: Systems in Organizations
+# Organizations as Living Systems: The Organizational Markov Blanket
+
+## Executive Summary
+
+Every organization exists because it maintains a boundary between itself and the outside world. In Active Inference terms, this boundary is a **Markov blanket** — a statistical partition that separates internal states (culture, knowledge, capabilities) from external states (markets, competitors, regulators). This module teaches you to see your organization as a living adaptive system, defined not by its org chart but by the patterns of information that flow across its boundaries.
+
+---
 
 ## Learning Objectives
 
-1.  Define **Systems** within the context of Organizations.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Organizations to the formal definition of Systems.
+By the end of this module, you will be able to:
 
-## Introduction
+1. Define what makes an organization a **system** in the Active Inference framework
+2. Identify the **Markov blanket** of your own organization — what comes in (sensory states) and what goes out (active states)
+3. Distinguish **internal states** (culture, tacit knowledge, routines) from **external states** (market forces, customer behavior, regulation)
+4. Explain how organizations maintain **homeostasis** — keeping critical variables (cash flow, talent, customer trust) within viable bounds
+5. Map the **nested structure** of organizational systems (teams within divisions within the enterprise)
 
-This module explores **Systems**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+---
 
 ## Key Concepts
 
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
+### 1. The Organization as a System
 
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
+A system, formally, is any entity that can be distinguished from its environment. For organizations, this distinction is maintained by boundaries — legal boundaries (corporate entity), informational boundaries (what data stays inside), cultural boundaries (shared norms), and process boundaries (standard operating procedures).
 
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
+In Active Inference, a system is defined by its **Markov blanket**: the set of states that mediate all interactions between inside and outside. The blanket consists of:
+
+- **Sensory states**: Information flowing *into* the organization (market data, customer feedback, competitive intelligence, regulatory updates)
+- **Active states**: Information and actions flowing *out of* the organization (products, services, communications, lobbying, hiring)
+
+> **Organizational Translation**: Your organization's Markov blanket is everything that sits at the interface between your firm and the outside world — your sales team sensing customer needs, your marketing team broadcasting your brand, your procurement team negotiating with suppliers.
+
+### 2. Internal States: The Organization's Identity
+
+Inside the Markov blanket lie the **internal states** — the variables that constitute the organization's identity. These include:
+
+- **Generative model**: The organization's collective understanding of how the world works (e.g., "customers value reliability over features," "this market segment is price-sensitive")
+- **Tacit knowledge**: The know-how embedded in routines, processes, and experienced employees
+- **Culture**: The shared assumptions, values, and behavioral norms that guide decision-making
+- **Capabilities**: The organization's capacity to perform specific functions effectively
+
+**Case Study — Toyota Production System**: Toyota's internal states include the deeply embedded philosophy of *kaizen* (continuous improvement) and *jidoka* (building quality in). These aren't written policies that could be easily copied — they are internal states that have been refined over decades, shaping how every employee perceives quality problems and acts to resolve them.
+
+### 3. External States: The Environment
+
+Outside the blanket lie the **external states** — everything the organization cannot directly control:
+
+- Competitor actions and strategies
+- Customer preferences and behavior
+- Regulatory and political environments
+- Macroeconomic conditions
+- Technological developments
+- Supply chain dynamics
+
+The organization can only *infer* the state of these external variables through its sensory states. It never has direct access to the "true" state of the market — only observations filtered through its sensing mechanisms.
+
+### 4. Homeostasis: Organizational Stability
+
+Organizations, like biological organisms, must maintain critical variables within viable bounds:
+
+| Variable | Lower Bound (Threat) | Upper Bound (Threat) | Homeostatic Target |
+|----------|---------------------|---------------------|-------------------|
+| Cash flow | Insolvency | Over-capitalization | Sustainable runway |
+| Employee engagement | Attrition crisis | Complacency | Productive engagement |
+| Customer satisfaction | Churn | Over-servicing | Profitable loyalty |
+| Innovation rate | Stagnation | Overextension | Adaptive capacity |
+
+Active Inference frames homeostasis as the organization acting to stay within its **preferred states** — the set of conditions under which it can maintain its identity and continue operating. Strategic dysfunction occurs when the organization drifts outside these bounds without recognizing it.
+
+### 5. Nested Systems: Teams Within Organizations
+
+Organizations are not single-level systems. They are **hierarchically nested**: individuals within teams, teams within departments, departments within divisions, divisions within the enterprise. Each level has its own Markov blanket:
+
+```
+Enterprise Blanket
+├── Division A Blanket
+│   ├── Team A1 Blanket
+│   │   ├── Individual a Blanket
+│   │   └── Individual b Blanket
+│   └── Team A2 Blanket
+└── Division B Blanket
+    ├── Team B1 Blanket
+    └── Team B2 Blanket
+```
+
+What constitutes a "sensory state" at one level becomes an "active state" at another. When a team reports its quarterly results to the division, the report is an **active state** for the team but a **sensory state** for the division.
+
+---
 
 ## Applications
 
-In Organizations, we see Systems manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### Mapping Your Organizational Boundary
 
-## Conclusion
+Use the following framework to map the Markov blanket of your own organization or department:
 
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+| Blanket Component | Examples in Your Organization |
+|-------------------|-------------------------------|
+| **Sensory states** (what comes in) | Customer feedback, market research, competitor analysis, financial data, employee surveys |
+| **Active states** (what goes out) | Products, marketing messages, hiring decisions, investor communications, regulatory filings |
+| **Internal states** (what stays inside) | Strategy documents, proprietary processes, cultural norms, institutional knowledge |
+| **External states** (what you can't control) | Market demand, regulatory changes, technology shifts, macroeconomic conditions |
 
-<!-- Content padding to ensure file size requirements -->
+### Case Study — A Regional Bank
 
-<!-- Content padding to ensure file size requirements -->
+A regional bank's Markov blanket includes:
 
-<!-- Content padding to ensure file size requirements -->
+- **Sensory**: Customer transaction data, credit bureau reports, Federal Reserve interest rate announcements, competitor product launches
+- **Active**: Loan products offered, interest rates set, marketing campaigns, branch locations, digital banking features
+- **Internal**: Risk models, underwriting criteria, employee training programs, corporate culture emphasizing community banking
+- **External**: Federal monetary policy, fintech disruption, demographic shifts, housing market dynamics
 
-<!-- Content padding to ensure file size requirements -->
+The bank *cannot* directly observe the "true" creditworthiness of a borrower — it can only infer it through observable sensory states (credit score, income verification, employment history). This is precisely the Active Inference framing: the organization must maintain a generative model that maps observations to hidden states.
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+- For how teams form nested systems with distinct boundaries, see [Collective Intelligence: Systems](../../02_collective_intelligence/01_systems/module.md)
+- For how system boundaries shape competitive positioning, see [Strategic Modeling: Systems](../../03_strategic_modeling/01_systems/module.md)
+- For how digital platforms redefine organizational boundaries, see [Digital Transformation: Systems](../../04_digital_transformation/01_systems/module.md)
+- See the [Glossary](../../resources/glossary.md) for definitions of Markov blanket, internal states, and homeostasis
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+| Concept | Organizational Meaning |
+|---------|----------------------|
+| System | An entity distinguished from its environment by a boundary |
+| Markov blanket | The information interface between the org and the outside world |
+| Internal states | Culture, knowledge, capabilities, and strategic assumptions |
+| External states | Markets, competitors, regulators, and macro forces |
+| Homeostasis | Keeping critical business variables within viable bounds |
+| Nested systems | Teams within divisions within the enterprise |
+
+---
+
+## References
+
+- Friston, K. (2010). The free-energy principle: a unified brain theory? *Nature Reviews Neuroscience*, 11(2), 127–138.
+- Meadows, D. H. (2008). *Thinking in Systems: A Primer*. Chelsea Green Publishing.
+- Senge, P. M. (1990). *The Fifth Discipline*. Doubleday.
+- Ramstead, M. J. D., Badcock, P. B., & Friston, K. J. (2018). Answering Schrödinger's question. *Physics of Life Reviews*, 24, 1–16.

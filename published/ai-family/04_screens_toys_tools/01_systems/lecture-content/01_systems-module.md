@@ -1,52 +1,68 @@
-# Module 01: Systems in Family
+# Module 01: Systems — The Digital Neighborhood
 
 ## Learning Objectives
 
-1.  Define **Systems** within the context of Family.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Family to the formal definition of Systems.
+1. Understand that the **Internet** is a System of connected computers.
+2. Learn about **The Network** (The invisible wires connecting us).
+3. Know that the Digital World is like a Real Neighborhood (Be safe!).
 
-## Introduction
+## Introduction: The Invisible Web
 
-This module explores **Systems**. In the **Family** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Imagine a spider web that connects every house in the world.
+If you pull a string here, it jiggles over there.
+The Internet is a web of information.
+When you send a message, it travels through the web to your friend.
+You are part of a Global System.
 
 ## Key Concepts
 
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
+### 1. The Network (Connection)
 
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
+Your tablet is not alone.
+It is talking to the Wi-Fi.
+The Wi-Fi is talking to the Router.
+The Router is talking to the World.
+This chain of talking is called a **Network**.
 
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
+### 2. The Cloud (Other People's Computers)
 
-## Applications
+Where do your photos go?
+"The Cloud."
+But the Cloud is just a building full of big computers (Servers).
+It's like a library that never closes.
 
-In Family, we see Systems manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### 3. Digital Safety (Stranger Danger)
 
-## Conclusion
+Would you open your front door to a stranger? No.
+The Internet has doors too.
 
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+* Don't talk to strangers.
+* Don't share your address.
+* If something feels weird, tell a parent.
 
-<!-- Content padding to ensure file size requirements -->
+## Activities
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 1: The String Telephone
 
-<!-- Content padding to ensure file size requirements -->
+Take two cups and a long string.
+Poke a hole in the bottom. Connect them.
+Pull the string tight.
+Talk into the cup.
+Can you hear?
+This is a simple Network!
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 2: Draw the Web
 
-<!-- Content padding to ensure file size requirements -->
+Draw your house.
+Draw your friend's house.
+Draw the lines connecting them.
+Draw the "Data Packets" (Messages) traveling on the lines.
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+The Internet is amazing, but it is a big place. By understanding the System, we can explore it safely.
 
-<!-- Content padding to ensure file size requirements -->
+## References
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+* *Hello Ruby: Adventures in Coding* by Linda Liukas
+* *Chicken Clicking* by Jeanne Willis (Internet Safety)

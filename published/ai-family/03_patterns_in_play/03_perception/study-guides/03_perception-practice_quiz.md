@@ -1,51 +1,32 @@
-# Practice Quiz: Perception
+# Practice Quiz: Reading the Room
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Perception** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What does "Reading the Room" mean?**
+    A) Reading a book in a corner.
+    B) Noticing how people are feeling and acting.
+    C) Counting the chairs.
 
-2. In Family, Perception is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **If your friend is looking at their watch, what does that mean?**
+    A) They are hungry.
+    B) They are bored or in a hurry.
+    C) They like watches.
 
-3. Which mathematical quantity is most central to Perception?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: You can say mean things in a nice voice and it's okay.
+    * (False. The brain hears the mean words too).
 
-4. How does Perception relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **What is a "Social Cue"?**
+    A) A line of people.
+    B) A signal like a smile or a frown.
+    C) A pool stick.
 
-5. A failure in Perception would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Why do we need to perceive others in a game?**
+    A) So we don't crash into them.
+    B) To pass the ball to them.
+    C) Both!
 
-6. Which scale is most relevant for analyzing Perception in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Perception connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Perception** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Perception failing in a Family scenario.
-3.  How would you model Perception using a POMDP (Partially Observable Markov Decision Process)?
+1. Show me a "Bored" face.
+2. How do you know when a game is over?
+3. Have you ever thought someone was mad but they weren't?

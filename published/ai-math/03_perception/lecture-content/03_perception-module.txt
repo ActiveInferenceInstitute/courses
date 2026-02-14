@@ -1,0 +1,67 @@
+Module 03: Perception — Belief Updating, Message Passing, and Predictive Coding Equations
+
+Learning Objectives
+
+Derive the belief updating equations for perception: how the recognition density q(s) is updated in response to new observations.
+Formalize message passing in hierarchical generative models — how prediction errors propagate up and predictions propagate down.
+Connect these equations to the predictive coding scheme of Rao and Ballard (1999).
+
+Introduction
+
+Perception in Active Inference is the optimization of the recognition density q(s) given new observations o — updating beliefs about hidden states to minimize free energy. This module derives the mathematical equations governing this process, showing how they give rise to the message-passing architecture known as predictive coding.
+
+Key Concepts
+
+Perception as Free Energy Minimization
+
+Given an observation oₜ, perception updates the recognition density:
+
+*q(sₜ) = argmin{q(sₜ)} F(oₜ, q)
+
+For a Gaussian recognition density q(sₜ) = N(μₜ, Σₜ), this reduces to gradient descent on free energy with respect to the sufficient statistics:
+
+dμ/dt = -∂F/∂μ
+
+This is the perception equation: internal states (sufficient statistics) flow in the direction that minimizes free energy.
+
+Hierarchical Message Passing
+
+For a hierarchical generative model with L levels:
+
+p(o, s₁, ..., sL) = p(o | s₁) ∏ₗ p(sₗ | sₗ₊₁)
+
+The free energy gradient at level l takes the form:
+
+dμₗ/dt = -Πₗ · εₗ + Πₗ₊₁ · (∂g/∂μₗ)ᵀ · εₗ₊₁
+
+where:
+
+εₗ = μₗ - gₗ(μₗ₊₁) is the prediction error at level l (difference between the current estimate and the prediction from the level above)
+Πₗ is the precision (inverse covariance) at level l
+gₗ(·) is the generative mapping from level l+1 to level l
+
+This decomposes into two streams:
+
+Bottom-up: prediction errors εₗ weighted by their precision Πₗ
+Top-down: predictions gₗ(μₗ₊₁) from the level above
+
+Predictive Coding
+
+The message-passing equations above are exactly the predictive coding scheme:
+
+Each level generates a prediction of the level below: prediction = g(μₗ₊₁)
+The prediction error is computed: εₗ = observed - predicted**
+Precision-weighted prediction errors drive updates at each level
+The system iterates until prediction errors are minimized
+
+Rao and Ballard (1999) showed this scheme reproduces classical receptive field properties in V1. Friston (2005) showed it arises naturally from free energy minimization in hierarchical Gaussian models.
+
+Derivation Exercises
+
+For a two-level Gaussian model p(o|s₁) = N(g₁(s₁), Σ₁) and p(s₁|s₂) = N(g₂(s₂), Σ₂), derive the prediction error form of the free energy gradient ∂F/∂μ₁.
+Show that the fixed point of dμ/dt = -∂F/∂μ corresponds to the MAP estimate of the posterior p(s|o).
+Derive the precision-weighted prediction error message passing for a three-level hierarchy.
+
+Conclusion
+
+Perception is gradient descent on free energy, implemented through precision-weighted prediction error message passing in a hierarchical generative model. This is the formal foundation of predictive coding. Module 04 extends this to the mathematics of precision and attention.

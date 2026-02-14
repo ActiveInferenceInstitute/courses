@@ -1,51 +1,32 @@
-# Practice Quiz: Action
+# Practice Quiz: Taking Turns
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Action** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What is Impulse Control?**
+    A) A remote control for the TV.
+    B) Stopping yourself from doing something you want to do.
+    C) A joystick.
 
-2. In Family, Action is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **Why do we take turns?**
+    A) To be fair.
+    B) To prevent chaos.
+    C) Both!
 
-3. Which mathematical quantity is most central to Action?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: Moving is harder than Waiting.
+    * (False! Waiting (Inhibition) is often harder for the brain).
 
-4. How does Action relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **Who goes first in a game?**
+    A) The oldest.
+    B) The youngest.
+    C) Whatever the rules say (Coin toss, Rock Paper Scissors).
 
-5. A failure in Action would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **What happens if everyone talks at once?**
+    A) Communication failure.
+    B) A great conversation.
+    C) Silence.
 
-6. Which scale is most relevant for analyzing Action in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Action connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Action** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Action failing in a Family scenario.
-3.  How would you model Action using a POMDP (Partially Observable Markov Decision Process)?
+1. When is it hardest for you to wait? (Birthday? Christmas?).
+2. how do you decide who gets the front seat?
+3. Let's play "Don't Blink." (Inhibiting the blink reflex!).

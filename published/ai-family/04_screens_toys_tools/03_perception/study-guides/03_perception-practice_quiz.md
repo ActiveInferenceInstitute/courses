@@ -1,51 +1,32 @@
-# Practice Quiz: Perception
+# Practice Quiz: Screens and Senses
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Perception** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What is a Pixel?**
+    A) A tiny fairy.
+    B) A dot of light on a screen.
+    C) A pickle.
 
-2. In Family, Perception is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **How many colors make up a TV picture?**
+    A) 3 (Red, Green, Blue).
+    B) 100.
+    C) 1.
 
-3. Which mathematical quantity is most central to Perception?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: A movie is just a lot of photos shown very fast.
+    * (True. Persistence of Vision).
 
-4. How does Perception relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **Why do screens use bright colors?**
+    A) To save battery.
+    B) To grab your attention.
+    C) Because they like rainbows.
 
-5. A failure in Perception would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Which sense does a screen NOT use?**
+    A) Sight.
+    B) Sound.
+    C) Smell.
 
-6. Which scale is most relevant for analyzing Perception in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Perception connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Perception** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Perception failing in a Family scenario.
-3.  How would you model Perception using a POMDP (Partially Observable Markov Decision Process)?
+1. How long can you go without looking at a screen?
+2. What is your favorite optical illusion?
+3. Why does real life look "better" than a screen? (Infinite resolution!).

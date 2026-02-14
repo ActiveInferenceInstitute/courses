@@ -1,52 +1,65 @@
-# Module 07: Communication in Family
+# Module 07: Communication — Teamwork
 
 ## Learning Objectives
 
-1.  Define **Communication** within the context of Family.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Family to the formal definition of Communication.
+1. Understand that **Teamwork** is when Agents work together.
+2. Learn about **Shared Goals** (We all want to win).
+3. Know that communication makes the team stronger than the individual.
 
-## Introduction
+## Introduction: The Ant Hill
 
-This module explores **Communication**. In the **Family** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+One ant is small.
+One ant can't carry a hot dog.
+But 100 ants? They can move a mountain!
+Teams are like Ant Hills.
+When we communicate and help each other, we become a Super Organism.
 
 ## Key Concepts
 
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
+### 1. The Pass (Sharing Data/Energy)
 
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
+In soccer, you pass the ball.
+In conversation, you pass "the mic."
+Communication is moving information from Brain A to Brain B effectively.
+A good pass makes it easy for your teammate to score.
 
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
+### 2. Coordination (Dancing Together)
 
-## Applications
+Rowing a boat requires everyone to pull at the *exact same time*.
+If one person pulls early, the boat spins.
+Teamwork is about **Synchrony**.
+We move as ONE.
 
-In Family, we see Communication manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### 3. Trust (The Glue)
 
-## Conclusion
+You have to trust that your teammate will do their job.
 
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+* The Quarterback trusts the Receiver to catch.
+* The Trapeze Artist trusts the Catcher to catch.
+No Trust = No Team.
 
-<!-- Content padding to ensure file size requirements -->
+## Activities
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 1: The Human Knot
 
-<!-- Content padding to ensure file size requirements -->
+Stand in a circle with your family/friends.
+Grab hands with two different people across the circle.
+Now... untangle the knot without letting go!
+You HAVE to communicate to solve the puzzle.
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 2: Blindfold Obstacle Course
 
-<!-- Content padding to ensure file size requirements -->
+Set up pillows on the floor (Mines).
+Player A is blindfolded.
+Player B is the Navigator.
+Player B must use words to guide Player A safely across.
+"Step left... stop... big step forward!"
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+Alone we can do so little; together we can do so much. A team is a System of Agents connected by Communication.
 
-<!-- Content padding to ensure file size requirements -->
+## References
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+* *Swimmy* by Leo Lionni
+* *Stone Soup* (Folktale about cooperation)

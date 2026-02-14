@@ -1,51 +1,59 @@
-# Practice Quiz: Action
+# Practice Quiz: Organizational Systems — Module 05: Action
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Action** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **Active inference** in an organizational context means:
+A) Thinking about what to do
+B) Changing the external environment to match the organization's predictions
+C) Collecting market data
+D) Writing a strategic plan
 
-2. In Organizations, Action is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **Epistemic action** (exploration) differs from **pragmatic action** (exploitation) in that:
+A) Epistemic action costs more
+B) Epistemic action's primary goal is to reduce uncertainty, not achieve a known objective
+C) Pragmatic action is always better
+D) Epistemic action doesn't produce any results
 
-3. Which mathematical quantity is most central to Action?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. AWS began as an epistemic action and transitioned to pragmatic action. This transition occurred when:
+A) Amazon ran out of ideas
+B) Sufficient uncertainty was resolved to justify large-scale investment in the validated model
+C) The CEO changed his mind
+D) Competitors copied the idea
 
-4. How does Action relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **Expected free energy (EFE)** combines:
+A) Revenue and cost
+B) Pragmatic value (goal achievement) and epistemic value (uncertainty reduction)
+C) Risk and return
+D) Supply and demand
 
-5. A failure in Action would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. An execution failure where the organization continued a strategy despite negative signals is best diagnosed as:
+A) Bad luck
+B) High precision on the plan (prior) with low precision on feedback (sensory evidence)
+C) Insufficient budget
+D) Competitor sabotage
 
-6. Which scale is most relevant for analyzing Action in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+6. **Pure exploitation** (only doing what has worked before) is risky because:
+A) It is boring
+B) The organization becomes optimally adapted to a specific environment, but fragile if that environment changes
+C) It costs too much
+D) Employees become too skilled
 
-7. Action connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+7. The exploitation-exploration trade-off is fundamentally about:
+A) Hiring strategy
+B) Allocating organizational effort between leveraging proven models and developing new ones
+C) Budget cuts
+D) Time management
 
-## Part B: Short Answer
+---
 
-1.  Explain how **Action** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Action failing in a Organizations scenario.
-3.  How would you model Action using a POMDP (Partially Observable Markov Decision Process)?
+## Part B: Short Analysis
+
+1. Your company has three strategic options: (A) expand the core product into three new geographies, (B) acquire a small company in an adjacent market, (C) invest in a radically new technology platform. Evaluate each using the pragmatic value + epistemic value framework. Which has the highest expected free energy (worst)? Which has the lowest (best)? Defend your reasoning.
+
+2. A pharmaceutical company spends 90% of its R&D budget on incremental improvements to existing drugs (exploitation) and 10% on exploratory research into novel mechanisms (exploration). The CEO wants to shift to 70/30. Using the Active Inference framework, design the transition: What epistemic actions should the additional 20% fund? How would you measure their value when they may take years to produce results?
+
+3. Your organization's annual strategic plan was finalized in January. By June, a major competitor has launched a disruptive product. Your leadership is debating: "Stick to the plan" vs. "Pivot immediately." Frame this debate in Active Inference terms and propose a structured decision process.

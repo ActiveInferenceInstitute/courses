@@ -1,42 +1,12 @@
-# Study Questions: Agents
+# Course — Module 02 — Think About It
 
-1.  Define **Agents** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Agents?
-
-3.  Contrast the Classical view of Agents with the Active Inference view.
-
-4.  Develop a question that connects Agents to a real-world problem in Family.
-
-5.  Develop a question that connects Agents to a real-world problem in Family.
-
-6.  Develop a question that connects Agents to a real-world problem in Family.
-
-7.  Develop a question that connects Agents to a real-world problem in Family.
-
-8.  Develop a question that connects Agents to a real-world problem in Family.
-
-9.  Develop a question that connects Agents to a real-world problem in Family.
-
-10.  Develop a question that connects Agents to a real-world problem in Family.
-
-11.  Develop a question that connects Agents to a real-world problem in Family.
-
-12.  Develop a question that connects Agents to a real-world problem in Family.
-
-13.  Develop a question that connects Agents to a real-world problem in Family.
-
-14.  Develop a question that connects Agents to a real-world problem in Family.
-
-15.  Develop a question that connects Agents to a real-world problem in Family.
-
-16.  Develop a question that connects Agents to a real-world problem in Family.
-
-17.  Develop a question that connects Agents to a real-world problem in Family.
-
-18.  Develop a question that connects Agents to a real-world problem in Family.
-
-19.  Develop a question that connects Agents to a real-world problem in Family.
-
-20.  Develop a question that connects Agents to a real-world problem in Family.
-
+1. Why does a soccer team wear the same color? (Identity/Team Signal).
+2. What does the Goalie do? (Protects the goal).
+3. Why do we shake hands after a match? (Respect).
+4. Is it fun to win every single time? (No, it gets boring).
+5. Why do we need referees? (To be the Judge Agent).
+6. Can you play catch by yourself? (No, you need a Partner Agent).
+7. What is a "Sore Loser"? (Someone who forgets it's just a game).
+8. Why do coaches exist? (To help specific agents improve).
+9. Do robots play soccer? (Yes! RoboCup).
+10. If you could be any player in a game, who would you be?

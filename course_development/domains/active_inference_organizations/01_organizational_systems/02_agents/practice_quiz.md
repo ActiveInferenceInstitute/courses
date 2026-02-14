@@ -1,51 +1,66 @@
-# Practice Quiz: Agents
+# Practice Quiz: Organizational Systems — Module 02: Agents
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Agents** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. Under Active Inference, what makes an organization an **agent**?
 
-2. In Organizations, Agents is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+A) It has employees who think
+B) It maintains a generative model, has preferred states, acts, and learns
+C) It has a legal corporate charter
+D) It has a CEO who makes decisions
 
-3. Which mathematical quantity is most central to Agents?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+1. Organizational agency is best described as:
 
-4. How does Agents relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+A) The CEO's personal vision
+B) An emergent property of coordinated individual agents with aligned models
+C) A metaphor with no formal basis
+D) Identical to individual human agency
 
-5. A failure in Agents would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+1. What role do **incentives** play in the Active Inference framework for organizations?
 
-6. Which scale is most relevant for analyzing Agents in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+A) They increase employee satisfaction
+B) They function as precision allocators, determining which signals agents attend to
+C) They eliminate prediction error
+D) They replace the organizational generative model
 
-7. Agents connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+1. The Wells Fargo cross-selling scandal is an example of:
 
-## Part B: Short Answer
+A) Effective organizational agency
+B) Local free energy minimization misaligned with global firm-level goals
+C) Too much organizational learning
+D) Successful incentive design
 
-1.  Explain how **Agents** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Agents failing in a Organizations scenario.
-3.  How would you model Agents using a POMDP (Partially Observable Markov Decision Process)?
+1. **Roles** in an organization serve to:
+
+A) Create rigid hierarchies
+B) Partition the organizational inference task — each role specializes in sensing, modeling, or acting on a subset of the environment
+C) Eliminate the need for communication
+D) Centralize all decision-making
+
+1. **Groupthink** in Active Inference terms is best understood as:
+
+A) Too many agents in the system
+B) Excessive precision on prior beliefs, causing the organization to ignore disconfirming evidence
+C) Insufficient hierarchy
+D) Maximizing free energy
+
+1. Which of the following would MOST likely indicate a "fragmented agent"?
+
+A) Clear organizational goals aligned across all departments
+B) Regular strategic review and belief updating
+C) Subunits pursuing contradictory KPIs with no mechanism for resolution
+D) A well-defined Markov blanket
+
+---
+
+## Part B: Short Analysis
+
+1. A technology startup with 15 employees has remarkably coherent organizational agency — every employee shares the same mental model of the market, and decisions are made rapidly. As the company grows to 500 employees, this coherence degrades. Using the concept of distributed agency and the challenges of maintaining alignment across nested levels, explain why growth threatens organizational agency and propose two structural solutions.
+
+2. Consider a hospital. Identify four distinct roles (e.g., surgeon, nurse, administrator, patient liaison) and describe each one's **inference specialization** — what it senses, what model it maintains, and what actions it takes. Then identify a scenario where misalignment between these specialized agents leads to a negative patient outcome.
+
+3. Your company's board of directors wants to adopt a new corporate purpose: "We exist to minimize the free energy of our customers." Translate this statement into concrete organizational implications — what would change about the company's preferred states, sensing mechanisms, and action priorities? Is this a coherent organizational purpose, or does it contain hidden contradictions?

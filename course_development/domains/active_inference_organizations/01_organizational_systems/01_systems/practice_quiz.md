@@ -1,51 +1,66 @@
-# Practice Quiz: Systems
+# Practice Quiz: Organizational Systems — Module 01: Systems
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Systems** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. In Active Inference, what defines the boundary of an organizational system?
 
-2. In Organizations, Systems is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+A) The organizational chart
+B) The Markov blanket — the set of states mediating interactions between inside and outside
+C) The legal entity registration
+D) The physical office location
 
-3. Which mathematical quantity is most central to Systems?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+1. Which of the following is an example of a **sensory state** for a retail company?
 
-4. How does Systems relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+A) A new advertising campaign launched by the company
+B) Point-of-sale transaction data from customer purchases
+C) The company's internal employee training materials
+D) The CEO's strategic vision document
 
-5. A failure in Systems would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+1. An organization's **generative model** is best described as:
 
-6. Which scale is most relevant for analyzing Systems in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+A) Its manufacturing process
+B) Its collective understanding of how the external environment works
+C) Its annual budget
+D) Its data warehouse
 
-7. Systems connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+1. **Homeostasis** in an organizational context means:
 
-## Part B: Short Answer
+A) Maintaining the exact same strategy year after year
+B) Keeping critical business variables (cash flow, talent, satisfaction) within viable bounds
+C) Eliminating all sources of uncertainty
+D) Perfectly predicting all market movements
 
-1.  Explain how **Systems** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Systems failing in a Organizations scenario.
-3.  How would you model Systems using a POMDP (Partially Observable Markov Decision Process)?
+1. A team within a larger corporation represents a:
+
+A) Violation of the Markov blanket principle
+B) Nested system with its own Markov blanket embedded within the corporate blanket
+C) An external state of the broader organization
+D) A fixed, unchanging component
+
+1. When a company cannot directly observe customer satisfaction but must infer it from survey data and purchase patterns, this illustrates:
+
+A) A failure of the company's IT systems
+B) The fundamental nature of inference — the organization accesses hidden states only through sensory observations
+C) That customer satisfaction is unimportant
+D) The organization has no Markov blanket
+
+1. Toyota's embedded *kaizen* philosophy is an example of:
+
+A) An external state imposed by regulators
+B) A sensory state that enters the organization
+C) An internal state — deeply embedded knowledge that shapes organizational behavior
+D) An active state directed at the market
+
+---
+
+## Part B: Short Analysis
+
+1. A technology company discovers that its largest competitor has launched a product identical to one it has been developing in stealth mode for two years. Using the Markov blanket framework, analyze how this "sensory signal" (the market news) will propagate through the organization's internal states and result in changes to its active states (strategic actions). What factors determine how quickly and effectively the organization responds?
+
+2. An established brick-and-mortar retailer is struggling to compete with online platforms. The CEO says: "We need to completely rethink our boundaries — what's inside and outside our organization." Using the concept of the organizational Markov blanket, propose three specific changes to the company's boundary (sensory states, active states, or internal states) that could help it adapt.
+
+3. You are managing the integration of two companies following a merger. Division A (from the acquiring company) and Division B (from the acquired company) have very different cultures, processes, and customer bases. Using the nested systems framework, describe the challenges of merging their Markov blankets. What happens when two internal states (e.g., two conflicting corporate cultures) must become one? Propose a phased approach to integration.

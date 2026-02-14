@@ -1,51 +1,32 @@
-# Practice Quiz: Planning
+# Practice Quiz: Coding a Game
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Planning** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What is the first step in making a game?**
+    A) Drawing the hero.
+    B) Planning (Thinking about the rules).
+    C) Eating a snack.
 
-2. In Family, Planning is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **What does "IF This, THEN That" mean?**
+    A) Creating a rule/logic.
+    B) Asking a question.
+    C) Nothing.
 
-3. Which mathematical quantity is most central to Planning?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: You have to be an adult to code.
+    * (False. Kids can code with Scratch!).
 
-4. How does Planning relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **What is a "Loop"?**
+    A) A circle.
+    B) Doing the same thing over and over.
+    C) A shoelace.
 
-5. A failure in Planning would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Why do we test our games?**
+    A) To see if they are fun and work correctly.
+    B) To break them.
+    C) To verify the physics engine.
 
-6. Which scale is most relevant for analyzing Planning in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Planning connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Planning** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Planning failing in a Family scenario.
-3.  How would you model Planning using a POMDP (Partially Observable Markov Decision Process)?
+1. What is your favorite video game character? Why?
+2. If you could give Mario a new power-up, what would it be?
+3. Why is it cool to be a "Creator" and not just a "Player"?

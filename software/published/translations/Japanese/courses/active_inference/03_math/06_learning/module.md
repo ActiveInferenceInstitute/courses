@@ -1,0 +1,65 @@
+# Module 06: Learning — Parameter Estimation, Bayesian Model Reduction, and Dirichlet Updates
+
+## Learning Objectives
+
+1. Derive **parameter learning** equations: how the A and B matrices of a POMDP are updated from experience.
+2. Derive **Bayesian Model Reduction (BMR)**: an efficient method for structure learning through post-hoc model comparison.
+3. Formalize the **Dirichlet-Categorical conjugate model** and its update rules.
+
+## Introduction
+
+Learning in Active Inference is the process of updating the generative model — both its parameters (connection strengths, likelihoods) and its structure (which variables to include). This module develops the mathematics of both parameter learning (updating sufficient statistics from experience) and structure learning via Bayesian Model Reduction.
+
+## Key Concepts
+
+### 1. Parameter Learning in the POMDP
+
+The A and B matrices of the POMDP are learned through experience. Using Dirichlet priors:
+
+**p(A_ij) = Dir(A_ij; a_ij)** — each column of A has a Dirichlet prior with concentration parameters a_ij
+
+After observing outcome o and state s, the update is:
+
+**a_ij ← a_ij + η · o_i · s_j**
+
+where η is a learning rate and o_i · s_j is the outer product encoding which outcome occurred in which state. This is the Dirichlet-Categorical conjugate update — the concentration parameters accumulate evidence.
+
+Similarly for the B matrix:
+
+**b_ijk ← b_ijk + η · s_i(t) · s_j(t-1) · u_k(t-1)**
+
+where u_k is the action taken. This updates transition probabilities conditioned on action.
+
+### 2. Bayesian Model Reduction
+
+**Bayesian Model Reduction (BMR)** (Friston et al., 2017) enables structure learning without re-fitting the model from scratch. Given a full model M₁ with posterior parameters a (after learning), BMR evaluates a reduced model M₀ with modified prior parameters ã₀:
+
+**ln p(o | M₀) - ln p(o | M₁) ≈ ln B(ã₀) - ln B(a₀) - ln B(ã) + ln B(a)**
+
+where B(·) is the multivariate beta function and ã are the posterior parameters under the reduced model:
+
+**ã = a + ã₀ - a₀**
+
+This provides an **analytic** model comparison without re-fitting — it computes the evidence for the reduced model from the learned parameters alone.
+
+### 3. Dirichlet-Categorical Conjugacy
+
+The Dirichlet distribution Dir(θ; α₁, ..., αK) is the conjugate prior for the Categorical likelihood Cat(x; θ₁, ..., θK):
+
+**p(θ | x₁:N) = Dir(θ; α₁ + n₁, ..., αK + nK)**
+
+where nₖ = ∑ᵢ 1(xᵢ = k) is the count of observations in category k. Key properties:
+
+- **Mean**: E[θₖ] = αₖ / ∑ⱼ αⱼ
+- **Variance**: decreases as the total count ∑ αₖ increases → more data = higher confidence
+- **Entropy**: decreases with more evidence → progressive refinement of beliefs
+
+## Derivation Exercises
+
+1. Derive the Dirichlet posterior update from a Categorical likelihood and Dirichlet prior using Bayes' rule.
+2. Derive the BMR evidence ratio for comparing a full model (K parameters) with a reduced model (K-1 parameters).
+3. Show that BMR with a "sleep" interpretation (evaluating model evidence during offline replay) provides a computationally efficient alternative to exhaustive model search.
+
+## Conclusion
+
+Learning is inference over parameters and structure through conjugate Bayesian updating and Bayesian Model Reduction. Together with perception (state inference) and action (policy selection), this completes the core mathematics of Active Inference. Module 07 extends the framework to multi-agent settings.

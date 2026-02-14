@@ -1,51 +1,32 @@
-# Practice Quiz: Learning
+# Practice Quiz: Bugs and Updates
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Learning** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What is a Computer Bug?**
+    A) A spider.
+    B) A mistake in the code.
+    C) A virus.
 
-2. In Family, Learning is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **What do you do when you find a bug?**
+    A) Cry.
+    B) Debug it (Fix it).
+    C) Throw the computer away.
 
-3. Which mathematical quantity is most central to Learning?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: Even the best programmers make mistakes.
+    * (True. Everyone has bugs).
 
-4. How does Learning relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **What is an Update?**
+    A) A new version of the software with fixes.
+    B) A date.
+    C) A sandwich.
 
-5. A failure in Learning would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Who fixes the bugs?**
+    A) The User.
+    B) The Developer (Programmer).
+    C) The Dog.
 
-6. Which scale is most relevant for analyzing Learning in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Learning connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Learning** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Learning failing in a Family scenario.
-3.  How would you model Learning using a POMDP (Partially Observable Markov Decision Process)?
+1. Tell me about a mistake you made today. What did you learn?
+2. If you were a video game character, what "Stats" would you want to upgrade? (Speed? Strength? Intelligence?).
+3. Why is patience important for debugging?

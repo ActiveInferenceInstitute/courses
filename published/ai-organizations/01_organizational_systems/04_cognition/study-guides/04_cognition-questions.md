@@ -1,42 +1,45 @@
-# Study Questions: Cognition
+# Organizational Systems — Module 04: Cognition — Discussion Questions
 
-1.  Define **Cognition** in your own words, specifically as it applies to Organizations.
+> 20 unique questions on organizational mental models, sensemaking, and strategic assumptions.
 
-2.  How does the Free Energy Principle constrain our understanding of Cognition?
+---
 
-3.  Contrast the Classical view of Cognition with the Active Inference view.
+1. How does framing organizational cognition as "maintaining a generative model" differ from traditional strategic planning?
 
-4.  Develop a question that connects Cognition to a real-world problem in Organizations.
+2. Nokia held the belief that "phones are hardware businesses." In Active Inference terms, what made this prior so strong that it resisted updating even in the face of the iPhone's success?
 
-5.  Develop a question that connects Cognition to a real-world problem in Organizations.
+3. What is the difference between an organization's **stated beliefs** (in strategy documents) and its **revealed beliefs** (what it actually acts on)? How would you detect the gap?
 
-6.  Develop a question that connects Cognition to a real-world problem in Organizations.
+4. Explain how **sensemaking** (Weick) maps onto Active Inference's posterior inference. What steps does an organization go through when confronted with an ambiguous signal?
 
-7.  Develop a question that connects Cognition to a real-world problem in Organizations.
+5. Why do organizations with strong priors update more slowly than those with weak priors? When is slow updating an advantage?
 
-8.  Develop a question that connects Cognition to a real-world problem in Organizations.
+6. In what sense is **groupthink** a pathology of precision? How does over-weighting consensus suppress the learning signal from dissent?
 
-9.  Develop a question that connects Cognition to a real-world problem in Organizations.
+7. The **sunk cost trap** is irrational for individuals. Is it also irrational for organizations? Could there be organizational reasons (reputation, employee morale, contractual obligations) that make it partially rational to continue failing projects?
 
-10.  Develop a question that connects Cognition to a real-world problem in Organizations.
+8. How would you design an **assumption audit** for a healthcare organization? What beliefs about patient behavior, regulation, and technology would you need to surface?
 
-11.  Develop a question that connects Cognition to a real-world problem in Organizations.
+9. Compare how a startup and a 100-year-old corporation approach cognition. Which is more likely to exhibit belief rigidity? Which is more likely to exhibit cognitive chaos?
 
-12.  Develop a question that connects Cognition to a real-world problem in Organizations.
+10. What role does **leadership** play in organizational cognition? Is the CEO's mental model the organization's mental model, or is it something more distributed?
 
-13.  Develop a question that connects Cognition to a real-world problem in Organizations.
+11. Conduct an assumption audit for your own organization. Identify the top 5 strategic assumptions. For each, specify: (a) what evidence supports it, (b) what evidence would refute it, (c) when it was last tested.
 
-14.  Develop a question that connects Cognition to a real-world problem in Organizations.
+12. Describe a time when your organization's mental model of a situation was significantly wrong. Walk through the sensemaking process: How was the error detected? How long did correction take? What organizational factors accelerated or impeded updating?
 
-15.  Develop a question that connects Cognition to a real-world problem in Organizations.
+13. Your organization has a strong belief that "customers value quality over price." Design an experiment to test this assumption without risking the core business.
 
-16.  Develop a question that connects Cognition to a real-world problem in Organizations.
+14. A new competitor enters your market with a radically different business model. Your leadership team dismisses it as "not a real competitor." Diagnose this reaction using cognitive pathology concepts and propose three interventions to force a more rigorous assessment.
 
-17.  Develop a question that connects Cognition to a real-world problem in Organizations.
+15. Compare two approaches to annual strategic planning: (a) starting from last year's plan and updating, (b) starting from a blank slate with current data. What are the Active Inference implications of each? Which is more likely to produce genuine belief updating?
 
-18.  Develop a question that connects Cognition to a real-world problem in Organizations.
+16. How does organizational structure (flat vs. hierarchical, centralized vs. decentralized) affect the speed and quality of organizational cognition?
 
-19.  Develop a question that connects Cognition to a real-world problem in Organizations.
+17. Organizations often conduct post-mortems after failures but rarely after successes. Using the Active Inference framework, explain why post-success analysis is equally important for updating the generative model.
 
-20.  Develop a question that connects Cognition to a real-world problem in Organizations.
+18. Design a "cognitive diversity" initiative for your organization — not just demographic diversity, but diversity of mental models. What specific steps would you take?
 
+19. An organization's generative model includes beliefs about its own capabilities. When are these self-beliefs accurate, and when do they become self-serving myths? How would you test the accuracy of your organization's capability beliefs?
+
+20. How does the concept of **model selection** (choosing between competing generative models) apply to strategic pivots? When should an organization abandon its existing model for a completely new one, and when should it try to refine the existing model?

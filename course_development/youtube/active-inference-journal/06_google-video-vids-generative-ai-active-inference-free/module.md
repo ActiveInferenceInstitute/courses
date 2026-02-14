@@ -1,52 +1,10 @@
-# Module 06: Learning in Youtube
+# Google Video Vids Generative AI ~ Active Inference & Free Energy Principle EXPLAINED
 
-## Learning Objectives
+> **Source**: [YouTube](https://www.youtube.com/watch?v=U6Edc13EQ_k)
+> **Playlist**: Active Inference Journal
+> **Duration**: 3:00 | **Uploaded**: Unknown
+> **Transcript method**: auto_caption
 
-1.  Define **Learning** within the context of Youtube.
-2.  Analyze how Learning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Youtube to the formal definition of Learning.
+---
 
-## Introduction
-
-This module explores **Learning**. In the **Youtube** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
-
-## Key Concepts
-
-### 1. Learning as a Markov Blanket Boundary
-How does Learning define the boundary between the agent and the environment?
-
-### 2. Generative Models of Learning
-What parameters involved in Learning must be optimized to minimize variational free energy?
-
-### 3. Active Inference Dynamics
-How does the process of Learning drive the perception-action loop?
-
-## Applications
-
-In Youtube, we see Learning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
-
-## Conclusion
-
-Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+all right today's July 15th 2024 and I got access to the Google Docs video system so thought it'd be fun to share where one prompt got me with no further editing the prompt I provided to the generator was informative accessible educational material for active inference in the free energy principle starts with a question of multi-agent coordination in the spatio temporal setting then Works gradually towards the variation free energy as proximate tractable objective SL imperative so I'm going to hit play on the site here and then I'm going to read from the script on the right okay here we go in this video we will explore active inference and the free energy principle a powerful framework for understanding multi-agent coordination in spatial temporal settings active inference in the free energy principle proposed that organisms and agents continuously minimize a quantity called free energy to predict future States and adapt their Behavior accordingly in multi-agent coordination each agent has its own internal model of the world and its own set of actions the goal is for each agent to coordinate its actions with others to achieve a common goal active inference and the free energy principle provide a framework for understanding how agents can coordinate their actions in a spatio temporal setting variational free energy is a tractable objective function motion that can be used to approximate the true free energy of a system minimizing free energy is a means to predict future States and adapt Behavior accordingly by minimizing free energy agents can predict future States and adapt their behavior to achieve their goals active inference in the free energy principle have applications in a wide range of fields including robotics neuroscience and artificial intelligence in robotics active inference can be used to develop robots that can learn to coordinate their actions with each other and with [Music] humans in Neuroscience active inference can be used to understand how the brain processes information and makes decisions an artificial intelligence active inference can be used to develop AI systems that can learn to adapt to their envir and achieve their goals active inference and the free energy principle offer a powerful framework for understanding multi-agent coordination in a spatial temporal setting variational free energy provides a tractable objective for active inference principle have applications in a wide range of fields including robotics intelligence all right cool video thanks Google looking forward to see where all this goes thanks for watching bye

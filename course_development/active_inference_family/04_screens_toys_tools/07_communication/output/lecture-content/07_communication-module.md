@@ -1,52 +1,65 @@
-# Module 07: Communication in Family
+# Module 07: Communication — Social Media and Sharing
 
 ## Learning Objectives
 
-1.  Define **Communication** within the context of Family.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Family to the formal definition of Communication.
+1. Understand that **Communication** combines Words, Pictures, and Emojis.
+2. Learn about **Digital Footprints** (What you share stays forever).
+3. Know that **Kindness** matters online just as much as offline.
 
-## Introduction
+## Introduction: The Digital Billboard
 
-This module explores **Communication**. In the **Family** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Imagine if you wrote a note to your friend...
+But then you pasted it on a giant billboard.
+Everyone could see it.
+Grandma, your teacher, a stranger.
+That is **Social Media**.
+When you post, you are shouting to the world.
 
 ## Key Concepts
 
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
+### 1. The Post (Broadcasting)
 
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
+In real life, we whisper or talk.
+Online, we "Post."
+A Post travels instantly to thousands of screens.
+Think before you post: "Is this true? Is this helpful? Is this kind?"
 
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
+### 2. The Feedback (Likes and Comments)
 
-## Applications
+Why do we like getting "Likes"?
+It gives our brain a happy chemical (Dopamine).
+But don't let Likes control you.
+You are awesome even if you get zero likes.
 
-In Family, we see Communication manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### 3. Cyberbullying (The Mean Screen)
 
-## Conclusion
+It is easy to be mean when you can't see someone's face.
+But words on a screen still hurt.
+Rule: If you wouldn't say it to their face, don't type it.
 
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+## Activities
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 1: The Emoji Decoder
 
-<!-- Content padding to ensure file size requirements -->
+Write a sentence using ONLY emojis.
+😀 🍔 ➡️ 😴
+(I ate a burger and went to sleep).
+Can your parent guess what it means?
+Emojis are a new language of emotion.
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 2: The Toothpaste Tube
 
-<!-- Content padding to ensure file size requirements -->
+Take a tube of toothpaste.
+Squeeze all of it out onto a plate.
+Now... try to put it back in.
+You can't.
+That is like a Post. Once it is out, you can't take it back.
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+The Internet is a powerful microphone. Use your voice to spread kindness, not meanness.
 
-<!-- Content padding to ensure file size requirements -->
+## References
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+* *The Technology Tail* by Julia Cook
+* *Nerdy Birdy* by Aaron Reynolds

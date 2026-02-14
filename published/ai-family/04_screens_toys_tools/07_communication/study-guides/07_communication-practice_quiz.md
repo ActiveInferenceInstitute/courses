@@ -1,51 +1,32 @@
-# Practice Quiz: Communication
+# Practice Quiz: Social Media and Sharing
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Communication** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What is a Digital Footprint?**
+    A) A dirty shoe.
+    B) The trail of things you post online that stays forever.
+    C) A robot foot.
 
-2. In Family, Communication is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **Why do people use Emojis?**
+    A) Because they can't spell.
+    B) To show how they feel (Add emotion).
+    C) To draw pictures.
 
-3. Which mathematical quantity is most central to Communication?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: It is okay to be mean online because nobody knows it's you.
+    * (False. Always be kind).
 
-4. How does Communication relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **What should you do if someone is mean to you online?**
+    A) Be mean back.
+    B) Tell an adult and block them.
+    C) Cry silently.
 
-5. A failure in Communication would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Before you post, you should:**
+    A) Close your eyes.
+    B) THINK (Is it True/Helpful/Inspiring/Necessary/Kind?).
+    C) Eat a snack.
 
-6. Which scale is most relevant for analyzing Communication in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Communication connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Communication** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Communication failing in a Family scenario.
-3.  How would you model Communication using a POMDP (Partially Observable Markov Decision Process)?
+1. Do you think life was better before smartphones?
+2. What is your favorite emoji? What does it mean to you?
+3. Why is it important to put the phone down sometimes?

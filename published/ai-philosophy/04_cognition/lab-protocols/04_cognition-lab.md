@@ -1,0 +1,87 @@
+# Lab: Thought Experiment — The Dark Room and the Nature of Cognition
+
+## Objective
+
+Explore the philosophical implications of treating cognition as inference through the lens of the dark room problem, precision dynamics, and the relationship between cognition and consciousness.
+
+## Part 1: The Dark Room Challenge
+
+**Goal**: Engage directly with the most famous objection to Active Inference.
+
+"If an Active Inference agent minimizes surprise, it should seek out the most predictable environment — a dark, silent, empty room — and remain there forever."
+
+- State this objection in your own words. Why is it considered powerful?
+- Present the standard Active Inference response (prior preferences / C vector).
+- Evaluate: Does the response fully resolve the problem, or does it merely push it back one step (i.e., where do prior preferences come from)?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 2: Precision and the Experience of Attention
+
+**Goal**: Connect the formal concept of precision to the phenomenology of attention.
+
+Perform a brief phenomenological exercise: Focus intently on a single word on this page for 30 seconds, then let your attention relax to the room around you.
+
+- Describe the phenomenological difference between focused and relaxed attention.
+- How does the concept of precision (up-weighting certain prediction errors, down-weighting others) capture this experience?
+- Is precision "the same thing as" attention, or merely an analogy? Defend your answer.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 3: Beliefs Without Consciousness
+
+**Goal**: Probe the relationship between belief and awareness.
+
+Consider blindsight — a neurological condition in which patients deny seeing stimuli in their blind field but can nevertheless "guess" their location far above chance.
+
+- Does the blindsight patient have a "belief" about the stimulus location in the Active Inference sense (a posterior distribution)?
+- If yes, this is a belief without conscious awareness. What does this imply about the nature of belief?
+- Is it philosophically coherent to attribute beliefs to unconscious systems (thermostats, bacteria)?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 4: The Self as Inference
+
+**Goal**: Apply the Active Inference framework reflexively.
+
+If cognition is inference, then the experience of having a "self" might also be an inference — the brain's best model of its own Markov Blanket.
+
+- What would it mean for the self to be a "belief" rather than a fact?
+- How does this relate to Buddhist accounts of *anattā* (no-self)?
+- Is a self that is "merely" an inference any less real than a self that is a substance?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 5: Synthesis and Position Defense
+
+**Goal**: Develop a philosophical position on the nature of cognition.
+
+Write a 200-word statement on one of the following:
+
+- "The dark room problem shows that Active Inference is incomplete as a theory of cognition."
+- "Precision is the bridge between the physics of the brain and the phenomenology of consciousness."
+- "If beliefs are probability distributions, there is no hard problem of consciousness — only a hard problem of precision."
+
+Share with a peer and defend against their strongest objection.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Lab Summary
+
+| Part | Skill Developed | Key Philosophical Move |
+|------|----------------|----------------------|
+| 1 | Objection analysis | Engaging with the dark room problem as a test of theoretical completeness |
+| 2 | Phenomenological reflection | Connecting formal precision to the lived experience of attention |
+| 3 | Conceptual boundary testing | Probing whether beliefs require consciousness |
+| 4 | Reflexive analysis | Applying the inferential framework to the concept of self |
+| 5 | Position defense | Articulating and defending a view on cognition under challenge |

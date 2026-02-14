@@ -1,23 +1,39 @@
-# Lab: Exploring Cognition
+# Lab: The Paper Search Engine
 
-## Objective
+## Goal
 
-Design and simulate a simple agent that demonstrates the principles of **Cognition**.
+To understand how a Search Engine Indexes information.
 
-## Prerequisites
+## What You Need
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Cognition.
+* 20 Index Cards.
+* Books/Magazines.
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Family.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Cognition.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Cognition (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+### 1. The Indexing (The Crawler)
 
-## Discussion Requirements
+Look through the books.
+Write down a keyword on a card ("Dinosaur", "Space", "Cake").
+Write the Page Number where you found it.
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Cognition.
+### 2. The Sorting
+
+Put the cards in Alphabetical Order.
+This is what Google does. It organizes the words so it can find them fast.
+
+### 3. The Search
+
+Ask a friend: "Find me a Dinosaur."
+Instead of looking through every book, look at the Index Cards.
+D -> Dinosaur -> Page 42.
+Boom! Fast retrieval.
+
+## Discussion
+
+* How long would it take to find the dinosaur without the index?
+* This is why we need computers to organize the world's data.
+
+## What We Learned
+
+Algorithms help us organize chaos into order.

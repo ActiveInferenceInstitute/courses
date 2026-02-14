@@ -776,47 +776,228 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lecture_content">
-<div><h1>Module 05: Action in Organizations</h1>
+<div><h1>Strategic Execution: Organizational Action and Active Inference</h1>
+<h2>Executive Summary</h2>
+<p>Strategy without execution is hallucination. Under Active Inference, <strong>action</strong> is the process of changing the external world to match the organization's predictions — making the world look like what the firm expects and wants. This module examines how organizations act: deploying resources, launching products, executing strategies, and shaping their environment. We explore the critical distinction between <strong>active inference</strong> (changing the world) and <strong>perceptual inference</strong> (changing beliefs), and how organizations must balance exploitation of known strategies with exploration of new possibilities.</p>
+<hr />
 <h2>Learning Objectives</h2>
 <ol>
-<li>Define <strong>Action</strong> within the context of Organizations.</li>
-<li>Analyze how Action interacts with other components of the Active Inference framework.</li>
-<li>Apply specific constraints of Organizations to the formal definition of Action.</li>
+<li>Define organizational action as <strong>active inference</strong> — changing the environment to reduce prediction error</li>
+<li>Distinguish between <strong>pragmatic action</strong> (achieving goals) and <strong>epistemic action</strong> (reducing uncertainty)</li>
+<li>Understand <strong>policy selection</strong> as the process of choosing among strategic options using expected free energy</li>
+<li>Analyze execution failures through the Active Inference lens</li>
+<li>Apply the <strong>exploitation-exploration trade-off</strong> to real strategic decisions</li>
 </ol>
-<h2>Introduction</h2>
-<p>This module explores <strong>Action</strong>. In the <strong>Organizations</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<hr />
 <h2>Key Concepts</h2>
-<h3>1. Action as a Markov Blanket Boundary</h3>
-<p>How does Action define the boundary between the agent and the environment?</p>
-<h3>2. Generative Models of Action</h3>
-<p>What parameters involved in Action must be optimized to minimize variational free energy?</p>
-<h3>3. Active Inference Dynamics</h3>
-<p>How does the process of Action drive the perception-action loop?</p>
+<h3>1. Action as Active Inference</h3>
+<p>When an organization acts, it changes the external environment to better match its generative model's predictions. This is the flip side of perception — instead of changing beliefs to match the world, the organization changes the world to match beliefs:</p>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Prediction</th>
+<th>Action (Active Inference)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"We will be the market leader in EVs"</td>
+<td>30% market share by 2028</td>
+<td>Invest $2B in battery factories, hire 5,000 engineers</td>
+</tr>
+<tr>
+<td>"Customers want faster delivery"</td>
+<td>Next-day delivery as standard</td>
+<td>Build regional distribution centers, acquire delivery fleet</td>
+</tr>
+<tr>
+<td>"Our brand stands for quality"</td>
+<td>Premium pricing justified</td>
+<td>Increase QA investment, spotlight craftsmanship in marketing</td>
+</tr>
+</tbody>
+</table>
+<h3>2. Pragmatic vs. Epistemic Action</h3>
+<p>Not all organizational actions aim to achieve a known goal. Some aim to <strong>learn</strong>:</p>
+<p><strong>Pragmatic actions</strong> (exploitation): Deploying known strategies to achieve predicted outcomes</p>
+<ul>
+<li>Scaling proven products into established markets</li>
+<li>Optimizing existing processes for efficiency</li>
+<li>Executing the current strategic plan</li>
+</ul>
+<p><strong>Epistemic actions</strong> (exploration): Generating information to reduce uncertainty</p>
+<ul>
+<li>Running market experiments or pilot programs</li>
+<li>A/B testing new approaches</li>
+<li>Entering test markets before full commitment</li>
+<li>Acquiring a company primarily for its knowledge</li>
+</ul>
+<p><strong>Case Study — Amazon Web Services</strong>: AWS began as an epistemic action — Amazon explored whether its internal infrastructure could be offered as a service. The initial experiments reduced uncertainty about market demand and technical feasibility. Once the model was validated, AWS shifted to pragmatic action — massive investment to capture market share. The key insight: Amazon balanced exploration and exploitation across different time horizons.</p>
+<h3>3. Policy Selection: Choosing Strategic Options</h3>
+<p>In Active Inference, a <strong>policy</strong> is a sequence of actions. <strong>Expected free energy (EFE)</strong> provides the selection criterion:</p>
+<p>EFE = <strong>Pragmatic value</strong> (will this achieve our goals?) + <strong>Epistemic value</strong> (will this reduce our uncertainty?)</p>
+<p>For organizations, this translates to evaluating strategic options along two dimensions:</p>
+<table>
+<thead>
+<tr>
+<th>Strategic Option</th>
+<th>Pragmatic Value (Goal Achievement)</th>
+<th>Epistemic Value (Learning)</th>
+<th>EFE (Total)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expand into adjacent market</td>
+<td>High — leverages existing capabilities</td>
+<td>Medium — some customer uncertainty</td>
+<td>Low EFE (good)</td>
+</tr>
+<tr>
+<td>Enter a completely new industry</td>
+<td>Low — uncertain returns</td>
+<td>High — massive learning opportunity</td>
+<td>Medium EFE</td>
+</tr>
+<tr>
+<td>Optimize current operations</td>
+<td>Very high — predictable returns</td>
+<td>None — no new information</td>
+<td>Low EFE (good, but potentially brittle)</td>
+</tr>
+</tbody>
+</table>
+<h3>4. Execution Failures as Inference Failures</h3>
+<p>Most execution failures are not failures of effort — they are failures of <strong>inference</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Failure Type</th>
+<th>Description</th>
+<th>Active Inference Diagnosis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Wrong model</strong></td>
+<td>Strategy was based on incorrect assumptions</td>
+<td>Generative model predicted X; environment delivered Y</td>
+</tr>
+<tr>
+<td><strong>Insufficient sensing</strong></td>
+<td>Organization couldn't tell execution was failing</td>
+<td>Sensory states did not detect early prediction error</td>
+</tr>
+<tr>
+<td><strong>Over-commitment</strong></td>
+<td>Organization continued strategy despite negative signals</td>
+<td>High precision on plan (prior), low precision on feedback</td>
+</tr>
+<tr>
+<td><strong>Coordination failure</strong></td>
+<td>Sub-actions were misaligned</td>
+<td>Nested agents acted on different policies</td>
+</tr>
+<tr>
+<td><strong>Timing error</strong></td>
+<td>Right strategy, wrong time</td>
+<td>Model of environment dynamics (temporal states) was wrong</td>
+</tr>
+</tbody>
+</table>
+<h3>5. The Exploitation-Exploration Trade-Off</h3>
+<p>The deepest strategic tension in any organization is between exploiting what WORKS and exploring what MIGHT work. Active Inference formalizes this through expected free energy:</p>
+<ul>
+<li><strong>Pure exploitation</strong> (no epistemic value): Safe but brittle — the organization optimizes locally but becomes vulnerable to disruption</li>
+<li><strong>Pure exploration</strong> (no pragmatic value): Exciting but unsustainable — the organization learns but never captures value</li>
+<li><strong>Good strategy</strong>: Deliberately allocates a portfolio across exploitation and exploration</li>
+</ul>
+<hr />
 <h2>Applications</h2>
-<p>In Organizations, we see Action manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
-<h2>Conclusion</h2>
-<p>Understanding Action allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<h3>Action Portfolio Analysis</h3>
+<p>Classify your organization's current strategic initiatives:</p>
+<table>
+<thead>
+<tr>
+<th>Initiative</th>
+<th>Pragmatic Value</th>
+<th>Epistemic Value</th>
+<th>Time Horizon</th>
+<th>Risk Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>H/M/L</td>
+<td>H/M/L</td>
+<td>Short/Med/Long</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Is the portfolio balanced? Or is it skewed toward exploitation (safe but brittle) or exploration (exciting but unfocused)?</p>
+<hr />
+<h2>Cross-References</h2>
+<ul>
+<li>For team coordination and collective action, see <a href="../../02_collective_intelligence/05_action/module.md">Collective Intelligence: Action</a></li>
+<li>For policy selection and strategic options, see <a href="../../03_strategic_modeling/05_action/module.md">Strategic Modeling: Action</a></li>
+<li>For intelligent automation, see <a href="../../04_digital_transformation/05_action/module.md">Digital Transformation: Action</a></li>
+</ul>
+<hr />
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Organizational Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Active inference</td>
+<td>Changing the external world to match predictions (strategy execution)</td>
+</tr>
+<tr>
+<td>Pragmatic action</td>
+<td>Goal-directed action (exploitation)</td>
+</tr>
+<tr>
+<td>Epistemic action</td>
+<td>Information-seeking action (exploration)</td>
+</tr>
+<tr>
+<td>Policy selection</td>
+<td>Choosing among strategic options using expected free energy</td>
+</tr>
+<tr>
+<td>Exploitation-exploration</td>
+<td>Balancing known strategies with experimental ventures</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>References</h2>
+<ul>
+<li>March, J. G. (1991). Exploration and exploitation in organizational learning. <em>Organization Science</em>, 2(1), 71–87.</li>
+<li>Teece, D. J. (2007). Explicating dynamic capabilities. <em>Strategic Management Journal</em>, 28(13), 1319–1350.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press.</li>
+</ul></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,27 +1007,194 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Action</h1>
-<h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Action</strong>.</p>
-<h2>Prerequisites</h2>
-<ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Action.</li>
-</ul>
-<h2>Steps</h2>
+<div><h1>Lab: Action Portfolio Analysis</h1>
+<h2>Objectives</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Classify your organization's strategic initiatives by pragmatic and epistemic value, evaluate portfolio balance, and design interventions.</p>
+</blockquote>
+<hr />
+<h2>Part 1: Initiative Inventory (10 min)</h2>
+<p>List your organization's top 6–8 current strategic initiatives:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Initiative</th>
+<th>Budget/Resources</th>
+<th>Time Horizon</th>
+<th>Expected Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "List current strategic initiatives"}</p>
+<hr />
+<h2>Part 2: EFE Classification (15 min)</h2>
+<p>Classify each initiative along the pragmatic-epistemic spectrum:</p>
+<table>
+<thead>
+<tr>
+<th>Initiative</th>
+<th>Pragmatic Value (H/M/L)</th>
+<th>Epistemic Value (H/M/L)</th>
+<th>Classification</th>
+<th>Confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>Exploit / Explore / Hybrid</td>
+<td>H/M/L</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "Classify each initiative"}</p>
+<hr />
+<h2>Part 3: Portfolio Visualization (10 min)</h2>
+<p>Place each initiative on the 2×2 matrix:</p>
+<div class="codehilite"><pre><span></span><code>High Epistemic Value
+         |
+  EXPLORE|  BALANCE
+   (learn)|  (learn+earn)
+---------+-----------
+  AVOID  |  EXPLOIT
+  (neither)| (earn)
+         |
+Low                    High Pragmatic Value
+</code></pre></div>
+
+<p>{fill:textarea, placeholder: "Map initiatives onto the 2x2 matrix and describe the portfolio balance"}</p>
+<hr />
+<h2>Part 4: Gap Analysis (10 min)</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Is the portfolio over-weighted toward exploitation?</td>
+<td></td>
+</tr>
+<tr>
+<td>Is there sufficient exploration for long-term adaptation?</td>
+<td></td>
+</tr>
+<tr>
+<td>Are there initiatives in the "Avoid" quadrant (low on both)?</td>
+<td></td>
+</tr>
+<tr>
+<td>What strategic uncertainties are NOT addressed by any initiative?</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "Analyze gaps in the portfolio"}</p>
+<hr />
+<h2>Part 5: Recommendations (15 min)</h2>
+<p>Based on your analysis:</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Organizations.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Action.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Action (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>
+<p _Which="&quot;Which" and="and" be="be" expanded="expanded" fill:textarea_="fill:textarea," how_="how?&quot;" initiative="initiative" placeholder:="placeholder:" should="should"><strong>Initiative to expand</strong> (add epistemic or pragmatic value):</p>
+</li>
+<li>
+<p _Which="&quot;Which" be="be" fill:textarea_="fill:textarea," initiative="initiative" placeholder:="placeholder:" reconsidered_="reconsidered?&quot;" should="should"><strong>Initiative to question</strong> (may be in the Avoid quadrant):</p>
+</li>
+<li>
+<p _What="&quot;What" balance="balance" fill:textarea_="fill:textarea," initiative="initiative" new="new" placeholder:="placeholder:" portfolio_="portfolio?&quot;" the="the" would="would"><strong>New initiative to propose</strong> (addressing a gap):</p>
+</li>
 </ol>
-<h2>Discussion Requirements</h2>
-<ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Action.</li>
-</ul></div>
+<hr />
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total initiatives</td>
+<td></td>
+</tr>
+<tr>
+<td>Exploitation : Exploration ratio</td>
+<td></td>
+</tr>
+<tr>
+<td>Biggest strategic uncertainty not addressed</td>
+<td></td>
+</tr>
+<tr>
+<td>Recommended portfolio rebalance</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
 </div></section>
 
 <section id="practice_quiz">
@@ -856,64 +1204,73 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-practice_quiz">
-<div><h1>Practice Quiz: Action</h1>
+<div><h1>Practice Quiz: Organizational Systems — Module 05: Action</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><em> <strong>Date</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></em></p>
+<hr />
 <h2>Part A: Multiple Choice</h2>
 <ol>
 <li>
-<p>What is the primary role of <strong>Action</strong> in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket</p>
+<p><strong>Active inference</strong> in an organizational context means:
+A) Thinking about what to do
+B) Changing the external environment to match the organization's predictions
+C) Collecting market data
+D) Writing a strategic plan</p>
 </li>
 <li>
-<p>In Organizations, Action is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable</p>
+<p><strong>Epistemic action</strong> (exploration) differs from <strong>pragmatic action</strong> (exploitation) in that:
+A) Epistemic action costs more
+B) Epistemic action's primary goal is to reduce uncertainty, not achieve a known objective
+C) Pragmatic action is always better
+D) Epistemic action doesn't produce any results</p>
 </li>
 <li>
-<p>Which mathematical quantity is most central to Action?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision</p>
+<p>AWS began as an epistemic action and transitioned to pragmatic action. This transition occurred when:
+A) Amazon ran out of ideas
+B) Sufficient uncertainty was resolved to justify large-scale investment in the validated model
+C) The CEO changed his mind
+D) Competitors copied the idea</p>
 </li>
 <li>
-<p>How does Action relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment</p>
+<p><strong>Expected free energy (EFE)</strong> combines:
+A) Revenue and cost
+B) Pragmatic value (goal achievement) and epistemic value (uncertainty reduction)
+C) Risk and return
+D) Supply and demand</p>
 </li>
 <li>
-<p>A failure in Action would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy</p>
+<p>An execution failure where the organization continued a strategy despite negative signals is best diagnosed as:
+A) Bad luck
+B) High precision on the plan (prior) with low precision on feedback (sensory evidence)
+C) Insufficient budget
+D) Competitor sabotage</p>
 </li>
 <li>
-<p>Which scale is most relevant for analyzing Action in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above</p>
+<p><strong>Pure exploitation</strong> (only doing what has worked before) is risky because:
+A) It is boring
+B) The organization becomes optimally adapted to a specific environment, but fragile if that environment changes
+C) It costs too much
+D) Employees become too skilled</p>
 </li>
 <li>
-<p>Action connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above</p>
+<p>The exploitation-exploration trade-off is fundamentally about:
+A) Hiring strategy
+B) Allocating organizational effort between leveraging proven models and developing new ones
+C) Budget cuts
+D) Time management</p>
 </li>
 </ol>
-<h2>Part B: Short Answer</h2>
+<hr />
+<h2>Part B: Short Analysis</h2>
 <ol>
-<li>Explain how <strong>Action</strong> facilitates the minimization of prediction error.</li>
-<li>Provide a concrete example of Action failing in a Organizations scenario.</li>
-<li>How would you model Action using a POMDP (Partially Observable Markov Decision Process)?</li>
+<li>
+<p>Your company has three strategic options: (A) expand the core product into three new geographies, (B) acquire a small company in an adjacent market, (C) invest in a radically new technology platform. Evaluate each using the pragmatic value + epistemic value framework. Which has the highest expected free energy (worst)? Which has the lowest (best)? Defend your reasoning.</p>
+</li>
+<li>
+<p>A pharmaceutical company spends 90% of its R&amp;D budget on incremental improvements to existing drugs (exploitation) and 10% on exploratory research into novel mechanisms (exploration). The CEO wants to shift to 70/30. Using the Active Inference framework, design the transition: What epistemic actions should the additional 20% fund? How would you measure their value when they may take years to produce results?</p>
+</li>
+<li>
+<p>Your organization's annual strategic plan was finalized in January. By June, a major competitor has launched a disruptive product. Your leadership is debating: "Stick to the plan" vs. "Pivot immediately." Frame this debate in Active Inference terms and propose a structured decision process.</p>
+</li>
 </ol></div>
 </div></section>
 

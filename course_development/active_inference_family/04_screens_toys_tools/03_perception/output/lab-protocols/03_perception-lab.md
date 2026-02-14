@@ -1,23 +1,39 @@
-# Lab: Exploring Perception
+# Lab: The Thaumatrope (Bird in a Cage)
 
-## Objective
+## Goal
 
-Design and simulate a simple agent that demonstrates the principles of **Perception**.
+To trick your eyes using science (Persistence of Vision).
 
-## Prerequisites
+## What You Need
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Perception.
+* A piece of cardboard (cut into a circle).
+* String or rubber bands.
+* Markers.
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Family.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Perception.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Perception (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+### 1. Side A
 
-## Discussion Requirements
+Draw a bird on one side of the circle.
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Perception.
+### 2. Side B
+
+Draw a birdcage on the other side.
+(Make sure it's upside down relative to the bird if you flip it vertically).
+
+### 3. The Spin
+
+Poke holes in the sides of the circle.
+Tie the string.
+Twist the string tight.
+Let go! The circle spins.
+
+## Discussion
+
+* Do you see the bird INSIDE the cage?
+* Why? Your brain blends the two images.
+* This is how cartoons work!
+
+## What We Learned
+
+Our eyes are slow. Our brains are fast. They work together to perceive the world.

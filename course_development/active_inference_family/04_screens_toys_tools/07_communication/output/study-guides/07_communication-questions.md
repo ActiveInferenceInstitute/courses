@@ -1,42 +1,12 @@
-# Study Questions: Communication
+# Course — Module 07 — Think About It
 
-1.  Define **Communication** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Communication?
-
-3.  Contrast the Classical view of Communication with the Active Inference view.
-
-4.  Develop a question that connects Communication to a real-world problem in Family.
-
-5.  Develop a question that connects Communication to a real-world problem in Family.
-
-6.  Develop a question that connects Communication to a real-world problem in Family.
-
-7.  Develop a question that connects Communication to a real-world problem in Family.
-
-8.  Develop a question that connects Communication to a real-world problem in Family.
-
-9.  Develop a question that connects Communication to a real-world problem in Family.
-
-10.  Develop a question that connects Communication to a real-world problem in Family.
-
-11.  Develop a question that connects Communication to a real-world problem in Family.
-
-12.  Develop a question that connects Communication to a real-world problem in Family.
-
-13.  Develop a question that connects Communication to a real-world problem in Family.
-
-14.  Develop a question that connects Communication to a real-world problem in Family.
-
-15.  Develop a question that connects Communication to a real-world problem in Family.
-
-16.  Develop a question that connects Communication to a real-world problem in Family.
-
-17.  Develop a question that connects Communication to a real-world problem in Family.
-
-18.  Develop a question that connects Communication to a real-world problem in Family.
-
-19.  Develop a question that connects Communication to a real-world problem in Family.
-
-20.  Develop a question that connects Communication to a real-world problem in Family.
-
+1. Why is it hard to tell if someone is joking in a text? (No tone of voice).
+2. What is a "Troll"? (Someone who upsets people for fun).
+3. Why do people use filters on photos? (To change their perception).
+4. Is it rude to look at your phone while talking to someone? (Yes, "Phubbing").
+5. What is "The Cloud" doing with your data? (Storing it forever).
+6. How do YouTubers make money? (Ads and sponsors).
+7. Can you be friends with someone you never met? (Yes, digitally).
+8. Why do we use emojis? (To add emotion to text).
+9. What should you do if you see bullying online? (Report it/Tell an adult).
+10. If the internet turned off tomorrow, what would you miss most?

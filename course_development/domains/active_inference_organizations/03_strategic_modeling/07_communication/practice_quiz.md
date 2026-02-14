@@ -1,51 +1,23 @@
-# Practice Quiz: Communication
+# Practice Quiz: Strategic Modeling — Module 07: Communication
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Communication** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **Strategic narrative** is: A) A marketing brochure B) Communication designed to shape stakeholder generative models to align with the firm's strategic objectives C) A company biography D) Annual report
+2. A **credible signal** differs from cheap talk by being: A) Louder B) Costly or irreversible — hard to fake, therefore informative to recipients C) Written rather than spoken D) Official
+3. Tesla's strategic communication: A) Only targets customers B) Simultaneously shapes investor models (extending time horizons), customer models (building anticipation), and competitor models (deterring entry) C) Is traditional advertising D) Targets regulators only
+4. **Brand equity** under Active Inference is: A) A financial metric B) The precision of the shared generative model between the firm and its customers — consistency of expectations C) A logo design D) Market share
+5. **Competitive signaling** through capacity expansion works because: A) Factories are impressive B) A costly, irreversible investment credibly communicates commitment to a market C) It creates jobs D) It impresses the media
+6. **Strategic ambiguity** is rational when: A) You're confused B) Preserving optionality is more valuable than committing to a specific position C) Communication is expensive D) You have nothing to say
+7. An investor narrative is credible when: A) It's optimistic B) It's consistent with operational evidence and backed by demonstrable commitment C) It promises high returns D) The CEO is charismatic
 
-2. In Organizations, Communication is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+---
 
-3. Which mathematical quantity is most central to Communication?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+## Part B: Short Analysis
 
-4. How does Communication relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
-
-5. A failure in Communication would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
-
-6. Which scale is most relevant for analyzing Communication in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
-
-7. Communication connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Communication** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Communication failing in a Organizations scenario.
-3.  How would you model Communication using a POMDP (Partially Observable Markov Decision Process)?
+1. Design a strategic communication plan for a company pivoting from hardware to services. Address how the narrative should differ for: investors (patient capital needed), customers (continuity assurance), employees (new skills required), and competitors (intent signaling).
+2. Analyze a public company's last earnings call as a signaling exercise. What was the narrative? What credible signals were offered? What was cheap talk? How would a competitor interpret the signals?
+3. A startup wants to deter a large incumbent from entering its market. The startup has superior technology but limited resources. Design a signaling strategy leveraging the startup's strengths while managing its vulnerability.

@@ -1,42 +1,45 @@
-# Study Questions: Communication
+# Organizational Systems — Module 07: Communication — Discussion Questions
 
-1.  Define **Communication** in your own words, specifically as it applies to Organizations.
+> 20 unique questions on organizational communication, model alignment, and information architecture.
 
-2.  How does the Free Energy Principle constrain our understanding of Communication?
+---
 
-3.  Contrast the Classical view of Communication with the Active Inference view.
+1. How does framing communication as "model alignment" change how you think about meetings, emails, and reports?
 
-4.  Develop a question that connects Communication to a real-world problem in Organizations.
+2. What is "common ground" and why is it a prerequisite for efficient organizational communication? What happens when common ground is absent?
 
-5.  Develop a question that connects Communication to a real-world problem in Organizations.
+3. Spotify's squad-tribe-chapter-guild model creates multiple overlapping communication channels. Using Active Inference, explain why this redundancy is valuable rather than wasteful.
 
-6.  Develop a question that connects Communication to a real-world problem in Organizations.
+4. Information silos are the most cited communication failure in organizations. Using the Active Inference framework, provide a more precise diagnosis: What exactly fails when teams stop sharing information?
 
-7.  Develop a question that connects Communication to a real-world problem in Organizations.
+5. Why does information get distorted as it moves up the organizational hierarchy? What mental models and incentive structures cause this signal degradation?
 
-8.  Develop a question that connects Communication to a real-world problem in Organizations.
+6. What is the difference between "broadcasting information" (top-down) and "aligning models" (bidirectional)? Which is more common in your experience? Which is more effective?
 
-9.  Develop a question that connects Communication to a real-world problem in Organizations.
+7. How do **boundary objects** (shared documents, prototypes, dashboards) enable communication between specialists who have different generative models?
 
-10.  Develop a question that connects Communication to a real-world problem in Organizations.
+8. When does communication become pathological? How would you diagnose whether an organization has too many meetings versus too few?
 
-11.  Develop a question that connects Communication to a real-world problem in Organizations.
+9. Email overload is a universal complaint. Using the precision and relevance concepts from Active Inference, explain why most organizational email is low-precision noise rather than high-precision signal.
 
-12.  Develop a question that connects Communication to a real-world problem in Organizations.
+10. How does organizational culture affect communication patterns? Compare the communication norms of a military organization with those of a design agency.
 
-13.  Develop a question that connects Communication to a real-world problem in Organizations.
+11. Map the formal and informal communication channels in your organization. Where does the formal structure fail, and where does the informal network compensate?
 
-14.  Develop a question that connects Communication to a real-world problem in Organizations.
+12. Identify a recent miscommunication in your organization and diagnose it as a model alignment failure. Which agents had incompatible models? What common ground was missing?
 
-15.  Develop a question that connects Communication to a real-world problem in Organizations.
+13. Design an optimal meeting cadence for your team. For each meeting, specify: purpose (model sharing, belief updating, or action coordination), frequency, attendees, and success criteria.
 
-16.  Develop a question that connects Communication to a real-world problem in Organizations.
+14. Your organization is planning a major strategic change. Design a communication plan that ensures all agents (at all levels) update their generative models to align with the new strategy.
 
-17.  Develop a question that connects Communication to a real-world problem in Organizations.
+15. Remote/hybrid work has disrupted many organizations' informal communication channels. Using the concepts from this module, assess what was lost and design specific replacements.
 
-18.  Develop a question that connects Communication to a real-world problem in Organizations.
+16. A merger requires aligning the generative models of two distinct organizational cultures. Design a 90-day communication integration plan that builds common ground.
 
-19.  Develop a question that connects Communication to a real-world problem in Organizations.
+17. Your organization has a brilliant strategy document that nobody reads. Diagnose this communication failure and propose alternatives that would achieve actual model alignment.
 
-20.  Develop a question that connects Communication to a real-world problem in Organizations.
+18. How should the communication system differ between a crisis (high uncertainty, rapid model updating required) and steady-state operations (low uncertainty, incremental updates)?
 
+19. Design a "communication audit" that evaluates whether your organization's information architecture is adequate. What metrics would you measure?
+
+20. Many organizations rely on "town halls" and "all-hands meetings" as primary communication vehicles. Using the Active Inference framework, evaluate the effectiveness of these formats. Under what conditions do they succeed, and when do they fail?

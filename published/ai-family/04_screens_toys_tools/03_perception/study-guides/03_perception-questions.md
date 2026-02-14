@@ -1,42 +1,12 @@
-# Study Questions: Perception
+# Course — Module 03 — Think About It
 
-1.  Define **Perception** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Perception?
-
-3.  Contrast the Classical view of Perception with the Active Inference view.
-
-4.  Develop a question that connects Perception to a real-world problem in Family.
-
-5.  Develop a question that connects Perception to a real-world problem in Family.
-
-6.  Develop a question that connects Perception to a real-world problem in Family.
-
-7.  Develop a question that connects Perception to a real-world problem in Family.
-
-8.  Develop a question that connects Perception to a real-world problem in Family.
-
-9.  Develop a question that connects Perception to a real-world problem in Family.
-
-10.  Develop a question that connects Perception to a real-world problem in Family.
-
-11.  Develop a question that connects Perception to a real-world problem in Family.
-
-12.  Develop a question that connects Perception to a real-world problem in Family.
-
-13.  Develop a question that connects Perception to a real-world problem in Family.
-
-14.  Develop a question that connects Perception to a real-world problem in Family.
-
-15.  Develop a question that connects Perception to a real-world problem in Family.
-
-16.  Develop a question that connects Perception to a real-world problem in Family.
-
-17.  Develop a question that connects Perception to a real-world problem in Family.
-
-18.  Develop a question that connects Perception to a real-world problem in Family.
-
-19.  Develop a question that connects Perception to a real-world problem in Family.
-
-20.  Develop a question that connects Perception to a real-world problem in Family.
-
+1. Why do your eyes hurt after staring at a screen? (Blue light strain).
+2. How does a touchscreen know your finger is there? (Electricity in your skin!).
+3. Why is 4K better than HD? (More pixels = sharper image).
+4. Can you smell a picture of a flower? (No, screens only do Sight and Sound).
+5. Why do animations look "fake"? (The physics isn't perfect).
+6. What is Virtual Reality (VR)? (Tricking your brain into being somewhere else).
+7. Why are notifications red? (Red means "Danger/Look Here" to the brain).
+8. Do cats watch TV? (Sometimes, if the frame rate is high enough).
+9. Is the person on TV really there? (No, it's light).
+10. If you lived in a video game, what would you be?

@@ -1,51 +1,31 @@
-# Practice Quiz: Systems
+# Practice Quiz: Strategic Modeling — Module 01: Systems
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Systems** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. Under Active Inference, the strategic "system" is: A) The organization alone B) The firm-environment coupled system — the organization and its competitive landscape C) The industry D) The market
 
-2. In Organizations, Systems is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. Porter's "threat of new entrants" translates to: A) Hiring challenges B) The strength of the firm's competitive boundary (Markov blanket) C) Immigration policy D) New product development
 
-3. Which mathematical quantity is most central to Systems?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. Network effects create competitive advantage because: A) More internet connections B) Each new user increases the value for all existing users, creating a self-reinforcing system C) Networks are inexpensive D) They reduce competition
 
-4. How does Systems relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. Apple's App Store functions as: A) Just a revenue source B) A boundary management mechanism that regulates what enters and exits the ecosystem C) A simple website D) A marketing tool
 
-5. A failure in Systems would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. Markets function as "distributed inference environments" because: A) All firms share information B) Multiple firms simultaneously run their own generative models, and market interaction produces emergent outcomes C) Markets are predictable D) Competition is central planning
 
-6. Which scale is most relevant for analyzing Systems in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+6. An industry is a "system" when: A) Firms act independently B) Firms' actions and outcomes are interdependent — each firm's behavior affects others C) The government regulates it D) It has an industry association
 
-7. Systems connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+7. The competitive ecosystem's Markov blanket determines: A) Physical boundaries B) What information, resources, and agents flow between the firm and its environment C) Legal jurisdiction D) Market capitalization
 
-## Part B: Short Answer
+---
 
-1.  Explain how **Systems** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Systems failing in a Organizations scenario.
-3.  How would you model Systems using a POMDP (Partially Observable Markov Decision Process)?
+## Part B: Short Analysis
+
+1. A streaming video startup enters a market dominated by Netflix, Disney+, and Amazon Prime. Using Porter's Five Forces, analyze the competitive pressures facing the startup. Which forces are most threatening?
+
+2. A platform company (like Uber or Airbnb) creates value primarily through network effects. Using the Active Inference framework, explain why platform businesses tend toward winner-take-most outcomes and what a smaller competitor could do.
+
+3. Your industry is undergoing consolidation — three major competitors are merging into one. Analyze how this changes the competitive ecosystem's structure using the system dynamics concepts from this module.

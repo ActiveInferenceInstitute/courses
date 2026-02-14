@@ -1,0 +1,74 @@
+# Module 01: Systems in Crochet Circles
+
+## Where Fiber Meets World
+
+## Learning Objectives
+
+1. Identify yarn as a system with internal states (fiber composition, twist, ply) and a boundary (the skein).
+2. Describe how dye lot and environmental context shape the behavior of fiber systems.
+3. Map the Markov blanket concept onto the physical boundary between yarn and its surroundings.
+
+## Introduction
+
+Pick up a skein of yarn. Hold it in your hands. You are holding a system.
+
+In Active Inference, a **system** is anything that maintains itself as distinct from its environment — anything with an inside, an outside, and a boundary between them. That skein in your hands is a perfect example. It has internal states you can discover (fiber content, twist direction, ply count, dye chemistry), it exists within an environment (the humidity of the room, the light hitting its surface, the oils on your fingers), and it has a boundary — the surface of the yarn itself — where inside meets outside.
+
+This module explores what it means to think about yarn as a system through the lens of Active Inference. We will discover that the fiber arts have always been an intuitive practice of systems thinking, even if we never called it that.
+
+## Key Concepts
+
+### 1. The Skein as a Bounded System
+
+Every system in Active Inference has a **Markov blanket** — a statistical boundary that separates internal states from external states. In the world of yarn, the skein itself is a beautiful physical analogy for this idea.
+
+Consider a wound skein of merino wool sitting on your shelf. Inside the skein, the yarn maintains its own character: the twist holds, the fibers interlock, the dye penetrates to a certain depth. These are the **internal states** of the system. Outside the skein, the environment does its thing — humidity rises and falls, dust settles, sunlight shifts across the room. These are the **external states**.
+
+The surface of the yarn — where fiber meets air — is the boundary. It is through this boundary that the system and its environment interact. Moisture passes through the fiber surface and changes how the yarn feels. Light hits the surface and fades the dye. Your fingers press against it and the twist responds.
+
+In Active Inference terms, the Markov blanket of the yarn system includes:
+- **Sensory states**: how the yarn absorbs and responds to environmental influences (moisture uptake, light absorption, temperature response)
+- **Active states**: how the yarn's internal structure influences its environment (the halo of a mohair yarn reaching outward, the spring of a superwash bouncing back against your grip)
+
+### 2. Internal States: What Makes This Yarn *This* Yarn
+
+The internal states of a yarn system are everything that gives it its particular character:
+
+- **Fiber composition**: Is it wool, cotton, silk, acrylic, or a blend? Each fiber type is a different kind of generative model — it generates different behaviors, different textures, different responses to the environment. Wool felts when agitated in warm water. Cotton relaxes and grows. Silk drapes and shimmers. Acrylic remembers its shape through the wash.
+
+- **Twist**: The direction (S-twist or Z-twist) and tightness of the twist are fundamental internal parameters. A tightly twisted yarn resists splitting and produces crisp stitch definition. A loosely twisted yarn is soft and pillowy but splits easily under the hook. The twist is like a hidden variable that shapes everything the yarn does.
+
+- **Ply**: How many strands are twisted together, and how, determines the yarn's structural integrity. A single-ply yarn is energetic and slightly biased; it wants to twist in your hands. A multi-ply yarn is more balanced — the plies counteract each other, like internal states reaching equilibrium.
+
+- **Dye chemistry**: The color is not just decoration. It is a record of a chemical process — acid dyes bonding to protein fibers, reactive dyes forming covalent bonds with cellulose, pigments sitting on the surface of synthetic fibers. The dye is literally part of the system's internal state.
+
+### 3. Environmental Context: The World Around the Yarn
+
+No yarn exists in isolation. The environment shapes what the yarn does:
+
+- **Humidity**: Wool is hygroscopic — it absorbs moisture from the air, changing its weight, its drape, and its feel. A swatch crocheted in a dry winter room will measure differently than the same swatch crocheted on a humid summer day. The environment is literally changing the system's behavior.
+
+- **Temperature**: Heat relaxes protein fibers and can set synthetic ones. This is why blocking works — you are using the environment (water, steam, heat) to change the internal states of the yarn system.
+
+- **Dye lot**: Here is a concept every crocheter knows intimately. Two skeins of the "same" yarn from different dye lots are two systems that were shaped by slightly different environmental conditions during manufacturing. The dye bath temperature was slightly different, the timing varied, the water chemistry shifted. The result: two yarns that look identical in the skein but reveal their differences when worked side by side.
+
+### 4. The Skein Boundary in Practice
+
+When you reach into your stash and choose a yarn for a project, you are doing something remarkably like what Active Inference describes. You are evaluating a system: feeling its surface (sensory boundary), squeezing to assess its internal states (twist, ply, density), and predicting how it will behave in the environment of your project.
+
+The label on the skein is a kind of external generative model — it tells you what the manufacturer predicts about the yarn's behavior (gauge, fiber content, care instructions). But experienced crafters know that the label is only a starting point. The real knowledge comes from touching the yarn, swatching with it, and discovering how the system actually behaves at the boundary between your hands and the hook.
+
+## The Free Energy Principle and Fiber Systems
+
+The Free Energy Principle says that living systems maintain themselves by minimizing surprise — by staying within the range of states that keep them viable. Yarn is not alive, of course, but it does maintain structural integrity within a range of conditions. Pull too hard and the yarn breaks. Leave it in direct sunlight and the dye fades. Wash it in the wrong temperature and the fibers felt or melt.
+
+As a crocheter, you are the active inference agent who keeps the yarn system within its viable range. You choose appropriate tension. You store yarn away from light. You follow (or wisely ignore) the care label. You are, in effect, minimizing free energy on behalf of the yarn — keeping it in the states where it can be what it is.
+
+## Conclusion
+
+Every skein of yarn is a system with a boundary, internal states, and an environmental context. Learning to see yarn this way — not just as a material to use but as a system to understand — is the first step in connecting the fiber arts to Active Inference. In the next module, we will turn our attention to the agent in this system: the crocheter's hands.
+
+## Connections
+
+- **Next Module**: [Agents — Hands That Know the Yarn](../02_agents/module.md)
+- **Course Home**: [Fiber & Flow](../README.md)

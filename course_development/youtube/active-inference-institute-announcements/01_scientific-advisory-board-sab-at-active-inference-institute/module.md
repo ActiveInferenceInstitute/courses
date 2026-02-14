@@ -1,52 +1,10 @@
-# Module 01: Systems in Youtube
+# Scientific Advisory Board (SAB) at Active Inference Institute ~ Application open for 2024
 
-## Learning Objectives
+> **Source**: [YouTube](https://www.youtube.com/watch?v=hZBkiePQtvc)
+> **Playlist**: Active Inference Institute ~ Announcements
+> **Duration**: 1:49 | **Uploaded**: Unknown
+> **Transcript method**: auto_caption
 
-1.  Define **Systems** within the context of Youtube.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Youtube to the formal definition of Systems.
+---
 
-## Introduction
-
-This module explores **Systems**. In the **Youtube** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
-
-## Key Concepts
-
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
-
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
-
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
-
-## Applications
-
-In Youtube, we see Systems manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
-
-## Conclusion
-
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+applications are open to be on the scientific Advisory Board the Sab for the active inference Institute in 2024 this is a volunteer position that is designed to be valuable meaningful and time efficient for Sab members as well as the Institute Sab members with different skills and perspectives including a wide range of familiarity with active inference engage with the active inference ecosystem in multiple ways including joining optional monthly Sab discussion sessions to give insights and connect with other sabb members Sab members support The Institute by making connections and collaborating on philanthropic and Grant programs Sab members participate directly in ongoing Institute activities and also propose or lead education or research projects of their own like Chris fields and the physics as information processing course in 2023 and also we're always looking to Sab members to lead Alternative forms of Engagement so if there's something that's interested interesting to you then we're excited to maybe hear about it see our website active inference org scientific Advisory Board and on this page you'll see a little bit more information about the Sab you'll see our 20123 and 2022 cohorts and this 2024 will be the third cohort of the sa and you can click on this link on the site to apply directly please submit your application for 2024 sa before December 15th 2023 and let us know wherever you're seeing this video or by email at blanket active inference Institute if you have any questions thank you bye

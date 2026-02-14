@@ -1,23 +1,43 @@
-# Lab: Exploring Systems
+# Lab: Paper Computer
 
-## Objective
+## Goal
 
-Design and simulate a simple agent that demonstrates the principles of **Systems**.
+To understand how computers follow instructions (Code).
 
-## Prerequisites
+## What You Need
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Systems.
+* Paper.
+* Pencils.
+* "Robot" (A parent or friend).
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Family.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Systems.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Systems (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+### 1. The Code
 
-## Discussion Requirements
+Write a program for your Robot to draw a Smiley Face.
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Systems.
+* "Draw a big circle."
+* "Draw two small dots inside at the top."
+* "Draw a curve at the bottom."
+
+### 2. The Execution
+
+Read the code to the Robot.
+The Robot must do EXACTLY what you say.
+If you say "Draw a circle" but don't say "Pick up the pencil," the Robot might draw on the table!
+
+### 3. Debugging
+
+Did the face look right?
+If not, fix the code.
+"Pick up pencil. Move to center. Put pencil down."
+
+## Discussion
+
+* Computers are not smart. They are obedient.
+* You have to be very specific.
+* Coding is just giving clear instructions.
+
+## What We Learned
+
+Systems only do what we tell them to do.

@@ -1,42 +1,12 @@
-# Study Questions: Action
+# Course — Module 05 — Think About It
 
-1.  Define **Action** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Action?
-
-3.  Contrast the Classical view of Action with the Active Inference view.
-
-4.  Develop a question that connects Action to a real-world problem in Family.
-
-5.  Develop a question that connects Action to a real-world problem in Family.
-
-6.  Develop a question that connects Action to a real-world problem in Family.
-
-7.  Develop a question that connects Action to a real-world problem in Family.
-
-8.  Develop a question that connects Action to a real-world problem in Family.
-
-9.  Develop a question that connects Action to a real-world problem in Family.
-
-10.  Develop a question that connects Action to a real-world problem in Family.
-
-11.  Develop a question that connects Action to a real-world problem in Family.
-
-12.  Develop a question that connects Action to a real-world problem in Family.
-
-13.  Develop a question that connects Action to a real-world problem in Family.
-
-14.  Develop a question that connects Action to a real-world problem in Family.
-
-15.  Develop a question that connects Action to a real-world problem in Family.
-
-16.  Develop a question that connects Action to a real-world problem in Family.
-
-17.  Develop a question that connects Action to a real-world problem in Family.
-
-18.  Develop a question that connects Action to a real-world problem in Family.
-
-19.  Develop a question that connects Action to a real-world problem in Family.
-
-20.  Develop a question that connects Action to a real-world problem in Family.
-
+1. Why is it hard to wait? (Dopamine craving).
+2. What happens if two cars go at a 4-way stop at the same time? (Crash).
+3. Why do we raise our hands in school? (To request a turn).
+4. Can you hold your breath? (That is inhibiting the breathing reflex).
+5. Why is "cutting in line" rude? (Stealing a turn).
+6. How do musicians play together? (They listen for their turn).
+7. What is a "False Start" in a race? (Gas pedal pressed too early).
+8. Why do we say "Ladies and Gentlemen"? (Polite ordering).
+9. Do animals take turns? (Yes, monkeys take turns grooming).
+10. If you were the King of the World, would you wait in line?

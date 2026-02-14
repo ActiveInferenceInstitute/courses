@@ -1,42 +1,12 @@
-# Study Questions: Planning
+# Course — Module 08 — Think About It
 
-1.  Define **Planning** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Planning?
-
-3.  Contrast the Classical view of Planning with the Active Inference view.
-
-4.  Develop a question that connects Planning to a real-world problem in Family.
-
-5.  Develop a question that connects Planning to a real-world problem in Family.
-
-6.  Develop a question that connects Planning to a real-world problem in Family.
-
-7.  Develop a question that connects Planning to a real-world problem in Family.
-
-8.  Develop a question that connects Planning to a real-world problem in Family.
-
-9.  Develop a question that connects Planning to a real-world problem in Family.
-
-10.  Develop a question that connects Planning to a real-world problem in Family.
-
-11.  Develop a question that connects Planning to a real-world problem in Family.
-
-12.  Develop a question that connects Planning to a real-world problem in Family.
-
-13.  Develop a question that connects Planning to a real-world problem in Family.
-
-14.  Develop a question that connects Planning to a real-world problem in Family.
-
-15.  Develop a question that connects Planning to a real-world problem in Family.
-
-16.  Develop a question that connects Planning to a real-world problem in Family.
-
-17.  Develop a question that connects Planning to a real-world problem in Family.
-
-18.  Develop a question that connects Planning to a real-world problem in Family.
-
-19.  Develop a question that connects Planning to a real-world problem in Family.
-
-20.  Develop a question that connects Planning to a real-world problem in Family.
-
+1. What is the hardest part of making a video game? (Fixing the bugs!).
+2. Why do games need rules? (To make it fair and fun).
+3. What is a "Glitch"? (A mistake in the code).
+4. Can you code without a computer? (Yes, you can write the logic on paper).
+5. What makes a game "Addictive"? (Reward loops).
+6. Who draws the art for games? (Graphic Artists).
+7. Who writes the music? (Composers).
+8. Is coding a language? (Yes, it's how we talk to machines).
+9. What happens if you delete a line of code? (The program might crash).
+10. If you made a game about your life, what would the goal be?

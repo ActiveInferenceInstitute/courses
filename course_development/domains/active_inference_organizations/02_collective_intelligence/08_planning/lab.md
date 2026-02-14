@@ -1,23 +1,89 @@
-# Lab: Exploring Planning
+# Lab: Participatory Strategy Session
 
-## Objective
+## Objectives
 
-Design and simulate a simple agent that demonstrates the principles of **Planning**.
+> **Learning Goal:** Experience and design a participatory planning process that harnesses collective intelligence for strategy development.
 
-## Prerequisites
+---
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Planning.
+## Part 1: Deliberate vs. Emergent Audit (10 min)
 
-## Steps
+Compare your organization's stated strategy with its actual patterns of behavior:
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Planning.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Planning (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+| Strategy Element | Deliberate (What's Planned) | Emergent (What Actually Happens) | Gap? |
+|-----------------|---------------------------|--------------------------------|------|
+| Key priorities | | | |
+| Resource allocation | | | |
+| New initiatives | | | |
+| Decision-making | | | |
 
-## Discussion Requirements
+{fill:textarea, placeholder: "Compare deliberate and emergent strategy"}
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Planning.
+---
+
+## Part 2: Bottom-Up Intelligence Collection (15 min, independent)
+
+Each participant independently answers:
+
+| Question | Your View |
+|----------|----------|
+| What is the most important opportunity we're missing? | |
+| What is the biggest risk we're not addressing? | |
+| What customer need is underserved? | |
+| What internal process is most broken? | |
+| If you were CEO for a day, what would you change? | |
+
+{fill:textarea, placeholder: "Provide frontline intelligence"}
+
+---
+
+## Part 3: Aggregation and Prioritization (15 min, group)
+
+Compile all individual inputs and identify patterns:
+
+| Theme | # of mentions | Consensus? (H/M/L) | Priority |
+|-------|-------------|--------------------|----------|
+| | | | |
+| | | | |
+| | | | |
+
+{fill:textarea, placeholder: "Aggregate and prioritize collective inputs"}
+
+---
+
+## Part 4: Strategy Proposal (15 min)
+
+Based on the collective intelligence gathered, draft a strategy proposal:
+
+| Element | Proposal |
+|---------|---------|
+| Top strategic priority | |
+| Key opportunity to pursue | |
+| Risk to mitigate | |
+| Resource reallocation needed | |
+| How to monitor progress | |
+
+{fill:textarea, placeholder: "Draft a collectively-informed strategy proposal"}
+
+---
+
+## Part 5: Process Reflection (5 min)
+
+| Question | Reflection |
+|----------|-----------|
+| Did the collective process surface insights that executive-only planning would miss? | |
+| What was the most surprising input? | |
+| How should this participatory process be integrated into regular planning? | |
+
+{fill:textarea, placeholder: "Reflect on the participatory planning experience"}
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Biggest gap between deliberate and emergent strategy | |
+| Most valuable bottom-up insight | |
+| Top collectively-identified priority | |
+| Recommended planning process change | |

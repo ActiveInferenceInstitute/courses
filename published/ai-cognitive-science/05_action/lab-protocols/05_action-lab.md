@@ -1,0 +1,71 @@
+# Lab: Case Study Analysis — Motor Inference and Its Disorders
+
+## Objective
+
+Analyze clinical motor cases through the Active Inference framework, connecting proprioceptive prediction to motor pathology.
+
+## Part 1: Parkinson's Disease and Motor Precision
+
+**Case**: Patient H.R., 68, presents with bilateral resting tremor (4-6 Hz), cogwheel rigidity, and bradykinesia. DaTscan confirms loss of dopaminergic neurons in the substantia nigra. L-DOPA treatment significantly improves motor symptoms but produces dyskinesias at higher doses.
+
+- Interpret the triad of symptoms (tremor, rigidity, bradykinesia) in Active Inference terms. How does dopamine loss affect motor precision?
+- Why does L-DOPA improve symptoms? (Hint: restoring dopamine → restoring precision on motor predictions.)
+- Why do dyskinesias (excessive involuntary movements) occur at high doses? (Hint: excessive precision → overconfident motor predictions.)
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 2: Functional Motor Disorder
+
+**Case**: Patient C.W., 32, presents with sudden-onset paralysis of the right arm following a workplace accident. Neurological examination and MRI reveal no structural brain or spinal cord damage. However, C.W. cannot move the arm and reports no sensation in it. Under anesthesia, passive range of motion is normal.
+
+- How does Active Inference explain functional paralysis as a "strong prior belief" about inability?
+- Why does the arm move under anesthesia? (Hint: the prior belief is not active when consciousness is suppressed.)
+- What therapeutic approach does Active Inference suggest? (Consider precision modulation, graded motor imagery, physiotherapy to generate new prediction errors.)
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 3: Saccadic Eye Movements as Epistemic Action
+
+**Case**: Eye-tracking data from a participant viewing a natural scene (a forest with a partially hidden animal) shows saccades concentrated on areas of high visual uncertainty (partially occluded regions, boundaries between objects) rather than uniformly distributed or focused on the brightest regions.
+
+- How does Expected Free Energy explain this pattern? What drives the eyes to areas of high uncertainty?
+- Compare this with a "saliency map" model (Itti & Koch, 2000) that drives saccades to areas of high visual contrast. How do the predictions differ?
+- Design a modified experiment that could distinguish between ambiguity-driven (Active Inference) and saliency-driven saccadic patterns.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 4: Motor Learning and the Reaching Task
+
+**Case**: A participant performs a visuomotor adaptation task — reaching for a target while wearing prism glasses that shift the visual field 10° to the right. Initially, reaches systematically miss the target (to the right). Over 200 trials, reaches gradually correct to accurate. When the prisms are removed, there is an "aftereffect" — reaches now miss to the left.
+
+- Interpret the adaptation process in Active Inference terms: what is being updated in the generative model?
+- Why does the aftereffect occur? (Hint: the model has been updated to expect the prism-shifted mapping.)
+- How does this relate to the concept of error-based learning vs. model-based learning?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 5: Synthesis
+
+Write a 200-word synthesis explaining how all four cases demonstrate that motor control is a form of embodied inference — prediction error minimization enacted through the body.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Lab Summary
+
+| Part | Skill Developed | Case Type |
+|------|----------------|-----------|
+| 1 | Neuropharmacological reasoning | Parkinson's disease |
+| 2 | Clinical analysis | Functional motor disorder |
+| 3 | Eye-tracking interpretation | Saccadic epistemic action |
+| 4 | Motor learning analysis | Visuomotor adaptation |
+| 5 | Integrative synthesis | Connecting motor cases to embodied inference |

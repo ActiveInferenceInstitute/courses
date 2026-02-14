@@ -1,52 +1,82 @@
-# Module 06: Learning in Organizations
+# Adaptive Strategy and Strategic Learning: How Organizations Learn to Compete
+
+## Executive Summary
+
+The most durable competitive advantage is not any particular position but the **ability to learn faster than competitors**. Under Active Inference, adaptive strategy is about continuously updating the organization's competitive model based on market feedback. This module covers strategic learning loops, adaptive advantage, the concept of dynamic capabilities (Teece), and how organizations build the capacity to evolve their strategy.
+
+---
 
 ## Learning Objectives
 
-1.  Define **Learning** within the context of Organizations.
-2.  Analyze how Learning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Organizations to the formal definition of Learning.
+1. Define **strategic learning** as updating the competitive generative model from market feedback
+2. Apply **dynamic capabilities** (Teece) — sensing, seizing, and transforming
+3. Understand **adaptive advantage** — competing on learning speed rather than static position
+4. Design **strategic experimentation** programs that generate learning
+5. Analyze how **competitive feedback loops** drive strategy evolution
 
-## Introduction
-
-This module explores **Learning**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+---
 
 ## Key Concepts
 
-### 1. Learning as a Markov Blanket Boundary
-How does Learning define the boundary between the agent and the environment?
+### 1. Dynamic Capabilities (Teece)
 
-### 2. Generative Models of Learning
-What parameters involved in Learning must be optimized to minimize variational free energy?
+| Capability | Function | Active Inference Translation |
+|-----------|----------|----------------------------|
+| **Sensing** | Identifying threats and opportunities | Perception — updating the competitive model |
+| **Seizing** | Mobilizing resources to capture opportunities | Action — policy selection under the updated model |
+| **Transforming** | Continuously reconfiguring the organization | Learning — updating the model itself, not just actions |
 
-### 3. Active Inference Dynamics
-How does the process of Learning drive the perception-action loop?
+### 2. Strategic Experimentation
 
-## Applications
+Rather than betting everything on one strategic model, organizations can run experiments:
 
-In Organizations, we see Learning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+- **Probe and learn**: Small-scale market experiments that test assumptions cheaply
+- **Portfolio of options**: Maintaining multiple strategic options while learning which is best
+- **Fail fast**: Designing experiments to produce clear results quickly
 
-## Conclusion
+**Case Study — Google's Innovation Portfolio**: Google maintains a portfolio of experiments at different scales — from small-scale "20% projects" to large bets like Waymo. This portfolio approach generates strategic learning: each experiment provides information that updates Google's model of future opportunities. The discipline is in killing experiments that don't pan out (Google Glass, Google+) rather than escalating commitment.
 
-Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 3. Competitive Learning Loops
 
-<!-- Content padding to ensure file size requirements -->
+The speed of the competitive learning loop determines how quickly a firm can adapt:
 
-<!-- Content padding to ensure file size requirements -->
+```
+Sense market → Update model → Select strategy → Execute → Observe results → Sense market...
+```
 
-<!-- Content padding to ensure file size requirements -->
+Organizations with faster loops (shorter cycle time, better feedback mechanisms, less organizational inertia) outcompete those with slower loops — even if the slower organization has more resources.
 
-<!-- Content padding to ensure file size requirements -->
+### 4. Unlearning and Strategic Renewal
 
-<!-- Content padding to ensure file size requirements -->
+Sometimes the biggest barrier to strategic learning is the organization's existing successful model. Unlearning requires:
 
-<!-- Content padding to ensure file size requirements -->
+- Acknowledging that a previously successful strategy is no longer viable
+- Actively dismantling processes and beliefs that support the old model
+- Creating space for new models to be explored
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+- For organizational learning, see [Organizational Systems: Learning](../../01_organizational_systems/06_learning/module.md)
+- For collective memory, see [Collective Intelligence: Learning](../../02_collective_intelligence/06_learning/module.md)
+- For ML model retraining, see [Digital Transformation: Learning](../../04_digital_transformation/06_learning/module.md)
 
-<!-- Content padding to ensure file size requirements -->
+---
+
+## Summary
+
+| Concept | Strategic Modeling Meaning |
+|---------|--------------------------|
+| Strategic learning | Updating the competitive model from market feedback |
+| Dynamic capabilities | Sensing + seizing + transforming |
+| Strategic experimentation | Running experiments to test strategic assumptions |
+| Competitive learning loops | Sense → update → act → observe cycle speed |
+| Strategic unlearning | Dismantling obsolete models to make room for new ones |
+
+---
+
+## References
+
+- Teece, D. J. (2007). Explicating dynamic capabilities. *Strategic Management Journal*, 28(13), 1319–1350.
+- McGrath, R. G. (2010). Business models: A discovery driven approach. *Long Range Planning*, 43(2-3), 247–261.

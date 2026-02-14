@@ -1,51 +1,23 @@
-# Practice Quiz: Perception
+# Practice Quiz: Digital Transformation — Module 03: Perception
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Perception** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **Analytics maturity** progresses from: A) Cheap to expensive B) Descriptive (what happened) → diagnostic (why) → predictive (what will happen) → prescriptive (what to do) C) Simple to complex D) Fast to slow
+2. Target's pregnancy prediction illustrates: A) Good marketing B) The data-to-decision gap — accurate analytics doesn't automatically produce good organizational action C) Privacy violation D) Technology superiority
+3. **Data quality** is fundamental because: A) Clean data looks nice B) Errors in perception propagate through all downstream inference — garbage in, garbage out C) Regulators require it D) Data is expensive
+4. **Real-time sensing** changes organizations by: A) Making them nervous B) Enabling faster inference-action cycles that can respond to the environment as it changes C) Creating more work D) Requiring more servers
+5. The best analytics investment for most organizations is: A) The most advanced AI B) Improving data quality and descriptive analytics before building predictive C) More dashboards D) Hiring data scientists
+6. **Data bias** distorts organizational perception by: A) Making data biased B) Producing systematically skewed inferences that misrepresent reality C) Being unethical D) Affecting predictions
+7. A/B testing is Active Inference because: A) It uses two groups B) It systematically tests a hypothesis by observing outcomes under different conditions, updating the organization's model C) It's experimental D) It's digital
 
-2. In Organizations, Perception is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+---
 
-3. Which mathematical quantity is most central to Perception?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+## Part B: Short Analysis
 
-4. How does Perception relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
-
-5. A failure in Perception would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
-
-6. Which scale is most relevant for analyzing Perception in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
-
-7. Perception connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Perception** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Perception failing in a Organizations scenario.
-3.  How would you model Perception using a POMDP (Partially Observable Markov Decision Process)?
+1. Your organization has 47 dashboards but executives say they "can't find the data they need." Diagnose this problem using the data-to-decision gap concept and design a solution.
+2. Design a real-time sensing system for a retail organization. Specify: what data to collect, how to process it, what decisions it informs, and how frequently.
+3. Your analytics team discovers that the training data for a customer churn model systematically underrepresents customers from certain demographics. Analyze the implications and design a remediation strategy.

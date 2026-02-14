@@ -1,42 +1,45 @@
-# Study Questions: Communication
+# Collective Intelligence — Module 07: Communication — Discussion Questions
 
-1.  Define **Communication** in your own words, specifically as it applies to Organizations.
+> 20 unique questions on cross-team communication, boundary objects, alignment workshops, and boundary spanning.
 
-2.  How does the Free Energy Principle constrain our understanding of Communication?
+---
 
-3.  Contrast the Classical view of Communication with the Active Inference view.
+1. Why is cross-team communication fundamentally harder than within-team communication? Frame the answer in terms of generative model differences.
 
-4.  Develop a question that connects Communication to a real-world problem in Organizations.
+2. How do boundary objects (Star & Griesemer) enable communication between specialists with different mental models? Give three examples from your experience.
 
-5.  Develop a question that connects Communication to a real-world problem in Organizations.
+3. Boeing's shared digital model for the 777 served as a boundary object connecting hundreds of engineering teams. What modern equivalents exist in your industry?
 
-6.  Develop a question that connects Communication to a real-world problem in Organizations.
+4. What characteristics make a good boundary spanner? Why is this role often undervalued in organizations?
 
-7.  Develop a question that connects Communication to a real-world problem in Organizations.
+5. How do alignment workshops differ from regular meetings? What specific design elements make them effective for cross-team model building?
 
-8.  Develop a question that connects Communication to a real-world problem in Organizations.
+6. When two teams have conflicting models of the same situation, how should the conflict be resolved? Through authority, evidence, negotiation, or some combination?
 
-9.  Develop a question that connects Communication to a real-world problem in Organizations.
+7. How does organizational jargon both help (within-team efficiency) and hurt (cross-team communication) model alignment?
 
-10.  Develop a question that connects Communication to a real-world problem in Organizations.
+8. Product managers are often described as boundary spanners. How does the Active Inference framework help explain what makes a good product manager?
 
-11.  Develop a question that connects Communication to a real-world problem in Organizations.
+9. How do dashboards function as boundary objects? What makes a dashboard effective for cross-team alignment versus merely decorative?
 
-12.  Develop a question that connects Communication to a real-world problem in Organizations.
+10. Assess the quality of cross-team communication in your organization. Which team-pairs communicate well? Which have the most model misalignment?
 
-13.  Develop a question that connects Communication to a real-world problem in Organizations.
+11. Identify a persistent cross-team miscommunication in your organization. Diagnose the root cause: Is it missing common ground, absent boundary objects, inadequate boundary spanners, or structural isolation?
 
-14.  Develop a question that connects Communication to a real-world problem in Organizations.
+12. Design an alignment workshop for two teams that must collaborate on a shared deliverable but have very different perspectives and vocabularies.
 
-15.  Develop a question that connects Communication to a real-world problem in Organizations.
+13. Create a boundary object (document, diagram, or prototype) that would help two specific teams in your organization communicate more effectively.
 
-16.  Develop a question that connects Communication to a real-world problem in Organizations.
+14. Your organization has multiple teams that rarely interact but whose work is interdependent. Design a communication system that creates appropriate cross-team connections without overwhelming everyone.
 
-17.  Develop a question that connects Communication to a real-world problem in Organizations.
+15. How should cross-team communication change during a crisis versus normal operations? Design protocols for both.
 
-18.  Develop a question that connects Communication to a real-world problem in Organizations.
+16. Compare three organizational structures (functional silos, cross-functional teams, matrix organization) in terms of their cross-team communication facilitation.
 
-19.  Develop a question that connects Communication to a real-world problem in Organizations.
+17. How do you build common ground between teams that have fundamentally different professional identities (e.g., engineers and lawyers, doctors and administrators)?
 
-20.  Develop a question that connects Communication to a real-world problem in Organizations.
+18. When organizations grow through acquisition, they face the challenge of aligning generative models across previously separate organizations. Design a 90-day cross-team alignment program.
 
+19. How does the choice of communication technology (email, chat, video, in-person) affect the quality of cross-team model alignment?
+
+20. Design a "communication effectiveness audit" for your organization. What would you measure, and how would you know if cross-team communication was improving?

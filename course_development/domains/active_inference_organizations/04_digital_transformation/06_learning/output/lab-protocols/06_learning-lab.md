@@ -1,23 +1,76 @@
-# Lab: Exploring Learning
+# Lab: ML Model Governance Assessment
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Assess your organization's ML maturity and design improvements to model governance and operations.
 
-Design and simulate a simple agent that demonstrates the principles of **Learning**.
+---
 
-## Prerequisites
+## Part 1: ML Maturity Assessment (10 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Learning.
+| Dimension | Current Level (1-5) | Evidence | Target |
+|-----------|-------------------|---------|--------|
+| Data management | | | |
+| Model development | | | |
+| Deployment process | | | |
+| Monitoring | | | |
+| Retraining process | | | |
+| Overall MLOps maturity | | | |
 
-## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Learning.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Learning (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
 
-## Discussion Requirements
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Learning.
+---
+
+## Part 2: Model Inventory (15 min)
+
+| Model | Purpose | Last Retrained | Monitoring in Place? | Drift Risk (H/M/L) |
+|-------|---------|---------------|---------------------|-------------------|
+| | | | Y/N | |
+| | | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: Drift Monitoring Design (15 min)
+
+For your highest-risk model:
+
+| Element | Design |
+|---------|--------|
+| Key metrics to monitor | |
+| Drift detection method | |
+| Alert thresholds | |
+| Retraining trigger | |
+| Rollback procedure | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Feedback Loop Analysis (10 min)
+
+| Model | Feedback Loop Present? | Self-Reinforcing? | Mitigation |
+|-------|----------------------|-------------------|-----------|
+| | Y/N | Y/N | |
+| | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| ML maturity level | |
+| Highest drift risk model | |
+| Priority MLOps improvement | |

@@ -1,52 +1,10 @@
-# Module 04: Cognition in Youtube
+# Projects & Measurements ~ February 8, 2024
 
-## Learning Objectives
+> **Source**: [YouTube](https://www.youtube.com/watch?v=ZeIM4mK9UuY)
+> **Playlist**: Active Inference Institute ~ Announcements
+> **Duration**: 2:03 | **Uploaded**: Unknown
+> **Transcript method**: auto_caption
 
-1.  Define **Cognition** within the context of Youtube.
-2.  Analyze how Cognition interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Youtube to the formal definition of Cognition.
+---
 
-## Introduction
-
-This module explores **Cognition**. In the **Youtube** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
-
-## Key Concepts
-
-### 1. Cognition as a Markov Blanket Boundary
-How does Cognition define the boundary between the agent and the environment?
-
-### 2. Generative Models of Cognition
-What parameters involved in Cognition must be optimized to minimize variational free energy?
-
-### 3. Active Inference Dynamics
-How does the process of Cognition drive the perception-action loop?
-
-## Applications
-
-In Youtube, we see Cognition manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
-
-## Conclusion
-
-Understanding Cognition allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+hello welcome to 2024 and we hope things are off to a good start for you we now have 14 ongoing projects at The Institute ranging from textbook and skill development groups to various research projects feel free to read about the projects and their documentation and that page which is projects. active inference coming in the next 7 Days the event name where the meeting online is being held and the calendar event if you want to add it to your own time zone and also all the projects that are active right now at the Institute this is broken out into the educational edu active organizational unit and Reiner or Research Unit within each unit there are projects that are hosted at The Institute these are open source open science type initiatives that everyone's welcome to join and contribute to to and also projects that have been proposed from the ecosystem in education and in application secondly the measurement form for reporting your updates on projects whether they are hosted at The Institute or not is now open these updates may be shared by the officers to the monthly newsletter Board of director scientific Advisory Board Etc ideally getting your exciting projects the visibility and resources that will further your work so if you have any updates from your work in the active inference ecosystem be it edits to an Institute project or epistemic foraging far field we would very much like to hear from you about this here's the project measurement form all the fields are optional and they ask things about what you've done what you measured how it contributed to active inference what you could use to take your project further otherwise thank you contact us at blanket active inference Institute with any questions thank you and onwards officers

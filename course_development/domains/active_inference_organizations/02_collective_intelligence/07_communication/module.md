@@ -1,52 +1,79 @@
-# Module 07: Communication in Organizations
+# Cross-Team Alignment and Model Sharing: How Teams Communicate Across Boundaries
+
+## Executive Summary
+
+The hardest communication problem in organizations is not within teams — it is **between teams** that have different expertise, different terminology, and different mental models. Under Active Inference, cross-team communication requires building **shared representations** that bridge different generative models. This module examines inter-team communication protocols, boundary objects, alignment workshops, and the challenge of translating across specialist boundaries.
+
+---
 
 ## Learning Objectives
 
-1.  Define **Communication** within the context of Organizations.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Organizations to the formal definition of Communication.
+1. Identify **cross-team model misalignment** as a primary source of organizational dysfunction
+2. Understand **boundary objects** as shared representations that bridge specialist models
+3. Design **alignment workshops** that build shared understanding across teams
+4. Apply **liaison roles** and **boundary spanners** to improve cross-team model sharing
+5. Evaluate communication protocols for their effectiveness in model alignment
 
-## Introduction
-
-This module explores **Communication**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+---
 
 ## Key Concepts
 
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
+### 1. The Cross-Team Communication Problem
 
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
+Each team develops its own generative model optimized for its domain — engineering thinks in technical specifications, marketing thinks in customer personas, finance thinks in P&L impact. Cross-team communication requires **translation** between these different model languages.
 
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
+### 2. Boundary Objects (Star & Griesemer)
 
-## Applications
+Boundary objects are artifacts that are shared across teams and have different meanings in each context, yet are recognizable enough to serve as a common reference:
 
-In Organizations, we see Communication manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+- **Prototypes**: Physical or digital models that engineering, design, and marketing can all relate to
+- **Customer journey maps**: Visual artifacts that connect marketing insights, product features, and support workflows
+- **Dashboards**: Shared metrics views that different teams interpret through their own models
+- **Roadmaps**: Timeline artifacts that coordinate planning across teams
 
-## Conclusion
+**Case Study — Boeing 777**: Boeing's development of the 777 used a shared digital model (CATIA) as a boundary object connecting hundreds of engineering teams. Every team worked from the same 3D representation, enabling coordination that would have been impossible with traditional paper drawings.
 
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 3. Alignment Workshops
 
-<!-- Content padding to ensure file size requirements -->
+Structured sessions designed to build shared models across team boundaries:
 
-<!-- Content padding to ensure file size requirements -->
+- **Problem framing workshops**: Teams jointly define the problem from all perspectives
+- **Assumption mapping**: Teams surface and compare their implicit beliefs
+- **Model integration sessions**: Teams explicitly build a shared representation
+- **Retrospectives**: Teams jointly learn from cross-team collaboration experiences
 
-<!-- Content padding to ensure file size requirements -->
+### 4. Boundary Spanners and Liaison Roles
 
-<!-- Content padding to ensure file size requirements -->
+Individuals who operate across team boundaries, carrying information and translating between different models:
 
-<!-- Content padding to ensure file size requirements -->
+- Product managers (bridge engineering and business)
+- Account managers (bridge internal teams and customers)
+- Integration architects (bridge technical teams)
+- Agile coaches (bridge methodology and practice)
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+- For internal communication architecture, see [Organizational Systems: Communication](../../01_organizational_systems/07_communication/module.md)
+- For stakeholder narrative strategy, see [Strategic Modeling: Communication](../../03_strategic_modeling/07_communication/module.md)
+- For API integration, see [Digital Transformation: Communication](../../04_digital_transformation/07_communication/module.md)
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
+
+| Concept | Team/Collective Meaning |
+|---------|------------------------|
+| Cross-team misalignment | Different teams have different generative models that don't translate |
+| Boundary objects | Shared artifacts that bridge specialist model differences |
+| Alignment workshops | Structured sessions for building shared cross-team models |
+| Boundary spanners | Individuals who translate across team boundaries |
+| Communication protocols | Formal mechanisms for inter-team model sharing |
+
+---
+
+## References
+
+- Star, S. L., & Griesemer, J. R. (1989). Institutional ecology, 'translations' and boundary objects. *Social Studies of Science*, 19(3), 387–420.
+- Tushman, M. L., & Scanlan, T. J. (1981). Boundary spanning individuals. *Academy of Management Journal*, 24(2), 289–305.

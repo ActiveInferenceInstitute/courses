@@ -1,51 +1,32 @@
-# Practice Quiz: Communication
+# Practice Quiz: Teamwork
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Communication** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What makes a team strong?**
+    A) Being the loudest.
+    B) Working together (Cooperation).
+    C) Having cool jerseys.
 
-2. In Family, Communication is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **Why do we pass the ball?**
+    A) Because it is hot.
+    B) To move it to a better position to score.
+    C) To get rid of it.
 
-3. Which mathematical quantity is most central to Communication?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: You can communicate without talking.
+    * (True. Hand signals, eye contact, body language).
 
-4. How does Communication relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **What happens if a rower stops rowing?**
+    A) The boat goes faster.
+    B) The boat turns or slows down (Drag).
+    C) Nothing.
 
-5. A failure in Communication would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **How do you build trust?**
+    A) Lying.
+    B) Doing what you say you will do.
+    C) Hiding.
 
-6. Which scale is most relevant for analyzing Communication in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Communication connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Communication** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Communication failing in a Family scenario.
-3.  How would you model Communication using a POMDP (Partially Observable Markov Decision Process)?
+1. Have you ever been on a team? What was your job?
+2. What is the hardest part of working in a group?
+3. Design a secret handshake with your partner.

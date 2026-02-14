@@ -1,42 +1,45 @@
-# Study Questions: Learning
+# Organizational Systems — Module 06: Learning — Discussion Questions
 
-1.  Define **Learning** in your own words, specifically as it applies to Organizations.
+> 20 unique questions on organizational learning, model updating, and learning failures.
 
-2.  How does the Free Energy Principle constrain our understanding of Learning?
+---
 
-3.  Contrast the Classical view of Learning with the Active Inference view.
+1. How does framing organizational learning as "generative model updating" differ from the traditional view of learning as "knowledge accumulation"?
 
-4.  Develop a question that connects Learning to a real-world problem in Organizations.
+2. Explain the difference between single-loop and double-loop learning with a non-business example (e.g., cooking, sports), then translate to an organizational context.
 
-5.  Develop a question that connects Learning to a real-world problem in Organizations.
+3. IBM's transformation from hardware to services required double-loop learning. Why is double-loop learning harder than single-loop? What organizational forces resist it?
 
-6.  Develop a question that connects Learning to a real-world problem in Organizations.
+4. What is a "competency trap"? Why do organizations with deep expertise in one area find it hardest to learn in adjacent areas?
 
-7.  Develop a question that connects Learning to a real-world problem in Organizations.
+5. How does the concept of "prediction error" provide a more precise definition of learning than traditional definitions? When the organization is surprised, what exactly must update?
 
-8.  Develop a question that connects Learning to a real-world problem in Organizations.
+6. Organizations often claim to have a "learning culture." Using Active Inference, define what a genuine learning culture would look like — in terms of model updating, prediction error processing, and structural support.
 
-9.  Develop a question that connects Learning to a real-world problem in Organizations.
+7. Why is **superstitious learning** (attributing success to the wrong cause) so common in organizations? How would you design a system to detect it?
 
-10.  Develop a question that connects Learning to a real-world problem in Organizations.
+8. What is the relationship between organizational hierarchy and learning speed? Do flat organizations learn faster than hierarchical ones?
 
-11.  Develop a question that connects Learning to a real-world problem in Organizations.
+9. Post-mortems after failures are common. Post-mortems after successes are rare. Using Active Inference, explain why this asymmetry is a problem.
 
-12.  Develop a question that connects Learning to a real-world problem in Organizations.
+10. How do **defensive routines** (Argyris) prevent learning? Give an example of a defensive routine you have observed in an organization.
 
-13.  Develop a question that connects Learning to a real-world problem in Organizations.
+11. Audit the learning loops in your organization. For each (operational, tactical, strategic, transformative), describe: What triggers the loop? Who is involved? What gets updated? How effective is it?
 
-14.  Develop a question that connects Learning to a real-world problem in Organizations.
+12. Describe a time when your organization failed to learn from an obvious mistake. Diagnose the failure using the categories from the module (superstitious learning, competency trap, defensive routines, learning myopia).
 
-15.  Develop a question that connects Learning to a real-world problem in Organizations.
+13. Design a "learning system" for a specific challenge in your organization. Specify the feedback loop, data collection mechanism, cadence, and decision process.
 
-16.  Develop a question that connects Learning to a real-world problem in Organizations.
+14. Your organization just completed a major project that failed to meet its objectives. Design a post-mortem process based on Active Inference principles — focusing on which model predictions were wrong, what sensory data was missed, and what model updates should result.
 
-17.  Develop a question that connects Learning to a real-world problem in Organizations.
+15. Compare how a hospital and a software company learn from errors. What structural differences explain different learning rates? What could each learn from the other's approach?
 
-18.  Develop a question that connects Learning to a real-world problem in Organizations.
+16. How does employee turnover affect organizational learning? When experienced employees leave, what happens to the generative model? Design a knowledge preservation system.
 
-19.  Develop a question that connects Learning to a real-world problem in Organizations.
+17. Your CEO wants the organization to "innovate faster." Translate this request into Active Inference terms. What specific parameters of the learning system would need to change?
 
-20.  Develop a question that connects Learning to a real-world problem in Organizations.
+18. Organizations often benchmark against competitors. Using Active Inference, explain why vicarious learning (learning from others) is valuable but potentially dangerous if the other organization's context differs from your own.
 
+19. Design an experiment to test whether your organization's quarterly business review actually produces belief updating or is primarily a performance theater ritual.
+
+20. How does the length of feedback loops affect learning quality? Compare industries with rapid feedback (e-commerce, where you see results in days) with slow feedback (pharmaceuticals, where drugs take years to develop and evaluate).

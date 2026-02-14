@@ -1,23 +1,43 @@
-# Lab: Exploring Learning
+# Lab: The Broken Maze
 
-## Objective
+## Goal
 
-Design and simulate a simple agent that demonstrates the principles of **Learning**.
+To fix a broken set of instructions (Debug).
 
-## Prerequisites
+## What You Need
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Learning.
+* Paper and pencil.
+* A simple maze drawn on paper.
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Family.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Learning.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Learning (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+### 1. Write the Code
 
-## Discussion Requirements
+Write instructions to get through the maze.
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Learning.
+* "Forward 2."
+* "Turn Right."
+* "Forward 1."
+
+### 2. Insert a Bug
+
+Purposefully change one instruction to be WRONG.
+Change "Turn Right" to "Turn Left."
+
+### 3. Run the Code (Debug)
+
+Give the instructions to a friend.
+Watch them hit a wall.
+"Error! Wall detected!"
+NOW... find the line of code that caused the crash.
+Fix it.
+
+## Discussion
+
+* Was it easy to spot the bug?
+* Sometimes bugs are hidden deep in the code.
+* Programmers spend more time debugging than writing new code!
+
+## What We Learned
+
+Debugging is a superpower.

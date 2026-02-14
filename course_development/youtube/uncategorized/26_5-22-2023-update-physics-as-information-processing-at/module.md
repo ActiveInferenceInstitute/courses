@@ -1,52 +1,10 @@
-# Module 26: Topic in Youtube
+# 5/22/2023 Update ~ "Physics as Information Processing" at Active Inference Journal
 
-## Learning Objectives
+> **Source**: [YouTube](https://www.youtube.com/watch?v=cxJuA012HvM)
+> **Playlist**: Uncategorized
+> **Duration**: 3:11 | **Uploaded**: Unknown
+> **Transcript method**: auto_caption
 
-1.  Define **Topic** within the context of Youtube.
-2.  Analyze how Topic interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Youtube to the formal definition of Topic.
+---
 
-## Introduction
-
-This module explores **Topic**. In the **Youtube** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Topic is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
-
-## Key Concepts
-
-### 1. Topic as a Markov Blanket Boundary
-How does Topic define the boundary between the agent and the environment?
-
-### 2. Generative Models of Topic
-What parameters involved in Topic must be optimized to minimize variational free energy?
-
-### 3. Active Inference Dynamics
-How does the process of Topic drive the perception-action loop?
-
-## Applications
-
-In Youtube, we see Topic manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
-
-## Conclusion
-
-Understanding Topic allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+hello and welcome everyone at the Active inference Journal we are eagerly seeking contributors who would like to help improve the transcripts named entities list and topics discussed in the ongoing Chris Fields course physics as information processing right now it's May 2023. if you're already planning to spend time on this course we hope you'll consider working with the journal as well this is a unique opportunity to build editorial skills and make high leverage open science contributions to the active inference ecosystem specifically this work entails listening carefully to the course lectures and discussions and making corrections to the AI generated transcript for this we use assembly AI for example for the transcript of the first lecture see this link here this is what the transcript looks like on the GitHub we have a markdown file that allows line by line editing and we use this markdown file as the basis for further rendering and translation into different languages as well as training on language models and other functions we're also building out the list of entities named that is people and topics so here we have people named and already from the background video and first lecture we have dozens of names that have been mentioned and we have topics discussed so this will continue to grow and that will improve the the scholarship and the relevance of this work as we know so many of the interesting topics being mentioned all the transcripts and materials related to this course will be published open source if you want to see what that looks like or what that can look like check out the earlier transcript of the mark Psalms live streams where we enrich the transcript with images and tables of content as well so this is a really important open science way to improve the impact of the live streams and the videos that we have and it is also really important for accessibility we have synchronous meetings for the active inference journal in the active inference institute's Discord on Mondays at 13 UTC although most of the work on this project is done asynchronously for example via the GitHub links above if you're interested in participating in the journal on this project please let us know by joining the journal channel on the Discord or by emailing activeinference gmail.com Dave what else would you add to this working on detailed editing of a transcript is a great way to learn the material in depth and particularly to spot things that you might have thought you understood that you didn't really understand so do it great great points totally agree all right so looking forward to people's participation here and till the next update thank you

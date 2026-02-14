@@ -1,52 +1,77 @@
-# Module 07: Communication in Organizations
+# Digital Channels and Platform Communication: Connected Organizations
+
+## Executive Summary
+
+Digital transformation fundamentally changes how organizations communicate — both internally and externally. Under Active Inference, digital communication channels are the infrastructure through which signals flow between agents. This module examines omnichannel communication, API architectures, digital collaboration platforms, and the challenge of maintaining signal quality in digitally mediated communication.
+
+---
 
 ## Learning Objectives
 
-1.  Define **Communication** within the context of Organizations.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Organizations to the formal definition of Communication.
+1. Frame **digital communication channels** as the infrastructure for organizational signal transmission
+2. Design **omnichannel** customer communication that maintains model coherence across touchpoints
+3. Understand **API architecture** as the communication protocol between digital systems
+4. Evaluate **digital collaboration tools** for their impact on organizational coordination
+5. Address **signal quality** challenges in digital communication (noise, overload, fragmentation)
 
-## Introduction
-
-This module explores **Communication**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+---
 
 ## Key Concepts
 
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
+### 1. Communication Channel Architecture
 
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
+| Channel Type | Function | Strengths | Weaknesses |
+|-------------|---------|-----------|-----------|
+| **Synchronous** (video, chat) | Real-time interaction | Immediate feedback, rich signals | Interruption, time-zone dependency |
+| **Asynchronous** (email, documents) | Time-shifted communication | Thoughtful, searchable, inclusive | Slow feedback, context loss |
+| **Broadcast** (intranet, announcements) | One-to-many | Consistent message, scalable | No feedback, low engagement |
+| **API** (system-to-system) | Machine communication | Precise, fast, automated | Brittle, requires maintenance |
 
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
+### 2. Omnichannel Communication
 
-## Applications
+**Case Study — Disney's MagicBand**: Disney's MagicBand system integrates physical (theme park), digital (app), and wearable (MagicBand) channels into a single communication architecture. The customer's model of the experience is consistent across all touchpoints: the same identity, preferences, and history visible whether interacting with a cast member, a kiosk, or the app. This omnichannel coherence is the digital communication challenge: maintaining a unified generative model across multiple touchpoints.
 
-In Organizations, we see Communication manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### 3. Internal Communication Platforms
 
-## Conclusion
+Digital collaboration tools (Slack, Teams, Notion) change organizational communication patterns:
 
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+- **Reduction of formal hierarchy**: Anyone can message anyone
+- **Channel proliferation**: Multiple parallel conversations replacing structured meetings
+- **Searchability**: Past communications become organizational memory
+- **Overload risk**: More channels = more noise, harder to find signal
 
-<!-- Content padding to ensure file size requirements -->
+### 4. API Architecture as Organizational Communication
 
-<!-- Content padding to ensure file size requirements -->
+When systems communicate through APIs, the API design is a communication design decision:
 
-<!-- Content padding to ensure file size requirements -->
+- **What data is shared** (the signals passing through the boundary)
+- **What data is private** (what stays inside the Markov blanket)
+- **Update frequency** (how often the signal refreshes)
+- **Error handling** (what happens when communication fails)
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+- For organizational communication, see [Organizational Systems: Communication](../../01_organizational_systems/07_communication/module.md)
+- For cross-team alignment, see [Collective Intelligence: Communication](../../02_collective_intelligence/07_communication/module.md)
+- For strategic narrative, see [Strategic Modeling: Communication](../../03_strategic_modeling/07_communication/module.md)
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+| Concept | Digital Transformation Meaning |
+|---------|-------------------------------|
+| Digital channels | Infrastructure for signal transmission between agents |
+| Omnichannel | Maintaining model coherence across multiple communication touchpoints |
+| API architecture | Communication protocol between digital systems |
+| Collaboration platforms | Digital tools that reshape organizational communication patterns |
+| Signal quality | Maintaining useful information amid digital noise and overload |
 
-<!-- Content padding to ensure file size requirements -->
+---
+
+## References
+
+- McAfee, A. (2006). Enterprise 2.0. *MIT Sloan Management Review*, 47(3), 21–28.
+- Orlikowski, W. J. (2000). Using technology and constituting structures. *Organization Science*, 11(4), 404–428.

@@ -1,42 +1,12 @@
-# Study Questions: Learning
+# Course — Module 06 — Think About It
 
-1.  Define **Learning** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Learning?
-
-3.  Contrast the Classical view of Learning with the Active Inference view.
-
-4.  Develop a question that connects Learning to a real-world problem in Family.
-
-5.  Develop a question that connects Learning to a real-world problem in Family.
-
-6.  Develop a question that connects Learning to a real-world problem in Family.
-
-7.  Develop a question that connects Learning to a real-world problem in Family.
-
-8.  Develop a question that connects Learning to a real-world problem in Family.
-
-9.  Develop a question that connects Learning to a real-world problem in Family.
-
-10.  Develop a question that connects Learning to a real-world problem in Family.
-
-11.  Develop a question that connects Learning to a real-world problem in Family.
-
-12.  Develop a question that connects Learning to a real-world problem in Family.
-
-13.  Develop a question that connects Learning to a real-world problem in Family.
-
-14.  Develop a question that connects Learning to a real-world problem in Family.
-
-15.  Develop a question that connects Learning to a real-world problem in Family.
-
-16.  Develop a question that connects Learning to a real-world problem in Family.
-
-17.  Develop a question that connects Learning to a real-world problem in Family.
-
-18.  Develop a question that connects Learning to a real-world problem in Family.
-
-19.  Develop a question that connects Learning to a real-world problem in Family.
-
-20.  Develop a question that connects Learning to a real-world problem in Family.
-
+1. How long does it take to become an expert? (10,000 hours?).
+2. Can you learn to fly? (No, we don't have wings. Constraints!).
+3. Why do musicians practice scales? (Basic building blocks).
+4. Is it okay to ask for help? (Yes! That is using a Coach).
+5. What is "Beginner's Luck"? (Random success, not skill).
+6. Why do videos go viral? (Social Learning).
+7. Can you learn while you sleep? (Your brain consolidates memory).
+8. What is the difference between "Talent" and "Skill"? (Talent is natural, Skill is earned).
+9. Why do we get frustrated? (Prediction Error is high).
+10. If you practice something wrong, what happens? (You learn it wrong!).

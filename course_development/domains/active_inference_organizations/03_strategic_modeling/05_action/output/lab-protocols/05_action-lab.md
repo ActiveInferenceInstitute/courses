@@ -1,23 +1,71 @@
-# Lab: Exploring Action
+# Lab: Strategic Action Portfolio Analysis
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Map, evaluate, and rebalance your organization's portfolio of strategic actions.
 
-Design and simulate a simple agent that demonstrates the principles of **Action**.
+---
 
-## Prerequisites
+## Part 1: Action Inventory (10 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Action.
+| Initiative | Type (Attack/Creation/Position/Retreat/Explore) | Investment | Expected Return | Time Horizon |
+|-----------|------------------------------------------------|-----------|----------------|-------------|
+| | | | | |
+| | | | | |
+| | | | | |
 
-## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Action.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Action (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
 
-## Discussion Requirements
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Action.
+---
+
+## Part 2: Exploitation-Exploration Balance (10 min)
+
+| Category | % of Resources | Assessment |
+|----------|---------------|-----------|
+| Exploitation (current business) | | |
+| Exploration (new opportunities) | | |
+| **Optimal balance given industry dynamics?** | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: Commitment Analysis (15 min)
+
+| Initiative | Reversibility (H/M/L) | Signal Sent to Competitors | Strategic Logic |
+|-----------|----------------------|---------------------------|----------------|
+| | | | |
+| | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Portfolio Rebalancing (15 min)
+
+| Change | Current | Proposed | Rationale |
+|--------|---------|----------|-----------|
+| Add | | | |
+| Remove | | | |
+| Increase | | | |
+| Decrease | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Current exploit/explore ratio | |
+| Biggest strategic gap | |
+| Priority action | |

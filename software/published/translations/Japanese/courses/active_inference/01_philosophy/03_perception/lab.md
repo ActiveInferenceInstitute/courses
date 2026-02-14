@@ -1,0 +1,77 @@
+# Lab: Thought Experiment — Perception as Inference
+
+## Objective
+
+Investigate the philosophical implications of treating perception as inference through structured thought experiments, phenomenological reflection, and conceptual analysis.
+
+## Part 1: The Müller-Lyer Illusion
+
+**Goal**: Examine what visual illusions reveal about the nature of perception.
+
+The Müller-Lyer illusion causes two lines of equal length to appear different due to arrowhead configurations. Even knowing the lines are equal, the illusion persists.
+
+- What does this persistence tell us about the relationship between perception and belief?
+- How would a direct realist (Gibson), a representationalist (Locke), and an inferentialist (Active Inference) each explain this illusion?
+- Which explanation do you find most satisfying, and why?
+
+{fill:textarea}
+
+## Part 2: The Expert's Eye
+
+**Goal**: Analyze perceptual learning as evidence for the inferentialist account.
+
+A radiologist can glance at a chest X-ray and immediately see a subtle mass that a novice would miss entirely. Consider:
+
+- Is the radiologist "seeing" something the novice cannot, or "interpreting" what they both see? What hangs on this distinction?
+- How does Active Inference account for this difference (hint: refined generative model, higher precision predictions)?
+- Does this example support or undermine the claim that perception is "direct"?
+
+{fill:textarea}
+
+## Part 3: Controlled Hallucination
+
+**Goal**: Probe the boundary between perception and hallucination.
+
+Anil Seth calls normal perception "controlled hallucination" — the brain generates predictions that are constrained by sensory input, but hallucinations occur when predictions dominate input.
+
+- Is there a sharp boundary between perception and hallucination, or is it a continuum?
+- What are the philosophical implications of calling all perception a form of hallucination? Does this lead to skepticism?
+- How would a pragmatist respond to this framing?
+
+{fill:textarea}
+
+## Part 4: The Veil of Predictions
+
+**Goal**: Engage with the epistemological consequences of predictive processing.
+
+If we only ever access our own predictions (updated by prediction error), are we trapped behind a "veil of predictions" — never touching reality itself? This echoes Locke's "veil of ideas" and Kant's distinction between phenomena and noumena.
+
+- Is this a genuine epistemic problem or a pseudo-problem?
+- Does the Active Inference framework provide resources to respond to skepticism that classical representationalism does not?
+- Write a 100-word response from either the pragmatist or the phenomenological perspective.
+
+{fill:textarea}
+
+## Part 5: Synthesis and Position Defense
+
+**Goal**: Develop your own view on the nature of perception.
+
+Write a 200-word position statement on one of the following:
+
+- "Perception is inference — and this is a deep truth about the nature of mind."
+- "The inferentialist account of perception is a useful scientific model but a misleading philosophical theory."
+- "Active Inference dissolves the realism/anti-realism debate about perception."
+
+Share with a peer and defend your position against their strongest objection.
+
+{fill:textarea}
+
+## Lab Summary
+
+| Part | Skill Developed | Key Philosophical Move |
+|------|----------------|----------------------|
+| 1 | Theory comparison | Applying multiple philosophical frameworks to a single phenomenon |
+| 2 | Conceptual analysis | Distinguishing perception from interpretation under inferentialism |
+| 3 | Boundary reasoning | Exploring the continuum between normal perception and hallucination |
+| 4 | Epistemological reasoning | Engaging with skeptical implications of predictive processing |
+| 5 | Position defense | Constructing a view on perception and defending it under criticism |

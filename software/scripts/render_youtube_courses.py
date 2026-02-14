@@ -107,6 +107,11 @@ def parse_args(argv=None) -> argparse.Namespace:
         help="Enumerate playlists only, save manifest, and exit",
     )
     parser.add_argument(
+        "--force-scaffold",
+        action="store_true",
+        help="Overwrite existing module.md files during scaffolding",
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Preview without writing any files",
@@ -237,6 +242,7 @@ def main(argv=None) -> int:
                 youtube_courses_dir=youtube_courses_dir,
                 course_metadata=playlist,
                 skip_whisper=args.skip_whisper,
+                force=args.force_scaffold,
             )
             total_created += scaffold_results["created"]
             total_skipped += scaffold_results["skipped"]

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>practice_quiz</title>
+</head>
+<body>
+<h1>Practice Quiz: Perception</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>The goal of state inference in Active Inference is to find $q(s)$ that minimizes:
+A) Expected Free Energy $G$
+B) Variational Free Energy $F$
+C) Entropy $H$
+D) Surprisal $S$</p>
+</li>
+<li>
+<p>In <code>run_state_inference()</code>, convergence is determined by:
+A) The VFE reaching zero
+B) The change in beliefs falling below a threshold
+C) The posterior matching the prior exactly
+D) A fixed number of iterations completing</p>
+</li>
+<li>
+<p>If the A-matrix is the identity, observing $o = 2$ in a 3-state system yields posterior:
+A) $q(s) = [1/3, 1/3, 1/3]$
+B) $q(s) = [0, 0, 1]$
+C) $q(s) = [0.5, 0.5, 0]$
+D) The result depends on the prior</p>
+</li>
+<li>
+<p><code>model.log_likelihood(obs)</code> returns:
+A) A scalar — the total log-probability of the observation
+B) A vector — $\ln A[o, :]$ for each state
+C) A matrix — the full log A-matrix
+D) The posterior distribution</p>
+</li>
+<li>
+<p>After running <code>agent.infer_states(obs)</code>, which of these is updated?
+A) <code>agent.q_s</code> only
+B) <code>agent.q_s</code> and <code>agent.history["vfe"]</code>
+C) <code>agent.q_s</code>, <code>agent.history["vfe"]</code>, and <code>agent.history["beliefs"]</code>
+D) Only <code>agent.history</code></p>
+</li>
+<li>
+<p>A prediction error of $\varepsilon = [0.15, -0.15]$ after observing $o = 0$ means:
+A) The agent predicted observation 0 perfectly
+B) The agent underestimated the probability of observation 0 by 0.15
+C) The observation was impossible under the model
+D) The agent needs to increase γ</p>
+</li>
+<li>
+<p>With a noisy A-matrix ($A = [[0.55, 0.45], [0.45, 0.55]]$) and uniform prior, the posterior after observing $o = 0$ will be:
+A) Identical to the prior
+B) Slightly favoring state 0
+C) Strongly favoring state 0
+D) Deterministic at state 0</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Given $A = [[0.8, 0.2], [0.2, 0.8]]$ and prior $q(s) = [0.5, 0.5]$, compute the posterior $q(s \mid o = 0)$ by hand using one iteration of fixed-point inference. Show your work.</p>
+</li>
+<li>
+<p>Explain why <code>agent.prediction_error(obs).sum()</code> always equals zero. What mathematical property guarantees this?</p>
+</li>
+<li>
+<p>An agent with a clear A-matrix receives observations $[0, 0, 0, 0, 0]$. After each observation, $q(s_0)$ increases. Explain why there are diminishing returns — why does the 5th observation change beliefs less than the 1st?</p>
+</li>
+</ol>
+</body>
+</html>

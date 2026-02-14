@@ -1,52 +1,83 @@
-# Module 02: Agents in Organizations
+# Competitive Agents and Stakeholder Modeling: Who Are the Players?
+
+## Executive Summary
+
+Effective strategy requires modeling not just your own organization but the **other agents** in the competitive landscape — competitors, customers, regulators, and partners. Under Active Inference, stakeholder modeling is the process of building generative models of other agents' generative models: inferring their beliefs, preferences, and likely actions. This module covers competitor analysis, customer modeling, stakeholder mapping, and the theory of mind needed for strategic interaction.
+
+---
 
 ## Learning Objectives
 
-1.  Define **Agents** within the context of Organizations.
-2.  Analyze how Agents interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Organizations to the formal definition of Agents.
+1. Explain **stakeholder modeling** as inference about other agents' generative models
+2. Apply **competitor analysis** frameworks to predict competitor behavior
+3. Build **customer models** that go beyond demographics to understand underlying inference processes
+4. Understand **theory of mind** in strategic contexts — modeling how others model you
+5. Analyze strategic interactions using **game-theoretic** reasoning under Active Inference
 
-## Introduction
-
-This module explores **Agents**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+---
 
 ## Key Concepts
 
-### 1. Agents as a Markov Blanket Boundary
-How does Agents define the boundary between the agent and the environment?
+### 1. Modeling Other Agents
 
-### 2. Generative Models of Agents
-What parameters involved in Agents must be optimized to minimize variational free energy?
+Strategic intelligence requires building models of:
 
-### 3. Active Inference Dynamics
-How does the process of Agents drive the perception-action loop?
+- **Competitors**: What do they believe? What options do they see? How will they respond to our actions?
+- **Customers**: What needs are they inferring? What alternatives are they considering? What uncertainty drives their decisions?
+- **Regulators**: What outcomes are they optimizing for? How do they interpret industry behavior?
+- **Partners/Suppliers**: What are their incentives? How reliable are they?
 
-## Applications
+### 2. Competitor Analysis
 
-In Organizations, we see Agents manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+| Dimension | Question | Active Inference Translation |
+|-----------|----------|----------------------------|
+| **Capabilities** | What can they do? | What is their action space? |
+| **Intentions** | What are they trying to achieve? | What is their generative model optimizing? |
+| **Assumptions** | What do they believe about the market? | What are their priors? |
+| **Blind spots** | What are they not seeing? | Where is their model incomplete? |
 
-## Conclusion
+**Case Study — Netflix vs. Blockbuster**: Blockbuster's model of the customer assumed that convenience of physical location and late fees were acceptable. Netflix built a different model: customers wanted convenience (mail delivery, then streaming) and resented punitive fees. Netflix didn't just compete on execution — it operated with a fundamentally different generative model of customer needs. Blockbuster's failure was a failure of stakeholder modeling.
 
-Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 3. Theory of Mind in Strategy
 
-<!-- Content padding to ensure file size requirements -->
+Strategic interaction requires recursive modeling: I model what you're likely to do, which depends on what you model I'm likely to do, which depends on what you model I model about you...
 
-<!-- Content padding to ensure file size requirements -->
+In practice: competitors model each other's strategies. The firm that builds a more accurate model of its competitor's model gains a strategic advantage.
 
-<!-- Content padding to ensure file size requirements -->
+### 4. Customer as Inference Agent
 
-<!-- Content padding to ensure file size requirements -->
+Under Active Inference, a customer is an agent who:
 
-<!-- Content padding to ensure file size requirements -->
+- Has a **generative model** of their needs and preferences
+- **Senses** the marketplace (product features, prices, reviews)
+- **Infers** which product best satisfies their model
+- **Acts** (purchases, switches, advocates)
 
-<!-- Content padding to ensure file size requirements -->
+Marketing, then, is the process of aligning the firm's signals with the customer's generative model.
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+- For internal agents, see [Organizational Systems: Agents](../../01_organizational_systems/02_agents/module.md)
+- For collective agency, see [Collective Intelligence: Agents](../../02_collective_intelligence/02_agents/module.md)
+- For AI agents, see [Digital Transformation: Agents](../../04_digital_transformation/02_agents/module.md)
 
-<!-- Content padding to ensure file size requirements -->
+---
+
+## Summary
+
+| Concept | Strategic Modeling Meaning |
+|---------|--------------------------|
+| Stakeholder modeling | Building generative models of other agents' beliefs and behavior |
+| Competitor analysis | Inferring competitors' capabilities, intentions, assumptions, and blind spots |
+| Theory of mind | Recursive modeling — modeling how others model you |
+| Customer modeling | Understanding customers as inference agents with their own generative models |
+| Game-theoretic reasoning | Strategic interaction under mutual uncertainty |
+
+---
+
+## References
+
+- Porter, M. E. (1980). *Competitive Strategy*. Free Press.
+- Christensen, C. M. (1997). *The Innovator's Dilemma*. Harvard Business Review Press.

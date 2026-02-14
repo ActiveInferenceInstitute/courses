@@ -1,23 +1,76 @@
-# Lab: Exploring Agents
+# Lab: Stakeholder Model Construction
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Build detailed models of key stakeholders — competitors, customers, and regulators.
 
-Design and simulate a simple agent that demonstrates the principles of **Agents**.
+---
 
-## Prerequisites
+## Part 1: Key Competitor Deep Dive (15 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Agents.
+| Dimension | Your Best Assessment | Evidence | Confidence (H/M/L) |
+|-----------|---------------------|---------|-------------------|
+| Capabilities | | | |
+| Intentions (3-year) | | | |
+| Key assumptions about the market | | | |
+| Blind spots | | | |
+| Most likely next move | | | |
 
-## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Agents.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Agents (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
 
-## Discussion Requirements
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Agents.
+---
+
+## Part 2: Customer Model (10 min)
+
+| Customer Dimension | Your Model | Evidence | Gap (what don't we know?) |
+|-------------------|-----------|---------|--------------------------|
+| Primary needs | | | |
+| Decision process | | | |
+| Key uncertainties in their mind | | | |
+| Alternatives they consider | | | |
+| What would make them switch | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: Recursive Analysis (10 min)
+
+| Question | Assessment |
+|----------|-----------|
+| What does our competitor believe about us? | |
+| Is their model of us accurate? | |
+| What would they be surprised to learn? | |
+| What advantage do we gain from their misperception? | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Strategic Implications (15 min)
+
+| Insight Source | Key Insight | Strategic Implication | Action |
+|--------------|------------|----------------------|--------|
+| Competitor blind spot | | | |
+| Customer model gap | | | |
+| Recursive analysis | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Most valuable competitive insight | |
+| Biggest customer model gap | |
+| Priority action | |

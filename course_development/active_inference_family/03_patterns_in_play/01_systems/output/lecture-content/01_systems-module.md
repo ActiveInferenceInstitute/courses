@@ -1,52 +1,73 @@
-# Module 01: Systems in Family
+# Module 01: Systems — The Rules of the Game
 
 ## Learning Objectives
 
-1.  Define **Systems** within the context of Family.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Family to the formal definition of Systems.
+1. Understand that a **Game** is a System made of Rules.
+2. Learn that **Boundaries** (The lines on the field) tell us where to play.
+3. Know that without Rules, there is no Game!
 
-## Introduction
+## Introduction: Chaos vs. Order
 
-This module explores **Systems**. In the **Family** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Imagine a soccer game with NO rules.
+
+* Someone picks up the ball.
+* Someone runs out of the stadium.
+* Someone eats the goal net.
+Is that fun? No! It is confusing.
+Rules (Constraints) make the fun possible. They tell us what we can and cannot do.
 
 ## Key Concepts
 
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
+### 1. The Boundary (The Magic Circle)
 
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
+Every game has a space.
 
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
+* The Chessboard.
+* The Soccer Field.
+* The Pillow Fort.
+Inside the circle, the rules apply. Outside, they don't.
+(You can't tackle your sister in the kitchen!).
 
-## Applications
+### 2. The Constraints (The Rules)
 
-In Family, we see Systems manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+Rules limit your action.
 
-## Conclusion
+* "Don't touch the floor." (Floor is Lava).
+* "Don't say the secret word." (Taboo).
+Limiting what you can do forces you to be CREATIVE.
 
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 3. Fairness (The Algorithm)
 
-<!-- Content padding to ensure file size requirements -->
+For a game to work, everyone must run the same code.
+If Player A follows rules and Player B cheats, the System breaks.
+Fairness = Shared Rules.
 
-<!-- Content padding to ensure file size requirements -->
+## Activities
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 1: The New Rule
 
-<!-- Content padding to ensure file size requirements -->
+Play a simple game (Tag).
+Add ONE new rule.
 
-<!-- Content padding to ensure file size requirements -->
+* "You can only hop."
+* "You are safe if you touch a tree."
+Does it make the game harder? More fun?
+You are designing a System!
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 2: Boundary Detectives
 
-<!-- Content padding to ensure file size requirements -->
+Go to a playground or park.
+Find the boundaries.
 
-<!-- Content padding to ensure file size requirements -->
+* Where does the sandbox end?
+* Where does the slide start?
+Draw a map of the "Game Zones."
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+Systems need rules to work. By respecting the rules and boundaries, we create a space where everyone can play together and have fun.
+
+## References
+
+* *Rules of Play* by Katie Salen (Parent Reading)
+* *Lilly's Purple Plastic Purse* by Kevin Henkes

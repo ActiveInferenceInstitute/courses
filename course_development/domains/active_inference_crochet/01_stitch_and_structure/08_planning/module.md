@@ -1,0 +1,61 @@
+# Module 08: Planning in Crochet Circles
+
+## Learning Objectives
+
+1. Frame **project selection** as policy choice under Active Inference — evaluating expected free energy of different project options.
+2. Analyze **yarn estimation** and material planning as planning under uncertainty, using the generative model to predict resource needs.
+3. Reflect on how **difficulty assessment** and color planning involve the generative model predicting future states and evaluating the crocheter's own capacity.
+
+## Introduction
+
+You have finished a project and it is time to choose the next one. This decision — which pattern, which yarn, which colors, what difficulty level — is planning in the Active Inference sense. The crocheter evaluates multiple possible futures, weighing their skills, resources, and desires against the predicted outcomes of each option. Planning is where everything we have covered in this course comes together: systems, agency, perception, cognition, action, learning, and communication all converge in the act of choosing what to make next.
+
+## Key Concepts
+
+### 1. Project Selection as Policy Choice
+
+In Active Inference, **planning** involves evaluating possible policies (sequences of future actions) according to their **expected free energy** — a quantity that balances the expected accuracy of outcomes (will this policy achieve my goals?) against the expected complexity (how much uncertainty and effort will this policy involve?).
+
+When a crocheter browses patterns and considers which project to start, they are evaluating expected free energy for each option. Consider three choices: a simple dishcloth, a moderately complex hat, and a challenging lace shawl.
+
+The **dishcloth** has low expected free energy: the crocheter knows the stitches, has the yarn, and is confident of the outcome. But it may not satisfy the crocheter's desire for challenge or novelty — it does not offer enough **epistemic value** (new information, skill development).
+
+The **lace shawl** has high potential reward (a beautiful, impressive finished object) but also high uncertainty: the crocheter is not sure they can manage the complex stitch pattern, they may need yarn they do not have, and the project will take months. The expected free energy is high because the prediction errors along the way will be substantial.
+
+The **hat** strikes a balance: moderate challenge, achievable with current skills, uses available yarn, and will be completed in a reasonable time. The expected free energy is moderate — enough challenge to be engaging but not enough to be overwhelming.
+
+This evaluation happens rapidly, often intuitively, but it is genuine expected free energy evaluation. The crocheter's generative model simulates each project: "How will I feel working on this? What obstacles might I encounter? Will I finish it? Will I be proud of the result?" The project that best balances these factors is selected.
+
+### 2. Yarn Estimation as Planning Under Uncertainty
+
+Every crochet project requires estimating how much yarn you need. This is planning under uncertainty — the crocheter must predict a quantity (total yardage) based on incomplete information (gauge, stitch pattern, dimensions, and how their particular yarn and tension interact).
+
+In Active Inference, planning under uncertainty involves the generative model generating predictions with attached confidence intervals. An experienced crocheter might estimate: "For a worsted weight scarf, 6 inches wide and 60 inches long, I'll need about 300-350 yards." The range reflects uncertainty — the crocheter is not sure of the exact amount, but they can bound it.
+
+This estimate is based on the generative model's accumulated knowledge: past projects, known gauge, yarn weight characteristics. If the crocheter is using a stitch pattern they have used before, the estimate is more precise (tighter confidence interval). If they are trying a new stitch pattern, the estimate is wider. If they are using a yarn they have never worked with, wider still.
+
+The consequences of underestimating are real: running out of yarn mid-project is a crocheter's nightmare, especially if the yarn is from a dye lot that is no longer available. Overestimating means spending money on unused yarn. The crocheter must calibrate their estimate — using their generative model to balance the cost of over-buying against the catastrophic cost of running short.
+
+Some crocheters manage this uncertainty by always buying an extra skein ("just in case"). This is a policy for dealing with irreducible uncertainty — a form of insurance that reduces the expected free energy of the yarn-estimation problem by eliminating the worst-case scenario.
+
+### 3. Difficulty Assessment and Color Planning
+
+**Difficulty assessment** — deciding whether a pattern is within your skill level — requires the generative model to evaluate its own capacity. The crocheter must ask: "Do I know the stitches in this pattern? Can I read this chart? Can I manage this construction technique?" This is a form of **metacognition** — the model modeling itself.
+
+A crocheter who accurately assesses difficulty makes better project choices. They select projects that stretch their skills without overwhelming them — the sweet spot of learning that Active Inference identifies as the region of optimal expected free energy, where epistemic value (new learning) is high and expected prediction error is manageable.
+
+**Color planning** is another planning operation that engages the generative model in a distinctive way. Choosing colors for a multi-color project requires the crocheter to predict how colors will look next to each other in the finished fabric. This is visual simulation — running the generative model forward to predict an aesthetic outcome.
+
+Some crocheters lay out yarn skeins side by side to see how colors interact. Others use digital tools or color wheels. Some rely on their mental model alone. In each case, they are evaluating a future state: "If I use this dusty rose with this sage green, will the result be harmonious or discordant?" This is expected free energy evaluation in the aesthetic domain — predicting whether the visual outcome will satisfy or surprise.
+
+## Applications
+
+In crochet, we see Planning manifest in:
+
+* **The Yarn Stash as Resource Buffer**: Many crocheters maintain a "stash" — a collection of yarn purchased for future, often unspecified, projects. The stash functions as a resource buffer that reduces planning uncertainty. When a new project arises, the crocheter can draw from the stash instead of purchasing specifically. In Active Inference terms, the stash reduces expected free energy by expanding the crocheter's options — more yarn types, weights, and colors available means more potential policies can be executed without the uncertainty of acquiring new materials.
+
+* **Seasonal and Gift-Giving Planning**: Crocheters who make holiday gifts must plan months in advance, estimating how many projects they can complete before the deadline. This is temporal planning under uncertainty: the model must predict the crocheter's available time, the difficulty and duration of each project, and the likelihood of unforeseen complications (running out of yarn, making errors, losing motivation). Experienced gift-crocheters develop increasingly accurate temporal models, learning from past years when they were too ambitious or too cautious.
+
+## Conclusion
+
+Planning in crochet is the culmination of everything the Active Inference agent does: evaluating future policies, predicting outcomes, managing uncertainty, and choosing actions that best balance the desire for satisfying results with the realistic constraints of skill, time, and materials. The crocheter who plans well selects projects that engage their skills, estimates materials accurately, assesses difficulty honestly, and imagines the finished product with a model refined by all the learning, perceiving, and acting they have done throughout this course. Stitch & Structure has traced the path of the crocheter as Active Inference agent — from the hook-yarn boundary to the ambitious planning of the next great project. Happy crocheting.

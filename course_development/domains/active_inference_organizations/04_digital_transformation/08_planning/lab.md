@@ -1,23 +1,72 @@
-# Lab: Exploring Planning
+# Lab: Digital Transformation Roadmap Design
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Design a phased digital transformation roadmap for your organization.
 
-Design and simulate a simple agent that demonstrates the principles of **Planning**.
+---
 
-## Prerequisites
+## Part 1: Current State Assessment (10 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Planning.
+| Dimension | Digital Maturity (1-5) | Biggest Gap | Priority |
+|-----------|----------------------|-------------|----------|
+| Technology infrastructure | | | |
+| Data & analytics | | | |
+| Process automation | | | |
+| AI/ML capability | | | |
+| Digital skills | | | |
+| Digital culture | | | |
 
-## Steps
+{fill:textarea, placeholder: "Assess digital maturity"}
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Planning.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Planning (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+---
 
-## Discussion Requirements
+## Part 2: Three Horizons Portfolio (15 min)
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Planning.
+| Horizon | Initiatives | Investment % | Timeline | Expected Outcome |
+|---------|-----------|-------------|---------|-----------------|
+| H1: Optimize current | | | | |
+| H2: Build emerging | | | | |
+| H3: Create future options | | | | |
+
+{fill:textarea, placeholder: "Design Three Horizons portfolio"}
+
+---
+
+## Part 3: Transformation Sequencing (15 min)
+
+| Phase | Focus | Prerequisites | Quick Wins | Duration |
+|-------|-------|-------------|-----------|----------|
+| Phase 1 | | | | |
+| Phase 2 | | | | |
+| Phase 3 | | | | |
+
+{fill:textarea, placeholder: "Sequence the transformation phases"}
+
+---
+
+## Part 4: Change Management Design (10 min)
+
+| Kotter Step | Application to Your Transformation | Responsible |
+|------------|-----------------------------------|-----------|
+| Create urgency | | |
+| Build coalition | | |
+| Form vision | | |
+| Communicate vision | | |
+| Empower action | | |
+| Generate quick wins | | |
+| Consolidate gains | | |
+| Anchor in culture | | |
+
+{fill:textarea, placeholder: "Design change management approach"}
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Overall digital maturity | |
+| Transformation priority | |
+| First quick win | |
+| Biggest change management challenge | |

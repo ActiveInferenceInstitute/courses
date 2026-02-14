@@ -1,23 +1,76 @@
-# Lab: Exploring Cognition
+# Lab: Shared Mental Model Mapping
 
-## Objective
+## Objectives
 
-Design and simulate a simple agent that demonstrates the principles of **Cognition**.
+> **Learning Goal:** Surface, compare, and align the mental models held by individual team members.
 
-## Prerequisites
+---
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Cognition.
+## Part 1: Individual Model Elicitation (10 min, independent)
 
-## Steps
+Each team member independently answers these questions about the current project/challenge:
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Cognition.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Cognition (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+| Question | Your Answer |
+|----------|------------|
+| What is the primary goal? | |
+| Who are the key stakeholders? | |
+| What are the biggest risks? | |
+| What does "success" look like? | |
+| What are our key assumptions? | |
 
-## Discussion Requirements
+{fill:textarea, placeholder: "Record your individual mental model"}
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Cognition.
+---
+
+## Part 2: Model Comparison (15 min, group)
+
+Compile individual responses side by side:
+
+| Question | Member 1 | Member 2 | Member 3 | Member 4 | Alignment? |
+|----------|----------|----------|----------|----------|-----------|
+| Primary goal | | | | | H/M/L |
+| Key stakeholders | | | | | |
+| Biggest risks | | | | | |
+| Success criteria | | | | | |
+| Key assumptions | | | | | |
+
+Where is alignment highest? Where is divergence greatest?
+
+{fill:textarea, placeholder: "Compare individual mental models"}
+
+---
+
+## Part 3: Divergence Analysis (10 min)
+
+For each area of significant divergence:
+
+| Topic | Nature of Disagreement | Source (different info? different interpretation?) | Resolution Needed? |
+|-------|----------------------|--------------------------------------------------|-------------------|
+| | | | Y/N |
+| | | | |
+
+{fill:textarea, placeholder: "Analyze the nature and source of model divergence"}
+
+---
+
+## Part 4: Model Alignment (15 min, group discussion)
+
+For critical divergences, reach shared understanding:
+
+| Topic | Aligned View | Remaining Uncertainty | Action to Resolve |
+|-------|-------------|----------------------|------------------|
+| | | | |
+| | | | |
+
+{fill:textarea, placeholder: "Document the aligned shared model"}
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Areas of strong alignment | |
+| Areas of productive divergence | |
+| Areas of problematic misalignment | |
+| Key model update agreed upon | |

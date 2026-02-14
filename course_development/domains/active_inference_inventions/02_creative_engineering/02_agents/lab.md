@@ -1,0 +1,154 @@
+# Lab: Discovering Your Inventor Archetype
+
+## Objective
+
+Identify your own inventor archetype by examining your prior beliefs, precision weightings, preferred action policies, and motivational profile. Then practice adopting a complementary archetype to expand your creative repertoire. By the end of this lab, you will have a concrete self-assessment and a strategy for leveraging your strengths while compensating for your blind spots.
+
+## Materials / Prerequisites
+
+- Your own invention idea or project (any domain, any stage)
+- Paper and pen for sketching
+- A timer
+- Completed reading of Module 02: The Creative Agent
+
+## Part 1: Map Your Generative Model (15 minutes)
+
+Your generative model is everything you believe about how the world works, what needs exist, and what solutions are possible. This exercise makes parts of that model explicit.
+
+**Step 1 (5 min):** Consider your invention idea. List your core beliefs about the problem you are trying to solve. These are your priors — the assumptions you bring to the creative process.
+
+| Belief / Assumption | Confidence Level (1-10) | Source (Education / Experience / Intuition / Data) |
+|---------------------|------------------------|--------------------------------------------------|
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+
+**Step 2 (5 min):** Now list beliefs about your solution approach — what you assume about how the problem should be solved:
+
+| Solution Assumption | Confidence Level (1-10) | What Would Change If This Were Wrong? |
+|--------------------|------------------------|--------------------------------------|
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+
+**Step 3 (5 min):** Identify your three strongest beliefs (highest confidence) and your three weakest. What does this pattern tell you about where your model is well-calibrated versus where you are operating on assumption?
+
+Strongest beliefs:
+{fill:textarea}
+
+Weakest beliefs:
+{fill:textarea}
+
+What this pattern reveals:
+{fill:textarea}
+
+## Part 2: Identify Your Archetype (12 minutes)
+
+**Step 1 (6 min):** Rate yourself on each dimension below. Be honest — there are no right answers.
+
+| Dimension | Scale | Your Rating |
+|-----------|-------|-------------|
+| When facing a new problem, I prefer to analyze before building vs. build to understand | 1 (analyze first) — 10 (build first) | {fill:textarea} |
+| I trust theoretical reasoning vs. empirical testing | 1 (theory) — 10 (empirical) | {fill:textarea} |
+| I focus deeply on one domain vs. draw from many domains | 1 (deep) — 10 (broad) | {fill:textarea} |
+| I am motivated by solving a specific problem vs. exploring what is possible | 1 (problem-focused) — 10 (exploration-focused) | {fill:textarea} |
+| I prefer refining an existing solution vs. generating entirely new approaches | 1 (refine) — 10 (generate new) | {fill:textarea} |
+| I work best alone vs. in dialogue with others | 1 (alone) — 10 (with others) | {fill:textarea} |
+| When I encounter something unexpected, I investigate it vs. stay on track | 1 (stay on track) — 10 (investigate) | {fill:textarea} |
+
+**Step 2 (6 min):** Based on your ratings, which archetype(s) best describe you? You may be a blend.
+
+- **Methodical Engineer**: Low scores on 2, 5, 7; high scores on 1 (analyze side)
+- **Tinkerer**: High scores on 2, 5; low scores on 1 (build side)
+- **Accidental Discoverer**: High scores on 3, 7; moderate on others
+- **Systems Thinker**: High scores on 3, 4; often moderate across others
+
+My primary archetype:
+{fill:textarea}
+
+My secondary archetype (if applicable):
+{fill:textarea}
+
+How this archetype has shaped my past creative work (give a specific example):
+{fill:textarea}
+
+## Part 3: Identify Your Blind Spots (10 minutes)
+
+**Step 1 (5 min):** Every archetype has characteristic blind spots. Based on your archetype, identify what you are likely to miss:
+
+| My Archetype Tendency | What It Causes Me to Miss | A Time This Actually Happened |
+|----------------------|--------------------------|------------------------------|
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+
+**Step 2 (5 min):** For your invention idea, identify one specific blind spot that your archetype creates. What aspect of the problem or solution space are you not seeing because of your priors?
+
+The blind spot:
+{fill:textarea}
+
+Why my priors cause this blind spot:
+{fill:textarea}
+
+What an inventor with a different archetype would see here:
+{fill:textarea}
+
+## Part 4: Adopt a Complementary Archetype (15 minutes)
+
+**Step 1 (5 min):** Choose the archetype most different from yours. For the next ten minutes, you will deliberately think about your invention idea from this perspective. Before you begin, describe how this archetype would approach your invention:
+
+Archetype I am adopting:
+{fill:textarea}
+
+How this archetype would frame my problem:
+{fill:textarea}
+
+What this archetype would prioritize:
+{fill:textarea}
+
+**Step 2 (10 min):** Spend ten minutes working on your invention idea from this new perspective. Write, sketch, or diagram whatever emerges. The goal is not to produce a polished idea but to explore territory your default archetype would not visit.
+
+What emerged from adopting the complementary archetype:
+{fill:textarea}
+
+Was anything genuinely surprising or useful? What?
+{fill:textarea}
+
+What will you carry forward from this exercise?
+{fill:textarea}
+
+## Part 5: Design Your Creative Team (8 minutes)
+
+**Step 1 (4 min):** If you were building a team of 3-4 people to develop your invention, what archetypes would you recruit? Why?
+
+| Role | Archetype | What They Bring | How They Complement You |
+|------|-----------|----------------|----------------------|
+| You | {fill:textarea} | {fill:textarea} | — |
+| Teammate 1 | {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| Teammate 2 | {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| Teammate 3 | {fill:textarea} | {fill:textarea} | {fill:textarea} |
+
+**Step 2 (4 min):** What shared artifacts (prototypes, documents, diagrams) would this team need to communicate across their different generative models? List at least three:
+
+1. {fill:textarea}
+2. {fill:textarea}
+3. {fill:textarea}
+
+How would you ensure the team maintains enough model diversity to avoid groupthink while staying aligned enough to make progress?
+
+{fill:textarea}
+
+## Discussion / Debrief Questions
+
+1. Did the archetype self-assessment surprise you, or did it confirm what you already knew? What was the most informative dimension?
+
+2. When you adopted the complementary archetype in Part 4, did it feel uncomfortable, liberating, or both? What does that tell you about the flexibility of your generative model?
+
+3. In what situations is it most important to be aware of your archetype? When are your default tendencies most helpful, and when are they most limiting?
+
+4. How does the concept of "precision weighting" help explain disagreements in creative teams? Think of a time when you disagreed with a collaborator — can you reframe that disagreement as a difference in precision weighting rather than a difference in values?
+
+5. The module discusses the accidental discoverer as someone who notices anomalies that others dismiss. How can you cultivate this capacity regardless of your primary archetype? What practices or habits might help?

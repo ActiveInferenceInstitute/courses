@@ -1,23 +1,44 @@
-# Lab: Exploring Agents
+# Lab: Build a Bot
 
-## Objective
+## Goal
 
-Design and simulate a simple agent that demonstrates the principles of **Agents**.
+To design a mechanical agent for a specific job.
 
-## Prerequisites
+## What You Need
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Agents.
+* Recycled materials (Boxes, cans, bottle caps).
+* Glue/Tape.
+* Markers.
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Family.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Agents.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Agents (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+### 1. The Function
 
-## Discussion Requirements
+What is your robot's job?
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Agents.
+* "The Tickle Bot 3000."
+* "The Sock Finder."
+* "The Homework Helper."
+
+### 2. The Features
+
+Design the sensors and actuators.
+
+* "It needs long arms to reach under the bed."
+* "It needs a nose to smell dirty socks."
+
+### 3. The Build
+
+Put it together!
+Give it a name.
+Write a "User Manual" (Instructions).
+
+## Discussion
+
+* Does your robot have a power switch?
+* What happens if it breaks?
+* Robots are tools we create to extend our abilities.
+
+## What We Learned
+
+Robots are systems designed to solve problems.

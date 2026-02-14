@@ -1,42 +1,12 @@
-# Study Questions: Action
+# Course — Module 05 — Think About It
 
-1.  Define **Action** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Action?
-
-3.  Contrast the Classical view of Action with the Active Inference view.
-
-4.  Develop a question that connects Action to a real-world problem in Family.
-
-5.  Develop a question that connects Action to a real-world problem in Family.
-
-6.  Develop a question that connects Action to a real-world problem in Family.
-
-7.  Develop a question that connects Action to a real-world problem in Family.
-
-8.  Develop a question that connects Action to a real-world problem in Family.
-
-9.  Develop a question that connects Action to a real-world problem in Family.
-
-10.  Develop a question that connects Action to a real-world problem in Family.
-
-11.  Develop a question that connects Action to a real-world problem in Family.
-
-12.  Develop a question that connects Action to a real-world problem in Family.
-
-13.  Develop a question that connects Action to a real-world problem in Family.
-
-14.  Develop a question that connects Action to a real-world problem in Family.
-
-15.  Develop a question that connects Action to a real-world problem in Family.
-
-16.  Develop a question that connects Action to a real-world problem in Family.
-
-17.  Develop a question that connects Action to a real-world problem in Family.
-
-18.  Develop a question that connects Action to a real-world problem in Family.
-
-19.  Develop a question that connects Action to a real-world problem in Family.
-
-20.  Develop a question that connects Action to a real-world problem in Family.
-
+1. Why do gamers lean when they steer in Mario Kart? (Body trying to help!).
+2. Why does the controller vibrate? (Haptic feedback to alert the brain).
+3. What is "Rage Quitting"? (When frustration > fun).
+4. Can video games make you smarter? (Yes, they improve reaction time and problem solving).
+5. Why are some games scary? (Immersion makes your brain think it's real).
+6. How do pro gamers play so fast? (Muscle memory and prediction).
+7. What is "Lag"? (A delay in the feedback loop).
+8. Why is the A button usually green? (Green means Go).
+9. Do you look at the controller when you play? (No, you know where the buttons are).
+10. If you could control a real robot with a controller, would you?

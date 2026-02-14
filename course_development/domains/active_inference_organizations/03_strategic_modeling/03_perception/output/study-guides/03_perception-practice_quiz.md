@@ -1,51 +1,23 @@
-# Practice Quiz: Perception
+# Practice Quiz: Strategic Modeling — Module 03: Perception
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Perception** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. Kodak's failure was primarily: A) Technology failure B) Perceptual filtering — the organization's model filtered out the weak signal of digital imaging C) Marketing failure D) Financial mismanagement
+2. **Weak signals** (Ansoff) are: A) Low-volume audio B) Early, ambiguous indicators of significant future changes that require broad, low-precision scanning C) Signals with low amplitude D) Insignificant data
+3. The key difference between tactical and strategic perception is: A) Budget B) Time horizon — tactical senses current market, strategic senses structural shifts C) Team size D) Tools used
+4. **Proximity bias** in strategic perception means: A) Preferring nearby offices B) Over-attending to nearby competitors while missing distant disruptors C) Geographic strategy D) Supply chain focus
+5. A competitive intelligence system must include: A) Only data collection B) Collection, analysis, dissemination, and integration with strategic decisions C) Only monitoring competitors D) Only market research
+6. **Quantification bias** causes organizations to: A) Be too precise B) Ignore qualitative signals that don't fit neat metrics, missing important subjective information C) Over-invest in analytics D) Hire more analysts
+7. Environmental scanning should be: A) Narrow and focused B) Broad enough to catch weak signals from unexpected sources C) Limited to known competitors D) Annual
 
-2. In Organizations, Perception is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+---
 
-3. Which mathematical quantity is most central to Perception?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+## Part B: Short Analysis
 
-4. How does Perception relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
-
-5. A failure in Perception would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
-
-6. Which scale is most relevant for analyzing Perception in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
-
-7. Perception connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Perception** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Perception failing in a Organizations scenario.
-3.  How would you model Perception using a POMDP (Partially Observable Markov Decision Process)?
+1. Your organization's strategic sensing is limited to quarterly financial reports from public competitors. Design a competitive intelligence system that adds weak signal detection, qualitative sensing, and peripheral scanning.
+2. A major technology shift is underway in your industry, but your CEO dismisses it as "not relevant to our core business." Using the Kodak case and perceptual blind spots framework, construct an argument and propose a sensing process.
+3. Two equally capable competitors face the same market disruption. One detects it 18 months earlier. Analyze how earlier detection translates into strategic advantage and design a sensing system optimized for speed.

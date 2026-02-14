@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_Systems - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>01_Systems</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>01_Systems</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 01: Systems — Boundaries, Markov Blankets, and the Philosophy of Biology</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Articulate how the concept of a <strong>system</strong> presupposes a boundary, and how Active Inference formalizes this through Markov Blankets.</li>
+<li>Trace the philosophical lineage of systems thinking from autopoiesis (Maturana &amp; Varela) through enactivism to the Free Energy Principle.</li>
+<li>Evaluate the ontological status of system boundaries — are Markov Blankets "real" features of nature or useful fictions?</li>
+</ol>
+<h2>Introduction</h2>
+<p>What makes something a <em>system</em> rather than a mere collection of parts? A cell, a hurricane, a conversation — each seems to possess a coherent identity that persists through exchanges with its surroundings. In Active Inference, this intuition is formalized: a system is anything that can be distinguished from its environment by a <strong>Markov Blanket</strong> — a statistical boundary that separates internal states from external states while mediating their interaction through sensory and active states.</p>
+<p>This module explores the philosophical depth behind this apparently simple idea. We will see that the question "What is a system?" is not merely technical but deeply philosophical, touching on the nature of individuality, the boundaries of the self, and the relationship between living and non-living things.</p>
+<h2>Key Concepts</h2>
+<h3>1. The Problem of Demarcation</h3>
+<p>How do we distinguish a system from its environment? In classical science, boundaries are often taken for granted — the skin of an organism, the walls of a cell. But philosophers have long noted that boundaries are not self-evident. Merleau-Ponty observed that the body is not simply <em>in</em> the world like water in a glass; it is <em>of</em> the world, constituted through its transactions with the environment.</p>
+<p>Active Inference addresses this through a formal concept: the <strong>Markov Blanket</strong>. A Markov Blanket is a set of states (sensory states <strong>s</strong> and active states <strong>a</strong>) that render the internal states <strong>μ</strong> conditionally independent of external states <strong>η</strong>. Formally: P(μ | s, a, η) = P(μ | s, a). This means internal states "know" about external states only through the blanket.</p>
+<h3>2. Autopoiesis and Self-Organization</h3>
+<p>Maturana and Varela (1980) introduced <strong>autopoiesis</strong> — the idea that living systems are self-producing networks that generate and maintain their own boundaries. A cell produces its membrane; the membrane enables the chemical reactions that produce the membrane. This circular causality is the hallmark of life.</p>
+<p>The Free Energy Principle extends this insight mathematically: any system that persists over time <em>must</em> minimize its variational free energy, which is equivalent to maintaining its Markov Blanket — its boundary with the world. To exist is to resist dissolution; to resist dissolution is to minimize surprise.</p>
+<h3>3. The Life-Mind Continuity Thesis</h3>
+<p>If systems are defined by their boundaries, and maintaining boundaries requires a form of inference (minimizing free energy), then even the simplest living systems can be described as performing a rudimentary form of "cognition." This is the <strong>life-mind continuity thesis</strong> (Kirchhoff &amp; Froese, 2017): there is no sharp line between being alive and having a mind; rather, mind is a natural extension of the self-organizing dynamics that characterize all living systems.</p>
+<p>This is a deeply contested claim. Critics argue it commits the "fallacy of equivocation" — conflating formal self-organization with genuine cognition. Proponents respond that it reveals a deep structural unity in nature.</p>
+<h2>Applications</h2>
+<p>In philosophy, the systems perspective illuminates:</p>
+<ul>
+<li><strong>The Ship of Theseus</strong>: If a system's identity is constituted by its Markov Blanket dynamics rather than its material parts, the puzzle dissolves — identity is a pattern maintained through change, not a fixed substance.</li>
+<li><strong>Extended Mind Hypothesis</strong>: Clark and Chalmers (1998) argue that cognitive processes extend beyond the brain. From a Markov Blanket perspective, the relevant question becomes: where does the blanket lie? If tools are reliably coupled to internal states, they may fall within the agent's effective blanket.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>The concept of a system is not a starting point but a philosophical achievement. Active Inference shows that system boundaries are not arbitrary but emerge from the dynamics of self-organization and inference. In Module 02, we will move from the boundary to what lies within it — the agent, its models, and its capacity for self-reference.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Thought Experiment — Drawing Boundaries</h1>
+<h2>Objective</h2>
+<p>Explore the philosophical implications of system boundaries by constructing and analyzing thought experiments about where systems begin and end.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Familiarity with the concepts of Markov Blankets, autopoiesis, and the life-mind continuity thesis from this module's lecture.</li>
+</ul>
+<h2>Part 1: The Boundary Problem</h2>
+<p><strong>Goal</strong>: Identify the assumptions hidden in everyday boundary attributions.</p>
+<p>Consider three candidate systems: (a) a single cell, (b) a human being walking through a city, (c) a jazz quartet improvising a piece. For each, answer:</p>
+<ul>
+<li>Where would you intuitively place the boundary between the system and its environment?</li>
+<li>What criteria did you use (spatial, functional, informational, phenomenological)?</li>
+</ul>
+<p>{fill:textarea}</p>
+<h2>Part 2: Applying the Markov Blanket</h2>
+<p><strong>Goal</strong>: Translate the intuitive boundary into the formal language of Active Inference.</p>
+<p>For the human walking through a city (case b above), identify plausible candidates for:</p>
+<ul>
+<li><strong>Sensory states (s)</strong>: What aspects of the environment does the person sample?</li>
+<li><strong>Active states (a)</strong>: What actions does the person take that change the environment?</li>
+<li><strong>Internal states (μ)</strong>: What hidden states are shielded from the environment by the blanket?</li>
+<li><strong>External states (η)</strong>: What environmental states are relevant but only known through the blanket?</li>
+</ul>
+<p>Does the blanket fall at the skin? Or does it extend further — to include the phone in the person's hand, the headphones, the navigation app?</p>
+<p>{fill:textarea}</p>
+<h2>Part 3: Life-Mind Continuity Challenge</h2>
+<p><strong>Goal</strong>: Construct an argument for or against attributing "mind" to a minimal living system.</p>
+<p>Consider a bacterium performing chemotaxis — swimming toward nutrients and away from toxins. The bacterium has internal metabolic states, a membrane (blanket), and active locomotion.</p>
+<ul>
+<li>In what sense, if any, does the bacterium "perceive" its environment?</li>
+<li>Does it have "beliefs" about where nutrients are? Or is this merely a useful metaphor?</li>
+<li>Write a short argument (3-5 sentences) either defending or criticizing the attribution of mind to the bacterium.</li>
+</ul>
+<p>{fill:textarea}</p>
+<h2>Part 4: The Ship of Theseus Revisited</h2>
+<p><strong>Goal</strong>: Apply the Markov Blanket perspective to a classical philosophical puzzle.</p>
+<p>A ship has every plank replaced, one by one, over the course of a decade. The old planks are assembled into a second ship. Which is the Ship of Theseus?</p>
+<p>Reframe this puzzle using the concept of Markov Blanket dynamics. Is identity a property of material constitution or of dynamical pattern? Does the Markov Blanket framework dissolve the paradox, or does it merely relocate it?</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Synthesis and Peer Review</h2>
+<p><strong>Goal</strong>: Develop and defend your own philosophical position.</p>
+<p>Write a 200-word position statement on one of the following:
+* "Markov Blankets are real boundaries in nature, not mere mathematical conveniences."
+* "The life-mind continuity thesis is a category error dressed in formal clothing."
+* "The Free Energy Principle is best understood as a principle of organization, not a law of physics."</p>
+<p>Share your position with a peer. Identify the strongest objection to your view and respond to it.</p>
+<p>{fill:textarea}</p>
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Developed</th>
+<th>Key Philosophical Move</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Boundary identification</td>
+<td>Exposing hidden assumptions in everyday system attributions</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Formal translation</td>
+<td>Mapping intuitive boundaries onto the Markov Blanket formalism</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Argumentative construction</td>
+<td>Building and critiquing the life-mind continuity thesis</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Conceptual analysis</td>
+<td>Applying dynamical identity to classical puzzles</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Position defense</td>
+<td>Articulating and defending a philosophical position under objection</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Systems</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>The concept of a Markov Blanket in Active Inference primarily formalizes:
+A) The physical membrane of a cell
+B) The statistical boundary separating internal from external states
+C) The computational limits of an agent's processor
+D) The spatial extent of an organism's body</p>
+</li>
+<li>
+<p>Autopoiesis, as defined by Maturana and Varela, refers to:
+A) The ability of a system to reproduce sexually
+B) A self-producing network that generates and maintains its own boundary
+C) The tendency of all systems to maximize entropy
+D) The process by which organisms evolve through natural selection</p>
+</li>
+<li>
+<p>The life-mind continuity thesis claims that:
+A) Only organisms with nervous systems have minds
+B) Consciousness requires language and higher-order thought
+C) There is no sharp boundary between being alive and having a mind
+D) Machines will inevitably become conscious</p>
+</li>
+<li>
+<p>In the Markov Blanket formalism, <strong>sensory states</strong> are:
+A) Internal states that encode the agent's beliefs
+B) States that mediate the influence of external states on internal states
+C) States that the agent uses to change the environment
+D) External states that the agent cannot access</p>
+</li>
+<li>
+<p>The "fallacy of equivocation" objection to the FEP argues that:
+A) Free energy is not a real physical quantity
+B) The formal description of self-organization is being conflated with genuine cognition
+C) Markov Blankets cannot exist in continuous systems
+D) The FEP is unfalsifiable because it predicts everything</p>
+</li>
+<li>
+<p>Clark and Chalmers' Extended Mind Hypothesis suggests that:
+A) The mind is confined to neural activity in the brain
+B) Cognitive processes can extend beyond the brain to include external tools and artifacts
+C) All physical objects have rudimentary mental properties
+D) The mind exists only as emergent social phenomena</p>
+</li>
+<li>
+<p>From a Markov Blanket perspective, the Ship of Theseus paradox is best resolved by:
+A) Insisting that identity requires material continuity
+B) Accepting that there are now two equally valid Ships of Theseus
+C) Recognizing identity as constituted by dynamical pattern maintenance, not material substance
+D) Rejecting the concept of identity altogether as philosophically incoherent</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>Explain how the concept of "surprise" in Active Inference differs from its everyday usage, and why minimizing surprise is essential for a system's persistence.</li>
+<li>A candle flame maintains a stable form by consuming wax and oxygen. Does it have a Markov Blanket? Does it "resist dissolution"? What are the philosophical implications of your answer for the life-mind continuity thesis?</li>
+<li>Construct a two-step argument: first, show how the Markov Blanket formalism captures the philosophical intuition behind autopoiesis; second, identify one aspect of autopoiesis that it <em>fails</em> to capture.</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,23 +1,52 @@
-# Lab: Exploring Planning
+# Lab: The Routine Chart
 
-## Objective
+## Goal
 
-Design and simulate a simple agent that demonstrates the principles of **Planning**.
+To visualize the Bedtime Algorithm.
 
-## Prerequisites
+## What You Need
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Planning.
+* Paper or Cardboard.
+* Markers/Crayons.
+* Stickers (optional).
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Family.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Planning.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Planning (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+### 1. Identify the Steps
 
-## Discussion Requirements
+Talk about what you do every night.
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Planning.
+1. Bath/Wash Face.
+2. Brush Teeth.
+3. Pajamas.
+4. Read Book.
+5. Hugs & Lights Out.
+
+### 2. Draw the Icons
+
+Draw a little picture for each step.
+
+* Toothbrush.
+* Book.
+* Moon.
+
+### 3. Make the Checklist
+
+Put them in a row or list.
+Draw a box next to each one.
+
+### 4. The Beta Test
+
+Tonight, use the chart!
+When you finish a step, put a checkmark (or sticker) in the box.
+"Algorithm Complete."
+
+## Discussion
+
+* Did checking the boxes feel good? (Dopamine!).
+* Did you forget anything?
+* Now your brain knows exactly when sleep is coming.
+
+## What We Learned
+
+Planning is just making a map for your future self.

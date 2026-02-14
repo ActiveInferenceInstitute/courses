@@ -1,42 +1,12 @@
-# Study Questions: Agents
+# Course — Module 02 — Think About It
 
-1.  Define **Agents** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Agents?
-
-3.  Contrast the Classical view of Agents with the Active Inference view.
-
-4.  Develop a question that connects Agents to a real-world problem in Family.
-
-5.  Develop a question that connects Agents to a real-world problem in Family.
-
-6.  Develop a question that connects Agents to a real-world problem in Family.
-
-7.  Develop a question that connects Agents to a real-world problem in Family.
-
-8.  Develop a question that connects Agents to a real-world problem in Family.
-
-9.  Develop a question that connects Agents to a real-world problem in Family.
-
-10.  Develop a question that connects Agents to a real-world problem in Family.
-
-11.  Develop a question that connects Agents to a real-world problem in Family.
-
-12.  Develop a question that connects Agents to a real-world problem in Family.
-
-13.  Develop a question that connects Agents to a real-world problem in Family.
-
-14.  Develop a question that connects Agents to a real-world problem in Family.
-
-15.  Develop a question that connects Agents to a real-world problem in Family.
-
-16.  Develop a question that connects Agents to a real-world problem in Family.
-
-17.  Develop a question that connects Agents to a real-world problem in Family.
-
-18.  Develop a question that connects Agents to a real-world problem in Family.
-
-19.  Develop a question that connects Agents to a real-world problem in Family.
-
-20.  Develop a question that connects Agents to a real-world problem in Family.
-
+1. Do robots dream? (Probably not... yet).
+2. Can a robot feel pain? (No, but it can sense damage).
+3. Why do we make robots look like humans? (So we like them more).
+4. What is the difference between a toaster and a robot? (A robot can make decisions).
+5. Can a robot verify truth? (Only if its data is true).
+6. Will robots take all the jobs? (They will take the boring jobs!).
+7. Can a robot write a poem? (Yes, AI can. But does it *feel* the poem?).
+8. Why do robots need batteries? (Energy = Action).
+9. If a robot breaks a vase, is it "guilty"? (No, it's just a machine).
+10. Would you want a robot butler?

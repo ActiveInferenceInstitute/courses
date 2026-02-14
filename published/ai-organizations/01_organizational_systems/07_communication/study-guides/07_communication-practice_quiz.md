@@ -1,51 +1,59 @@
-# Practice Quiz: Communication
+# Practice Quiz: Organizational Systems — Module 07: Communication
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Communication** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. Communication in Active Inference is fundamentally about:
+A) Sending emails
+B) Aligning generative models across organizational agents
+C) Reducing the total number of meetings
+D) Publishing press releases
 
-2. In Organizations, Communication is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **Common ground** in organizational communication refers to:
+A) Shared office space
+B) Shared assumptions and context that don't need re-establishing in each interaction
+C) Company-wide email lists
+D) A common reporting tool
 
-3. Which mathematical quantity is most central to Communication?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. Spotify's squad-tribe-chapter-guild structure addresses the model-sharing problem by:
+A) Reducing the number of employees
+B) Creating multiple overlapping communication channels that align models at different organizational scales
+C) Eliminating all meetings
+D) Centralizing all decisions
 
-4. How does Communication relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **Information silos** are best diagnosed as:
+A) Physical walls between departments
+B) Organizational agents maintaining local models without cross-boundary communication, causing model divergence
+C) Insufficient storage space
+D) Too many communication tools
 
-5. A failure in Communication would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Signal distortion** up the hierarchy occurs because:
+A) Executives can't read
+B) Each level filters, summarizes, and reinterprets, potentially losing nuance and suppressing uncomfortable truths
+C) Digital communication is unreliable
+D) There are too many levels
 
-6. Which scale is most relevant for analyzing Communication in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+6. A **boundary object** is:
+A) The physical boundary of a building
+B) A shared artifact (document, prototype, dashboard) that bridges different specialist models
+C) A firewall
+D) An organizational chart
 
-7. Communication connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+7. Communication overload (too many meetings, too many emails) is problematic because:
+A) It costs money
+B) Excessive model-alignment attempts consume capacity needed for actual inference and action
+C) Employees don't like meetings
+D) It violates company policy
 
-## Part B: Short Answer
+---
 
-1.  Explain how **Communication** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Communication failing in a Organizations scenario.
-3.  How would you model Communication using a POMDP (Partially Observable Markov Decision Process)?
+## Part B: Short Analysis
+
+1. Two departments in your company — Engineering and Sales — consistently miscommunicate about product capabilities. Engineering describes technical specifications; Sales describes customer promises. These are different generative models. Design three interventions that would build common ground between these departments.
+
+2. Your organization recently transitioned to remote work. Assess the communication impact: Which formal channels remained effective? Which informal channels were lost? What specific model-alignment mechanisms need to be rebuilt for a distributed workforce?
+
+3. A CEO wants to communicate a major strategic shift to 5,000 employees. The strategy document is 40 pages long. Using Active Inference communication principles, design a multi-channel communication plan that achieves actual model updating (not just information broadcasting) across all organizational levels.

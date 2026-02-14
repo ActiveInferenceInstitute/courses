@@ -1,23 +1,108 @@
-# Lab: Exploring Cognition
+# Lab: Strategic Assumption Audit
 
-## Objective
+## Objectives
 
-Design and simulate a simple agent that demonstrates the principles of **Cognition**.
+> **Learning Goal:** Surface, categorize, and stress-test the implicit beliefs driving your organization's strategy.
 
-## Prerequisites
+---
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Cognition.
+## Part 1: Elicit Assumptions (15 min)
 
-## Steps
+List the top 8–10 beliefs your organization holds about its environment:
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Cognition.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Cognition (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+| # | Assumption | Category (Customer/Market/Competitor/Capability/Causal) | Strength (1–5) |
+|---|-----------|-------------------------------------------------------|----------------|
+| 1 | | | |
+| 2 | | | |
+| 3 | | | |
+| 4 | | | |
+| 5 | | | |
 
-## Discussion Requirements
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Cognition.
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 2: Classify (10 min)
+
+For each assumption, classify along two dimensions:
+
+| Assumption # | Critical to strategy? (Y/N) | Testable? (Y/N) | Priority (Critical+Testable = HIGH) |
+|-------------|----------------------------|-----------------|-------------------------------------|
+| 1 | | | |
+| 2 | | | |
+| 3 | | | |
+| 4 | | | |
+| 5 | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: Challenge (15 min)
+
+For the top 3 highest-priority assumptions, answer:
+
+### Assumption 1: ________________________
+
+| Question | Answer |
+|----------|--------|
+| What evidence supports this? | |
+| What evidence contradicts this? | |
+| What would change your mind? | |
+| When was this assumption last tested? | |
+| What is the cost if this assumption is wrong? | |
+
+### Assumption 2: ________________________
+
+| Question | Answer |
+|----------|--------|
+| What evidence supports this? | |
+| What evidence contradicts this? | |
+| What would change your mind? | |
+| When was this assumption last tested? | |
+| What is the cost if this assumption is wrong? | |
+
+### Assumption 3: ________________________
+
+| Question | Answer |
+|----------|--------|
+| What evidence supports this? | |
+| What evidence contradicts this? | |
+| What would change your mind? | |
+| When was this assumption last tested? | |
+| What is the cost if this assumption is wrong? | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Design Tests (15 min)
+
+For each challenged assumption, design a test:
+
+| Assumption | Test Design (experiment, research, analysis) | Timeline | Cost | Success Criteria |
+|-----------|---------------------------------------------|----------|------|-----------------|
+| | | | | |
+| | | | | |
+| | | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 5: Synthesis
+
+| Finding | Detail |
+|---------|--------|
+| Most dangerous assumption (high impact, weak evidence) | |
+| Most urgently testable assumption | |
+| Assumption the organization is most resistant to questioning | |
+| Recommended next step | |

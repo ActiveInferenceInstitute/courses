@@ -1,52 +1,10 @@
-# Module 09: Topic in Youtube
+# Audio-Visual Production project at the Institute seeks participants for 2025!
 
-## Learning Objectives
+> **Source**: [YouTube](https://www.youtube.com/watch?v=TaFwI2zr_lE)
+> **Playlist**: Active Inference Institute ~ Announcements
+> **Duration**: 2:11 | **Uploaded**: Unknown
+> **Transcript method**: auto_caption
 
-1.  Define **Topic** within the context of Youtube.
-2.  Analyze how Topic interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Youtube to the formal definition of Topic.
+---
 
-## Introduction
-
-This module explores **Topic**. In the **Youtube** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Topic is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
-
-## Key Concepts
-
-### 1. Topic as a Markov Blanket Boundary
-How does Topic define the boundary between the agent and the environment?
-
-### 2. Generative Models of Topic
-What parameters involved in Topic must be optimized to minimize variational free energy?
-
-### 3. Active Inference Dynamics
-How does the process of Topic drive the perception-action loop?
-
-## Applications
-
-In Youtube, we see Topic manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
-
-## Conclusion
-
-Understanding Topic allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+hello all happy New Year the audiovisual production project at The Institute the one that brings you all the live streams and podcasts is seeking participants for 2025 if you might like to get more involved at The Institute and contribute to the applicability rigor and awareness of active inference this is a great Hands-On opportunity or are you watching on YouTube and want to help from the other side of the fourth wall no specific technal teal background or expertise in active inference is required a good fit for a volunteer on this project would be an internally motivated learner who is familiar with or wanting to upskill on tasks related to audiovisual processing and accessibility facilitation sector research human intelligence open source llm transcription translation methods art media performance and more we have a podcast and stream scheduling checklist specific procedures for inviting guests and recording events so there are streamlined direct modular ways to help with this project it is possible to play roles ranging from surfacing and inviting exciting guests on through facilitating live or recorded sessions and even designing a series of your own for example as da I did with the active inference insights as Sarah did with the morph stream and as shanana did with the math art Series so in closing working on the production project is a meaningful way to have broad impact in the active inference ecosystem and Beyond while following your curiosity and passion developing useful skills and helping others learn through deep time to get involved or ask any questions email blanket at active inference do Institute with the subject line production thank you Daniel January 9th 2025

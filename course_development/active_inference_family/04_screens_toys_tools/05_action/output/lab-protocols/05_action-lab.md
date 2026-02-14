@@ -1,23 +1,43 @@
-# Lab: Exploring Action
+# Lab: The Cardboard Controller
 
-## Objective
+## Goal
 
-Design and simulate a simple agent that demonstrates the principles of **Action**.
+To design an ergonomic interface for a human hand.
 
-## Prerequisites
+## What You Need
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Action.
+* Cardboard.
+* Scissors.
+* Bottle caps (Buttons).
+* Glue.
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Family.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Action.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Action (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+### 1. The Grip
 
-## Discussion Requirements
+Cut a shape that fits your hands comfortably.
+Is it too big? Too small?
+Where do your thumbs naturally rest?
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Action.
+### 2. The Layout
+
+Glue bottle caps where the buttons should be.
+"A" button for thumb.
+"Triggers" for index fingers.
+This is **Ergonomics** (Designing for the body).
+
+### 3. The Test
+
+Hold it. Pretend to play.
+Do your fingers get tired?
+Can you reach all the buttons?
+Real designers make hundreds of prototypes like this.
+
+## Discussion
+
+* Why are almost all controllers the same shape? (Because human hands are the same shape).
+* What would a controller for a cat look like?
+
+## What We Learned
+
+Interfaces must be designed for the Agent's body.

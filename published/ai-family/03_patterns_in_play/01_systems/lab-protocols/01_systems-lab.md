@@ -1,23 +1,45 @@
-# Lab: Exploring Systems
+# Lab: Invent a Sport
 
-## Objective
+## Goal
 
-Design and simulate a simple agent that demonstrates the principles of **Systems**.
+To design a System by creating Rules and Boundaries.
 
-## Prerequisites
+## What You Need
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Systems.
+* A ball (or sock ball).
+* A bucket or basket.
+* Something to mark lines (Tape, Shoes, Rope).
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Family.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Systems.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Systems (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+### 1. The Goal
 
-## Discussion Requirements
+"Get the ball in the bucket."
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Systems.
+### 2. The Constraints (Rules)
+
+Add 3 rules to make it hard/fun.
+
+* Rule 1: You must stand behind the shoe line.
+* Rule 2: You must throw UNDER leg.
+* Rule 3: If you miss, you do 3 jumping jacks.
+
+### 3. The Play Test
+
+Try to play!
+Is it too easy? (Move the line back).
+Is it too hard? (Make the bucket bigger).
+
+### 4. The Name
+
+Name your sport. (e.g., "Sock-ket-ball").
+
+## Discussion
+
+* Did the rules create the fun?
+* How did you decide what was fair?
+* You are a System Designer!
+
+## What We Learned
+
+Games are just systems we invent to challenge our brains and bodies.

@@ -1,42 +1,12 @@
-# Study Questions: Perception
+# Course — Module 03 — Think About It
 
-1.  Define **Perception** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Perception?
-
-3.  Contrast the Classical view of Perception with the Active Inference view.
-
-4.  Develop a question that connects Perception to a real-world problem in Family.
-
-5.  Develop a question that connects Perception to a real-world problem in Family.
-
-6.  Develop a question that connects Perception to a real-world problem in Family.
-
-7.  Develop a question that connects Perception to a real-world problem in Family.
-
-8.  Develop a question that connects Perception to a real-world problem in Family.
-
-9.  Develop a question that connects Perception to a real-world problem in Family.
-
-10.  Develop a question that connects Perception to a real-world problem in Family.
-
-11.  Develop a question that connects Perception to a real-world problem in Family.
-
-12.  Develop a question that connects Perception to a real-world problem in Family.
-
-13.  Develop a question that connects Perception to a real-world problem in Family.
-
-14.  Develop a question that connects Perception to a real-world problem in Family.
-
-15.  Develop a question that connects Perception to a real-world problem in Family.
-
-16.  Develop a question that connects Perception to a real-world problem in Family.
-
-17.  Develop a question that connects Perception to a real-world problem in Family.
-
-18.  Develop a question that connects Perception to a real-world problem in Family.
-
-19.  Develop a question that connects Perception to a real-world problem in Family.
-
-20.  Develop a question that connects Perception to a real-world problem in Family.
-
+1. How can you tell if someone is bluffing? (Micro-expressions).
+2. Why do referees use whistles? (Sound cuts through the noise).
+3. If everyone stops talking, what does it mean? (Something happened!).
+4. Can you play "Simon Says" with your eyes closed? (No, you need Visual Data).
+5. Why is eye contact important? (It connects the brains).
+6. What does a "Time Out" signal look like? (Hands in a T).
+7. How do you know it's your turn? (People look at you).
+8. Why do crowds cheer? (To send energy to the team).
+9. Can you hear a smile over the phone? (Yes, the voice changes shape).
+10. If you were invisible, would people still know you were there?

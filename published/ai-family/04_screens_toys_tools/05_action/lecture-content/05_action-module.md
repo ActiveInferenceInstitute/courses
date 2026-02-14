@@ -1,52 +1,70 @@
-# Module 05: Action in Family
+# Module 05: Action — Video Games and Controls
 
 ## Learning Objectives
 
-1.  Define **Action** within the context of Family.
-2.  Analyze how Action interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Family to the formal definition of Action.
+1. Understand that **Action** in a video game happens through a **Controller**.
+2. Learn about **Latency** (The speed of the signal).
+3. Know that video games are "Feedback Loops" (You act -> Game reacts -> You react).
 
-## Introduction
+## Introduction: The Magic Button
 
-This module explores **Action**. In the **Family** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+When you press "A" on your controller, Mario jumps.
+It feels instant.
+But it is a journey.
+Finger -> Button -> Wire -> Console -> TV -> Eyes.
+If any part of that chain is slow, you die in the game.
+This is the Perception-Action Loop at light speed.
 
 ## Key Concepts
 
-### 1. Action as a Markov Blanket Boundary
-How does Action define the boundary between the agent and the environment?
+### 1. The Interface (The Bridge)
 
-### 2. Generative Models of Action
-What parameters involved in Action must be optimized to minimize variational free energy?
+A controller is a bridge between your hands and the computer code.
 
-### 3. Active Inference Dynamics
-How does the process of Action drive the perception-action loop?
+* Buttons = Triggers.
+* Joysticks = Direction vectors.
+* Touchscreens = X,Y coordinates.
 
-## Applications
+### 2. Latency (Lag)
 
-In Family, we see Action manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+Have you ever played a game that felt "sticky"?
+That is **Latency**.
+The delay between your brain saying "Jump!" and Mario jumping.
+Low Latency = Good responsiveness.
+High Latency = Frustration (Game Over).
 
-## Conclusion
+### 3. Feedback (Rumble)
 
-Understanding Action allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+How do you know you got hit?
 
-<!-- Content padding to ensure file size requirements -->
+* Screen flashes red (Visual).
+* Sound effect (Auditory).
+* Controller shakes (Haptic).
+The game "touches" you back!
 
-<!-- Content padding to ensure file size requirements -->
+## Activities
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 1: The Human Controller
 
-<!-- Content padding to ensure file size requirements -->
+Partner A is the Player (holding a fake controller).
+Partner B is the Character (standing in front).
+A presses "A" -> B jumps.
+A presses "Left" -> B steps left.
+Be fast!
+If B is slow, say "Lag!"
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 2: The Mirror Game
 
-<!-- Content padding to ensure file size requirements -->
+Stand face to face.
+Try to move your hands exactly at the same time.
+Who is leading? Who is following?
+In a perfect loop, action and perception happen together.
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+Video games are the best way to practice Active Inference. You predict, you act, you update.
 
-<!-- Content padding to ensure file size requirements -->
+## References
 
-<!-- Content padding to ensure file size requirements -->
+* *Press Start* by Thomas Flintham
+* *Trapped in a Video Game* by Dustin Brady

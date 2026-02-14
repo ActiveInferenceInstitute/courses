@@ -5,46 +5,292 @@
     <title>module</title>
 </head>
 <body>
-<h1>Module 03: Perception in Organizations</h1>
+<h1>Market Sensing and Environmental Scanning: Organizational Perception</h1>
+<h2>Executive Summary</h2>
+<p>How does an organization know what is happening in its environment? Under Active Inference, perception is the process of <strong>inferring hidden states from observable data</strong> — updating the organization's beliefs about markets, customers, and competitors based on signals that cross the Markov blanket. This module examines how organizations sense their environment, what determines which signals receive attention, and how sensory pathologies (blind spots, noise, bias) distort organizational cognition.</p>
+<hr />
 <h2>Learning Objectives</h2>
+<p>By the end of this module, you will be able to:</p>
 <ol>
-<li>Define <strong>Perception</strong> within the context of Organizations.</li>
-<li>Analyze how Perception interacts with other components of the Active Inference framework.</li>
-<li>Apply specific constraints of Organizations to the formal definition of Perception.</li>
+<li>Explain organizational perception as <strong>sensory inference</strong> — inferring hidden market states from noisy observations</li>
+<li>Identify the organization's <strong>sensory channels</strong> and evaluate their coverage, reliability, and timeliness</li>
+<li>Apply the concept of <strong>precision</strong> to understand why some signals are weighted heavily and others are ignored</li>
+<li>Diagnose common <strong>perceptual pathologies</strong>: blind spots, signal distortion, confirmation bias, and information overload</li>
+<li>Design improved sensing mechanisms for your organization</li>
 </ol>
-<h2>Introduction</h2>
-<p>This module explores <strong>Perception</strong>. In the <strong>Organizations</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<hr />
 <h2>Key Concepts</h2>
-<h3>1. Perception as a Markov Blanket Boundary</h3>
-<p>How does Perception define the boundary between the agent and the environment?</p>
-<h3>2. Generative Models of Perception</h3>
-<p>What parameters involved in Perception must be optimized to minimize variational free energy?</p>
-<h3>3. Active Inference Dynamics</h3>
-<p>How does the process of Perception drive the perception-action loop?</p>
+<h3>1. Perception as Inference</h3>
+<p>Organizations never directly observe the "true" state of their environment. Instead, they receive <strong>noisy, ambiguous signals</strong> and must infer what is actually happening:</p>
+<table>
+<thead>
+<tr>
+<th>Hidden State (Unobservable)</th>
+<th>Observable Signals</th>
+<th>Inference Challenge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>True customer satisfaction</td>
+<td>NPS scores, churn rates, social media sentiment</td>
+<td>Signals are lagging, biased, incomplete</td>
+</tr>
+<tr>
+<td>Competitor's next move</td>
+<td>Patent filings, job postings, press releases</td>
+<td>Signals are indirect, potentially deceptive</td>
+</tr>
+<tr>
+<td>Market demand trajectory</td>
+<td>Sales data, search trends, analyst reports</td>
+<td>Signals are noisy, subject to seasonal effects</td>
+</tr>
+<tr>
+<td>Employee true engagement</td>
+<td>Survey responses, productivity metrics, exit interviews</td>
+<td>Socially desirable responding, lag between disengagement and departure</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Key Insight</strong>: Every organizational sensing mechanism is a <strong>likelihood function</strong> — a mapping from hidden states to observations. The quality of perception depends on how well this mapping is designed and maintained.</p>
+</blockquote>
+<h3>2. Sensory Channels</h3>
+<p>Organizations sense through multiple channels, each with different characteristics:</p>
+<table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Speed</th>
+<th>Richness</th>
+<th>Bias Risk</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Financial reports</td>
+<td>Slow (quarterly)</td>
+<td>Structured, quantitative</td>
+<td>Backward-looking</td>
+<td>P&amp;L, balance sheet</td>
+</tr>
+<tr>
+<td>Customer contact</td>
+<td>Medium</td>
+<td>Rich, qualitative</td>
+<td>Sample bias</td>
+<td>Support calls, sales meetings</td>
+</tr>
+<tr>
+<td>Market research</td>
+<td>Slow</td>
+<td>Designed, quantitative</td>
+<td>Question framing</td>
+<td>Surveys, focus groups</td>
+</tr>
+<tr>
+<td>Social media monitoring</td>
+<td>Fast</td>
+<td>Unstructured, noisy</td>
+<td>Vocal minority</td>
+<td>Twitter/X, review sites</td>
+</tr>
+<tr>
+<td>Competitive intelligence</td>
+<td>Variable</td>
+<td>Indirect</td>
+<td>Interpretation risk</td>
+<td>Industry events, public filings</td>
+</tr>
+<tr>
+<td>Internal sensors</td>
+<td>Fast</td>
+<td>Operational</td>
+<td>Measurement artifacts</td>
+<td>Production data, CRM, telemetry</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Case Study — Kodak</strong>: Kodak had extensive sensory channels monitoring the traditional film market. However, its sensing apparatus for digital photography was weak — digital camera development was siloed in a research lab with limited connection to the commercial sensing apparatus. The organization could not perceive the digital disruption because its sensory channels were optimized for the wrong hidden states.</p>
+<h3>3. Precision: What the Organization Attends To</h3>
+<p>Not all signals receive equal weight. <strong>Precision</strong> determines which observations are trusted and which are discounted:</p>
+<ul>
+<li><strong>High precision signals</strong>: Quarterly revenue (hard numbers, audited), key customer feedback (high-value relationship)</li>
+<li><strong>Low precision signals</strong>: Early-stage trend reports (speculative), anonymous employee feedback (uncertain provenance)</li>
+</ul>
+<p>Precision is not inherent — it is <strong>assigned by the organization's culture and incentive structure</strong>:</p>
+<ul>
+<li>Organizations with a "data-driven culture" assign high precision to quantitative metrics</li>
+<li>Organizations with strong executive intuition assign high precision to leader opinions</li>
+<li>Both approaches can be pathological: data fetishism ignores qualitative signals; executive intuition ignores disconfirming evidence</li>
+</ul>
+<h3>4. Perceptual Pathologies</h3>
+<table>
+<thead>
+<tr>
+<th>Pathology</th>
+<th>Description</th>
+<th>Active Inference Mechanism</th>
+<th>Organizational Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Blind spots</strong></td>
+<td>Failing to sense important signals</td>
+<td>Missing sensory channel for critical hidden state</td>
+<td>Kodak unable to sense digital disruption</td>
+</tr>
+<tr>
+<td><strong>Confirmation bias</strong></td>
+<td>Only attending to confirming evidence</td>
+<td>Excessively high precision on priors, low precision on disconfirming sensory data</td>
+<td>Blockbuster dismissing Netflix as a niche player</td>
+</tr>
+<tr>
+<td><strong>Signal distortion</strong></td>
+<td>Signals change as they travel through the org</td>
+<td>Information filtered at each hierarchical level</td>
+<td>Frontline concerns about product quality diluted before reaching executives</td>
+</tr>
+<tr>
+<td><strong>Information overload</strong></td>
+<td>Too many signals, insufficient filtering</td>
+<td>Low precision on all signals → inability to discriminate</td>
+<td>Executive dashboards with 200+ metrics</td>
+</tr>
+<tr>
+<td><strong>Lag</strong></td>
+<td>Sensing the past, not the present</td>
+<td>Sensory data reflects historical states</td>
+<td>Monthly financial close reveals problems 6 weeks after they occurred</td>
+</tr>
+</tbody>
+</table>
+<h3>5. Active Sensing: Creating Information</h3>
+<p>Organizations don't just passively receive signals — they <strong>actively seek information</strong>. Active sensing corresponds to <strong>epistemic action</strong> in Active Inference: actions whose primary purpose is to reduce uncertainty.</p>
+<p>Examples of organizational active sensing:</p>
+<ul>
+<li>Running market experiments and A/B tests</li>
+<li>Conducting customer discovery interviews</li>
+<li>Commissioning competitive analysis</li>
+<li>Launching pilot programs in uncertain markets</li>
+<li>Hiring consultants to provide an outside-in perspective</li>
+</ul>
+<hr />
 <h2>Applications</h2>
-<p>In Organizations, we see Perception manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
-<h2>Conclusion</h2>
-<p>Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+<h3>Perceptual Audit Template</h3>
+<p>Evaluate your organization's sensing capabilities:</p>
+<table>
+<thead>
+<tr>
+<th>Environment Domain</th>
+<th>Sensing Channel</th>
+<th>Frequency</th>
+<th>Precision</th>
+<th>Coverage</th>
+<th>Gap?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Customer needs</td>
+<td></td>
+<td></td>
+<td>High/Med/Low</td>
+<td>Full/Partial/None</td>
+<td></td>
+</tr>
+<tr>
+<td>Competitor actions</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Technology trends</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Regulatory changes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Employee engagement</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Supply chain risks</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Cross-References</h2>
+<ul>
+<li>For collective perception and wisdom of crowds, see <a href="../../02_collective_intelligence/03_perception/module.md">Collective Intelligence: Perception</a></li>
+<li>For strategic intelligence and weak signal detection, see <a href="../../03_strategic_modeling/03_perception/module.md">Strategic Modeling: Perception</a></li>
+<li>For data pipelines and sensor networks, see <a href="../../04_digital_transformation/03_perception/module.md">Digital Transformation: Perception</a></li>
+<li>See the <a href="../../resources/glossary.md">Glossary</a> for definitions of precision, prediction error, and signal detection</li>
+</ul>
+<hr />
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Organizational Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Perception</td>
+<td>Inferring hidden market states from noisy observations</td>
+</tr>
+<tr>
+<td>Sensory channels</td>
+<td>The mechanisms (reports, research, contacts) that bring information in</td>
+</tr>
+<tr>
+<td>Precision</td>
+<td>The weight assigned to different signals (what the org "trusts")</td>
+</tr>
+<tr>
+<td>Perceptual pathologies</td>
+<td>Blind spots, bias, distortion, overload, lag</td>
+</tr>
+<tr>
+<td>Active sensing</td>
+<td>Intentional actions designed to reduce uncertainty</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>References</h2>
+<ul>
+<li>Weick, K. E. (1995). <em>Sensemaking in Organizations</em>. Sage.</li>
+<li>March, J. G. (1991). Exploration and exploitation in organizational learning. <em>Organization Science</em>, 2(1), 71–87.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press.</li>
+</ul>
 </body>
 </html>

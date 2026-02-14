@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Innovation Ecosystem — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>The Innovation Ecosystem</h1>
+  <p class="subtitle">Systems Thinking for Invention at Scale</p>
+  <span class="tag">Section 4 &middot; Module 1</span>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="concepts">Concepts</div>
+  <div class="tab" data-tab="quiz">Quiz</div>
+  <div class="tab" data-tab="checklist">Checklist</div>
+  <div class="tab" data-tab="modules">Modules</div>
+</div>
+
+<div class="panel active" id="concepts">
+  <div class="concept-card" data-concept="0">
+    <h3>Hierarchical Ecosystem Structure</h3>
+    <div class="desc">
+      <p>Innovation ecosystems form hierarchical generative models where users, firms, industry groups, and regulators each model the levels below and above them. Predictions cascade downward while prediction errors propagate upward. Understanding your position in this hierarchy reveals which levels you can influence and which constrain you.</p>
+      <p><strong>Example:</strong> Apple modeled the entire smartphone ecosystem — carriers, developers, users, accessory makers — creating a platform that aligned incentives at every level.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:90%"></div></div>
+  </div>
+  <div class="concept-card" data-concept="1">
+    <h3>Ecosystem Markov Blankets</h3>
+    <div class="desc">
+      <p>An invention's Markov blanket at ecosystem scale separates internal states (technology, team) from external states (market, regulation) through sensory states (market research, feedback) and active states (launches, filings). Mapping this blanket reveals your strategic surface area — what you can sense, what you can influence, and what lies beyond your reach.</p>
+      <p><strong>Example:</strong> Tesla identified that charging infrastructure was an active state it could build, while oil prices remained an external state it could only monitor.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:85%"></div></div>
+  </div>
+  <div class="concept-card" data-concept="2">
+    <h3>Platform Effects and Network Dynamics</h3>
+    <div class="desc">
+      <p>Platforms are shared generative models that reduce free energy for multiple agents simultaneously. Each new participant reduces uncertainty for all existing participants, creating positive feedback loops that drive winner-take-all dynamics. Your strategy depends critically on whether you are building, joining, or competing with a platform.</p>
+      <p><strong>Example:</strong> VHS beat Betamax not through technical superiority but by reducing free energy for more content producers and consumers through aggressive licensing.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:80%"></div></div>
+  </div>
+  <div class="concept-card" data-concept="3">
+    <h3>Regulatory Shared Generative Models</h3>
+    <div class="desc">
+      <p>Regulations and standards function as shared priors that coordinate behavior across an ecosystem. They reduce uncertainty for all participants by establishing common expectations about what is permitted, required, and protected. Inventors who understand the regulatory generative model can navigate it efficiently — or shape it through participation in standards processes.</p>
+      <p><strong>Example:</strong> The FDA approval process is a formalized inference procedure where each clinical trial phase provides increasingly precise evidence for updating beliefs about drug safety and efficacy.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:75%"></div></div>
+  </div>
+  <div class="concept-card" data-concept="4">
+    <h3>Ecosystem Lifecycle Dynamics</h3>
+    <div class="desc">
+      <p>Ecosystems evolve through phases — emergence, growth, maturity, and decline/transformation — each with a distinct free energy landscape. In emergence, uncertainty is high and multiple competing models coexist. In maturity, dominant designs have stabilized and free energy is low. Disruption occurs when external changes make existing models inaccurate, raising free energy and creating space for new inventions.</p>
+      <p><strong>Example:</strong> The automotive ecosystem spent a century in ICE maturity. Climate change and battery technology created prediction errors that opened space for Tesla's electric vehicle model.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:70%"></div></div>
+  </div>
+  <div class="concept-card" data-concept="5">
+    <h3>Open Source as Ecosystem Architecture</h3>
+    <div class="desc">
+      <p>Open source projects like Linux demonstrate how a shared, transparent generative model can reduce free energy for an entire ecosystem. The modular kernel architecture creates well-defined Markov blankets between subsystems. Companies that would otherwise compete contribute to the shared model because it reduces uncertainty more efficiently than proprietary alternatives.</p>
+      <p><strong>Example:</strong> The Linux Foundation coordinates contributions from Google, Microsoft, and Amazon to a shared kernel, enabling all three to build cloud services on a common, trusted foundation.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:65%"></div></div>
+  </div>
+</div>
+
+<div class="panel" id="quiz">
+  <div class="quiz-box">
+    <h3 id="q-title">Question 1 of 7</h3>
+    <p id="q-text"></p>
+    <div id="q-opts"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" id="q-prev" onclick="prevQ()">Previous</button>
+      <span id="q-score" style="color:var(--muted);font-size:.85rem"></span>
+      <button class="quiz-btn" id="q-next" onclick="nextQ()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="checklist">
+  <h3 style="margin-bottom:.5rem">Learning Checklist</h3>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">Track your progress through this module's key competencies.</p>
+  <div class="checklist" id="cl-list"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill" style="width:0%"></div></div>
+  <div class="cl-status" id="cl-status">0 of 5 complete</div>
+</div>
+
+<div class="panel" id="modules">
+  <h3 style="margin-bottom:.5rem">Section 4: Innovation Ecosystems</h3>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">All modules in this section.</p>
+  <div class="mod-grid">
+    <div class="mod-card current"><div class="num">01</div><div class="name">The Innovation Ecosystem</div></div>
+    <div class="mod-card"><div class="num">02</div><div class="name">Stakeholders & Adopters</div></div>
+    <div class="mod-card"><div class="num">03</div><div class="name">Market Sensing</div></div>
+    <div class="mod-card"><div class="num">04</div><div class="name">Strategic Thinking</div></div>
+    <div class="mod-card"><div class="num">05</div><div class="name">Launching & Scaling</div></div>
+    <div class="mod-card"><div class="num">06</div><div class="name">Organizational Learning</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">Innovation Communication</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">Long-Term Strategy</div></div>
+  </div>
+</div>
+
+<script>
+const tabs=document.querySelectorAll('.tab');
+const panels=document.querySelectorAll('.panel');
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.classList.remove('active'));
+  panels.forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById(t.dataset.tab).classList.add('active');
+}));
+
+document.querySelectorAll('.concept-card').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('open')));
+
+const quizData=[
+  {q:"In Active Inference terms, what is the primary function of a platform in an innovation ecosystem?",opts:["To maximize revenue for the platform owner through monopoly pricing","To serve as a shared generative model that reduces free energy for multiple agents","To prevent new entrants from competing in the market","To replace government regulation with market-based solutions"],correct:1,explain:"Platforms function as shared generative models. Each agent using the platform can make more accurate predictions, reducing their free energy. This is why platforms attract participants — they make the world more predictable."},
+  {q:"Which ecosystem phase typically has the lowest free energy for incumbent firms?",opts:["Emergence — when everything is new","Growth — when adoption is accelerating","Maturity — when dominant designs are established","Transformation — when disruption is occurring"],correct:2,explain:"In the maturity phase, dominant designs have stabilized, standards are established, and generative models are well-optimized. Incumbents have refined their models over time, achieving low free energy — but this also makes them vulnerable to disruption."},
+  {q:"How does an invention's Markov blanket change as it scales from startup to global enterprise?",opts:["It contracts as the invention becomes more specialized","It remains fixed once product-market fit is achieved","It expands to include new sensory and active states at larger scales","It dissolves as the invention becomes dominant"],correct:2,explain:"Scaling expands the Markov blanket. A startup monitors local customers and a few investors. A global enterprise must sense international regulations, global supply chains, diverse user populations, and geopolitical dynamics."},
+  {q:"Why did VHS prevail over Betamax despite Betamax's technical advantages?",opts:["Sony refused to license Betamax to other manufacturers","VHS achieved lower ecosystem-level free energy through stronger network effects","Government regulations favored VHS format standards","Consumers preferred the VHS brand name"],correct:1,explain:"VHS attracted more content producers through longer recording times and open licensing. More content reduced user uncertainty (more to watch), which increased hardware sales, which attracted more content — a positive feedback loop that minimized ecosystem free energy."},
+  {q:"What role do standards bodies play in the Active Inference model of innovation ecosystems?",opts:["They increase free energy by imposing constraints on invention","They function as agents that maintain shared generative models for interoperability","They are external states that cannot be influenced by individual inventors","They eliminate the need for individual firms to maintain their own generative models"],correct:1,explain:"Standards bodies maintain shared generative models — common expectations about how systems will interoperate. They can be influenced (firms participate in standards processes), and they reduce ecosystem-wide uncertainty while individual firms still maintain their own proprietary models."},
+  {q:"Moderna's mRNA vaccine could not achieve widespread adoption before COVID-19 primarily because:",opts:["The technology was not ready for human use","The pharmaceutical ecosystem's generative model predicted 5-10 year development timelines, creating misaligned expectations","mRNA technology was blocked by patents from competitors","The FDA explicitly prohibited mRNA-based therapeutics"],correct:1,explain:"The existing ecosystem generative model — how long vaccines take, what evidence is needed, how investment flows — was calibrated for conventional technologies. COVID-19 changed the free energy landscape so dramatically that the ecosystem rapidly reconfigured around the mRNA platform."},
+  {q:"An inventor participating in a standards-setting process is primarily attempting to:",opts:["Delay competitors by making the process longer","Shape the shared generative model in ways favorable to their technology","Gain insider information about competitor technologies","Satisfy regulatory requirements for market entry"],correct:1,explain:"Standards define the shared generative model for interoperability. By participating in their creation, an inventor can shape which features, interfaces, and approaches become the ecosystem default — as Qualcomm did with CDMA and 5G standards."}
+];
+
+let currentQ=0,score=0,answered=Array(quizData.length).fill(false);
+
+function renderQ(){
+  const q=quizData[currentQ];
+  document.getElementById('q-title').textContent=`Question ${currentQ+1} of ${quizData.length}`;
+  document.getElementById('q-text').textContent=q.q;
+  const opts=document.getElementById('q-opts');
+  opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const d=document.createElement('div');
+    d.className='quiz-opt';
+    d.textContent=String.fromCharCode(65+i)+') '+o;
+    d.onclick=()=>selectOpt(i);
+    opts.appendChild(d);
+  });
+  document.getElementById('q-explain').style.display='none';
+  document.getElementById('q-explain').textContent=q.explain;
+  document.getElementById('q-score').textContent=`Score: ${score}/${quizData.length}`;
+}
+
+function selectOpt(i){
+  if(answered[currentQ])return;
+  answered[currentQ]=true;
+  const opts=document.querySelectorAll('#q-opts .quiz-opt');
+  const correct=quizData[currentQ].correct;
+  if(i===correct){score++;opts[i].classList.add('correct');}
+  else{opts[i].classList.add('wrong');opts[correct].classList.add('correct');}
+  document.getElementById('q-explain').style.display='block';
+  document.getElementById('q-score').textContent=`Score: ${score}/${quizData.length}`;
+}
+
+function nextQ(){if(currentQ<quizData.length-1){currentQ++;renderQ();}}
+function prevQ(){if(currentQ>0){currentQ--;renderQ();}}
+renderQ();
+
+const clItems=[
+  "I can define an innovation ecosystem as a hierarchical Active Inference system",
+  "I can map the Markov blanket of an invention within its ecosystem",
+  "I understand how platform effects create positive feedback loops in ecosystems",
+  "I can analyze regulatory environments as shared generative models",
+  "I can identify the current phase of an ecosystem and its strategic implications"
+];
+const clKey='s4m1_checklist';
+let clState=JSON.parse(localStorage.getItem(clKey)||'[]');
+if(clState.length!==clItems.length)clState=Array(clItems.length).fill(false);
+
+function renderCL(){
+  const list=document.getElementById('cl-list');
+  list.innerHTML='';
+  clItems.forEach((item,i)=>{
+    const d=document.createElement('div');
+    d.className='cl-item';
+    d.innerHTML=`<input type="checkbox" ${clState[i]?'checked':''} onchange="toggleCL(${i})"><span>${item}</span>`;
+    list.appendChild(d);
+  });
+  const done=clState.filter(Boolean).length;
+  document.getElementById('cl-fill').style.width=(done/clItems.length*100)+'%';
+  document.getElementById('cl-status').textContent=`${done} of ${clItems.length} complete`;
+}
+
+function toggleCL(i){
+  clState[i]=!clState[i];
+  localStorage.setItem(clKey,JSON.stringify(clState));
+  renderCL();
+}
+renderCL();
+</script>
+</body>
+</html>

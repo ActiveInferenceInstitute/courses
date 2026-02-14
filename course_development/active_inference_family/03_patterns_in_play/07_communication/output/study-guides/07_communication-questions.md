@@ -1,42 +1,12 @@
-# Study Questions: Communication
+# Course — Module 07 — Think About It
 
-1.  Define **Communication** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Communication?
-
-3.  Contrast the Classical view of Communication with the Active Inference view.
-
-4.  Develop a question that connects Communication to a real-world problem in Family.
-
-5.  Develop a question that connects Communication to a real-world problem in Family.
-
-6.  Develop a question that connects Communication to a real-world problem in Family.
-
-7.  Develop a question that connects Communication to a real-world problem in Family.
-
-8.  Develop a question that connects Communication to a real-world problem in Family.
-
-9.  Develop a question that connects Communication to a real-world problem in Family.
-
-10.  Develop a question that connects Communication to a real-world problem in Family.
-
-11.  Develop a question that connects Communication to a real-world problem in Family.
-
-12.  Develop a question that connects Communication to a real-world problem in Family.
-
-13.  Develop a question that connects Communication to a real-world problem in Family.
-
-14.  Develop a question that connects Communication to a real-world problem in Family.
-
-15.  Develop a question that connects Communication to a real-world problem in Family.
-
-16.  Develop a question that connects Communication to a real-world problem in Family.
-
-17.  Develop a question that connects Communication to a real-world problem in Family.
-
-18.  Develop a question that connects Communication to a real-world problem in Family.
-
-19.  Develop a question that connects Communication to a real-world problem in Family.
-
-20.  Develop a question that connects Communication to a real-world problem in Family.
-
+1. What is "The Weakest Link"? (The part of the system most likely to break).
+2. Why do wolves hunt in packs? (To catch bigger prey).
+3. What is a "Ball Hog"? (An agent who refuses to share).
+4. How do bees tell each other where flowers are? (The Waggle Dance).
+5. Why do we high-five? (Physical connection reinforces the bond).
+6. Can a team win if they hate each other? (It is very hard).
+7. What does "There is no 'I' in Team" mean? (The group goal > individual goal).
+8. How do synchronized swimmers stay together underwater? (Rhythm and counting).
+9. Why do Quarterbacks use code words? (Encrypted communication).
+10. If you fell backward, would you trust your friend to catch you?

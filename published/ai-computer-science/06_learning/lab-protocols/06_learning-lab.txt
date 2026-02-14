@@ -1,0 +1,76 @@
+Lab 06: Parameter Learning with Dirichlet Updates
+
+Objective
+
+Implement online parameter learning, track convergence toward the true model, and evaluate model quality with BMR.
+
+Prerequisites
+
+Completed Labs 01–05
+Understanding of Dirichlet distributions and conjugate priors
+
+Part 1: Initializing Dirichlet Concentrations
+
+Goal: Set up pA and pB prior concentrations for a 2-state system.
+
+Create a DiscreteEnvironment with known trueA and trueB.
+Initialize pA = np.ones((2, 2)) (uniform Dirichlet prior).
+Compute the initial expected A-matrix using expectedA(pA).
+Compare with trueA using KL divergence for each column.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 2: Online Learning Loop
+
+Goal: Run 100 steps of perception-action-learning and track model convergence.
+
+Create an agent with the initial expected A-matrix.
+At each step: infer states, select action, update pA, update pB, recompute expected matrices.
+Log the KL divergence between expectedA(pA) and trueA at each step.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 3: Visualizing Learning Progress
+
+Goal: Plot the learning curve and compare initial vs. learned matrices.
+
+Plot KL divergence over time using plotlearningprogress().
+Plot the initial and final pA using plotdirichletconcentration().
+Plot the final expected A-matrix using plotAmatrix().
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 4: Multi-Episode Training
+
+Goal: Run 5 episodes of 50 steps, accumulating pA across episodes.
+
+After each episode, reset the environment and agent beliefs, but keep pA.
+Record the mean KL divergence during each episode.
+Plot a bar chart of mean KL per episode to show improvement.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 5: Bayesian Model Reduction
+
+Goal: Use BMR to compare the learned model against a reduced model.
+
+After 100 steps of learning, compute bayesianmodelreduction(pAlearned, pAreduced).
+For pAreduced, set small off-diagonal concentrations to 0.1 (sparser model).
+Report ΔF and interpret whether the reduced model is preferred.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Summary
+
+| Skill | Library Component | Status |
+|-------|------------------|--------|
+| Initialize Dirichlet concentration priors | pA = np.ones(...), expectedA() | |
+| Update pA/pB after each step | updatedirichletA(), updatedirichletB() | |
+| Track learning convergence | KL divergence, plotlearningprogress() | |
+| Run multi-episode training | Accumulated pA across resets | |
+| Evaluate models with BMR | bayesianmodelreduction() | |

@@ -1,23 +1,79 @@
-# Lab: Exploring Communication
+# Lab: Cross-Team Alignment Workshop Design
 
-## Objective
+## Objectives
 
-Design and simulate a simple agent that demonstrates the principles of **Communication**.
+> **Learning Goal:** Design and prototype a cross-team alignment workshop for two teams that need to collaborate effectively.
 
-## Prerequisites
+---
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Communication.
+## Part 1: Select Team Pair (5 min)
 
-## Steps
+| Element | Detail |
+|---------|--------|
+| Team A | |
+| Team B | |
+| Shared deliverable / dependency | |
+| Current quality of collaboration (1-5) | |
+| Key pain point | |
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Communication.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Communication (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+{fill:textarea, placeholder: "Identify the teams and their collaboration challenge"}
 
-## Discussion Requirements
+---
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Communication.
+## Part 2: Model Gap Analysis (10 min)
+
+| Dimension | Team A's Model | Team B's Model | Gap |
+|-----------|---------------|---------------|-----|
+| Goal understanding | | | |
+| Key priorities | | | |
+| Vocabulary / jargon | | | |
+| Success definition | | | |
+| View of the other team | | | |
+
+{fill:textarea, placeholder: "Analyze differences between the teams' models"}
+
+---
+
+## Part 3: Design the Workshop (20 min)
+
+| Workshop Element | Design |
+|-----------------|--------|
+| **Duration** | |
+| **Participants** (from each team) | |
+| **Pre-work** (assignments before the workshop) | |
+| **Opening** (ice-breaker / context-setting) | |
+| **Exercise 1** (mutual model sharing) | |
+| **Exercise 2** (joint problem-solving) | |
+| **Exercise 3** (commitment and action items) | |
+| **Output** (boundary object to maintain alignment) | |
+| **Follow-up** (how to sustain alignment) | |
+
+{fill:textarea, placeholder: "Design the alignment workshop"}
+
+---
+
+## Part 4: Boundary Object Design (10 min)
+
+Design one boundary object that both teams can use:
+
+| Element | Design |
+|---------|--------|
+| Type (dashboard, document, prototype, etc.) | |
+| Content | |
+| How Team A interprets it | |
+| How Team B interprets it | |
+| Update cadence | |
+| Owner | |
+
+{fill:textarea, placeholder: "Design a boundary object for ongoing alignment"}
+
+---
+
+## Summary
+
+| Component | Design Decision |
+|-----------|----------------|
+| Workshop format | |
+| Key boundary object | |
+| Follow-up mechanism | |
+| Expected outcome | |

@@ -8,15 +8,6 @@
 
 ## 🎯 Stream Agenda: Comprehensive Repository Walk-through
 
-### Opening (5 min)
-
-- Start with a Github push
-- Welcome & stream context
-- Write comments and questions in the livechat, we will make and publish courses for whatever people suggest.
-- What is this repo? — A single open-source home for **10 courses**, **320 modules**, **3,400+ content files**, a full **publishing engine**, and a **YouTube transcript archive**
-- This is intended as a first pass on course material; an opening gambit. From here, please email <blanket@activeinference.institute> with subject [EDUCATION] if you would like to get involved. There are directions ranging from course polishing, curating, and presenting, credentialing, DeSchooling, translation and localization
-- Goals for today: walk through every layer of the repository, explore existing courses, make new courses, get excited about Active Inference education today and tomorrow!
-
 ---
 
 ### 1. Repository Architecture (10 min)

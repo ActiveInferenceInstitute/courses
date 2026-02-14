@@ -1,0 +1,43 @@
+# Module 05: Action — Agency as Inference, Affordances, and Active Exploration
+
+## Learning Objectives
+
+1. Explain how Active Inference unifies perception and action as two aspects of the same inferential process.
+2. Analyze the relationship between affordances (Gibson), pragmatism (Dewey), and the Active Inference account of action.
+3. Evaluate the implications of treating action as inference for the philosophical problem of free will.
+
+## Introduction
+
+In traditional philosophy, perception and action are treated as separate faculties — one receptive, the other productive. Empiricist epistemology begins with sensory input; pragmatism begins with practical engagement. Active Inference dissolves this divide: **action and perception are both forms of prediction error minimization**. Perception updates internal states to fit the world; action changes the world to fit internal states (predictions). The agent does not first perceive and then decide to act — it does both simultaneously, driven by the same imperative to minimize free energy.
+
+## Key Concepts
+
+### 1. Action as Self-Fulfilling Prophecy
+
+In Active Inference, action arises when the agent generates a prediction about its own sensory future — a **proprioceptive prediction** — and the body moves to *make that prediction come true*. Reaching for a cup involves predicting the sensory consequences of a successful reach; the motor system then acts to minimize the discrepancy between that prediction and the actual proprioceptive feedback.
+
+This inverts the classical computational model of motor control, which assumes: goal → plan → command → movement. In Active Inference, it is: prediction → prediction error → movement (to cancel the error). As Friston puts it: "I don't move my arm because I want to; I move my arm because I predict I will."
+
+### 2. Affordances and Expected Free Energy
+
+Gibson's (1979) concept of **affordances** — the action possibilities that the environment offers to an organism — finds a natural home in Active Inference. Affordances are encoded in the agent's generative model as the set of possible policies (action sequences) and their expected consequences. The agent selects the policy that minimizes **Expected Free Energy (EFE)**, which decomposes into:
+
+- **Pragmatic value (risk)**: Acting to reach preferred states (the C vector)
+- **Epistemic value (ambiguity resolution)**: Acting to gain information that reduces uncertainty
+
+This decomposition elegantly captures the distinction between *exploitative* action (seeking known rewards) and *exploratory* action (seeking information).
+
+### 3. Free Will as Inference
+
+If action arises from prediction error minimization, is there room for free will? Active Inference suggests a compatibilist answer: the agent's actions are *determined* by the generative model and its free energy dynamics, but the generative model is not a rigid mechanism — it is a flexible, hierarchical structure that can represent counter-factual possibilities and deliberate among them. "Free will" is the phenomenological experience of operating with a complex, multi-layered generative model that entertains multiple possible futures.
+
+This connects to Frankfurt's (1971) hierarchical account of free will: freedom consists not in the absence of causes but in the capacity for higher-order reflection on one's own desires.
+
+## Applications
+
+- **Embodied Expertise**: A skilled dancer does not "plan" each movement but allows prediction error minimization to unfold through a highly refined generative model. This illuminates Dreyfus's phenomenology of skill.
+- **Epistemic Action**: An infant shaking a rattle is not merely playing; it is engaging in *epistemic action* — generating sensory data to refine its generative model. Curiosity, on this account, is the drive to minimize expected ambiguity.
+
+## Conclusion
+
+Active Inference reveals that action is not the execution of a pre-formed plan but a form of embodied inference. This has radical implications for motor control, free will, and the nature of skilled engagement. Module 06 explores how the agent's generative model itself changes over time — the problem of learning.

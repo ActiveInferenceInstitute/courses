@@ -1,51 +1,66 @@
-# Practice Quiz: Cognition
+# Practice Quiz: Organizational Systems — Module 04: Cognition
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Cognition** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. An organization's **generative model** is:
 
-2. In Organizations, Cognition is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+A) Its product development process
+B) The collective set of beliefs about how the environment works, from which predictions flow
+C) The CEO's personal worldview
+D) Its machine learning algorithms
 
-3. Which mathematical quantity is most central to Cognition?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+1. **Sensemaking** in Active Inference terms is:
 
-4. How does Cognition relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+A) Making the annual budget
+B) The process of interpreting ambiguous signals and updating organizational beliefs (posterior inference)
+C) Filing customer complaints
+D) Attending industry conferences
 
-5. A failure in Cognition would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+1. **Priors** in organizational cognition are:
 
-6. Which scale is most relevant for analyzing Cognition in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+A) Previous employees
+B) Strategic assumptions held before new evidence arrives, which shape how new information is interpreted
+C) Annual reports
+D) Past quarterly earnings
 
-7. Cognition connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+1. Nokia's failure to respond to the iPhone illustrates:
 
-## Part B: Short Answer
+A) Insufficient R&D budget
+B) A generative model so strong (phones = hardware) that disconfirming evidence was reinterpreted rather than triggering model update
+C) Poor marketing
+D) Excessive innovation
 
-1.  Explain how **Cognition** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Cognition failing in a Organizations scenario.
-3.  How would you model Cognition using a POMDP (Partially Observable Markov Decision Process)?
+1. **Double-loop learning** (Argyris) occurs when:
+
+A) The organization increases efficiency by 2x
+B) The organization questions and revises the framework itself, not just actions within the framework
+C) Two departments learn the same lesson
+D) The CEO reviews the strategy twice
+
+1. Which cognitive pathology involves continuing investment in a failing project due to past spending?
+
+A) Groupthink
+B) Anchoring
+C) The sunk cost trap
+D) Confirmation bias
+
+1. An **assumption audit** is:
+
+A) A financial review
+B) A structured process for surfacing, categorizing, and testing the implicit beliefs that drive strategy
+C) An employee performance review
+D) A compliance check
+
+---
+
+## Part B: Short Analysis
+
+1. Your organization has believed for years that "premium pricing is justified because customers value quality." Recent market data shows increasing price sensitivity. The marketing team dismisses this as "temporary." The sales team is alarmed. Using Active Inference, diagnose what is happening: What is the prior? What is the prediction error? Why is the organization resisting updating? Propose an assumption audit process.
+
+2. A company's quarterly review consistently shows strong performance by traditional metrics (revenue, margin). But employees report a growing sense that "something is off" — they feel the company is losing relevance. Compare these two sensing channels (quantitative metrics vs. qualitative employee sentiment). Which should have higher precision? How would you design a cognition system that integrates both?
+
+3. You are advising a 50-year-old manufacturing firm that has never questioned its core business model. The CEO has asked you to lead a "strategic belief audit." Design a 3-step process: (a) eliciting the firm's implicit assumptions, (b) stress-testing them against current market realities, (c) recommending which assumptions to update and which to preserve.

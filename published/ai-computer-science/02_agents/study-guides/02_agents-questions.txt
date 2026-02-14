@@ -1,0 +1,41 @@
+Study Questions: Agents
+
+What are the five matrices (A, B, C, D, E) in a GenerativeModel, and what does each one encode?
+
+Why must the columns of the A-matrix sum to 1.0 rather than the rows? What probability does each column represent?
+
+Write the Python code to create a GenerativeModel for a 3-state, 3-observation system with 2 actions (identity and cyclic permutation), uniform C, uniform D, and no E.
+
+What validation error would you get if you passed a B-matrix with shape (3, 2, 2) when the A-matrix has shape (2, 2)? Why?
+
+Explain the role of the precision parameter γ in ActiveInferenceAgent. What happens when γ → 0? When γ → ∞?
+
+What is the difference between agent.step(obs) and calling agent.inferstates(obs), agent.inferpolicies(), agent.selectaction() separately?
+
+If model.E = None, what prior over policies does the agent use? How does this change the policy posterior equation?
+
+Describe the relationship between model.numactions and len(agent.policies). Are they always equal?
+
+How would you construct custom multi-step policies for a 2-action agent? Provide a Python example with 3-step policies.
+
+What does agent.reset() do to the agent's beliefs and history? When would you call it during a simulation?
+
+Explain why GenerativeModel raises a ValueError for a D-vector of [0.5, 0.3]. What is the validation rule?
+
+How does the C-vector influence which actions the agent selects? Trace the path from C through EFE to the policy posterior.
+
+If you set C = np.zeros(numobs), the agent becomes purely epistemic. Explain what "purely epistemic" means in terms of the risk component of EFE.
+
+Construct a T-maze GenerativeModel with 4 states (center, left, right, cue), 3 observations (neutral, reward, no-reward), and 3 actions (stay, go-left, go-right). Define each matrix.
+
+What does model.predictobservation(qs) compute? Write the mathematical formula.
+
+Why does model.predictstate(qs, action) need both the belief vector and the action index? What matrix does it use?
+
+Explain the output of model.logjoint(obs=0, state=0). What two terms are summed?
+
+How does model.surprisal(obs, q_s) relate to the log-model-evidence? Is lower surprisal better or worse for the agent?
+
+What is the default policy structure when you create ActiveInferenceAgent(model) without specifying policies? How many policies does a 4-action model produce?
+
+After running 10 steps of the perception-action loop, what data can you extract from agent.history? List all tracked quantities.

@@ -1,42 +1,45 @@
-# Study Questions: Perception
+# Organizational Systems — Module 03: Perception — Discussion Questions
 
-1.  Define **Perception** in your own words, specifically as it applies to Organizations.
+> 20 unique questions mixing analytical and applied perspectives on organizational sensing.
 
-2.  How does the Free Energy Principle constrain our understanding of Perception?
+---
 
-3.  Contrast the Classical view of Perception with the Active Inference view.
+1. Explain why an organization can never directly observe the "true" state of its market. What are the practical implications for how strategy is formulated?
 
-4.  Develop a question that connects Perception to a real-world problem in Organizations.
+2. Compare the sensory channels available to a pharmaceutical company versus a social media platform. How do differences in sensing speed, richness, and reliability shape each company's strategic behavior?
 
-5.  Develop a question that connects Perception to a real-world problem in Organizations.
+3. A CEO says: "I trust my gut more than the data." Using the concept of precision weighting, explain what this CEO is actually doing in Active Inference terms. When is this approach adaptive, and when is it pathological?
 
-6.  Develop a question that connects Perception to a real-world problem in Organizations.
+4. Describe the mechanism by which **confirmation bias** operates in organizations. How does excessive precision on prior beliefs cause an organization to filter out disconfirming evidence?
 
-7.  Develop a question that connects Perception to a real-world problem in Organizations.
+5. Why is **information overload** (too many metrics, too many reports) just as dangerous as **insufficient sensing**? Frame your answer in terms of precision allocation.
 
-8.  Develop a question that connects Perception to a real-world problem in Organizations.
+6. How does **signal distortion** occur as information travels up the organizational hierarchy? What organizational designs might reduce this distortion?
 
-9.  Develop a question that connects Perception to a real-world problem in Organizations.
+7. Distinguish between **passive perception** (receiving available data) and **active sensing** (deliberately seeking information). Provide two examples of each in a business context.
 
-10.  Develop a question that connects Perception to a real-world problem in Organizations.
+8. Kodak's failure to perceive digital disruption is often attributed to corporate arrogance. Using the Active Inference framework, provide a more precise diagnosis. What specific sensory and structural failures were at play?
 
-11.  Develop a question that connects Perception to a real-world problem in Organizations.
+9. How does the speed of an organization's sensory channels affect its competitive advantage? Compare a company with real-time analytics to one that relies on monthly financial reports.
 
-12.  Develop a question that connects Perception to a real-world problem in Organizations.
+10. What role does **diversity** play in organizational perception? How do teams with diverse backgrounds and expertise create a richer sensory apparatus than homogeneous teams?
 
-13.  Develop a question that connects Perception to a real-world problem in Organizations.
+11. Conduct a **perceptual audit** of your organization using the template from the module. Identify the three most critical sensing gaps and propose concrete improvements for each.
 
-14.  Develop a question that connects Perception to a real-world problem in Organizations.
+12. Your organization just missed a major market shift that a competitor detected 6 months earlier. Walk through a root cause analysis: was this a failure of sensory channels (no data), precision weighting (data was ignored), or inference (data was misinterpreted)?
 
-15.  Develop a question that connects Perception to a real-world problem in Organizations.
+13. Design an **early warning system** for your industry. What weak signals should it monitor? How frequently? What would trigger escalation to senior leadership?
 
-16.  Develop a question that connects Perception to a real-world problem in Organizations.
+14. Your company's customer satisfaction survey consistently shows high scores, but churn is increasing. Using the concept of signal distortion and measurement artifacts, diagnose what might be wrong with the sensing mechanism.
 
-17.  Develop a question that connects Perception to a real-world problem in Organizations.
+15. You are launching a product in a completely new market where you have no historical data. Design an **active sensing strategy** — a series of deliberate actions whose primary purpose is to reduce your uncertainty about customer preferences.
 
-18.  Develop a question that connects Perception to a real-world problem in Organizations.
+16. Compare how a military organization senses its environment versus how a hospital senses its environment. What can business organizations learn from each about the design of sensing systems?
 
-19.  Develop a question that connects Perception to a real-world problem in Organizations.
+17. A data-driven organization measures everything but seems unable to act on the information. Diagnose this using the Active Inference framework. What is the relationship between sensing and acting, and how can sensing without acting increase organizational free energy?
 
-20.  Develop a question that connects Perception to a real-world problem in Organizations.
+18. Your organization has a powerful competitive intelligence team, but their reports rarely influence executive decisions. Using precision and inference concepts, explain this disconnect and propose structural changes.
 
+19. Social media gives organizations unprecedented real-time sensing capability, but the signals are noisy and biased toward vocal minorities. Design a precision-appropriate approach to incorporating social media data into organizational decision-making.
+
+20. Reflect on a time when your organization's perception of a situation was dramatically wrong. Was the failure in the sensory channels, the precision assigned to signals, or the interpretation of the data? What systemic changes were made afterward, if any?

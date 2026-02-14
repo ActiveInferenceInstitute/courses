@@ -1,23 +1,77 @@
-# Lab: Exploring Planning
+# Lab: Scenario Planning Exercise
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Build strategic scenarios, evaluate your strategy under each, and design resilience improvements.
 
-Design and simulate a simple agent that demonstrates the principles of **Planning**.
+---
 
-## Prerequisites
+## Part 1: Key Uncertainty Identification (10 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Planning.
+| Uncertainty | Impact on Your Business (H/M/L) | Predictability (H/M/L) |
+|------------|--------------------------------|----------------------|
+| | | |
+| | | |
+| | | |
 
-## Steps
+Select the two highest-impact, lowest-predictability uncertainties as scenario axes.
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Planning.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Planning (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
 
-## Discussion Requirements
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Planning.
+
+---
+
+## Part 2: Scenario Construction (15 min)
+
+| Dimension | Scenario A | Scenario B | Scenario C |
+|-----------|-----------|-----------|-----------|
+| Name | | | |
+| Key assumption | | | |
+| Market environment | | | |
+| Technology state | | | |
+| Regulatory frame | | | |
+| Probability estimate | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: Strategy Stress Test (15 min)
+
+| Strategy Element | Scenario A | Scenario B | Scenario C |
+|-----------------|-----------|-----------|-----------|
+| Revenue model | Works? Y/N | | |
+| Competitive position | Strong/Weak | | |
+| Resource adequacy | Sufficient? Y/N | | |
+| Overall viability | Viable? Y/N | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Resilience Design (10 min)
+
+| Risk Identified | Hedging Action | Real Option to Maintain | Signpost to Monitor |
+|----------------|---------------|----------------------|-------------------|
+| | | | |
+| | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Strategy most vulnerable to scenario | |
+| Most robust strategy element | |
+| Priority real option to create/maintain | |
+| First signpost to monitor | |

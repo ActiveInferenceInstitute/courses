@@ -1,52 +1,70 @@
-# Module 04: Cognition in Family
+# Module 04: Cognition — Search Engines and Algorithms
 
 ## Learning Objectives
 
-1.  Define **Cognition** within the context of Family.
-2.  Analyze how Cognition interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Family to the formal definition of Cognition.
+1. Understand that **Cognition** for a computer is running a **Algorithm**.
+2. Learn how a **Search Engine** finds what you are looking for.
+3. Know that websites try to predict what you want to see (Recommendations).
 
-## Introduction
+## Introduction: The Librarian of the Internet
 
-This module explores **Cognition**. In the **Family** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Imagine a library with 1 Billion books.
+They are all in a big pile on the floor.
+If you want a book about "Cats," how do you find it?
+You need a Librarian.
+Google/Bing are the Librarians.
+They have an index of everything.
+When you ask, they find it in 0.0001 seconds.
 
 ## Key Concepts
 
-### 1. Cognition as a Markov Blanket Boundary
-How does Cognition define the boundary between the agent and the environment?
+### 1. The Algorithm (A Recipe)
 
-### 2. Generative Models of Cognition
-What parameters involved in Cognition must be optimized to minimize variational free energy?
+An Algorithm is just a fancy word for a Recipe.
 
-### 3. Active Inference Dynamics
-How does the process of Cognition drive the perception-action loop?
+1. Crack egg.
+2. Mix.
+3. Cook.
+Computer Algorithm:
+4. Look at search word.
+5. Find pages with that word.
+6. Show the most popular one first.
 
-## Applications
+### 2. Recommendation (The Prediction)
 
-In Family, we see Cognition manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+Why does YouTube show you videos of Minecraft?
+Because you watched Minecraft yesterday!
+The computer creates a Model of YOU.
+"He likes blocks. Show more blocks."
+It is trying to predict your future behavior.
 
-## Conclusion
+### 3. Filter Bubbles
 
-Understanding Cognition allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+If the computer ONLY shows you what you like, you never see new things.
+It's like only eating pizza forever.
+Sometimes you need to search for something totally different!
 
-<!-- Content padding to ensure file size requirements -->
+## Activities
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 1: The Sorting Algorithm
 
-<!-- Content padding to ensure file size requirements -->
+Sort a deck of cards.
+Method A: Throw them on the floor and pick them up one by one. (Inefficient).
+Method B: Separate red and black first. Then suits. Then numbers. (Efficient).
+Computers use efficient sorting to be fast.
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 2: The "Autofill" Game
 
-<!-- Content padding to ensure file size requirements -->
+Start a sentence: "I want to eat..."
+Let your phone finish it using the middle button.
+"I want to eat... pizza... tomorrow... with... Mom."
+The phone is guessing the next word using probability!
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+Computers are fast thinkers, but they only know what we teach them. You are the driver; the computer is the map.
 
-<!-- Content padding to ensure file size requirements -->
+## References
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+* *Computational Fairy Tales* by Jeremy Kubica
+* *Thinking, Fast and Slow* (Concepts adapted for kids)

@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_Systems - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>01_Systems</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>01_Systems</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 01: Systems — Generative Process vs Generative Model</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Distinguish the <strong>generative process</strong> (the true environment) from the <strong>generative model</strong> (the agent's internal model).</li>
+<li>Implement a <code>DiscreteEnvironment</code> with true A and B matrices and step through it programmatically.</li>
+<li>Explain how observations are sampled from the true likelihood matrix and how states transition under the true dynamics.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Every Active Inference agent lives inside a world it cannot access directly. The <strong>generative process</strong> is the real causal structure of that world — the true states, transition probabilities, and observation likelihoods. The <strong>generative model</strong> is the agent's <em>approximation</em> of that structure, encoded in matrices it can update.</p>
+<p>This distinction is the starting point for everything in computational Active Inference. If the generative model perfectly matched the generative process, free energy would be zero and the agent would have nothing left to learn. In practice, the mismatch between the two is exactly what drives perception, action, and learning.</p>
+<p>In the <code>active_inference</code> library, these two sides of the coin are represented by separate classes:</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Class</th>
+<th>Matrices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generative Process</td>
+<td><code>DiscreteEnvironment</code></td>
+<td><code>true_A</code>, <code>true_B</code> (ground truth)</td>
+</tr>
+<tr>
+<td>Generative Model</td>
+<td><code>GenerativeModel</code></td>
+<td><code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code> (agent's beliefs)</td>
+</tr>
+</tbody>
+</table>
+<h2>Key Concepts</h2>
+<h3>1. The Generative Process as Ground Truth</h3>
+<p>The generative process defines the true causal structure of the environment. In the discrete case, this consists of:</p>
+<ul>
+<li><strong>True states</strong> $s \in {0, 1, \ldots, N_s - 1}$: the hidden states of the world.</li>
+<li><strong>True likelihood</strong> $\mathbf{A}_{\text{true}}$: a matrix where $A[o, s] = P(o \mid s)$ — the probability of observing $o$ when the world is in state $s$.</li>
+<li><strong>True transitions</strong> $\mathbf{B}_{\text{true}}$: a tensor where $B[s', s, a] = P(s' \mid s, a)$ — the probability of transitioning to state $s'$ given the current state $s$ and action $a$.</li>
+</ul>
+<p>In code, you create a <code>DiscreteEnvironment</code> by supplying these matrices:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiscreteEnvironment</span>
+
+<span class="c1"># True likelihood: observation 0 is strong evidence for state 0</span>
+<span class="n">true_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]])</span>
+
+<span class="c1"># True transitions: action 0 = stay, action 1 = swap</span>
+<span class="n">true_B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">true_B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>           <span class="c1"># stay</span>
+<span class="n">true_B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                              <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>  <span class="c1"># swap</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">DiscreteEnvironment</span><span class="p">(</span><span class="n">true_A</span><span class="p">,</span> <span class="n">true_B</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>2. Observation Generation</h3>
+<p>When the environment is queried, it samples an observation from the true likelihood column corresponding to the current hidden state:</p>
+<p>$$o_t \sim \text{Cat}(\mathbf{A}_{\text{true}}[\cdot, s_t])$$</p>
+<p>This is implemented via <code>env.step(action)</code>, which:</p>
+<ol>
+<li>Transitions the hidden state: $s_{t+1} \sim \text{Cat}(\mathbf{B}_{\text{true}}[\cdot, s_t, a_t])$</li>
+<li>Generates an observation: $o_{t+1} \sim \text{Cat}(\mathbf{A}<em t_1="t+1">{\text{true}}[\cdot, s</em>])$</li>
+<li>Returns the observation index</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>   <span class="c1"># sample first observation</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>            <span class="c1"># take swap action, get new observation</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;State: </span><span class="si">{</span><span class="n">env</span><span class="o">.</span><span class="n">state</span><span class="si">}</span><span class="s2">, Obs: </span><span class="si">{</span><span class="n">obs</span><span class="si">}</span><span class="s2">, Timestep: </span><span class="si">{</span><span class="n">env</span><span class="o">.</span><span class="n">timestep</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>3. State-Space Dimensionality</h3>
+<p>The environment's dimensionality is derived from the matrices:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Derivation</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>num_obs</code></td>
+<td>Rows of A</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>num_states</code></td>
+<td>Columns of A</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>num_actions</code></td>
+<td>Third dimension of B (or 1 if B is 2-D)</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>A 2-D B matrix is treated as a single-action environment (the agent has no choice).</p>
+<h3>4. History Tracking</h3>
+<p>The environment records a complete trajectory:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">env</span> <span class="o">=</span> <span class="n">DiscreteEnvironment</span><span class="p">(</span><span class="n">true_A</span><span class="p">,</span> <span class="n">true_B</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]:</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;states&quot;</span><span class="p">])</span>        <span class="c1"># [0, 0, 1, 0, 0]  (initial + 4 steps)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;observations&quot;</span><span class="p">])</span>  <span class="c1"># [obs0, obs1, obs2, obs3]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">])</span>       <span class="c1"># [0, 1, 1, 0]</span>
+</code></pre></div>
+
+<p>This history can be visualized with <code>plot_environment_trajectory()</code>.</p>
+<h3>5. The Generative Model as the Agent's Hypothesis</h3>
+<p>While the environment uses <code>true_A</code> and <code>true_B</code>, the agent constructs its own hypothesis — a <code>GenerativeModel</code> — with matrices that may or may not match reality:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenerativeModel</span>
+
+<span class="c1"># Agent&#39;s model (might differ from truth)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GenerativeModel</span><span class="p">(</span>
+    <span class="n">A</span><span class="o">=</span><span class="n">true_A</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>       <span class="c1"># agent&#39;s likelihood beliefs</span>
+    <span class="n">B</span><span class="o">=</span><span class="n">true_B</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>       <span class="c1"># agent&#39;s transition beliefs</span>
+    <span class="n">C</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>         <span class="c1"># preferences (log scale)</span>
+    <span class="n">D</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span> <span class="c1"># prior over initial state</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>The gap between <code>model.A</code> and <code>true_A</code> (and similarly for B) is what the agent must close through perception and learning. This is the fundamental asymmetry of Active Inference.</p>
+<h2>Applications</h2>
+<ul>
+<li><strong>Sensory noise</strong>: A <code>true_A</code> with off-diagonal probability &gt; 0 simulates noisy observations. Setting <code>true_A = np.eye(N)</code> creates a fully observable environment.</li>
+<li><strong>Stochastic dynamics</strong>: A <code>true_B</code> that is not a permutation matrix creates environments where actions have uncertain effects (e.g., slippery gridworlds).</li>
+<li><strong>Benchmarking</strong>: By comparing the agent's learned A against <code>true_A</code>, you can measure how accurately the agent has recovered the environment's causal structure.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>The generative process / generative model distinction structures every Active Inference computation. The <code>DiscreteEnvironment</code> class encodes this process, providing the ground truth that agents must infer. In Module 02, we build the agent class that maintains and updates a <code>GenerativeModel</code> to minimize the mismatch.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab 01: Building and Exploring a Discrete Environment</h1>
+<h2>Objective</h2>
+<p>Build a <code>DiscreteEnvironment</code> from scratch, step through it, record trajectories, and visualize the generative process.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Python with NumPy and matplotlib installed</li>
+<li>Familiarity with probability distributions and matrix notation</li>
+<li>Access to the <code>active_inference</code> library (<code>src/active_inference/</code>)</li>
+</ul>
+<h2>Part 1: Constructing the Environment</h2>
+<p><strong>Goal</strong>: Create a 3-state, 2-observation environment with 2 actions.</p>
+<ol>
+<li>Define a <code>true_A</code> matrix of shape <code>(2, 3)</code> where:</li>
+<li>State 0 produces observation 0 with probability 0.8</li>
+<li>State 1 produces each observation with equal probability</li>
+<li>
+<p>State 2 produces observation 1 with probability 0.9</p>
+</li>
+<li>
+<p>Define a <code>true_B</code> tensor of shape <code>(3, 3, 2)</code> where:</p>
+</li>
+<li>Action 0 is the identity (stay in current state)</li>
+<li>
+<p>Action 1 rotates: state 0 → 1, state 1 → 2, state 2 → 0</p>
+</li>
+<li>
+<p>Create a <code>DiscreteEnvironment</code> starting in state 0.</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiscreteEnvironment</span>
+
+<span class="c1"># TODO: Define true_A and true_B</span>
+<span class="c1"># TODO: Create environment</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 2: Running a Trajectory</h2>
+<p><strong>Goal</strong>: Step the environment for 20 timesteps using a fixed action sequence.</p>
+<ol>
+<li>Reset the environment to state 0.</li>
+<li>Alternate between action 0 (stay) and action 1 (rotate) for 20 steps.</li>
+<li>Record the state, observation, and action at each step.</li>
+<li>Print the full trajectory.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">initial_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">action</span> <span class="o">=</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">2</span>  <span class="c1"># alternate stay/rotate</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t=</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">: action=</span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">, state=</span><span class="si">{</span><span class="n">env</span><span class="o">.</span><span class="n">state</span><span class="si">}</span><span class="s2">, obs=</span><span class="si">{</span><span class="n">obs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 3: Visualizing the Trajectory</h2>
+<p><strong>Goal</strong>: Use <code>plot_environment_trajectory</code> to visualize the state-observation-action sequence.</p>
+<ol>
+<li>After running Part 2, extract <code>env.history</code>.</li>
+<li>Call <code>plot_environment_trajectory</code> to generate a figure.</li>
+<li>Save the figure to <code>output/lab01_trajectory.png</code>.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">active_inference.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_environment_trajectory</span>
+
+<span class="n">plot_environment_trajectory</span><span class="p">(</span>
+    <span class="n">states</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;states&quot;</span><span class="p">],</span>
+    <span class="n">observations</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;observations&quot;</span><span class="p">],</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;output/lab01_trajectory.png&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 4: Empirical Likelihood Estimation</h2>
+<p><strong>Goal</strong>: Verify the <code>true_A</code> matrix by collecting observations.</p>
+<ol>
+<li>Reset the environment. Fix the state by using action 0 (identity) from a known starting state.</li>
+<li>Collect 1000 observations from each state (reset to each state, step with identity action 1000 times).</li>
+<li>Compute the empirical frequency of each observation per state.</li>
+<li>Compare with the original <code>true_A</code> matrix.</li>
+</ol>
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Part 5: Analysis Questions</h2>
+<ol>
+<li>
+<p>When you ran 20 steps with alternating actions, how many unique states did the trajectory visit? Was this predictable from the <code>true_B</code> matrix?</p>
+</li>
+<li>
+<p>Did your empirical likelihood estimates in Part 4 converge to the true values? How many samples were needed for 2-decimal accuracy?</p>
+</li>
+<li>
+<p>What would change if you made <code>true_A = np.eye(3, 2).T</code> (a non-square identity-like matrix)? Would the environment still be valid?</p>
+</li>
+</ol>
+<p><strong>Response</strong>: {fill:textarea}</p>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Library Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create environments with custom A and B matrices</td>
+<td><code>DiscreteEnvironment(true_A, true_B)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Step through environments and collect trajectories</td>
+<td><code>env.step(action)</code>, <code>env.history</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Visualize state-observation trajectories</td>
+<td><code>plot_environment_trajectory()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Empirically verify likelihood matrices</td>
+<td>Manual frequency counting vs <code>true_A</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Understand the generative process abstraction</td>
+<td>Generative process ≠ generative model</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Systems</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>What does the <code>true_A</code> matrix in a <code>DiscreteEnvironment</code> represent?
+A) The agent's beliefs about observations
+B) The true probability of observing $o$ given hidden state $s$
+C) The transition dynamics between states
+D) The agent's prior over initial states</p>
+</li>
+<li>
+<p>If <code>true_A</code> has shape <code>(5, 3)</code>, the environment has:
+A) 5 states and 3 observations
+B) 3 states and 5 observations
+C) 5 observations and 3 states
+D) 15 state-observation pairs</p>
+</li>
+<li>
+<p>When <code>env.step(action)</code> is called, what happens first?
+A) An observation is generated from the current state
+B) The hidden state transitions according to <code>true_B</code>
+C) The agent updates its beliefs
+D) Free energy is computed</p>
+</li>
+<li>
+<p>A fully observable environment corresponds to:
+A) <code>true_A</code> being all zeros
+B) <code>true_A</code> being the identity matrix
+C) <code>true_B</code> being the identity matrix
+D) <code>true_A</code> having uniform columns</p>
+</li>
+<li>
+<p>If <code>true_B</code> is passed as a 2-D matrix (shape <code>(N, N)</code>), the environment assumes:
+A) There are N possible actions
+B) There is exactly 1 action
+C) The transitions are stochastic
+D) The B matrix is invalid</p>
+</li>
+<li>
+<p>After calling <code>env.reset(initial_state=0)</code> followed by 10 calls to <code>env.step()</code>, how many entries does <code>env.history["states"]</code> contain?
+A) 10
+B) 11
+C) 9
+D) 12</p>
+</li>
+<li>
+<p>The key difference between <code>DiscreteEnvironment</code> and <code>GenerativeModel</code> is:
+A) <code>DiscreteEnvironment</code> uses continuous states
+B) <code>GenerativeModel</code> represents ground truth; <code>DiscreteEnvironment</code> is an approximation
+C) <code>DiscreteEnvironment</code> represents ground truth; <code>GenerativeModel</code> is the agent's hypothesis
+D) There is no difference; they use the same matrices</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Write Python code to create a <code>DiscreteEnvironment</code> for a 3-state system where observations are deterministic (identity A-matrix) and action 0 keeps the state while action 1 cycles through states. Show the <code>true_A</code> and <code>true_B</code> matrices.</p>
+</li>
+<li>
+<p>Explain why columns (not rows) of the <code>true_A</code> matrix must sum to 1.0. What probability is each column encoding, and what would go wrong if the normalization were over rows instead?</p>
+</li>
+<li>
+<p>You observe the sequence $[0, 0, 1, 0, 1]$ from a 2-state environment. Using Bayes' rule and the <code>true_A</code> matrix $\begin{bmatrix} 0.9 &amp; 0.2 \ 0.1 &amp; 0.8 \end{bmatrix}$, compute $P(s_0 = 0 \mid o_0 = 0)$ assuming a uniform prior $P(s_0) = [0.5, 0.5]$.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

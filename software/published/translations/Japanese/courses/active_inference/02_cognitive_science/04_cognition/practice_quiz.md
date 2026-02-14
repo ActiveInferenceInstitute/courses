@@ -1,0 +1,51 @@
+# Practice Quiz: Cognition
+
+## Part A: Multiple Choice
+
+1. Precision in Active Inference is mathematically defined as:
+A) The mean of a probability distribution
+B) The inverse variance (1/σ²) — a measure of confidence or certainty
+C) The entropy of a distribution
+D) The log-likelihood ratio
+
+2. Neurally, precision is proposed to be implemented by:
+A) The firing rate of inhibitory interneurons
+B) The synaptic gain of superficial pyramidal cells carrying prediction errors
+C) The myelination thickness of axons
+D) The density of dendritic spines
+
+3. Acetylcholine primarily modulates:
+A) Precision on top-down predictions
+B) Precision on bottom-up (sensory) prediction errors
+C) Motor neuron firing rates
+D) Sleep-wake transitions
+
+4. The ADHD phenotype in Active Inference may reflect:
+A) Excessive sensory precision leading to constant distraction
+B) Low tonic dopamine → difficulty sustaining precision on task-relevant prediction errors
+C) Damage to the prefrontal cortex
+D) An excess of acetylcholine
+
+5. Lawson et al.'s (2014) account of autism proposes:
+A) Low sensory precision leading to reduced perception
+B) High precision on sensory prediction errors, reducing the influence of top-down contextual priors
+C) Normal precision with impaired motor control
+D) An emotional deficit unrelated to perception
+
+6. Anxiety in the Active Inference framework is characterized by:
+A) No prediction errors at all — the anxious person predicts perfectly
+B) Excessive precision on threat-related prediction errors, biasing the generative model toward danger detection
+C) Absence of interoceptive awareness
+D) Overactivity exclusively in the amygdala
+
+7. The neuromodulator most associated with coding environmental volatility (how changeable the world is) is:
+A) Dopamine
+B) Serotonin
+C) Noradrenaline
+D) Acetylcholine
+
+## Part B: Short Answer
+
+1. Explain the "cocktail party effect" (attending to one voice in a noisy room) in Active Inference terms. Which neuromodulatory system is most likely involved?
+2. Patient with autism reports extreme sensitivity to fluorescent lighting but excels at detecting visual anomalies in industrial quality control. Analyze both the challenge and the strength using the precision framework.
+3. An SSRI (selective serotonin reuptake inhibitor) reduces anxiety symptoms within 4-6 weeks. Propose a mechanism of action in Active Inference terms: how might increased serotonin availability reduce the excessive precision on threat-related prediction errors?

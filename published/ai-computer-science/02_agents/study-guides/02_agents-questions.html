@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>questions</title>
+</head>
+<body>
+<h1>Study Questions: Agents</h1>
+<ol>
+<li>
+<p>What are the five matrices (A, B, C, D, E) in a <code>GenerativeModel</code>, and what does each one encode?</p>
+</li>
+<li>
+<p>Why must the columns of the A-matrix sum to 1.0 rather than the rows? What probability does each column represent?</p>
+</li>
+<li>
+<p>Write the Python code to create a <code>GenerativeModel</code> for a 3-state, 3-observation system with 2 actions (identity and cyclic permutation), uniform C, uniform D, and no E.</p>
+</li>
+<li>
+<p>What validation error would you get if you passed a B-matrix with shape <code>(3, 2, 2)</code> when the A-matrix has shape <code>(2, 2)</code>? Why?</p>
+</li>
+<li>
+<p>Explain the role of the precision parameter γ in <code>ActiveInferenceAgent</code>. What happens when γ → 0? When γ → ∞?</p>
+</li>
+<li>
+<p>What is the difference between <code>agent.step(obs)</code> and calling <code>agent.infer_states(obs)</code>, <code>agent.infer_policies()</code>, <code>agent.select_action()</code> separately?</p>
+</li>
+<li>
+<p>If <code>model.E = None</code>, what prior over policies does the agent use? How does this change the policy posterior equation?</p>
+</li>
+<li>
+<p>Describe the relationship between <code>model.num_actions</code> and <code>len(agent.policies)</code>. Are they always equal?</p>
+</li>
+<li>
+<p>How would you construct custom multi-step policies for a 2-action agent? Provide a Python example with 3-step policies.</p>
+</li>
+<li>
+<p>What does <code>agent.reset()</code> do to the agent's beliefs and history? When would you call it during a simulation?</p>
+</li>
+<li>
+<p>Explain why <code>GenerativeModel</code> raises a <code>ValueError</code> for a D-vector of <code>[0.5, 0.3]</code>. What is the validation rule?</p>
+</li>
+<li>
+<p>How does the C-vector influence which actions the agent selects? Trace the path from C through EFE to the policy posterior.</p>
+</li>
+<li>
+<p>If you set <code>C = np.zeros(num_obs)</code>, the agent becomes purely epistemic. Explain what "purely epistemic" means in terms of the risk component of EFE.</p>
+</li>
+<li>
+<p>Construct a T-maze <code>GenerativeModel</code> with 4 states (center, left, right, cue), 3 observations (neutral, reward, no-reward), and 3 actions (stay, go-left, go-right). Define each matrix.</p>
+</li>
+<li>
+<p>What does <code>model.predict_observation(q_s)</code> compute? Write the mathematical formula.</p>
+</li>
+<li>
+<p>Why does <code>model.predict_state(q_s, action)</code> need both the belief vector and the action index? What matrix does it use?</p>
+</li>
+<li>
+<p>Explain the output of <code>model.log_joint(obs=0, state=0)</code>. What two terms are summed?</p>
+</li>
+<li>
+<p>How does <code>model.surprisal(obs, q_s)</code> relate to the log-model-evidence? Is lower surprisal better or worse for the agent?</p>
+</li>
+<li>
+<p>What is the default policy structure when you create <code>ActiveInferenceAgent(model)</code> without specifying <code>policies</code>? How many policies does a 4-action model produce?</p>
+</li>
+<li>
+<p>After running 10 steps of the perception-action loop, what data can you extract from <code>agent.history</code>? List all tracked quantities.</p>
+</li>
+</ol>
+</body>
+</html>

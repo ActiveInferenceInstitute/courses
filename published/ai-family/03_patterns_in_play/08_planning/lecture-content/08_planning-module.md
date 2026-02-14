@@ -1,52 +1,74 @@
-# Module 08: Planning in Family
+# Module 08: Planning — Designing the Game
 
 ## Learning Objectives
 
-1.  Define **Planning** within the context of Family.
-2.  Analyze how Planning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Family to the formal definition of Planning.
+1. Understand that **Planning** is designing a future that hasn't happened yet.
+2. Learn about **Game Design** (Creating rules for fun).
+3. Know that if a game isn't fun, you can CHANGE the rules (Iteration).
 
-## Introduction
+## Introduction: The Master Builder
 
-This module explores **Planning**. In the **Family** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Who invented Tag?
+Who invented Chess?
+People did! They used their Planning Brains to design a System.
+You are not just a Player.
+You are a **Designer**.
 
 ## Key Concepts
 
-### 1. Planning as a Markov Blanket Boundary
-How does Planning define the boundary between the agent and the environment?
+### 1. The Goal (What is the point?)
 
-### 2. Generative Models of Planning
-What parameters involved in Planning must be optimized to minimize variational free energy?
+Every game needs a destination.
 
-### 3. Active Inference Dynamics
-How does the process of Planning drive the perception-action loop?
+* "Get to the end of the board." (Candyland).
+* "Score the most points." (Basketball).
+* "Don't get caught." (Tag).
+Without a goal, it's just running around.
 
-## Applications
+### 2. Balancing (The Goldilocks Rule)
 
-In Family, we see Planning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+* If a game is too hard -> We quit (Frustration).
+* If a game is too easy -> We quit (Boredom).
+* If a game is JUST RIGHT -> We play for hours (Flow).
+A Designer has to balance the difficulty.
 
-## Conclusion
+### 3. Iteration (Playtesting)
 
-Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Your first idea might not work.
 
-<!-- Content padding to ensure file size requirements -->
+* "Let's play Tag where you can't run."
+* (Everyone walks).
+* "This is boring. Let's change it. Now you have to hop!"
+* (Everyone hops).
+* "Better!"
+Designing is testing and fixing.
 
-<!-- Content padding to ensure file size requirements -->
+## Activities
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 1: The Remix
 
-<!-- Content padding to ensure file size requirements -->
+Take a boring game (like Tic-Tac-Toe).
+Add ONE rule to make it better.
 
-<!-- Content padding to ensure file size requirements -->
+* "You can move a piece after you place it."
+* "If you win, you have to sing a song."
+Test your new version.
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 2: Obstacle Course Design
 
-<!-- Content padding to ensure file size requirements -->
+Use pillows, chairs, and blankets.
+Design a course.
 
-<!-- Content padding to ensure file size requirements -->
+* "Jump over the river."
+* "Crawl under the cave."
+Draw the plan on paper FIRST.
+Then build it.
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+The best games come from the best plans. When you design a game, you are creating a little world for your friends to live in.
+
+## References
+
+* *Iggy Peck, Architect* by Andrea Beaty
+* *Boxitects* by Kim Smith

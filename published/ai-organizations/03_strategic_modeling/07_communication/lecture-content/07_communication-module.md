@@ -1,52 +1,80 @@
-# Module 07: Communication in Organizations
+# Strategic Narrative and Stakeholder Communication: Shaping the Competitive Story
+
+## Executive Summary
+
+Strategy is not just about competitive positioning — it is about **shaping how stakeholders understand and respond to the competitive situation**. Under Active Inference, strategic communication aims to influence the generative models of key stakeholders (investors, customers, employees, regulators) so that their beliefs and actions align with the organization's strategic objectives. This module covers strategic narrative, investor relations, brand positioning, and the role of signaling in competitive dynamics.
+
+---
 
 ## Learning Objectives
 
-1.  Define **Communication** within the context of Organizations.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Organizations to the formal definition of Communication.
+1. Define **strategic narrative** as communication designed to shape stakeholder generative models
+2. Apply **signaling theory** to competitive communication (credible vs. cheap talk)
+3. Design **investor narratives** that align financial markets' models with company strategy
+4. Understand **brand positioning** as customer model alignment
+5. Analyze **competitive signaling** — how firms communicate intentions to competitors
 
-## Introduction
-
-This module explores **Communication**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+---
 
 ## Key Concepts
 
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
+### 1. Strategic Narrative
 
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
+Every organization tells a story about:
 
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
+- **Where we are**: The current competitive situation
+- **Where we're going**: The strategic direction
+- **Why we'll win**: The competitive advantage and execution capability
+- **What we need**: The resources and support required
 
-## Applications
+This narrative is the external expression of the organization's generative model — what it believes and what it expects.
 
-In Organizations, we see Communication manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### 2. Signaling Theory
 
-## Conclusion
+| Signal Type | Characteristics | Examples |
+|------------|----------------|---------|
+| **Credible signals** | Costly or irreversible — hard to fake | Capital investment, long-term contracts, patent filings |
+| **Cheap talk** | Low cost, non-binding — easy to fake | Press releases, conference speeches, aspirational statements |
+| **Strategic ambiguity** | Deliberately vague to preserve optionality | Saying "we're exploring AI" without committing to specifics |
 
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+**Case Study — Tesla's Signaling**: Elon Musk uses strategic communication to shape multiple stakeholder models simultaneously: signaling vision to investors (extending time horizon for profitability), signaling inevitability to customers (building a waiting list that signals demand), and signaling commitment to competitors (deterring investment in alternatives). Tesla's valuation reflects not just current performance but the narrative's success in shaping investor models of the future.
 
-<!-- Content padding to ensure file size requirements -->
+### 3. Competitive Signaling
 
-<!-- Content padding to ensure file size requirements -->
+Firms communicate with competitors through:
 
-<!-- Content padding to ensure file size requirements -->
+- **Price signals**: Low pricing can signal willingness to fight for market share
+- **Capacity expansion**: Building new factories signals commitment to a market
+- **Product announcements**: Pre-announcing products can deter competitive entry
+- **Patent filing**: Signals domain commitment and capability
 
-<!-- Content padding to ensure file size requirements -->
+### 4. Brand as Model Alignment
 
-<!-- Content padding to ensure file size requirements -->
+A strong brand is a shared generative model between the company and its customers — customers know what to expect and the company consistently delivers. Brand equity is the precision of this shared model.
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+- For internal communication, see [Organizational Systems: Communication](../../01_organizational_systems/07_communication/module.md)
+- For cross-team alignment, see [Collective Intelligence: Communication](../../02_collective_intelligence/07_communication/module.md)
+- For digital channels, see [Digital Transformation: Communication](../../04_digital_transformation/07_communication/module.md)
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
+
+| Concept | Strategic Modeling Meaning |
+|---------|--------------------------|
+| Strategic narrative | Communication that shapes stakeholder generative models |
+| Signaling theory | Credible vs. cheap talk in competitive communication |
+| Investor relations | Aligning capital markets' model with company strategy |
+| Brand positioning | Building a shared generative model with customers |
+| Competitive signaling | Communicating intentions to competitors through costly signals |
+
+---
+
+## References
+
+- Spence, M. (1973). Job market signaling. *Quarterly Journal of Economics*, 87(3), 355–374.
+- Aaker, D. A. (2014). *Aaker on Branding*. Morgan James Publishing.

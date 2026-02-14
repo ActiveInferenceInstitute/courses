@@ -1,23 +1,92 @@
-# Lab: Exploring Systems
+# Lab: Team System Health Assessment
 
-## Objective
+## Objectives
 
-Design and simulate a simple agent that demonstrates the principles of **Systems**.
+> **Learning Goal:** Assess your team as a system — evaluate coherence, boundary management, and multi-scale alignment.
 
-## Prerequisites
+---
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Systems.
+## Part 1: Team Coherence Assessment (15 min)
 
-## Steps
+Rate your team on each coherence dimension:
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Systems.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Systems (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+| Dimension | Score (1-5) | Evidence/Examples | Improvement Opportunity |
+|-----------|-------------|-------------------|------------------------|
+| Shared mental model | | | |
+| Clear boundary (who's in, who's out) | | | |
+| Joint attention | | | |
+| Coordinated action | | | |
+| Collective learning | | | |
+| **Overall coherence** | | | |
 
-## Discussion Requirements
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Systems.
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 2: Boundary Map (10 min)
+
+Draw the team's boundary landscape:
+
+| Category | Names/Groups | Relationship to Team |
+|----------|-------------|---------------------|
+| Core members (always inside) | | |
+| Peripheral members (sometimes inside) | | |
+| Key external stakeholders | | |
+| Adjacent team (frequent interaction) | | |
+| Adjacent team (infrequent interaction) | | |
+
+Permeability assessment: Is the boundary too open, too closed, or well-balanced?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: Multi-Scale Alignment (10 min)
+
+Assess alignment between your team and the levels above and below:
+
+| Scale | Model Alignment | Information Flow Quality | Conflict/Tension |
+|-------|----------------|------------------------|------------------|
+| Individual → Team | | | |
+| Team → Department | | | |
+| Department → Organization | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Intervention Design (15 min)
+
+Based on your assessment, design one intervention for each weakness:
+
+1. **Lowest-scoring coherence dimension**:
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+2. **Boundary management improvement**:
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+3. **Multi-scale alignment gap**:
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Overall team coherence score | /5 |
+| Biggest strength | |
+| Biggest vulnerability | |
+| Priority intervention | |

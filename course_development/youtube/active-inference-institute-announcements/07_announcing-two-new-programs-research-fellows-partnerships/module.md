@@ -1,52 +1,10 @@
-# Module 07: Communication in Youtube
+# Announcing two new programs: Research Fellows & Partnerships
 
-## Learning Objectives
+> **Source**: [YouTube](https://www.youtube.com/watch?v=B64lXpQAOus)
+> **Playlist**: Active Inference Institute ~ Announcements
+> **Duration**: 2:24 | **Uploaded**: Unknown
+> **Transcript method**: auto_caption
 
-1.  Define **Communication** within the context of Youtube.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Youtube to the formal definition of Communication.
+---
 
-## Introduction
-
-This module explores **Communication**. In the **Youtube** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
-
-## Key Concepts
-
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
-
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
-
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
-
-## Applications
-
-In Youtube, we see Communication manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
-
-## Conclusion
-
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+we are excited to announce two new programs at The Institute research fellows for individuals working in the field of active inference and Partnerships for organizations looking to engage with and support the active inference ecosystem this video is going to look at the websites for both programs you can learn more at fellows and partnerships. active inference do Institute for research fellows we're looking to catalyze the journeys and the contributions of researchers in active inference from all over the world different career stages we will explore and develop this introduction of the program together and we'll continue to update the website with different questions that are asked we're looking for an application or a pre-submission inquiry describing one or more research projects in detail Andor outlining a more general direction there's more details on the application and the terms on that site for Partnerships we are looking for ways to develop synergistic relationships with other organizations that are in and adjacent to the active inference ecosystem this could be across different domains disciplines regions languages backgrounds so it'll be really awesome to explore what this looks like we imagine that there'll be a lot of variation among partner organizations in the kinds of contributions and affordances on both sides and so here especially we're looking for uh beginning a conversation while also having the application template in mind as we begin also figuring out terms that make things work for different kinds of Partners so we hope that these are some interesting opportunities for you or to share with someone that you know and we look forward to how research fellows and future other kinds of fellows and how all different kinds of Partners can start to do some really awesome things in the ecosystem together all right email blanket active inference Institute with any questions or comments on this bye

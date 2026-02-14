@@ -1,51 +1,32 @@
-# Practice Quiz: Cognition
+# Practice Quiz: Strategy
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Cognition** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What is a Strategy?**
+    A) A type of hat.
+    B) A plan to reach a goal.
+    C) A mistake.
 
-2. In Family, Cognition is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **What does "Thinking Ahead" mean?**
+    A) Thinking about lunch.
+    B) Predicting what will happen next in the game.
+    C) Counting to 10.
 
-3. Which mathematical quantity is most central to Cognition?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: You should always do the exact same thing in a game.
+    * (False. If you are predictable, you lose!).
 
-4. How does Cognition relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **What is a "Bluff"?**
+    A) A steep hill.
+    B) Pretending to be strong when you are weak (Deception).
+    C) A sneeze.
 
-5. A failure in Cognition would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Why do we hide in Tag?**
+    A) To surprise the Seeker (Prediction Error).
+    B) To take a nap.
+    C) To eat a snack.
 
-6. Which scale is most relevant for analyzing Cognition in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Cognition connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Cognition** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Cognition failing in a Family scenario.
-3.  How would you model Cognition using a POMDP (Partially Observable Markov Decision Process)?
+1. How do you decide where to hide?
+2. Do you have a "lucky" move?
+3. Why is it hard to play against someone who is really good?

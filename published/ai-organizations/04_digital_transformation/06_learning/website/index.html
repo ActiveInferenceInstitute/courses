@@ -776,47 +776,142 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lecture_content">
-<div><h1>Module 06: Learning in Organizations</h1>
+<div><h1>Machine Learning and Organizational Adaptation: How Digital Systems Learn</h1>
+<h2>Executive Summary</h2>
+<p>Machine learning gives organizations the ability to build systems that <strong>update their own models from data</strong> — automating the learning process itself. Under Active Inference, ML is formalized model updating: algorithms that revise their generative models based on new evidence. This module covers ML deployment in organizations, the model lifecycle, data feedback loops, and the challenge of maintaining ML systems as the world changes.</p>
+<hr />
 <h2>Learning Objectives</h2>
 <ol>
-<li>Define <strong>Learning</strong> within the context of Organizations.</li>
-<li>Analyze how Learning interacts with other components of the Active Inference framework.</li>
-<li>Apply specific constraints of Organizations to the formal definition of Learning.</li>
+<li>Frame <strong>machine learning</strong> as automated model updating within the Active Inference framework</li>
+<li>Understand the <strong>ML lifecycle</strong> — from data collection through model deployment and monitoring</li>
+<li>Design <strong>feedback loops</strong> that keep ML models aligned with organizational objectives</li>
+<li>Address <strong>model drift</strong> — when models degrade because the world changes</li>
+<li>Navigate <strong>MLOps</strong> — the operational infrastructure for managing ML at scale</li>
 </ol>
-<h2>Introduction</h2>
-<p>This module explores <strong>Learning</strong>. In the <strong>Organizations</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<hr />
 <h2>Key Concepts</h2>
-<h3>1. Learning as a Markov Blanket Boundary</h3>
-<p>How does Learning define the boundary between the agent and the environment?</p>
-<h3>2. Generative Models of Learning</h3>
-<p>What parameters involved in Learning must be optimized to minimize variational free energy?</p>
-<h3>3. Active Inference Dynamics</h3>
-<p>How does the process of Learning drive the perception-action loop?</p>
-<h2>Applications</h2>
-<p>In Organizations, we see Learning manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
-<h2>Conclusion</h2>
-<p>Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
+<h3>1. ML as Automated Inference</h3>
+<table>
+<thead>
+<tr>
+<th>ML Function</th>
+<th>Active Inference Translation</th>
+<th>Organizational Application</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Supervised learning</strong></td>
+<td>Learning the mapping from observations to hidden states</td>
+<td>Customer churn prediction, fraud detection</td>
+</tr>
+<tr>
+<td><strong>Unsupervised learning</strong></td>
+<td>Discovering structure in observations without labeled states</td>
+<td>Customer segmentation, anomaly detection</td>
+</tr>
+<tr>
+<td><strong>Reinforcement learning</strong></td>
+<td>Learning optimal policies through action-outcome feedback</td>
+<td>Dynamic pricing, resource allocation</td>
+</tr>
+<tr>
+<td><strong>Deep learning</strong></td>
+<td>Hierarchical generative models with many layers</td>
+<td>Image recognition, NLP, recommendation</td>
+</tr>
+</tbody>
+</table>
+<h3>2. The ML Model Lifecycle</h3>
+<div class="codehilite"><pre><span></span><code>Data Collection → Data Preparation → Model Training → Evaluation → Deployment → Monitoring → Retraining
+</code></pre></div>
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<p>Each stage introduces potential failure:</p>
+<ul>
+<li><strong>Data collection</strong>: Biased or incomplete data</li>
+<li><strong>Training</strong>: Overfitting, wrong objectives</li>
+<li><strong>Deployment</strong>: Integration failures, latency issues</li>
+<li><strong>Monitoring</strong>: Undetected drift, silent failures</li>
+</ul>
+<h3>3. Model Drift and Retraining</h3>
+<p><strong>Case Study — Zillow's iBuying Algorithm</strong>: Zillow's "Zestimate" algorithm, which predicted home prices, worked well in stable markets but failed catastrophically when the 2021 housing market shifted rapidly. The model was trained on historical patterns that no longer held — a textbook case of model drift. Zillow lost $381M and shut down the iBuying division. The lesson: ML models are not "set and forget" — they require continuous monitoring and retraining as the world changes.</p>
+<h3>4. Organizational ML Maturity</h3>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Characteristics</th>
+<th>Challenge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ad hoc</strong></td>
+<td>Individual data scientists build models</td>
+<td>No standards, no reproducibility</td>
+</tr>
+<tr>
+<td><strong>Repeatable</strong></td>
+<td>Standard processes for model development</td>
+<td>Limited scale, manual deployment</td>
+</tr>
+<tr>
+<td><strong>Managed</strong></td>
+<td>MLOps infrastructure, automated pipelines</td>
+<td>Organizational integration</td>
+</tr>
+<tr>
+<td><strong>Optimized</strong></td>
+<td>ML embedded in core business processes</td>
+<td>Maintaining alignment as scale increases</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Cross-References</h2>
+<ul>
+<li>For organizational learning, see <a href="../../01_organizational_systems/06_learning/module.md">Organizational Systems: Learning</a></li>
+<li>For collective memory, see <a href="../../02_collective_intelligence/06_learning/module.md">Collective Intelligence: Learning</a></li>
+<li>For adaptive strategy, see <a href="../../03_strategic_modeling/06_learning/module.md">Strategic Modeling: Learning</a></li>
+</ul>
+<hr />
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Digital Transformation Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Machine learning</td>
+<td>Automated model updating from data</td>
+</tr>
+<tr>
+<td>ML lifecycle</td>
+<td>Data → training → deployment → monitoring → retraining</td>
+</tr>
+<tr>
+<td>Model drift</td>
+<td>Model degradation as the world changes</td>
+</tr>
+<tr>
+<td>MLOps</td>
+<td>Operational infrastructure for managing ML at scale</td>
+</tr>
+<tr>
+<td>Feedback loops</td>
+<td>Mechanisms for keeping ML models aligned with objectives</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>References</h2>
+<ul>
+<li>Sculley, D. et al. (2015). Hidden technical debt in machine learning systems. <em>NeurIPS</em>.</li>
+<li>Paleyes, A. et al. (2022). Challenges in deploying machine learning. <em>ACM Computing Surveys</em>, 55(6).</li>
+</ul></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,27 +921,177 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Learning</h1>
-<h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Learning</strong>.</p>
-<h2>Prerequisites</h2>
-<ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Learning.</li>
-</ul>
-<h2>Steps</h2>
-<ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Organizations.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Learning.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Learning (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
-</ol>
-<h2>Discussion Requirements</h2>
-<ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Learning.</li>
-</ul></div>
+<div><h1>Lab: ML Model Governance Assessment</h1>
+<h2>Objectives</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Assess your organization's ML maturity and design improvements to model governance and operations.</p>
+</blockquote>
+<hr />
+<h2>Part 1: ML Maturity Assessment (10 min)</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Current Level (1-5)</th>
+<th>Evidence</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data management</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Model development</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Deployment process</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Monitoring</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Retraining process</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Overall MLOps maturity</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "Assess ML maturity"}</p>
+<hr />
+<h2>Part 2: Model Inventory (15 min)</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Purpose</th>
+<th>Last Retrained</th>
+<th>Monitoring in Place?</th>
+<th>Drift Risk (H/M/L)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>Y/N</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "Inventory deployed models"}</p>
+<hr />
+<h2>Part 3: Drift Monitoring Design (15 min)</h2>
+<p>For your highest-risk model:</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key metrics to monitor</td>
+<td></td>
+</tr>
+<tr>
+<td>Drift detection method</td>
+<td></td>
+</tr>
+<tr>
+<td>Alert thresholds</td>
+<td></td>
+</tr>
+<tr>
+<td>Retraining trigger</td>
+<td></td>
+</tr>
+<tr>
+<td>Rollback procedure</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "Design drift monitoring"}</p>
+<hr />
+<h2>Part 4: Feedback Loop Analysis (10 min)</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Feedback Loop Present?</th>
+<th>Self-Reinforcing?</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Y/N</td>
+<td>Y/N</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "Analyze feedback loops"}</p>
+<hr />
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Finding</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ML maturity level</td>
+<td></td>
+</tr>
+<tr>
+<td>Highest drift risk model</td>
+<td></td>
+</tr>
+<tr>
+<td>Priority MLOps improvement</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
 </div></section>
 
 <section id="practice_quiz">
@@ -856,64 +1101,25 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-practice_quiz">
-<div><h1>Practice Quiz: Learning</h1>
+<div><h1>Practice Quiz: Digital Transformation — Module 06: Learning</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><em> <strong>Date</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></em></p>
+<hr />
 <h2>Part A: Multiple Choice</h2>
 <ol>
-<li>
-<p>What is the primary role of <strong>Learning</strong> in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket</p>
-</li>
-<li>
-<p>In Organizations, Learning is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable</p>
-</li>
-<li>
-<p>Which mathematical quantity is most central to Learning?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision</p>
-</li>
-<li>
-<p>How does Learning relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment</p>
-</li>
-<li>
-<p>A failure in Learning would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy</p>
-</li>
-<li>
-<p>Which scale is most relevant for analyzing Learning in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above</p>
-</li>
-<li>
-<p>Learning connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above</p>
-</li>
+<li>Zillow's iBuying failure was caused by: A) Bad management B) Model drift — the ML model was trained on historical patterns that stopped holding in a rapidly changing market C) Competition D) Regulatory issues</li>
+<li><strong>Model drift</strong> occurs when: A) Models move B) The statistical relationship between inputs and outputs changes over time, degrading model performance C) Data is lost D) Hardware fails</li>
+<li>The ML model lifecycle requires: A) Train once, deploy forever B) Continuous monitoring and periodic retraining to maintain model accuracy C) No monitoring D) Daily retraining</li>
+<li><strong>MLOps</strong> addresses: A) Marketing operations B) The operational infrastructure for deploying, monitoring, and maintaining ML models at scale C) Office operations D) Military operations</li>
+<li>"Hidden technical debt in ML systems" means: A) Budget overruns B) ML systems accumulate maintenance burdens (data dependencies, feedback loops, configuration complexity) that are invisible until they cause failures C) Developer debt D) Infrastructure costs</li>
+<li><strong>Supervised learning</strong> requires: A) A supervisor B) Labeled data — examples where both inputs and correct outputs are known — to train the model C) More computing power D) Real-time data</li>
+<li><strong>Organizational ML maturity</strong> progresses from: A) Big to small B) Ad hoc (individual models) → repeatable (standard processes) → managed (MLOps infra) → optimized (embedded in business) C) Simple to complex D) Fast to slow</li>
 </ol>
-<h2>Part B: Short Answer</h2>
+<hr />
+<h2>Part B: Short Analysis</h2>
 <ol>
-<li>Explain how <strong>Learning</strong> facilitates the minimization of prediction error.</li>
-<li>Provide a concrete example of Learning failing in a Organizations scenario.</li>
-<li>How would you model Learning using a POMDP (Partially Observable Markov Decision Process)?</li>
+<li>Your organization's customer churn model has been in production for 2 years without retraining. Design a monitoring system that detects drift and triggers retraining before accuracy degrades significantly.</li>
+<li>Your data science team builds great models but deployment regularly fails. Diagnose the likely organizational and technical gaps and design an MLOps improvement plan.</li>
+<li>A recommendation model creates a feedback loop: it recommends popular items, users click on them, which makes them more popular, narrowing recommendation diversity. Analyze this as an Active Inference problem and propose a solution.</li>
 </ol></div>
 </div></section>
 

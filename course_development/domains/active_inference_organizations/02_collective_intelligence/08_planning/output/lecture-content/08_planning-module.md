@@ -1,52 +1,82 @@
-# Module 08: Planning in Organizations
+# Collective Roadmapping and Participatory Futures: How Teams Plan Together
+
+## Executive Summary
+
+Planning is too important to be left to executives alone. Under Active Inference, **collective planning** harnesses the distributed knowledge and diverse models of the entire team (or organization) to construct richer scenario spaces and more robust strategies. This module covers participatory planning processes, collective foresight methods, the concept of emergent strategy (Mintzberg), and how to design planning processes that balance top-down direction with bottom-up intelligence.
+
+---
 
 ## Learning Objectives
 
-1.  Define **Planning** within the context of Organizations.
-2.  Analyze how Planning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Organizations to the formal definition of Planning.
+1. Explain **collective planning** as distributed policy evaluation across many agents
+2. Understand **emergent strategy** (Mintzberg) — how strategy arises from bottom-up action, not just top-down planning
+3. Apply **participatory foresight** methods (Delphi, futures wheels, backcasting)
+4. Design planning processes that **integrate top-down direction with bottom-up intelligence**
+5. Evaluate when collective planning outperforms expert planning
 
-## Introduction
-
-This module explores **Planning**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+---
 
 ## Key Concepts
 
-### 1. Planning as a Markov Blanket Boundary
-How does Planning define the boundary between the agent and the environment?
+### 1. Emergent Strategy (Mintzberg)
 
-### 2. Generative Models of Planning
-What parameters involved in Planning must be optimized to minimize variational free energy?
+Henry Mintzberg's key insight: much of an organization's actual strategy is **emergent** — it arises from patterns of local decisions, not from the deliberate top-down plan:
 
-### 3. Active Inference Dynamics
-How does the process of Planning drive the perception-action loop?
+- **Deliberate strategy**: What was intended (the strategic plan)
+- **Realized strategy**: What actually happened (the pattern of actions)
+- **Emergent strategy**: The gap between the two — strategy that arose from bottom-up decisions
 
-## Applications
+> **Active Inference framing**: Emergent strategy is the aggregate result of distributed policy selection by many local agents, each minimizing their own expected free energy. If these agents are well-aligned, emergence produces coherent strategy. If misaligned, emergence produces strategic drift.
 
-In Organizations, we see Planning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### 2. Participatory Foresight Methods
 
-## Conclusion
+| Method | Process | Strength |
+|--------|---------|----------|
+| **Delphi method** | Multiple rounds of anonymous expert input, with feedback | Aggregates diverse expertise without social pressure |
+| **Futures wheels** | Map cascading consequences of a change | Reveals second- and third-order effects |
+| **Backcasting** | Start with a desired future, work backward to identify required actions | Overcomes anchoring on present conditions |
+| **Planning cells** | Random citizens/employees deliberate on complex issues | Incorporates diverse perspectives |
+| **Scenario workshop** | Groups co-create and evaluate future scenarios | Builds shared ownership of strategic direction |
 
-Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 3. Bottom-Up Intelligence in Planning
 
-<!-- Content padding to ensure file size requirements -->
+Frontline employees often have the richest sensory data about customer needs, operational realities, and emerging problems. Effective collective planning creates channels for this intelligence to inform strategy:
 
-<!-- Content padding to ensure file size requirements -->
+**Case Study — Toyota's A3 Process**: Toyota's A3 problem-solving process empowers frontline workers to propose and implement improvements. Each A3 is a one-page document that captures the problem, analysis, and proposed solution — a structured mechanism for bottom-up intelligence to shape organizational action. This process ensures that planning is not monopolized by executives but continuously informed by those closest to the work.
 
-<!-- Content padding to ensure file size requirements -->
+### 4. Designing Collective Planning Processes
 
-<!-- Content padding to ensure file size requirements -->
+Principles for effective collective planning:
 
-<!-- Content padding to ensure file size requirements -->
+1. **Diverse inputs**: Include voices from multiple levels and functions
+2. **Structured aggregation**: Use formal methods to combine diverse views (not just "loudest voice wins")
+3. **Iterative refinement**: Multiple rounds of input and feedback
+4. **Clear decision rights**: Participation in planning ≠ decision authority — clarify who decides
+5. **Feedback loops**: Track how bottom-up inputs influenced the final plan
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+- For strategic planning and resilience, see [Organizational Systems: Planning](../../01_organizational_systems/08_planning/module.md)
+- For risk management and scenario planning, see [Strategic Modeling: Planning](../../03_strategic_modeling/08_planning/module.md)
+- For digital transformation roadmaps, see [Digital Transformation: Planning](../../04_digital_transformation/08_planning/module.md)
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
+
+| Concept | Team/Collective Meaning |
+|---------|------------------------|
+| Collective planning | Distributed policy evaluation leveraging team knowledge |
+| Emergent strategy | Strategy arising from bottom-up local decisions, not just top-down plans |
+| Participatory foresight | Methods (Delphi, backcasting) for harnessing collective future-thinking |
+| Bottom-up intelligence | Frontline insights informing organizational planning |
+| Planning process design | Structuring collective input for effective strategy development |
+
+---
+
+## References
+
+- Mintzberg, H. (1987). The strategy concept I: Five Ps for strategy. *California Management Review*, 30(1), 11–24.
+- Rowe, G., & Wright, G. (1999). The Delphi technique as a forecasting tool. *International Journal of Forecasting*, 15(4), 353–375.

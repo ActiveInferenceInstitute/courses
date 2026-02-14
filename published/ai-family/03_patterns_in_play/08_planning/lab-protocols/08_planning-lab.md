@@ -1,23 +1,45 @@
-# Lab: Exploring Planning
+# Lab: The Ultimate Board Game
 
-## Objective
+## Goal
 
-Design and simulate a simple agent that demonstrates the principles of **Planning**.
+To design and build a playable board game.
 
-## Prerequisites
+## What You Need
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Planning.
+* A big piece of cardboard or paper.
+* Markers.
+* Coins or small toys (as players).
+* One die (or a spinner).
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Family.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Planning.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Planning (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+### 1. The Path
 
-## Discussion Requirements
+Draw a path from START to FINISH.
+Make it winding!
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Planning.
+### 2. The Spaces (The Logic)
+
+Color the spaces.
+Add Special Rules:
+
+* Red Space: "Go back 2 spaces." (Penalty).
+* Green Space: "Go forward 1 space." (Reward).
+* Blue Space: "Sing a song." (Action).
+
+### 3. The Test
+
+Play it with your family.
+Is it too short? Make the path longer.
+Is it too mean? Remove some Red Spaces.
+You are the Game Master!
+
+## Discussion
+
+* Did your rules work?
+* Did you have to clarify something during the game?
+* Writing clear rules is hard!
+
+## What We Learned
+
+We are all Designers. We can change the game if we work together.

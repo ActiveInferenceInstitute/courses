@@ -1,42 +1,12 @@
-# Study Questions: Systems
+# Course — Module 01 — Think About It
 
-1.  Define **Systems** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Systems?
-
-3.  Contrast the Classical view of Systems with the Active Inference view.
-
-4.  Develop a question that connects Systems to a real-world problem in Family.
-
-5.  Develop a question that connects Systems to a real-world problem in Family.
-
-6.  Develop a question that connects Systems to a real-world problem in Family.
-
-7.  Develop a question that connects Systems to a real-world problem in Family.
-
-8.  Develop a question that connects Systems to a real-world problem in Family.
-
-9.  Develop a question that connects Systems to a real-world problem in Family.
-
-10.  Develop a question that connects Systems to a real-world problem in Family.
-
-11.  Develop a question that connects Systems to a real-world problem in Family.
-
-12.  Develop a question that connects Systems to a real-world problem in Family.
-
-13.  Develop a question that connects Systems to a real-world problem in Family.
-
-14.  Develop a question that connects Systems to a real-world problem in Family.
-
-15.  Develop a question that connects Systems to a real-world problem in Family.
-
-16.  Develop a question that connects Systems to a real-world problem in Family.
-
-17.  Develop a question that connects Systems to a real-world problem in Family.
-
-18.  Develop a question that connects Systems to a real-world problem in Family.
-
-19.  Develop a question that connects Systems to a real-world problem in Family.
-
-20.  Develop a question that connects Systems to a real-world problem in Family.
-
+1. Why do we shake hands after a game? (To show respect for the System).
+2. What if the rules changed every minute? (Chaos!).
+3. Why are referees important? (They protect the Rules).
+4. Can you play a game by yourself? (Yes, Solitaire or Video Games).
+5. Why do we keep score? (To measure the result).
+6. What is cheating? (Breaking the contract of the game).
+7. Why is "Duck, Duck, Goose" a circle? (A closed system).
+8. Do animals play tag? (Yes, chasing is practice for hunting).
+9. What is your favorite rule in your house? (Dessert on Fridays?).
+10. If you could invent a sport, what would it be?

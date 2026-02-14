@@ -1,51 +1,32 @@
-# Practice Quiz: Agents
+# Practice Quiz: The Players
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Agents** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What is a Role in a game?**
+    A) A type of bread.
+    B) Your specific job (like Goalie or Seeker).
+    C) A ball.
 
-2. In Family, Agents is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **Why do we have opponents?**
+    A) To hate them.
+    B) To challenge us and make the game fun.
+    C) To ignore them.
 
-3. Which mathematical quantity is most central to Agents?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: You should cheer for your teammates.
+    * (True! It gives them energy).
 
-4. How does Agents relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **What should you say when you lose?**
+    A) "You cheated!"
+    B) "Good game."
+    C) Scream.
 
-5. A failure in Agents would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **In Hide and Seek, what is the Seeker's goal?**
+    A) To hide.
+    B) To find the Hiders.
+    C) To sleep.
 
-6. Which scale is most relevant for analyzing Agents in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Agents connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Agents** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Agents failing in a Family scenario.
-3.  How would you model Agents using a POMDP (Partially Observable Markov Decision Process)?
+1. Who is your favorite athlete or player? Why?
+2. How does it feel when someone breaks the rules?
+3. Practice your "Good Game" handshake.

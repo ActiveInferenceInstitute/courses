@@ -1,52 +1,10 @@
-# Module 01: Systems in Youtube
+# “Physics as Information Processing” by Chris Fields ~ Course overview
 
-## Learning Objectives
+> **Source**: [YouTube](https://www.youtube.com/watch?v=SV0glS6stuA)
+> **Playlist**: Physics as Information Processing ~ Chris Fields ~ 2023
+> **Duration**: 2:16 | **Uploaded**: Unknown
+> **Transcript method**: auto_caption
 
-1.  Define **Systems** within the context of Youtube.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Youtube to the formal definition of Systems.
+---
 
-## Introduction
-
-This module explores **Systems**. In the **Youtube** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
-
-## Key Concepts
-
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
-
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
-
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
-
-## Applications
-
-In Youtube, we see Systems manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
-
-## Conclusion
-
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+hello welcome to the course physics as information processing taught by Chris Fields with Andre Aguirre as a course assistant hosted during 2023 by the octave inference Institute this video is an overview of the course website it's going to cover some of the key pieces of the website and ways to participate the course homepage hosts the key links and a written course overview on the course syllabus page there's a table with each row being one session so here you can see the topic and the preparation for each of the six lectures and you can see information about the six discussion sections which will be following each lecture by about two weeks each lecture and discussion you can click this blue icon and go directly to the video to re-watch it or watch it live or you can go to the playlist to watch all videos sequentially so that's one way that you can participate is watching videos live or re-watching them on the questions and answers page there's a form that you can submit you can say what is time and if you submit that question we'll get it on the back end and Chris Fields will answer the question and then the question and answer will come up to the public front end and along with the transcripts of all sessions these questions and answers will be part of the publication that we prepare at the end of the course so we heartily encourage all questions and answers it's a really easy and important Anonymous way for you to contribute lastly you can go to register to join discussions so if you want to join those live interactive discussion live streams about two weeks after each lecture you can complete this form and we'll add you to calendar events so thanks again for your interest in the course physics is information processing and we hope to see you either watching and re-watching the videos asking questions and answers and maybe even registering to join the discussions thanks and see you there

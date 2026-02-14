@@ -1,0 +1,69 @@
+Module 01: Systems — Markov Blankets, Dynamic Systems, and the Free Energy Bound
+
+Learning Objectives
+
+Derive the Markov Blanket conditions from a factorized joint distribution and explain their implications for system-environment separation.
+Formalize the dynamics of a self-organizing system using stochastic differential equations with a Markov Blanket partition.
+Derive the variational free energy upper bound on surprise and explain its role as a tractable objective.
+
+Introduction
+
+Active Inference begins with a mathematical fact: any system that maintains its structural integrity over time can be described as if it possesses a Markov Blanket — a statistical boundary separating internal states from external states through sensory and active states. This module develops the formal mathematics of this partition and derives the free energy bound that is the foundation of the entire framework.
+
+Key Concepts
+
+Markov Blanket Formalism
+
+Consider a set of random variables partitioned into four subsets: internal states μ, external states η, sensory states s, and active states a. The set {s, a} forms a Markov Blanket if and only if:
+
+p(μ | η, s, a) = p(μ | s, a)
+
+That is, internal states are conditionally independent of external states given the blanket states. Equivalently:
+
+p(η | μ, s, a) = p(η | s, a)
+
+External states are conditionally independent of internal states given the blanket states. This means all information exchange between internal and external states is mediated by the blanket.
+
+The full joint distribution factorizes as:
+
+p(η, s, a, μ) = p(η) · p(s | η, a) · p(a | μ) · p(μ | s, a)
+
+Stochastic Dynamics on a Markov Blanket
+
+The dynamics of the system are governed by a Langevin equation:
+
+dx/dt = f(x) + ω
+
+where x = (η, s, a, μ), f(x) is the flow field, and ω is a Wiener process (random fluctuations). The Markov Blanket conditions constrain f:
+
+fη depends only on (η, s, a), not directly on μ
+fμ depends only on (μ, s, a), not directly on η
+
+At nonequilibrium steady state, the system converges to a characteristic density p*(x). Any system that reaches such a steady state possesses a Markov Blanket structure.
+
+The Free Energy Bound
+
+The variational free energy F is an upper bound on surprise (negative log-evidence):
+
+F = Eq [ln q(η) - ln p(η, s)] ≥ -ln p(s)
+
+where q(η) is a recognition density (the agent's "belief" about external states) and p(η, s) is the generative model. This decomposes into:
+
+F = DKL[q(η) ‖ p(η|s)] - ln p(s)
+
+Since the KL divergence is non-negative, minimizing F simultaneously:
+
+Minimizes surprise (maximizes model evidence)
+Brings q(η) close to the true posterior p(η|s)
+
+This is the mathematical foundation of Active Inference: by minimizing variational free energy, the agent both explains its sensory data and infers the hidden causes that generated it.
+
+Derivation Exercises
+
+Starting from the joint distribution p(η, s, a, μ), prove that conditional independence μ ⊥ η | {s, a} is equivalent to the absence of edges between μ and η in the Bayesian network.
+Show that F = Eq[ln q(η) - ln p(η, s)] = DKL[q(η) ‖ p(η|s)] - ln p(s).
+Prove that F ≥ -ln p(s) (ELBO inequality).
+
+Conclusion
+
+The Markov Blanket and variational free energy provide the mathematical foundation for the entire Active Inference framework. Every subsequent module builds on this: agents (Module 02) are systems with particular internal dynamics; perception (Module 03) is the optimization of q; and action (Module 05) changes s and a to reduce F.

@@ -1,23 +1,67 @@
-# Lab: Exploring Communication
+# Lab: Digital Communication Architecture Assessment
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Audit and improve your organization's digital communication architecture.
 
-Design and simulate a simple agent that demonstrates the principles of **Communication**.
+---
 
-## Prerequisites
+## Part 1: Channel Inventory (10 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Communication.
+| Channel | Type (Sync/Async/Broadcast/API) | Primary Use | Users | Redundancy? |
+|---------|-------------------------------|------------|-------|------------|
+| | | | | Y/N |
+| | | | | |
+| | | | | |
 
-## Steps
+{fill:textarea, placeholder: "Inventory digital communication channels"}
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Communication.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Communication (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+---
 
-## Discussion Requirements
+## Part 2: Communication Flow Mapping (15 min)
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Communication.
+| Information Flow | Source | Channel | Destination | Effectiveness (1-5) |
+|-----------------|--------|---------|------------|-------------------|
+| Customer inquiry | | | | |
+| Team coordination | | | | |
+| Leadership directive | | | | |
+| Cross-team alignment | | | | |
+
+{fill:textarea, placeholder: "Map key communication flows"}
+
+---
+
+## Part 3: Problem Diagnosis (10 min)
+
+| Problem | Present? | Impact | Root Cause |
+|---------|---------|--------|-----------|
+| Tool fatigue | Y/N | | |
+| Channel fragmentation | Y/N | | |
+| Information silos | Y/N | | |
+| Notification overload | Y/N | | |
+| Undocumented API dependencies | Y/N | | |
+
+{fill:textarea, placeholder: "Diagnose communication problems"}
+
+---
+
+## Part 4: Architecture Redesign (15 min)
+
+| Improvement | Current State | Target State | Action |
+|------------|--------------|-------------|--------|
+| Channel rationalization | | | |
+| Coherence across touchpoints | | | |
+| API governance | | | |
+| Search/findability | | | |
+
+{fill:textarea, placeholder: "Design communication improvements"}
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Biggest communication problem | |
+| Most underused channel | |
+| Priority improvement | |

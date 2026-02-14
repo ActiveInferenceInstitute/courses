@@ -1,23 +1,67 @@
-# Lab: Exploring Cognition
+# Lab: Strategic Assumption Audit
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Surface, classify, and create monitoring plans for the assumptions underlying your organization's strategy.
 
-Design and simulate a simple agent that demonstrates the principles of **Cognition**.
+---
 
-## Prerequisites
+## Part 1: Assumption Elicitation (15 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Cognition.
+List the key assumptions underlying your organization's strategy:
 
-## Steps
+| # | Assumption | Category (Customer/Competitor/Technology/Regulatory/Macro) |
+|---|-----------|--------------------------------------------------------|
+| 1 | | |
+| 2 | | |
+| 3 | | |
+| 4 | | |
+| 5 | | |
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Cognition.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Cognition (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+{fill:textarea, placeholder: "Surface strategic assumptions"}
 
-## Discussion Requirements
+---
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Cognition.
+## Part 2: Importance-Vulnerability Matrix (10 min)
+
+| Assumption | Importance (H/M/L) | Vulnerability (H/M/L) | Priority |
+|-----------|-------------------|---------------------|----------|
+| | | | |
+| | | | |
+
+{fill:textarea, placeholder: "Classify assumptions by importance and vulnerability"}
+
+---
+
+## Part 3: Signpost Definition (15 min)
+
+For your highest-priority assumptions, define observable signposts:
+
+| Assumption | Signpost (what would indicate it's failing?) | Data Source | Monitoring Cadence |
+|-----------|---------------------------------------------|-----------|-------------------|
+| | | | |
+| | | | |
+
+{fill:textarea, placeholder: "Define signposts for monitoring assumptions"}
+
+---
+
+## Part 4: Hedging Plans (10 min)
+
+| Assumption | If It Fails... | Hedging Action (contingency plan) | Cost of Hedge |
+|-----------|----------------|----------------------------------|--------------|
+| | | | |
+| | | | |
+
+{fill:textarea, placeholder: "Create hedging plans for vulnerable assumptions"}
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Most critical assumption | |
+| Most vulnerable assumption | |
+| First signpost to monitor | |
+| Priority hedging action | |

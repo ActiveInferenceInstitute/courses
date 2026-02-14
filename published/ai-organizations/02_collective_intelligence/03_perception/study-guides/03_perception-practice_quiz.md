@@ -1,51 +1,31 @@
-# Practice Quiz: Perception
+# Practice Quiz: Collective Intelligence — Module 03: Perception
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Perception** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. Collective perception improves on individual perception when: A) Everyone sees the same thing B) Diverse observers independently contribute partial observations that are aggregated C) The manager tells everyone what to see D) Only experts are consulted
 
-2. In Organizations, Perception is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. The "wisdom of crowds" requires: A) Very large groups B) Diversity of opinion, independence, decentralization, and aggregation C) Expert-only panels D) Unanimous agreement
 
-3. Which mathematical quantity is most central to Perception?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **Information cascades** occur when: A) Information flows properly B) Individuals follow earlier judgments rather than their own private evidence, causing group convergence on potentially wrong answers C) Teams communicate too much D) Data systems crash
 
-4. How does Perception relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. The **shared information bias** means: A) Groups share too much information B) Groups spend disproportionate time discussing commonly known information while ignoring unique individual knowledge C) Information is equally shared D) Bias in data analysis
 
-5. A failure in Perception would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Anchoring** in collective perception occurs when: A) The team is well-grounded B) The first speaker's observation frames all subsequent perception and discussion C) Teams physically stay in one place D) Data is tied to a baseline
 
-6. Which scale is most relevant for analyzing Perception in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+6. A **devil's advocate** role improves collective perception by: A) Creating conflict for its own sake B) Systematically challenging dominant interpretations, ensuring alternatives are considered C) Slowing down decision-making D) Making meetings more democratic
 
-7. Perception connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+7. **Structured information elicitation** (recording observations independently before group discussion) helps because: A) It saves time B) It preserves the independence of individual observations before social influence can distort them C) It creates more paperwork D) It reduces participation
 
-## Part B: Short Answer
+---
 
-1.  Explain how **Perception** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Perception failing in a Organizations scenario.
-3.  How would you model Perception using a POMDP (Partially Observable Markov Decision Process)?
+## Part B: Short Analysis
+
+1. Your investment committee is evaluating a potential acquisition. The CEO has already expressed enthusiasm. Using the concepts of anchoring, information cascades, and structured elicitation, design a meeting process that ensures the committee's collective perception is not distorted by the CEO's initial position.
+
+2. A product team ran a customer research study. Three team members observed the same user interviews and came away with three different interpretations. Using the Active Inference framework, explain why this perceptual diversity is valuable and design a process for aggregating these interpretations.
+
+3. Your organization uses a quarterly survey to gauge employee sentiment. The results consistently show high satisfaction, but turnover is increasing. Diagnose the collective perception failure. What sensing mechanisms are miscalibrated, and how would you fix them?

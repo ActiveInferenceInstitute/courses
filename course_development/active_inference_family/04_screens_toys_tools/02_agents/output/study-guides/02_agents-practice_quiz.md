@@ -1,51 +1,32 @@
-# Practice Quiz: Agents
+# Practice Quiz: AI and Robots
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Agents** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What does a robot eat?**
+    A) Pizza.
+    B) Electricity.
+    C) Rocks.
 
-2. In Family, Agents is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **How does a robot "see"?**
+    A) With eyeballs.
+    B) With cameras and sensors.
+    C) It guesses.
 
-3. Which mathematical quantity is most central to Agents?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: Siri is a real person inside your phone.
+    * (False. It is code/AI).
 
-4. How does Agents relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **What helps a robot know what to do?**
+    A) Its feelings.
+    B) Its Code (Computer Program).
+    C) Its mom.
 
-5. A failure in Agents would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Which one is a Robot?**
+    A) A dog.
+    B) A Roomba (Vacuum).
+    C) A tree.
 
-6. Which scale is most relevant for analyzing Agents in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Agents connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Agents** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Agents failing in a Family scenario.
-3.  How would you model Agents using a POMDP (Partially Observable Markov Decision Process)?
+1. If you could build a robot, what would it do? (Clean room? Do homework?).
+2. Are you scared of robots or do you like them?
+3. Draw a picture of your robot friend.

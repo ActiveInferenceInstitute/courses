@@ -90,6 +90,43 @@ def get_enabled_courses(config: dict) -> list:
     return [course for course, enabled in courses_section.items() if enabled]
 
 
+def run_youtube_scaffold(repo_root: Path, dry_run: bool = False) -> bool:
+    """Scaffold YouTube courses with real transcripts before generation.
+
+    Ensures module.md files contain actual transcript text rather than
+    template placeholders. Uses --force-scaffold to overwrite any stale
+    module.md files with real transcript content.
+
+    Args:
+        repo_root: Path to repository root
+        dry_run: If True, log what would happen without executing
+
+    Returns:
+        True if scaffolding succeeded, False otherwise
+    """
+    logger.info("Pre-generation: scaffolding YouTube transcripts...")
+
+    if dry_run:
+        logger.info("  [DRY RUN] Would scaffold YouTube module.md files with real transcripts")
+        return True
+
+    cmd = [
+        "uv", "run", "python",
+        str(repo_root / "software" / "scripts" / "render_youtube_courses.py"),
+        "--force-scaffold",
+        "--skip-render",
+        "--skip-whisper",
+    ]
+
+    result = subprocess.run(cmd, cwd=str(repo_root / "software"))
+    if result.returncode != 0:
+        logger.error("YouTube scaffold failed")
+        return False
+
+    logger.info("YouTube scaffold complete — real transcripts injected")
+    return True
+
+
 def run_generation(
     repo_root: Path,
     courses: list,
@@ -313,6 +350,12 @@ def main() -> int:
                     logger.warning("Dashboard generation had errors (continuing)")
             else:
                 logger.warning(f"Dashboard script not found: {dash_script}")
+
+        # Step 0.5: Scaffold YouTube transcripts (if youtube course is being published)
+        if "youtube" in courses:
+            scaffold_ok = run_youtube_scaffold(repo_root, dry_run=args.dry_run)
+            if not scaffold_ok:
+                logger.warning("YouTube scaffold had errors (continuing with generation)")
 
         # Step 1: Generate outputs
         success = run_generation(

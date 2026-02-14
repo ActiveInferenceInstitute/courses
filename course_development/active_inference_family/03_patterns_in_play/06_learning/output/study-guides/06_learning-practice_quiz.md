@@ -1,51 +1,32 @@
-# Practice Quiz: Learning
+# Practice Quiz: Practice Makes Perfect
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Learning** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What is the secret to getting good at games?**
+    A) Magic.
+    B) Practice.
+    C) Buying new shoes.
 
-2. In Family, Learning is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **What is Muscle Memory?**
+    A) Muscles having a brain.
+    B) Doing something so many times your body just "knows" it.
+    C) A gym.
 
-3. Which mathematical quantity is most central to Learning?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: You will be perfect the first time you try.
+    * (False. Failure is part of the process).
 
-4. How does Learning relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **What should you do if you keep missing the goal?**
+    A) Quit.
+    B) Adjust your aim and try again (Learn).
+    C) Cry.
 
-5. A failure in Learning would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Who is a Coach?**
+    A) A type of bus.
+    B) Someone who helps you learn and improve.
+    C) An enemy.
 
-6. Which scale is most relevant for analyzing Learning in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Learning connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Learning** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Learning failing in a Family scenario.
-3.  How would you model Learning using a POMDP (Partially Observable Markov Decision Process)?
+1. What is something you are "bad" at right now?
+2. How can you get better at it?
+3. Who is your favorite teacher/coach?

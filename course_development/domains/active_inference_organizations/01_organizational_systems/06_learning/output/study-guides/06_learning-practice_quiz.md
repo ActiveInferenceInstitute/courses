@@ -1,51 +1,59 @@
-# Practice Quiz: Learning
+# Practice Quiz: Organizational Systems — Module 06: Learning
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Learning** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. Organizational learning in Active Inference means:
+A) Sending employees to training courses
+B) Updating the generative model's parameters or structure based on accumulated prediction errors
+C) Reading industry publications
+D) Hiring experienced people
 
-2. In Organizations, Learning is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **Single-loop learning** differs from **double-loop learning** in that:
+A) Single-loop is faster
+B) Single-loop corrects actions within the existing model; double-loop questions and revises the model itself
+C) Double-loop requires twice as many meetings
+D) They are identical
 
-3. Which mathematical quantity is most central to Learning?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. IBM's shift from hardware to services exemplifies:
+A) Single-loop learning (better execution of the same strategy)
+B) Double-loop learning (fundamental revision of the generative model from "hardware company" to "services company")
+C) No learning at all
+D) Defensive routines
 
-4. How does Learning relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. A **competency trap** occurs when:
+A) Employees have too many skills
+B) Deep expertise in current capabilities makes new, initially inferior approaches seem unworthy of investment
+C) Training programs are too expensive
+D) The organization has no competencies
 
-5. A failure in Learning would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Superstitious learning** is:
+A) Learning from folklore
+B) Attributing success to the wrong cause, reinforcing an incorrect causal model
+C) Learning too quickly
+D) Not learning at all
 
-6. Which scale is most relevant for analyzing Learning in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+6. Which learning loop has the longest cadence in most organizations?
+A) Operational (daily/weekly)
+B) Tactical (monthly/quarterly)
+C) Strategic (annual)
+D) Transformative (crisis-driven or proactive)
 
-7. Learning connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+7. **Defensive routines** prevent learning by:
+A) Increasing training budgets
+B) Creating organizational behaviors that suppress threatening truths before they reach decision-makers
+C) Hiring defensive consultants
+D) Building physical barriers
 
-## Part B: Short Answer
+---
 
-1.  Explain how **Learning** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Learning failing in a Organizations scenario.
-3.  How would you model Learning using a POMDP (Partially Observable Markov Decision Process)?
+## Part B: Short Analysis
+
+1. A retail chain has experienced declining same-store sales for three consecutive quarters. The executive team attributes this to "temporary macroeconomic conditions" and maintains the current strategy. Using the double-loop learning framework, argue that the team may be trapped in single-loop thinking. What questions should they ask to trigger double-loop learning? What organizational structures might be preventing deeper inquiry?
+
+2. Your organization recently conducted a post-mortem on a failed product launch. The post-mortem concluded that "execution was poor." Using the Active Inference framework, redesign the post-mortem to dig deeper: What model predictions were wrong? What sensory data was missed or misinterpreted? What specific parameters or structures of the generative model should be updated?
+
+3. Design a learning system for a hospital's surgical department. The system must capture lessons from both successful and unsuccessful surgeries, distinguish between systematic patterns and one-off events, and protect psychological safety. How does this system map onto the Active Inference concepts of prediction error, model updating, and precision?

@@ -1,23 +1,71 @@
-# Lab: Exploring Learning
+# Lab: Dynamic Capabilities Assessment
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Assess your organization's dynamic capabilities and design improvements to the competitive learning loop.
 
-Design and simulate a simple agent that demonstrates the principles of **Learning**.
+---
 
-## Prerequisites
+## Part 1: Dynamic Capabilities Assessment (15 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Learning.
+| Capability | Current Performance (1-5) | Evidence | Gap |
+|-----------|--------------------------|---------|-----|
+| **Sensing** (detecting threats/opportunities) | | | |
+| **Seizing** (mobilizing to capture opportunities) | | | |
+| **Transforming** (reconfiguring the organization) | | | |
 
-## Steps
+{fill:textarea, placeholder: "Assess dynamic capabilities"}
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Learning.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Learning (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+---
 
-## Discussion Requirements
+## Part 2: Learning Loop Speed (10 min)
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Learning.
+| Loop Stage | Current Speed | Bottleneck? | Improvement |
+|-----------|--------------|-------------|-------------|
+| Sense market change | | Y/N | |
+| Update strategic model | | Y/N | |
+| Select new policy | | Y/N | |
+| Execute | | Y/N | |
+| Observe results | | Y/N | |
+| **Total loop time** | | | |
+
+{fill:textarea, placeholder: "Map the competitive learning loop"}
+
+---
+
+## Part 3: Experimentation Design (15 min)
+
+Design one strategic experiment:
+
+| Element | Design |
+|---------|--------|
+| Assumption to test | |
+| Experiment description | |
+| Investment required | |
+| Timeline | |
+| Success criteria | |
+| What you'll learn if it fails | |
+
+{fill:textarea, placeholder: "Design a strategic experiment"}
+
+---
+
+## Part 4: Unlearning Assessment (10 min)
+
+| What Needs Unlearning | Why It Persists | Unlearning Strategy |
+|----------------------|----------------|-------------------|
+| | | |
+| | | |
+
+{fill:textarea, placeholder: "Identify what needs to be unlearned"}
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Strongest dynamic capability | |
+| Learning loop bottleneck | |
+| Priority experiment | |
+| Key unlearning challenge | |

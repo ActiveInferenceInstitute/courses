@@ -1,23 +1,40 @@
-# Lab: Exploring Perception
+# Lab: Silent Charades
 
-## Objective
+## Goal
 
-Design and simulate a simple agent that demonstrates the principles of **Perception**.
+To practice sending and receiving non-verbal signals.
 
-## Prerequisites
+## What You Need
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Perception.
+* Scrap paper with words (Snake, Airplane, Eating Spaghetti, Sleeping).
+* A bowl.
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Family.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Perception.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Perception (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+### 1. The Draw
 
-## Discussion Requirements
+Pick a slip of paper.
+Don't show anyone!
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Perception.
+### 2. The Act
+
+Act it out.
+NO TALKING.
+NO NOISES.
+Use your body, face, and hands.
+
+### 3. The Guess
+
+The other players guess.
+"Are you a bird?" No (Shake head).
+"Are you a plane?" Yes (Nod head)!
+
+## Discussion
+
+* How did you know what they meant?
+* Did you use your Mirror Neurons?
+* Was it frustrating when they didn't understand?
+
+## What We Learned
+
+We can say a lot without saying a word.

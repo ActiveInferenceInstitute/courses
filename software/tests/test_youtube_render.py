@@ -348,6 +348,50 @@ class TestScaffoldCourseDirectory:
         assert result["failed"] == 1
         assert result["created"] == 0
 
+    def test_force_overwrites_existing(self, tmp_path: Path) -> None:
+        """Verify force=True replaces template-only module.md with real transcript."""
+        transcript_dir = tmp_path / "transcription"
+        transcripts_path = transcript_dir / "transcripts"
+        transcripts_path.mkdir(parents=True)
+        (transcripts_path / "vid001.txt").write_text(
+            "Real transcript content from the video.", encoding="utf-8"
+        )
+
+        youtube_dir = tmp_path / "youtube"
+
+        videos = [{"id": "vid001", "title": "Test Video Title", "playlist_index": 0}]
+        course_meta = {"id": "PL", "title": "Test Playlist", "url": ""}
+
+        # First scaffold creates module.md
+        scaffold_course_directory(
+            "test-course", videos, transcript_dir, youtube_dir, course_meta
+        )
+        course_dir = youtube_dir / "test-course"
+        mod_dir = course_dir / "01_test-video-title"
+        module_md = mod_dir / "module.md"
+        assert module_md.exists()
+
+        # Overwrite with template placeholder (simulating the pre-existing state)
+        module_md.write_text("# Module 01: Systems in Youtube\n\nPlaceholder.\n", encoding="utf-8")
+
+        # Without force: should skip
+        result = scaffold_course_directory(
+            "test-course", videos, transcript_dir, youtube_dir, course_meta
+        )
+        assert result["skipped"] == 1
+        assert "Placeholder" in module_md.read_text(encoding="utf-8")
+
+        # With force: should overwrite
+        result = scaffold_course_directory(
+            "test-course", videos, transcript_dir, youtube_dir, course_meta, force=True
+        )
+        assert result["created"] == 1
+        assert result["skipped"] == 0
+        content = module_md.read_text(encoding="utf-8")
+        assert "Real transcript content from the video." in content
+        assert "# Test Video Title" in content
+        assert "Placeholder" not in content
+
     def test_course_json_written(self, tmp_path: Path) -> None:
         transcript_dir = tmp_path / "transcription"
         (transcript_dir / "transcripts").mkdir(parents=True)

@@ -5,46 +5,141 @@
     <title>module</title>
 </head>
 <body>
-<h1>Module 06: Learning in Organizations</h1>
+<h1>Machine Learning and Organizational Adaptation: How Digital Systems Learn</h1>
+<h2>Executive Summary</h2>
+<p>Machine learning gives organizations the ability to build systems that <strong>update their own models from data</strong> — automating the learning process itself. Under Active Inference, ML is formalized model updating: algorithms that revise their generative models based on new evidence. This module covers ML deployment in organizations, the model lifecycle, data feedback loops, and the challenge of maintaining ML systems as the world changes.</p>
+<hr />
 <h2>Learning Objectives</h2>
 <ol>
-<li>Define <strong>Learning</strong> within the context of Organizations.</li>
-<li>Analyze how Learning interacts with other components of the Active Inference framework.</li>
-<li>Apply specific constraints of Organizations to the formal definition of Learning.</li>
+<li>Frame <strong>machine learning</strong> as automated model updating within the Active Inference framework</li>
+<li>Understand the <strong>ML lifecycle</strong> — from data collection through model deployment and monitoring</li>
+<li>Design <strong>feedback loops</strong> that keep ML models aligned with organizational objectives</li>
+<li>Address <strong>model drift</strong> — when models degrade because the world changes</li>
+<li>Navigate <strong>MLOps</strong> — the operational infrastructure for managing ML at scale</li>
 </ol>
-<h2>Introduction</h2>
-<p>This module explores <strong>Learning</strong>. In the <strong>Organizations</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<hr />
 <h2>Key Concepts</h2>
-<h3>1. Learning as a Markov Blanket Boundary</h3>
-<p>How does Learning define the boundary between the agent and the environment?</p>
-<h3>2. Generative Models of Learning</h3>
-<p>What parameters involved in Learning must be optimized to minimize variational free energy?</p>
-<h3>3. Active Inference Dynamics</h3>
-<p>How does the process of Learning drive the perception-action loop?</p>
-<h2>Applications</h2>
-<p>In Organizations, we see Learning manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
-<h2>Conclusion</h2>
-<p>Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
+<h3>1. ML as Automated Inference</h3>
+<table>
+<thead>
+<tr>
+<th>ML Function</th>
+<th>Active Inference Translation</th>
+<th>Organizational Application</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Supervised learning</strong></td>
+<td>Learning the mapping from observations to hidden states</td>
+<td>Customer churn prediction, fraud detection</td>
+</tr>
+<tr>
+<td><strong>Unsupervised learning</strong></td>
+<td>Discovering structure in observations without labeled states</td>
+<td>Customer segmentation, anomaly detection</td>
+</tr>
+<tr>
+<td><strong>Reinforcement learning</strong></td>
+<td>Learning optimal policies through action-outcome feedback</td>
+<td>Dynamic pricing, resource allocation</td>
+</tr>
+<tr>
+<td><strong>Deep learning</strong></td>
+<td>Hierarchical generative models with many layers</td>
+<td>Image recognition, NLP, recommendation</td>
+</tr>
+</tbody>
+</table>
+<h3>2. The ML Model Lifecycle</h3>
+<div class="codehilite"><pre><span></span><code>Data Collection → Data Preparation → Model Training → Evaluation → Deployment → Monitoring → Retraining
+</code></pre></div>
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+<p>Each stage introduces potential failure:</p>
+<ul>
+<li><strong>Data collection</strong>: Biased or incomplete data</li>
+<li><strong>Training</strong>: Overfitting, wrong objectives</li>
+<li><strong>Deployment</strong>: Integration failures, latency issues</li>
+<li><strong>Monitoring</strong>: Undetected drift, silent failures</li>
+</ul>
+<h3>3. Model Drift and Retraining</h3>
+<p><strong>Case Study — Zillow's iBuying Algorithm</strong>: Zillow's "Zestimate" algorithm, which predicted home prices, worked well in stable markets but failed catastrophically when the 2021 housing market shifted rapidly. The model was trained on historical patterns that no longer held — a textbook case of model drift. Zillow lost $381M and shut down the iBuying division. The lesson: ML models are not "set and forget" — they require continuous monitoring and retraining as the world changes.</p>
+<h3>4. Organizational ML Maturity</h3>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Characteristics</th>
+<th>Challenge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ad hoc</strong></td>
+<td>Individual data scientists build models</td>
+<td>No standards, no reproducibility</td>
+</tr>
+<tr>
+<td><strong>Repeatable</strong></td>
+<td>Standard processes for model development</td>
+<td>Limited scale, manual deployment</td>
+</tr>
+<tr>
+<td><strong>Managed</strong></td>
+<td>MLOps infrastructure, automated pipelines</td>
+<td>Organizational integration</td>
+</tr>
+<tr>
+<td><strong>Optimized</strong></td>
+<td>ML embedded in core business processes</td>
+<td>Maintaining alignment as scale increases</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Cross-References</h2>
+<ul>
+<li>For organizational learning, see <a href="../../01_organizational_systems/06_learning/module.md">Organizational Systems: Learning</a></li>
+<li>For collective memory, see <a href="../../02_collective_intelligence/06_learning/module.md">Collective Intelligence: Learning</a></li>
+<li>For adaptive strategy, see <a href="../../03_strategic_modeling/06_learning/module.md">Strategic Modeling: Learning</a></li>
+</ul>
+<hr />
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Digital Transformation Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Machine learning</td>
+<td>Automated model updating from data</td>
+</tr>
+<tr>
+<td>ML lifecycle</td>
+<td>Data → training → deployment → monitoring → retraining</td>
+</tr>
+<tr>
+<td>Model drift</td>
+<td>Model degradation as the world changes</td>
+</tr>
+<tr>
+<td>MLOps</td>
+<td>Operational infrastructure for managing ML at scale</td>
+</tr>
+<tr>
+<td>Feedback loops</td>
+<td>Mechanisms for keeping ML models aligned with objectives</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>References</h2>
+<ul>
+<li>Sculley, D. et al. (2015). Hidden technical debt in machine learning systems. <em>NeurIPS</em>.</li>
+<li>Paleyes, A. et al. (2022). Challenges in deploying machine learning. <em>ACM Computing Surveys</em>, 55(6).</li>
+</ul>
 </body>
 </html>

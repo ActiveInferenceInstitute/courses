@@ -1,23 +1,74 @@
-# Lab: Exploring Agents
+# Lab: Collective Intelligence Assessment
 
-## Objective
+## Objectives
 
-Design and simulate a simple agent that demonstrates the principles of **Agents**.
+> **Learning Goal:** Diagnose your team's collective intelligence and design improvements.
 
-## Prerequisites
+---
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Agents.
+## Part 1: Collective Intelligence Factors (15 min)
 
-## Steps
+Rate your team on the Woolley factors:
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Agents.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Agents (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+| Factor | Score (1-5) | Evidence | Improvement |
+|--------|-------------|----------|-------------|
+| Social sensitivity | | | |
+| Equal participation | | | |
+| Cognitive diversity | | | |
+| Communication quality | | | |
+| **Overall CI score** | | | |
 
-## Discussion Requirements
+{fill:textarea, placeholder: "Rate your team on collective intelligence factors"}
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Agents.
+---
+
+## Part 2: Distributed Cognition Map (10 min)
+
+| Knowledge Domain | Who Holds It | Documented? | Redundancy (backup person?) |
+|-----------------|-------------|-------------|---------------------------|
+| | | Y/N | |
+| | | | |
+| | | | |
+
+{fill:textarea, placeholder: "Map distributed cognition in your team"}
+
+---
+
+## Part 3: Pathology Check (10 min)
+
+| Pathology | Present? (Y/N) | Evidence | Severity |
+|-----------|---------------|----------|----------|
+| Social loafing | | | |
+| Groupthink | | | |
+| Knowledge hiding | | | |
+| Status hierarchy effects | | | |
+| Coordination loss | | | |
+
+{fill:textarea, placeholder: "Check for collective agency pathologies"}
+
+---
+
+## Part 4: Intervention Design (15 min)
+
+Design one intervention for your team's most significant CI weakness:
+
+| Element | Design |
+|---------|--------|
+| Target weakness | |
+| Intervention | |
+| Expected outcome | |
+| How to measure impact | |
+| Timeline | |
+
+{fill:textarea, placeholder: "Design a collective intelligence intervention"}
+
+---
+
+## Summary
+
+| Metric | Value |
+|--------|-------|
+| Overall CI score | /5 |
+| Biggest CI strength | |
+| Biggest CI weakness | |
+| Priority intervention | |

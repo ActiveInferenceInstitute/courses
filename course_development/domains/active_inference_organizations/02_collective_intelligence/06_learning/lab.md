@@ -1,23 +1,70 @@
-# Lab: Exploring Learning
+# Lab: Knowledge Management System Design
 
-## Objective
+## Objectives
 
-Design and simulate a simple agent that demonstrates the principles of **Learning**.
+> **Learning Goal:** Map your team's knowledge landscape — transactive memory, SECI balance, and institutional knowledge vulnerabilities.
 
-## Prerequisites
+---
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Learning.
+## Part 1: Transactive Memory Map (15 min)
 
-## Steps
+| Knowledge Domain | Primary Expert | Backup Expert | Documented? | Risk if Expert Leaves |
+|-----------------|---------------|--------------|-------------|---------------------|
+| | | | Y/N | H/M/L |
+| | | | | |
+| | | | | |
+| | | | | |
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Learning.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Learning (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+{fill:textarea, placeholder: "Map your team's transactive memory system"}
 
-## Discussion Requirements
+---
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Learning.
+## Part 2: SECI Balance Assessment (10 min)
+
+| SECI Mode | How Your Team Does This | Effectiveness (1-5) | Gap |
+|-----------|------------------------|---------------------|-----|
+| Socialization (tacit→tacit) | | | |
+| Externalization (tacit→explicit) | | | |
+| Combination (explicit→explicit) | | | |
+| Internalization (explicit→tacit) | | | |
+
+{fill:textarea, placeholder: "Assess your team's knowledge creation balance"}
+
+---
+
+## Part 3: Vulnerability Assessment (10 min)
+
+Identify critical knowledge that is at risk:
+
+| Knowledge at Risk | Why It's Critical | Why It's Vulnerable | Mitigation |
+|------------------|------------------|-------------------|-----------|
+| | | | |
+| | | | |
+
+{fill:textarea, placeholder: "Identify knowledge vulnerabilities"}
+
+---
+
+## Part 4: Knowledge System Design (15 min)
+
+Design an improvement to your team's knowledge management:
+
+| Element | Current State | Desired State | Implementation Plan |
+|---------|--------------|--------------|-------------------|
+| Knowledge capture | | | |
+| Knowledge sharing | | | |
+| Knowledge retrieval | | | |
+| Knowledge updating | | | |
+
+{fill:textarea, placeholder: "Design a knowledge management improvement"}
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Single point of failure (knowledge held by one person) | |
+| Weakest SECI mode | |
+| Highest-risk knowledge area | |
+| Priority action | |

@@ -1,51 +1,32 @@
-# Practice Quiz: Planning
+# Practice Quiz: Designing the Game
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Planning** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **Who creates the rules of a game?**
+    A) The clouds.
+    B) The Game Designer.
+    C) The dog.
 
-2. In Family, Planning is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **What happens if a game is too hard?**
+    A) People get frustrated and quit.
+    B) People love it.
+    C) It explodes.
 
-3. Which mathematical quantity is most central to Planning?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: You can change the rules if everyone agrees.
+    * (True! That is called a "House Rule").
 
-4. How does Planning relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **What is Playtesting?**
+    A) Eating lunch.
+    B) Trying the game to see if it works.
+    C) Sleeping.
 
-5. A failure in Planning would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Why do games have goals?**
+    A) To give us something to aim for (Directed Action).
+    B) To make us tired.
+    C) No reason.
 
-6. Which scale is most relevant for analyzing Planning in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Planning connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Planning** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Planning failing in a Family scenario.
-3.  How would you model Planning using a POMDP (Partially Observable Markov Decision Process)?
+1. What is your favorite game? Why?
+2. If you could change one rule in baseball/soccer, what would it be?
+3. Designing is like being a god of a small universe. Discuss.

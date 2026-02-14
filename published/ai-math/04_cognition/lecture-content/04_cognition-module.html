@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 04: Cognition — Precision Optimization and Attention</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Derive the <strong>precision optimization</strong> equations — how the brain estimates and adjusts the precision (inverse variance) of prediction errors.</li>
+<li>Formalize <strong>attention as precision optimization</strong>: increasing the gain on relevant prediction errors to weight them more heavily.</li>
+<li>Derive the relationship between precision, Fisher information, and model confidence.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Precision — the inverse variance of a probability distribution — is the fundamental quantity that determines which prediction errors drive belief updating and which are ignored. This module derives the mathematics of precision optimization: how it is estimated from data, how it modulates message passing, and how its optimization corresponds to attention.</p>
+<h2>Key Concepts</h2>
+<h3>1. Precision as a Parameter of the Generative Model</h3>
+<p>In a Gaussian generative model, precision appears as:</p>
+<p><strong>p(oₜ | sₜ) = N(oₜ; g(sₜ), Π⁻¹)</strong></p>
+<p>where Π = diag(π₁, ..., π_D) is the precision matrix (inverse covariance). High precision π_d means low variance in dimension d — observations are reliable. Low precision means high variance — observations are noisy.</p>
+<p>Precision is itself a hidden variable that must be inferred:</p>
+<p><strong>q(Π) = Wishart(Π; ν, V) or q(πd) = Gamma(πd; α, β)</strong></p>
+<h3>2. Precision Optimization Equations</h3>
+<p>The free energy gradient with respect to precision parameters:</p>
+<p><strong>∂F/∂π = -½ · [π⁻¹ - E_q[(oₜ - g(sₜ))²]]</strong></p>
+<p>At the fixed point (∂F/∂π = 0):</p>
+<p><strong>π* = 1 / E_q[(oₜ - g(sₜ))²]</strong></p>
+<p>The optimal precision equals the inverse of the expected squared prediction error. This means the brain learns precision from the statistics of its own prediction errors: consistently large errors → low precision; consistently small errors → high precision.</p>
+<h3>3. Precision and the Fisher Information Matrix</h3>
+<p>The Fisher information matrix I(θ) measures the curvature of the log-likelihood:</p>
+<p><strong>I(θ) = -E[∂²/∂θ² ln p(o | θ)]</strong></p>
+<p>For Gaussian models, the Fisher information is directly related to precision:</p>
+<p><strong>I = Π</strong></p>
+<p>This connects precision to <strong>confidence</strong>: high precision (high Fisher information) means the data carry a lot of information about the hidden states, enabling confident inference. This is the mathematical basis for the claim that attention enhances confidence.</p>
+<h3>4. Attention as Precision Optimization</h3>
+<p>In hierarchical predictive coding, attention corresponds to optimizing precision at each level:</p>
+<p><strong>dγₗ/dt = -∂F/∂γₗ</strong></p>
+<p>where γₗ is the log-precision at level l. This modulates the gain on prediction errors:</p>
+<ul>
+<li>Increasing γₗ → amplifying prediction errors at level l → "paying attention" to data at that level</li>
+<li>Decreasing γₗ → attenuating prediction errors → "ignoring" data at that level</li>
+</ul>
+<h2>Derivation Exercises</h2>
+<ol>
+<li>For a Gaussian likelihood p(o|s) = N(g(s), π⁻¹), derive ∂F/∂π and find the optimal precision π*.</li>
+<li>Show that the Fisher information I = Π for a univariate Gaussian with known mean and unknown variance.</li>
+<li>Derive the precision update equation for a two-level hierarchy with different precisions at each level.</li>
+</ol>
+<h2>Conclusion</h2>
+<p>Precision is the key quantity that bridges perception (what to believe) and attention (what to attend to). Its optimization provides the mathematical foundation for understanding how the brain allocates its computational resources. Module 05 extends the framework to action — how the agent changes the world, not just its beliefs.</p>
+</body>
+</html>

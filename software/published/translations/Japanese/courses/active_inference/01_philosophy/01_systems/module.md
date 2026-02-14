@@ -1,0 +1,44 @@
+# Module 01: Systems — Boundaries, Markov Blankets, and the Philosophy of Biology
+
+## Learning Objectives
+
+1. Articulate how the concept of a **system** presupposes a boundary, and how Active Inference formalizes this through Markov Blankets.
+2. Trace the philosophical lineage of systems thinking from autopoiesis (Maturana & Varela) through enactivism to the Free Energy Principle.
+3. Evaluate the ontological status of system boundaries — are Markov Blankets "real" features of nature or useful fictions?
+
+## Introduction
+
+What makes something a *system* rather than a mere collection of parts? A cell, a hurricane, a conversation — each seems to possess a coherent identity that persists through exchanges with its surroundings. In Active Inference, this intuition is formalized: a system is anything that can be distinguished from its environment by a **Markov Blanket** — a statistical boundary that separates internal states from external states while mediating their interaction through sensory and active states.
+
+This module explores the philosophical depth behind this apparently simple idea. We will see that the question "What is a system?" is not merely technical but deeply philosophical, touching on the nature of individuality, the boundaries of the self, and the relationship between living and non-living things.
+
+## Key Concepts
+
+### 1. The Problem of Demarcation
+
+How do we distinguish a system from its environment? In classical science, boundaries are often taken for granted — the skin of an organism, the walls of a cell. But philosophers have long noted that boundaries are not self-evident. Merleau-Ponty observed that the body is not simply *in* the world like water in a glass; it is *of* the world, constituted through its transactions with the environment.
+
+Active Inference addresses this through a formal concept: the **Markov Blanket**. A Markov Blanket is a set of states (sensory states **s** and active states **a**) that render the internal states **μ** conditionally independent of external states **η**. Formally: P(μ | s, a, η) = P(μ | s, a). This means internal states "know" about external states only through the blanket.
+
+### 2. Autopoiesis and Self-Organization
+
+Maturana and Varela (1980) introduced **autopoiesis** — the idea that living systems are self-producing networks that generate and maintain their own boundaries. A cell produces its membrane; the membrane enables the chemical reactions that produce the membrane. This circular causality is the hallmark of life.
+
+The Free Energy Principle extends this insight mathematically: any system that persists over time *must* minimize its variational free energy, which is equivalent to maintaining its Markov Blanket — its boundary with the world. To exist is to resist dissolution; to resist dissolution is to minimize surprise.
+
+### 3. The Life-Mind Continuity Thesis
+
+If systems are defined by their boundaries, and maintaining boundaries requires a form of inference (minimizing free energy), then even the simplest living systems can be described as performing a rudimentary form of "cognition." This is the **life-mind continuity thesis** (Kirchhoff & Froese, 2017): there is no sharp line between being alive and having a mind; rather, mind is a natural extension of the self-organizing dynamics that characterize all living systems.
+
+This is a deeply contested claim. Critics argue it commits the "fallacy of equivocation" — conflating formal self-organization with genuine cognition. Proponents respond that it reveals a deep structural unity in nature.
+
+## Applications
+
+In philosophy, the systems perspective illuminates:
+
+* **The Ship of Theseus**: If a system's identity is constituted by its Markov Blanket dynamics rather than its material parts, the puzzle dissolves — identity is a pattern maintained through change, not a fixed substance.
+* **Extended Mind Hypothesis**: Clark and Chalmers (1998) argue that cognitive processes extend beyond the brain. From a Markov Blanket perspective, the relevant question becomes: where does the blanket lie? If tools are reliably coupled to internal states, they may fall within the agent's effective blanket.
+
+## Conclusion
+
+The concept of a system is not a starting point but a philosophical achievement. Active Inference shows that system boundaries are not arbitrary but emerge from the dynamics of self-organization and inference. In Module 02, we will move from the boundary to what lies within it — the agent, its models, and its capacity for self-reference.

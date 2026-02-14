@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08_Planning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>08_Planning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>08_Planning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 08: Planning — Sophisticated Inference, Deep Temporal Models, and Hierarchical POMDPs</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Derive <strong>sophisticated inference</strong>: recursive belief updating where the agent models its own future beliefs and actions.</li>
+<li>Formalize <strong>deep temporal models</strong> (multi-step planning) through policy trees and Expected Free Energy evaluation.</li>
+<li>Introduce <strong>hierarchical POMDPs</strong> for multi-timescale planning.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Planning is the most computationally demanding component of Active Inference — it requires the agent to evaluate the consequences of action sequences extending into the future. This module develops three levels of mathematical sophistication: basic policy evaluation (flat EFE), sophisticated inference (recursive belief updating), and hierarchical POMDPs (multi-timescale planning).</p>
+<h2>Key Concepts</h2>
+<h3>1. Deep Temporal Planning</h3>
+<p>The Expected Free Energy for a policy π of length T is:</p>
+<p><strong>G(π) = ∑_{τ=t}^{T} G_τ(π)</strong></p>
+<p>where each term evaluates the expected free energy at future time τ under policy π. This requires:</p>
+<ol>
+<li><strong>State prediction</strong>: q(s_τ | π) = ∑<em τ-1="τ-1">{s</em> | π)}} B(π_τ) · q(s_{τ-1</li>
+<li><strong>Outcome prediction</strong>: q(o_τ | π) = A · q(s_τ | π)</li>
+<li><strong>EFE evaluation</strong>: G_τ(π) = E_q[ln q(s_τ|π) - ln p(o_τ, s_τ)]</li>
+</ol>
+<p>The number of policies grows exponentially with planning horizon: K^T policies for K actions over T steps. This necessitates pruning strategies.</p>
+<h3>2. Sophisticated Inference</h3>
+<p><strong>Sophisticated inference</strong> (Friston et al., 2021) extends basic policy evaluation by having the agent model <em>what it will believe</em> in the future:</p>
+<p><strong>q(s_{t+1} | π) → q(s_{t+1} | o_{t+1}, π)</strong></p>
+<p>The agent simulates not just future states but future observations and the belief updates they will produce. At each future timestep:</p>
+<ol>
+<li>Predict future observation: q(o_{τ+1} | s_{τ+1})</li>
+<li>Update future beliefs: q(s_{τ+1} | o_{τ+1}) using Bayesian updating</li>
+<li>Evaluate EFE with these updated future beliefs</li>
+</ol>
+<p>This recursive structure means the agent anticipates how its own beliefs will change — a form of meta-cognition. The recursion can be extended to arbitrary depth: the agent models what it will believe, about what it will believe, about what it will believe...</p>
+<h3>3. Hierarchical POMDPs</h3>
+<p>For multi-timescale planning, the generative model is organized hierarchically:</p>
+<p><strong>Level 1 (fast)</strong>: p(o | s₁, a₁) — moment-to-moment actions (e.g., individual keystrokes)
+<strong>Level 2 (slow)</strong>: p(s₁ | s₂, a₂) — mid-level sub-goals (e.g., typing a word)
+<strong>Level 3 (slowest)</strong>: p(s₂ | s₃, a₃) — high-level goals (e.g., writing a paragraph)</p>
+<p>Higher levels set contexts (prior preferences, initial states) for lower levels. The temporal scale of each level is determined by its time constant — higher levels evolve more slowly.</p>
+<p>The free energy minimization operates across levels:
+<strong>F_total = F₁ + F₂ + F₃</strong></p>
+<p>with top-down and bottom-up messages connecting levels, analogous to the perceptual hierarchy but extended to the action-planning domain.</p>
+<h2>Derivation Exercises</h2>
+<ol>
+<li>Derive the EFE for a two-step, two-action POMDP. Enumerate all policies and compute G for each.</li>
+<li>Show how sophisticated inference modifies the EFE by incorporating future belief updates into the evaluation.</li>
+<li>Write the generative model for a two-level hierarchical POMDP and derive the free energy for each level.</li>
+</ol>
+<h2>Conclusion</h2>
+<p>Planning completes the Active Inference framework by extending inference into the future — from single-step EFE evaluation through sophisticated recursive belief simulation to multi-timescale hierarchical planning. Together, the eight modules provide the complete mathematical foundation: from Markov Blankets (systems) through generative models (agents), perception, precision, action, learning, communication, and planning — a unified mathematics of mind.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Derivation Exercise — Policy Evaluation and Sophisticated Inference</h1>
+<h2>Objective</h2>
+<p>Derive and compute Expected Free Energy for multi-step policies, extending to sophisticated inference with recursive belief updating.</p>
+<h2>Part 1: Two-Step Policy Evaluation</h2>
+<p><strong>Goal</strong>: Compute EFE for all policies in a simple POMDP.</p>
+<p><strong>Setup</strong>: 2 states, 2 observations, 2 actions, planning horizon T = 2.</p>
+<ul>
+<li>A matrix: A = [[0.9, 0.1], [0.1, 0.9]]</li>
+<li>B matrix: B₁ = [[0.8, 0.2], [0.2, 0.8]] (action 1), B₂ = [[0.3, 0.7], [0.7, 0.3]] (action 2)</li>
+<li>C vector: C = [ln 2, ln(1/2)] (prefer observation 1)</li>
+<li>Initial belief: q(s₁) = [0.5, 0.5]</li>
+</ul>
+<p>There are K^T = 2² = 4 policies: π₁=(a₁,a₁), π₂=(a₁,a₂), π₃=(a₂,a₁), π₄=(a₂,a₂).</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>For each policy, compute q(s₂ | π) = B(π₁) · q(s₁) and q(s₃ | π) = B(π₂) · q(s₂ | π)</li>
+<li>Compute predicted observations q(o_τ | π) = A · q(s_τ | π) for each timestep</li>
+<li>Compute the EFE G(π) = ∑_τ [pragmatic_τ + epistemic_τ] for each policy</li>
+<li>Select the best policy (lowest G)</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 2: Sophisticated Inference</h2>
+<p><strong>Goal</strong>: Extend Part 1 with future belief updates.</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>For the best policy from Part 1, simulate what happens at timestep 2: the agent observes o₂, then updates its belief using Bayes' rule: q(s₂ | o₂, π) ∝ A(o₂, :) · q(s₂ | π)</li>
+<li>For each possible observation o₂, compute the updated belief q(s₂ | o₂, π)</li>
+<li>Evaluate the EFE of the second action using these updated beliefs instead of the prior beliefs</li>
+<li>Compare the sophisticated EFE with the basic EFE from Part 1. How do they differ?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Hierarchical POMDP</h2>
+<p><strong>Goal</strong>: Construct a two-level hierarchical POMDP.</p>
+<p><strong>Setup</strong>:</p>
+<ul>
+<li>Level 1 (fast): 3 states, 2 observations, 2 actions, runs for T₁ = 3 steps per Level 2 step</li>
+<li>Level 2 (slow): 2 states (contexts), determines the initial state distribution and preferences for Level 1</li>
+</ul>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>Write the generative model for each level</li>
+<li>Show how Level 2's policy selection sets the D vector (initial state prior) and C vector (preferences) for Level 1</li>
+<li>Derive the total free energy F_total = F₁ + F₂</li>
+<li>Explain how optimizing at Level 2 selects which sub-task to pursue, while Level 1 handles moment-to-moment execution</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Computational Complexity Analysis</h2>
+<p><strong>Goal</strong>: Analyze the scalability of planning.</p>
+<p><strong>Task</strong>:</p>
+<ol>
+<li>For a flat POMDP with K actions and planning horizon T, count the number of policies: K^T</li>
+<li>For K = 4, compute the number of policies for T = 1, 2, 3, 5, 10</li>
+<li>Propose a pruning strategy based on Expected Free Energy thresholds: at each timestep, keep only the top-N policies</li>
+<li>Analyze the complexity reduction: from K^T to N·K per timestep</li>
+<li>Discuss: how does habit formation (defaulting to well-learned policies) further reduce computational demands?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 5: Synthesis</h2>
+<p>In 200 words, explain how the three planning levels (basic EFE, sophisticated inference, hierarchical POMDPs) provide increasingly powerful but computationally costly planning — and how biological brains manage this trade-off through habits, sub-goals, and selective deliberation.</p>
+<p>{fill:textarea}</p>
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Developed</th>
+<th>Mathematical Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Numerical computation</td>
+<td>Full EFE evaluation for all policies</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Recursive reasoning</td>
+<td>Sophisticated inference with future belief updates</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Hierarchical modeling</td>
+<td>Two-level POMDP with context-dependent sub-tasks</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Complexity analysis</td>
+<td>Scalability and pruning strategies</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Conceptual integration</td>
+<td>Biological-computational planning trade-offs</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Planning</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>The number of policies in a flat POMDP with K actions and planning horizon T is:
+A) K + T
+B) K · T
+C) K^T — exponential in the planning horizon
+D) T^K</p>
+</li>
+<li>
+<p>Sophisticated inference extends basic EFE by:
+A) Adding more hidden states
+B) Simulating future observations and the belief updates they will produce — recursive meta-cognition
+C) Removing epistemic value
+D) Using only pragmatic considerations</p>
+</li>
+<li>
+<p>In a hierarchical POMDP, higher levels:
+A) Process data at a faster timescale
+B) Set context (initial states, preferences) for lower levels and operate at slower timescales
+C) Are identical to lower levels
+D) Only handle sensory processing</p>
+</li>
+<li>
+<p>The computational explosion of planning can be managed by:
+A) Ignoring future consequences entirely
+B) Policy pruning, habit formation, and hierarchical decomposition
+C) Always planning to the maximum depth
+D) Using random policy selection</p>
+</li>
+<li>
+<p>Deep temporal planning requires:
+A) Only current observations
+B) Predicting future states, observations, and belief updates over the planning horizon
+C) Complete knowledge of the environment
+D) No generative model</p>
+</li>
+<li>
+<p>A habit in Active Inference terms is:
+A) A random behavior pattern
+B) A policy with consistently low EFE that can be selected without full EFE evaluation — reducing computational cost
+C) An innate reflex
+D) A policy forced by external constraints</p>
+</li>
+<li>
+<p>The relationship between Active Inference planning and dynamic programming (Bellman equation) is:
+A) They are identical
+B) Active Inference uses EFE (which includes epistemic value) instead of expected reward, and evaluates policies rather than value functions
+C) Active Inference does not involve future planning
+D) Dynamic programming includes exploration automatically</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>For a 2-action, 3-step POMDP, enumerate all 2³ = 8 policies. For one specific policy, show the step-by-step computation of predicted states, predicted observations, and the EFE at each timestep.</li>
+<li>Explain how sophisticated inference enables the agent to "change its mind" mid-plan. Why is this important for adaptive behavior? Use a concrete example (e.g., an agent navigating a maze that discovers a blocked path).</li>
+<li>Design a two-level hierarchical POMDP for a restaurant scenario: Level 2 selects between "appetizer," "main course," and "dessert" sub-goals; Level 1 handles individual actions within each sub-goal. Describe the A, B, C, D matrices at each level and explain how Level 2 sets the context for Level 1.</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

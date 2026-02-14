@@ -1,51 +1,32 @@
-# Practice Quiz: Action
+# Practice Quiz: Video Games and Controls
 
-## Part A: Multiple Choice
+## Part A: Reflect Together
 
-1. What is the primary role of **Action** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. **What does a controller do?**
+    A) Controls the weather.
+    B) Sends signals from your hands to the game.
+    C) Makes toast.
 
-2. In Family, Action is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. **What is Latency (Lag)?**
+    A) When the game is super fast.
+    B) When there is a delay between pressing a button and the action happening.
+    C) A type of pasta.
 
-3. Which mathematical quantity is most central to Action?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. **True or False**: Video games are bad for you.
+    * (False. They can train your brain, but you need balance).
 
-4. How does Action relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **What is Haptic Feedback?**
+    A) Feeling the controller shake.
+    B) Seeing colors.
+    C) Hearing music.
 
-5. A failure in Action would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Why do we practice video games?**
+    A) To minimize prediction error (Get better).
+    B) To waste time.
+    C) To hurt our thumbs.
 
-6. Which scale is most relevant for analyzing Action in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+## Part B: Discussion Questions
 
-7. Action connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Action** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Action failing in a Family scenario.
-3.  How would you model Action using a POMDP (Partially Observable Markov Decision Process)?
+1. What is the hardest game you have ever played?
+2. Have you ever thrown a controller? (Impulse control failure!).
+3. Design a new controller. What buttons does it have?

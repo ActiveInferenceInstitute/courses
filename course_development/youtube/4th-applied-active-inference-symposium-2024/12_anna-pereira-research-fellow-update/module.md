@@ -1,52 +1,10 @@
-# Module 12: Topic in Youtube
+# Anna Pereira: “Research Fellow Update“
 
-## Learning Objectives
+> **Source**: [YouTube](https://www.youtube.com/watch?v=TsQQX3ZdEmA)
+> **Playlist**: 4th Applied Active Inference Symposium (2024)
+> **Duration**: 2:03 | **Uploaded**: Unknown
+> **Transcript method**: auto_caption
 
-1.  Define **Topic** within the context of Youtube.
-2.  Analyze how Topic interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Youtube to the formal definition of Topic.
+---
 
-## Introduction
-
-This module explores **Topic**. In the **Youtube** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Topic is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
-
-## Key Concepts
-
-### 1. Topic as a Markov Blanket Boundary
-How does Topic define the boundary between the agent and the environment?
-
-### 2. Generative Models of Topic
-What parameters involved in Topic must be optimized to minimize variational free energy?
-
-### 3. Active Inference Dynamics
-How does the process of Topic drive the perception-action loop?
-
-## Applications
-
-In Youtube, we see Topic manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
-
-## Conclusion
-
-Understanding Topic allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+all right I'm going to play next a short video from Anna Pereira in active inference Institute research [Music] fellow hey an A Prayer here I was disappointed uh that there was an irresolvable conflict uh during the time of the Symposium but wanted to share uh or contribute um a small update none L for those of you um who haven't had a chance to hear from me before um we've been looking at accelerating and disseminating active inference for the Humanities uh we're actually just starting to call it aih uh and we continue to make progress um and quietly incubate in the background we're not really at a point to do um a large more solid update uh but we wanted to quickly say hello and and say that we are incubating uh we continue to be available uh for collaborations or conversations um others find useful uh and also to provide an update that uh we've been really grateful for the opportunity to incubate within the larger aii structure um this has provided several mutualistic affordances um has been a really great um construct within the the larger aii uh space so we look forward to being in touch uh at Future conferences and symposiums and available for conversations um in the meantime uh wishing you a great Symposium and uh be well all right

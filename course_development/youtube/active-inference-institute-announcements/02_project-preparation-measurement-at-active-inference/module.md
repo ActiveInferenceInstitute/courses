@@ -1,52 +1,10 @@
-# Module 02: Agents in Youtube
+# Project Preparation/Measurement at Active Inference Institute in 2024 ~ Forms open
 
-## Learning Objectives
+> **Source**: [YouTube](https://www.youtube.com/watch?v=mEP-E9Q92Es)
+> **Playlist**: Active Inference Institute ~ Announcements
+> **Duration**: 5:17 | **Uploaded**: Unknown
+> **Transcript method**: auto_caption
 
-1.  Define **Agents** within the context of Youtube.
-2.  Analyze how Agents interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Youtube to the formal definition of Agents.
+---
 
-## Introduction
-
-This module explores **Agents**. In the **Youtube** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
-
-## Key Concepts
-
-### 1. Agents as a Markov Blanket Boundary
-How does Agents define the boundary between the agent and the environment?
-
-### 2. Generative Models of Agents
-What parameters involved in Agents must be optimized to minimize variational free energy?
-
-### 3. Active Inference Dynamics
-How does the process of Agents drive the perception-action loop?
-
-## Applications
-
-In Youtube, we see Agents manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
-
-## Conclusion
-
-Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+hello this is a New Year's Eve 2023 video that's giving a bit of a look towards how we'll be doing projects and participation at the Active inference Institute in 2024 so I'm on the homepage of the onboarding document and I'm going to head over to projects as figure one from our recent 2023 paper shows projects are at the heart of participating in The Institute and in the acadm ecosystem projects include the CORE Institute projects that are commons like or infrastructural such as the active inference ontology Journal Productions and live streams and so on and also there are so many projects learning and application that people are working on in the active inference ecosystem and some that engage with or are hosted at The Institute so drawing on work in Quantum active inference which the second half of this video is going to explore a little bit of we're planning to structure project proposal and Reporting at The Institute in 2024 according to these two stages and each stage with a form and the two stages are preparation and measurement for preparing a project it's like proposing a project that could be informing The Institute about a project that is already going to be happening and doesn't require support all the way on up through requested support in the form of calendar events Discord channels funding different kinds of support and hosting at The Institute and then active projects will be found in the activities tab so that there can be this updated list of what is really living and ongoing at The Institute how can one get involved what is that project looking to do and then what else has that project already done will be reflected by the always open measurement form and this could be a project that was proposed initially to The Institute and carried out intern internally or it could just be a research paper that somebody found or created and can be a opportunity for future preparation engagement or not so here from this projects page you can click into the project preparation form unfold and see the questions if you want to copy them out and then directly complete the form for project preparation here or click the form link and similarly for project meas you can unfold what questions are on the form click the form link or you can fill it out directly on the coded document that's a little bit of the how a little bit of the low road and we hope to continue to fine-tune and develop on that in the second part of this video I want to look a little bit to this part that was mentioned about the quantum active inference so clicking that link will take you to the syllabus for the course physics as information processing which Chris Fields taught with the assistance of Andre in 2023 and we recently published just today the transcript from this course and so I'm going to pull up in the transcript where preparation measurement was mentioned so here's the quantum informatic Alice Through Time preparing and measuring a Quantum reference frame everything not explicitly forbidden is mandatory all the paths and then what's really taken is measured so this is the proposal stage here's how it could go here's our situation and context and here's the kind of distributional or procedural approach that we're taking and then measurement empirically what happened and so here basically what fainman realized was that in any physical process The Observer Alice prepares some state that she's interested in she prepares some input to an experiment then she lets something happen and then she sees what the result of the experiment is and the canonical experiment in physics is scattering you know fire two protons at each other and they intersect someplace and stuff comes out and you measure the stuff that comes out so I'm sure there's many other areas where we can search for prepare and measure and find a lot of technical depth and a lot of discussion from this very interesting course but even from that short select there's so many ways to think about preparation and measurement so it's really exciting that people on their own timelines according to their own time scales and preferences can propose things to The Institute whether we could provide you the support that is going to make the project continue or not or whether we can help something get off the ground or just learn about what you're proposing we will try with this new system to stay on top of things stay responsive and we look forward to versioning all of this with everyone so email us at blanket active inference Institute if you have any other thoughts or questions otherwise see you in 24 peace

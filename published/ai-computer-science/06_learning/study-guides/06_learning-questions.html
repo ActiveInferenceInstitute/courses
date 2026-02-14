@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>questions</title>
+</head>
+<body>
+<h1>Study Questions: Learning</h1>
+<ol>
+<li>
+<p>Why does Active Inference use Dirichlet distributions to represent uncertainty about the A and B matrices?</p>
+</li>
+<li>
+<p>Write the formula for the expected A-matrix $\mathbb{E}[\mathbf{A}]$ given concentration parameters $\mathbf{p}_A$. What does <code>expected_A(pA)</code> compute?</p>
+</li>
+<li>
+<p>If <code>pA = np.ones((3, 2))</code> (all concentrations = 1), what is the expected A-matrix? What does this represent in terms of prior beliefs?</p>
+</li>
+<li>
+<p>Explain the update rule for <code>update_dirichlet_A()</code>. Which entries of pA increase after observing $o = 0$ with beliefs $q(s) = [0.7, 0.3]$?</p>
+</li>
+<li>
+<p>How does the learning rate $\eta$ affect the pA update? What happens if $\eta = 0$? If $\eta = 10$?</p>
+</li>
+<li>
+<p>Write the complete online learning loop (perception, action, pA update, pB update) for 50 timesteps.</p>
+</li>
+<li>
+<p>After 100 learning updates, how would you measure whether the agent has accurately recovered the true A-matrix?</p>
+</li>
+<li>
+<p>What is <code>expected_B(pB)</code> and how is it used after each pB update?</p>
+</li>
+<li>
+<p>Compute <code>update_dirichlet_B()</code> by hand for $q(s) = [1, 0]$, $q(s') = [0, 1]$, $a = 0$, $\eta = 1$. Which entry of $\mathbf{p}_B$ changes?</p>
+</li>
+<li>
+<p>What does <code>dirichlet_entropy(alpha)</code> measure? Is a low or high Dirichlet entropy desirable for a well-learned model?</p>
+</li>
+<li>
+<p>How does the agent's learned A-matrix affect its state inference? Describe the feedback loop between learning and perception.</p>
+</li>
+<li>
+<p>What is Bayesian Model Reduction and what problem does it solve?</p>
+</li>
+<li>
+<p>When does <code>bayesian_model_reduction(pA_full, pA_reduced)</code> return a negative ΔF? What does this mean for model selection?</p>
+</li>
+<li>
+<p>How would you visualize the convergence of pA toward the true A? Which visualization function would you use?</p>
+</li>
+<li>
+<p>Design an experiment with 3 episodes of 50 steps each. Between episodes, reset the environment but keep the accumulated pA. Predict how performance changes across episodes.</p>
+</li>
+<li>
+<p>What is <code>update_dirichlet_D()</code> and when would you use it? How does it differ from updating pA?</p>
+</li>
+<li>
+<p>If the true A-matrix changes after 50 steps (non-stationary environment), how would you modify the learning to adapt? Consider the effect of learning rate.</p>
+</li>
+<li>
+<p>What is the relationship between the concentration magnitudes in pA and the agent's confidence in its likelihood model?</p>
+</li>
+<li>
+<p>Use <code>plot_dirichlet_concentration()</code> to compare the initial and learned pA. What does the visualization show?</p>
+</li>
+<li>
+<p>Explain why Dirichlet learning is online (incremental) rather than batch. What are the computational advantages?</p>
+</li>
+</ol>
+</body>
+</html>

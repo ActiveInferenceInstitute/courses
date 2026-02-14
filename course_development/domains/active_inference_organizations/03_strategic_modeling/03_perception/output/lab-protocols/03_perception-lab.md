@@ -1,23 +1,74 @@
-# Lab: Exploring Perception
+# Lab: Strategic Sensing System Design
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Design a competitive intelligence system that detects weak signals and monitors strategic risks.
 
-Design and simulate a simple agent that demonstrates the principles of **Perception**.
+---
 
-## Prerequisites
+## Part 1: Current Sensing Audit (10 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Perception.
+| Information Source | What It Senses | Time Horizon | Blind Spots |
+|-------------------|---------------|-------------|-------------|
+| | | | |
+| | | | |
+| | | | |
 
-## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Perception.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Perception (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
 
-## Discussion Requirements
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Perception.
+---
+
+## Part 2: Weak Signal Scan (15 min)
+
+| Signal | Source | Potential Significance | Confidence | Action if True |
+|--------|--------|----------------------|-----------|---------------|
+| | | | H/M/L | |
+| | | | | |
+| | | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: Blind Spot Analysis (10 min)
+
+| Blind Spot Category | What You Might Be Missing | Why (model limitation) | Mitigation |
+|--------------------|--------------------------|----------------------|-----------|
+| Confirmation bias | | | |
+| Proximity bias | | | |
+| Success bias | | | |
+| Quantification bias | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Sensing System Design (15 min)
+
+| Component | Design | Responsible | Cadence |
+|-----------|--------|------------|---------|
+| Broad scanning | | | |
+| Deep monitoring | | | |
+| Weak signal detection | | | |
+| Intelligence analysis | | | |
+| Decision integration | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Biggest sensing gap | |
+| Most important weak signal | |
+| Priority system improvement | |

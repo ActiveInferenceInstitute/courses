@@ -1,0 +1,78 @@
+Lab 03: State Estimation and Belief Updating
+
+Objective
+
+Implement and visualize belief updating using the A-matrix likelihood, compare inference with different observation noise levels, and analyze convergence behavior.
+
+Prerequisites
+
+Completed Labs 01–02
+Understanding of Bayesian inference and VFE
+Access to the activeinference library
+
+Part 1: Basic State Inference
+
+Goal: Run state inference on a simple 2-state system and examine the posterior.
+
+Create a GenerativeModel with a clear A-matrix ($A = [[0.9, 0.1], [0.1, 0.9]]$).
+Run runstateinference() with a uniform prior and observation $o = 0$.
+Print the posterior, number of iterations, and whether convergence was achieved.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 2: Sequential Observation Updates
+
+Goal: Update beliefs across multiple observations.
+
+Start with a uniform prior $q(s) = [0.5, 0.5]$.
+Process the observation sequence $[0, 0, 1, 0, 1, 1]$.
+After each observation, use the posterior as the new prior.
+Record and plot the belief trajectory using plotbeliefs().
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 3: Noise Comparison
+
+Goal: Compare inference under different A-matrix noise levels.
+
+Define three A-matrices: clear ($0.95/0.05$), moderate ($0.75/0.25$), noisy ($0.55/0.45$).
+For each, run inference on the same observation sequence $[0, 0, 0, 0, 0]$.
+Plot the posterior $q(s0)$ after each observation for all three noise levels on the same graph.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 4: Convergence Analysis
+
+Goal: Visualize and analyze inference convergence.
+
+Run runstateinference() with a tight threshold ($10^{-12}$) and 50 max iterations.
+Plot the convergence curve using plotconvergence().
+Repeat with the noisy A-matrix and compare convergence speed.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 5: Prediction Errors in a Live Agent
+
+Goal: Run an agent and examine prediction errors.
+
+Create an ActiveInferenceAgent and a DiscreteEnvironment.
+Run 20 steps of the perception-action loop.
+At each step, compute agent.predictionerror(obs) and store it.
+Visualize with plotpredictionerrors().
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Summary
+
+| Skill | Library Component | Status |
+|-------|------------------|--------|
+| Run standalone state inference | runstateinference() | |
+| Update beliefs across sequential observations | Prior chaining | |
+| Compare inference under different noise levels | Varying A-matrix | |
+| Visualize convergence diagnostics | plotconvergence() | |
+| Compute and plot prediction errors | agent.predictionerror(), plotprediction_errors() | |

@@ -1,0 +1,113 @@
+# Lab: Crocheting Three Surfaces
+
+## Objective
+
+Crochet three small samples that demonstrate different topological surfaces — flat (zero curvature), hyperbolic (negative curvature), and spherical (positive curvature). Then sketch the stitch graph of one sample and identify its network properties. By the end of this lab, you will have held three kinds of Gaussian curvature in your hands and mapped one of them as a mathematical graph.
+
+## Materials
+
+* Worsted weight yarn in 3 colors (approximately 15 yards each) — one color per surface
+* Crochet hook, size H/8 (5.0mm)
+* Stitch markers (at least 3)
+* Scissors
+* Paper and pen (graph paper is ideal but not required)
+* A flat table surface
+
+## Prerequisites
+
+* Ability to chain (ch), single crochet (sc), and make increases (2 sc in one stitch)
+* Reading of Module 01: Surfaces and Spaces (module.md)
+* Familiarity with working in the round (magic ring or chain-and-join method)
+
+## Steps
+
+### Part 1: Flat Disc — Zero Gaussian Curvature (10 minutes)
+
+**What we are making:** A flat circle that lies perfectly on the table, demonstrating zero curvature. This is the "Goldilocks" surface — the increase rate is exactly right.
+
+1. With your first color, make a **magic ring** (or ch 4 and sl st to join).
+2. **Round 1:** 6 sc into the ring. Place a stitch marker at the first stitch. (6 stitches)
+3. **Round 2:** 2 sc in each st around. (12 stitches)
+4. **Round 3:** *Sc in next st, 2 sc in next st* — repeat around. (18 stitches)
+5. **Round 4:** *Sc in next 2 sts, 2 sc in next st* — repeat around. (24 stitches)
+6. **Round 5:** *Sc in next 3 sts, 2 sc in next st* — repeat around. (30 stitches)
+7. Fasten off. Lay the disc on the table.
+
+**Observe:** The disc should lie flat, or very close to flat. Press it gently. It does not want to cup or ruffle — it is content on the plane. This is zero Gaussian curvature. You added exactly 6 stitches per round, which compensates perfectly for the growing circumference.
+
+**Label it:** Write "FLAT — Zero Curvature — 6 inc/round" on a scrap of paper and place it next to this sample.
+
+### Part 2: Hyperbolic Ruffle — Negative Gaussian Curvature (15 minutes)
+
+**What we are making:** A wildly ruffled disc that cannot lie flat, demonstrating negative curvature. This is what happens when you add too many stitches — the surface has more fabric than the plane can hold.
+
+1. With your second color, make a **magic ring**.
+2. **Round 1:** 6 sc into the ring. Place a stitch marker. (6 stitches)
+3. **Round 2:** 2 sc in each st around. (12 stitches)
+4. **Round 3:** 2 sc in each st around. (24 stitches)
+5. **Round 4:** 2 sc in each st around. (48 stitches)
+6. If you have enough yarn and patience, continue for one more round: **Round 5:** *Sc in next st, 2 sc in next st* — repeat around. (72 stitches)
+7. Fasten off.
+
+**Observe:** Try to lay this piece flat on the table. It will not cooperate. It ruffles, waves, folds, and curls. Pick it up and let it drape from your fingers — it looks like a piece of coral, a leaf of lettuce, a hyperbolic plane. The fabric has more surface area than a flat disc of the same radius could contain, so it buckles into the third dimension.
+
+This is negative Gaussian curvature. You doubled the stitch count every round (12 increases per round in Round 3, then doubling again), far exceeding the 6-per-round needed for flatness. This is exactly how Daina Taimina creates her hyperbolic models, and it is the principle behind the Crochet Coral Reef project.
+
+**Label it:** Write "HYPERBOLIC — Negative Curvature — too many increases" next to this sample.
+
+### Part 3: Positive Curvature Bowl (10 minutes)
+
+**What we are making:** A piece that cups into a bowl shape, demonstrating positive curvature. This is what happens when you do not add enough stitches — the surface runs out of room and curves inward.
+
+1. With your third color, make a **magic ring**.
+2. **Round 1:** 6 sc into the ring. Place a stitch marker. (6 stitches)
+3. **Round 2:** 2 sc in each st around. (12 stitches)
+4. **Round 3:** *Sc in next 3 sts, 2 sc in next st* — repeat around. (15 stitches — only 3 increases)
+5. **Round 4:** *Sc in next 4 sts, 2 sc in next st* — repeat around. (18 stitches — only 3 increases)
+6. **Round 5:** *Sc in next 5 sts, 2 sc in next st* — repeat around. (21 stitches — only 3 increases)
+7. Fasten off.
+
+**Observe:** Lay this piece on the table. It will not sit flat — it cups upward, forming a bowl or dome shape. The edges lift off the table. If you continued this pattern with even fewer increases (or started decreasing), the fabric would eventually close into a sphere — the same technique used to make amigurumi.
+
+This is positive Gaussian curvature. With only 3 increases per round (instead of the 6 needed for flatness), there are not enough stitches to fill the circumference, so the fabric curves inward. This is the geometry of spheres, of balls, of closed surfaces.
+
+**Label it:** Write "BOWL — Positive Curvature — too few increases" next to this sample.
+
+### Part 4: Drawing the Network (10 minutes)
+
+Now we shift from crochet to graph theory. Take your **flat disc** (Part 1) and a piece of paper.
+
+1. **Draw the center node.** In the middle of your paper, draw a small circle. This represents the magic ring — the origin point.
+2. **Draw Round 1.** Around the center, draw 6 small circles in a ring. Connect each one to the center with a line. These are the 6 stitches of Round 1. Each line is an edge; each circle is a node.
+3. **Draw Round 2.** Outside the Round 1 ring, draw 12 circles. Each Round 1 stitch spawned 2 stitches (increases), so draw 2 circles above each Round 1 circle and connect them with lines going down to their parent.
+4. **Connect neighbors.** Within each round, draw lines connecting adjacent stitches (the stitch-to-stitch connections within a row). These are the horizontal edges in your graph.
+5. **Examine your graph.** You have drawn a network with:
+   - **Nodes**: Each circle (stitch) is a node.
+   - **Edges**: Each line (connection) is an edge.
+   - **Layers**: The rounds form concentric layers, like a neural network.
+
+6. **Calculate degree.** Pick a stitch in the middle of Round 2. Count its edges: one going down to the Round 1 parent, two going sideways to its left and right neighbors in Round 2, and (if you drew Round 3) the connections going up. What is the degree of this node?
+
+7. **Compare to a neural network diagram.** If you have seen a diagram of a feedforward neural network (input layer, hidden layers, output layer), notice the similarity. Your flat disc has a center (input), expanding rings (hidden layers), and an outer edge (output). The increase stitches are the fan-out connections that expand each layer.
+
+### Part 5: Reflection and Discussion (15 minutes)
+
+Lay all three samples side by side: flat disc, hyperbolic ruffle, positive-curvature bowl. With your graph drawing in hand, consider the following.
+
+## Discussion Questions
+
+* Look at the three surfaces you crocheted. The only difference between them is the number of increases per round. How does this single parameter — increase rate — control the entire geometry of the fabric? What does this tell you about the relationship between local decisions (stitch-by-stitch) and global structure (the shape of the surface)?
+
+* Examine your stitch graph drawing. If you think of each stitch as a neuron and each connection as a synapse, what kind of neural network have you drawn? Is it feedforward or recurrent? What would change if you drew the graph for a piece crocheted in a continuous spiral (no joining)?
+
+* The Markov blanket of each sample is its outer edge — the last round you crocheted. Compare the Markov blankets of your three samples. The flat disc has a smooth, circular boundary. The hyperbolic ruffle has a long, wavy, convoluted boundary. The bowl has a smaller, tighter boundary. What does the shape of the Markov blanket tell you about the system it encloses?
+
+* Pick up the hyperbolic ruffle and try to flatten it. You cannot do it without folding or stretching the fabric. This is a topological property — no smooth deformation can make a hyperbolic surface flat. What does this mean for the "generative model" of this fabric? Can a model that expects flatness ever be reconciled with this surface?
+
+* If you were designing a neural network and wanted it to have the same connectivity pattern as your flat disc, how many neurons would be in each layer? How would you describe the fan-out ratio between layers? Could a neural network with this architecture do useful computation?
+
+## Wrap-Up
+
+You now have three physical objects that embody three fundamental types of Gaussian curvature — three topological surfaces created with nothing more than yarn, a hook, and a simple change in increase rate. You have also drawn the stitch graph of one of these surfaces and seen that crocheted fabric is not just like a network — it is a network, with measurable nodes, edges, and degree.
+
+Keep these three samples. They are your topological toolkit — physical reference objects you can hold, stretch, and examine whenever you need to think about curvature, surfaces, and network structure. Bring them to the next crochet circle session for group comparison and discussion.

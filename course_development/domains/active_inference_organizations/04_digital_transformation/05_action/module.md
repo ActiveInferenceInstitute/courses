@@ -1,52 +1,78 @@
-# Module 05: Action in Organizations
+# Process Automation and Digital Action: When Technology Executes
+
+## Executive Summary
+
+Digital transformation changes how organizations act — automation replaces human execution with algorithmic and robotic processes. Under Active Inference, digital action is the transfer of policy execution from human agents to technological systems. This module examines process automation (RPA), digital workflows, the design of automation architectures, and the organizational challenge of maintaining agility when processes are encoded in software.
+
+---
 
 ## Learning Objectives
 
-1.  Define **Action** within the context of Organizations.
-2.  Analyze how Action interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Organizations to the formal definition of Action.
+1. Frame **process automation** as the delegation of organizational action to technology
+2. Distinguish **RPA, intelligent automation, and autonomous operations** by capability and complexity
+3. Design **automated workflows** that balance efficiency with adaptability
+4. Understand the **rigidity-agility trade-off** in process automation
+5. Manage the **organizational change** required for successful automation
 
-## Introduction
-
-This module explores **Action**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+---
 
 ## Key Concepts
 
-### 1. Action as a Markov Blanket Boundary
-How does Action define the boundary between the agent and the environment?
+### 1. Automation Spectrum
 
-### 2. Generative Models of Action
-What parameters involved in Action must be optimized to minimize variational free energy?
+| Level | Technology | What's Automated | Human Role |
+|-------|-----------|-----------------|-----------|
+| **Manual** | None | Nothing | Does everything |
+| **Assisted** | Software tools | Individual tasks | Uses tools, decides |
+| **RPA** | Software robots | Rule-based processes | Monitors, handles exceptions |
+| **Intelligent** | AI + RPA | Complex, judgment-based processes | Oversees, sets policy |
+| **Autonomous** | Full-stack AI | End-to-end processes | Designs, audits |
 
-### 3. Active Inference Dynamics
-How does the process of Action drive the perception-action loop?
+### 2. Automation Architecture
 
-## Applications
+**Case Study — Tesla's Manufacturing**: Tesla's Gigafactory exemplifies the automation challenge. Musk initially pursued "lights-out" manufacturing (fully automated with no human workers), but discovered that extreme automation created brittleness — when any automated process failed, the entire line stopped. The solution was hybrid: automate what machines do well (precision welding, repetitive assembly) and keep humans where flexibility matters (quality inspection, complex assembly, exception handling). The lesson: optimal automation is hybrid, not maximal.
 
-In Organizations, we see Action manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### 3. The Rigidity-Agility Trade-off
 
-## Conclusion
+| Dimension | High Automation | Low Automation |
+|-----------|----------------|---------------|
+| **Efficiency** | High — consistent, fast, scalable | Lower — human speed, fatigue, variation |
+| **Adaptability** | Low — process changes require re-engineering | High — humans adapt quickly to new situations |
+| **Error handling** | Poor for novel errors | Good — human judgment handles the unexpected |
+| **Cost** | High upfront, low marginal | Low upfront, high marginal |
 
-Understanding Action allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 4. Process Design for Automation
 
-<!-- Content padding to ensure file size requirements -->
+Not all processes should be automated. The best candidates are:
 
-<!-- Content padding to ensure file size requirements -->
+- **High volume**: Economies of scale justify investment
+- **Rule-based**: Clear rules that can be encoded
+- **Stable**: The process doesn't change frequently
+- **Error-sensitive**: Consistency matters more than flexibility
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+- For organizational action, see [Organizational Systems: Action](../../01_organizational_systems/05_action/module.md)
+- For team coordination, see [Collective Intelligence: Action](../../02_collective_intelligence/05_action/module.md)
+- For strategic moves, see [Strategic Modeling: Action](../../03_strategic_modeling/05_action/module.md)
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+| Concept | Digital Transformation Meaning |
+|---------|-------------------------------|
+| Process automation | Delegating action from humans to technology |
+| Automation spectrum | From manual to fully autonomous, with hybrid optimal for most |
+| Rigidity-agility trade-off | Automation increases efficiency but reduces adaptability |
+| Process design | Identifying which processes are automation candidates |
+| Change management | The human and organizational challenges of implementing automation |
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## References
+
+- Davenport, T. H., & Ronanki, R. (2018). Artificial intelligence for the real world. *Harvard Business Review*, 96(1), 108–116.
+- Brynjolfsson, E., & McAfee, A. (2014). *The Second Machine Age*. W. W. Norton.

@@ -1,23 +1,63 @@
-# Lab: Exploring Action
+# Lab: Strategic Action Portfolio Analysis
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Map, evaluate, and rebalance your organization's portfolio of strategic actions.
 
-Design and simulate a simple agent that demonstrates the principles of **Action**.
+---
 
-## Prerequisites
+## Part 1: Action Inventory (10 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Action.
+| Initiative | Type (Attack/Creation/Position/Retreat/Explore) | Investment | Expected Return | Time Horizon |
+|-----------|------------------------------------------------|-----------|----------------|-------------|
+| | | | | |
+| | | | | |
+| | | | | |
 
-## Steps
+{fill:textarea, placeholder: "Inventory current strategic initiatives"}
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Action.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Action (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+---
 
-## Discussion Requirements
+## Part 2: Exploitation-Exploration Balance (10 min)
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Action.
+| Category | % of Resources | Assessment |
+|----------|---------------|-----------|
+| Exploitation (current business) | | |
+| Exploration (new opportunities) | | |
+| **Optimal balance given industry dynamics?** | | |
+
+{fill:textarea, placeholder: "Assess exploitation-exploration balance"}
+
+---
+
+## Part 3: Commitment Analysis (15 min)
+
+| Initiative | Reversibility (H/M/L) | Signal Sent to Competitors | Strategic Logic |
+|-----------|----------------------|---------------------------|----------------|
+| | | | |
+| | | | |
+
+{fill:textarea, placeholder: "Analyze strategic commitments"}
+
+---
+
+## Part 4: Portfolio Rebalancing (15 min)
+
+| Change | Current | Proposed | Rationale |
+|--------|---------|----------|-----------|
+| Add | | | |
+| Remove | | | |
+| Increase | | | |
+| Decrease | | | |
+
+{fill:textarea, placeholder: "Propose portfolio rebalancing"}
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Current exploit/explore ratio | |
+| Biggest strategic gap | |
+| Priority action | |

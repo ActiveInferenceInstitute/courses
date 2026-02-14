@@ -1,42 +1,12 @@
-# Study Questions: Systems
+# Course — Module 01 — Think About It
 
-1.  Define **Systems** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Systems?
-
-3.  Contrast the Classical view of Systems with the Active Inference view.
-
-4.  Develop a question that connects Systems to a real-world problem in Family.
-
-5.  Develop a question that connects Systems to a real-world problem in Family.
-
-6.  Develop a question that connects Systems to a real-world problem in Family.
-
-7.  Develop a question that connects Systems to a real-world problem in Family.
-
-8.  Develop a question that connects Systems to a real-world problem in Family.
-
-9.  Develop a question that connects Systems to a real-world problem in Family.
-
-10.  Develop a question that connects Systems to a real-world problem in Family.
-
-11.  Develop a question that connects Systems to a real-world problem in Family.
-
-12.  Develop a question that connects Systems to a real-world problem in Family.
-
-13.  Develop a question that connects Systems to a real-world problem in Family.
-
-14.  Develop a question that connects Systems to a real-world problem in Family.
-
-15.  Develop a question that connects Systems to a real-world problem in Family.
-
-16.  Develop a question that connects Systems to a real-world problem in Family.
-
-17.  Develop a question that connects Systems to a real-world problem in Family.
-
-18.  Develop a question that connects Systems to a real-world problem in Family.
-
-19.  Develop a question that connects Systems to a real-world problem in Family.
-
-20.  Develop a question that connects Systems to a real-world problem in Family.
-
+1. Where does the Internet live? (In servers and cables).
+2. How does a message get from here to China in 1 second? (Light in fiber optics).
+3. Why do we need passwords? (Keys to the digital house).
+4. Is everything on the Internet true? (No! Verify your sources).
+5. What happens if the Wi-Fi breaks? (The system disconnects).
+6. Can a computer get sick? (Yes, a Virus).
+7. Who owns the Internet? (No one person. It is decentralized).
+8. Why do we call it a "Mouse"? (It looked like one).
+9. What is a "Bug"? (A mistake in the code).
+10. If you could send a message to everyone in the world, what would you say?

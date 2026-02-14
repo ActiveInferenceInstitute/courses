@@ -1,0 +1,75 @@
+Lab 07: Multi-Agent Signaling Game
+
+Objective
+
+Build a 2-agent signaling game, run it with learning, and measure emergent communication via mutual information.
+
+Prerequisites
+
+Completed Labs 01–06
+Understanding of mutual information and multi-agent dynamics
+
+Part 1: Setting Up the Agents
+
+Goal: Create sender and receiver agents for a 2-state signaling game.
+
+Define the sender's model: A = identity (observes true state), B = identity, C = [reward preference], D = uniform.
+Define the receiver's model: A = identity (maps signal to observation), B shaped by the sender's action, C = same reward preference.
+Instantiate both ActiveInferenceAgent instances with γ = 4.0.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 2: Running the Signaling Loop
+
+Goal: Run 100 rounds of the signaling game.
+
+At each round: randomly sample a world state (0 or 1).
+Sender observes the state and selects a signal.
+Receiver observes the signal and selects a direction.
+Record success (receiver chose correct direction) and the (signal, state) pair.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 3: Adding Learning
+
+Goal: Add Dirichlet learning so agents can develop a communication protocol.
+
+Add updatedirichletA() for both agents after each round.
+Update expected A-matrices for subsequent inference.
+Run 200 rounds with learning enabled.
+Compare success rate in rounds 1–50 vs rounds 151–200.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 4: Measuring Mutual Information
+
+Goal: Track mutual information between signals and world states over time.
+
+Compute MI using a sliding window of 20 rounds.
+Build the joint distribution from the windowed (signal, state) pairs.
+Plot MI over time. It should increase if communication emerges.
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 5: Analysis Questions
+
+Did mutual information increase over time? What was the final MI compared to the maximum ($\ln 2 \approx 0.693$)?
+Did the sender develop a consistent mapping between world states and signals? What was the mapping?
+How many rounds were needed before the receiver's accuracy exceeded 80%?
+
+Response: 
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Summary
+
+| Skill | Library Component | Status |
+|-------|------------------|--------|
+| Build multi-agent Active Inference systems | Multiple ActiveInferenceAgent instances | |
+| Implement a signaling game loop | Sender-receiver architecture | |
+| Add Dirichlet learning to multi-agent settings | updatedirichletA() per agent | |
+| Measure emergent communication | mutual_information() on joint distributions | |
+| Analyze communication development over time | Sliding-window MI tracking | |

@@ -1,51 +1,23 @@
-# Practice Quiz: Action
+# Practice Quiz: Digital Transformation — Module 05: Action
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Action** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. Tesla's manufacturing experience shows that optimal automation is: A) Maximum B) Hybrid — balancing machine precision with human flexibility C) Minimum D) Full lights-out
+2. The best automation candidates are processes that are: A) Creative and unpredictable B) High volume, rule-based, stable, and error-sensitive C) Low volume and complex D) Human-facing
+3. The **rigidity-agility trade-off** means automation: A) Is always rigid B) Increases efficiency but reduces the organization's ability to adapt to novel situations C) Is always agile D) Has no trade-offs
+4. **RPA** (Robotic Process Automation) is best for: A) Complex judgment B) Rule-based, repetitive tasks that follow clear procedures across multiple systems C) Creative work D) Strategy decisions
+5. Process automation changes human work by: A) Eliminating all jobs B) Shifting human work toward exception handling, oversight, and tasks requiring judgment C) Creating more routine work D) Having no effect
+6. An **automation pilot** should focus on: A) The biggest process B) A high-impact, manageable process that demonstrates value and generates learning C) Everything at once D) The cheapest process
+7. The **total cost of ownership** of automation includes: A) Just software licenses B) Implementation, maintenance, exception handling, monitoring, and change management costs over the system's lifecycle C) Just hardware D) Just labor savings
 
-2. In Organizations, Action is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+---
 
-3. Which mathematical quantity is most central to Action?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+## Part B: Short Analysis
 
-4. How does Action relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
-
-5. A failure in Action would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
-
-6. Which scale is most relevant for analyzing Action in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
-
-7. Action connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Action** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Action failing in a Organizations scenario.
-3.  How would you model Action using a POMDP (Partially Observable Markov Decision Process)?
+1. A finance team spends 40% of their time on invoice processing. Design an automation strategy: what to automate, what to keep human, what pilot to run, and what success metrics to track.
+2. Your automated order fulfillment system handles 95% of orders perfectly but creates expensive problems for the 5% that don't fit standard rules. Design a "human-in-the-loop" solution.
+3. Compare the automation ROI of three different processes in your organization. Rank them by automation readiness and recommend a sequencing strategy.

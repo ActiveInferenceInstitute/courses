@@ -1,42 +1,12 @@
-# Study Questions: Planning
+# Course — Module 08 — Think About It
 
-1.  Define **Planning** in your own words, specifically as it applies to Family.
-
-2.  How does the Free Energy Principle constrain our understanding of Planning?
-
-3.  Contrast the Classical view of Planning with the Active Inference view.
-
-4.  Develop a question that connects Planning to a real-world problem in Family.
-
-5.  Develop a question that connects Planning to a real-world problem in Family.
-
-6.  Develop a question that connects Planning to a real-world problem in Family.
-
-7.  Develop a question that connects Planning to a real-world problem in Family.
-
-8.  Develop a question that connects Planning to a real-world problem in Family.
-
-9.  Develop a question that connects Planning to a real-world problem in Family.
-
-10.  Develop a question that connects Planning to a real-world problem in Family.
-
-11.  Develop a question that connects Planning to a real-world problem in Family.
-
-12.  Develop a question that connects Planning to a real-world problem in Family.
-
-13.  Develop a question that connects Planning to a real-world problem in Family.
-
-14.  Develop a question that connects Planning to a real-world problem in Family.
-
-15.  Develop a question that connects Planning to a real-world problem in Family.
-
-16.  Develop a question that connects Planning to a real-world problem in Family.
-
-17.  Develop a question that connects Planning to a real-world problem in Family.
-
-18.  Develop a question that connects Planning to a real-world problem in Family.
-
-19.  Develop a question that connects Planning to a real-world problem in Family.
-
-20.  Develop a question that connects Planning to a real-world problem in Family.
-
+1. What would happen if you put your shoes on BEFORE your socks? (Algorithm error!).
+2. Why do we brush our teeth? (To fight the Sugar Bugs).
+3. Do animals have a bedtime routine? (Yes, dogs circle before lying down).
+4. Why is the dark scary? (Because our eyes can't get data).
+5. What is a lullaby? (A sound signal for sleep).
+6. Can you dream about flying? (Yes! Your brain is a movie theater).
+7. Why do you need a pillow? (Neck support/Comfort).
+8. What is the first thing you do in the morning? (Boot up sequence).
+9. Why shouldn't you eat candy in bed? (Energy spike + Ants!).
+10. If you could design a dream, what would happen in it?

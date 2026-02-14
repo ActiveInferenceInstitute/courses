@@ -1,0 +1,45 @@
+# Study Questions: The Invention as a Living System
+
+## Analytical Questions
+
+1. Define the Markov blanket of a household smoke detector. Identify at least three internal states, three external states, two sensory states, and two active states. Explain why the internal and external states are conditionally independent given the blanket.
+
+2. Thomas Edison chose high-resistance carbon filaments for his light bulbs, which were dimmer than competitors' low-resistance platinum filaments but required far less copper wiring for distribution. Analyze this design decision using the concept of nested system boundaries. At what level of system analysis does Edison's choice make sense, and at what level does it appear suboptimal?
+
+3. Compare the Markov blankets of a hand-cranked pencil sharpener and an electric pencil sharpener. How does the shift from manual to electric power change the sensory states, active states, and the overall perception-action loop of the system?
+
+4. The concept of variational free energy includes both an accuracy term and a complexity term. Explain how a Swiss Army knife and a dedicated chef's knife represent different trade-offs between accuracy and complexity. Which has lower free energy in a professional kitchen? Which has lower free energy on a camping trip? Why?
+
+5. A self-driving car must define its system boundary to include or exclude the human passenger. Argue for two different boundary placements — one that includes the human as part of the system and one that treats the human as part of the environment. What are the implications of each for the car's design?
+
+6. Explain how the concept of conditional independence in nested systems enabled the personal computer revolution. Specifically, how did the separation between hardware and operating system (the hardware abstraction layer) function as a Markov blanket, and what innovation did this boundary enable?
+
+7. A farmer invents a new irrigation system that uses soil moisture sensors to control water valves. Map the perception-action loop of this system. Then identify a failure mode where the loop breaks at each stage: (a) sensory failure, (b) internal processing failure, (c) active state failure, and (d) environmental feedback failure.
+
+8. Active Inference holds that systems persist by minimizing surprise — encountering states their model predicts. How does this principle explain why inventions designed for narrow, predictable environments (like a factory robot arm) can be highly precise, while inventions designed for unpredictable environments (like a search-and-rescue drone) must sacrifice some precision for adaptability?
+
+9. Consider a musical instrument as an invention. Analyze the Markov blanket of a piano, distinguishing the instrument's internal states from the pianist's states. Where exactly is the boundary, and how does the interface design (the keyboard) shape the perception-action loop between musician and instrument?
+
+10. The concept of system boundaries has ethical implications. When a pharmaceutical company defines the "system" of a drug as the chemical compound alone (narrow boundary), it may ignore systemic effects on the patient's body, community, and environment. When regulators demand a wider system boundary, they require environmental impact studies and long-term safety monitoring. Discuss how boundary placement in invention reflects values and priorities, not just engineering constraints.
+
+## Applied Questions
+
+11. Choose an everyday object you used today (a toothbrush, a coffee maker, a doorknob, a phone app). Describe its Markov blanket. What surprised you about where the boundary falls? Were there sensory or active states you had not previously noticed?
+
+12. Think of an invention that failed commercially or was recalled. Using system boundary analysis, identify whether the failure was due to: (a) a sensory boundary that missed critical environmental information, (b) an active boundary that could not produce the needed changes, (c) internal states that were poorly designed, or (d) a system boundary drawn at the wrong level. Provide specific evidence for your analysis.
+
+13. Describe your own invention idea (or one you are considering). Draw the Markov blanket at three different scales: (a) the component level, (b) the product level, and (c) the ecosystem level. How does the analysis change at each scale? Which scale reveals the most important design decisions?
+
+14. Think about an invention from a domain very different from your own (if you are an engineer, consider a culinary invention; if you are an artist, consider a medical device). How does the Markov blanket analysis apply across domains? What is universal about system boundaries, and what is domain-specific?
+
+15. Reflect on a time when you tried to fix or improve something and made it worse. Using the language of system boundaries, explain what happened. Did you modify an internal state without accounting for its coupling to other states? Did you break a sensory or active boundary? Did you misjudge what was inside versus outside the system?
+
+16. Consider the "right-sizing" of system boundaries for your invention. What happens if you draw the boundary too narrowly (treating too many interacting elements as external)? What happens if you draw it too broadly (trying to control too many variables as internal states)? Where is the productive middle ground for your specific project?
+
+17. Interview someone from a different background (a friend, family member, or colleague in a different field) about how they think about the boundaries of their work. A chef thinks about the boundary of a recipe differently than an engineer thinks about the boundary of a circuit. Document what you learn, and relate it to the Markov blanket concept.
+
+18. Consider an invention that combines digital and physical elements (e.g., a smart thermostat, an e-reader, a fitness tracker). Analyze the digital-physical interface as a Markov blanket. What information crosses from the physical world into the digital system? What actions cross from the digital system into the physical world? Where are the bottlenecks?
+
+19. Design a simple experiment to test the system boundary of your invention. Specifically, identify one external state that you believe is conditionally independent of your invention's internal states (given the Markov blanket). How would you verify this independence? What would it mean if the independence assumption is violated?
+
+20. Write a one-paragraph "system identity statement" for your invention, modeled on this template: "My invention is a system that maintains [what internal states] by sensing [what environmental information] and acting to [produce what changes in the world]. It is nested within [larger system] and contains [subsystems]. It persists by minimizing surprise about [what core conditions]." This statement should be specific enough that someone in a completely different field could understand what your invention does as a system.

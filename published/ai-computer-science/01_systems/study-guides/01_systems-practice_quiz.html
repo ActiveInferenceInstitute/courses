@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>practice_quiz</title>
+</head>
+<body>
+<h1>Practice Quiz: Systems</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>What does the <code>true_A</code> matrix in a <code>DiscreteEnvironment</code> represent?
+A) The agent's beliefs about observations
+B) The true probability of observing $o$ given hidden state $s$
+C) The transition dynamics between states
+D) The agent's prior over initial states</p>
+</li>
+<li>
+<p>If <code>true_A</code> has shape <code>(5, 3)</code>, the environment has:
+A) 5 states and 3 observations
+B) 3 states and 5 observations
+C) 5 observations and 3 states
+D) 15 state-observation pairs</p>
+</li>
+<li>
+<p>When <code>env.step(action)</code> is called, what happens first?
+A) An observation is generated from the current state
+B) The hidden state transitions according to <code>true_B</code>
+C) The agent updates its beliefs
+D) Free energy is computed</p>
+</li>
+<li>
+<p>A fully observable environment corresponds to:
+A) <code>true_A</code> being all zeros
+B) <code>true_A</code> being the identity matrix
+C) <code>true_B</code> being the identity matrix
+D) <code>true_A</code> having uniform columns</p>
+</li>
+<li>
+<p>If <code>true_B</code> is passed as a 2-D matrix (shape <code>(N, N)</code>), the environment assumes:
+A) There are N possible actions
+B) There is exactly 1 action
+C) The transitions are stochastic
+D) The B matrix is invalid</p>
+</li>
+<li>
+<p>After calling <code>env.reset(initial_state=0)</code> followed by 10 calls to <code>env.step()</code>, how many entries does <code>env.history["states"]</code> contain?
+A) 10
+B) 11
+C) 9
+D) 12</p>
+</li>
+<li>
+<p>The key difference between <code>DiscreteEnvironment</code> and <code>GenerativeModel</code> is:
+A) <code>DiscreteEnvironment</code> uses continuous states
+B) <code>GenerativeModel</code> represents ground truth; <code>DiscreteEnvironment</code> is an approximation
+C) <code>DiscreteEnvironment</code> represents ground truth; <code>GenerativeModel</code> is the agent's hypothesis
+D) There is no difference; they use the same matrices</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Write Python code to create a <code>DiscreteEnvironment</code> for a 3-state system where observations are deterministic (identity A-matrix) and action 0 keeps the state while action 1 cycles through states. Show the <code>true_A</code> and <code>true_B</code> matrices.</p>
+</li>
+<li>
+<p>Explain why columns (not rows) of the <code>true_A</code> matrix must sum to 1.0. What probability is each column encoding, and what would go wrong if the normalization were over rows instead?</p>
+</li>
+<li>
+<p>You observe the sequence $[0, 0, 1, 0, 1]$ from a 2-state environment. Using Bayes' rule and the <code>true_A</code> matrix $\begin{bmatrix} 0.9 &amp; 0.2 \ 0.1 &amp; 0.8 \end{bmatrix}$, compute $P(s_0 = 0 \mid o_0 = 0)$ assuming a uniform prior $P(s_0) = [0.5, 0.5]$.</p>
+</li>
+</ol>
+</body>
+</html>

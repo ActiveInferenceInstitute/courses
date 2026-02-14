@@ -1,23 +1,76 @@
-# Lab: Exploring Communication
+# Lab: Communication Architecture Audit
 
-## Objective
+## Objectives
 
-Design and simulate a simple agent that demonstrates the principles of **Communication**.
+> **Learning Goal:** Map information flows, identify model-alignment failures, and design improved communication architecture.
 
-## Prerequisites
+---
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Communication.
+## Part 1: Channel Inventory (10 min)
 
-## Steps
+| Channel | Type (Formal/Informal) | Direction (Top-Down/Bottom-Up/Lateral) | Cadence | Primary Function |
+|---------|----------------------|---------------------------------------|---------|-----------------|
+| | | | | |
+| | | | | |
+| | | | | |
+| | | | | |
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Communication.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Communication (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+{fill:textarea, placeholder: "List all communication channels in your organization"}
 
-## Discussion Requirements
+---
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Communication.
+## Part 2: Model Alignment Assessment (15 min)
+
+For each key organizational dyad, assess model alignment:
+
+| Team A ↔ Team B | Common Ground (H/M/L) | Key Misalignment | Impact |
+|----------------|----------------------|------------------|--------|
+| Engineering ↔ Sales | | | |
+| Strategy ↔ Operations | | | |
+| HR ↔ Business Units | | | |
+| Finance ↔ Product | | | |
+
+{fill:textarea, placeholder: "Assess model alignment between key organizational pairs"}
+
+---
+
+## Part 3: Signal Distortion Analysis (10 min)
+
+Choose one important information flow and trace signal fidelity:
+
+**Signal**: ________________________
+
+| Stage | Who | What They Receive | What They Pass On | What Changed |
+|-------|-----|-------------------|-------------------|-------------|
+| Origin | | | | |
+| Level 1 | | | | |
+| Level 2 | | | | |
+| Decision | | | | |
+
+{fill:textarea, placeholder: "Trace signal fidelity through the hierarchy"}
+
+---
+
+## Part 4: Communication Redesign (20 min)
+
+Propose three improvements to your organization's communication architecture:
+
+1. **Add** (a new channel to address a gap):
+{fill:textarea, placeholder: "What new communication channel would you add?"}
+
+2. **Remove** (an ineffective channel consuming resources):
+{fill:textarea, placeholder: "What communication channel would you eliminate?"}
+
+3. **Modify** (improve an existing channel):
+{fill:textarea, placeholder: "What existing channel would you redesign and how?"}
+
+---
+
+## Summary
+
+| Component | Finding |
+|-----------|---------|
+| Strongest communication channel | |
+| Biggest model-alignment gap | |
+| Most significant signal distortion | |
+| Highest-priority redesign | |

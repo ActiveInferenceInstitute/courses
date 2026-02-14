@@ -1,51 +1,31 @@
-# Practice Quiz: Learning
+# Practice Quiz: Collective Intelligence — Module 06: Learning
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Learning** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. In the **SECI model** (Nonaka), **externalization** is: A) Sharing tacit knowledge through experience B) Articulating tacit know-how into explicit documents, models, or processes C) Combining explicit knowledge D) Learning by doing
 
-2. In Organizations, Learning is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+2. A **transactive memory system** is: A) A shared database B) The team's collective knowledge of who knows what — a social directory of expertise C) A memory improvement technique D) A filing system
 
-3. Which mathematical quantity is most central to Learning?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+3. Surgical teams with strong transactive memory perform better because: A) They are smarter B) Each member knows what others know and don't know, enabling efficient coordination without redundant communication C) They have better equipment D) They work longer hours
 
-4. How does Learning relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+4. **Communities of practice** (Wenger) are: A) Formal training programs B) Informal groups that learn through regular interaction around a shared domain, community, and practice C) Project teams D) Department meetings
 
-5. A failure in Learning would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+5. **Institutional memory** is at greatest risk when: A) The organization grows B) Experienced members leave without transferring their tacit knowledge C) New tools are adopted D) Budgets are cut
 
-6. Which scale is most relevant for analyzing Learning in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+6. **Socialization** in the SECI model involves: A) Office parties B) Transfer of tacit knowledge through shared experience (e.g., apprenticeship, side-by-side work) C) Sending newsletters D) Social media
 
-7. Learning connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+7. **Organizational forgetting** is: A) Always harmful B) Sometimes adaptive (discarding outdated models) and sometimes pathological (losing valuable institutional knowledge) C) Inevitable and unmanageable D) Only about document loss
 
-## Part B: Short Answer
+---
 
-1.  Explain how **Learning** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Learning failing in a Organizations scenario.
-3.  How would you model Learning using a POMDP (Partially Observable Markov Decision Process)?
+## Part B: Short Analysis
+
+1. Your team has a brilliant engineer who plans to retire in 6 months. She holds extensive tacit knowledge about the system architecture that is not documented anywhere. Design a knowledge transfer plan using all four SECI modes.
+
+2. A fast-growing startup has tripled in size in one year. The original team's tacit knowledge is being diluted. Team members report that "things used to just work because everyone knew everything." Diagnose this using the transactive memory concept and propose structural solutions.
+
+3. Your organization's internal wiki has 10,000 pages but nobody uses it. Using the SECI model, diagnose why the wiki fails and design an improved knowledge management system that supports all four knowledge conversion modes.

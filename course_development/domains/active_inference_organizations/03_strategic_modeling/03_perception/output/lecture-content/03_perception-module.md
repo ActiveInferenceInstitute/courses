@@ -1,52 +1,82 @@
-# Module 03: Perception in Organizations
+# Competitive Intelligence and Market Sensing: Strategic Perception
+
+## Executive Summary
+
+Strategic perception is the process of **sensing the competitive environment** — detecting market shifts, customer behavior changes, competitor moves, and technological disruptions before they fully materialize. Under Active Inference, strategic intelligence is about maintaining an accurate, up-to-date generative model of the competitive landscape through systematic environmental scanning. This module covers market research, competitive intelligence systems, weak signal detection, and the challenge of seeing what you don't expect to see.
+
+---
 
 ## Learning Objectives
 
-1.  Define **Perception** within the context of Organizations.
-2.  Analyze how Perception interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Organizations to the formal definition of Perception.
+1. Define **strategic intelligence** as perception of the competitive environment
+2. Design **environmental scanning systems** that detect relevant signals
+3. Understand **weak signal detection** — early indicators of disruptive change
+4. Identify **perceptual blind spots** in strategic sensing
+5. Apply Active Inference to the design of **market research** programs
 
-## Introduction
-
-This module explores **Perception**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+---
 
 ## Key Concepts
 
-### 1. Perception as a Markov Blanket Boundary
-How does Perception define the boundary between the agent and the environment?
+### 1. Levels of Strategic Perception
 
-### 2. Generative Models of Perception
-What parameters involved in Perception must be optimized to minimize variational free energy?
+| Level | What Is Sensed | Time Horizon | Example |
+|-------|---------------|-------------|---------|
+| **Tactical** | Current market: sales data, customer feedback, competitor pricing | Days to weeks | Weekly sales dashboards |
+| **Operational** | Market trends: demand shifts, competitive moves, regulatory changes | Months | Quarterly market analysis |
+| **Strategic** | Structural shifts: technology disruption, demographic change, paradigm shifts | Years | Horizon scanning programs |
 
-### 3. Active Inference Dynamics
-How does the process of Perception drive the perception-action loop?
+### 2. Weak Signal Detection (Ansoff)
 
-## Applications
+Igor Ansoff introduced the concept of **weak signals** — early, fragmentary, and ambiguous indicators of significant future changes. Detection requires:
 
-In Organizations, we see Perception manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+- **Broad scanning**: Looking beyond the firm's usual information diet
+- **Low precision thresholds**: Being willing to attend to signals that are uncertain
+- **Diverse sensing**: Using multiple sources and perspectives to triangulate weak signals
 
-## Conclusion
+**Case Study — Kodak's Failure to Sense**: Kodak engineers invented the digital camera in 1975. The weak signal — that imaging would shift from chemical to digital — was available inside the company for decades. But Kodak's generative model was so optimized for chemical film that the signal was systematically filtered out. The failure was not one of intelligence but of perceptual filtering: the organization's model could not accommodate the signal.
 
-Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 3. Competitive Intelligence Systems
 
-<!-- Content padding to ensure file size requirements -->
+| Component | Purpose | Design Principle |
+|-----------|---------|-----------------|
+| **Data collection** | Gather raw observations | Cast a wide net — don't pre-filter based on current model |
+| **Analysis** | Transform data into insight | Challenge assumptions — test multiple interpretations |
+| **Dissemination** | Get insights to decision-makers | Speed — intelligence decays, timely delivery matters |
+| **Integration** | Connect intelligence to strategic decisions | Ensure intelligence actually updates the generative model |
 
-<!-- Content padding to ensure file size requirements -->
+### 4. Perceptual Blind Spots
 
-<!-- Content padding to ensure file size requirements -->
+Organizations systematically miss signals in predictable ways:
 
-<!-- Content padding to ensure file size requirements -->
+- **Confirmation bias**: Seeking evidence that confirms existing beliefs
+- **Success bias**: Ignoring signals that conflict with a successful strategy
+- **Proximity bias**: Over-attending to nearby competitors, missing distant disruptors
+- **Quantification bias**: Ignoring qualitative signals that don't fit neat metrics
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+- For organizational sensing, see [Organizational Systems: Perception](../../01_organizational_systems/03_perception/module.md)
+- For collective sensing, see [Collective Intelligence: Perception](../../02_collective_intelligence/03_perception/module.md)
+- For data analytics, see [Digital Transformation: Perception](../../04_digital_transformation/03_perception/module.md)
 
-<!-- Content padding to ensure file size requirements -->
+---
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+| Concept | Strategic Modeling Meaning |
+|---------|--------------------------|
+| Strategic intelligence | Systematic perception of the competitive environment |
+| Weak signals | Early, ambiguous indicators of significant future change |
+| Environmental scanning | Broad-spectrum collection of competitive information |
+| Perceptual blind spots | Systematic failures in strategic sensing |
+| Competitive intelligence | Organized system for collecting, analyzing, and disseminating market information |
+
+---
+
+## References
+
+- Ansoff, H. I. (1975). Managing strategic surprise by response to weak signals. *California Management Review*, 18(2), 21–33.
+- Gilad, B. (2004). *Early Warning*. AMACOM.
