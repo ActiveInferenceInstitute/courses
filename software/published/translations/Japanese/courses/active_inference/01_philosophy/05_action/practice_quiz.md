@@ -1,51 +1,51 @@
-# Practice Quiz: Action
+# 練習クイズ：行動
 
-## Part A: Multiple Choice
+## Part A: 複数選択問題
 
-1. In Active Inference, action arises from:
-A) A central executive that issues motor commands
-B) Prediction error minimization — the body moves to fulfill proprioceptive predictions
-C) Random motor output filtered by natural selection
-D) Conscious deliberation followed by voluntary effort
+1. アクティブ・インファレンスにおいて、行動は主に次の何から生まれるか：
+A) 運動命令を発行する中心的な実行役
+B) プロプリオセプティブな予測を達成するために体を動かす、予測誤差の最小化
+C) 自然選択によってフィルタリングされたランダムな運動出力
+D) 自発的な努力の後に続く意識的な熟慮
 
-2. Gibson's concept of affordances refers to:
-A) The financial cost of actions
-B) Action possibilities that the environment offers to a particular organism
-C) The neural pathways dedicated to motor control
-D) Abstract representations of possible actions in working memory
+2. ギブソンの「アフォーダンス」の概念は、次のうち何を表しているか：
+A) 行動の経済的コスト
+B) 環境が特定の生物に提供する行動の可能性
+C) 運動制御に専念された神経回路
+D) ワーキングメモリにおける可能な行動の抽象的な表現
 
-3. Expected Free Energy (EFE) decomposes into:
-A) Accuracy and complexity
-B) Pragmatic value (risk) and epistemic value (ambiguity resolution)
-C) Motor planning and sensory prediction
-D) Conscious and unconscious motivation
+3. 期待される自由エネルギー（EFE）は分解される：
+A) 正確さと複雑さ
+B) 実用的な価値（リスク）と認識的な価値（曖昧さの解決）
+C) 運動計画と感覚予測
+D) 意識的な動機と無意識的な動機
 
-4. An infant shaking a rattle to learn about its properties is best described as:
-A) Random motor babbling with no cognitive function
-B) Epistemic action — acting to reduce expected ambiguity
-C) Pragmatic action — seeking the reward of the sound
-D) A reflex with no inferential component
+4. 赤ん坊がガラガラを shaken してその特性を学ぶという状況は、最も適切にどのように記述されるか：
+A) 認知機能を持たないランダムな運動の喃語
+B) 認識的な行動 – 期待される曖昧さを軽減するために行動すること
+C) 実用的な行動 – 音の報酬を求めること
+D) 推論成分のない反射
 
-5. Active Inference's account of free will is best classified as:
-A) Hard determinism — actions are fully determined and freedom is an illusion
-B) Libertarianism — the agent has irreducible causal power beyond physical processes
-C) Compatibilism — freedom is consistent with deterministic inference over a flexible generative model
-D) Mysterianism — free will is beyond human comprehension
+5. アクティブ・インファレンスの自由意志の説明は、最も適切にどの分類に当てはまるか：
+A) 硬直決定論 – 行動は完全に決定されており、自由は幻影
+B) 自由意志論 – 代理人は物理的プロセスを超えた irreducible な因果力を持ちます
+C) 併存論 – 自由意志は、柔軟な生成モデルに対する推論と一致します
+D) 神秘主義 – 自由意志は人間の理解を超えています
 
-6. Dreyfus's phenomenology of expertise describes experts as:
-A) Highly deliberate, step-by-step thinkers
-B) Absorbed copers whose skilled actions flow without explicit deliberation
-C) Unable to explain their performance because expertise is non-cognitive
-D) Reverting to rule-following under pressure
+6. ドレフュスの専門家における現象学は、専門家をどのように記述していますか：
+A) 高度に思慮深く、ステップバイステップで考える思考者
+B) 熟達した対応者であり、スキルフルな行動が明示的な熟慮なしに流れる
+C) 専門知識が非認知であるため、パフォーマンスを説明できない
+D) プレッシャーの下でルールに従うに戻る
 
-7. The difference between exploratory and exploitative behavior in Active Inference corresponds to:
-A) The difference between perception and action
-B) The balance between epistemic value (information gain) and pragmatic value (preference satisfaction)
-C) The distinction between conscious and unconscious processes
-D) The difference between biological and artificial agents
+7. アクティブ・インファレンスにおける探索的行動と搾取的行動の違いは、次のうち何に対応するか：
+A) 感覚と行動の間の違い
+B) 認識的な価値（情報獲得）と実用的な価値（好みの充足）のバランス
+C) 意識的および無意識的なプロセス間の区別
+D) 生物学的および人工的エージェントの間の違い
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Explain Friston's claim that "I don't move my arm because I want to; I move my arm because I predict I will." What is the philosophical significance of this inversion?
-2. A robot that minimizes prediction error in a warehouse performs the same functional operations as an Active Inference agent. Does it "act" in a philosophically meaningful sense? Defend your answer.
-3. Construct a brief argument either supporting or challenging the claim: "Moral responsibility requires that the agent could have done otherwise, but Active Inference suggests that the agent always does what its generative model dictates."
+1. フリスタンの「私は自分の腕を動かさずに、私が動かしたいからではなく、私が動かすと予測するからです」という主張を説明してください。この逆転の哲学的な意味は何ですか？
+2. 倉庫で予測誤差を最小限に抑えるロボットは、アクティブ・インファレンスエージェントと同じ機能的な操作を実行します。それは、哲学的に意味のある「行動」をしますか？ あなたの答えを弁護してください。
+3. 以下の主張を支持または挑戦する短い議論を構築してください。「道徳的責任を果たすには、代理人が他の選択肢があったはずですが、アクティブ・インファレンスは、代理人がその生成モデルによって指示された行動を常に実行していることを示唆しています。」

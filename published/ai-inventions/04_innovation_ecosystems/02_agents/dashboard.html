@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Stakeholders and Adopters — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Stakeholders and Adopters</h1>
+  <p class="subtitle">Agents in the Innovation Ecosystem</p>
+  <span class="tag">Section 4 &middot; Module 2</span>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="concepts">Concepts</div>
+  <div class="tab" data-tab="quiz">Quiz</div>
+  <div class="tab" data-tab="checklist">Checklist</div>
+  <div class="tab" data-tab="modules">Modules</div>
+</div>
+
+<div class="panel active" id="concepts">
+  <div class="concept-card" data-concept="0">
+    <h3>Stakeholders as Inference Agents</h3>
+    <div class="desc">
+      <p>Every stakeholder — user, investor, regulator, competitor — is an Active Inference agent with its own generative model, priors, and precision weightings. A consumer models utility and cost. An investor models returns and risk. A regulator models safety and compliance. Understanding these distinct models lets you design strategies that reduce free energy for each agent type.</p>
+      <p><strong>Example:</strong> Tesla was modeled differently by early adopters (identity vehicle), mainstream consumers (practical transport), and oil companies (irrelevant niche) — each based on their own generative model.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:90%"></div></div>
+  </div>
+  <div class="concept-card" data-concept="1">
+    <h3>Adoption Curves as Heterogeneous Inference</h3>
+    <div class="desc">
+      <p>Rogers' adoption categories reflect differences in prior strength and free energy thresholds. Innovators have weak priors and tolerate high uncertainty. The early majority has strong priors requiring substantial evidence. The "chasm" between early adopters and early majority marks a fundamental shift in what evidence matters — from novelty and vision to reliability and social proof.</p>
+      <p><strong>Example:</strong> Slack spread virally among tech teams (innovators with low thresholds) but required enterprise security certifications and IT admin tools to reach the corporate early majority.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:85%"></div></div>
+  </div>
+  <div class="concept-card" data-concept="2">
+    <h3>Investors as Bayesian Agents</h3>
+    <div class="desc">
+      <p>VCs and angel investors update beliefs through a specific evidence hierarchy: team quality (highest precision), market size and timing, product traction, and financial projections. Their priors include base rates of startup failure (~90%). Effective fundraising means providing evidence that systematically updates each level of the investor's model.</p>
+      <p><strong>Example:</strong> Y Combinator's emphasis on "making something people want" is a prescription for generating the highest-precision evidence: demonstrated user free energy reduction.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:80%"></div></div>
+  </div>
+  <div class="concept-card" data-concept="3">
+    <h3>Regulatory Agents and Risk Models</h3>
+    <div class="desc">
+      <p>Regulators prioritize public safety in their generative models, requiring high-precision evidence before permitting market entry. The FDA's phased clinical trial process is a formalized inference procedure. Different regulatory traditions (EU precautionary vs. US balanced) reflect different prior structures about the risks of novel technology.</p>
+      <p><strong>Example:</strong> GMOs are widely used in US agriculture but restricted in the EU — same evidence, different priors about the probability of harm from novel organisms.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:75%"></div></div>
+  </div>
+  <div class="concept-card" data-concept="4">
+    <h3>Competitors as Overlapping Model Agents</h3>
+    <div class="desc">
+      <p>Competitors model similar markets with overlapping but distinct generative models. Competitive advantage comes from having a more accurate model. Strategic signaling — taking actions designed to influence competitor beliefs — manipulates competitors' generative models. Intel's "tick-tock" development cadence made its trajectory predictable while maintaining technical uncertainty.</p>
+      <p><strong>Example:</strong> Amazon's generative model predicted the value of the long tail of niche products, diverging from bookstore incumbents who modeled physical shelf space as the key constraint.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:70%"></div></div>
+  </div>
+  <div class="concept-card" data-concept="5">
+    <h3>Multi-Stakeholder Coordination</h3>
+    <div class="desc">
+      <p>Successful invention deployment requires reducing free energy not for one agent type but for an interconnected system. Stakeholder interests often conflict — what attracts investors may concern regulators, what delights early adopters may confuse the mainstream. The inventor must find strategies that navigate these tensions simultaneously.</p>
+      <p><strong>Example:</strong> Airbnb had to simultaneously reduce safety uncertainty for guests, financial risk for hosts, and regulatory concern for cities — conflicts that required distinct evidence strategies for each agent.</p>
+    </div>
+    <div class="meter"><div class="fill" style="width:65%"></div></div>
+  </div>
+</div>
+
+<div class="panel" id="quiz">
+  <div class="quiz-box">
+    <h3 id="q-title">Question 1 of 7</h3>
+    <p id="q-text"></p>
+    <div id="q-opts"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" id="q-prev" onclick="prevQ()">Previous</button>
+      <span id="q-score" style="color:var(--muted);font-size:.85rem"></span>
+      <button class="quiz-btn" id="q-next" onclick="nextQ()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="checklist">
+  <h3 style="margin-bottom:.5rem">Learning Checklist</h3>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">Track your mastery of stakeholder and adopter concepts.</p>
+  <div class="checklist" id="cl-list"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill" style="width:0%"></div></div>
+  <div class="cl-status" id="cl-status">0 of 5 complete</div>
+</div>
+
+<div class="panel" id="modules">
+  <h3 style="margin-bottom:.5rem">Section 4: Innovation Ecosystems</h3>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">All modules in this section.</p>
+  <div class="mod-grid">
+    <div class="mod-card"><div class="num">01</div><div class="name">The Innovation Ecosystem</div></div>
+    <div class="mod-card current"><div class="num">02</div><div class="name">Stakeholders & Adopters</div></div>
+    <div class="mod-card"><div class="num">03</div><div class="name">Market Sensing</div></div>
+    <div class="mod-card"><div class="num">04</div><div class="name">Strategic Thinking</div></div>
+    <div class="mod-card"><div class="num">05</div><div class="name">Launching & Scaling</div></div>
+    <div class="mod-card"><div class="num">06</div><div class="name">Organizational Learning</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">Innovation Communication</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">Long-Term Strategy</div></div>
+  </div>
+</div>
+
+<script>
+const tabs=document.querySelectorAll('.tab');
+const panels=document.querySelectorAll('.panel');
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.classList.remove('active'));
+  panels.forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById(t.dataset.tab).classList.add('active');
+}));
+
+document.querySelectorAll('.concept-card').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('open')));
+
+const quizData=[
+  {q:"What primarily distinguishes an 'innovator' from a 'late majority' adopter in Active Inference terms?",opts:["Innovators are wealthier and can afford to take financial risks","Innovators have weaker priors and lower free energy thresholds for trying new things","Late majority adopters have less access to information about new technologies","Innovators are more intelligent and better at evaluating technology"],correct:1,explain:"Innovators hold weakly-committed priors about existing solutions and have high tolerance for uncertainty. They don't need extensive evidence before acting. Late majority adopters have strong priors reinforced by years of experience with existing solutions, requiring overwhelming evidence to update."},
+  {q:"The 'chasm' in technology adoption corresponds to what Active Inference phenomenon?",opts:["A sudden increase in the price of the technology","A discontinuity in the free energy landscape where required evidence type changes fundamentally","A failure of marketing to reach mainstream audiences","A regulatory barrier to wider market access"],correct:1,explain:"Early adopters are persuaded by vision and novelty. The early majority requires fundamentally different evidence: proven reliability, social proof, ecosystem maturity, and reduced switching costs. This qualitative shift in evidence requirements creates the chasm."},
+  {q:"Why do venture capitalists typically weight team evidence most heavily in their investment models?",opts:["Team members provide personal guarantees for the investment","VCs have the most accumulated experience pattern-matching on team quality, giving it highest precision","Regulatory requirements mandate team background checks","Team evidence is the cheapest to gather"],correct:1,explain:"VCs have evaluated thousands of teams over their careers, giving them highly precise pattern-matching ability. Market, product, and financial evidence is inherently more uncertain for early-stage companies, so team quality serves as the most reliable predictor in the VC's generative model."},
+  {q:"How do regulators differ from market-based agents in their precision weighting?",opts:["Regulators use lower precision on all evidence","Regulators require high confidence in safety, weighting safety evidence with much higher precision than market agents","Regulators ignore market evidence entirely","Regulators use the same precision as consumers but have access to better data"],correct:1,explain:"Regulatory agents must achieve high confidence in safety before permitting market entry. Where a consumer might tolerate moderate uncertainty about long-term product effects, a regulator's generative model demands high-precision evidence — hence the extensive clinical trials, safety testing, and compliance procedures."},
+  {q:"Strategic signaling to competitors involves:",opts:["Sharing confidential information to build trust","Taking actions that generate observations in competitor sensory states to influence their generative models","Filing lawsuits to prevent competitor entry","Hiring competitors' key employees"],correct:1,explain:"Strategic signaling works through Active Inference: your actions become observations that competitors must process. A product launch, patent filing, or pricing decision enters the competitor's sensory states and updates their generative model — potentially in ways that discourage their entry or redirect their strategy."},
+  {q:"In a two-sided marketplace, the chicken-and-egg problem arises because:",opts:["The technology cannot handle two types of users simultaneously","Each side's free energy for joining depends on the other side's participation level","One side always has more power than the other","Regulators require sequential approval for each side"],correct:1,explain:"In a two-sided market, the value to each side depends on participation from the other. Drivers will not join Uber without riders, and riders will not join without drivers. Each side's free energy for joining is high until the other side provides sufficient participation to reduce uncertainty about the platform's value."},
+  {q:"Airbnb's introduction of host guarantee insurance primarily served to:",opts:["Increase Airbnb's revenue through insurance premiums","Reduce hosts' free energy by directly addressing uncertainty about financial loss from property damage","Satisfy regulatory requirements for operating as a hotel","Signal to competitors that Airbnb was well-funded"],correct:1,explain:"Host guarantee insurance directly addressed a core prediction error in potential hosts' generative models: 'What if a guest damages my property?' By reducing this specific source of uncertainty, Airbnb lowered the free energy threshold for hosting, enabling adoption by hosts who would otherwise have judged the risk too high."}
+];
+
+let currentQ=0,score=0,answered=Array(quizData.length).fill(false);
+
+function renderQ(){
+  const q=quizData[currentQ];
+  document.getElementById('q-title').textContent=`Question ${currentQ+1} of ${quizData.length}`;
+  document.getElementById('q-text').textContent=q.q;
+  const opts=document.getElementById('q-opts');
+  opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const d=document.createElement('div');
+    d.className='quiz-opt';
+    d.textContent=String.fromCharCode(65+i)+') '+o;
+    d.onclick=()=>selectOpt(i);
+    opts.appendChild(d);
+  });
+  document.getElementById('q-explain').style.display='none';
+  document.getElementById('q-explain').textContent=q.explain;
+  document.getElementById('q-score').textContent=`Score: ${score}/${quizData.length}`;
+}
+
+function selectOpt(i){
+  if(answered[currentQ])return;
+  answered[currentQ]=true;
+  const opts=document.querySelectorAll('#q-opts .quiz-opt');
+  const correct=quizData[currentQ].correct;
+  if(i===correct){score++;opts[i].classList.add('correct');}
+  else{opts[i].classList.add('wrong');opts[correct].classList.add('correct');}
+  document.getElementById('q-explain').style.display='block';
+  document.getElementById('q-score').textContent=`Score: ${score}/${quizData.length}`;
+}
+
+function nextQ(){if(currentQ<quizData.length-1){currentQ++;renderQ();}}
+function prevQ(){if(currentQ>0){currentQ--;renderQ();}}
+renderQ();
+
+const clItems=[
+  "I can model stakeholders as Active Inference agents with distinct generative models",
+  "I understand how adoption curves reflect heterogeneous prior beliefs and free energy thresholds",
+  "I can describe the investor evidence hierarchy and design pitches accordingly",
+  "I can analyze regulatory agents' inference processes and design compliance strategies",
+  "I can identify stakeholder conflicts and design multi-agent resolution strategies"
+];
+const clKey='s4m2_checklist';
+let clState=JSON.parse(localStorage.getItem(clKey)||'[]');
+if(clState.length!==clItems.length)clState=Array(clItems.length).fill(false);
+
+function renderCL(){
+  const list=document.getElementById('cl-list');
+  list.innerHTML='';
+  clItems.forEach((item,i)=>{
+    const d=document.createElement('div');
+    d.className='cl-item';
+    d.innerHTML=`<input type="checkbox" ${clState[i]?'checked':''} onchange="toggleCL(${i})"><span>${item}</span>`;
+    list.appendChild(d);
+  });
+  const done=clState.filter(Boolean).length;
+  document.getElementById('cl-fill').style.width=(done/clItems.length*100)+'%';
+  document.getElementById('cl-status').textContent=`${done} of ${clItems.length} complete`;
+}
+
+function toggleCL(i){
+  clState[i]=!clState[i];
+  localStorage.setItem(clKey,JSON.stringify(clState));
+  renderCL();
+}
+renderCL();
+</script>
+</body>
+</html>

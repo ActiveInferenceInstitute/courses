@@ -1,23 +1,75 @@
-# Lab: Exploring Communication
+# Lab: Digital Communication Architecture Assessment
 
-## Objective
+## Objectives
+>
+> **Learning Goal:** Audit and improve your organization's digital communication architecture.
 
-Design and simulate a simple agent that demonstrates the principles of **Communication**.
+---
 
-## Prerequisites
+## Part 1: Channel Inventory (10 min)
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Communication.
+| Channel | Type (Sync/Async/Broadcast/API) | Primary Use | Users | Redundancy? |
+|---------|-------------------------------|------------|-------|------------|
+| | | | | Y/N |
+| | | | | |
+| | | | | |
 
-## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Organizations.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Communication.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Communication (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
 
-## Discussion Requirements
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Communication.
+---
+
+## Part 2: Communication Flow Mapping (15 min)
+
+| Information Flow | Source | Channel | Destination | Effectiveness (1-5) |
+|-----------------|--------|---------|------------|-------------------|
+| Customer inquiry | | | | |
+| Team coordination | | | | |
+| Leadership directive | | | | |
+| Cross-team alignment | | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: Problem Diagnosis (10 min)
+
+| Problem | Present? | Impact | Root Cause |
+|---------|---------|--------|-----------|
+| Tool fatigue | Y/N | | |
+| Channel fragmentation | Y/N | | |
+| Information silos | Y/N | | |
+| Notification overload | Y/N | | |
+| Undocumented API dependencies | Y/N | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Architecture Redesign (15 min)
+
+| Improvement | Current State | Target State | Action |
+|------------|--------------|-------------|--------|
+| Channel rationalization | | | |
+| Coherence across touchpoints | | | |
+| API governance | | | |
+| Search/findability | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Biggest communication problem | |
+| Most underused channel | |
+| Priority improvement | |

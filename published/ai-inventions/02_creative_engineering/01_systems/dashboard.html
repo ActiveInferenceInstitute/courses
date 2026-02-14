@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Creative System — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>The Creative System</h1>
+  <p class="subtitle">How inventive environments function as Active Inference systems</p>
+  <span class="tag">Section 2 &middot; Module 1 &middot; Creative Engineering</span>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('concepts')">Concepts</div>
+  <div class="tab" onclick="showTab('quiz')">Quiz</div>
+  <div class="tab" onclick="showTab('checklist')">Checklist</div>
+  <div class="tab" onclick="showTab('modules')">All Modules</div>
+</div>
+
+<div class="panel active" id="p-concepts">
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Markov Blanket of a Creative System</h3>
+    <div class="desc">The boundary separating a creative system's internal states from the external world. Includes sensory inputs (information channels, materials, observations) and active outputs (prototypes, patents, demonstrations). Edison's Menlo Park was designed with an extraordinarily rich sensory surface to maximize the diversity of inputs available for creative combination.</div>
+    <div class="meter"><div class="fill" style="width:95%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Constraints as Generative Priors</h3>
+    <div class="desc">Constraints do not block creativity — they focus the creative search space by functioning as priors in the generative model. The Post-it Note emerged because 3M's adhesive focus and Fry's bookmark need together narrowed the solution space enough for a weak adhesive to become valuable. TRIZ catalogs 40 such constraint-resolution patterns.</div>
+    <div class="meter"><div class="fill" style="width:90%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Free Energy Landscapes</h3>
+    <div class="desc">Different creative environments produce different topographies of surprise. Structured R&D labs create smooth landscapes suited for incremental innovation. Loosely structured maker spaces create rugged landscapes suited for radical breakthroughs. Matching the landscape topology to the desired innovation type is a key design decision.</div>
+    <div class="meter"><div class="fill" style="width:85%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Feedback Loops and Self-Organization</h3>
+    <div class="desc">Creative systems change over time through feedback: action produces artifacts, which become perception for the next cycle. IDEO's "build to think" method uses rapid prototyping to generate feedback. At larger scales, these loops drive self-organization — innovation clusters like Silicon Valley emerge from reinforcing loops without central planning.</div>
+    <div class="meter"><div class="fill" style="width:80%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Affordances and the Adjacent Possible</h3>
+    <div class="desc">An environment's affordances — the action possibilities it offers — define the adjacent possible: inventions one combinatorial step from the current state. The Shenzhen electronics ecosystem affords same-day prototyping through geographic concentration of suppliers. Inventors expand the adjacent possible by importing affordances from other domains (exaptation).</div>
+    <div class="meter"><div class="fill" style="width:75%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Bell Labs as an Engineered Creative System</h3>
+    <div class="desc">Bell Labs produced the transistor, laser, Unix, C, and cellular telephony by deliberately engineering a creative system: rich sensory inputs (cross-disciplinary hiring), focused constraints (telecommunications mandate), fast feedback (weekly colloquia, long hallways), and clear output channels (AT&T product lines). Seven Nobel Prizes resulted.</div>
+    <div class="meter"><div class="fill" style="width:70%"></div></div>
+  </div>
+</div>
+
+<div class="panel" id="p-quiz">
+  <div class="quiz-box">
+    <h3 id="q-title">Question 1 of 7</h3>
+    <div id="q-text"></div>
+    <div id="q-opts"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" onclick="prevQ()">Previous</button>
+      <button class="quiz-btn" onclick="nextQ()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="p-checklist">
+  <h3 style="margin-bottom:.5rem">Learning Objectives</h3>
+  <div class="checklist" id="cl-list"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill" style="width:0%"></div></div>
+  <div class="cl-status" id="cl-status">0 of 5 completed</div>
+</div>
+
+<div class="panel" id="p-modules">
+  <h3 style="margin-bottom:.5rem">Section 2: Creative Engineering</h3>
+  <div class="mod-grid">
+    <div class="mod-card current"><div class="num">01</div><div class="name">The Creative System</div></div>
+    <div class="mod-card"><div class="num">02</div><div class="name">The Creative Agent</div></div>
+    <div class="mod-card"><div class="num">03</div><div class="name">Creative Perception</div></div>
+    <div class="mod-card"><div class="num">04</div><div class="name">Inventive Cognition</div></div>
+    <div class="mod-card"><div class="num">05</div><div class="name">Creative Action</div></div>
+    <div class="mod-card"><div class="num">06</div><div class="name">Learning to Invent</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">The Inventive Pitch</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">Planning the Creative Process</div></div>
+  </div>
+</div>
+
+<script>
+function showTab(id){document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',t.textContent.toLowerCase().includes(id.slice(0,4))));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p-'+id).classList.add('active')}
+function toggleCard(el){el.classList.toggle('open')}
+
+const quiz=[
+  {q:"In Active Inference, the boundary separating a creative system from its environment is called:",opts:["The prediction error surface","The Markov blanket","The free energy gradient","The affordance threshold"],ans:1,exp:"The Markov blanket is the statistical boundary that mediates all interactions between a system's internal states and its environment, determining what information enters and what actions exit the creative system."},
+  {q:"Why did Edison design Menlo Park to collect materials from around the world and hire diverse specialists?",opts:["To impress investors with the lab's scale","To create a rich sensory surface for the creative system's Markov blanket","To reduce costs through bulk purchasing","To prevent competitors from accessing rare materials"],ans:1,exp:"Edison deliberately engineered a wide, diverse sensory surface so the lab's internal creative processes had maximum variety of inputs to combine — a key feature of productive creative systems."},
+  {q:"Constraints in a creative system function as:",opts:["Obstacles that must be systematically removed","Random noise that interferes with creative signal","Priors in the generative model that focus the creative search","External forces irrelevant to internal creative processes"],ans:2,exp:"Constraints act as priors that define the space of expected outcomes, giving structure to the creative search process. The Post-it Note emerged precisely because of constraints, not despite them."},
+  {q:"A 'rugged' free energy landscape in a creative environment is best suited for:",opts:["Optimizing existing product designs","Meeting tight production deadlines","Generating radical innovations and unexpected discoveries","Systematic quality control testing"],ans:2,exp:"Rugged landscapes have many local minima and unexpected valleys, making it more likely that explorers stumble into unexpected regions of solution space — the territory of radical innovation."},
+  {q:"The 'adjacent possible' in invention refers to:",opts:["The competitor's next planned product release","The nearest prior art in a patent search","The set of innovations one combinatorial step from current capabilities","The next milestone in the project timeline"],ans:2,exp:"Stuart Kauffman's concept describes the innovations that become achievable when existing components, knowledge, and tools can be combined in new ways — the smartphone was in the adjacent possible by 2007 but not in 1950."},
+  {q:"What system-level feature most accelerates hardware invention in Shenzhen?",opts:["Central government planning of all manufacturing","Geographic concentration reducing perception-action loop cycle time","Strict IP enforcement preventing copying","Focus on a single product category"],ans:1,exp:"The geographic concentration of suppliers, fabricators, and assemblers compresses the build-test-learn cycle to days rather than weeks, enabling more iterations per unit time than any other ecosystem."},
+  {q:"Innovation clusters like Silicon Valley emerge through:",opts:["Top-down government industrial policy exclusively","A single visionary founder's deliberate planning","Reinforcing feedback loops driving the system toward low-free-energy attractors","Random chance with no systematic explanation"],ans:2,exp:"Self-organization in creative systems occurs when feedback loops reinforce each other: talent attracts capital, capital attracts startups, startups attract talent — a reinforcing cycle that settles at a low-free-energy attractor."}
+];
+
+let qi=0;
+function renderQ(){
+  const q=quiz[qi];
+  document.getElementById('q-title').textContent='Question '+(qi+1)+' of '+quiz.length;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('q-explain').style.display='none';
+  document.getElementById('q-explain').textContent=q.exp;
+  let h='';q.opts.forEach((o,i)=>{h+='<div class="quiz-opt" onclick="pickA('+i+','+q.ans+')">'+String.fromCharCode(65+i)+'. '+o+'</div>'});
+  document.getElementById('q-opts').innerHTML=h;
+}
+function pickA(sel,ans){
+  document.querySelectorAll('.quiz-opt').forEach((o,i)=>{o.classList.remove('correct','wrong');if(i===ans)o.classList.add('correct');else if(i===sel)o.classList.add('wrong')});
+  document.getElementById('q-explain').style.display='block';
+}
+function nextQ(){qi=Math.min(qi+1,quiz.length-1);renderQ()}
+function prevQ(){qi=Math.max(qi-1,0);renderQ()}
+renderQ();
+
+const objectives=["Define the Markov blanket of a creative system and identify its components","Analyze how constraints function as generative priors in creative environments","Compare free energy landscapes of different creative system architectures","Explain feedback loops and self-organization in creative systems","Design a creative environment balancing exploration and exploitation"];
+const clList=document.getElementById('cl-list');
+const stored=JSON.parse(localStorage.getItem('cl-s2m1')||'{}');
+objectives.forEach((o,i)=>{
+  const d=document.createElement('div');d.className='cl-item';
+  d.innerHTML='<input type="checkbox" id="cl'+i+'" '+(stored[i]?'checked':'')+' onchange="updateCL()"><label for="cl'+i+'">'+o+'</label>';
+  clList.appendChild(d);
+});
+function updateCL(){
+  const checks={};let done=0;
+  objectives.forEach((_,i)=>{const c=document.getElementById('cl'+i).checked;checks[i]=c;if(c)done++});
+  localStorage.setItem('cl-s2m1',JSON.stringify(checks));
+  document.getElementById('cl-fill').style.width=(done/objectives.length*100)+'%';
+  document.getElementById('cl-status').textContent=done+' of '+objectives.length+' completed';
+}
+updateCL();
+</script>
+</body>
+</html>

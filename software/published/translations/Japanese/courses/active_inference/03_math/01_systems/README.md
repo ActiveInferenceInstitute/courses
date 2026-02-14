@@ -1,53 +1,53 @@
-# Module 1: Systems — Mathematical Foundations: Matrices, Probability, and Bayesian Reasoning
+# モジュール 1: システム – 数学的基礎: 行列、確率、ベイズ推論
 
-> **Quick Navigation**: [← Course Home](../) | [Up](../) | [Agents →](../02_agents/)
+> **クイックナビゲーション**: [← コースホーム](../) | [上へ](../) | [エージェントへ](../02_agents/)
 
-## The Mathematics of Active Inference
+## アクティブ推論の数学
 
 ---
 
-## Contents
+## 概要
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Derivation lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個の MC + 3 個の FR) |
+| [lab.md](./lab.md) | 導出ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです。
 
-1. **Represent** states, observations, and beliefs as vectors and matrices, and perform precision-weighted Bayesian updates
-2. **Apply** Bayes' theorem to compute posterior distributions and connect prior-likelihood-posterior reasoning to Active Inference notation
-3. **Compute** Shannon entropy, KL divergence, and mutual information for discrete distributions
-4. **Construct** graphical models (Bayesian networks) and apply d-separation to determine conditional independences
+1.  状態、観測、信念をベクトルと行列として表現し、精度重み付きベイズ更新を実行する
+2.  ベイズの定理を用いて事後分布を計算し、アクティブ推論の記法における事前-尤度-事後推論を関連付ける
+3.  離散分布に対するシャノンエントロピー、KL divergence、および相互情報量を計算する
+4.  （ベイズネットワーク）グラフモデルを構築し、d-separationを用いて条件独立性を決定する
 
 ---
 
-## Cross-Course Links
+## 関連コースへのリンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう:
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/01_systems/) | Boundaries, Markov Blankets, and the Philosophy of Biology |
-| [Cognitive Science](../../02_cognitive_science/01_systems/) | Neural Assemblies and Functional Integration |
-| [Mathematics](../../03_math/01_systems/) | Mathematical Foundations: Matrices, Probability, and Bayesian Reasoning ← **You are here** |
-| [Computer Science](../../04_computer_science/01_systems/) | Setting Up Environments: Generative Process vs Generative Model |
+| [哲学](../../01_philosophy/01_systems/) | 境界、マルコフブランケット、生物学の哲学 |
+| [認知科学](../../02_cognitive_science/01_systems/) | 神経集団と機能統合 |
+| [数学](../../03_math/01_systems/) | 数学的基礎: 行列、確率、ベイズ推論 ← **現在地** |
+| [コンピュータサイエンス](../../04_computer_science/01_systems/) | 環境のセットアップ: 生成プロセス vs 生成モデル |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Course Home](../) | [Up](../) | [Agents →](../02_agents/)
+[← コースホーム](../) | [上へ](../) | [エージェントへ](../02_agents/)

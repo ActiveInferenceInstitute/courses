@@ -1,22 +1,22 @@
-# Study Questions: Planning
+# 勉強問題：計画
 
-1. How does Active Inference formalize planning? What is the role of Expected Free Energy (EFE) in policy selection?
-2. Explain the decomposition of EFE into risk and ambiguity. Give a concrete example of each.
-3. What is sophisticated inference, and how does it extend basic policy selection?
-4. How does Husserl's phenomenology of time-consciousness (retention, protention, living present) relate to the temporal structure of sophisticated inference?
-5. What is Aristotle's concept of *telos* (final cause)? How does Active Inference relate to teleological explanation?
-6. Is the C vector (prior preferences) evidence for genuine teleology, or merely "as if" teleology? Defend your position.
-7. How does Heidegger's concept of *Dasein* as "being-toward" relate to Active Inference's account of planning?
-8. What determines the temporal depth of planning? What are the cognitive and computational constraints?
-9. How does Active Inference explain procrastination? What happens when the EFE landscape is flat?
-10. How does Active Inference explain anxiety as a disorder of planning? What role does precision play?
-11. Compare the Active Inference account of planning with classical AI search algorithms (e.g., minimax, Monte Carlo tree search). What are the key philosophical differences?
-12. Is sophisticated inference (reasoning about what you will believe after acting) a form of self-knowledge? How does this relate to the Socratic imperative "know thyself"?
-13. How does the concept of "temporal discounting" (preferring immediate over delayed rewards) appear in the Active Inference framework?
-14. Can an agent plan without consciousness? What does planning in the absence of awareness look like in Active Inference?
-15. How does the concept of narrative identity (MacIntyre, Ricoeur) relate to planning as inference over extended timescales?
-16. What is the relationship between planning and imagination in Active Inference? Is imagining a future the same as planning for it?
-17. How does the Active Inference account of planning handle genuine novelty — situations the agent has never encountered?
-18. Compare the Active Inference account of planning with Frankfurt's distinction between first-order and second-order desires.
-19. How does collective planning (political deliberation, organizational strategy) look from an Active Inference perspective?
-20. Construct a philosophical argument: Does Active Inference's account of planning reduce human rationality to Bayesian computation, or does it reveal Bayesian computation to be richer than we thought?
+1.  Active Inference は計画をどのように形式化するのか？ 期待されるフリーエネルギー (EFE) は、ポリシー選択においてどのような役割を果たすのか？
+2.  EFE をリスクと曖昧さに分解する方法を説明してください。それぞれの具体的な例を挙げてください。
+3.  洗練された推論とは何か？ そして、基本的なポリシー選択をどのように拡張するのか？
+4.  ヒュッセルをのいた時間意識の現象学（保持、前兆、生きた現在）は、洗練された推論の時間構造とどのように関連しているのか？
+5.  アリストテレスの *telos* (最終原因) の概念とは何か？ Active Inference は、目的論的な説明とどのように関連しているのか？
+6.  C ベクトル (事前好み) は、真の目的論の証拠なのか、それとも単に「そうなるように」と目的論なのか？ あなたの立場を弁明してください。
+7.  ハイデガーの *Dasein* (「向かう存在」) の概念は、Active Inference の計画の説明とどのように関連しているのか？
+8.  計画の時間的深さは何によって決まるのか？ そして、認知的および計算的な制約とは何か？
+9.  Active Inference は先延ばしをどのように説明するのか？ EFE の地形が平坦になった場合、何が起こるのか？
+10. Active Inference は、計画の障害である不安をどのように説明するのか？ 正確さはどのような役割を果たすのか？
+11. Active Inference の計画の説明を、古典的なAI検索アルゴリズム（例：ミニマックス、モンテカルロ木探索）と比較してください。主な哲学的な違いは何ですか？
+12. 行動した後、自分が信じることを推論すること（洗練された推論）は、自己認識の一形態ですか？ そして、これはソクラテスの「自分自身を知れ」という命題とどのように関連していますか？
+13. 「時間割引」（即時報酬を遅延報酬よりも優先する概念）は、Active Inference の枠組みにおいてどのように現れますか？
+14. エージェントは意識なしに計画を立てることができますか？ 意識がない状況下での計画は、Active Inference においてどのようなものですか？
+15. Active Inference の枠組みにおいて、物語的アイデンティティ (MacIntyre, Ricoeur) の概念は、拡張された時間スケールにおける推論としての計画とどのように関連していますか？
+16. Active Inference における計画と想像の関係は？ 将来を想像することは、それに向けて計画することと同じですか？
+17. Active Inference の計画の説明は、エージェントが遭遇したことのない真の新規性をどのように扱いますか？
+18. Active Inference の計画の説明を、Frankfurt の第一順序および第二順序の欲求に関する区別と比較してください。
+19. Active Inference の視点から、集団的な計画（政治的議論、組織戦略）はどのように見えますか？
+20. 哲学的な議論を構築してください：Active Inference の計画の説明は、人間の合理性をベイズ計算に還元するのか、それともベイズ計算が私たちが考えたよりも豊かであることを明らかにするのか？

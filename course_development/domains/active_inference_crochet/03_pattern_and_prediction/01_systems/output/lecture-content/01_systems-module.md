@@ -1,0 +1,124 @@
+# Reading the Pattern as a Whole: The Crochet Pattern as a Generative Model
+
+## Summary
+
+Every crochet pattern is a complete system. It specifies inputs (yarn weight, hook size, gauge), a sequence of transformations (stitch instructions row by row), and a predicted output (the finished object). In Active Inference terms, a crochet pattern is a **generative model** — a structured set of expectations about how causes (your materials and actions) produce effects (the fabric you create). This module teaches you to see a pattern not as a simple list of instructions, but as an entire world-model encoded on paper.
+
+---
+
+## Learning Objectives
+
+By the end of this module, you will be able to:
+
+1. Identify the components of a crochet pattern as elements of a generative model
+2. Map the inputs, transformations, and outputs of a pattern to prior beliefs, likelihoods, and posterior predictions
+3. Recognize the pattern document itself as a system boundary between designer intention and crocheter execution
+
+---
+
+## Key Concepts
+
+### 1. What Makes a Pattern a System?
+
+A system is any entity that can be distinguished from its surroundings. In crochet, the pattern document draws exactly this line. Inside the pattern, you find a self-contained world: materials lists, gauge specifications, stitch abbreviations, row-by-row instructions, and finishing notes. Outside the pattern lies everything else — your yarn stash, your skill level, the lighting in your living room, the conversation at your crochet circle.
+
+The pattern is a **boundary**. It mediates between the designer's intention (an internal state you can never directly observe) and your actions as a crocheter (what you actually do with hook and yarn). In Active Inference, this mediating boundary is called a **Markov blanket** — the statistical partition that separates what is "inside" a system from what is "outside."
+
+> **At the crochet circle**: Think of a pattern you have recently worked from. Where does the pattern end and your own judgment begin? That boundary — where the printed instruction stops being sufficient and you have to interpret, guess, or improvise — is the edge of the system.
+
+### 2. The Pattern as a Generative Model
+
+A generative model describes how observed outcomes are generated from hidden causes. In crochet:
+
+- **Hidden causes (priors)**: The designer's vision for the finished object. You cannot see this directly — you can only infer it from the pattern.
+- **Generative process (likelihood)**: The stitch-by-stitch instructions that map causes to effects. "Ch 20, sc in 2nd ch from hook, sc across" is a precise specification of how to transform yarn into fabric.
+- **Observed outcome (posterior)**: The actual fabric that appears on your hook as you follow the instructions.
+
+The pattern is literally an encoded prediction: "If you use this yarn, this hook, and follow these steps, the finished piece should look like this." The gauge swatch section is particularly revealing — it is the pattern asking you to **validate the model** before committing to the full project. If your gauge does not match, the pattern's predictions will be wrong.
+
+### 3. Inputs: The Prior Beliefs of a Pattern
+
+Every pattern begins with specifications that function as **prior beliefs** — assumptions the model makes before any stitching begins:
+
+- **Yarn weight and fiber content**: The pattern assumes a particular material. Substituting a different yarn changes the prior, which changes everything downstream.
+- **Hook size**: This is a precision parameter — it controls how tightly or loosely the model expects you to work.
+- **Gauge**: "18 sc and 20 rows = 4 inches." This is the pattern's most explicit prior belief. It says: "I expect this many stitches to produce this much fabric."
+- **Skill assumptions**: Most patterns assume a certain vocabulary of stitches. A pattern that says "fpdc" without explanation assumes you already know front post double crochet.
+
+When you begin a project, you are adopting these priors. You are saying: "I will trust that these assumptions will lead to the predicted outcome."
+
+### 4. Transformations: The Likelihood Function
+
+The body of a pattern — the row-by-row or round-by-round instructions — functions as a **likelihood mapping**. It specifies the probability of producing a particular fabric given particular inputs.
+
+Consider a simple instruction: "Row 1: Ch 21, sc in 2nd ch from hook and in each ch across. (20 sc)"
+
+This single line encodes:
+- An initial state (a chain of 21)
+- A transformation (single crochet in each)
+- A predicted outcome (20 single crochet stitches)
+- An error-check (the stitch count in parentheses)
+
+The stitch count at the end of a row is especially important from a systems perspective. It is a **checksum** — a way for the pattern to tell you whether its predictions match your reality. If you count 19 or 21 instead of 20, the system is signaling a mismatch.
+
+### 5. Outputs: The Posterior — Your Finished Object
+
+The finished crocheted object is the **posterior** — the outcome after all the model's predictions have been tested against reality. It reflects both what the pattern intended and what actually happened during execution. No two handmade objects are identical, even from the same pattern, because each crocheter brings their own tension, interpretation, and small deviations.
+
+The difference between the pattern's predicted outcome and your actual finished object is analogous to **prediction error** in Active Inference. A well-written pattern with accurate gauge information minimizes this error. A vague or poorly tested pattern produces large prediction errors — the hat that comes out too small, the blanket that curls at the edges, the amigurumi whose proportions look nothing like the photo.
+
+### 6. The System Boundary in Practice
+
+The pattern document is the Markov blanket of this system. It has:
+
+- **Sensory states**: The information flowing from the designer to you — written instructions, charts, photos, schematic diagrams
+- **Active states**: Your interpretation and execution of those instructions — the physical act of crocheting
+
+Everything that influences the finished object must pass through this boundary. The designer cannot reach through the pattern to guide your hands. You cannot see into the designer's mind to know what they "really meant." The pattern is the only channel.
+
+This has practical consequences:
+- A pattern with detailed photos and schematics has a **richer sensory interface** — more information flows across the boundary
+- A pattern that says only "continue in pattern" with no stitch counts has a **sparse sensory interface** — you must infer more on your own
+- The quality of the system depends on the quality of this boundary
+
+---
+
+## Applications: Patterns as Systems in Your Crochet Circle
+
+### Reading a Pattern Top to Bottom as System Analysis
+
+Next time you pick up a new pattern, try reading it as a systems document before you pick up your hook:
+
+1. **Identify the priors**: What does this pattern assume about my materials, my gauge, and my skills?
+2. **Trace the likelihood**: How does the pattern map inputs to outputs? Where are the transformations most complex?
+3. **Predict the posterior**: Based on the pattern alone, can I visualize the finished object? Where is my mental picture most uncertain?
+4. **Find the checksums**: Where does the pattern give me stitch counts or measurements to verify that I am on track?
+
+### Free vs. Paid Patterns: A Systems Quality Comparison
+
+Free patterns often have thinner Markov blankets — fewer photos, less detailed gauge information, sketchier instructions. This does not make them bad patterns, but it means more of the generative model lives in your head rather than on the page. Paid, tech-edited patterns typically have thicker blankets — more information crossing from designer to crocheter, reducing prediction error.
+
+### The Ravelry Project Page as System Feedback
+
+When crocheters post finished objects on platforms like Ravelry with notes about modifications they made, they are providing **feedback about the system**. Comments like "I had to go down a hook size to match gauge" or "the arms came out too long, I did 4 fewer rows" are reports of prediction error — places where the pattern's generative model did not match reality.
+
+---
+
+## Conclusion
+
+A crochet pattern is not just a set of instructions — it is a complete generative model. It encodes prior beliefs (materials and gauge), a likelihood function (stitch-by-stitch transformations), and a predicted posterior (the finished object). The pattern document itself serves as the system boundary, mediating between the designer's invisible intention and your tangible work. Understanding this structure helps you read patterns more effectively, diagnose problems when things go wrong, and appreciate the remarkable engineering embedded in every well-written pattern.
+
+In the next module, we turn from the pattern itself to the person reading it — the crocheter as an inference agent.
+
+---
+
+## Key Terms
+
+| Term | Crochet Meaning | Active Inference Meaning |
+| --- | --- | --- |
+| Pattern | Written instructions for a project | Generative model |
+| Gauge swatch | Test piece to validate tension | Model validation / prior checking |
+| Stitch count | Number of stitches per row | Checksum / prediction verification |
+| Materials list | Yarn, hook, notions needed | Prior beliefs / model parameters |
+| Finished object | The completed project | Posterior / model output |
+| Markov blanket | The pattern document itself | System boundary separating inside from outside |

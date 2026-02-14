@@ -1,64 +1,64 @@
-# The Philosophy of Active Inference — Agent Guidelines
+# アクティブ・インファーレンスの哲学 — エージェント ガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Syllabus](./syllabus.md) | [Curriculum AGENTS](../AGENTS.md) | [Resources](../resources/)
+> **クイックナビゲーション**: [README](./README.md) | [シラバス](./syllabus.md) | [コース特有のエージェント ガイドライン](../AGENTS.md) | [リソース](../resources/)
 
-## Overview
+## 概要
 
-Agents working on this course (Philosophy) should approach all content from a **philosophical** perspective while maintaining consistency with the curriculum-wide notation, terminology, and format standards.
+このコース（哲学）に取り組むエージェントは、コース全体の注記、用語、形式基準の一貫性を保ちつつ、すべてのコンテンツを**哲学的な**視点からアプローチする必要があります。
 
 ---
 
-## Directory Contents
+## ディレクトリ内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Course overview and navigation |
-| `AGENTS.md` | File | This file — course-specific agent guidelines |
-| `syllabus.md` | File | Full course syllabus with schedule and assessment |
-| `01_systems/` | Directory | Module 1: Systems — Boundaries, Markov Blankets, and the Philosophy of Biology |
-| `02_agents/` | Directory | Module 2: Agents — Autopoiesis, Agency, and the Self-Organizing System |
-| `03_perception/` | Directory | Module 3: Perception — Direct Perception, Inferentialism, and the User-Interface Theory |
-| `04_cognition/` | Directory | Module 4: Cognition — Beliefs as Physical States, the Embodied Mind, and Consciousness |
-| `05_action/` | Directory | Module 5: Action — Agency as Inference, Affordances, and Active Exploration |
-| `06_learning/` | Directory | Module 6: Learning — Epistemic Growth, Niche Construction, and Self-Transformation |
-| `07_communication/` | Directory | Module 7: Communication — Intersubjectivity, Theory of Mind, and Shared Inference |
-| `08_planning/` | Directory | Module 8: Planning — Teleology, Phenomenology of Time, and Sophisticated Inference |
+| `README.md` | ファイル | コースの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル—コース固有のエージェント ガイドライン |
+| `syllabus.md` | ファイル | スケジュールと評価を含む完全なコースシラバス |
+| `01_systems/` | ディレクトリ | モジュール 1: システム—境界、マルコフ・ブランケット、生物学の哲学 |
+| `02_agents/` | ディレクトリ | モジュール 2: エージェント—オートポイシス、代理性、自己組織化システム |
+| `03_perception/` | ディレクトリ | モジュール 3: 認識—直接認識、推論主義、ユーザーインターフェース理論 |
+| `04_cognition/` | ディレクトリ | モジュール 4: 認知—信念を物理状態として、身体化された心、意識 |
+| `05_action/` | ディレクトリ | モジュール 5: 行動—代理性を推論として、アフォード、積極的な探索 |
+| `06_learning/` | ディレクトリ | モジュール 6: 学習—認識的成長、ニッチ構築、自己変容 |
+| `07_communication/` | ディレクトリ | モジュール 7: コミュニケーション—相互主観性、心の理論、共有推論 |
+| `08_planning/` | ディレクトリ | モジュール 8: 計画—テレオロジー、時間の現象学、高度な推論 |
 
 ---
 
-## Course-Specific Conventions
+## コース固有の規則
 
-- **Perspective**: All content should be framed from a **philosophical** perspective.
-- **Lab Type**: Labs use **Thought Experiment** format — philosophical argumentation, reading analysis, and position papers.
-- **Notation**: Use notation from [resources/notation_table.md](../resources/notation_table.md).
-- **Terminology**: Use terms from [resources/glossary.md](../resources/glossary.md).
-- **References**: Cite from [resources/references.md](../resources/references.md).
-
----
-
-## Content Generation Standards
-
-- All content uses **real methods** — no mocks, stubs, or placeholder implementations.
-- Module content should be **modular, functional, and documented**.
-- Questions must be **20 per module**, formatted as a simple numbered list.
-- All 20 questions must reflect the **philosophical** perspective of this course.
-- Quizzes must have **Part A: 7 multiple choice** + **Part B: 3 free response**.
-- Labs must have **structured parts** with learning goals and `{fill:textarea}` fields.
-- Lab summary tables must have **complete, untruncated** skill descriptions.
-- Dashboards must be **interactive HTML5** with working JavaScript.
-- Cross-references to parallel modules in other courses should use relative paths.
+- **視点**: すべてのコンテンツは**哲学的な**視点から提示する必要があります。
+- **ラボの種類**: ラボは**思考実験**形式を使用—哲学的な議論、読解分析、および立場論文。
+- **注記**: [リソース/notation_table.md](../resources/notation_table.md) から注記を使用します。
+- **用語**: [リソース/glossary.md](../resources/glossary.md) から用語を使用します。
+- **参照**: [リソース/references.md](../resources/references.md) から参照を記述します。
 
 ---
 
-## Quality Checklist
+## コンテンツ生成基準
 
-Before considering any module complete in this course:
+- すべてのコンテンツは**実用的な方法**を使用—モック、スタブ、またはプレースホルダー実装は使用しません。
+- モジュールコンテンツは**モジュール化され、関数型で、文書化されている必要があります**。
+- 質問は各モジュールあたり**20問**とし、番号付きリストで記述します。
+- 20問のすべての質問は、このコースの**哲学的な**視点を反映している必要があります。
+- クイズは**Part A: 7つの多肢選択肢** + **Part B: 3つの自由記述**で構成されます。
+- ラボは**構造化された部分**と学習目標、および `{fill:textarea}` などの入力フィールドを含みます。
+- ラボの要約表は**完全でトリミングされていない**スキル記述を含みます。
+- ダッシュボードは**インタラクティブなHTML5**で、動作するJavaScriptを使用します。
+- 他のコースの並行モジュールへのクロス参照は、相対パスを使用します。
 
-- [ ] Content reflects the **philosophical** perspective (not generic)
-- [ ] All 7 files are present and substantive
-- [ ] No placeholder brackets `[...]` remain
-- [ ] Notation matches `resources/notation_table.md`
-- [ ] Terms match `resources/glossary.md`
-- [ ] Lab summary table is complete (not truncated)
-- [ ] Quiz questions are answerable from the module lecture
-- [ ] Cross-references use correct relative paths
+---
+
+## 品質チェックリスト
+
+このコースでモジュールを完了する前に、次の項目を確認してください。
+
+- [ ] コンテンツは**哲学的な**視点（汎用的ではない）を反映していること。
+- [ ] すべての7つのファイルが存在し、内容が充実していること。
+- [ ] プレースホルダーの角かっこ `[...]` は存在しないこと。
+- [ ] 注記は `resources/notation_table.md` と一致すること。
+- [ ] 用語は `resources/glossary.md` と一致すること。
+- [ ] ラボの要約表は完全でトリミングされていないこと。
+- [ ] クイズの質問はモジュールの講義から答えられること。
+- [ ] クロス参照は正しい相対パスを使用すること。

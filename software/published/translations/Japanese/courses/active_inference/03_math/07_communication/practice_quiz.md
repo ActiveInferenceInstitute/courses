@@ -1,51 +1,51 @@
-# Practice Quiz: Communication
+# 練習クイズ：コミュニケーション
 
-## Part A: Multiple Choice
+## 部門 A：多肢選択問題
 
-1. In the coupled inference framework, agent A models agent B's states as:
-A) Known constants
-B) Hidden causes within A's generative model that must be inferred
-C) Irrelevant noise
-D) Exact copies of A's own states
+1. 結合推論フレームワークにおいて、エージェントAはエージェントBの状態を：
+A) 定義された定数として
+B) エージェントAの生成モデル内の隠された原因として、推論する必要があるもの
+C) 無関係なノイズとして
+D) エージェントA自身の状態の正確なコピーとして
 
-2. The joint free energy F_joint decomposes into:
-A) Only individual free energies
-B) Sum of individual free energies minus mutual information between agents
-C) The product of individual free energies
-D) Only the mutual information term
+2. 結合自由エネルギーF_jointは以下の分解に分解されます：
+A) 個々の自由エネルギーのみ
+B) 個々の自由エネルギーの合計から、エージェント間の相互情報
+C) 個々の自由エネルギーの積
+D) 相互情報のみの項
 
-3. Generalized synchrony between two systems means:
-A) The systems oscillate at the same frequency
-B) There exists a smooth functional relationship between the states of the two systems
-C) The systems are physically connected
-D) The systems have identical parameters
+3. 2つのシステム間の一般化された同期とは：
+A) システムが同じ周波数で振動すること
+B) 2つのシステムのステート間の滑らかな関数的な関係が存在すること
+C) システムが物理的に接続されていること
+D) システムが同一のパラメータを持つこと
 
-4. The coupling strength κ must exceed what threshold for synchronization to be stable?
-A) Zero
-B) Half the maximum Lyapunov exponent of the uncoupled system: κ > λ_max/2
-C) The number of state variables
-D) The mutual information
+4. 結合強度κは、同期が安定するために何を超える閾値である必要がありますか？
+A) ゼロ
+B) 結合されていないシステムの最大リウプシッツ指数（κ > λ_max/2）の半分
+C) ステート変数数
+D) 相互情報
 
-5. Theory of Mind in Active Inference is modeled as:
-A) A single-level inference about behavior
-B) Hierarchical generative modeling — A models B's model, and potentially B's model of A
-C) Direct mind-to-mind communication
-D) Emotional resonance without inference
+5. アクティブ推論における心の理論は、以下のようにモデル化されます：
+A) 行動に関する単一レベルの推論
+B) 階層的な生成モデル — AがBのモデル、そして潜在的にBがAのモデルをモデル化する
+C) 直接的な心から心へのコミュニケーション
+D) 推論なしのエモーショナルな共鳴
 
-6. Communication success in the multi-agent framework corresponds to:
-A) Maximum individual free energy
-B) High mutual information between agents — aligned generative models
-C) Zero coupling
-D) Maximum entropy
+6. 多エージェントフレームワークにおけるコミュニケーションの成功は、以下のものに対応します：
+A) 最大の個々の自由エネルギー
+B) エージェント間の高い相互情報 — 整合された生成モデル
+C) ゼロの結合
+D) 最大のエン트로ピー
 
-7. Deception in Active Inference terms involves:
-A) Not communicating at all
-B) Acting to create specific prediction errors in the other agent's model (manipulating their beliefs)
-C) Random behavior
-D) Copying the other agent's actions exactly
+7. アクティブ推論における欺瞞は、以下のことを伴います：
+A) 全くコミュニケーションしないこと
+B) 他のエージェントのモデルに特定の予測誤差を作り出すように行動すること（彼らの信念を操作すること）
+C) ランダムな行動
+D) 他のエージェントの行動を正確にコピーすること
 
-## Part B: Short Answer
+## 部門 B：短い回答問題
 
-1. For two coupled linear systems dx₁/dt = -x₁ + κ(x₂ - x₁) and dx₂/dt = -x₂ + κ(x₁ - x₂), derive the error dynamics and find the critical coupling strength for synchronization.
-2. Explain why hierarchical Theory of Mind (A models B models A models B...) has diminishing computational returns. What determines the optimal depth?
-3. Two agents have misaligned generative models (different priors). Describe mathematically how communication (exchange of prediction errors) can lead to alignment. Under what conditions does alignment fail?
+1. 以下の線形システム dx₁/dt = -x₁ + κ(x₂ - x₁) および dx₂/dt = -x₂ + κ(x₁ - x₂) を用いて、誤差ダイナミクスを導出し、同期のための臨界結合強度を見つけなさい。
+2. 階層的な心の理論（AがBをモデル化し、BがAをモデル化し…）が減少する計算リターン（ diminishing returns ）の原因を説明してください。 最適な深さを決定するものは何ですか？
+3. 2つのエージェントが整合性のない生成モデル（異なる事前分布）を持っている場合、コミュニケーション（予測誤差の交換）が整合性を導く数学的方法を記述してください。 どのような条件下で整合性が失敗しますか？

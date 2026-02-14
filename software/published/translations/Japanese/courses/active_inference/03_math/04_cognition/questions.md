@@ -1,22 +1,22 @@
-# Study Questions: Cognition
+# 認知に関する学習問題
 
-1. Define precision mathematically. How does it relate to variance and covariance?
-2. Write the Gaussian likelihood with explicit precision matrix: p(o|s) = N(g(s), Π⁻¹). Expand the log-likelihood.
-3. Derive ∂F/∂π for a univariate Gaussian model. What is the optimal precision?
-4. Explain why the optimal precision equals the inverse expected squared prediction error. What intuition does this provide?
-5. What is the Gamma distribution? Why is it used as a prior on precision?
-6. Derive the posterior distribution over precision for a Gamma-Gaussian conjugate model.
-7. What is the Fisher information matrix? How is it computed for a parametric model?
-8. Prove that for a Gaussian model with known mean, the Fisher information equals the precision.
-9. How does Fisher information relate to the Cramér-Rao bound on parameter estimation?
-10. How does attention modulate precision in the predictive coding hierarchy? What are the mathematical consequences?
-11. Derive the precision update equation dγ/dt = -∂F/∂γ where γ = ln π is the log-precision.
-12. Why is log-precision (γ) often used instead of raw precision (π) in the update equations?
-13. How does the precision-weighted prediction error Π·ε differ from the unweighted prediction error ε in its effect on belief updates?
-14. What happens mathematically when precision goes to zero? When it goes to infinity?
-15. How does the brain estimate precision separately for each level of the hierarchy?
-16. What is the expected free energy contribution from precision? Write the term explicitly.
-17. How does type II maximum likelihood (empirical Bayes) relate to precision estimation?
-18. Compare Bayesian precision estimation with classical approaches to estimating noise variance.
-19. How does the concept of volatility (how rapidly precision changes over time) relate to hierarchical precision learning?
-20. Derive the precision update for a model where the precision itself changes over time (volatile environment).
+1.  精密度を数学的に定義してください。それは分散と共分散とどのように関連していますか？
+2.  明示的な精密度行列を持つガウスの尤度を記述してください: p(o|s) = N(g(s), Π⁻¹)。尤度の対数を展開してください。
+3.  単変量ガウスモデルに対して ∂F/∂π を導出してください。最適な精密度は何ですか？
+4.  最適な精密度が逆期待二乗予測誤差に等しい理由を説明してください。この直感は何を提供しますか？
+5.  ガンマ分布とは何ですか？精密度に関する事前分布としてなぜ使用されますか？
+6.  ガンマ-ガウスの共役モデルに対して精密度の事後分布を導出してください。
+7.  フィッシャー情報行列とは何ですか？パラメータモデルに対してどのように計算されますか？
+8.  既知の平均を持つガウスモデルの場合、フィッシャー情報が精密度と等しいことを証明してください。
+9.  フィッシャー情報がパラメータ推定のクレーマー・ラオ限界とどのように関連していますか？
+10. 予測コーディング階層において、注意が精密度にどのように影響を与えますか？その数学的な結果は何ですか？
+11. γ = ln π (対精密度) であり、dγ/dt = -∂F/∂γ の精密度更新式を導出してください。
+12. 対精密度 (γ) が更新式で生の精密度 (π) ではなく使用される理由は何ですか？
+13. 精密度重み付きの予測誤差 Π·ε が、重み付けされていない予測誤差 ε と比較して、信念更新にどのように影響を与えますか？
+14. 精密度がゼロに近づいた場合、数学的に何が起こりますか？無限大に近づいた場合、何が起こりますか？
+15. 脳は階層の各レベルで精密度をどのように推定しますか？
+16. 精密度からの期待自由エネルギー寄与はどれくらいですか？その項を明示的に記述してください。
+17. 2次最大尤度（経験的ベイズ）が精密度推定とどのように関連していますか？
+18. ベイズ精密度推定を、ノイズ分散を推定するための古典的なアプローチと比較してください。
+19.  volatiliy (精密度が時間とともにどれだけ急速に変化するか) の概念が、階層的な精密度学習とどのように関連していますか？
+20. 精密度自体が時間とともに変化するモデルにおいて、精密度を更新してください（変動する環境）。

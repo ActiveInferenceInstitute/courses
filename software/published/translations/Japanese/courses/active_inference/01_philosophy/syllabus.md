@@ -1,101 +1,101 @@
-# Course 1: The Philosophy of Active Inference
+# 課程 1: 活動推論の哲学
 
-> **Quick Navigation**: [Course Home](./README.md) | [Curriculum Home](../README.md) | [Resources](../resources/) | [Agent Guidelines](./AGENTS.md)
+> **クイックナビゲーション**: [コースホーム](./README.md) | [カリキュラムホーム](../README.md) | [リソース](../resources/) | [エージェントガイドライン](./AGENTS.md)
 
-## Course Description
+## コースの説明
 
-This course explores the philosophical foundations of Active Inference and the Free Energy Principle (FEP). Starting from everyday intuitions about what it means to be a living, perceiving, acting being, we trace the intellectual lineage of Active Inference through phenomenology (Husserl, Merleau-Ponty, Heidegger), pragmatism (Peirce, Dewey, James), enactivism (Varela, Thompson), and 4E cognition (embodied, embedded, enacted, extended).
+このコースでは、活動推論とフリーエネルギー原則 (FEP) の哲学的な基盤を探求します。生きている、知覚し、行動する存在であることの意味について、日常的な直観から出発し、活動推論の知的系譜を、現象学 (ヒュッセル、メルロー・ポント、ハイデガー)、経験主義 (ピルシー、デューイ、ジェームズ)、活動的能動性 (ヴァレラ、トムソン)、4E認知 (身体化、埋め込み、実行、拡張) を通じて追跡します。
 
-Designed as the entry point to the curriculum, this course requires no prior knowledge of mathematics, neuroscience, or programming. Each module begins with the big picture — accessible questions that anyone can engage with — and progressively introduces the philosophical depth behind Active Inference's key concepts. By the end, students will have a robust conceptual scaffold for the more technical courses that follow.
-
----
-
-## Prerequisites
-
-None. This is the introductory course in the Active Inference curriculum. No prior knowledge of philosophy, mathematics, neuroscience, or programming is required.
+このコースは、カリキュラムへの入り口として設計されており、数学、神経科学、プログラミングに関する事前知識は必要ありません。各モジュールは、大きな絵から始まり—誰でも取り組めるアクセスしやすい質問—そして、活動推論の主要な概念の背後にある哲学的な深さを段階的に導入します。最終的に、学生は、それに続くより技術的なコースのための堅牢な概念的枠組みを習得します。
 
 ---
 
-## Course Schedule
+## 必須条件
 
-| Week | Module | Topic | Key Concepts | Readings | Deliverables |
+なし。これは、活動推論の導入コースです。哲学、数学、神経科学、プログラミングに関する事前知識は必要ありません。
+
+---
+
+## コーススケジュール
+
+| 週 | モジュール | トピック | 主要な概念 | 参考文献 | 成果物 |
 |------|--------|-------|--------------|----------|-------------|
-| 1 | [Module 1](./01_systems/) | **Systems** | What is a system? Boundaries, Markov Blankets, philosophy of biology | Friston (2013); Kirchhoff et al. (2018) | Lab 1, Quiz 1 |
-| 2 | [Module 2](./02_agents/) | **Agents** | Autopoiesis, agency, minimal cognition, self-organization | Maturana & Varela (1980); Hohwy (2016) | Lab 2, Quiz 2 |
-| 3 | [Module 3](./03_perception/) | **Perception** | Direct perception, inferentialism, user-interface theory, Helmholtz | Clark (2013); Hohwy (2013); Hoffman (2019) | Lab 3, Quiz 3 |
-| 4 | [Module 4](./04_cognition/) | **Cognition** | Embodied mind, beliefs as physical states, precision and attention, the dark room problem | Seth (2013); Clark & Chalmers (1998) | Lab 4, Quiz 4 |
-| 5 | [Module 5](./05_action/) | **Action** | Affordances, pragmatism, action as inference, epistemic action, free will | Gibson (1979); Friston et al. (2015) | Lab 5, Quiz 5 |
-| 6 | [Module 6](./06_learning/) | **Learning** | Epistemic growth, niche construction, self-transformation, evolution | Friston et al. (2017); Laland et al. (2015) | Lab 6, Quiz 6 |
-| 7 | [Module 7](./07_communication/) | **Communication** | Intersubjectivity, Theory of Mind, coupled inference, language | Friston & Frith (2015); Tomasello (2014) | Lab 7, Quiz 7 |
-| 8 | [Module 8](./08_planning/) | **Planning** | Teleology, phenomenology of time, sophisticated inference, course synthesis | Friston et al. (2021); Husserl (1913) | Lab 8, Quiz 8, Final Project |
+| 1 | [モジュール 1](./01_systems/) | **システム** | システムとは何か？境界、マルコフブランケット、生物学哲学 | フリストン (2013); キルヒホフら (2018) | 実験 1、クイズ 1 |
+| 2 | [モジュール 2](./02_agents/) | **エージェント** | 自律性、エージェンシー、最小限の認知、自己組織化 | マトゥラーナ & ヴァレラ (1980); ホーハイ (2016) | 実験 2、クイズ 2 |
+| 3 | [モジュール 3](./03_perception/) | **知覚** | 直接知覚、推論主義、ユーザーインターフェース理論、ヘルムホルツ | クラーク (2013); ホーハイ (2013); ホフマン (2019) | 実験 3、クイズ 3 |
+| 4 | [モジュール 4](./04_cognition/) | **認知** | 身体化された心、信念は物理的な状態、精度と注意、暗室問題 | セス (2013); クラーク & チャーマルズ (1998) | 実験 4、クイズ 4 |
+| 5 | [モジュール 5](./05_action/) | **行動** | アフォーダンス、経験主義、行動は推論、知識的行動、自由意志 | ギブン (1979); フリストンら (2015) | 実験 5、クイズ 5 |
+| 6 | [モジュール 6](./06_learning/) | **学習** | 知識的成長、ニッチ建設、自己変容、進化 | フリストンら (2017); ラランドら (2015) | 実験 6、クイズ 6 |
+| 7 | [モジュール 7](./07_communication/) | **コミュニケーション** | 相互主観性、心の理論、カップリングされた推論、言語 | フリストン & フリト (2015); トマセッロ (2014) | 実験 7、クイズ 7 |
+| 8 | [モジュール 8](./08_planning/) | **計画** | 目的論、時間に関する現象学、高度な推論、コースの統合 | フリストンら (2021); ヒュッセル (1913) | 実験 8、クイズ 8、最終プロジェクト |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this course, you should be able to:
+このコースの終了までに、あなたは以下のことができるようになるはずです。
 
-1. **Describe** the core concepts of Active Inference (Markov Blankets, generative models, free energy, surprise) in accessible, non-mathematical language
-2. **Connect** Active Inference to historical philosophical traditions including phenomenology (Husserl, Merleau-Ponty), pragmatism (Peirce, Dewey), enactivism (Varela, Thompson), and 4E cognition (Clark, Chalmers)
-3. **Evaluate** the ontological status of the FEP — is it a law of nature, a modeling framework, or a conceptual tool? — using arguments from realism, instrumentalism, and process philosophy
-4. **Explain** autopoiesis, Markov Blankets, and self-evidencing as formal characterizations of life and agency, and discuss their implications for the life-mind continuity thesis
-5. **Analyze** the philosophical implications of treating perception, action, learning, and planning as different forms of the same inference process
-6. **Construct** philosophical arguments about contested topics in Active Inference: the dark room problem, panpsychism, free will, the extended mind, and the problem of other minds
-7. **Prepare** for the deeper treatments in the Cognitive Science, Mathematics, and Computer Science courses by building a robust conceptual scaffold
+1.  アクセスしやすい、非数学的な言語で、活動推論の主要な概念（マルコフブランケット、生成モデル、フリーエネルギー、驚き）を記述する。
+2.  現象学 (ヒュッセル、メルロー・ポント)、経験主義 (ピルシー、デューイ)、活動的能動性 (ヴァレラ、トムソン)、4E 認知 (クラーク、チャーマルズ) を含め、歴史的な哲学の伝統と活動推論を結びつける。
+3.  フリーエネルギー原則 (FEP) の存在論的地位を評価する - それは自然の法則なのか、モデル化の枠組みなのか、または概念的なツールなのか - 経験主義、道具論主義、プロセス哲学からの議論を用いて。
+4.  自己ポイゾス、マルコフブランケット、自己証拠を、生命とエージェンシーの形質化として形式的に記述し、それらの影響について議論する。
+5.  知覚、行動、学習、計画を、同じ推論プロセスの異なる形態として扱う。
+6.  活動推論における論争のあるトピック（暗室問題、パンスピシズム、自由意志、拡張された心、他者の心の問題）に関する哲学的な議論を構築する。
+7.  認知科学、数学、コンピュータサイエンスのコースでより詳細な内容を理解するために、堅牢な概念的枠組みを構築する準備を整える。
 
 ---
 
-## Assessment Components
+## 評価コンポーネント
 
-| Component | Description | Frequency |
+| コンポーネント | 説明 | 頻度 |
 |-----------|-------------|-----------|
-| Practice Quizzes | Part A: 7 multiple choice + Part B: 3 free response per module | Weekly (8 total) |
-| Lab Activities | Thought experiment labs with structured reflection and argumentation | Weekly (8 total) |
-| Study Questions | 20 philosophical study questions per module (selected responses) | Weekly (8 total) |
-| Final Project | Integrative essay connecting concepts from all 8 modules to a philosophical question of your choice | End of course |
+| 実践クイズ | A 部：客観式 7題 + B 部：自由記述 3題 各モジュール | 毎週 (合計 8題) |
+| 実験活動 | 構造化された思考実験ラボ、および議論と反省 | 毎週 (合計 8題) |
+| 研究問題 | モジュールごとに選択された応答形式で 20 題の哲学研究問題 | 毎週 (合計 8題) |
+| 最終プロジェクト | 全 8 モジュールの概念を統合し、自分の選択した哲学的な問題についてエッセイを書く | コース終了時 |
 
-### Final Project Options
+### 最終プロジェクトのオプション
 
-Choose one of the following, or propose your own topic (with instructor approval):
+次のいずれかを選択するか、インストラクターの承認を得て独自のトピックを提案してください。
 
-1. **Position Paper**: Defend or critique the claim that the FEP is a genuine law of nature (not merely a useful framework)
-2. **Comparative Analysis**: Compare Active Inference's account of agency with one alternative framework (e.g., autopoietic enactivism, ecological psychology, phenomenology)
-3. **Applied Philosophy**: Apply Active Inference concepts to analyze a philosophical puzzle (consciousness, free will, problem of other minds, ethical agency)
-4. **Historical Synthesis**: Trace how one concept (e.g., boundary, belief, action) has been treated across at least three philosophical traditions and show how Active Inference synthesizes them
+1.  **立場論文**: FEP が真に自然の法則であるという主張を弁護または批判する。
+2.  **比較分析**: 活動推論の代理に関する主張を、他のフレームワーク（例えば、自動能動的能動性、生態学的心理学、現象学）と比較する。
+3.  **応用哲学**: 活動推論の概念を適用して、知覚、自由意志、他者の心、倫理的代理などの哲学的なパズルを分析する。
+4.  **歴史的統合**: 少なくとも 3 つの哲学の伝統にわたって、ある概念（例えば、境界、信念、行動）がどのように扱われてきたかを追跡し、活動推論がそれらを統合する方法を示す。
 
-### Evaluation Focus
+### 評価の焦点
 
-| Criterion | Description |
+| 基準 | 説明 |
 |-----------|-------------|
-| Philosophical rigor | Clarity of argumentation and logical coherence |
-| Conceptual accuracy | Correct use of Active Inference concepts and terminology |
-| Scholarly engagement | Engagement with primary sources and scholarly literature |
-| Original insight | Critical thinking and novel contributions |
+| 哲学的な厳密さ | 議論の明確さと論理的整合性 |
+| 概念的な正確さ | 活動推論の概念と用語の正しい使用 |
+| 学術的な関与 | 主要なソースと学術文献との関与 |
+| オリジナルの洞察 | 批判的思考と新しい貢献 |
 
 ---
 
-## Course Policies
+## 運用ポリシー
 
-- **Participation**: Students are expected to engage fully with each module's lab activity and contribute to peer review in Part 6 of each lab
-- **Academic Integrity**: All written work must be original. Properly cite all sources using the reference numbers from [references.md](../resources/references.md)
-- **Accessibility**: All materials are provided in Markdown format. Interactive dashboards are supplementary, not required.
+- **参加**: 学生は、各モジュールのラボ活動に積極的に参加し、第 6 部門におけるピアレビューに貢献する必要があります。
+- **学術的誠実性**: すべての書面はオリジナルのものでなければなりません。参照番号を [references.md](../resources/references.md) から使用して、すべてのソースを正しく引用してください。
+- **アクセシビリティ**: すべての材料は Markdown 形式で提供されます。インタラクティブなダッシュボードは補助的なものであり、必須ではありません。
 
 ---
 
-## Resources
+## リソース
 
-| Resource | Purpose |
+| リソース | 目的 |
 |----------|---------|
-| [Notation Table](../resources/notation_table.md) | Canonical symbols and their meanings (for reference when encountered in readings) |
-| [Glossary](../resources/glossary.md) | Definitions of all technical terms used across the curriculum |
-| [References](../resources/references.md) | 82 canonical citations organized by module topic |
-| [Cross-Course Map](../resources/cross_course_map.md) | See how each topic is treated in the other 3 courses |
+| [記号表](../resources/notation_table.md) | カノン的な記号とその意味 (読み取り時に参照用) |
+| [用語集](../resources/glossary.md) | カリキュラム全体で使用されるすべての技術用語の定義 |
+| [参考文献](../resources/references.md) | モジュールごとのトピックをまとめた 82 題の参照 |
+| [コースマップ](../resources/cross_course_map.md) | 他の 3 つのコースで各トピックがどのように扱われているかを確認 |
 
 ---
 
-## Recommended Supplementary Reading
+## 推奨される補助読書
 
-- Parr, T., Pezzulo, G., & Friston, K. J. (2022). *Active Inference: The Free Energy Principle in Mind, Brain, and Behavior*. MIT Press. — Chapters 1-2 (conceptual overview)
-- Clark, A. (2016). *Surfing Uncertainty: Prediction, Action, and the Embodied Mind*. Oxford University Press. — Accessible philosophical treatment
-- Gallagher, S. (2017). *Enactivist Interventions: Rethinking the Mind*. Oxford University Press. — 4E cognition context
-- Kirchhoff, M. D., & Froese, T. (2017). Where there is life there is mind: In support of a strong life-mind continuity thesis. *Entropy*, 19(4), 169.
+- パール、T.、ペズーロ、G.、およびフリストン、K.J. (2022)。 *活動推論：心、脳、行動におけるフリーエネルギー原則*。MIT Press。— 第 1 章 - 第 2 章 (概念的概要)
+- クラーク、A. (2016)。 *不確実性のサーフィン：予測、行動、身体化された心*。オックスフォード大学出版。— アクセシブルな哲学的な扱い
+- ガラヒー、S. (2017)。 *能動的介入：心、脳、行動における心の再考*。オックスフォード大学出版。— 4E 認知の文脈
+- キルヒホフ、M.D.、およびフロイセ、T. (2017)。 生命があるところに心がある：フリーエネルギー原則の強い生命-心連続性理論を支持する。*エントロピー*, 19(4), 169.

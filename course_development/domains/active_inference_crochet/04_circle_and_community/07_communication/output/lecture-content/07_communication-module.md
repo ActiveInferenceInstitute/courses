@@ -1,0 +1,82 @@
+# Module 07: Communication — Stories Told Over Stitches
+
+## Learning Objectives
+
+1. Describe the dual-channel communication system of a crochet circle — hands working while voices engage in conversation — and explain how both channels function simultaneously.
+2. Analyze storytelling traditions in circles as cultural transmission that binds the group's shared generative model.
+3. Explain how modern communication channels extend the circle's communicative reach.
+
+## Introduction
+
+The crochet circle is a remarkable communication system. At any given moment, two parallel channels are operating. The **physical channel** — hands moving, hooks clicking, yarn flowing — carries the embodied knowledge of the craft. The **social channel** — voices talking, stories flowing, laughter erupting — carries the social knowledge of the community. Both channels are forms of inference, and together they create something unique: a space where bodies and voices communicate simultaneously, each enriching the other.
+
+## Key Concepts
+
+### 1. The Dual-Channel System
+
+Imagine a moment in the circle. Priya is telling a story about her trip to a yarn shop while working a cable stitch. Her hands are engaged in one inference process (predicting the next loop, managing tension, maintaining the cable pattern), while her voice is engaged in another (constructing a narrative, reading her audience's reactions, adjusting pacing and emphasis).
+
+This dual-channel operation is not trivial. It requires that the physical task be sufficiently automatic — encoded in a generative model with high precision — so that attentional resources can be allocated to the social channel. When Priya hits a tricky part of the cable, she might pause mid-sentence, redirect attention to her hands, and then pick the story back up. This dynamic allocation of attention between channels is a beautiful example of precision weighting in action.
+
+The **physical channel** communicates through:
+- The visible progress of projects (showing what is being made)
+- The sounds of stitching (rhythmic or halting, smooth or fumbling)
+- Demonstrations of technique (showing how to do something)
+- The finished objects themselves (communicating skill, aesthetic, and care)
+
+The **social channel** communicates through:
+- Conversation about craft (patterns, techniques, materials)
+- Conversation about life (families, work, health, dreams)
+- Stories that weave craft and life together
+- Nonverbal social signals (laughter, sighs, gestures of sympathy)
+
+The two channels are not independent — they interact constantly. A story about a yarn shop trip might lead someone to pull out a skein they bought there, which triggers a discussion of fiber content, which leads to a demonstration of how that yarn behaves in a particular stitch. Information flows between channels fluidly.
+
+### 2. Stories as Cultural Transmission
+
+Crochet circles are storytelling communities. The stories told over stitches serve a function far beyond entertainment — they are mechanisms of **cultural transmission** that bind the group's shared generative model.
+
+**Craft stories** transmit technical knowledge through narrative:
+- "I was making a sweater for my daughter, and the gauge kept drifting. I finally realized I crochet tighter when I am stressed." (Teaches: tension varies with emotional state.)
+- "My grandmother always soaked her finished pieces in tea. I thought it was just her quirk, but it actually softened the cotton beautifully." (Teaches: finishing techniques with materials knowledge.)
+- "I once tried to substitute acrylic for cotton in a dishcloth pattern. Never again — it does not absorb anything." (Teaches: material properties through failure narrative.)
+
+These stories are more memorable and more deeply encoded than abstract instructions precisely because they are embedded in personal experience. In Active Inference terms, narratives create rich, contextual generative models — predictions that are anchored in specific situations, making them easier to retrieve and apply.
+
+**Life stories** build social bonds and shared identity:
+- Stories about who the project is for (a grandchild, a charity, a friend going through a hard time) give the group shared emotional context.
+- Stories about personal challenges and triumphs create the trust and vulnerability that deepen the circle's internal states.
+- Recurring stories and inside references become part of the circle's identity — shared generative models that mark membership.
+
+**Craft-life fusion stories** are the most powerful: "I was crocheting in the hospital waiting room when my mother was in surgery. I made this entire blanket in three days. Every stitch in it is full of anxiety and love." These stories fuse the physical act of crochet with emotional experience, creating artifacts that carry meaning beyond their material properties.
+
+### 3. Pattern Sharing as Communication
+
+A crochet pattern is a **communication artifact** — a written (or drawn, or recorded) representation of a generative model for producing a specific object. When a circle member shares a pattern, they are transmitting a structured set of predictions: "If you follow these instructions, you will produce this result."
+
+Patterns are an interesting case study in communication because they are inherently incomplete. A written pattern says "ch 3, dc in next st" but does not say how tightly to hold the yarn, how to position the hook, or what the stitch should feel like. The pattern communicates the **structural model** but not the **embodied model**. This is why patterns alone are often insufficient for beginners — the missing embodied knowledge must be supplied by a teacher or learned through experience.
+
+In a circle, pattern sharing is enriched by the social channel. A member does not just hand over a printed pattern; they say, "This pattern is easy except for row 12 — that bobble section is confusing, so just ask me when you get there." The verbal annotation adds context, precision, and prediction about likely confusion points. This is communication that goes beyond the pattern itself, transmitting metacognitive knowledge (knowledge about the knowledge).
+
+### 4. Online Communities and Extended Communication
+
+Modern crochet circles extend their communication far beyond the meeting table through online channels:
+
+- **Social media** (Instagram, TikTok): Visual sharing of finished objects and works in progress. This is primarily physical-channel communication — showing what has been made. But comments and captions add social context.
+- **Forums and groups** (Ravelry, Facebook groups): Text-based discussion that extends the social channel. Members ask questions, share patterns, troubleshoot problems, and tell stories.
+- **Video platforms** (YouTube): Tutorial videos that attempt to capture both channels — showing hands while explaining verbally.
+- **Messaging** (group chats, WhatsApp): Real-time social channel communication between meetings, maintaining the circle's social bonds.
+
+These online channels expand the circle's Markov blanket. Information from the global crochet community enters through members who browse these platforms. The circle's own creations and knowledge flow outward when members post online.
+
+But online communication differs from in-person in important ways. The embodied feedback loop is weaker — you cannot feel the yarn through a screen, and the real-time responsiveness of in-person teaching is hard to replicate. The dual-channel magic of hands-and-voices-together is lost in purely online settings. What online adds is scale, asynchrony, and access to diversity far beyond the local community.
+
+## Applications
+
+* **The Rhythm of Craft and Conversation**: The physical rhythm of crochet creates a unique conversational quality. Hands busy with repetitive work free the mind for deep, unhurried talk. This is why crochet circles often become spaces for intimate conversation that would not happen in other settings. The physical channel creates a kind of social permission — "We are here to crochet, and the talking is just what happens alongside" — that paradoxically makes the talking deeper and more honest.
+
+* **Silent Communication**: Not all communication is verbal. When a member quietly places a skein of perfect yarn in front of someone who was looking for it, or when someone silently holds up their finished work for admiration, the physical channel carries the message. These nonverbal communications often carry more emotional weight than words — they demonstrate attention, care, and understanding without the need for explicit articulation.
+
+## Conclusion
+
+The crochet circle is a dual-channel communication system of remarkable sophistication. Hands and voices work in parallel, the physical channel carrying craft knowledge while the social channel carries stories, bonds, and shared meaning. Stories told over stitches are not idle chatter — they are the medium through which the circle's generative model is transmitted, enriched, and bound together. Patterns, both written and demonstrated, are communication artifacts that encode and share predictive models of craft. And modern online channels extend this communication across space and time, even as they sacrifice some of the embodied richness of the physical circle. In the final module, we bring everything together by exploring how circles plan — organizing crochet-alongs, choosing group projects, and coordinating their collective future.

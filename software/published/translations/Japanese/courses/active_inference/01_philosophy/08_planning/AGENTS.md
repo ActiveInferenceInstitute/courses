@@ -1,25 +1,26 @@
-# Module 8: Planning — Agent Guidelines
+# モジュール8：計画 — エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コース エージェント](../AGENTS.md) | [カリキュラム エージェント](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Teleology, Future-Oriented Behavior, and the Phenomenology of Time |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Planning) |
-| `lab.md` | File | Thought Experiment: Teleology, Future-Oriented Behavior, and the Phenomenology of Time |
-| `dashboard.html` | File | Interactive dashboard: Planning |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル - モジュールエージェントガイドライン |
+| `module.md` | ファイル | 完全な講義: 目的論、未来志向行動、時間の現象学 |
+| `questions.md` | ファイル | 20の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7問MC + 3問記述式 (計画) |
+| `lab.md` | ファイル | 思考実験: 目的論、未来志向行動、時間の現象学 |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード: 計画 |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Philosophical
-- **Topic**: Planning — Teleology, Future-Oriented Behavior, and the Phenomenology of Time
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/08_planning/module.md` for parallel modules
+- **視点**: 哲学的な
+- **トピック**: 計画 - 目的論、未来志向行動、時間の現象学
+- **記号**: [notation_table.md](../../resources/notation_table.md) に準拠
+- **用語**: [glossary.md](../../resources/glossary.md) に準拠
+- **相互参照**: `../../XX_course/08_planning/module.md` へのリンクで、並行モジュールを参照
+

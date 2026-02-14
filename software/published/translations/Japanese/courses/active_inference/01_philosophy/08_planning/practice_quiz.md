@@ -1,51 +1,51 @@
-# Practice Quiz: Planning
+# 練習クイズ：計画
 
-## Part A: Multiple Choice
+## 部門 A：選択肢問題
 
-1. In Active Inference, planning is formalized as:
-A) A search through a decision tree using minimax
-B) Policy selection — choosing the action sequence that minimizes Expected Free Energy
-C) Random action followed by reinforcement learning
-D) Conscious deliberation followed by voluntary choice
+1. Active Inference において、計画は以下のものとして形式化される：
+A) ミニマックスを用いた意思決定木を探索する
+B) 期待されるフリーエネルギーを最小化する行動シーケンスを選択すること
+C) ランダムな行動に続いて強化学習を行う
+D) 自発的な選択の前に意識的な検討を行う
 
-2. Expected Free Energy (G) for a policy π decomposes into:
-A) Perception error and action error
-B) Risk (divergence from preferred outcomes) and ambiguity (expected uncertainty)
-C) Complexity and accuracy
-D) Past evidence and future predictions
+2. ポリシー π の期待されるフリーエネルギー (G) は、以下のものに分解される：
+A) 感知誤差と行動誤差
+B) リスク（好ましくない結果からの逸脱）と曖昧さ（期待される不確実性）
+C) 複雑性と精度
+D) 過去の証拠と将来の予測
 
-3. Sophisticated inference extends basic policy selection by:
-A) Including emotional states in the generative model
-B) Considering what the agent will *believe* after each action (counterfactual belief updating)
-C) Using faster computational hardware
-D) Eliminating uncertainty entirely before acting
+3. 高度な推論は、基本的なポリシー選択を拡張する点で：
+A) 生成モデルに感情状態を含める
+B) 各行動後にエージェントが*信じる*であろうことを考慮する（反事実的信念更新）
+C) より高速な計算ハードウェアを使用する
+D) 行動する前に不確実性を完全に排除する
 
-4. Husserl's concept of "protention" refers to:
-A) The memory of past events
-B) The anticipation of what is about to happen in the near future
-C) The uncertainty about distant future events
-D) The desire to protect oneself from harm
+4. 経験論の「プロテンション」という概念は、次のものに相当する：
+A) 過去の出来事の記憶
+B) ほぼ将来に起こることを予期すること
+C) 遠い将来の出来事に関する不確実性
+D) 自分自身を危害から守りたいという願望
 
-5. Aristotle's concept of *telos* relates to Active Inference through:
-A) The material composition of the generative model
-B) The prior preferences (C vector) that bias policy selection toward preferred outcomes
-C) The efficient cause of neural activity
-D) The formal structure of Bayesian inference
+5. アリストテレスの *telos* の概念は、Active Inference とどのように関連しているか：
+A) 生成モデルの物質組成
+B) ポリシー選択を好ましい結果に向ける偏り（C ベクトル）としての事前好み
+C) 神経活動の効率的な原因
+D) ベイジアン推論の形式構造
 
-6. Active Inference explains procrastination as:
-A) Laziness — a deficit in motivation
-B) A flat EFE landscape where the agent cannot distinguish between policies
-C) An excess of planning depth
-D) A failure of motor control
+6. Active Inference は、先延ばしをどのように説明する：
+A) 怠惰 - 動機不足
+B) EFE が平坦な風景で、エージェントがポリシーを区別できない
+C) 計画の深さの過剰
+D) 運動制御の失敗
 
-7. If prior preferences (C vector) are products of evolution and can be modified by learning, then:
-A) Purpose is fixed at birth and cannot change
-B) The agent's purposes are both inherited and self-constructed to some degree
-C) Only biological organisms can have purposes
-D) Artificial agents can never plan
+7. 事前好み（C ベクトル）が進化の産物であり、学習によって修正可能である場合、次のことが成り立つ：
+A) 目的は出生時に固定され、変更することはできない
+B) エージェントの目的は、遺伝的に受け継がれたものと、ある程度自己構築されたもの
+C) 目的を持つことができるのは生物的な存在のみ
+D) 人工エージェントは計画を立てることができない
 
-## Part B: Short Answer
+## 部門 B：記述式問題
 
-1. Explain how sophisticated inference involves "reasoning about what you will believe" after acting. Give a concrete example.
-2. Compare the Active Inference account of planning with Heidegger's concept of *Dasein* as "being-toward" the future. What philosophical insight does this comparison reveal?
-3. L.A. Paul's concept of "transformative experience" suggests that some choices fundamentally change the chooser. Analyze this concept using the Active Inference framework: can an agent rationally plan for a transformative experience?
+1. 高度な推論が「行動後に何を信じるかを推論する」ことに関わる仕組みを説明してください。具体的な例を挙げてください。
+2. Active Inference の計画の説明と、ハイデガーの概念である *Dasein*（「未来への向こう」）との比較を検討してください。この比較が明らかにする哲学的な洞察は何ですか？
+3. L.A. Paul の「変革的な経験」という概念は、ある選択が選択者の根本的な変化をもたらすことを示唆しています。Active Inference の枠組みを用いてこの概念を分析してください。エージェントは、変革的な経験に向けて合理的に計画できるでしょうか？

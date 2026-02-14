@@ -1,51 +1,51 @@
-# The Philosophy of Active Inference
+# アクティブ・インファーレンスの哲学
 
-> **Quick Navigation**: [Curriculum Home](../README.md) | [Syllabus](./syllabus.md) | [Agent Guidelines](./AGENTS.md) | [Resources](../resources/)
+> **クイックナビゲーション**: [コース概要](../README.md) | [シラバス](./syllabus.md) | [エージェントガイドライン](./AGENTS.md) | [リソース](../resources/)
 
-## Overview
+## 概要
 
-Explores the philosophical foundations of Active Inference, tracing roots in pragmatism, phenomenology, enactivism, and 4E cognition. Examines the ontological status of the Free Energy Principle, the nature of agency, the relationship between mind and body, and the implications for understanding self, world, and others.
+アクティブ・インファーレンスの哲学的な基盤を探求し、経験主義、現象学、能動性、4E認知といったルーツをたどります。フリーエネルギー原則の存在論的地位、代理人の性質、心身の関係、自己、世界、他者に対する理解への影響について考察します。
 
 ---
 
-## Modules
+## モジュール
 
-| # | Topic | Subtitle | Description |
+| # | トピック | サブタイトル | 説明 |
 |---|-------|----------|-------------|
-| 1 | [Systems](./01_systems/) | Boundaries, Markov Blankets, and the Philosophy of Biology | What is a system? What counts as a boundary? How the Markov Blanket formalizes the ancient question of individuality. |
-| 2 | [Agents](./02_agents/) | Autopoiesis, Agency, and the Self-Organizing System | What makes a system an agent? Autopoiesis, minimal cognition, and the naturalization of intentionality. |
-| 3 | [Perception](./03_perception/) | Direct Perception, Inferentialism, and the User-Interface Theory | Is perception direct or constructive? Helmholtz, Gibson, and the Active Inference resolution. |
-| 4 | [Cognition](./04_cognition/) | Beliefs as Physical States, the Embodied Mind, and Consciousness | What are beliefs? How does cognition relate to the body? The dark room problem and consciousness. |
-| 5 | [Action](./05_action/) | Agency as Inference, Affordances, and Active Exploration | Is action a consequence of inference? Affordances, pragmatism, and the epistemic imperative. |
-| 6 | [Learning](./06_learning/) | Epistemic Growth, Niche Construction, and Self-Transformation | How does learning reshape the self? Niche construction, epistemic growth, and developmental change. |
-| 7 | [Communication](./07_communication/) | Intersubjectivity, Theory of Mind, and Shared Inference | How do agents understand other agents? The problem of other minds and coupled inference. |
-| 8 | [Planning](./08_planning/) | Teleology, Phenomenology of Time, and Sophisticated Inference | What is planning? Teleology, temporal consciousness, and the culmination of Active Inference. |
+| 1 | [システム](./01_systems/) | 境界、マルコフ被覆、生物学の哲学 | システムとは何ですか？境界とは何と定義されますか？マルコフ被覆が古くからの個性に関する問題をどのように具体化するのですか？ |
+| 2 | [エージェント](./02_agents/) | 自律性、代理性、自己組織化システム | システムはエージェントと何が異なりますか？自律性、最小限の認知、意図性の自然化について説明します。 |
+| 3 | [知覚](./03_perception/) | 直接知覚、推論主義、ユーザーインターフェース理論 | 知覚は直接的ですか、それとも構成的ですか？ヘルムホルツ、ギブソン、アクティブ・インファーレンス解決策について考察します。 |
+| 4 | [認知](./04_cognition/) | 信念は物理的状態、身体化された心、意識 | 信念とは何ですか？認知はどのように身体と関係していますか？暗室問題と意識について考察します。 |
+| 5 | [行動](./05_action/) | 代理性としての推論、アフォード、能動的探索 | 行動は推論の結果ですか？アフォード、経験主義、認識的イミプレースについて考察します。 |
+| 6 | [学習](./06_learning/) | 認識的成長、ニッチ構築、自己変容 | 学習は自己をどのように再構築しますか？ニッチ構築、認識的成長、発達変化について説明します。 |
+| 7 | [コミュニケーション](./07_communication/) | 相互主観性、心の理論、共有推論 | エージェントは他のエージェントをどのように理解しますか？他者の心の問題と結合推論について考察します。 |
+| 8 | [計画](./08_planning/) | 目的論、時間に関する現象学、高度な推論 | 計画とは何ですか？目的論、時間的意識、アクティブ・インファーレンスの集約について考察します。 |
 
 ---
 
-## Module Contents
+## モジュール内容
 
-Each module folder contains 7 files:
+各モジュールフォルダには7つのファイルが含まれています：
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| `module.md` | Full lecture content from a philosophical perspective |
-| `questions.md` | 20 study questions (philosophical focus) |
-| `practice_quiz.md` | Quiz: Part A Multiple Choice (7 questions) + Part B Free Response (3 questions) |
-| `lab.md` | Thought Experiment lab: philosophical argumentation, reading analysis, and position papers |
-| `dashboard.html` | Interactive HTML5 dashboard with concept cards and quiz |
-| `README.md` | Module overview with cross-references |
-| `AGENTS.md` | Agent guidelines for content generation |
+| `module.md` | 哲学的な観点から見た完全な講義内容 |
+| `questions.md` | 哲学的な焦点の学習問題20問 |
+| `practice_quiz.md` | 複数の選択肢形式のクイズ（7問） + フリーレスポンス3問 |
+| `lab.md` | 哲学的な議論、読解分析、および論文を含む思考実験ラボ |
+| `dashboard.html` | コンセプトカードとクイズを備えたインタラクティブなHTML5ダッシュボード |
+| `README.md` | モジュールの概要とクロス参照 |
+| `AGENTS.md` | このコースのためのエージェントガイドライン |
 
 ---
 
-## Prerequisites
+## 前提条件
 
-None (introductory course). This course is designed for complete beginners. No prior knowledge of mathematics, neuroscience, or programming is required.
+なし（入門コース）。このコースは、完全な初心者向けに設計されています。数学、神経科学、プログラミングに関する事前知識は必要ありません。
 
 ---
 
-## Key References
+## 主要な参照文献
 
 - Friston (2010) The free-energy principle: a unified brain theory?
 - Parr, Pezzulo, & Friston (2022) *Active Inference* (MIT Press)
@@ -56,41 +56,41 @@ None (introductory course). This course is designed for complete beginners. No p
 - Thompson (2007) *Mind in Life*
 - Varela, Thompson, & Rosch (1991) *The Embodied Mind*
 
-See [resources/references.md](../resources/references.md) for the complete reference list with 82 canonical citations.
+[リソース/参照文献](../resources/references.md) で、82個の主要な引用文献を確認してください。
 
 ---
 
-## Cross-References
+## クロス参照
 
-This course is part of a 4-course sequence. Each row below covers the same topic from a different angle:
+このコースは4つのコースの1つです。各行は異なる角度から同じトピックをカバーします：
 
-| Course | Perspective | Lab Type |
+| コース | 視点 | 実験タイプ |
 |--------|-------------|----------|
-| [Philosophy](../01_philosophy/) | Philosophical foundations | Thought Experiment |
-| [Cognitive Science](../02_cognitive_science/) | Neural and behavioral correlates | Case Study Analysis |
-| [Mathematics](../03_math/) | Formal derivation and proof | Derivation Exercise |
-| [Computer Science](../04_computer_science/) | Python implementation with pymdp | Coding Lab |
+| [哲学](../01_philosophy/) | 哲学的な基盤 | 思考実験 |
+| [認知科学](../02_cognitive_science/) | 神経科学的および行動的相関 | ケーススタディ分析 |
+| [数学](../03_math/) | 形式的な推論と証明 | 推論演習 |
+| [コンピュータサイエンス](../04_computer_science/) | pymdpを使用したPythonの実装 | コーディングラボ |
 
-See [resources/cross_course_map.md](../resources/cross_course_map.md) for the full cross-course navigation map with links to all 32 modules.
-
----
-
-## Shared Resources
-
-| Resource | Description |
-|----------|-------------|
-| [Notation Table](../resources/notation_table.md) | Canonical notation used across all courses |
-| [Glossary](../resources/glossary.md) | 50+ term definitions with per-course usage |
-| [References](../resources/references.md) | 82 canonical citations organized by topic |
-| [Cross-Course Map](../resources/cross_course_map.md) | Links to parallel modules in other courses |
+[リソース/コースマップ](../resources/cross_course_map.md) で、すべての32モジュールへのリンクを含む完全なコースマップを確認してください。
 
 ---
 
-## Documentation
+## 共有リソース
 
-| Document | Description |
+| リソース | 説明 |
 |----------|-------------|
-| [syllabus.md](./syllabus.md) | Full course syllabus with schedule, learning objectives, and assessment |
-| [AGENTS.md](./AGENTS.md) | Agent guidelines for this course |
-| [../README.md](../README.md) | Curriculum overview and learning pathway |
-| [../AGENTS.md](../AGENTS.md) | Curriculum-wide conventions and standards |
+| [記号表](../resources/notation_table.md) | すべてのコースで共通の記号 |
+| [用語集](../resources/glossary.md) | 50以上の用語定義と各コースでの使用状況 |
+| [参照文献](../resources/references.md) | トピックごとに整理された82個の主要引用文献 |
+| [コースマップ](../resources/cross_course_map.md) | 他のコースのすべてのモジュールへのリンクを含むコースマップ |
+
+---
+
+## ドキュメント
+
+| ドキュメント | 説明 |
+|----------|-------------|
+| [シラバス](./syllabus.md) | スケジュール、学習目標、および評価を含む完全なコースシラバス |
+| [エージェントガイドライン](./AGENTS.md) | このコースのためのエージェントガイドライン |
+| [../README.md](../README.md) | コース概要と学習パス |
+| [../AGENTS.md](../AGENTS.md) | コース全体での慣例および基準 |

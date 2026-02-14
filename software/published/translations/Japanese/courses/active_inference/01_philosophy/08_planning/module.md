@@ -24,15 +24,15 @@ This decomposition means that planning simultaneously serves two purposes: **ach
 
 How far into the future can an agent plan? This depends on the **temporal depth** of its generative model — how many future timesteps it can represent. Shallow models plan one step ahead; deep models plan many steps ahead, evaluating the consequences of their actions and even the consequences of consequences.
 
-**Sophisticated inference** extends this further: the agent considers not only what will happen but *what it will believe* after each action. It reasons counterfactually: "If I do X, I will observe Y, which will change my beliefs to Z, which will make action W optimal." This recursive self-modeling connects to Husserl's phenomenology of time — specifically his concepts of **retention** (holding the past in the present), **protention** (anticipating the near future), and the **living present** as the nexus of past and future.
+**Sophisticated inference** extends this further: the agent considers not only what will happen but *what it will believe* after each action. It reasons counterfactually: "If I do X, I will observe Y, which will change my beliefs to Z, which will make action W optimal." This recursive self-modeling connects to Husserl’s phenomenology of time — specifically his concepts of **retention** (holding the past in the present), **protention** (anticipating the near future), and the **living present** as the nexus of past and future.
 
 ### 3. Teleology, Purpose, and the Aristotelian Connection
 
 Aristotle distinguished four types of cause: material, efficient, formal, and **final** (telos — purpose). Modern science has largely abandoned final causes. But Active Inference reintroduces something that looks like teleology: the agent acts *as if* it has purposes, because its prior preferences (C vector) bias policy selection toward preferred outcomes.
 
-Is this genuine teleology or merely "as if" teleology? Philosophers are divided. The instrumentalist says the C vector is just a mathematical parameter — there are no real "purposes" in the physics. The realist says that if a system reliably selects actions to achieve preferred outcomes, it *is* purposive, regardless of whether the purpose exists "in the physics."
+Is this genuine teleology or merely “as if” teleology? Philosophers are divided. The instrumentalist says the C vector is just a mathematical parameter — there are no real “purposes” in the physics. The realist says that if a system reliably selects actions to achieve preferred outcomes, it *is* purposive, regardless of whether the purpose exists “in the physics.”
 
-This connects to Heidegger's concept of **Dasein** as inherently temporal and purposive — being-in-the-world is always being-toward (Sein-zum). For Heidegger, the future is not something that merely happens to us but something we project ourselves into.
+This connects to Heidegger’s concept of **Dasein** as inherently temporal and purposive — being-in-the-world is always being-toward (Sein-zum). For Heidegger, the future is not something that merely happens to us but something we project ourselves into.
 
 ## Applications
 

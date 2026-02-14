@@ -1,51 +1,51 @@
-# Practice Quiz: Systems
+# 練習クイズ：システム
 
-## Part A: Multiple Choice
+## Part A: 選択肢問題
 
-1. A Markov Blanket {s, a} separating internal states μ from external states η means:
-A) μ and η are statistically independent
-B) μ ⊥ η | {s, a} — internal and external states are conditionally independent given the blanket
-C) μ = η at all times
-D) s and a are constants
+1.  マルコフ・ブランケット {s, a} が内部状態 μ から外部状態 η を分離する意味は次のうちどれか？
+    A) μ と η は統計的に独立
+    B) μ ⊥ η | {s, a} — 内部状態と外部状態は、ブランケットを与えられた場合に条件付き独立
+    C) μ = η で常に成り立つ
+    D) s と a は定数
 
-2. The variational free energy F is:
-A) Always equal to surprise
-B) An upper bound on surprise: F ≥ -ln p(s)
-C) A lower bound on surprise: F ≤ -ln p(s)
-D) Undefined for continuous distributions
+2.  変分フリーエネルギー F は：
+    A) 常に驚き（surprise）に等しい
+    B) 驚きの上限：F ≥ -ln p(s)
+    C) 驚きの下限：F ≤ -ln p(s)
+    D) 連続分布に対して定義されない
 
-3. The decomposition F = D_KL[q(η) ‖ p(η|s)] - ln p(s) shows that minimizing F:
-A) Only minimizes the KL divergence
-B) Simultaneously minimizes the KL divergence (bringing q close to the posterior) and maximizes model evidence
-C) Maximizes surprise
-D) Has no effect on the recognition density q
+3.  F = D_KL[q(η) ‖ p(η|s)] - ln p(s) は、F を最小化することを示している。
+    A) KL divergence のみを最小化する
+    B) KL divergence を同時に最小化（q を事後分布に近づける）し、モデルの証拠を最大化する
+    C) 驚きを最大化する
+    D) 認識密度 q 上に影響を与えない
 
-4. The accuracy-complexity decomposition F = -E_q[ln p(s|η)] + D_KL[q(η) ‖ p(η)] shows that:
-A) Accuracy and complexity must both be maximized
-B) Good inference balances explaining the data (accuracy) with not deviating too far from priors (complexity)
-C) Only accuracy matters for inference
-D) Complexity is always zero
+4.  F = -E_q[ln p(s|η)] + D_KL[q(η) ‖ p(η)] は、次のことを示している：
+    A) 正確さと複雑さは両方とも最大化される必要がある
+    B) 良い推論は、データ（正確さ）を説明することと、事前分布から逸脱しすぎないことをバランスさせる
+    C) 推論においては、正確さのみが重要
+    D) 複雑さは常にゼロ
 
-5. In the Langevin equation dx/dt = f(x) + ω, the term ω represents:
-A) Deterministic dynamics
-B) Random fluctuations (Wiener process / Brownian noise)
-C) A control signal from the agent
-D) The Markov Blanket
+5.  ランジェビン方程式 dx/dt = f(x) + ω において、ω は次のうち何を表しているか？
+    A) 決定論的なダイナミクス
+    B) ランダムな変動（ウィーナー過程 / ブラウン運動）
+    C) エージェントからの制御信号
+    D) マルコフ・ブランケット
 
-6. The KL divergence D_KL[q ‖ p]:
-A) Can be negative
-B) Is always non-negative and equals zero only when q = p
-C) Is symmetric: D_KL[q ‖ p] = D_KL[p ‖ q]
-D) Measures the correlation between q and p
+6.  KL divergence D_KL[q ‖ p]:
+    A) 負になる可能性がある
+    B) 常に非負であり、q = p の場合にのみゼロになる
+    C) 対称である：D_KL[q ‖ p] = D_KL[p ‖ q]
+    D) q と p の間の相関を測定する
 
-7. At nonequilibrium steady state:
-A) All variables stop changing
-B) The probability density over states converges to a characteristic form p*(x) while individual states continue to fluctuate
-C) Free energy equals zero
-D) The system is in thermodynamic equilibrium
+7.  非平衡状態定常状態において：
+    A) すべての変数が停止して変化しなくなる
+    B) 状態の確率密度は、個々の状態が変動し続ける中で、特徴的な形 p*(x) に収束する
+    C) フリーエネルギーはゼロ
+    D) システムは熱力学的な平衡状態にある
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Derive the ELBO inequality in three steps: start from F = E_q[ln q(η) - ln p(η, s)], apply Bayes' rule to p(η, s), and use the non-negativity of KL divergence.
-2. For a Gaussian generative model p(η) = N(0, 1) and p(s|η) = N(η, 1), compute the optimal recognition density q*(η) after observing s = 2. What are the optimal mean and variance?
-3. Explain the physical interpretation of the Helmholtz decomposition of the flow field into solenoidal (curl-free) and dissipative components. Why does this matter for Active Inference?
+1.  ELBO 不等式を3つのステップで導出せよ：F = E_q[ln q(η) - ln p(η, s)] から始めて、ベイズの法則を適用し、KL divergence の非負性を使用する。
+2.  ガウス分布生成モデル p(η) = N(0, 1) および p(s|η) = N(η, 1) について、s = 2 を観測した後、最適な認識密度 q*(η) を計算せよ。最適な平均と分散はどれか？
+3.  ヘルムホルツ分解の物理的な解釈を説明し、流れ場をソノレンタル（カーレルフリー）および散逸成分に分解することについて述べてください。これはアクティブ・インファーレンスにとってなぜ重要ですか？

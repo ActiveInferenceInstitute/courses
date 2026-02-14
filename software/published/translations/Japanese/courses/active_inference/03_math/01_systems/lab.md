@@ -1,94 +1,94 @@
-# Lab: Derivation Exercise — Free Energy and Markov Blankets
+# Lab: Derivation Exercise — Free Energy とマルコフ層 (Markov Blanket)
 
-## Objective
+## 目的
 
-Derive the core mathematical results underlying Active Inference: the Markov Blanket partition, the variational free energy bound, and the decomposition of free energy into accuracy and complexity.
+アクティブインファーレンス (Active Inference) の基礎となる数学的な結果を導出する: マルコフ層分割、変分フリーエネルギー界限、フリーエネルギーを精度と複雑さの分解。
 
-## Part 1: Markov Blanket Derivation
+## Part 1: マルコフ層の導出
 
-**Goal**: Prove the conditional independence conditions from the graphical model.
+**目標**: グラフモデルから条件独立性の条件を証明する。
 
-Given a Bayesian network with four variable sets: internal (μ), external (η), sensory (s), active (a), where:
+以下の4つの変数セットを持つベイズネットワークが与えられたとき: 内部 (μ), 外部 (η), 感覚 (s), アクティブ (a), where:
 
-- η → s (external states cause sensory states)
-- μ → a (internal states cause active states)
-- s → μ (sensory states influence internal states)
-- a → s (active states influence sensory states)
+- η → s (外部状態が感覚状態を引き起こす)
+- μ → a (内部状態がアクティブ状態を引き起こす)
+- s → μ (感覚状態が内部状態に影響を与える)
+- a → s (アクティブ状態が感覚状態に影響を与える)
 
-**Derivation task**: Using the d-separation criterion, prove that μ ⊥ η | {s, a}.
+**導出タスク**: d-separationの基準を用いて、μ ⊥ η | {s, a} を証明する。
 
-Show all steps, starting from the graphical structure and applying the d-separation rules (blocking via conditioning on colliders vs. non-colliders).
+グラフ構造から開始し、d-separationのルール (コライダーに対する条件付けによる遮断と、コライダーでないものに対する遮断) を適用して、すべてのステップを示す。
 
 {fill:textarea}
 
-## Part 2: The Free Energy Bound
+## Part 2: フリーエネルギー界限
 
-**Goal**: Derive the ELBO inequality.
+**目標**: ELBO 不等式を導出する。
 
-Starting from:
+以下の式から開始する:
 
 F = E_q[ln q(η) - ln p(η, s)]
 
-**Step 1**: Expand p(η, s) = p(η|s) · p(s)
+**ステップ1**: p(η, s) = p(η|s) · p(s) を展開する。
 
-**Step 2**: Substitute and rearrange to obtain:
+**ステップ2**: 代入し、整理して次の式を得る:
 
 F = D_KL[q(η) ‖ p(η|s)] - ln p(s)
 
-**Step 3**: Since D_KL ≥ 0, conclude F ≥ -ln p(s)
+**ステップ3**: D_KL ≥ 0 であることから、F ≥ -ln p(s) を結論付ける。
 
-Write out each step of the derivation completely, showing all algebraic manipulations.
+各ステップの導出を完全に書き出し、すべての代数学的演算を示す。
 
 {fill:textarea}
 
-## Part 3: Accuracy-Complexity Decomposition
+## Part 3: 精度-複雑さの分解
 
-**Goal**: Derive the alternative decomposition of free energy.
+**目標**: フリーエネルギーの代替的な分解を導出する。
 
-Starting from F = E_q[ln q(η) - ln p(η, s)], show that:
+F = E_q[ln q(η) - ln p(η, s)] から、以下の式を示す:
 
 **F = -E_q[ln p(s|η)] + D_KL[q(η) ‖ p(η)]**
 
 where:
 
-- **-E_q[ln p(s|η)]** is the *negative accuracy* (expected negative log-likelihood)
-- **D_KL[q(η) ‖ p(η)]** is the *complexity* (divergence of posterior from prior)
+- **-E_q[ln p(s|η)]** は *負の精度* (期待される負の対数尤度)
+- **D_KL[q(η) ‖ p(η)]** は *複雑さ* (事後確率と事前確率のずれ)
 
-Explain why minimizing F requires balancing accuracy (explaining the data) with complexity (not deviating too far from priors).
+精度 (データの説明) と複雑さ (事前確率からの逸脱) のバランスを取る必要がある理由を説明する。
 
 {fill:textarea}
 
-## Part 4: Gaussian Example
+## Part 4: ガウス分布の例
 
-**Goal**: Compute free energy analytically for Gaussian distributions.
+**目標**: ガウス分布の場合にフリーエネルギーを解析的に計算する。
 
-Let the generative model be:
+生成モデルは以下の通りである:
 
 p(η) = N(η; μ₀, σ₀²)
 p(s|η) = N(s; η, σ_s²)
 
-And the recognition density be: q(η) = N(η; μ_q, σ_q²)
+そして認識密度は q(η) = N(η; μ_q, σ_q²)
 
-**Task**: Compute F = -E_q[ln p(s|η)] + D_KL[q(η) ‖ p(η)] analytically. Show all integrals.
+**タスク**: F = -E_q[ln p(s|η)] + D_KL[q(η) ‖ p(η)] を解析的に計算する。すべての積分を示す。
 
-Then find the optimal μ_q and σ_q by setting ∂F/∂μ_q = 0 and ∂F/∂σ_q = 0.
+その後、∂F/∂μ_q = 0 と ∂F/∂σ_q = 0 を設定して、最適な μ_q と σ_q を見つける。
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## Part 5: 合成
 
-**Goal**: Connect the mathematical results to the conceptual framework.
+**目標**: 数学的結果を概念的な枠組みに結びつける。
 
-In 200 words, explain how the three derivations (Markov Blanket, ELBO, accuracy-complexity) together establish the mathematical foundation of Active Inference: that a self-organizing system with a Markov Blanket can always be described as minimizing free energy, which entails approximate Bayesian inference.
+200語で、マルコフ層、ELBO、精度-複雑さの3つの導出が、アクティブインファーレンスの数学的基礎を確立する様子を説明する: 自己組織化システムがマルコフ層を持つ場合、フリーエネルギーを最小化することで常に近似的なベイズ推論が可能になる。
 
 {fill:textarea}
 
 ## Lab Summary
 
-| Part | Skill Developed | Mathematical Result |
+| Part | 開発されたスキル | 数学的結果 |
 |------|----------------|-------------------|
-| 1 | Graphical model reasoning | Markov Blanket conditional independence proof |
-| 2 | Variational calculus | ELBO derivation and bound proof |
-| 3 | Decomposition | Accuracy-complexity trade-off |
-| 4 | Analytic computation | Gaussian free energy optimization |
-| 5 | Mathematical-conceptual integration | Connecting derivations to Active Inference |
+| 1 | グラフモデルの推論 | マルコフ層の条件独立性証明 |
+| 2 | 変分計算 | ELBO の導出と界限の証明 |
+| 3 | 分解 | 精度と複雑さのトレードオフ |
+| 4 | 解析的計算 | ガウスフリーエネルギーの最適化 |
+| 5 | 数学的-概念的統合 | 導出をアクティブインファーレンスに結びつける |

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Market Sensing — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Market Sensing</h1>
+  <p class="subtitle">Perception in the Innovation Ecosystem</p>
+  <span class="tag">Section 4 &middot; Module 3</span>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="concepts">Concepts</div>
+  <div class="tab" data-tab="quiz">Quiz</div>
+  <div class="tab" data-tab="checklist">Checklist</div>
+  <div class="tab" data-tab="modules">Modules</div>
+</div>
+
+<div class="panel active" id="concepts">
+  <div class="concept-card"><h3>Market Research as Active Perception</h3><div class="desc"><p>Market research is not passive data collection but active sampling of the environment to test predictions. Each interview, survey, or experiment generates observations that confirm or disconfirm your model. The key shift: ask not "What do customers want?" but "Where was my prediction wrong?"</p><p><strong>Example:</strong> Steve Blank's Customer Development instructs entrepreneurs to test hypotheses through structured conversations — active perception in practice.</p></div><div class="meter"><div class="fill" style="width:90%"></div></div></div>
+  <div class="concept-card"><h3>Precision-Weighted Evidence</h3><div class="desc"><p>Different evidence sources carry different precision. Past behavior is high-precision evidence of actual decision-making. Stated intentions are low-precision evidence filtered through self-models. The "Mom Test" teaches asking about behavior rather than opinions, maximizing the precision of customer discovery evidence.</p><p><strong>Example:</strong> Toyota's "genchi genbutsu" — go and see for yourself — bypasses precision-degrading reporting hierarchies for direct observation.</p></div><div class="meter"><div class="fill" style="width:85%"></div></div></div>
+  <div class="concept-card"><h3>MVP as Sensory Organ</h3><div class="desc"><p>The Minimum Viable Product is not a product — it is a perception instrument. Its purpose is to generate the highest-precision evidence about whether your model of customer needs is accurate. Design MVPs for maximum evidence generation, not minimum development cost.</p><p><strong>Example:</strong> Dropbox's explainer video MVP tested demand before building the product — a pure sensing strategy that measured signup conversion as evidence of need.</p></div><div class="meter"><div class="fill" style="width:80%"></div></div></div>
+  <div class="concept-card"><h3>Competitive Intelligence as Model Inference</h3><div class="desc"><p>Competitor actions — product launches, hires, patents, pricing — are observable outputs of their internal generative models. By reverse-engineering what beliefs would produce those actions, you can infer their strategy and predict their next moves. Patents reveal technology predictions; hiring patterns reveal capability investments.</p><p><strong>Example:</strong> When Google started hiring automotive engineers, competitors could infer an autonomous vehicle investment before any official announcement.</p></div><div class="meter"><div class="fill" style="width:75%"></div></div></div>
+  <div class="concept-card"><h3>Regulatory Signal Detection</h3><div class="desc"><p>Regulatory changes emit signals with varying precision and lead time. Academic publications and policy proposals provide early, lower-precision signals. Draft regulations provide later, higher-precision signals. Companies that monitor the full signal hierarchy can anticipate regulatory shifts years in advance.</p><p><strong>Example:</strong> GDPR was predictable years before 2018 enforcement from EU data protection discourse, Snowden revelations, and early legislative drafts starting in 2012.</p></div><div class="meter"><div class="fill" style="width:70%"></div></div></div>
+  <div class="concept-card"><h3>Signal vs. Noise in Trends</h3><div class="desc"><p>Genuine trends increase model evidence for systematic change across multiple independent signal sources. Noise does not converge across sources. The smartphone revolution was presaged by converging signals in mobile internet adoption, component miniaturization, mobile content growth, and early Asian market adoption.</p><p><strong>Example:</strong> The Gartner Hype Cycle's "Trough of Disillusionment" often represents genuine trends undergoing posterior correction after overly precise initial hype.</p></div><div class="meter"><div class="fill" style="width:65%"></div></div></div>
+</div>
+
+<div class="panel" id="quiz">
+  <div class="quiz-box">
+    <h3 id="q-title">Question 1 of 7</h3>
+    <p id="q-text"></p>
+    <div id="q-opts"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" id="q-prev" onclick="prevQ()">Previous</button>
+      <span id="q-score" style="color:var(--muted);font-size:.85rem"></span>
+      <button class="quiz-btn" id="q-next" onclick="nextQ()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="checklist">
+  <h3 style="margin-bottom:.5rem">Learning Checklist</h3>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">Track your mastery of market sensing concepts.</p>
+  <div class="checklist" id="cl-list"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill" style="width:0%"></div></div>
+  <div class="cl-status" id="cl-status">0 of 5 complete</div>
+</div>
+
+<div class="panel" id="modules">
+  <h3 style="margin-bottom:.5rem">Section 4: Innovation Ecosystems</h3>
+  <div class="mod-grid">
+    <div class="mod-card"><div class="num">01</div><div class="name">The Innovation Ecosystem</div></div>
+    <div class="mod-card"><div class="num">02</div><div class="name">Stakeholders & Adopters</div></div>
+    <div class="mod-card current"><div class="num">03</div><div class="name">Market Sensing</div></div>
+    <div class="mod-card"><div class="num">04</div><div class="name">Strategic Thinking</div></div>
+    <div class="mod-card"><div class="num">05</div><div class="name">Launching & Scaling</div></div>
+    <div class="mod-card"><div class="num">06</div><div class="name">Organizational Learning</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">Innovation Communication</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">Long-Term Strategy</div></div>
+  </div>
+</div>
+
+<script>
+const tabs=document.querySelectorAll('.tab');const panels=document.querySelectorAll('.panel');
+tabs.forEach(t=>t.addEventListener('click',()=>{tabs.forEach(x=>x.classList.remove('active'));panels.forEach(x=>x.classList.remove('active'));t.classList.add('active');document.getElementById(t.dataset.tab).classList.add('active');}));
+document.querySelectorAll('.concept-card').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('open')));
+
+const quizData=[
+  {q:"In Active Inference, market research primarily functions as:",opts:["A way to validate what you already know about your market","Active perception — generating observations to test predictions from your generative model","A regulatory requirement for product launch","A tool for estimating total addressable market size"],correct:1,explain:"Market research in Active Inference is the process of actively sampling the environment to test the predictions your generative model makes about customer needs, competitive dynamics, and market conditions. The emphasis is on finding prediction errors, not confirming existing beliefs."},
+  {q:"The 'Mom Test' principle of asking about past behavior rather than future intentions works because:",opts:["Older people have more reliable memories","Past behavior reflects actual free energy minimization decisions, while stated intentions reflect potentially inaccurate self-models","Behavioral data is required for regulatory compliance","Past behavior is easier to quantify in spreadsheets"],correct:1,explain:"When someone describes their past behavior, they are reporting actual decisions made under real constraints — genuine free energy minimization. When they state future intentions, they are reporting their self-model's predictions, which may not account for the laziness, cost sensitivity, or inertia that influence actual behavior."},
+  {q:"A Minimum Viable Product (MVP) is best understood as:",opts:["The cheapest version of your product you can sell","A perception instrument designed to generate high-precision evidence about market hypotheses","An early prototype for investor demonstrations","A feature-limited product for budget-conscious customers"],correct:1,explain:"The MVP is fundamentally a sensing strategy. Its purpose is not to be sold but to generate evidence. Dropbox's famous MVP was just a video — it produced high-precision evidence about demand by measuring signup conversions, without building the actual product."},
+  {q:"When a competitor files a patent in a new technology area, this primarily reveals:",opts:["That they have already launched a product in that area","Their generative model's predictions about future technology and market demand","Their current revenue from that technology","That they are trying to block your invention specifically"],correct:1,explain:"Patent filings are expensive, long-term investments that reveal what a competitor's model predicts about future value. The technology described reflects their predictions about capabilities; the claims reflect their predictions about what will matter competitively. This makes patents high-precision signals of strategic intent."},
+  {q:"The failure of traditional market research to predict iPhone demand is explained by:",opts:["Market research firms used flawed methodologies","Customers cannot provide evidence about needs they have not yet experienced, so existing models lack the structure to predict novel categories","Steve Jobs deliberately misled market researchers","The iPhone was marketed only to Apple enthusiasts initially"],correct:1,explain:"Traditional market research asks customers to evaluate propositions within their existing generative model. But genuinely novel inventions create new categories that do not exist in the customer's model. Customers could not predict wanting a full touchscreen smartphone because their model of 'phone' did not include that possibility."},
+  {q:"Which signal type provides the earliest warning of regulatory change?",opts:["Final regulation published in official government registers","Academic publications analyzing governance implications of the technology","News articles about enforcement actions","Industry compliance announcements"],correct:1,explain:"Academic publications shape the conceptual frameworks that regulators eventually adopt. They typically appear years before formal regulatory proposals. While low in precision (not all academic ideas become regulation), they provide the longest lead time for strategic preparation."},
+  {q:"Signal-vs-noise discrimination in trend detection is best achieved by:",opts:["Trusting the judgment of recognized industry experts","Testing whether multiple independent signals converge on the same predictive model","Waiting until the trend is obvious and well-established","Following social media sentiment as the most current data source"],correct:1,explain:"A genuine trend produces converging signals across independent sources. When mobile internet adoption data, semiconductor miniaturization trends, content consumption patterns, and early-market adoption data all point to the same conclusion, the convergence provides high model evidence — much more reliable than any single signal or expert opinion."}
+];
+
+let currentQ=0,score=0,answered=Array(quizData.length).fill(false);
+function renderQ(){const q=quizData[currentQ];document.getElementById('q-title').textContent=`Question ${currentQ+1} of ${quizData.length}`;document.getElementById('q-text').textContent=q.q;const opts=document.getElementById('q-opts');opts.innerHTML='';q.opts.forEach((o,i)=>{const d=document.createElement('div');d.className='quiz-opt';d.textContent=String.fromCharCode(65+i)+') '+o;d.onclick=()=>selectOpt(i);opts.appendChild(d);});document.getElementById('q-explain').style.display='none';document.getElementById('q-explain').textContent=q.explain;document.getElementById('q-score').textContent=`Score: ${score}/${quizData.length}`;}
+function selectOpt(i){if(answered[currentQ])return;answered[currentQ]=true;const opts=document.querySelectorAll('#q-opts .quiz-opt');const correct=quizData[currentQ].correct;if(i===correct){score++;opts[i].classList.add('correct');}else{opts[i].classList.add('wrong');opts[correct].classList.add('correct');}document.getElementById('q-explain').style.display='block';document.getElementById('q-score').textContent=`Score: ${score}/${quizData.length}`;}
+function nextQ(){if(currentQ<quizData.length-1){currentQ++;renderQ();}}
+function prevQ(){if(currentQ>0){currentQ--;renderQ();}}
+renderQ();
+
+const clItems=["I can design prediction-first market research using Active Inference","I can structure customer discovery conversations for maximum precision","I can infer competitor models from observable competitive actions","I can detect regulatory shifts by monitoring multi-level signal hierarchies","I can distinguish genuine trends from noise using signal convergence"];
+const clKey='s4m3_checklist';let clState=JSON.parse(localStorage.getItem(clKey)||'[]');if(clState.length!==clItems.length)clState=Array(clItems.length).fill(false);
+function renderCL(){const list=document.getElementById('cl-list');list.innerHTML='';clItems.forEach((item,i)=>{const d=document.createElement('div');d.className='cl-item';d.innerHTML=`<input type="checkbox" ${clState[i]?'checked':''} onchange="toggleCL(${i})"><span>${item}</span>`;list.appendChild(d);});const done=clState.filter(Boolean).length;document.getElementById('cl-fill').style.width=(done/clItems.length*100)+'%';document.getElementById('cl-status').textContent=`${done} of ${clItems.length} complete`;}
+function toggleCL(i){clState[i]=!clState[i];localStorage.setItem(clKey,JSON.stringify(clState));renderCL();}
+renderCL();
+</script>
+</body>
+</html>

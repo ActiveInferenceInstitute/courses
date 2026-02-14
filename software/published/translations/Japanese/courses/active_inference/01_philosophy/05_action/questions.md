@@ -1,22 +1,22 @@
-# Study Questions: Action
+# 考察問題：行動
 
-1. How does Active Inference dissolve the traditional separation between perception and action?
-2. Explain the concept of action as "self-fulfilling prophecy." How does proprioceptive prediction drive movement?
-3. Compare the classical computational model of motor control (goal → plan → command) with the Active Inference model (prediction → error → movement).
-4. What are affordances (Gibson), and how does Active Inference formalize them?
-5. Explain the Expected Free Energy (EFE) decomposition into pragmatic value (risk) and epistemic value (ambiguity). Give a concrete example.
-6. How does the concept of epistemic action (exploring to reduce uncertainty) relate to scientific inquiry?
-7. Evaluate the claim: "Curiosity is the drive to minimize expected ambiguity." Is this reductive, or does it capture something genuine?
-8. How does Active Inference relate to Frankfurt's hierarchical account of free will?
-9. Is the Active Inference account of action compatibilist, libertarian, or hard determinist? Defend your classification.
-10. How does Dreyfus's phenomenology of skill (from "novice" to "expert") map onto the Active Inference framework?
-11. What does Friston mean by "I don't move my arm because I want to; I move my arm because I predict I will"?
-12. How does pragmatist philosophy (Dewey's organism-environment transaction) relate to action as inference?
-13. If all action is prediction error minimization, how do we distinguish between intentional and reflexive action?
-14. What role does the C vector (prior preferences) play in action selection? How does this relate to the concept of motivation?
-15. How does Active Inference explain the phenomenon of "motor imagery" — imagining an action without performing it?
-16. Compare Active Inference's account of exploration (epistemic action) with Berlyne's concept of "epistemic curiosity."
-17. Can an agent perform an action it did not predict? What would this imply for the framework?
-18. How does the concept of "active inference" relate to the philosophical concept of *praxis* (Aristotle)?
-19. If action is inference, does a sleeping person who tosses and turns act? Where is the line?
-20. Construct a philosophical argument: Does Active Inference's account of action leave room for moral responsibility, or does it undermine it?
+1.  アクティブ・インファーレンスは、従来の知覚と行動の分離をどのように解消するのか？
+2.  「自己実現予言」という概念で行動を説明してください。プロプリオセプティブな予測が運動をどのように駆動するのか？
+3.  運動制御の古典的な計算モデル（目標 → 計画 → 命令）を、アクティブ・インファーレンスモデル（予測 → 誤差 → 運動）と比較してください。
+4.  ギブソンの「 affordances（機能） 」とは何か、アクティブ・インファーレンスはそれをどのように形式化するのか？
+5.  「期待される自由エネルギー (EFE)」を、実用的な価値（リスク）と認識的な価値（不確実性）に分解して説明してください。具体的な例を挙げてください。
+6.  認識的な行動（不確実性を軽減するための探求）の概念が、科学的探求とどのように関連しているのか？
+7.  以下の主張を評価してください：「好奇心は、期待される不確実性を最小限に抑えるための動機である。」これは還元的なものか、それとも真実を捉えているのか？
+8.  アクティブ・インファーレンスは、フランクフルトの自由意志に関する階層的な説明とどのように関連しているのか？
+9.  アクティブ・インファーレンスの行動の説明は、構成主義、自由意志論、またはハード決定論に該当するのか？あなたの分類を弁明してください。
+10. ドレーフスが「初心～熟練」のスキルに関する現象学（「初心者」から「熟練」まで）をアクティブ・インファーレンスフレームワークにどのようにマッピングしているのか？
+11. フリストンは、「私は自分の腕を動かさずに腕を動かすのは、私が望んでいるからではなく、私が動かすと予測するためだ」とはどういう意味なのか？
+12. デューイの生物-環境取引（実用主義）という概念が、インファーレンスとしての行動とどのように関連しているのか？
+13. 全ての行動が予測誤差の最小化である場合、意図的な行動と反射的な行動をどのように区別するのか？
+14. Cベクター（事前好み）は、行動選択においてどのような役割を果たすのか？これはモチベーションの概念とどのように関連しているのか？
+15. アクティブ・インファーレンスは、「運動イメージング」という現象をどのように説明するのか——実行せずにアクションを想像すること。
+16. アクティブ・インファーレンスの探求（認識的な行動）の説明を、ベルリーネの「認識的な好奇心」という概念と比較してください。
+17. エージェントは、予測しなかった行動を実行することができるか？これはフレームワークに何を意味するのか？
+18. 「アクティブ・インファーレンス」という概念は、アリストテレスの哲学概念である *praxis（実践）* とどのように関連しているのか？
+19. 行動がインファーレンスである場合、寝ていて体を左右に動かす人が行動しているのか？どこが境界線なのか？
+20. 以下の哲学的な議論を構築してください：アクティブ・インファーレンスの行動の説明は、道徳的責任の余地を残すのか、それともそれを損なうのか？

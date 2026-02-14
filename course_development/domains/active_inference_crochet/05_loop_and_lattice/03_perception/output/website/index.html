@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_Perception - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>03_Perception</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>03_Perception</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 03: Reading Curvature in the Fabric</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Explain how crocheters perceive <strong>topological features</strong> — curvature, twist, and connectivity — through tactile and visual feedback, and relate this to feature detection in neural networks.</li>
+<li>Describe how <strong>hierarchical feature extraction</strong> works in both crochet perception and convolutional neural networks, from raw signals to high-level structure.</li>
+<li>Identify <strong>topological prediction error</strong> — the felt sense that fabric is not lying correctly — as the Active Inference surprise signal that drives correction in both crafting and network learning.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Run your fingers across a piece of crocheted fabric. Even with your eyes closed, you can tell something about its shape. Is it flat? Does it cup inward like a bowl? Does it ruffle and wave at the edges like a lettuce leaf? Your fingertips are reading topology.</p>
+<p>This is not a poetic metaphor. Topology is the branch of mathematics concerned with properties of space that are preserved under continuous deformation — stretching, bending, and twisting, but not cutting or gluing. When you feel a crocheted circle that cups into a dome, you are detecting positive Gaussian curvature. When you feel a hyperbolic plane that ruffles endlessly, you are detecting negative Gaussian curvature. When you feel a flat dishcloth, you are detecting zero curvature. Your fingers are topological sensors, and they have been trained by every piece of fabric you have ever touched.</p>
+<p>This is also what neural networks do when they process images. A convolutional neural network (CNN) does not see a photograph the way you see it. It detects features: edges, textures, curves, and shapes, building from simple to complex through successive layers. Each layer extracts more abstract features from the layer below. The first layer might detect an edge. The next detects a corner. The next detects a curve. Eventually, the network recognizes a face, a cat, or a crocheted granny square.</p>
+<p>In this module, we bring these two forms of perception together. The crocheter's hands and the neural network's layers are both doing the same fundamental work: extracting features from a structured signal to build a model of what is there. Active Inference frames this as perceptual inference — the process of updating an internal generative model to best explain incoming sensory data. When the model's predictions match the data, free energy is low and the crocheter proceeds confidently. When they do not — when the fabric cups when it should lie flat — the crocheter experiences a topological prediction error, and something must change.</p>
+<h2>Key Concepts</h2>
+<h3>1. Tactile Topology: Feeling Curvature</h3>
+<p>Pick up a crocheted circle. If you started with a magic ring and increased at the standard rate — six stitches per round in single crochet — the circle should lie flat. This flat circle has zero Gaussian curvature. Every point on the surface is locally like a plane. Your fingers confirm this: the fabric rests evenly against a table, no bunching, no gaps.</p>
+<p>Now pick up a circle where you increased too slowly — perhaps four stitches per round instead of six. This piece cups. It does not want to lie flat. It curves up into a bowl, or if you push it, it flips into a dome. This is positive Gaussian curvature. Mathematically, the surface has less area than a flat plane would have at the same radius. There are not enough stitches to fill the space, so the fabric curves inward, like the surface of a sphere. Your fingers feel this as resistance when you press down — the fabric pushes back, wanting to return to its curved shape.</p>
+<p>Now pick up a circle where you increased too quickly — eight or nine stitches per round. This piece ruffles. It waves and folds, and no matter how you press it flat, it springs back into undulating curves. This is negative Gaussian curvature. The surface has more area than a flat plane at the same radius. There are too many stitches, and they have nowhere to go except into ruffles and saddle shapes. This is the same geometry as a hyperbolic plane, and the mathematician Daina Taimina famously used crochet to create the first tactile models of hyperbolic space. Your fingers feel this as excess — the fabric bunches, overlaps itself, and refuses to be pinned down.</p>
+<p>Here is the remarkable thing: you do not need to count stitches or do any math to perceive these curvature differences. You feel them. The flat circle feels stable and calm under your hands. The positive-curvature dome feels springy and resistant. The negative-curvature ruffle feels busy and excessive. Your tactile system is computing Gaussian curvature without a single equation.</p>
+<p>A convolutional neural network performs an analogous operation when it processes an image. The first convolutional layer applies small filters (kernels) to the raw pixel values. Some of these filters detect horizontal edges. Others detect vertical edges. Others detect diagonal transitions. These are the network's equivalent of your fingertips sensing local texture — the immediate, point-by-point assessment of what is happening in the signal.</p>
+<p>In the next layer, the network combines edge detections into curves and corners. This is like the crocheter moving from sensing a single stitch to sensing the flow of a row — is the row curving inward, bending outward, or running straight? The network builds curves from edges just as the crocheter builds row-level perception from stitch-level sensation.</p>
+<p>The parallel runs deeper than analogy. Both systems are performing local-to-global feature extraction: starting with small, local measurements and building toward a global understanding of shape. The CNN kernel slides across the image the way your fingertip slides across the fabric, sampling local features everywhere and building a map of the whole.</p>
+<h3>2. Perception as Feature Extraction</h3>
+<p>Let us formalize the hierarchy. In a convolutional neural network processing an image, the layers typically detect features at increasing levels of abstraction:</p>
+<ul>
+<li><strong>Layer 1</strong>: Edges — simple transitions between light and dark.</li>
+<li><strong>Layer 2</strong>: Textures — repeated patterns of edges, like stripes or dots.</li>
+<li><strong>Layer 3</strong>: Parts — combinations of textures that form recognizable components, like an eye or a wheel.</li>
+<li><strong>Layer 4</strong>: Objects — assemblies of parts into coherent wholes, like a face or a car.</li>
+</ul>
+<p>In crochet perception, the crocheter detects features at an analogous hierarchy:</p>
+<ul>
+<li><strong>Level 1: Single stitch</strong> — Is this stitch tight or loose? Was it worked correctly? Does the tension feel right? This is the raw sensory signal, the equivalent of an individual pixel or a single edge detection.</li>
+<li><strong>Level 2: Row or round</strong> — Is the gauge consistent? Is the row curving? Is the stitch count correct? This combines stitch-level signals into a row-level assessment, like combining edges into textures.</li>
+<li><strong>Level 3: Section curvature</strong> — Is this part of the fabric flat, cupping, or ruffling? Is the shaping working as intended? This is the crocheter perceiving the geometry of a region, like a CNN detecting a part within an image.</li>
+<li><strong>Level 4: Overall shape</strong> — Does this look like a hat? A blanket? A sleeve? Is the finished form emerging correctly from the accumulated rows? This is object-level perception, the global assessment of what the fabric is becoming.</li>
+</ul>
+<p>An experienced crocheter monitors all four levels simultaneously, though not always consciously. While working a single stitch, they feel the tension (Level 1), notice whether the row is tracking correctly (Level 2), sense whether the shaping is producing the right curvature (Level 3), and hold a mental image of the finished object against which they compare the current state (Level 4). This is hierarchical perception, and it operates continuously throughout the crafting process.</p>
+<p>The key insight from Active Inference is that this hierarchy is not just bottom-up. It is not the case that the crocheter passively gathers stitch-level data and then assembles it into a global picture. Instead, the generative model works top-down as well: the crocheter's belief about what the finished object should look like generates predictions about what the current section's curvature should be, which generates predictions about what this row's gauge should be, which generates predictions about what this stitch's tension should feel like.</p>
+<p>When the bottom-up sensation matches the top-down prediction, perception is smooth and effortless. The crocheter flows. When they do not match — when the stitch feels wrong, or the row is curving unexpectedly, or the fabric is cupping when it should be flat — prediction errors propagate up the hierarchy, and the crocheter pauses to investigate.</p>
+<p>This bidirectional flow — top-down predictions meeting bottom-up sensations — is exactly how modern neural networks with feedback connections operate. And it is the core architecture of Active Inference: a generative model predicting sensory input at every level of the hierarchy, with mismatches driving learning and correction.</p>
+<h3>3. Prediction Error as Topological Mismatch</h3>
+<p>In Active Inference, a prediction error is the difference between what the generative model expects and what the senses actually report. For the crocheter working with topological features, prediction error often takes a very specific and visceral form: the fabric does not lie the way it should.</p>
+<p>You are crocheting a flat circle. You have been increasing correctly, six stitches per round, and the piece has been lying beautifully flat. But in the last round, you miscounted and added only four increases instead of six. You may not realize the mistake cognitively — you have not counted. But you will feel it. The edge of the circle starts to pull inward. The fabric does not sit flat on the table anymore. It has begun to cup. Your fingers feel the tension change, and your eyes see the edge lifting. Something is wrong.</p>
+<p>That feeling — "this doesn't look right," "this doesn't feel right" — is topological prediction error. Your generative model predicted a flat surface (zero Gaussian curvature), and the sensory evidence reports a curved surface (positive Gaussian curvature). The mismatch between prediction and observation generates surprise in the technical Active Inference sense: the observation is unlikely given the model.</p>
+<p>This prediction error is precisely analogous to the loss signal in a neural network. During training, a neural network generates a prediction (this image is a cat), compares it to the true label (it is actually a dog), and the difference between prediction and reality is the loss. The loss signal tells the network that its internal model is wrong and drives weight updates to improve future predictions. In crochet, the topological prediction error tells the crocheter that something about the stitch count or shaping is wrong, and drives the correction: frogging back, adding increases, or adjusting tension.</p>
+<p>What is striking is how different crafters respond to the same prediction error. A beginner crocheter, working a flat circle that has begun to cup, might not notice at all — their generative model does not yet generate precise predictions about curvature. They are still working at Level 1 (individual stitch tension) and have not yet developed strong Level 3 (section curvature) perception. An intermediate crocheter notices the cupping and thinks, "I need to add more increases." An expert crocheter feels the cupping beginning to emerge mid-round and adjusts before it becomes visible. The expert's generative model generates predictions with such fine temporal and spatial resolution that errors are caught almost as they happen.</p>
+<p>This is exactly the difference between a poorly trained and a well-trained neural network. A network with few training epochs generates blurry, imprecise predictions. It cannot distinguish between similar categories. A network trained extensively generates sharp, confident predictions and catches subtle mismatches. The crocheter's experience is training data, and every project refines the model.</p>
+<h2>Applications</h2>
+<p>The relationship between topological perception and prediction error shows up throughout crochet practice:</p>
+<ul>
+<li>
+<p><strong>Blocking as Topological Correction</strong>: When you wet-block a finished piece — soaking it, pinning it to a blocking mat, and letting it dry — you are performing topological correction by hand. You are literally reshaping the fabric's curvature. The pins hold the fabric in the predicted shape while the water relaxes the yarn into compliance. Blocking is the crocheter's answer to a persistent topological prediction error: "this should lie flat, and I am going to make it lie flat." It is the physical equivalent of a neural network's gradient descent — iteratively adjusting the surface until the error is minimized.</p>
+</li>
+<li>
+<p><strong>Reading the Work vs. Reading the Pattern</strong>: There are two ways to crochet: following the written pattern stitch by stitch, or reading the work itself and letting the fabric tell you what it needs. The first approach is like running a feedforward network — input goes in, output comes out, no feedback. The second is like Active Inference — the crocheter's generative model predicts what the fabric should look like, compares that to what it actually looks like, and adjusts. Experienced crocheters do both, but they increasingly rely on reading the work. They can look at a half-finished shawl and see that the next section needs more increases to maintain the right drape, even if the pattern does not specify the exact number. They are perceiving topological features and generating corrections in real time.</p>
+</li>
+<li>
+<p><strong>Experienced Crocheters "Seeing" Errors That Beginners Miss</strong>: Walk through a yarn shop with an experienced crocheter and they will spot a dropped stitch in a display sample from across the room. Show them a finished blanket and they will tell you where the gauge changed, where a wrong stitch was used, and where the blocking was uneven. Their visual system has been trained — like a deep neural network — to extract features at every level of the hierarchy. They see stitches, rows, sections, and shapes simultaneously. Beginners see yarn.</p>
+</li>
+</ul>
+<h2>Conclusion</h2>
+<p>Your fingers are topological sensors. Your eyes are curvature detectors. Every time you pick up a piece of crocheted fabric and assess whether it lies flat, cups, twists, or ruffles, you are performing topological feature extraction — the same fundamental operation that convolutional neural networks perform when they process images, and the same perceptual inference that Active Inference describes as the core of all cognition.</p>
+<p>The hierarchy of crochet perception — stitch, row, section, shape — mirrors the hierarchy of feature detection in neural networks — edge, texture, part, object. And the crocheter's felt sense that something is wrong with the fabric's topology is prediction error: the surprise signal that drives correction, learning, and mastery.</p>
+<p>In the next module, we move inward, from perception to cognition. If perception is about detecting what is there in the fabric, cognition is about understanding what it means — building the internal model that connects individual stitches to finished objects, and holding multiple layers of representation in the mind simultaneously.</p>
+<h2>Key Terms</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gaussian curvature</strong></td>
+<td>A measure of the intrinsic curvature of a surface at a point. Positive curvature creates domes and bowls; negative curvature creates saddles and ruffles; zero curvature means the surface is locally flat.</td>
+</tr>
+<tr>
+<td><strong>Topological feature</strong></td>
+<td>A property of a surface (such as curvature, connectedness, or number of holes) that is preserved under continuous deformation.</td>
+</tr>
+<tr>
+<td><strong>Convolutional neural network (CNN)</strong></td>
+<td>A type of neural network that uses small, sliding filters (kernels) to detect local features in data, building from simple to complex features through successive layers.</td>
+</tr>
+<tr>
+<td><strong>Feature extraction</strong></td>
+<td>The process of detecting meaningful patterns in raw data. In CNNs, this happens through convolutional layers. In crochet, it happens through tactile and visual sensing.</td>
+</tr>
+<tr>
+<td><strong>Hierarchical perception</strong></td>
+<td>Perceiving at multiple levels of abstraction simultaneously — from fine details (stitches) to global structure (shape).</td>
+</tr>
+<tr>
+<td><strong>Prediction error</strong></td>
+<td>The difference between what the generative model predicts and what the senses actually report. In crochet topology, this is the felt mismatch between expected and actual curvature.</td>
+</tr>
+<tr>
+<td><strong>Topological prediction error</strong></td>
+<td>A prediction error specifically about the shape or curvature of the fabric — e.g., cupping when flat was expected, or ruffling when a dome was intended.</td>
+</tr>
+<tr>
+<td><strong>Blocking</strong></td>
+<td>The process of wetting and pinning finished crochet fabric to reshape its curvature. A form of topological correction.</td>
+</tr>
+<tr>
+<td><strong>Generative model</strong></td>
+<td>In Active Inference, the internal model that generates predictions about sensory input. The crocheter's generative model predicts what the fabric should look like, feel like, and behave like at every stage.</td>
+</tr>
+<tr>
+<td><strong>Precision</strong></td>
+<td>The confidence or reliability assigned to a prediction or a sensory signal. High-precision predictions are trusted more and generate larger prediction errors when violated.</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Feeling Topology</h1>
+<h2>Objective</h2>
+<p>Explore how crocheters perceive topological features — curvature, flatness, and shape — through touch alone. By working blindfolded with pre-made curvature samples, you will experience your own hands as topological sensors and compare tactile feature extraction to visual feature extraction. This lab connects the crocheter's embodied perception to how convolutional neural networks detect features in images.</p>
+<h2>Materials</h2>
+<ul>
+<li>Three pre-crocheted curvature samples (see Preparation below)</li>
+<li>Crochet hook, size H/8 (5.0mm)</li>
+<li>Worsted weight yarn in any color</li>
+<li>Blindfold or sleep mask</li>
+<li>Blank paper and colored pencils or markers (at least 3 colors)</li>
+<li>Flat surface (table or blocking mat)</li>
+<li>A partner or crochet circle companions (recommended)</li>
+<li>Curvature Log sheet (template below)</li>
+<li>Pins (for the curvature mapping exercise)</li>
+</ul>
+<h2>Preparation (Before the Lab Session — 30 minutes)</h2>
+<p>Prepare three curvature samples in advance. Each is a small circle worked in single crochet, in the round, starting with a magic ring. Use the same yarn and hook for all three so that the only variable is curvature.</p>
+<p><strong>Sample A — Flat (Zero Curvature)</strong>
+- Round 1: 6 sc into magic ring (6)
+- Round 2: 2 sc in each st around (12)
+- Round 3: <em>sc, 2 sc in next st</em> around (18)
+- Round 4: <em>sc in next 2 sts, 2 sc in next st</em> around (24)
+- Round 5: <em>sc in next 3 sts, 2 sc in next st</em> around (30)
+- Round 6: <em>sc in next 4 sts, 2 sc in next st</em> around (36)
+- Fasten off. This circle should lie perfectly flat.</p>
+<p><strong>Sample B — Positive Curvature (Dome/Cup)</strong>
+- Round 1: 6 sc into magic ring (6)
+- Round 2: 2 sc in each st around (12)
+- Round 3: <em>sc, 2 sc in next st</em> around (18)
+- Round 4: sc in each st around (18) — no increases
+- Round 5: <em>sc in next 2 sts, 2 sc in next st</em> around (24)
+- Round 6: sc in each st around (24) — no increases
+- Fasten off. This piece should cup into a dome or bowl shape.</p>
+<p><strong>Sample C — Negative Curvature (Ruffle/Hyperbolic)</strong>
+- Round 1: 6 sc into magic ring (6)
+- Round 2: 2 sc in each st around (12)
+- Round 3: 2 sc in each st around (24)
+- Round 4: <em>sc, 2 sc in next st</em> around (36)
+- Round 5: <em>sc, 2 sc in next st</em> around (54)
+- Fasten off. This piece should ruffle dramatically — it has far too many stitches for its radius.</p>
+<p>Label each sample on the back with a small tag (A, B, C) that participants will not feel during the blind test.</p>
+<h2>Curvature Log Template</h2>
+<table>
+<thead>
+<tr>
+<th>Trial</th>
+<th>Sample</th>
+<th>Tactile Observations</th>
+<th>My Guess (Flat / Dome / Ruffle)</th>
+<th>Actual</th>
+<th>Correct?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>?</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>?</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>?</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>Steps</h2>
+<h3>Part 1: Blindfolded Topology Detection (20 minutes)</h3>
+<ol>
+<li>A partner shuffles the three samples and places them in random order in front of you.</li>
+<li>Put on the blindfold. Take a breath. Let your hands become your primary sensors.</li>
+<li>Pick up the first sample. Explore it with both hands. Notice:</li>
+<li>Does it lie flat on the table, or does it resist flatness?</li>
+<li>When you press it flat, does it spring back? In which direction?</li>
+<li>Does it feel like it has "extra" fabric, or "not enough"?</li>
+<li>Can you feel the edge behavior — does the edge lie still, or does it wave?</li>
+<li>In your Curvature Log, record your tactile observations and your guess: Flat, Dome (positive curvature), or Ruffle (negative curvature).</li>
+<li>Set it aside and repeat for the second and third samples.</li>
+<li>Remove your blindfold. Check your guesses against the labels. Record your accuracy.</li>
+</ol>
+<p><strong>Discussion pause</strong>: In your circle, share your results. What tactile cues were most diagnostic? Did anyone get one wrong? Which curvature was easiest to identify by touch? Which was hardest?</p>
+<h3>Part 2: Visual Topology Detection (10 minutes)</h3>
+<ol>
+<li>Now examine all three samples visually, side by side on a flat surface.</li>
+<li>For each sample, observe:</li>
+<li>How does it sit on the table? Flat, cupping up, or ruffling?</li>
+<li>Look at the edge: straight, pulling in, or waving?</li>
+<li>Look at the center: does it rise, sink, or stay level?</li>
+<li>In your notes, describe the visual features that tell you about the curvature. Compare these to the tactile features you used while blindfolded.</li>
+</ol>
+<p><strong>Discussion pause</strong>: Which was faster — identifying curvature by touch or by sight? Which gave you more information? Which gave you different information?</p>
+<h3>Part 3: Drawing Curvature Maps (20 minutes)</h3>
+<ol>
+<li>Take a blank sheet of paper for each sample. Place the sample on the paper and trace its outline (approximately — it does not need to be perfect).</li>
+<li>Using colored pencils, create a curvature map for each sample:<ul>
+<li><strong>Blue</strong> = areas of zero curvature (flat regions)</li>
+<li><strong>Red</strong> = areas of positive curvature (cupping, doming)</li>
+<li><strong>Green</strong> = areas of negative curvature (ruffling, waving)</li>
+</ul>
+</li>
+<li>Color in your traced outline to show where each type of curvature occurs. For the flat sample, it should be mostly blue. For the dome, the center will be red. For the ruffle, the edges will be green with increasingly intense ruffling toward the outside.</li>
+<li>Add arrows showing the direction of curvature — does the fabric curve up, down, or wave side to side?</li>
+<li>Label each map with the stitch count per round and note how the increase rate creates the curvature.</li>
+</ol>
+<h3>Part 4: Connecting to Neural Networks (15 minutes)</h3>
+<ol>
+<li>Look at your three curvature maps. You have just performed manual feature extraction — detecting and classifying curvature features in a physical surface.</li>
+<li>Now consider: if a CNN were trained on photographs of crocheted circles, what features would it need to detect to classify curvature type?<ul>
+<li><strong>Layer 1 features</strong>: Individual stitch texture, light and shadow patterns</li>
+<li><strong>Layer 2 features</strong>: Row-level patterns, gauge consistency</li>
+<li><strong>Layer 3 features</strong>: Edge behavior (straight, pulling, waving), surface behavior (flat, rising, folding)</li>
+<li><strong>Layer 4 features</strong>: Overall shape classification (flat circle, dome, hyperbolic surface)</li>
+</ul>
+</li>
+<li>On a new sheet of paper, draw a simple diagram of a four-layer neural network. Label each layer with both the CNN features (edges, textures, parts, objects) and the crochet perception features (stitch, row, section, shape). Draw arrows showing how information flows from raw input to final classification.</li>
+<li>Mark where prediction errors would occur in each layer if the network (or the crocheter) encountered an unexpected curvature.</li>
+</ol>
+<h3>Part 5: Reflection and Group Discussion (10 minutes)</h3>
+<ol>
+<li>Review your Curvature Log, curvature maps, and network diagram. Reflect on the following:<ul>
+<li>What surprised you about how much (or how little) you could perceive through touch alone?</li>
+<li>Did the visual examination reveal anything that touch missed, or vice versa?</li>
+<li>How does the hierarchical structure of your crochet perception compare to the layered structure of a neural network?</li>
+</ul>
+</li>
+<li>Share one insight with your crochet circle.</li>
+</ol>
+<h2>Discussion Questions</h2>
+<ul>
+<li>When you felt the ruffling sample blindfolded, could you tell that it had negative curvature, or did you just know it was "not flat"? What is the difference between detecting that something is wrong and knowing what kind of wrong it is?</li>
+<li>Daina Taimina used crochet to make hyperbolic geometry tangible for mathematicians. After this lab, do you understand hyperbolic curvature better through touch than through equations? What does this tell you about the role of embodied perception in understanding abstract concepts?</li>
+<li>In your curvature maps, was the curvature uniform across each sample, or did it vary from center to edge? What does this tell you about how increase rate affects local versus global curvature?</li>
+<li>If you were designing a "curvature sensor" for a robot that needed to assess crocheted fabric, what tactile measurements would you program it to take? How would you organize those measurements into a hierarchical feature extractor?</li>
+</ul>
+<h2>Wrap-Up</h2>
+<p>You have used your hands as topological instruments, detecting Gaussian curvature through touch before confirming it with vision. You have drawn curvature maps that visualize the geometry embedded in yarn, and you have connected your perceptual experience to the layered feature extraction of convolutional neural networks. Keep your three curvature samples and your maps — they will serve as reference objects in upcoming modules.</p>
+<p><strong>Estimated Total Time</strong>: 75 minutes (plus 30 minutes preparation for samples)</p></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Perception — Reading Curvature in the Fabric</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>A crocheted circle that cups into a bowl shape has:
+A) Zero Gaussian curvature — it is flat
+B) Negative Gaussian curvature — it has too many stitches
+C) Positive Gaussian curvature — it has too few stitches for its radius
+D) No curvature — it simply needs blocking</p>
+</li>
+<li>
+<p>In a convolutional neural network, the first layer typically detects:
+A) Complete objects like faces or animals
+B) Simple local features like edges and transitions
+C) The overall meaning of the image
+D) Only color information, ignoring shape</p>
+</li>
+<li>
+<p>The crocheter's four-level perceptual hierarchy (stitch, row, section, shape) is best compared to:
+A) A single-layer neural network with no hidden layers
+B) The hierarchical feature extraction in a deep convolutional neural network
+C) A lookup table with no processing
+D) Random noise that carries no information</p>
+</li>
+<li>
+<p>When a crocheter feels that a fabric is ruffling when it should lie flat, this is an example of:
+A) A well-matched prediction — everything is as expected
+B) Topological prediction error — the sensory evidence contradicts the generative model's curvature prediction
+C) The absence of any generative model
+D) Zero free energy in the system</p>
+</li>
+<li>
+<p>In Active Inference, top-down predictions in crochet perception means that:
+A) The crocheter only processes sensory data from the bottom up, never making predictions
+B) The crocheter's belief about the finished object shapes what they expect to feel and see at each stitch
+C) Predictions only flow from stitches to rows, never from the overall shape downward
+D) Top-down means looking at the project from above rather than from the side</p>
+</li>
+<li>
+<p>Blocking a finished crochet piece is analogous to:
+A) Deleting the neural network and starting over
+B) Gradient descent — iteratively adjusting the surface to minimize the difference between actual and target shape
+C) Increasing the learning rate to infinity
+D) Ignoring all prediction errors</p>
+</li>
+<li>
+<p>An experienced crocheter spots a curvature error that a beginner misses because:
+A) The experienced crocheter has a lower-precision generative model
+B) The experienced crocheter's generative model generates more precise topological predictions, making mismatches more salient
+C) Beginners have better eyesight
+D) Experience makes crocheters less attentive to their work</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>A flat crochet circle in single crochet requires six increases per round. Explain what happens to the fabric's topology if you use eight increases per round instead, and describe how a crocheter would perceive this topological change through both touch and vision.</p>
+</li>
+<li>
+<p>Compare the way a CNN builds feature representations across its layers to the way a crocheter builds perceptual understanding from individual stitch tension to overall project shape. Where does the analogy hold, and what is one important difference between the two systems?</p>
+</li>
+<li>
+<p>You are crocheting a flat rectangular blanket and you notice the edges are starting to curve inward — the blanket is becoming narrower than it should be. Describe this situation as a topological prediction error. What does your generative model predict? What is the sensory evidence? What correction would you make, and how does this parallel how a neural network updates its weights after a loss signal?</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

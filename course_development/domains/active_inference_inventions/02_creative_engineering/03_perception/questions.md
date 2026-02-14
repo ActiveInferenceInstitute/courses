@@ -1,0 +1,45 @@
+# Questions: Creative Perception
+
+## Analytical Questions
+
+1. Explain how perception functions in Active Inference as prediction error detection rather than passive reception of data. Why does this mean that what an inventor perceives is determined by what their generative model predicts?
+
+2. Henry Ford saw a slaughterhouse disassembly line and perceived the principle that would become the assembly line. Most manufacturing experts saw nothing relevant. Analyze this using the concepts of prior beliefs, prediction error, and the distinction between signal and noise.
+
+3. Define functional fixedness in Active Inference terms. How does excessive precision on categorical priors prevent perception of alternative functions, and why does the Generic Parts Technique work to overcome it?
+
+4. Cross-domain pattern recognition involves applying generative models from one domain to sensory evidence from another. What structural property of generative models makes this possible? Why are hierarchical models particularly well-suited for cross-domain transfer?
+
+5. Distinguish between expressed needs and latent needs in terms of Active Inference. Why do users often fail to articulate their most important needs, and how does the concept of model adaptation to the status quo explain this?
+
+6. Analyze the role of precision weighting in creative perception. How does an inventor who assigns high precision to an unexpected observation differ from one who assigns low precision to the same observation? Use the example of Alexander Fleming and penicillin.
+
+7. Perceptual reframing techniques (inversion, scale shifting, stakeholder rotation) all work by altering the generative model. For each technique, specify which aspect of the model it modifies (priors, precision, structure, or temporal horizon) and explain the mechanism.
+
+8. George de Mestral invented Velcro after observing burrs stuck to his dog's fur. Analyze this invention through the lens of cross-domain perception. What made de Mestral's generative model capable of perceiving the hook-and-loop mechanism as a fastening solution?
+
+9. Ethnographic observation methods (shadowing, contextual inquiry) are used to perceive latent needs. Explain why these methods generate richer sensory evidence than surveys or interviews, and how this relates to the Active Inference concept of model updating from direct observation versus verbal report.
+
+10. The Shinkansen bullet train's nose was redesigned based on the kingfisher's beak. This required the engineer to perceive a structural isomorphism between "object entering water" and "train entering tunnel." What conditions must hold for an inventor to make such cross-domain perceptual connections?
+
+## Applied Questions
+
+11. Select an everyday object in your environment. Apply the Generic Parts Technique: describe it using only physical properties (no functional labels), then generate five alternative uses. Document how your perception of the object changed during this exercise.
+
+12. Describe the core problem your invention idea addresses. Then find structural analogies in three domains unrelated to your own: one from biology, one from a different industry, and one from everyday domestic life. Which analogy reveals the most promising new approach?
+
+13. Apply the inversion reframing technique to your invention problem. List five ways to make the problem worse, then invert each to generate potential solutions. Did any inversions produce genuinely novel ideas?
+
+14. Observe someone performing a task related to your invention domain (or recall a detailed observation). Identify at least three "thoughtless acts" — unconscious workarounds or adaptations they make. What latent needs do these acts reveal?
+
+15. Apply scale shifting to your invention problem. Describe the problem at the component level, the system level, and the societal level. At which scale does the problem look most different from how you normally think about it? What new features become visible?
+
+16. Choose a stakeholder for your invention who is NOT the primary user. Describe the problem from their perspective. What aspects of the problem are they aware of that the primary user might not be? How does this change your invention concept?
+
+17. Identify a case where functional fixedness has limited your thinking about your invention. What category label have you unconsciously applied to a component, material, or process? What happens when you remove that label and describe the element purely by its physical properties?
+
+18. The Swiffer was invented by observing that people spent more time preparing to mop than actually mopping. Describe a similar observation you could make (or have made) about the activity your invention addresses. What is the preparation-to-action ratio, and what does it reveal about latent needs?
+
+19. Map your current "perceptual range" — the set of domains from which you regularly draw generative models. Then identify three domains outside your range that might contain relevant structural patterns for your invention. What would you need to learn about each domain to enable cross-domain perception?
+
+20. Design a weekly "creative perception practice" for yourself — a routine of 2-3 activities that systematically exercise your ability to detect prediction errors, recognize cross-domain patterns, and perceive latent needs. Be specific about what you would do, when, and how.

@@ -1,51 +1,51 @@
-# Practice Quiz: Learning
+# 練習クイズ：学習
 
-## Part A: Multiple Choice
+## Part A: 選択肢問題
 
-1. The Dirichlet distribution is the conjugate prior for:
-A) Gaussian likelihood
-B) Categorical (multinomial) likelihood
-C) Poisson likelihood
-D) Exponential likelihood
+1.  Dirichlet 分布は、以下のどの尤度分布の共役事前分布ですか？
+    A) ガウス尤度
+    B) カテゴリカル (多項分布) 尤度
+    C) ポアソン尤度
+    D) 指数分布
 
-2. When a Dirichlet prior Dir(α₁, α₂, α₃) is updated with counts (n₁, n₂, n₃), the posterior is:
-A) Dir(α₁ · n₁, α₂ · n₂, α₃ · n₃)
-B) Dir(α₁ + n₁, α₂ + n₂, α₃ + n₃)
-C) Dir(n₁, n₂, n₃)
-D) N(α₁ + n₁, α₂ + n₂)
+2.  Dir(α₁, α₂, α₃) の Dirichlet 事前分布を、カウント (n₁, n₂, n₃) で更新した場合、事後分布は次のどれですか？
+    A) Dir(α₁ · n₁, α₂ · n₂, α₃ · n₃)
+    B) Dir(α₁ + n₁, α₂ + n₂, α₃ + n₃)
+    C) Dir(n₁, n₂, n₃)
+    D) N(α₁ + n₁, α₂ + n₂)
 
-3. The A matrix in a POMDP is learned by:
-A) Reinforcement learning with reward signals
-B) Accumulating Dirichlet concentration parameters that count state-observation co-occurrences
-C) Gradient descent on a loss function
-D) Random search
+3.  POMDP における A 行列は、次の方法によって学習されますか？
+    A) 報酬信号を用いた強化学習
+    B) 状態と観測の共起回数を数える Dirichlet 濃度パラメータを蓄積する
+    C) 損失関数の勾配降下法
+    D) ランダム探索
 
-4. Bayesian Model Reduction (BMR) enables:
-A) Only parameter estimation
-B) Efficient structure learning by analytically comparing nested models without re-fitting
-C) Only forward model simulation
-D) Unsupervised clustering
+4.  ベイズモデル削減 (BMR) は、次のことを可能にしますか？
+    A) 試行錯誤によるパラメータ推定のみ
+    B) ネストされたモデルを分析的に比較することで、データへの再適合なしに効率的な構造学習
+    C) 試行錯誤による前向モデルシミュレーションのみ
+    D) クラスタリング (未 supervised)
 
-5. The multivariate beta function B(α) appears in BMR because:
-A) It is the normalizing constant of the Dirichlet distribution
-B) It measures the mutual information between states
-C) It is the determinant of the A matrix
-D) It is the learning rate
+5.  多変数ベータ関数 B(α) は、BMR において現れるのはなぜですか？
+    A) Dirichlet 分布の正規化定数である
+    B) 状態間の相互情報量を測定する
+    C) A 行列の行列式である
+    D) 学習率である
 
-6. As Dirichlet concentration parameters increase, the distribution:
-A) Becomes more diffuse (higher entropy)
-B) Becomes more concentrated (lower entropy) — reflecting greater confidence
-C) Stays unchanged
-D) Becomes bimodal
+6.  Dirichlet 濃度パラメータが増加すると、分布は次のようになりますか？
+    A) より拡散する (高いエントロピー)
+    B) より集中する (低いエントロピー) — より高い確信を反映して
+    C) 変わらない
+    D) 異分散になる
 
-7. BMR is proposed to occur during:
-A) Active task performance
-B) Sleep — when the brain can evaluate model complexity without incoming data
-C) Eating
-D) Exercise
+7.  BMR は、次の時に発生すると提案されていますか？
+    A) アクティブなタスクの実行
+    B) 睡眠 — 入力データなしでモデルの複雑さを評価できる脳が睡眠をとる時
+    C) 食事
+    D) 運動
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Starting from Dirichlet prior Dir(1, 1, 1) (uniform), compute the posterior after observing 100 data points with counts (60, 30, 10). What is the posterior mean? How does it compare to the MLE?
-2. Explain why BMR is "analytic" — it does not require re-fitting the model to data. What mathematical property enables this efficiency?
-3. In a POMDP with 5 states, an agent has learned transition probabilities with high confidence (large concentration parameters) for 4 states but very low confidence for the 5th state. Would BMR suggest pruning the 5th state? Explain the evidence calculation.
+1.  Dir(1, 1, 1) (一様) の Dirichlet 事前分布から始めて、カウント (60, 30, 10) を観測した後の事後分布を計算してください。事後分布の平均はいくつですか？ それは MLE と比較してどうですか？
+2.  BMR が「解析的」である理由を説明してください。それはモデルをデータに再適合する必要がないためです。この効率を可能にする数学的性質は何ですか？
+3.  5 つの状態を持つ POMDP において、エージェントは 4 つの状態について高い確信 (大きな濃度パラメータ) で遷移確率を学習していますが、5 つ目の状態について非常に低い確信 (小さな濃度パラメータ) を持っています。BMR は 5 つ目の状態を削除することを提案しますか？ 根拠の計算を説明してください。

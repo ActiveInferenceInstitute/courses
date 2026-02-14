@@ -1,53 +1,53 @@
-# Module 4: Cognition — Precision Matrices, Hierarchical Gaussian Filters, Message Passing
+# モジュール4：認知 — 精度行列、階層的ガウスフィルタ、メッセージパッシング
 
-> **Quick Navigation**: [← Perception](../03_perception/) | [Up](../) | [Action →](../05_action/)
+> **クイックナビゲーション**: [← 認識](../03_perception/) | [上へ](../) | [アクション →](../05_action/)
 
-## The Mathematics of Active Inference
+## 積極的推論の数学
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Derivation lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20個の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ（7問のMC + 3問のFR） |
+| [lab.md](./lab.md) | 導出ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュール終了までに、あなたは以下のことができるようになるはずです：
 
-1. **Derive** the precision-weighted prediction error update `dF/dμ = -dg/dμ Πε + prior terms` and connect it to the Kalman filter
-2. **Formulate** the Hierarchical Gaussian Filter and its recursive precision estimation across levels
-3. **Prove** that belief propagation on a factor graph implements coordinate ascent on VFE
-4. **Analyze** how precision modulation affects convergence, attention, and the explore-exploit balance
+1.  精度に基づいた予測誤差更新 `dF/dμ = -dg/dμ Πε + prior terms` を導出し、カルマンフィルタに結びつける
+2.  階層的ガウスフィルタとその階層間の精度推定について記述する
+3.  信念伝播を因果グラフ上で実行すると、VFEにおける座標上昇が実装されることを証明する
+4.  精度調整が収束、注意、探索と利用のバランスにどのように影響するかを分析する
 
 ---
 
-## Cross-Course Links
+## 関連コースへのリンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/04_cognition/) | Beliefs as Physical States, the Embodied Mind, and Predictive Processing |
-| [Cognitive Science](../../02_cognitive_science/04_cognition/) | Attention as Precision Weighting and Working Memory |
-| [Mathematics](../../03_math/04_cognition/) | Precision Matrices, Hierarchical Gaussian Filters, Message Passing ← **You are here** |
-| [Computer Science](../../04_computer_science/04_cognition/) | C, D, E Matrices: Configuring Precision and Attention |
+| [哲学](../../01_philosophy/04_cognition/) | 信念を物理的な状態として、身体化された心、予測処理 |
+| [認知科学](../../02_cognitive_science/04_cognition/) | 注意を精度調整とワーキングメモリとして |
+| [数学](../../03_math/04_cognition/) | 精度行列、階層的ガウスフィルタ、メッセージパッシング ← **現在地** |
+| [コンピュータサイエンス](../../04_computer_science/04_cognition/) | C, D, E行列：精度と注意の構成 |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Perception](../03_perception/) | [Up](../) | [Action →](../05_action/)
+[← 認識](../03_perception/) | [上へ](../) | [アクション →](../05_action/)

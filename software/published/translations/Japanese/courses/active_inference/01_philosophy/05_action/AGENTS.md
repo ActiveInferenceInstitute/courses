@@ -1,25 +1,25 @@
-# Module 5: Action — Agent Guidelines
+# モジュール5：行動 — エージェント ガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コース エージェント](../AGENTS.md) | [カリキュラム エージェント](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Agency as Inference, Affordances, and Active Exploration |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Action) |
-| `lab.md` | File | Thought Experiment: Agency as Inference, Affordances, and Active Exploration |
-| `dashboard.html` | File | Interactive dashboard: Action |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル — モジュールエージェントガイドライン |
+| `module.md` | ファイル | フル レクチャー: 代理 (Agency) としての推論、 affordances、および積極的な探索 |
+| `questions.md` | ファイル | 20 課題問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7 MC + 3 FR (行動) |
+| `lab.md` | ファイル | 思考実験: 代理 (Agency) としての推論、 affordances、および積極的な探索 |
+| `dashboard.html` | ファイル | インタラクティブダッシュボード: 行動 |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Philosophical
-- **Topic**: Action — Agency as Inference, Affordances, and Active Exploration
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/05_action/module.md` for parallel modules
+- **視点**: 哲学的な
+- **トピック**: 行動 — 代理 (Agency) としての推論、 affordances、および積極的な探索
+- **記号**: [notation_table.md](../../resources/notation_table.md) に準拠
+- **用語**: [glossary.md](../../resources/glossary.md) に準拠
+- **クロス参照**: `../../XX_course/05_action/module.md` へのリンクで、並行するモジュールを参照

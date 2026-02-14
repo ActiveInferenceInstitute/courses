@@ -1,70 +1,70 @@
-# Module 04: Cognition — Precision Optimization and Attention
+# モジュール 04: 認知 — 精度の最適化と注意
 
-## Learning Objectives
+## 学習目標
 
-1. Derive the **precision optimization** equations — how the brain estimates and adjusts the precision (inverse variance) of prediction errors.
-2. Formalize **attention as precision optimization**: increasing the gain on relevant prediction errors to weight them more heavily.
-3. Derive the relationship between precision, Fisher information, and model confidence.
+1.  **精度最適化** の方程式を導出する：脳が予測誤差の精度（逆分散）を推定し、調整する方法。
+2.  **注意を精度最適化として形式化する**：関連する予測誤差のゲインを増幅して、それらをより重くウェイトする。
+3.  精度、フィッシャー情報、モデル信頼度間の関係を導出する。
 
-## Introduction
+## 導入
 
-Precision — the inverse variance of a probability distribution — is the fundamental quantity that determines which prediction errors drive belief updating and which are ignored. This module derives the mathematics of precision optimization: how it is estimated from data, how it modulates message passing, and how its optimization corresponds to attention.
+精度とは、確率分布の逆分散のことです。これは、信念更新を駆動する誤差と無視する誤差を決定する基本的な量です。このモジュールでは、精度最適化の数学を導出します。データからどのように推定され、メッセージ伝達をどのように調整し、その最適化が注意とどのように対応するかを説明します。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Precision as a Parameter of the Generative Model
+### 1. 生成モデルにおける精度のパラメータとしての精度
 
-In a Gaussian generative model, precision appears as:
+ガウス生成モデルでは、精度は以下のように現れます。
 
 **p(oₜ | sₜ) = N(oₜ; g(sₜ), Π⁻¹)**
 
-where Π = diag(π₁, ..., π_D) is the precision matrix (inverse covariance). High precision π_d means low variance in dimension d — observations are reliable. Low precision means high variance — observations are noisy.
+ここで、Π = diag(π₁, ..., π_D) は精度行列（共分散の逆）です。精度 π_d が高いと、d 次元における分散が低く、観測値が信頼できることを意味します。精度 π_d が低いと、分散が高く、観測値がノイズが多いことを意味します。
 
-Precision is itself a hidden variable that must be inferred:
+精度自体は、推論する必要がある隠れた変数です。
 
-**q(Π) = Wishart(Π; ν, V) or q(πd) = Gamma(πd; α, β)**
+**q(Π) = Wishart(Π; ν, V) または q(πd) = Gamma(πd; α, β)**
 
-### 2. Precision Optimization Equations
+### 2. 精度最適化方程式
 
-The free energy gradient with respect to precision parameters:
+精度パラメータに対する自由エネルギー勾配：
 
 **∂F/∂π = -½ · [π⁻¹ - E_q[(oₜ - g(sₜ))²]]**
 
-At the fixed point (∂F/∂π = 0):
+固定点において（∂F/∂π = 0）：
 
 **π* = 1 / E_q[(oₜ - g(sₜ))²]**
 
-The optimal precision equals the inverse of the expected squared prediction error. This means the brain learns precision from the statistics of its own prediction errors: consistently large errors → low precision; consistently small errors → high precision.
+最適な精度は、期待される二乗予測誤差の逆に等しくなります。これは、脳が自身の予測誤差の統計から精度を学習することを示しています。一貫して大きな誤差 → 低い精度；一貫して小さな誤差 → 高い精度。
 
-### 3. Precision and the Fisher Information Matrix
+### 3. 精度とフィッシャー情報行列
 
-The Fisher information matrix I(θ) measures the curvature of the log-likelihood:
+フィッシャー情報行列 I(θ) は、対数尤度の曲率を測定します。
 
 **I(θ) = -E[∂²/∂θ² ln p(o | θ)]**
 
-For Gaussian models, the Fisher information is directly related to precision:
+ガウスモデルの場合、フィッシャー情報は精度と直接関係があります。
 
 **I = Π**
 
-This connects precision to **confidence**: high precision (high Fisher information) means the data carry a lot of information about the hidden states, enabling confident inference. This is the mathematical basis for the claim that attention enhances confidence.
+これにより、精度が**信頼度**に結び付けられます。高い精度（高いフィッシャー情報）は、隠れた状態に関するデータが豊富であることを意味し、自信のある推論を可能にします。これは、注意が信頼度を高めるという主張の数学的基盤となります。
 
-### 4. Attention as Precision Optimization
+### 4. 注意と精度最適化
 
-In hierarchical predictive coding, attention corresponds to optimizing precision at each level:
+階層的予測コーディングにおいて、注意は各レベルで精度を最適化することに対応します。
 
 **dγₗ/dt = -∂F/∂γₗ**
 
-where γₗ is the log-precision at level l. This modulates the gain on prediction errors:
+ここで、γₗはレベルlにおける対数精度です。これは、予測誤差のゲインを調整します。
 
-- Increasing γₗ → amplifying prediction errors at level l → "paying attention" to data at that level
-- Decreasing γₗ → attenuating prediction errors → "ignoring" data at that level
+*   γₗを増やす → レベルlにおける予測誤差を増幅する → そのレベルでのデータに「注意を向ける」
+*   γₗを減らす → 予測誤差を減衰させる → そのレベルでのデータに「注意を向けない」
 
-## Derivation Exercises
+## 導出練習
 
-1. For a Gaussian likelihood p(o|s) = N(g(s), π⁻¹), derive ∂F/∂π and find the optimal precision π*.
-2. Show that the Fisher information I = Π for a univariate Gaussian with known mean and unknown variance.
-3. Derive the precision update equation for a two-level hierarchy with different precisions at each level.
+1.  ガウス尤度 p(o|s) = N(g(s), π⁻¹) に対して、∂F/∂π を導出し、最適な精度 π* を見つける。
+2.  既知の平均と未知の分散を持つ単変量ガウスの場合、I = Π を示す。
+3.  異なる精度を持つ2つのレベルの階層構造について、精度更新方程式を導出する。
 
-## Conclusion
+## 結論
 
-Precision is the key quantity that bridges perception (what to believe) and attention (what to attend to). Its optimization provides the mathematical foundation for understanding how the brain allocates its computational resources. Module 05 extends the framework to action — how the agent changes the world, not just its beliefs.
+精度は、信念（何を信じるか）と注意（何に注意を向けるか）を結びつけるキーとなる量です。その最適化は、脳が計算資源を割り当てる方法を理解するための数学的基盤を提供します。モジュール 05 は、この枠組みを行動に拡張し、エージェントが世界をどのように変更するか、単に信念を更新する方法を説明します。

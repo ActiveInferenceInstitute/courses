@@ -1,53 +1,53 @@
-# Module 8: Planning — Teleology, Future-Oriented Behavior, and the Phenomenology of Time
+# モジュール8：計画—テレオロジー、未来志向行動、そして時間の現象学
 
-> **Quick Navigation**: [← Communication](../07_communication/) | [Up](../) | [Course Home →](../)
+> **クイックナビゲーション**: [← コミュニケーション](../07_communication/) | [上へ](../) | [コースホーム →](../)
 
-## The Philosophy of Active Inference
+## 積極的推論の哲学
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Thought Experiment lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個のFR) |
+| [lab.md](./lab.md) | 思考実験のラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブなダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです。
 
-1. Define **Planning** from a philosophical perspective within Active Inference
-2. Explain the role of **Teleology** in the FEP framework
-3. Connect planning to the broader concepts of free energy minimization
-4. Apply philosophical reasoning to analyze real-world examples of planning
+1. 積極的推論の視点から「計画」を定義する
+2. FEP フレームワークにおける「テレオロジー」の役割を説明する
+3. 計画をより広範な自由エネルギー最小化の概念に結びつける
+4. 実際の計画の例を分析するために哲学的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 関連コース
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/08_planning/) | Teleology, Future-Oriented Behavior, and the Phenomenology of Time ← **You are here** |
-| [Cognitive Science](../../02_cognitive_science/08_planning/) | Executive Function and Decision Making Under Uncertainty |
-| [Mathematics](../../03_math/08_planning/) | Recursive Belief Updating, Sophisticated Inference, Tree Search |
-| [Computer Science](../../04_computer_science/08_planning/) | Deep Temporal Models: T-Mazes and Gridworlds |
+| [哲学](../../01_philosophy/08_planning/) | テレオロジー、未来志向行動、そして時間の現象学 ← **現在地** |
+| [認知科学](../../02_cognitive_science/08_planning/) | 実行機能と不確実性下での意思決定 |
+| [数学](../../03_math/08_planning/) | 繰り返し信念の更新、高度な推論、ツリー探索 |
+| [コンピュータサイエンス](../../04_computer_science/08_planning/) | 深層時間モデル：T-Maze とグリッドワールド |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Communication](../07_communication/) | [Up](../) | [Course Home →](../)
+[← コミュニケーション](../07_communication/) | [上へ](../) | [コースホーム →](../)

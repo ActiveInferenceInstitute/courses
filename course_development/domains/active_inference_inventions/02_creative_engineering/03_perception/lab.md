@@ -1,0 +1,161 @@
+# Lab: Breaking Functional Fixedness and Perceiving Latent Needs
+
+## Objective
+
+Practice the perceptual skills that underpin creative invention: detecting prediction errors, overcoming functional fixedness, recognizing cross-domain patterns, and perceiving latent needs. By the end of this lab, you will have applied multiple perceptual reframing techniques to your own invention idea and identified at least one opportunity you had not previously seen.
+
+## Materials / Prerequisites
+
+- Your own invention idea or project (any domain, any stage)
+- One common household object (a pen, a mug, a fork, a rubber band — anything within reach)
+- Paper and pen for sketching
+- A timer
+- Completed reading of Module 03: Creative Perception
+
+## Part 1: The Generic Parts Technique (10 minutes)
+
+Functional fixedness locks you into seeing objects by their conventional function. The Generic Parts Technique breaks this by describing objects purely by physical properties.
+
+**Step 1 (3 min):** Take the household object you selected. Write its conventional name and function:
+
+Object name: {fill:textarea}
+Conventional function: {fill:textarea}
+
+**Step 2 (3 min):** Now describe the SAME object using only physical properties — material, shape, dimensions, weight, texture, flexibility, conductivity, color. Do NOT mention its conventional function.
+
+Physical-properties-only description:
+{fill:textarea}
+
+**Step 3 (4 min):** Based solely on the physical description you just wrote, generate at least five alternative uses for this object. These should be plausible uses based on physical properties, not jokes.
+
+| Alternative Use | Which Physical Property Enables It |
+|----------------|-----------------------------------|
+| {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} |
+
+Reflection: How did stripping the conventional label change what you could see? What happened to your perception when you described the object without naming it?
+
+{fill:textarea}
+
+## Part 2: Cross-Domain Pattern Recognition (15 minutes)
+
+**Step 1 (5 min):** Describe your invention idea in one paragraph. Focus on the core PROBLEM you are trying to solve, not your current solution:
+
+{fill:textarea}
+
+**Step 2 (5 min):** Now find structural analogies to your problem in three different domains. For each domain, identify a system that faces a structurally similar challenge and describe how it solves it:
+
+| Domain | Analogous System | The Similar Challenge | How It Solves It |
+|--------|-----------------|----------------------|-----------------|
+| Biology / Nature | {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| A completely different industry | {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| Everyday life / household | {fill:textarea} | {fill:textarea} | {fill:textarea} |
+
+**Step 3 (5 min):** Choose the most promising analogy from Step 2. Describe how the analogous solution could be translated to your invention domain. What would your invention look like if it solved the problem the way the analogous system does?
+
+Selected analogy: {fill:textarea}
+
+How it translates to my invention:
+{fill:textarea}
+
+What new features or approaches does this translation suggest?
+{fill:textarea}
+
+## Part 3: Perceptual Reframing Exercise (15 minutes)
+
+Apply three systematic reframing techniques to your invention idea.
+
+**Reframe 1 — Inversion (5 min):** Instead of asking "How can I solve this problem?", ask "How can I make this problem as bad as possible?" List at least five ways to make the problem worse:
+
+1. {fill:textarea}
+2. {fill:textarea}
+3. {fill:textarea}
+4. {fill:textarea}
+5. {fill:textarea}
+
+Now invert each "worse" idea. Does any inversion suggest a new solution approach?
+
+Most promising inverted insight:
+{fill:textarea}
+
+**Reframe 2 — Scale Shift (5 min):** Describe your problem at three different scales:
+
+At the individual/component level:
+{fill:textarea}
+
+At the system/organization level:
+{fill:textarea}
+
+At the societal/civilizational level:
+{fill:textarea}
+
+Which scale reveals the most interesting new features of the problem?
+{fill:textarea}
+
+**Reframe 3 — Stakeholder Rotation (5 min):** Describe the problem from three different stakeholders' perspectives:
+
+| Stakeholder | How They Experience the Problem | What They Would Want From a Solution |
+|-------------|-------------------------------|--------------------------------------|
+| Primary user | {fill:textarea} | {fill:textarea} |
+| Someone who benefits indirectly | {fill:textarea} | {fill:textarea} |
+| Someone who might resist the solution | {fill:textarea} | {fill:textarea} |
+
+Did the stakeholder rotation reveal needs you had not considered?
+{fill:textarea}
+
+## Part 4: Latent Need Detection (12 minutes)
+
+**Step 1 (6 min):** Think about the users or beneficiaries of your invention. Describe their current behavior — not what they say they want, but what they actually do. Focus on workarounds, frustrations, and "thoughtless acts" (unconscious adaptations to the current situation):
+
+| Observed Behavior / Workaround | What It Reveals About Their Actual Needs | Is This Need Currently Addressed? |
+|-------------------------------|----------------------------------------|----------------------------------|
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} |
+
+**Step 2 (6 min):** Identify the single most significant latent need you discovered — a need that users have but cannot articulate because they have adapted to the status quo:
+
+The latent need:
+{fill:textarea}
+
+Why users cannot articulate it:
+{fill:textarea}
+
+How my invention could address it:
+{fill:textarea}
+
+How does addressing this latent need change my invention concept?
+{fill:textarea}
+
+## Part 5: Integration (8 minutes)
+
+Review everything you have generated in Parts 1-4. Identify the three most valuable perceptual insights — things you can now see about your invention idea that you could not see before this lab:
+
+**Insight 1:**
+{fill:textarea}
+
+**Insight 2:**
+{fill:textarea}
+
+**Insight 3:**
+{fill:textarea}
+
+Which perceptual reframing technique was most productive for you personally? Why do you think it worked better than the others for your specific problem?
+
+{fill:textarea}
+
+## Discussion / Debrief Questions
+
+1. The Generic Parts Technique asks you to strip away conventional labels. How does this relate to the Active Inference concept of reducing precision on categorical priors? Did you feel the difference in how you perceived the object?
+
+2. Cross-domain pattern recognition requires carrying generative models across domain boundaries. Which of your analogies felt most natural, and which felt most forced? What does this tell you about the breadth of your current generative models?
+
+3. The three reframing techniques (inversion, scale shift, stakeholder rotation) each modify different aspects of the generative model. Which aspect of your model was most resistant to change? Why?
+
+4. Latent need detection requires maintaining a model of what users would prefer if constraints were removed, rather than what they currently accept. How do you distinguish between a genuine latent need and a need you are projecting onto users?
+
+5. How might you build these perceptual practices into your regular inventive routine? What would it look like to systematically practice creative perception, rather than waiting for insight to strike?

@@ -1,65 +1,65 @@
-# Module 06: Learning — Parameter Estimation, Bayesian Model Reduction, and Dirichlet Updates
+# モジュール 06: 学習 — パラメータ推定、ベイズモデル削減、およびディレクトリ更新
 
-## Learning Objectives
+## 学習の目的
 
-1. Derive **parameter learning** equations: how the A and B matrices of a POMDP are updated from experience.
-2. Derive **Bayesian Model Reduction (BMR)**: an efficient method for structure learning through post-hoc model comparison.
-3. Formalize the **Dirichlet-Categorical conjugate model** and its update rules.
+1. パラメータ学習の方程式を導出する：POMDP の A および B 行列が経験からどのように更新されるか。
+2. ベイズモデル削減 (BMR) を導出する：事後モデル比較を通して構造学習のための効率的な方法。
+3. ディリクレ-カテゴリカル共役モデルを形式化し、その更新ルールを定める。
 
-## Introduction
+## 導入
 
-Learning in Active Inference is the process of updating the generative model — both its parameters (connection strengths, likelihoods) and its structure (which variables to include). This module develops the mathematics of both parameter learning (updating sufficient statistics from experience) and structure learning via Bayesian Model Reduction.
+アクティブインファーレンスの学習とは、生成モデル—そのパラメータ（接続強さ、尤度）と構造（含めるべき変数）を更新するプロセスです。このモジュールは、パラメータ学習（経験から十分な統計量を更新する）とベイズモデル削減による構造学習の両方の数学を開発します。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Parameter Learning in the POMDP
+### 1. POMDP におけるパラメータ学習
 
-The A and B matrices of the POMDP are learned through experience. Using Dirichlet priors:
+POMDP の A および B 行列は経験を通して学習されます。ディリクレ事前分布を使用します：
 
-**p(A_ij) = Dir(A_ij; a_ij)** — each column of A has a Dirichlet prior with concentration parameters a_ij
+**p(A_ij) = Dir(A_ij; a_ij)** — 各列の A は、濃度パラメータ a_ij で持つディリクレ事前分布
 
-After observing outcome o and state s, the update is:
+観察結果 o と状態 s を観測した後、更新は次のようになります：
 
 **a_ij ← a_ij + η · o_i · s_j**
 
-where η is a learning rate and o_i · s_j is the outer product encoding which outcome occurred in which state. This is the Dirichlet-Categorical conjugate update — the concentration parameters accumulate evidence.
+ここで η は学習率であり、o_i · s_j は外積エンコーディングで、どの結果がどの状態において発生したかを表します。これはディリクレ-カテゴリカル共役更新であり、濃度パラメータは証拠を蓄積します。
 
-Similarly for the B matrix:
+同様に、B 行列については：
 
 **b_ijk ← b_ijk + η · s_i(t) · s_j(t-1) · u_k(t-1)**
 
-where u_k is the action taken. This updates transition probabilities conditioned on action.
+ここで u_k は実行された行動です。これは、行動に基づいて遷移確率を更新します。
 
-### 2. Bayesian Model Reduction
+### 2. ベイズモデル削減
 
-**Bayesian Model Reduction (BMR)** (Friston et al., 2017) enables structure learning without re-fitting the model from scratch. Given a full model M₁ with posterior parameters a (after learning), BMR evaluates a reduced model M₀ with modified prior parameters ã₀:
+**ベイズモデル削減 (BMR)** (Friston et al., 2017) は、モデルを最初から再調整することなく構造学習を可能にします。学習された事後パラメータ a (パラメータ a₀) を持つ完全なモデル M₁ が与えられた場合、BMR は変更された事前パラメータ ã₀ を持つ削減モデル M₀ を評価します：
 
 **ln p(o | M₀) - ln p(o | M₁) ≈ ln B(ã₀) - ln B(a₀) - ln B(ã) + ln B(a)**
 
-where B(·) is the multivariate beta function and ã are the posterior parameters under the reduced model:
+ここで B(·) は多変量ベータ関数であり、ã は削減モデルの下の事後パラメータです：
 
 **ã = a + ã₀ - a₀**
 
-This provides an **analytic** model comparison without re-fitting — it computes the evidence for the reduced model from the learned parameters alone.
+これにより、再調整なしで分析的なモデル比較が可能になり、学習されたパラメータのみを使用して削減モデルの証拠を計算します。
 
-### 3. Dirichlet-Categorical Conjugacy
+### 3. ディリクレ-カテゴリカル共役性
 
-The Dirichlet distribution Dir(θ; α₁, ..., αK) is the conjugate prior for the Categorical likelihood Cat(x; θ₁, ..., θK):
+ディリクレ分布 Dir(θ; α₁, ..., αK) は、カテゴリカル尤度 Cat(x; θ₁, ..., θK) の共役事前分布です：
 
 **p(θ | x₁:N) = Dir(θ; α₁ + n₁, ..., αK + nK)**
 
-where nₖ = ∑ᵢ 1(xᵢ = k) is the count of observations in category k. Key properties:
+ここで nₖ = ∑ᵢ 1(xᵢ = k) はカテゴリ k における観測のカウントです。重要な特性は次のとおりです。
 
-- **Mean**: E[θₖ] = αₖ / ∑ⱼ αⱼ
-- **Variance**: decreases as the total count ∑ αₖ increases → more data = higher confidence
-- **Entropy**: decreases with more evidence → progressive refinement of beliefs
+- **平均**: E[θₖ] = αₖ / ∑ⱼ αⱼ
+- **分散**: 観測カウント ∑ αₖ が増加するにつれて減少します → より多くのデータ = より高い信頼度
+- **エントロピー**: より多くの証拠によって減少します → 信頼性の漸進的な改善
 
-## Derivation Exercises
+## 導出練習
 
-1. Derive the Dirichlet posterior update from a Categorical likelihood and Dirichlet prior using Bayes' rule.
-2. Derive the BMR evidence ratio for comparing a full model (K parameters) with a reduced model (K-1 parameters).
-3. Show that BMR with a "sleep" interpretation (evaluating model evidence during offline replay) provides a computationally efficient alternative to exhaustive model search.
+1. カテゴリカル尤度とディリクレ事前分布を使用して、ベイズの法則を用いてディリクレ事後分布を導出します。
+2. K パラメータを持つ完全なモデルと、K-1 パラメータを持つ削減モデルを比較するためのベイズモデル削減の証拠比を導出します。
+3. 「スリープ」解釈（オフライン再生中にモデルの証拠を評価する）を持つ BMR が、網羅的なモデル探索の代わりに計算効率の高い代替手段を提供することを示します。
 
-## Conclusion
+## 結論
 
-Learning is inference over parameters and structure through conjugate Bayesian updating and Bayesian Model Reduction. Together with perception (state inference) and action (policy selection), this completes the core mathematics of Active Inference. Module 07 extends the framework to multi-agent settings.
+学習は、共役ベイズ更新とベイズモデル削減を通してパラメータと構造に関する推論です。知覚（状態推論）と行動（ポリシー選択）と組み合わせて、アクティブインファーレンスのコア数学を完成させます。モジュール 07 は、この枠組みをマルチエージェント設定に拡張します。

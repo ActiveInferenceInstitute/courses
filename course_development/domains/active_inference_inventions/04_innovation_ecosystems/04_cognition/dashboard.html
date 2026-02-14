@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Strategic Thinking for Inventors — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>Strategic Thinking for Inventors</h1>
+  <p class="subtitle">Cognition in the Innovation Ecosystem</p>
+  <span class="tag">Section 4 &middot; Module 4</span>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="concepts">Concepts</div>
+  <div class="tab" data-tab="quiz">Quiz</div>
+  <div class="tab" data-tab="checklist">Checklist</div>
+  <div class="tab" data-tab="modules">Modules</div>
+</div>
+
+<div class="panel active" id="concepts">
+  <div class="concept-card"><h3>Business Model as Generative Model</h3><div class="desc"><p>A business model predicts how value flows between your invention and its ecosystem. Each element of the Business Model Canvas is a hypothesis with an associated confidence level. The Active Inference approach treats business model design as model construction, emphasizing uncertainty quantification over assertion.</p><p><strong>Example:</strong> Stripe's model evolved from "simple payments for developers" to a comprehensive developer services platform as evidence updated each canvas element.</p></div><div class="meter"><div class="fill" style="width:90%"></div></div></div>
+  <div class="concept-card"><h3>Competitive Positioning Through Model Comparison</h3><div class="desc"><p>Porter's three strategies (cost leadership, differentiation, focus) represent different approaches to reducing customer free energy. Competitive advantage comes from maintaining a more accurate generative model of market needs than competitors. Your actions reveal your model to competitors, creating recursive modeling dynamics.</p><p><strong>Example:</strong> Tesla positioned on software-defined vehicles — a dimension where incumbent automakers' generative models could not easily adapt.</p></div><div class="meter"><div class="fill" style="width:85%"></div></div></div>
+  <div class="concept-card"><h3>Technology Forecasting as Probabilistic Inference</h3><div class="desc"><p>S-curves describe typical technology performance trajectories. Forecasting errors arise from misidentifying which S-curve you are on or failing to anticipate transitions. Active Inference maintains probability distributions over possible trajectories rather than single-point predictions.</p><p><strong>Example:</strong> Moore's Law was a remarkably accurate generative model of semiconductor progress maintained for decades, whose recent slowing signals a model structure change.</p></div><div class="meter"><div class="fill" style="width:80%"></div></div></div>
+  <div class="concept-card"><h3>Scenario Planning as Model Averaging</h3><div class="desc"><p>Rather than betting on a single future, scenario planning maintains multiple generative models and selects strategies that perform well across several of them. This is Bayesian model averaging applied to strategic decisions, naturally handling deep uncertainty where the correct model structure is unknown.</p><p><strong>Example:</strong> Shell's dual-scenario planning in the 1970s prepared it for the oil price shock that competitors' single-model strategies did not anticipate.</p></div><div class="meter"><div class="fill" style="width:75%"></div></div></div>
+  <div class="concept-card"><h3>Metacognition and Strategic Blind Spots</h3><div class="desc"><p>Metacognition means recognizing the limitations of your own generative model — confirmation bias, anchoring, overconfidence, and untested assumptions. Andy Grove's "strategic inflection points" and Jeff Bezos's "Day 1" philosophy are metacognitive strategies for maintaining model flexibility.</p><p><strong>Example:</strong> Grove's question — "What would a new CEO do?" — deliberately circumvents the sunk-cost bias that prevents model restructuring.</p></div><div class="meter"><div class="fill" style="width:70%"></div></div></div>
+</div>
+
+<div class="panel" id="quiz">
+  <div class="quiz-box">
+    <h3 id="q-title">Question 1 of 7</h3>
+    <p id="q-text"></p>
+    <div id="q-opts"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" onclick="prevQ()">Previous</button>
+      <span id="q-score" style="color:var(--muted);font-size:.85rem"></span>
+      <button class="quiz-btn" onclick="nextQ()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="checklist">
+  <h3 style="margin-bottom:.5rem">Learning Checklist</h3>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">Track your mastery of strategic thinking concepts.</p>
+  <div class="checklist" id="cl-list"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill" style="width:0%"></div></div>
+  <div class="cl-status" id="cl-status">0 of 5 complete</div>
+</div>
+
+<div class="panel" id="modules">
+  <h3 style="margin-bottom:.5rem">Section 4: Innovation Ecosystems</h3>
+  <div class="mod-grid">
+    <div class="mod-card"><div class="num">01</div><div class="name">The Innovation Ecosystem</div></div>
+    <div class="mod-card"><div class="num">02</div><div class="name">Stakeholders & Adopters</div></div>
+    <div class="mod-card"><div class="num">03</div><div class="name">Market Sensing</div></div>
+    <div class="mod-card current"><div class="num">04</div><div class="name">Strategic Thinking</div></div>
+    <div class="mod-card"><div class="num">05</div><div class="name">Launching & Scaling</div></div>
+    <div class="mod-card"><div class="num">06</div><div class="name">Organizational Learning</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">Innovation Communication</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">Long-Term Strategy</div></div>
+  </div>
+</div>
+
+<script>
+const tabs=document.querySelectorAll('.tab');const panels=document.querySelectorAll('.panel');
+tabs.forEach(t=>t.addEventListener('click',()=>{tabs.forEach(x=>x.classList.remove('active'));panels.forEach(x=>x.classList.remove('active'));t.classList.add('active');document.getElementById(t.dataset.tab).classList.add('active');}));
+document.querySelectorAll('.concept-card').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('open')));
+
+const quizData=[
+  {q:"A business model in Active Inference is best understood as:",opts:["A fixed revenue generation plan","A generative model that predicts value creation and capture dynamics","A legal description of corporate structure","A marketing strategy document"],correct:1,explain:"The business model is a generative model — it generates predictions about how value will flow, who will pay, what resources are needed, and how costs will evolve. Each element is a hypothesis to be tested, not a fixed assertion."},
+  {q:"Why did Blockbuster fail to transition to streaming despite having resources and market position?",opts:["Streaming technology was not available to Blockbuster","Their existing generative model was highly optimized for physical rental, making model restructuring (not just parameter updating) cognitively costly","They lacked talented engineers","Netflix had exclusive streaming licenses"],correct:1,explain:"Blockbuster's model accurately predicted physical rental dynamics. The transition to streaming required restructuring the model's architecture — changing which variables existed, not just their values. This kind of structural change is fundamentally harder than parameter updating and is resisted by organizations whose current model works well."},
+  {q:"Scenario planning is more robust than single-point forecasting because:",opts:["It uses more sophisticated mathematical models","It eliminates uncertainty about the future","It maintains multiple generative models and finds strategies that work across several possible futures","It focuses on the most likely outcome"],correct:2,explain:"Scenario planning is Bayesian model averaging: maintaining multiple plausible models, weighting them by probability, and selecting strategies that minimize expected free energy across the full set. This handles deep uncertainty where the correct model structure is unknown."},
+  {q:"Porter's differentiation strategy reduces customer free energy by:",opts:["Offering the lowest possible price","Reducing uncertainty about quality along specific dimensions the customer values","Serving only a small niche market","Copying competitor features more quickly"],correct:1,explain:"Differentiation reduces the uncertainty of quality-seeking customers. They can predict that the differentiated offering will reliably deliver on specific valued dimensions (design, durability, performance), reducing the free energy associated with purchasing decisions."},
+  {q:"Technology S-curve transitions are difficult to forecast because:",opts:["They always happen suddenly and without warning","They require predicting both when the current technology reaches limits AND when a successor technology becomes viable — two coupled uncertainties","Historical data about past transitions is unavailable","Only government agencies have access to S-curve data"],correct:1,explain:"S-curve transitions involve compound uncertainty: the timing of current technology saturation and the readiness of successor technology are both uncertain and interact. A successor technology may be ready before the current one saturates, or the current technology may surprise with continued improvement, making transition timing inherently difficult."},
+  {q:"Confirmation bias in strategic cognition operates by:",opts:["Deliberately ignoring competitor information","Placing excessive precision on prior beliefs, causing genuine prediction errors to be weighted too lightly and dismissed","Using only quantitative data while ignoring qualitative evidence","Relying too heavily on consultant reports"],correct:1,explain:"Confirmation bias in Active Inference terms means that the precision assigned to prior beliefs is too high relative to the precision of incoming evidence. Genuine prediction errors — evidence that the model is wrong — are treated as noise rather than signal, because the model is too confident in its existing predictions."},
+  {q:"Andy Grove's question 'What would a new CEO do?' is strategically valuable because:",opts:["New CEOs typically have better ideas than experienced ones","It bypasses sunk-cost bias and attachment to existing models, enabling honest assessment of whether the current model needs restructuring","It shows humility that impresses the board of directors","It encourages employees to think about career advancement"],correct:1,explain:"The question forces a perspective shift that circumvents the sunk-cost fallacy — the tendency to continue investing in an existing model because of past investments rather than because of future expected returns. A hypothetical new CEO has no attachment to the existing model and can assess whether it should be restructured."}
+];
+
+let currentQ=0,score=0,answered=Array(quizData.length).fill(false);
+function renderQ(){const q=quizData[currentQ];document.getElementById('q-title').textContent=`Question ${currentQ+1} of ${quizData.length}`;document.getElementById('q-text').textContent=q.q;const opts=document.getElementById('q-opts');opts.innerHTML='';q.opts.forEach((o,i)=>{const d=document.createElement('div');d.className='quiz-opt';d.textContent=String.fromCharCode(65+i)+') '+o;d.onclick=()=>selectOpt(i);opts.appendChild(d);});document.getElementById('q-explain').style.display='none';document.getElementById('q-explain').textContent=q.explain;document.getElementById('q-score').textContent=`Score: ${score}/${quizData.length}`;}
+function selectOpt(i){if(answered[currentQ])return;answered[currentQ]=true;const opts=document.querySelectorAll('#q-opts .quiz-opt');const correct=quizData[currentQ].correct;if(i===correct){score++;opts[i].classList.add('correct');}else{opts[i].classList.add('wrong');opts[correct].classList.add('correct');}document.getElementById('q-explain').style.display='block';document.getElementById('q-score').textContent=`Score: ${score}/${quizData.length}`;}
+function nextQ(){if(currentQ<quizData.length-1){currentQ++;renderQ();}}
+function prevQ(){if(currentQ>0){currentQ--;renderQ();}}
+renderQ();
+
+const clItems=["I can design a business model as a generative model with explicit uncertainty","I can analyze competitive positioning through model comparison","I understand technology S-curves and can assess transition timing","I can construct scenario matrices and identify robust strategies","I can conduct metacognitive audits to identify strategic blind spots"];
+const clKey='s4m4_checklist';let clState=JSON.parse(localStorage.getItem(clKey)||'[]');if(clState.length!==clItems.length)clState=Array(clItems.length).fill(false);
+function renderCL(){const list=document.getElementById('cl-list');list.innerHTML='';clItems.forEach((item,i)=>{const d=document.createElement('div');d.className='cl-item';d.innerHTML=`<input type="checkbox" ${clState[i]?'checked':''} onchange="toggleCL(${i})"><span>${item}</span>`;list.appendChild(d);});const done=clState.filter(Boolean).length;document.getElementById('cl-fill').style.width=(done/clItems.length*100)+'%';document.getElementById('cl-status').textContent=`${done} of ${clItems.length} complete`;}
+function toggleCL(i){clState[i]=!clState[i];localStorage.setItem(clKey,JSON.stringify(clState));renderCL();}
+renderCL();
+</script>
+</body>
+</html>

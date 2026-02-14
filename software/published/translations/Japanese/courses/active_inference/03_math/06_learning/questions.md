@@ -1,22 +1,22 @@
-# Study Questions: Learning
+# 学習に関する質問：学習
 
-1. What is parameter learning in the context of a POMDP? Which quantities are updated?
-2. Write the Dirichlet distribution Dir(θ; α₁, ..., αK). What is the role of the concentration parameters αₖ?
-3. Derive the conjugate Dirichlet update for a Categorical likelihood.
-4. How does the A matrix concentration parameter a_ij update with experience? Write the update rule.
-5. How does the B matrix concentration parameter b_ijk update with experience? How does it differ from A learning?
-6. What is the mean of a Dirichlet distribution? How does it evolve with accumulated evidence?
-7. How does the total concentration ∑αₖ relate to the confidence (precision) of the learned parameters?
-8. What is Bayesian Model Reduction (BMR)? How does it enable structure learning without re-fitting?
-9. Derive the BMR evidence ratio using the multivariate beta function.
-10. Why is BMR computationally efficient compared to exhaustive model comparison?
-11. How does BMR relate to the synaptic homeostasis hypothesis (synaptic pruning during sleep)?
-12. What is the multivariate beta function B(α)? Write its definition in terms of the Gamma function.
-13. How does the learning rate η affect the speed and stability of parameter updates?
-14. What happens to the A matrix as the concentration parameters a_ij → ∞? How does this represent "crystallized" knowledge?
-15. Compare Dirichlet updating with maximum likelihood estimation. When do they converge?
-16. What is empirical Bayes? How does it relate to hyperparameter estimation in hierarchical models?
-17. How does Active Inference's account of learning differ from classical reinforcement learning (temporal difference learning)?
-18. How does the concept of "forgetting" emerge in the Dirichlet framework? (Consider reducing concentration parameters.)
-19. What is the relationship between the D vector (initial state prior) and learned context? How does the context update?
-20. Derive the free energy contribution from parameter learning: how does uncertainty about parameters increase free energy?
+1.  POMDP の文脈におけるパラメータ学習とは何か？ どの量が更新されるか？
+2.  Dirichlet 分布 Dir(θ; α₁, ..., αK) を記述してください。濃度パラメータ αₖ の役割は何ですか？
+3.  カテゴリカル (Categorical) 尤度に対する共轭 Dirichlet 更新を導出してください。
+4.  A 行列の濃度パラメータ a_ij は経験によってどのように更新されますか？ 更新ルールを記述してください。
+5.  B 行列の濃度パラメータ b_ijk は経験によってどのように更新されますか？ A 学習とはどのように異なりますか？
+6.  Dirichlet 分布の平均とは何か？ 集積された証拠とともにどのように進化しますか？
+7.  総濃度 ∑αₖ は学習されたパラメータの信頼性 (precision) とどのように関連しますか？
+8.  ベイズモデル削減 (BMR) とは何か？ 再学習なしで構造学習を可能にする仕組みは？
+9.  多変数ベータ関数を用いて BMR の証拠比を導出してください。
+10. 網羅的なモデル比較と比べて、BMR が計算効率が高い理由は何ですか？
+11. BMR はシナプスホメオスタジー仮説 (睡眠中のシナプス刈り込み) とどのように関連していますか？
+12. 多変数ベータ関数 B(α) とは何か？ ガンマ関数を用いてその定義を記述してください。
+13. 学習率 η がパラメータ更新の速度と安定性にどのように影響しますか？
+14. 濃度パラメータ a_ij → ∞ となったとき、A 行列はどのように変化しますか？ これは「結晶化された」知識をどのように表していますか？
+15. Dirichlet 更新と最大尤度推定を比較してください。いつそれらは収束しますか？
+16. 経験的ベイズとは何か？ 階層的モデルにおけるハイパーパラメータ推定との関係は？
+17. Active Inference における学習のアカウントは、古典的な強化学習 (時間差学習) とどのように異なりますか？
+18. Dirichlet フレームワークにおける「忘却」の概念はどのように現れますか？ (濃度パラメータを減少させることを考慮してください。)
+19. D ベクトル (初期状態事前分布) と学習されたコンテキストの関係とは何か？ コンテキストはどのように更新されますか？
+20. パラメータ学習から生じるフリーエネルギーへの寄与を導出してください：パラメータに対する不確実性がフリーエネルギーをどのように増加させますか？

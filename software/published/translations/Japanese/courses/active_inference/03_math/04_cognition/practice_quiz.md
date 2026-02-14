@@ -1,51 +1,51 @@
-# Practice Quiz: Cognition
+# 認知のための練習クイズ
 
-## Part A: Multiple Choice
+## Part A: 選択肢形式
 
-1. Precision Π in a Gaussian distribution is:
-A) The mean of the distribution
-B) The inverse of the covariance matrix — Π = Σ⁻¹
-C) The entropy of the distribution
-D) The mode of the distribution
+1. ガウス分布における精度 Π は：
+A) 分布の平均
+B) コバランス行列の逆 — Π = Σ⁻¹
+C) 分布のエン트로ピー
+D) 分布の峰
 
-2. The optimal precision π*equals:
-A) The prior precision
-B) The inverse of the expected squared prediction error — π* = 1/E[(o - g(s))²]
-C) Always 1
-D) The number of observations
+2. 最適な精度 π*は：
+A) 事前精度
+B) 期待される二乗予測誤差の逆 — π* = 1/E[(o - g(s))²]
+C) 常に1
+D) 観測数
 
-3. The Fisher information I(θ) for a Gaussian with known mean and unknown precision equals:
-A) The variance
-B) The precision — I = π
-C) Zero
-D) The log-likelihood
+3. 既知の平均と未知の精度を持つガウス分布におけるフィッシャー情報 I(θ) は：
+A) 分散
+B) 精度 — I = π
+C) ゼロ
+D) 尤度関数
 
-4. Attention in the predictive coding framework is mathematically implemented as:
-A) Random amplification of signals
-B) Optimization of precision parameters — increasing gain on relevant prediction errors
-C) Suppression of all prediction errors
-D) Duplication of neural activity
+4. 予測コーディングのフレームワークにおける注意は、数学的に：
+A) 信号のランダムな増幅
+B) 精度パラメータの最適化 — 関連する予測誤差に対するゲインの増加
+C) すべての予測誤差の抑制
+D) 神経活動の複製
 
-5. When sensory precision π₁ >> prior precision π₂, belief updates are:
-A) Driven primarily by priors
-B) Driven primarily by sensory data — the agent "trusts" its senses more
-C) Unaffected by either
-D) Driven by random noise
+5. 感覚精度 π₁ >> 事前精度 π₂ のとき、信念更新は：
+A) 事前に主導される
+B) 感覚データによって主導される — エージェントはより多くの感覚を「信頼」する
+C) いずれにも影響されない
+D) ランダムノイズによって主導される
 
-6. Log-precision γ = ln π is preferred over raw precision π because:
-A) It is always zero
-B) It ranges over all real numbers (avoiding the constraint π > 0) and provides more stable gradient dynamics
-C) It is easier to measure experimentally
-D) Neural systems cannot represent positive numbers
+6. 対数精度 γ = ln π は、生の精度 π よりも好まれる理由：
+A) 常にゼロである
+B) すべての実数範囲をとり（π > 0 の制約を回避）おり、より安定した勾配ダイナミクスを提供する
+C) 実験的に測定しやすいため
+D) 神経系は正の数を表現できない
 
-7. The Cramér-Rao bound states that:
-A) Precision is always bounded above
-B) The variance of any unbiased estimator is at least 1/I(θ) — higher precision ↔ lower minimum variance
-C) Fisher information is always negative
-D) The posterior is always Gaussian
+7. クラーメー・ラオの限界は：
+A) 精度は常に上限される
+B) いかなるバイアスなし推定量の分散は、少なくとも 1/I(θ) である — より高い精度 ↔ より低い最小分散
+C) フィッシャー情報は常に負である
+D) 事後分布は常にガウスである
 
-## Part B: Short Answer
+## Part B: 記述形式
 
-1. For a Gamma prior p(π) = Gamma(α₀, β₀) on precision, with N Gaussian observations having known mean, derive the posterior parameters α_N and β_N. Show that the posterior mean precision increases with the number of observations.
-2. In a two-level hierarchy, the precision ratio π₁/π₂ determines the balance between sensory and prior influence. Compute the posterior mean μ* as a function of this ratio for a linear Gaussian model. What happens in the limits π₁/π₂ → ∞ and π₁/π₂ → 0?
-3. Explain how a volatile environment (where precision changes over time) requires a hierarchical precision model. What additional level of inference is needed, and what does it correspond to neurally?
+1. Gamma 事前 p(π) = Gamma(α₀, β₀) を精度に対して、既知の平均を持つ N 個のガウス観測値で、事後パラメータ α_N と β_N を導出する。事後平均精度が観測値の数が増えるにつれて増加することを示す。
+2. 二階の階層において、精度比 π₁/π₂ は感覚と事前の影響のバランスを決定する。線形ガウスモデルにおいて、この比率に関する事後平均 μ* を計算する。π₁/π₂ → ∞ および π₁/π₂ → 0 の極限で何が起こるか？
+3. 変化する環境（精度が時間とともに変化する場所）では、階層的な精度モデルが必要となる理由を説明する。追加の推論レベルが必要であり、それは神経レベルで何に対応するのか？

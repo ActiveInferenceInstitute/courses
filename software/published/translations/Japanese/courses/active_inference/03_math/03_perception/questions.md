@@ -1,22 +1,22 @@
-# Study Questions: Perception
+# 認識に関する問題
 
-1. Write the perception equation dμ/dt = -∂F/∂μ. Explain what each term represents.
-2. For a single-level Gaussian model p(o|s) = N(s, σ²) with prior p(s) = N(μ₀, σ₀²), derive ∂F/∂μ and the fixed-point solution μ*.
-3. What is the prediction error ε in the predictive coding scheme? How is it computed at each level?
-4. How does precision weighting modulate the influence of prediction errors on belief updates?
-5. Derive the message-passing equations for a two-level hierarchy. Identify the bottom-up and top-down messages.
-6. What is the Jacobian ∂g/∂μ in the prediction error propagation? How does it transform errors between levels?
-7. How do nonlinear generative mappings g(·) affect the message-passing equations compared to linear models?
-8. Show that the fixed point of the predictive coding scheme corresponds to the mode of the posterior (MAP inference).
-9. How does the Laplace approximation relate to the Gaussian assumption in predictive coding?
-10. What is the difference between the Laplace-encoded form of predictive coding and the full Bayesian approach?
-11. Derive the predictive coding update for generalized coordinates of motion (position, velocity, acceleration, ...).
-12. How does predictive coding in generalized coordinates achieve temporal prediction (predicting the future of sensory input)?
-13. What is the mathematical relationship between predictive coding and the Kalman filter?
-14. Show that the Kalman filter is a special case of predictive coding for linear Gaussian models.
-15. How does the gradient descent dynamics dμ/dt = -∂F/∂μ ensure convergence? What conditions are needed?
-16. What is the role of the step size (learning rate) in the gradient descent for perception?
-17. How does hierarchical depth affect the convergence of the message-passing scheme?
-18. Derive the prediction error form of free energy for a model with both state and parameter estimation.
-19. Compare variational message passing with belief propagation on factor graphs. What is the relationship?
-20. Derive the update equations for a binary (categorical) hidden state model. How do the equations differ from the Gaussian case?
+1.  dμ/dt = -∂F/∂μ の認識方程式を書きなさい。各項が何を表しているかを説明してください。
+2.  単一レベルのガウスモデル p(o|s) = N(s, σ²)、事前確率 p(s) = N(μ₀, σ₀²) に対して、∂F/∂μ と固定点解 μ* を導出してください。
+3.  予測的コーディングのスキームにおける予測誤差 ε は何ですか？各レベルでどのように計算されますか？
+4.  精密性重み付けは、予測誤差が信念更新に与える影響をどのように調節しますか？
+5.  二レベル階層に対して、メッセージパッシングの方程式を導出してください。上下方向のメッセージを特定してください。
+6.  予測誤差の伝播における Jacobian ∂g/∂μ は何ですか？エラーをレベル間でどのように変換しますか？
+7.  非線形生成マップ g(·) が、線形モデルと比較してメッセージパッシングの方程式にどのように影響を与えますか？
+8.  予測的コーディングのスキームの固定点が、事後分布（MAP 推論）のモードに対応することを示してください。
+9.  Laplace 近似は、予測的コーディングにおけるガウス仮定とどのように関連していますか？
+10. Laplace エンコードされた形式の予測的コーディングと、完全なベイズアプローチとの違いは何ですか？
+11. 運動の一般化座標（位置、速度、加速度、…）の予測的コーディング更新を導出してください。
+12. 一般化座標における予測的コーディングは、感覚入力の未来予測（未来の予測）をどのように達成しますか？
+13. 予測的コーディングとカルマンフィルタの間の数学的な関係は何ですか？
+14. カルマンフィルタが、線形ガウスモデルに対する予測的コーディングの特殊なケースであることを示してください。
+15. ∇μ/dt = -∂F/∂μ を用いた勾配降下ダイナミクスが収束を保証する方法は何ですか？必要な条件は何ですか？
+16. 認識における勾配降下におけるステップサイズ（学習率）の役割は何ですか？
+17. メッセージパッシングスキームの階層深度が、収束にどのように影響を与えますか？
+18. 状態とパラメータ推定の両方を含むモデルに対して、自由エネルギーの予測誤差の形を導出してください。
+19. ベルマンメッセージパッシングと、因果グラフ上の信念伝播を比較してください。関係性は何か？
+20. 二次（カテゴリカル）な隠れ状態モデルに対して、更新方程式を導出してください。方程式はガウスの場合とどのように異なりますか？

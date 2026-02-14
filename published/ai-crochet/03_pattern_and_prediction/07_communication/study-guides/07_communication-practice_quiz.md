@@ -1,0 +1,53 @@
+# Practice Quiz: Communication — Pattern Languages as Shared Code
+
+## Part A: Multiple Choice
+
+1. US and UK crochet terminology represent:
+A) The same terms
+B) Different encoding schemes for the same generative model
+C) Completely different crafts
+D) Regional preferences with no practical impact
+
+2. A crochet chart compared to a written pattern is:
+A) Always better
+B) A visual encoding versus a textual encoding of the same model
+C) Only for advanced crocheters
+D) A different pattern entirely
+
+3. When crocheters report pattern errors online, they are:
+A) Complaining
+B) Contributing to distributed model validation and refinement
+C) Wasting time
+D) Being impolite
+
+4. The standardization problem in crochet notation is:
+A) Already solved
+B) A coordination challenge between agents using different symbol systems
+C) Unimportant
+D) Only relevant to publishers
+
+5. Pattern abbreviation standards serve to:
+A) Make patterns shorter
+B) Reduce decoding ambiguity so all agents interpret symbols the same way
+C) Exclude beginners
+D) Save printing costs
+
+6. Video tutorials transmit model information that written patterns cannot because:
+A) Videos are more entertaining
+B) They encode motor patterns, timing, and visual demonstrations of technique
+C) Written patterns are always wrong
+D) Videos do not require reading
+
+7. Tech editing of a pattern before publication functions as:
+A) Unnecessary extra cost
+B) Model validation ensuring the encoding accurately represents the intended generative model
+C) Censorship of creative expression
+D) Marketing strategy
+
+## Part B: Short Answer
+
+1. A US crocheter attempts a UK pattern without realizing the terminology difference. Describe specifically what goes wrong with the first instruction: "dc in each st across." What stitch will they make, and what stitch was intended?
+
+2. Explain why finished-object photos, schematics, and row-by-row instructions each transmit different layers of the same generative model. What does each layer contribute that the others cannot?
+
+3. Describe how an active online pattern community (like Ravelry) creates a collective generative model that is richer than any individual designer's model. Give specific examples of how community feedback improves the shared model.

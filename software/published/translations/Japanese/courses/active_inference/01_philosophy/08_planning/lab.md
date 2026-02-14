@@ -1,71 +1,71 @@
-# Lab: Thought Experiment — Planning, Time, and Purpose
+# 実験室：思考実験 — 計画、時間、そして目的
 
-## Objective
+## 目的
 
-Investigate the philosophical foundations of planning through thought experiments on temporal depth, purpose, and the relationship between planning and human flourishing.
+時間的深さ、目的、そして計画と人間の繁栄との関係に関する思考実験を通して、計画の哲学的な基盤を調査する。
 
-## Part 1: The Chess Player's Mind
+## 第1部：チェスプレイヤーの心
 
-**Goal**: Analyze planning depth and counterfactual reasoning.
+**目標**: 計画の深さと反事実的推論を分析する。
 
-A chess grandmaster evaluates a position. She considers: "If I move the knight here, my opponent will likely respond with X, which opens up Y, which after three more moves gives me a strategic advantage."
+チェスのグランドマスターは盤面を評価する。彼女はこう考えている：“もしここでナイトを動かすと、私の相手はXで応じて、Yが開かれ、さらに3手で戦略的な優位性をもたらすだろう”と。
 
-- How many levels of "sophisticated inference" are involved? Map out the recursive structure.
-- How does this compare to the planning of a novice who can only evaluate one move ahead?
-- Does deeper planning make the grandmaster more "rational" or just more computationally powerful? Is there a philosophical difference?
-
-{fill:textarea}
-
-## Part 2: The Problem of Radical Novelty
-
-**Goal**: Examine the limits of planning under uncertainty.
-
-A young person choosing a career faces a problem: the career that would make their future self happiest may require skills and preferences they have not yet developed. They cannot plan for a future self whose generative model is unknown.
-
-- How does Active Inference handle planning when the agent's own model will change?
-- Does this connect to the philosophical concept of "transformative experience" (L.A. Paul)? Paul argues that some choices (having a child, going to war) transform the chooser so fundamentally that rational planning is impossible.
-- Is it rational to choose a transformative experience? How would an Active Inference agent handle this?
+- どの程度の「高度な推論レベル」が含まれているか？ 再帰構造をマッピングする。
+- これは、スキルが低い初心者（1手先しか評価できない）の計画と比較するとどうなるか？
+- より深い計画は、グランドマスターをより「合理的な」ものにするのか、あるいは単に計算能力が高いだけなのか？ 哲学的な違いはあるのか？
 
 {fill:textarea}
 
-## Part 3: Teleology and the Meaning of Life
+## 第2部：根源的な新規性の問題
 
-**Goal**: Explore the deepest philosophical implications of planning.
+**目標**: 不確実性下での計画の限界を検討する。
 
-If planning is inference about the future guided by prior preferences (C vector), then the "purpose" of an agent's life is encoded in its C vector. But where does the C vector come from? Evolution? Culture? Personal experience?
+将来の自分にとって一番幸せなキャリアを選ぶ若い人は、まだ開発していないスキルや好みを備えた未来の自分に対して計画を立てることができないため、問題を抱えている。その未来の自分（生成モデルが未知）を計画することはできない。
 
-- If prior preferences are products of evolution, does this make "purpose" arbitrary?
-- If prior preferences can be changed through learning (Module 06), can an agent choose its own purposes? What philosophical tradition supports this view (hint: existentialism — Sartre)?
-- Write a 100-word reflection: Does Active Inference provide a satisfying account of what gives life meaning?
-
-{fill:textarea}
-
-## Part 4: Anxiety, Procrastination, and Planning Failure
-
-**Goal**: Apply the planning framework to everyday psychological phenomena.
-
-Active Inference predicts that anxiety arises when the agent evaluates many possible futures with high precision on negative outcomes, and procrastination arises when the EFE landscape is too flat to distinguish between policies.
-
-- Think of a situation where you felt anxious about the future. Can you reconstruct the "EFE landscape" — many negative futures with high precision?
-- Think of a situation where you procrastinated. Was it because you couldn't decide which course of action was best (flat landscape)?
-- Do these Active Inference accounts feel psychologically accurate? What do they miss?
+- Active Inference が、エージェント自身のモデルが変化する際に計画をどのように処理するか？
+- これは、L.A. Paul の「変革的な経験」という哲学的な概念とつながるか？ Paul は、子供を持つことや戦争のような選択が、選択者自身を根本的に変化させ、合理的な計画が不可能になることを主張している。
+- 変革的な経験を選択することは合理的なのか？ Active Inference エージェントはどのように対処するのか？
 
 {fill:textarea}
 
-## Part 5: Synthesis and Course Integration
+## 第3部：目的論と人生の意味
 
-**Goal**: Integrate all 8 modules into a unified philosophical vision.
+**目標**: 計画の最も深い哲学的な意味合いを探求する。
 
-This is the final module. Write a 300-word essay that connects all eight concepts (Systems, Agents, Perception, Cognition, Action, Learning, Communication, Planning) into a coherent philosophical account of what it means to be a mind in the world. Use vocabulary and concepts from at least 5 of the 8 modules.
+計画が、先行する好みに基づいて未来を推論することである場合（Cベクトル）、エージェントの人生における「目的」は、そのCベクトルにエンコードされる。しかし、Cベクトルはどこから来るのか？ 進化？ 文化？ 個人的な経験？
+
+- 先行する好みが進化の産物である場合、それは「目的」を恣意的なものにするか？
+- 学習（モジュール 06）を通じて先行する好みを変更できる場合、エージェントは自分の目的を選ぶことができるか？ この見方を支持する哲学的な伝統は何か（ヒント：実存主義—サルトル）？
+- 100語の反省を書いてください。 Active Inference は、人生に意味を与えることについて満足のいく説明を提供するか？
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：不安、先延ばし、そして計画の失敗
 
-| Part | Skill Developed | Key Philosophical Move |
+**目標**: 日常の心理現象に計画の枠組みを適用する。
+
+Active Inference は、エージェントが否定的な結果について多くの可能性を高い精度で評価する場合、不安が生じ、EFE地形が平坦で、政策の区別が難しいため、先延ばしが生じると予測している。
+
+- 不安を感じた状況を考えてください。多くの否定的な未来を高い精度で評価している場合、EFE地形を再構築できますか？
+- 先延ばしをした状況を考えてください。それは、最適な行動を決定できないこと（平坦な地形）が原因だったのでしょうか？
+- これらの Active Inference の説明は、心理的に正確に感じられるか？ 何が欠けているか？
+
+{fill:textarea}
+
+## 第5部：統合とコース統合
+
+**目標**: 8つのモジュールを統一された哲学的なビジョンに統合する。
+
+これは最終モジュールです。8つの概念（システム、エージェント、知覚、認知、行動、学習、コミュニケーション、計画）を包括的な哲学的な説明に結びつける 300 語の論文を書いてください。それは、世界に存在する心についてです。8つのモジュール（システム、エージェント、知覚、認知、行動、学習、コミュニケーション、計画）の用語と概念を少なくとも5つ使用してください。
+
+{fill:textarea}
+
+## 実験室の概要
+
+| 部 | 開発されたスキル | キーとなる哲学的な動き |
 |------|----------------|----------------------|
-| 1 | Recursive analysis | Mapping planning depth to sophistication of inference |
-| 2 | Limit reasoning | Confronting the paradox of planning for a self that does not yet exist |
-| 3 | Existential analysis | Connecting prior preferences to purpose and meaning |
-| 4 | Applied phenomenology | Using Active Inference to illuminate everyday psychological phenomena |
-| 5 | Integrative essay | Synthesizing the full 8-module philosophical framework |
+| 1 | 再帰的分析 | 計画の深さを洗練された推論にマッピングする |
+| 2 | 限界の推論 | 存在しない未来の自分に対して計画を立てるというパラドックスに直面する |
+| 3 | 存在主義的分析 | 先行する好みを目的と意味に結びつける |
+| 4 | 応用的な現象学 | Active Inference を使用して、日常的な心理現象を照らし出す |
+| 5 | 統合的なエッセイ | 8つのモジュール全体を包括する哲学的な枠組みを統合する |

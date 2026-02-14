@@ -1,43 +1,43 @@
-# Module 05: Action — Agency as Inference, Affordances, and Active Exploration
+# モジュール 05: 行動 — 代理としての推論、機能性と積極的探索
 
-## Learning Objectives
+## 学習目標
 
-1. Explain how Active Inference unifies perception and action as two aspects of the same inferential process.
-2. Analyze the relationship between affordances (Gibson), pragmatism (Dewey), and the Active Inference account of action.
-3. Evaluate the implications of treating action as inference for the philosophical problem of free will.
+1.  アクティブ・インファーレンスが、受動性と能動性の両側面を包含する単一の推論的プロセスとして知覚と行動を統合する方法を説明する。
+2.  ギブソンの機能性 (Gibson)、プラクティスム (Dewey) と、アクティブ・インファーレンスの行動の説明との関係を分析する。
+3.  行動を推論と見なすことの含意を、自由意志という哲学的な問題に評価する。
 
-## Introduction
+## 導入
 
-In traditional philosophy, perception and action are treated as separate faculties — one receptive, the other productive. Empiricist epistemology begins with sensory input; pragmatism begins with practical engagement. Active Inference dissolves this divide: **action and perception are both forms of prediction error minimization**. Perception updates internal states to fit the world; action changes the world to fit internal states (predictions). The agent does not first perceive and then decide to act — it does both simultaneously, driven by the same imperative to minimize free energy.
+伝統的な哲学では、知覚と行動はそれぞれ別個の機能として扱われる—受動的なものであり、生産的なものである。経験主義的な認識論は、感覚入力から始まる。プラクティスムは、実践的な関与から始まる。アクティブ・インファーレンスは、この区別を解消する：**行動と知覚はどちらも、予測誤差の最小化という形態である**。知覚は、内部の状態を世界に適合するように更新する。行動は、内部状態（予測）に適合するように世界を変更する（予測を達成するために）。エージェントは、まず知覚し、その後行動するというわけではなく、両方を同時に行い、自由エネルギーを最小化するという同じ imperatives によって推進される。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Action as Self-Fulfilling Prophecy
+### 1. 行動は自己実現的な予言
 
-In Active Inference, action arises when the agent generates a prediction about its own sensory future — a **proprioceptive prediction** — and the body moves to *make that prediction come true*. Reaching for a cup involves predicting the sensory consequences of a successful reach; the motor system then acts to minimize the discrepancy between that prediction and the actual proprioceptive feedback.
+アクティブ・インファーレンスにおいて、行動はエージェントが自身の感覚的な未来に関する予測を生成するときに発生する。これは**プロプリオセプティブな予測**であり、身体がその予測を実現するために動く。カップを掴むことは、成功した掴みの感覚的な結果に関する予測を生成することであり、モーターシステムがその予測と実際のプロプリオセプティブなフィードバックとの間の乖離を最小化するような行動をとることを意味する。
 
-This inverts the classical computational model of motor control, which assumes: goal → plan → command → movement. In Active Inference, it is: prediction → prediction error → movement (to cancel the error). As Friston puts it: "I don't move my arm because I want to; I move my arm because I predict I will."
+これは、古典的な計算モデルのモーター制御の仮定を覆す。目標 → 計画 → 命令 → 移動である。アクティブ・インファーレンスでは、予測 → 予測誤差 → 移動（エラーを打ち消すために）である。Friston が言うように、「私は自分の意志で腕を動かさない。腕を動かすのは、私が腕を動かすと予測しているからだ」
 
-### 2. Affordances and Expected Free Energy
+### 2. 機能性と期待される自由エネルギー
 
-Gibson's (1979) concept of **affordances** — the action possibilities that the environment offers to an organism — finds a natural home in Active Inference. Affordances are encoded in the agent's generative model as the set of possible policies (action sequences) and their expected consequences. The agent selects the policy that minimizes **Expected Free Energy (EFE)**, which decomposes into:
+Gibson (1979) の**機能性**の概念—生物にとって環境が提供する行動の可能性—は、アクティブ・インファーレンスに自然に適合する。機能性は、エージェントの生成モデルにエンコードされ、可能なポリシー（行動シーケンス）とその期待される結果のセットとして表現される。エージェントは、**期待される自由エネルギー (EFE)** を最小化するポリシーを選択する：
 
-- **Pragmatic value (risk)**: Acting to reach preferred states (the C vector)
-- **Epistemic value (ambiguity resolution)**: Acting to gain information that reduces uncertainty
+-   **プラクティスム的価値（リスク）**: 望ましい状態に到達するために行動すること（Cベクトル）
+-   **認識的価値（曖昧性解消）**: 不確実性を削減する情報を得るために行動すること
 
-This decomposition elegantly captures the distinction between *exploitative* action (seeking known rewards) and *exploratory* action (seeking information).
+この分解は、*探求的な行動*（既知の報酬を求める）と*探求的な行動*（情報を求める）の区別をエレガントに捉えている。
 
-### 3. Free Will as Inference
+### 3. 自由意志は推論である
 
-If action arises from prediction error minimization, is there room for free will? Active Inference suggests a compatibilist answer: the agent's actions are *determined* by the generative model and its free energy dynamics, but the generative model is not a rigid mechanism — it is a flexible, hierarchical structure that can represent counter-factual possibilities and deliberate among them. "Free will" is the phenomenological experience of operating with a complex, multi-layered generative model that entertains multiple possible futures.
+行動が予測誤差の最小化から生じる場合、自由意志の余地はあるか？アクティブ・インファーレンスは、共存主義的な答えを提示する：エージェントの行動は、生成モデルとその自由エネルギーダイナミクスによって*決定*されるが、生成モデルは硬いメカニズムではなく、反事実的な可能性を表現し、それらを検討できる、階層的な構造である。**自由意志**は、複雑で多層的な生成モデルで複数の未来を検討するという現象学的な経験である。
 
-This connects to Frankfurt's (1971) hierarchical account of free will: freedom consists not in the absence of causes but in the capacity for higher-order reflection on one's own desires.
+これは、Frankfurt (1971) の自由意志に関する階層的な説明と関連している：自由は、原因の不在ではなく、自分の欲求についてより上位の階層的な反省能力である。
 
-## Applications
+## 応用
 
-- **Embodied Expertise**: A skilled dancer does not "plan" each movement but allows prediction error minimization to unfold through a highly refined generative model. This illuminates Dreyfus's phenomenology of skill.
-- **Epistemic Action**: An infant shaking a rattle is not merely playing; it is engaging in *epistemic action* — generating sensory data to refine its generative model. Curiosity, on this account, is the drive to minimize expected ambiguity.
+-   **身体化された専門知識**: 熟練したダンサーは、各動きを「計画」するのではなく、高度に洗練された生成モデルを通して予測誤差の最小化を解き放つ。これは、Dreyfus のスキルの現象学を照らし出す。
+-   **認識的な行動**: 乳児がガラガラを揺らすのは単なる遊びではない。それは、生成モデルを修正するために感覚データを生成する**認識的な行動**であり、好奇心は、期待される曖昧さを最小化するための推進力である。
 
-## Conclusion
+## 結論
 
-Active Inference reveals that action is not the execution of a pre-formed plan but a form of embodied inference. This has radical implications for motor control, free will, and the nature of skilled engagement. Module 06 explores how the agent's generative model itself changes over time — the problem of learning.
+アクティブ・インファーレンスは、行動が事前に形成された計画の実行ではなく、身体化された推論の形態であることを明らかにする。これは、モーター制御、自由意志、および熟練した関与の性質に革命的な影響を与える。モジュール 06 は、エージェントの生成モデル自体が時間とともに変化する問題—学習の問題—を調査する。

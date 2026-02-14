@@ -1,51 +1,51 @@
-# Practice Quiz: Perception
+# 練習クイズ：知覚
 
-## Part A: Multiple Choice
+## 部門 A：選択式
 
-1. The perception equation dμ/dt = -∂F/∂μ describes:
-A) Motor control
-B) Gradient descent on free energy — internal states flow to minimize prediction error
-C) Random exploration of state space
-D) A static equilibrium condition
+1.  dμ/dt = -∂F/∂μ という方程式は、次のうち何を表していますか？
+    A) 運動制御
+    B) 自由エネルギーにおける勾配降下 — 内部状態が予測誤差を最小限に抑えるために流れ
+    C) 状態空間のランダム探索
+    D) 静的な平衡条件
 
-2. In a two-level predictive coding hierarchy, the update at level l depends on:
-A) Only bottom-up prediction errors from level l-1
-B) Only top-down predictions from level l+1
-C) Both bottom-up precision-weighted prediction errors and top-down predictions
-D) Neither — each level is independent
+2.  二層予測コーディング階層において、レベル *l* における更新は、次の何に依存しますか？
+    A) レベル *l*-1 からの、下からの予測誤差のみ
+    B) レベル *l*+1 からの、上からの予測のみ
+    C) 下からの精密度に基づいた予測誤差と、上からの予測の両方
+    D) いずれでもない — 各レベルは独立している
 
-3. The prediction error εₗ = μₗ - g(μₗ₊₁) represents:
-A) The noise in observations
-B) The discrepancy between the current estimate and the prediction from the level above
-C) The learning rate
-D) The prior probability
+3.  εₗ = μₗ - g(μₗ₊₁) という予測誤差は、次のうち何を表していますか？
+    A) 観測のノイズ
+    B) 現在の推定値と、上位レベルからの予測との間の乖離
+    C) 学習率
+    D) 事前確率
 
-4. Precision weighting in message passing determines:
-A) The color of neural signals
-B) How strongly a prediction error drives updates — high precision errors matter more
-C) The speed of neural transmission
-D) The number of neurons involved
+4.  メッセージパッシングにおける精密度に基づいた重み付けは、次のうち何を決定しますか？
+    A) 神経信号の色
+    B) 予測誤差が更新をどれだけ強く駆動するか — 高い精密度を持つ誤差がより重要
+    C) 神経伝達の速度
+    D) 参加しているニューロンの数
 
-5. The fixed point of the predictive coding dynamics (dμ/dt = 0) corresponds to:
-A) Maximum free energy
-B) The MAP (maximum a posteriori) estimate of the hidden states
-C) Random guessing
-D) The prior mean only
+5.  予測コーディングダイナミクスの固定点 (dμ/dt = 0) は、次のうち何に対応しますか？
+    A) 最大自由エネルギー
+    B) 隠れた状態のMAP（最大事後確率）推定値
+    C) ランダムな推測
+    D) 事前平均のみ
 
-6. The Laplace approximation:
-A) Assumes all distributions are uniform
-B) Approximates the posterior as Gaussian centered on the MAP estimate, enabling tractable nonlinear inference
-C) Is exact for all distributions
-D) Only applies to discrete distributions
+6.  ラプラス近似：
+    A) すべての分布を均一であると仮定する
+    B) MAP推定値を中心としたガウス分布で後分布を近似し、計算可能な非線形推論を可能にする
+    C) すべての分布に対して正確である
+    D) 離散分布にのみ適用される
 
-7. Generalized coordinates extend predictive coding by:
-A) Adding more spatial dimensions
-B) Including temporal derivatives (velocity, acceleration, etc.), enabling prediction of how sensory input will change
-C) Removing the hierarchical structure
-D) Replacing continuous states with discrete states
+7.  一般化された座標は、予測コーディングを拡張するために、次のうち何を追加しますか？
+    A) より多くの空間次元を追加する
+    B) 速度、加速度など、時間的微分を含み、感覚入力がどのように変化するかを予測することを可能にする
+    C) 階層構造を取り除く
+    D) 連続状態を離散状態で置き換える
 
-## Part B: Short Answer
+## 部門 B：記述式
 
-1. For a Gaussian model with prior p(s) = N(0, 4) and likelihood p(o|s) = N(s, 1), compute the posterior mean after observing o = 3. Show that it is a precision-weighted average.
-2. In a three-level hierarchy (observations → level 1 → level 2 → level 3), describe the messages passed between levels. Why must prediction errors from below AND predictions from above both contribute to each level's update?
-3. Explain why the Kalman filter is a special case of predictive coding for linear Gaussian models. What additional capability does predictive coding in generalized coordinates provide beyond the standard Kalman filter?
+1.  事前確率 p(s) = N(0, 4) と尤度 p(o|s) = N(s, 1) を持つガウスモデルについて、観測 o = 3 を行った後、事後平均を計算してください。精密度に基づいた平均であること、つまり、精密度に基づいた平均であることを示してください。
+2.  観察 → レベル 1 → レベル 2 → レベル 3 の三層階層において、各レベル間のメッセージについて記述してください。予測誤差の下からのものと上からのものが両方貢献する必要がある理由を説明してください。
+3.  カルマンフィルタが、線形ガウスモデルの予測コーディングの特殊なケースである理由を説明してください。一般化された座標における予測コーディングが、標準的なカルマンフィルタの能力を超えた追加の機能は何ですか？

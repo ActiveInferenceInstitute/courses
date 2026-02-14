@@ -1,51 +1,23 @@
-# Practice Quiz: Planning
+# Practice Quiz: Digital Transformation — Module 08: Planning
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Planning** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. GE Digital's $4B+ failure illustrates: A) Bad technology B) The transformation paradox — moving faster than the organization's capacity to learn and absorb change C) Poor strategy D) Market failure
+2. **Kotter's 8-step model** begins with: A) Hiring consultants B) Creating urgency — establishing why transformation is needed now C) Buying technology D) Reorganizing
+3. The **Three Horizons** framework helps by: A) Planning three years ahead B) Structuring digital investments across current business (H1), emerging (H2), and future options (H3) simultaneously C) Creating three plans D) Hiring three teams
+4. "Quick wins" in digital transformation are valuable because: A) They save money B) They build credibility, generate learning, and create organizational momentum for larger changes C) They're easy D) Executives like them
+5. The "frozen middle" resists transformation because: A) They're incompetent B) Middle managers' expertise and authority are most threatened by digital change, and they haven't been included in the vision C) They're old-fashioned D) They don't understand technology
+6. Digital transformation **sequencing** should prioritize: A) The most visible technology B) Building infrastructure and capability before scaling — data platforms before advanced analytics C) Everything at once D) The cheapest projects
+7. Most digital transformations fail because: A) Bad technology B) Insufficient attention to organizational change — culture, skills, processes, and leadership alignment C) Market conditions D) Lack of budget
 
-2. In Organizations, Planning is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+---
 
-3. Which mathematical quantity is most central to Planning?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+## Part B: Short Analysis
 
-4. How does Planning relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
-
-5. A failure in Planning would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
-
-6. Which scale is most relevant for analyzing Planning in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
-
-7. Planning connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Planning** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Planning failing in a Organizations scenario.
-3.  How would you model Planning using a POMDP (Partially Observable Markov Decision Process)?
+1. Design a 3-year digital transformation roadmap for a mid-size manufacturing company. Structure it across the Three Horizons, with specific sequencing rationale.
+2. Your organization's previous digital transformation initiative failed due to employee resistance. Apply Kotter's 8-step model to design an improved change management approach for the next attempt.
+3. Your CEO wants to "transform everything at once" with a $10M investment. Using the GE Digital case and the transformation paradox concept, argue for a phased approach and design the first three phases.

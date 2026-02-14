@@ -1,0 +1,123 @@
+# Modifying the Pattern Mid-Row: Action as Active Inference
+
+## Summary
+
+Crochet is not just following instructions — it is a continuous dialogue between your intentions and the emerging fabric. When you substitute a stitch, adjust for size, improvise a border, or decide to frog and redo a section, you are performing **active inference**: acting on the world to reduce the gap between what you predicted and what you want. This module explores the action side of the perception-action loop — the ways crocheters modify patterns on the fly and the decisions that drive those modifications.
+
+---
+
+## Learning Objectives
+
+By the end of this module, you will be able to:
+
+1. Explain pattern modification on the fly as active inference — acting to reduce the gap between intention and outcome
+2. Identify stitch substitution, size adjustment, and improvisation as forms of active inference
+3. Describe how the decision to frog, tink, or continue reflects different strategies for minimizing prediction error
+
+---
+
+## Key Concepts
+
+### 1. Action in the Perception-Action Loop
+
+In Active Inference, agents have two ways to reduce prediction error:
+
+1. **Perceptual inference**: Update your model to match the world (change your expectations)
+2. **Active inference**: Change the world to match your model (act on the environment)
+
+In crochet, both happen constantly. When you notice your gauge is tighter than the pattern specifies, you can either accept that your fabric will be smaller (perceptual inference — updating your expectation) or switch to a larger hook (active inference — changing your action to bring the fabric closer to the prediction).
+
+The key insight is that **every stitch is an action**. Each time you insert the hook, wrap the yarn, and pull through, you are acting on the world — transforming yarn into fabric. And each action is shaped by your generative model's predictions about what the fabric should become.
+
+### 2. Stitch Substitution: Changing the Likelihood Function
+
+One of the most common pattern modifications is **stitch substitution** — replacing the pattern's specified stitch with a different one. In Active Inference terms, this is modifying the **likelihood function** — the transformation rules that map inputs to outputs.
+
+Common substitutions and their effects:
+- **dc for hdc**: More height, more drape, more open fabric. You get the same number of stitches but a different texture.
+- **sc for dc**: Denser, shorter, stiffer fabric. Dramatically changes the feel and proportions.
+- **fpdc/bpdc for dc**: Same height but creates texture (ribbing, cables). The fabric looks different while maintaining dimensions.
+- **Bobble for sc**: Adds texture at a specific point without changing the row structure.
+
+Each substitution changes what the model predicts about the finished fabric. An experienced crocheter can anticipate these changes — "If I use half doubles instead of doubles, the fabric will be shorter and denser, so I may need more rows." This anticipation is the generative model simulating the effect of the action before it is taken.
+
+### 3. Size Adjustment: Re-parameterizing the Model
+
+Adjusting a pattern for a different size is **re-parameterizing the generative model** — changing the numbers while preserving the structural logic:
+
+- **Adding or subtracting repeats**: For a scarf, making it wider by adding pattern repeats. The structural rules stay the same; only the count changes.
+- **Scaling stitch counts**: For a hat, increasing the starting chain to fit a larger head. This requires recalculating the decrease schedule to maintain the crown shape.
+- **Adjusting row counts**: Making a garment longer or shorter by adding or removing rows.
+
+The challenge of size adjustment reveals the difference between **surface features** (specific stitch counts) and **deep structure** (the generative rules). A crocheter who understands the deep structure can resize confidently. One who only follows the surface instructions may struggle because they do not know which numbers can change and which must be preserved.
+
+### 4. The Frogging Decision: Cost-Benefit Analysis of Error Correction
+
+When you detect an error — a missed stitch, a wrong stitch count, a section that does not look right — you face a decision with three options:
+
+1. **Frog it** (rip it, rip it): Undo the work back to the error and redo it correctly. High cost (time, effort) but eliminates the prediction error entirely.
+2. **Tink it** (knit backward — stitch by stitch): Carefully undo only the stitches needed. Medium cost, medium correction.
+3. **Leave it**: Accept the error and continue. Zero additional cost but the prediction error remains in the finished object.
+
+This decision is a **precision-weighted cost-benefit analysis**:
+- How visible is the error? (precision of the prediction error signal)
+- How much work would frogging cost? (action cost)
+- How much does the error affect the finished piece? (consequence magnitude)
+- Is this a gift or a personal project? (context-dependent precision)
+
+An experienced crocheter has learned through many projects which errors matter and which do not. This learning is an update to the precision parameters of their generative model — a calibrated sense of which prediction errors are worth the cost of correction.
+
+### 5. Improvisation: Active Inference Without a Written Model
+
+The most radical form of action in crochet is **improvisation** — working without a written pattern, guided only by your internal generative model:
+
+- Freeform crochet, where you make stitches based on how the fabric looks and feels
+- Making up a border by trying different stitch combinations
+- Creating an amigurumi character by sculpting with stitches
+
+In improvisation, there is no external pattern to compare against. All predictions come from your internal model, and every stitch is simultaneously a prediction ("I think this will look good") and a test of that prediction ("Does it look good?"). The perception-action loop is tight and fast:
+
+1. **Predict**: "If I put 3 dc in the next stitch, it will create a fan shape"
+2. **Act**: Make the 3 dc
+3. **Observe**: Look at the result
+4. **Compare**: Does it match my prediction?
+5. **Decide**: Continue (prediction confirmed) or undo (prediction error too large)
+
+Improvisation requires a highly trained generative model because there is no external scaffold. The model must be rich enough to generate accurate predictions about how stitches combine into shapes, textures, and structures.
+
+---
+
+## Applications: Practicing Active Modification
+
+### The Substitution Experiment
+
+Take a simple pattern and make it twice: once as written, once with a systematic stitch substitution (e.g., replace all dc with hdc). Compare the results. Document how the substitution changed the fabric's height, width, drape, and appearance. This builds your model's ability to predict the effects of action changes.
+
+### The Deliberate Error Exercise
+
+Intentionally introduce an error in a practice swatch — skip a stitch, add an extra one. Then practice the frogging decision: Is this error worth correcting? Why or why not? This builds calibration of your precision parameters.
+
+### The Improvisation Challenge
+
+Starting with a simple foundation chain, crochet freely for 15 minutes with no pattern. After each row, record what you predicted would happen and what actually happened. Notice how your predictions improve as your internal model adapts to the emerging fabric.
+
+---
+
+## Conclusion
+
+Action in crochet is not just executing instructions — it is active inference. Every stitch is an action that changes the world. Modifying patterns, substituting stitches, adjusting sizes, and improvising are all forms of acting to align the physical fabric with your generative model's predictions. The decision of when to correct errors and when to accept them reflects learned precision about what matters and what does not. Mastering action means mastering the art of purposeful modification.
+
+In the next module, we explore learning — how crocheters progress from following patterns to modifying them to writing their own, building ever more sophisticated generative models.
+
+---
+
+## Key Terms
+
+| Term | Crochet Meaning | Active Inference Meaning |
+| --- | --- | --- |
+| Stitch substitution | Replacing one stitch with another | Modifying the likelihood function |
+| Size adjustment | Changing stitch/row counts for fit | Re-parameterizing the model |
+| Frogging | Ripping out incorrect work | High-cost error correction |
+| Tinking | Undoing stitch by stitch | Moderate-cost targeted correction |
+| Leaving an error | Continuing despite a mistake | Accepting prediction error (low precision) |
+| Improvisation | Working without a written pattern | Active inference driven by internal model alone |

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Testing Agent — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>The Testing Agent</h1>
+  <p class="subtitle">Section 3: Prototyping and Testing &mdash; Module 02: Agents</p>
+  <span class="tag">Creator-Evaluator Shift &bull; Distributed Sensing &bull; Adversarial Testing</span>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="concepts">Concepts</div>
+  <div class="tab" data-tab="quiz">Quiz</div>
+  <div class="tab" data-tab="checklist">Checklist</div>
+  <div class="tab" data-tab="modules">Modules</div>
+</div>
+
+<div class="panel active" id="concepts">
+  <h2 style="font-size:1.1rem;margin-bottom:1rem;">Core Concepts</h2>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>1. The Creator-Evaluator Transition</h3>
+    <div class="desc">Building and evaluating require different agent configurations. The creator acts to reduce discrepancy between vision and reality. The evaluator must detect performance errors honestly. The inventor's strong priors that the prototype will work (because they designed it from those priors) create bias toward confirmation. Edison's commitment to tin foil phonographs delayed the discovery that wax cylinders were superior.</div>
+    <div class="meter"><div class="fill" style="width:90%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>2. The Inventor's Observation Model</h3>
+    <div class="desc">The inventor does not passively receive test data. Their observation model determines what is attended to, what is ignored, and how signals are interpreted. Sensory precision controls how much weight is given to data vs. priors. Attentional selection determines which aspects of behavior are monitored. Knowing the "right answer" creates top-down predictions that can override bottom-up evidence.</div>
+    <div class="meter"><div class="fill" style="width:85%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>3. External Agents as Distributed Sensors</h3>
+    <div class="desc">External testers bring different generative models, different priors, and different attention profiles. Naive users reveal gaps between the inventor's model and the user's model. Xerox PARC's Star workstation tests with office workers revealed that drag-and-drop was confusing to people who thought in terms of typewriters and filing cabinets. Beta testing deploys hundreds of independent inference agents across diverse environments.</div>
+    <div class="meter"><div class="fill" style="width:80%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>4. Adversarial Testing</h3>
+    <div class="desc">Most testing confirms that prototypes work. Adversarial testing inverts this: the tester's goal is to maximize surprise by finding failures. Red teams bring strong priors that the prototype will fail and creative search strategies for weaknesses. The de Havilland Comet crashes revealed that standard testing had not explored fatigue failure. Adversarial testers explore the regions of possibility space that optimistic testers never visit.</div>
+    <div class="meter"><div class="fill" style="width:75%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>5. Managing Agent-Level Biases</h3>
+    <div class="desc">Confirmation bias: strong priors dominate the posterior. Sunk cost bias: past investment is weighted over current evidence. Anchoring bias: early results disproportionately influence later interpretation. The countermeasure across all biases is pre-registration: committing to specific hypotheses, protocols, and success/failure criteria before testing begins, constraining interpretive degrees of freedom.</div>
+    <div class="meter"><div class="fill" style="width:70%"></div></div>
+  </div>
+</div>
+
+<div class="panel" id="quiz">
+  <div class="quiz-box">
+    <h3 id="q-counter">Question 1 of 7</h3>
+    <p id="q-text"></p>
+    <div id="q-options"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" id="q-prev" onclick="quizNav(-1)">Previous</button>
+      <button class="quiz-btn" id="q-next" onclick="quizNav(1)">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="checklist">
+  <h2 style="font-size:1.1rem;margin-bottom:1rem;">Learning Checklist</h2>
+  <div class="checklist" id="cl-items"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill" style="width:0%"></div></div>
+  <div class="cl-status" id="cl-status">0 of 5 complete</div>
+</div>
+
+<div class="panel" id="modules">
+  <h2 style="font-size:1.1rem;margin-bottom:1rem;">Section 3: Prototyping &amp; Testing</h2>
+  <div class="mod-grid">
+    <div class="mod-card"><div class="num">01</div><div class="name">The Prototype as a System</div></div>
+    <div class="mod-card current"><div class="num">02</div><div class="name">The Testing Agent</div></div>
+    <div class="mod-card"><div class="num">03</div><div class="name">Reading the Prototype's Signals</div></div>
+    <div class="mod-card"><div class="num">04</div><div class="name">Reasoning About Results</div></div>
+    <div class="mod-card"><div class="num">05</div><div class="name">Iterative Refinement</div></div>
+    <div class="mod-card"><div class="num">06</div><div class="name">Learning from Failure and Success</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">Documenting the Build</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">Test Planning Under Uncertainty</div></div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+const quizData=[
+  {q:"The creator-evaluator transition is difficult because:",opts:["Building and testing use different tools","The inventor's strong priors create precision-weighted bias toward confirming observations","Inventors lack statistical training","Testing requires more people"],ans:1,explain:"The inventor designed the prototype based on their priors, so those priors are deeply committed to the design's success, making disconfirming evidence harder to accept."},
+  {q:"An inventor with high sensory precision during testing will:",opts:["Ignore all test data","Give strong weight to incoming data and update beliefs quickly","Build higher-fidelity prototypes","Recruit fewer testers"],ans:1,explain:"High sensory precision means the agent trusts incoming data strongly relative to priors, enabling rapid belief updating from test results."},
+  {q:"Beta testers are valuable primarily because they:",opts:["Work for free","Each bring unique generative models producing diverse prediction errors","Are more skilled than the inventor","Provide marketing quotes"],ans:1,explain:"Each beta tester processes the prototype through a unique lens of expectations, habits, and contexts, generating prediction errors the creator cannot produce alone."},
+  {q:"Adversarial testers aim to:",opts:["Confirm the prototype works","Give encouraging feedback","Maximize surprise by finding failure conditions","Reduce testing costs"],ans:2,explain:"Adversarial testing inverts normal testing by seeking conditions that break the prototype, exploring regions of the state space that optimistic testers overlook."},
+  {q:"Pre-registration in testing reduces bias by:",opts:["Registering patents before testing","Committing to hypotheses and success criteria before testing, constraining interpretive freedom","Pre-ordering materials for the next prototype","Registering testers in a database"],ans:1,explain:"Pre-registration constrains the degrees of freedom in the agent's observation model, reducing the space for post-hoc rationalization of ambiguous results."},
+  {q:"The Segway case study illustrates that:",opts:["Gyroscopic stabilization does not work","The creator's observation model can miss social and practical prediction errors that users detect","Consumer electronics always fail","Adversarial testing is unnecessary"],ans:1,explain:"Kamen's engineering-focused observation model missed social awkwardness, practical limitations, and cultural positioning that real-world users immediately experienced."},
+  {q:"Expertise creates testing blind spots because:",opts:["Experts are arrogant","Expert knowledge creates strong top-down predictions that make certain features invisible","Experts test too quickly","Experts use outdated methods"],ans:1,explain:"Experts know how the system is supposed to work, generating strong predictions that can override sensory evidence of confusion or difficulty that novices would immediately notice."}
+];
+
+let qIdx=0;
+function renderQuiz(){
+  const q=quizData[qIdx];
+  document.getElementById('q-counter').textContent=`Question ${qIdx+1} of ${quizData.length}`;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('q-explain').style.display='none';
+  document.getElementById('q-explain').textContent=q.explain;
+  const optC=document.getElementById('q-options');
+  optC.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const d=document.createElement('div');
+    d.className='quiz-opt';
+    d.textContent=String.fromCharCode(65+i)+') '+o;
+    d.addEventListener('click',()=>{
+      optC.querySelectorAll('.quiz-opt').forEach(x=>{x.classList.remove('correct','wrong')});
+      d.classList.add(i===q.ans?'correct':'wrong');
+      if(i!==q.ans) optC.children[q.ans].classList.add('correct');
+      document.getElementById('q-explain').style.display='block';
+    });
+    optC.appendChild(d);
+  });
+}
+function quizNav(dir){qIdx=Math.max(0,Math.min(quizData.length-1,qIdx+dir));renderQuiz();}
+renderQuiz();
+
+const clItems=[
+  "Explain the creator-evaluator transition and why it is cognitively difficult",
+  "Identify how your own priors and attention patterns shape your observations during testing",
+  "Design a testing protocol that includes naive users, domain experts, and adversarial testers",
+  "Apply pre-registration to constrain interpretive bias before testing begins",
+  "Analyze conflicting test observations using the concept of different observation models"
+];
+const clKey='s3m02_cl';
+let clState=JSON.parse(localStorage.getItem(clKey)||'[]');
+if(clState.length!==clItems.length) clState=clItems.map(()=>false);
+function renderChecklist(){
+  const c=document.getElementById('cl-items');c.innerHTML='';
+  clItems.forEach((item,i)=>{
+    const d=document.createElement('div');d.className='cl-item';
+    const cb=document.createElement('input');cb.type='checkbox';cb.checked=clState[i];
+    cb.addEventListener('change',()=>{clState[i]=cb.checked;localStorage.setItem(clKey,JSON.stringify(clState));updateProg();});
+    const lbl=document.createElement('span');lbl.textContent=item;
+    d.appendChild(cb);d.appendChild(lbl);c.appendChild(d);
+  });updateProg();
+}
+function updateProg(){
+  const done=clState.filter(Boolean).length;
+  document.getElementById('cl-fill').style.width=(done/clItems.length*100)+'%';
+  document.getElementById('cl-status').textContent=`${done} of ${clItems.length} complete`;
+}
+renderChecklist();
+</script>
+</body>
+</html>

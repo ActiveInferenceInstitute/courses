@@ -1,25 +1,26 @@
-# Module 4: Cognition — Agent Guidelines
+# モジュール4：認知 — エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コースのエージェント](../AGENTS.md) | [コースのガイドライン エージェント](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Precision Matrices, Hierarchical Gaussian Filters, Message Passing |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Cognition) |
-| `lab.md` | File | Derivation: Precision Matrices, Hierarchical Gaussian Filters, Message Passing |
-| `dashboard.html` | File | Interactive dashboard: Cognition |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル - モジュールエージェントガイドライン |
+| `module.md` | ファイル | フルレクチャー：精度行列、階層的ガウスフィルタ、メッセージパッシング |
+| `questions.md` | ファイル | 20 の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ：7 個のMC + 3 個のFR (認知) |
+| `lab.md` | ファイル | 導出：精度行列、階層的ガウスフィルタ、メッセージパッシング |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード：認知 |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Mathematical
-- **Topic**: Cognition — Precision Matrices, Hierarchical Gaussian Filters, Message Passing
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/04_cognition/module.md` for parallel modules
+- **視点**: 数学的
+- **トピック**: 認知 — 精度行列、階層的ガウスフィルタ、メッセージパッシング
+- **記号**: [notation_table.md](../../resources/notation_table.md) に基づく
+- **用語**: [glossary.md](../../resources/glossary.md) に基づく
+- **相互参照**: `../../XX_course/04_cognition/module.md` へのリンク - 関連モジュールへの参照
+

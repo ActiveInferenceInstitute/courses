@@ -1,25 +1,25 @@
-# Module 1: Systems — Agent Guidelines
+# モジュール1：システム - エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コース エージェント](../AGENTS.md) | [コース エージェント](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Mathematical Foundations: Matrices, Probability, and Bayesian Reasoning |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Systems) |
-| `lab.md` | File | Derivation: Mathematical Foundations: Matrices, Probability, and Bayesian Reasoning |
-| `dashboard.html` | File | Interactive dashboard: Systems |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル - モジュールエージェントガイドライン |
+| `module.md` | ファイル | 全講義：数学的基礎：行列、確率、ベイズ推論 |
+| `questions.md` | ファイル | 20の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ：7問MC + 3問FR (システム) |
+| `lab.md` | ファイル | 推論：数学的基礎：行列、確率、ベイズ推論 |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード：システム |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Mathematical
-- **Topic**: Systems — Mathematical Foundations: Matrices, Probability, and Bayesian Reasoning
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/01_systems/module.md` for parallel modules
+- **視点**: 数学的
+- **トピック**: システム - 数学的基礎：行列、確率、ベイズ推論
+- **記号**: [記号表.md](../../resources/notation_table.md) に準拠
+- **用語**: [用語集.md](../../resources/glossary.md) に準拠
+- **クロス参照**: `../../XX_course/01_systems/module.md` へのリンク（並行モジュール）

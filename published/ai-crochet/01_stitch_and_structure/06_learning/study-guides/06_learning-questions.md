@@ -1,0 +1,41 @@
+# Study Questions: Learning
+
+1. Describe the sensation of crocheting a stitch you have done thousands of times versus one you learned yesterday. How does this difference in fluency map onto the concept of **precision tuning** in Active Inference?
+
+2. When a beginner crocheter's stitches are uneven and lumpy, what does this tell you about the precision of their motor generative model? How does practice change this?
+
+3. Explain **gauge calibration** as a process of prior updating. What is the prior, what is the evidence (observation), and what is the updated belief?
+
+4. A crocheter who always crochets tightly learns to automatically go up one hook size. How does this meta-knowledge ("I know I crochet tightly") function as a higher-level generative model about their own crafting tendencies?
+
+5. Describe the process of learning a new stitch (e.g., front post double crochet) from first attempt to fluency. What changes in the generative model at each stage?
+
+6. Why is the first row of a new project often the most difficult, even for experienced crocheters? What aspects of the generative model are being established in that first row?
+
+7. A crocheter who has made dozens of granny squares can start one without looking at a pattern. What does this tell you about how repetition consolidates the generative model?
+
+8. Compare learning crochet from a written pattern, from a video tutorial, and from an in-person demonstration. How does each medium affect the type of information available for model building?
+
+9. When you switch from a yarn you know well to an unfamiliar fiber, your tension may become inconsistent. Explain this as a temporary loss of motor precision, and describe how the model re-calibrates.
+
+10. A crocheter takes a six-month break from crafting and finds their first project back feels rusty. What has happened to their generative model during the break? How does it recover?
+
+11. Children often learn crochet more slowly than adults. What aspects of generative model development might account for this difference?
+
+12. Some stitches are easier to learn than others (single crochet is simpler than a bullion stitch). What makes a stitch "easy" or "hard" to learn in terms of the motor prediction complexity?
+
+13. When a crocheter makes a gauge swatch and gets the wrong gauge, they adjust their hook size and try again. Describe this iterative process as Bayesian prior updating.
+
+14. How does the experience of frogging and re-doing a section contribute to learning? Does making a mistake and correcting it update the model differently than getting it right the first time?
+
+15. An experienced crocheter picks up Tunisian crochet for the first time. They have extensive knowledge of traditional crochet. How does prior knowledge (an existing generative model) help and hinder learning a related but distinct technique?
+
+16. Describe the role of the crochet circle in accelerating learning. How does social interaction — watching others, receiving feedback, sharing tips — enhance generative model development?
+
+17. A crocheter's tension tends to tighten when they are anxious and loosen when they are relaxed. What does this tell you about how emotional state interacts with motor precision in the generative model?
+
+18. When you learn to maintain consistent tension across a full project, you are learning a sustained motor calibration. How is this different from learning a discrete stitch? What aspect of the generative model is being trained?
+
+19. Some crocheters learn best by reading patterns, others by watching videos, and others by hands-on trial and error. How might these learning style preferences relate to the precision weighting of different sensory channels?
+
+20. Reflect on your own crochet learning journey. Identify one specific skill that transitioned from effortful and conscious to automatic and effortless. Describe this transition using Active Inference concepts of precision tuning and model refinement.

@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04_Cognition - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>04_Cognition</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>04_Cognition</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 04: Hidden Layers in Hook and Mind</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Explain how <strong>crochet rows function as layers</strong> in a structure analogous to a neural network — with foundation chains as input layers, stitch rows as hidden layers, and the finished edge as the output layer.</li>
+<li>Describe how <strong>complex stitch patterns create hidden representations</strong> in fabric: emergent textures that cannot be reduced to their individual component stitches, just as hidden layers in neural networks produce representations that are not present in the raw input.</li>
+<li>Map the <strong>crocheter's multi-level mental model</strong> of a project onto a deep generative model in Active Inference, where top-down predictions flow from "finished object" down to "this specific stitch."</li>
+</ol>
+<h2>Introduction</h2>
+<p>Hold up a finished crocheted hat and look at it. You see a hat — a coherent, three-dimensional object with a brim, a body, and a crown. Now look more closely. You see texture: maybe a ribbed band, a section of half double crochet, a crown shaped by decreases. Look closer still and you see individual stitches, each one a tiny loop of yarn pulled through another loop.</p>
+<p>Here is the thing: the hat is all of these at once. It is stitches, and it is rows, and it is sections, and it is a hat. No single level of description captures it completely. You need all the levels — and you need to understand how each level builds on the one below it.</p>
+<p>This is exactly the structure of a deep neural network. A neural network is not one operation — it is many layers of operations stacked on top of each other. The input layer receives raw data. Each hidden layer transforms that data into something more abstract, more organized, more useful. The output layer produces the final result. No single layer does the whole job. The magic is in the layering.</p>
+<p>In this module, we explore the deep structural parallel between crochet and neural networks. Not as a loose metaphor, but as a genuine architectural correspondence. Crochet builds physical objects layer by layer, row by row, each layer literally supported by the one beneath it. Neural networks build representations layer by layer, each layer literally computed from the one beneath it. And the crocheter's mind holds a layered model of the entire project — from the finished hat all the way down to the current stitch — in a hierarchical generative model that mirrors the depth of the network itself.</p>
+<h2>Key Concepts</h2>
+<h3>1. Layers in Fabric, Layers in Networks</h3>
+<p>Start a crochet project. The first thing you make is a foundation chain — a row of chain stitches that provides the base for everything that follows. In neural network terms, this is the input layer: the raw data that enters the system. The foundation chain carries no pattern information yet. It is just a line of loops, just as the input layer of a CNN holds just a grid of pixel values.</p>
+<p>Now work your first row of stitches into the foundation chain. Single crochets, perhaps. Each stitch reaches down into the chain, pulls up a loop, and creates a new structure on top of the old one. This first row is the first hidden layer. It transforms the raw input (the chain) into something with more structure — a row of stitches with height, texture, and a top edge that the next row can build on.</p>
+<p>Work the second row. Each stitch in this row is built on top of a stitch in the row below. The second hidden layer takes its input from the first hidden layer. Work the third, the fourth, the tenth. Each row reads from the row below and produces the row above. Each layer in a neural network reads from the layer below and produces output for the layer above.</p>
+<p>This is not a metaphor. It is a structural fact. In a crocheted fabric, each stitch is physically connected to the stitch below it and the stitches beside it. The physical structure of the fabric encodes the history of every row that came before. In a neural network, each neuron in a hidden layer receives input from neurons in the layer below, transforms that input through an activation function, and passes the result to the layer above. The activation values in a hidden layer encode the accumulated transformations of every layer that came before.</p>
+<p>When you finally bind off or fasten off at the top of a project, you have the output layer. In a neural network classifying images, the output layer might contain probabilities: "80% cat, 15% dog, 5% rabbit." In crochet, the output layer is the finished edge — the visible surface that presents the project's final form to the world. Everything that happened in the hidden layers (all those intermediate rows) is still there, holding the structure together, but it is the output that the viewer sees and the crocheter evaluates.</p>
+<p>The depth of a neural network — how many hidden layers it has — determines how complex its representations can be. Shallow networks (one or two hidden layers) can learn simple patterns. Deep networks (dozens or hundreds of layers) can learn intricate, hierarchical representations. The same is true of crochet. A washcloth with five rows of single crochet is a shallow project — simple, functional, but not complex. A lace shawl with two hundred rows of varying stitch patterns, increases, decreases, and border work is a deep project — rich, layered, and full of emergent structure.</p>
+<h3>2. Hidden Representations in Crochet</h3>
+<p>In a neural network, the most interesting things happen in the hidden layers. These are the layers between input and output where the network builds its internal representations of the data. If you could peek inside a well-trained image recognition network, you would find that the first hidden layer has learned to detect edges. The second has learned textures. Deeper layers have learned to detect eyes, wheels, petals, letters. These features are not present in the raw pixel data — they emerge from the layered transformations.</p>
+<p>Crochet produces the same kind of emergent hidden representations. Consider a shell stitch. A shell is typically five double crochets worked into a single stitch. The individual components are ordinary double crochets — nothing special on their own. But when five of them fan out from the same base stitch, they create a fan shape that is visually and structurally distinct from anything a single double crochet can produce. The shell is a hidden representation: an emergent property of the layer that is not present in any individual operation.</p>
+<p>Or consider a cable. In knitting, cables are created by physically crossing groups of stitches. In crochet, cable effects are achieved with front post and back post stitches — stitches that wrap around the post of a stitch in a previous row rather than inserting through the top. The individual front post double crochets are unremarkable on their own. But when they are arranged in a pattern across several rows, they produce a raised, twisting texture that looks like a braided rope. The cable is not in any single stitch — it is in the pattern of stitches across rows. It is a multi-layer hidden representation, emerging from the interaction of multiple hidden layers.</p>
+<p>This is precisely what happens inside a deep neural network. A single neuron in a hidden layer does a simple computation: weighted sum, activation function, done. But when thousands of neurons in a layer compute together, and their outputs feed into the next layer, complex features emerge that no single neuron could represent. The network learns to detect faces not because any one neuron is a "face detector" but because the pattern of activation across many neurons, across many layers, creates a distributed representation that corresponds to "face."</p>
+<p>In crochet, a granny square is a beautiful example of distributed, multi-layer representation. The center ring is the input. The first round of clusters and chain spaces is the first hidden layer. Each subsequent round adds another layer, and the characteristic granny square pattern — with its diagonal lines, open spaces, and solid clusters — emerges from the interaction of all the layers. You cannot point to any single stitch and say "this is the granny square." The granny square is the whole layered structure, just as a learned feature in a neural network is the whole pattern of activation across layers.</p>
+<p>Here is another way to see it. If you frog (unravel) a crocheted piece, pulling it apart row by row, you are peeling off the hidden layers one at a time. Each layer you remove loses information. The cable disappears when you frog through the rows that create it. The shell vanishes when you pull out the row it sits in. The emergent features exist only in the assembled layers, just as a neural network's learned representations exist only in the trained weights connecting the layers. Reinitialize the weights (frog the fabric), and the representations are gone.</p>
+<h3>3. The Crocheter's Internal Model as a Deep Network</h3>
+<p>So far we have talked about the physical layers of fabric and the computational layers of neural networks. But there is a third layered system at work in every crochet project: the crocheter's mind.</p>
+<p>When you crochet, you do not think only about the stitch you are currently making. You hold multiple levels of representation in your mind simultaneously:</p>
+<ul>
+<li><strong>Stitch level</strong>: "I am making a double crochet. Yarn over, insert hook, yarn over, pull through, yarn over, pull through two, yarn over, pull through two."</li>
+<li><strong>Row level</strong>: "I am on row 14 of the body. This row is all double crochet."</li>
+<li><strong>Section level</strong>: "I am working the body of the hat, between the ribbed band and the crown shaping."</li>
+<li><strong>Project level</strong>: "I am making a hat for my niece. It should fit a toddler head, about 18 inches circumference."</li>
+<li><strong>Design level</strong>: "This is a beanie with a folded brim and a pom-pom on top."</li>
+</ul>
+<p>These levels are nested. The design level contains the project level, which contains the section level, which contains the row level, which contains the stitch level. Information flows both ways: top-down (the design determines what sections are needed, which determines what rows to work, which determines what stitches to use) and bottom-up (the feel of the current stitch informs the crocheter about whether the row is going well, which informs whether the section is shaping correctly, which informs whether the project is on track).</p>
+<p>In Active Inference, this multi-level mental model is a <strong>deep generative model</strong>. The generative model is the brain's internal representation of how the world works — its theory of causes and effects. A deep generative model has many levels, each generating predictions about the level below.</p>
+<p>At the top level, the crocheter's generative model contains the concept "hat." This generates predictions about what sections a hat needs: brim, body, crown. The section-level model generates predictions about what rows each section requires: ribbed rows for the brim, plain rows for the body, decrease rows for the crown. The row-level model generates predictions about what stitches each row contains. The stitch-level model generates predictions about what each stitch should feel like when formed correctly.</p>
+<p>These predictions flow top-down through the hierarchy. The crocheter does not work stitch by stitch in a vacuum — they work stitch by stitch with a hat in mind. The hat-level prediction constrains and guides every lower-level operation. When the crocheter feels that the body section has reached the right length, the signal comes from the project-level model: "this is enough rows for a toddler hat body." When they start decreasing for the crown, the instruction comes from the section-level model: "crown shaping begins now."</p>
+<p>Simultaneously, sensory evidence flows bottom-up. The feel of each stitch (too tight? too loose?) feeds into the row-level assessment. The look of the current row feeds into the section-level assessment. The shape of the growing fabric feeds into the project-level assessment. At every level, top-down predictions meet bottom-up evidence, and mismatches generate prediction errors that the crocheter must resolve.</p>
+<p>This is why experienced crocheters can improvise — working without a written pattern, adjusting as they go, making design decisions in real time. Their deep generative model is rich enough to generate predictions at every level. They know what a hat should look like, feel like, and measure at every stage of construction. They do not need the pattern to tell them because the generative model already knows.</p>
+<p>Beginners, by contrast, have a shallow generative model. They may know what stitch to make (stitch level) and can follow a pattern row by row (row level), but they do not yet have strong predictions at the section or project level. They cannot look at a half-finished piece and judge whether it is on track because their model does not generate detailed predictions about what "on track" looks like at this stage. This is why beginners rely heavily on patterns and experienced crocheters can wing it: the depth of the generative model determines the depth of the cognitive support available.</p>
+<h2>Applications</h2>
+<p>The layered structure of crochet cognition shows up in practical crafting situations throughout a project:</p>
+<ul>
+<li>
+<p><strong>Pattern Reading as Layer Navigation</strong>: A crochet pattern is, in effect, a compressed description of a layered process. It specifies the stitch-level operations ("ch 3, dc in next st") but expects the crocheter to supply the higher-level understanding: that a chain-3 at the beginning of a row serves as a turning chain, that the row will be worked back across the previous row, that the section being worked is the body of a garment. Reading a pattern requires moving fluently between layers — zooming in to individual stitches and zooming out to see where the row fits in the project. This is navigation through the deep generative model.</p>
+</li>
+<li>
+<p><strong>Frogging as Layer Deletion</strong>: When a crocheter frogs back several rows to fix an error, they are deleting hidden layers and their associated representations. The cable that was forming is gone. The shaping that was emerging is gone. The crocheter must rebuild those representations from the point of frogging forward. This is cognitively expensive — not just because of the physical work but because the mental model must be rewound. The crocheter must re-establish their position in the hierarchy: "I am now at row 10, not row 15. The crown shaping has not started yet. I need to work five more plain rows before decreasing."</p>
+</li>
+<li>
+<p><strong>Stitch Markers as External Memory</strong>: Crocheters use stitch markers to offload cognitive load from their internal model to the physical world. A marker at the beginning of a round says, "you are here in the row-level model." A marker at the first decrease says, "section-level event here." Markers are external memory nodes in the crocheter's extended generative model — they supplement the brain's hidden layers with physical tokens that carry information between sessions and across interruptions.</p>
+</li>
+<li>
+<p><strong>Teaching as Model Transfer</strong>: When an experienced crocheter teaches a beginner, they are attempting to transfer their deep generative model — or at least the lower layers of it. "Feel how the yarn should slide through your fingers." "See how this row should look before you start the next one." "This is what a correctly formed double crochet looks like." Each instruction targets a specific layer of the model, building the beginner's hierarchy from the bottom up, stitch by stitch, row by row, until the higher layers can begin to form.</p>
+</li>
+</ul>
+<h2>Conclusion</h2>
+<p>Crochet is deep — literally and cognitively. The physical fabric is built layer by layer, row upon row, with emergent textures and structures appearing in the hidden layers between foundation chain and finished edge. The crocheter's mind mirrors this depth, maintaining a hierarchical generative model that spans from individual stitch mechanics to the vision of the completed project. And neural networks formalize the same principle: layered transformations that build complex representations from simple inputs, with hidden layers doing the crucial work of creating features that neither the input nor the output contains on its own.</p>
+<p>When you pick up your hook and yarn, you are operating a deep network — one made of fiber instead of silicon, but organized on the same principle: depth creates richness, layers create meaning, and the hidden layers are where the magic happens.</p>
+<p>In the next module, we move from thinking to doing: how the crocheter translates the deep internal model into physical action, stitch by stitch, turning mental representations into yarn and fabric.</p>
+<h2>Key Terms</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Input layer</strong></td>
+<td>The first layer of a neural network, which receives raw data. In crochet, the foundation chain — the starting row upon which all subsequent layers build.</td>
+</tr>
+<tr>
+<td><strong>Hidden layer</strong></td>
+<td>An intermediate layer in a neural network between input and output, where internal representations are formed. In crochet, any intermediate row that contributes to the structure without being the starting or finishing edge.</td>
+</tr>
+<tr>
+<td><strong>Output layer</strong></td>
+<td>The final layer of a neural network, which produces the result. In crochet, the finished edge or bound-off row — the visible surface the project presents to the world.</td>
+</tr>
+<tr>
+<td><strong>Hidden representation</strong></td>
+<td>An emergent feature that exists in a hidden layer but is not present in the input. In crochet, textures like shells, cables, and granny square patterns that emerge from the arrangement of simple stitches across rows.</td>
+</tr>
+<tr>
+<td><strong>Deep network</strong></td>
+<td>A neural network with many hidden layers, capable of learning complex hierarchical representations. In crochet, a project with many rows and varied stitch patterns that create rich emergent textures.</td>
+</tr>
+<tr>
+<td><strong>Deep generative model</strong></td>
+<td>In Active Inference, a hierarchical internal model with multiple levels, each generating predictions about the level below. The crocheter's mental model that spans from "finished hat" down to "this specific stitch."</td>
+</tr>
+<tr>
+<td><strong>Frogging</strong></td>
+<td>Unraveling crocheted fabric, typically to correct an error. Named for the sound "rip it, rip it." Analogous to deleting hidden layers and their learned representations.</td>
+</tr>
+<tr>
+<td><strong>Shell stitch</strong></td>
+<td>A group of stitches (often five double crochets) worked into the same stitch or space, creating a fan-shaped texture. An example of a hidden representation in crochet.</td>
+</tr>
+<tr>
+<td><strong>Front post / back post stitch</strong></td>
+<td>A stitch worked around the post (vertical body) of a stitch in a previous row rather than through its top loops. Used to create cables, ribbing, and raised textures.</td>
+</tr>
+<tr>
+<td><strong>Stitch marker</strong></td>
+<td>A physical token placed on the fabric to mark a specific position. Functions as external memory in the crocheter's extended cognitive system.</td>
+</tr>
+<tr>
+<td><strong>Top-down prediction</strong></td>
+<td>In Active Inference, a prediction generated by a higher level of the generative model about what the lower level should observe. In crochet cognition, the crocheter's project-level vision predicting what the current row should look like.</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Building a Layered Sampler</h1>
+<h2>Objective</h2>
+<p>Crochet a small sampler where each row uses a different stitch pattern, creating a physical object with visible "layers." Then diagram the sampler as a neural network — mapping each row to a network layer, annotating what features each layer represents, and tracing how information transforms from the foundation chain (input) to the final row (output). This lab makes the hidden-layer structure of both crochet and neural networks tangible and visual.</p>
+<h2>Materials</h2>
+<ul>
+<li>Worsted weight yarn, solid light color (light colors show stitch texture best)</li>
+<li>Crochet hook, size H/8 (5.0mm)</li>
+<li>Scissors</li>
+<li>Tapestry needle (for weaving ends)</li>
+<li>Blank paper (at least 2 large sheets, letter size or bigger)</li>
+<li>Colored pencils or markers (5-6 colors)</li>
+<li>Ruler</li>
+<li>Stitch markers (optional, for counting)</li>
+<li>A partner or crochet circle companions (recommended for discussion)</li>
+</ul>
+<h2>The Sampler Pattern</h2>
+<p>You will crochet a sampler that is 20 stitches wide and 7 rows tall. Each row uses a different stitch, creating distinct visible layers. If you are comfortable adjusting, feel free to make it wider — the key is that each row uses a different stitch pattern.</p>
+<p><strong>Foundation Chain (Input Layer)</strong>
+- Chain 21.</p>
+<p><strong>Row 1 — Single Crochet (sc)</strong>
+- Sc in 2nd chain from hook and in each chain across. (20 sc)
+- Turn.</p>
+<p><strong>Row 2 — Half Double Crochet (hdc)</strong>
+- Ch 2 (does not count as a stitch). Hdc in each st across. (20 hdc)
+- Turn.</p>
+<p><strong>Row 3 — Double Crochet (dc)</strong>
+- Ch 3 (counts as first dc). Dc in each st across. (20 dc)
+- Turn.</p>
+<p><strong>Row 4 — Shell Stitch</strong>
+- Ch 1. Sc in first st. <em>Skip 2 sts, 5 dc in next st (shell made), skip 2 sts, sc in next st.</em> Repeat * to * across. You should get approximately 3 full shells depending on your count. Adjust as needed to end with a sc.
+- Turn.</p>
+<p><strong>Row 5 — Back Post Double Crochet (bpdc)</strong>
+- Ch 3 (counts as first dc). <em>Bpdc around the post of the next dc-height stitch in the row below (you will be reaching into the shell row — find the tall stitches).</em> Work bpdc or dc across as the stitches allow, aiming for 20 stitches. This row creates a ribbed, textured surface.
+- Turn.</p>
+<p><strong>Row 6 — Seed Stitch (alternating sc and ch-1)</strong>
+- Ch 1. <em>Sc in next st, ch 1, skip next st.</em> Repeat across, ending with sc in last st.
+- Turn.</p>
+<p><strong>Row 7 — Single Crochet Border (Output Layer)</strong>
+- Ch 1. Sc in each st and ch-1 space across, ensuring you end with 20 sc. This final row unifies the varied textures below into a clean, even edge.
+- Fasten off. Weave in ends.</p>
+<p><strong>Note for beginners</strong>: If any stitch is unfamiliar, substitute a stitch you know. The goal is variety between rows, not perfection. Even using just single crochet, half double crochet, and double crochet in alternating rows will create visible layers.</p>
+<p><strong>Estimated crocheting time</strong>: 30-40 minutes.</p>
+<h2>Steps</h2>
+<h3>Part 1: Crocheting the Sampler (30-40 minutes)</h3>
+<ol>
+<li>Work through the sampler pattern above, one row at a time. As you crochet each row, pay attention to how the new stitch pattern changes the texture and appearance of the fabric.</li>
+<li>After completing each row, pause briefly and feel the fabric. Notice how the current row's texture differs from the row below. This is the tactile difference between hidden layers.</li>
+<li>When the sampler is complete, lay it flat and look at it from the side (the edge). You should be able to see the distinct layers — each row contributing a different texture to the whole.</li>
+</ol>
+<h3>Part 2: Diagramming the Neural Network (20 minutes)</h3>
+<ol>
+<li>Take a large sheet of paper and draw a diagram of your sampler as a neural network. Use this structure:</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="k">[Input Layer: Foundation Chain — 21 chain stitches]</span>
+<span class="w">        </span><span class="na">|</span>
+<span class="k">[Hidden Layer 1: Single Crochet — 20 sc]</span>
+<span class="w">        </span><span class="na">|</span>
+<span class="k">[Hidden Layer 2: Half Double Crochet — 20 hdc]</span>
+<span class="w">        </span><span class="na">|</span>
+<span class="k">[Hidden Layer 3: Double Crochet — 20 dc]</span>
+<span class="w">        </span><span class="na">|</span>
+<span class="k">[Hidden Layer 4: Shell Stitch — ~3 shells + sc between]</span>
+<span class="w">        </span><span class="na">|</span>
+<span class="k">[Hidden Layer 5: Back Post Double Crochet — 20 bpdc]</span>
+<span class="w">        </span><span class="na">|</span>
+<span class="k">[Hidden Layer 6: Seed Stitch — alternating sc and ch-1]</span>
+<span class="w">        </span><span class="na">|</span>
+<span class="k">[Output Layer: Single Crochet Border — 20 sc]</span>
+</code></pre></div>
+
+<ol>
+<li>For each layer, annotate the following using different colored pencils:</li>
+<li><strong>Stitch count</strong> (how many "neurons" in this layer)</li>
+<li><strong>Stitch height</strong> (sc is short, dc is tall — this is like the activation function's range)</li>
+<li><strong>Texture produced</strong> (smooth, ribbed, scalloped, open, etc.)</li>
+<li>
+<p><strong>What "feature" does this layer represent?</strong> (dense base, medium texture, tall open fabric, fan shapes, ribbed texture, open mesh, unified border)</p>
+</li>
+<li>
+<p>Draw lines connecting the layers. Notice that each stitch in a row connects to one or more stitches in the row below — just as each neuron connects to neurons in the previous layer. The shell stitch layer is especially interesting: each shell gathers input from three stitches below and fans out into five stitches, like a neuron with a wide receptive field.</p>
+</li>
+</ol>
+<h3>Part 3: Tracing Information Transformation (15 minutes)</h3>
+<ol>
+<li>On your diagram, trace the "information flow" from the foundation chain to the final row. Use arrows to show how the raw input (a plain chain) is transformed layer by layer:</li>
+<li>The chain becomes individual stitches (Layer 1).</li>
+<li>The stitches gain height and openness (Layers 2-3).</li>
+<li>The stitches are grouped into emergent patterns — shells (Layer 4).</li>
+<li>The texture is transformed into ribbing (Layer 5).</li>
+<li>The ribbing opens into mesh (Layer 6).</li>
+<li>
+<p>The mesh is consolidated back into a uniform edge (Output layer).</p>
+</li>
+<li>
+<p>Ask yourself: at which layer does the sampler become "interesting"? At which layer do emergent features appear that are not present in the input? Mark this on your diagram. This is where the hidden representations begin.</p>
+</li>
+<li>
+<p>Now mark where information is "lost" or "compressed." The shell stitch layer takes 20 stitches and groups them into roughly 3 shells — this is a form of compression, like a pooling layer in a CNN. The final sc row takes the varied texture and flattens it into a uniform surface — this is like the output layer reducing a complex representation to a simple classification.</p>
+</li>
+</ol>
+<h3>Part 4: Connecting to the Crocheter's Mental Model (10 minutes)</h3>
+<ol>
+<li>
+<p>On a new sheet of paper, draw the same layer diagram but from the perspective of your mind while crocheting. Label each layer with what you were thinking about at that level:</p>
+<ul>
+<li><strong>Stitch level</strong>: "Yarn over, insert hook, pull through..." (the mechanical actions)</li>
+<li><strong>Row level</strong>: "This row is half double crochet. I need 20 stitches." (the pattern instructions)</li>
+<li><strong>Texture level</strong>: "This row should create a taller, looser fabric than the one below." (the expected feature)</li>
+<li><strong>Sampler level</strong>: "I am building a sampler that shows how different stitches create different textures." (the project goal)</li>
+</ul>
+</li>
+<li>
+<p>Draw arrows showing how your top-down understanding of the project ("I am making a sampler") shaped your moment-to-moment decisions at the stitch level. This is the deep generative model at work.</p>
+</li>
+</ol>
+<h3>Part 5: Reflection and Group Discussion (10 minutes)</h3>
+<ol>
+<li>
+<p>Lay your physical sampler next to your neural network diagram. Compare the two:</p>
+<ul>
+<li>Does the diagram capture the structure of the sampler? What does it miss?</li>
+<li>Which layer of the sampler is the most "hidden" — the most different from what you would expect based on the input alone?</li>
+<li>If you frogged back to Row 3 and re-crocheted Rows 4-7 with different stitches, how would the "output" change? This is like retraining the upper layers of a network while keeping the lower layers frozen.</li>
+</ul>
+</li>
+<li>
+<p>Share your diagram and sampler with your crochet circle. Compare how different people annotated their layers. Did everyone identify the same features?</p>
+</li>
+</ol>
+<h2>Discussion Questions</h2>
+<ul>
+<li>
+<p>The shell stitch layer takes 20 input stitches and produces approximately 3 shells. This is a kind of spatial compression. How does this compare to a pooling layer in a CNN, which reduces spatial resolution to capture higher-level features?</p>
+</li>
+<li>
+<p>Your sampler's final row (single crochet) creates a uniform edge that "hides" the complexity of the layers below, much as a neural network's output layer reduces complex hidden representations to a simple prediction. Is the output layer the most informative layer, or the least? Where does the real work happen?</p>
+</li>
+<li>
+<p>If you were to teach a neural network to recognize which stitch pattern was used in each row of your sampler from a photograph, what features would each layer of the CNN need to detect? How does this network-perceiving-a-network idea make you think about the relationship between the fabric's structure and the observer's cognition?</p>
+</li>
+<li>
+<p>When you picked up the project after completing Row 4 (shells) and started Row 5, did you have to "re-read" the fabric to figure out where to insert your hook? If so, you were performing perceptual inference on your own hidden layers — using your generative model to decode the emergent structure you had just created.</p>
+</li>
+</ul>
+<h2>Wrap-Up</h2>
+<p>You have built a physical neural network out of yarn — a layered structure where each row transforms the input from the row below, creating emergent textures that no single row could produce on its own. Your diagram maps this structure onto the architecture of a deep neural network, and your annotations trace the flow of information from raw chain to finished edge. Keep your sampler and diagram for reference in upcoming modules, where we will explore how action (the hand movements that create stitches) maps to network training, and how learning in crochet parallels learning in neural networks.</p>
+<p><strong>Estimated Total Time</strong>: 85-95 minutes
+- Crocheting: 30-40 minutes
+- Diagramming: 20 minutes
+- Tracing information: 15 minutes
+- Mental model mapping: 10 minutes
+- Discussion: 10 minutes</p></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Cognition — Hidden Layers in Hook and Mind</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>In the crochet-as-neural-network analogy, the foundation chain corresponds to:
+A) The output layer — it is the final result
+B) The input layer — it is the raw starting data upon which all hidden layers build
+C) A hidden layer — it contains emergent textures
+D) The loss function — it measures how wrong the project is</p>
+</li>
+<li>
+<p>A shell stitch (five double crochets into one stitch) is best described as:
+A) An input feature — it is the raw data entering the system
+B) A hidden representation — an emergent texture that is not present in any single double crochet alone
+C) An output label — the final classification of the fabric
+D) A bias term — a constant added to every layer</p>
+</li>
+<li>
+<p>The crocheter's multi-level mental model (stitch, row, section, project, design) is an example of:
+A) A flat, single-layer representation with no hierarchy
+B) A deep generative model with multiple levels generating predictions about the levels below
+C) A purely bottom-up process with no top-down predictions
+D) A lookup table that contains every possible crochet project</p>
+</li>
+<li>
+<p>When a crocheter frogs several rows to fix an error, the cognitive cost is high because:
+A) Yarn is expensive
+B) The emergent textures (hidden representations) built over those rows are destroyed and must be rebuilt, and the crocheter must reposition their mental model in the hierarchy
+C) Frogging requires no thought at all
+D) The foundation chain is always destroyed when frogging</p>
+</li>
+<li>
+<p>An experienced crocheter can improvise (work without a pattern) because:
+A) They do not need a generative model — they work randomly
+B) Their deep generative model generates precise predictions at every level, from finished object down to individual stitch
+C) They have memorized every possible crochet pattern
+D) Improvisation does not involve cognition</p>
+</li>
+<li>
+<p>Stitch markers function as:
+A) Decorations with no cognitive purpose
+B) External memory — physical tokens that carry information, offloading cognitive load from the crocheter's internal model
+C) Replacements for the entire generative model
+D) Input layer elements that disappear in the first hidden layer</p>
+</li>
+<li>
+<p>In Active Inference, top-down predictions in the crocheter's deep generative model means:
+A) The crocheter only processes information from the current stitch, never considering the overall project
+B) The crocheter's vision of the finished object generates expectations about what each section, row, and stitch should look and feel like
+C) Information only flows from bottom to top, never from top to bottom
+D) The crocheter must always look at the project from above</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Choose a multi-row stitch pattern (such as a cable, a chevron/zigzag, or a wave pattern). Explain how this pattern creates an emergent hidden representation that spans multiple "layers" of the fabric. Why can you not see the pattern by looking at a single row in isolation?</p>
+</li>
+<li>
+<p>A crocheter picks up a half-finished project after three weeks and cannot remember where they left off. Describe this situation using the concept of a deep generative model that has lost its state. What information has been lost at each level of the hierarchy (stitch, row, section, project), and what strategies might the crocheter use to reconstruct it?</p>
+</li>
+<li>
+<p>Compare a beginner following a written pattern step by step to a neural network performing inference with pre-trained weights. Then compare an expert improvising without a pattern to a generative model producing novel outputs. What is the critical difference in the depth and richness of the internal model between the two crocheters, and how does this parallel the difference between a shallow and a deep neural network?</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

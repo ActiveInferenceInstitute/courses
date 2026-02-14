@@ -1,53 +1,53 @@
-# Module 2: Agents — Stochastic Systems: Random Processes, Differential Equations, and Steady States
+# モジュール 2: エージェント - 確率的システム: 確率過程、微分方程式、および平衡状態
 
-> **Quick Navigation**: [← Systems](../01_systems/) | [Up](../) | [Perception →](../03_perception/)
+> **クイックナビゲーション**: [← システム](../01_systems/) | [上へ](../) | [認識 →](../03_perception/)
 
-## The Mathematics of Active Inference
+## 積極的推論の数学
 
 ---
 
-## Contents
+## 概要
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Derivation lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の全文 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個のFR) |
+| [lab.md](./lab.md) | 導出ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです：
 
-1. **Classify** dynamical systems by their fixed points (stable, unstable, saddle) and sketch phase portraits
-2. **Formulate** the Langevin equation for a given potential and derive the corresponding Fokker-Planck equation
-3. **Compute** steady-state (NESS) probability densities and relate them to the Boltzmann distribution
-4. **Evaluate** ergodicity conditions and calculate Kramers escape rates for double-well potentials
+1.  **分類** 安定点（安定、不安定、鞍）を持つ動的システムと、相関図を描く
+2.  与えられたポテンシャルについて、ランジェビン方程式を**構築**し、対応する Fokker-Planck 方程式を導出する
+3.  平衡状態（NESS）の確率密度を**計算**し、ボルツマン分布に結びつける
+4.  エルゴード性条件を**評価**し、二重谷ポテンシャルに対する Kramers 逃避率を計算する
 
 ---
 
-## Cross-Course Links
+## 関連コースへのリンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/02_agents/) | Autopoiesis, Agency, and the Self-Organizing System |
-| [Cognitive Science](../../02_cognitive_science/02_agents/) | The Self-Model, Interoception, and Ego Boundaries |
-| [Mathematics](../../03_math/02_agents/) | Stochastic Systems: Random Processes, Differential Equations, and Steady States ← **You are here** |
-| [Computer Science](../../04_computer_science/02_agents/) | The Agent Class: States, Observations, and Actions in pymdp |
+| [哲学](../../01_philosophy/02_agents/) | 自律性、代理、自己組織化システム |
+| [認知科学](../../02_cognitive_science/02_agents/) | 自己モデル、内臓、自我の境界 |
+| [数学](../../03_math/02_agents/) | 確率的システム: 確率過程、微分方程式、および平衡状態 ← **ここにいる** |
+| [コンピュータサイエンス](../../04_computer_science/02_agents/) | エージェントクラス: pymdp における状態、観測、およびアクション |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Systems](../01_systems/) | [Up](../) | [Perception →](../03_perception/)
+[← システム](../01_systems/) | [上へ](../) | [認識 →](../03_perception/)

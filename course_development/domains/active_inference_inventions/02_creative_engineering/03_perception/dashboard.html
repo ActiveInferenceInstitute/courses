@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Creative Perception — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Creative Perception</h1>
+  <p class="subtitle">Seeing familiar things in new ways through Active Inference</p>
+  <span class="tag">Section 2 &middot; Module 3 &middot; Creative Engineering</span>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('concepts')">Concepts</div>
+  <div class="tab" onclick="showTab('quiz')">Quiz</div>
+  <div class="tab" onclick="showTab('checklist')">Checklist</div>
+  <div class="tab" onclick="showTab('modules')">All Modules</div>
+</div>
+
+<div class="panel active" id="p-concepts">
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Perception as Prediction Error Detection</h3>
+    <div class="desc">In Active Inference, you perceive what your model fails to predict. Creative perception means detecting prediction errors that others' models suppress. Henry Ford saw the assembly line principle in a slaughterhouse because his manufacturing model predicted stationary products — the moving carcasses were a prediction error he treated as signal.</div>
+    <div class="meter"><div class="fill" style="width:95%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Functional Fixedness</h3>
+    <div class="desc">When categorical priors about objects have excessively high precision, alternative uses become invisible. Duncker's candle problem shows this: the box of tacks cannot be perceived as a shelf when it is firmly categorized as "container." The Generic Parts Technique — describing objects by physical properties only — reduces categorical precision and unlocks novel perceptions.</div>
+    <div class="meter"><div class="fill" style="width:90%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Cross-Domain Pattern Recognition</h3>
+    <div class="desc">Generative models encode abstract structural patterns that transfer across domains. The Shinkansen bullet train nose was redesigned based on kingfisher beak morphology because engineer Eiji Nakatsu's dual model (engineering + ornithology) could perceive the structural similarity between media-transition problems. Polymaths carry more transferable models.</div>
+    <div class="meter"><div class="fill" style="width:85%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Latent Need Detection</h3>
+    <div class="desc">Latent needs exist as prediction errors in users' models but are not consciously registered because users have adapted their preferences to available options. Sony's Walkman addressed a need no consumer had articulated. Ethnographic observation and detecting "thoughtless acts" (unconscious workarounds) reveal these hidden opportunities.</div>
+    <div class="meter"><div class="fill" style="width:80%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Perceptual Reframing Techniques</h3>
+    <div class="desc">Systematic methods for altering your generative model to change what prediction errors become visible. Inversion (make it worse, then reverse), scale shifting (component vs. system vs. society), stakeholder rotation (see through different eyes), and temporal reframing (past, present, future) each modify different model parameters to reveal hidden features.</div>
+    <div class="meter"><div class="fill" style="width:75%"></div></div>
+  </div>
+</div>
+
+<div class="panel" id="p-quiz">
+  <div class="quiz-box">
+    <h3 id="q-title">Question 1 of 7</h3>
+    <div id="q-text"></div>
+    <div id="q-opts"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" onclick="prevQ()">Previous</button>
+      <button class="quiz-btn" onclick="nextQ()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="p-checklist">
+  <h3 style="margin-bottom:.5rem">Learning Objectives</h3>
+  <div class="checklist" id="cl-list"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill" style="width:0%"></div></div>
+  <div class="cl-status" id="cl-status">0 of 5 completed</div>
+</div>
+
+<div class="panel" id="p-modules">
+  <h3 style="margin-bottom:.5rem">Section 2: Creative Engineering</h3>
+  <div class="mod-grid">
+    <div class="mod-card"><div class="num">01</div><div class="name">The Creative System</div></div>
+    <div class="mod-card"><div class="num">02</div><div class="name">The Creative Agent</div></div>
+    <div class="mod-card current"><div class="num">03</div><div class="name">Creative Perception</div></div>
+    <div class="mod-card"><div class="num">04</div><div class="name">Inventive Cognition</div></div>
+    <div class="mod-card"><div class="num">05</div><div class="name">Creative Action</div></div>
+    <div class="mod-card"><div class="num">06</div><div class="name">Learning to Invent</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">The Inventive Pitch</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">Planning the Creative Process</div></div>
+  </div>
+</div>
+
+<script>
+function showTab(id){document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['concepts','quiz','checklist','modules'][i]===id));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p-'+id).classList.add('active')}
+function toggleCard(el){el.classList.toggle('open')}
+
+const quiz=[
+  {q:"Creative perception in Active Inference is best described as:",opts:["Having better visual acuity than average people","Detecting prediction errors that others' generative models suppress","Spending more time observing than acting","Using specialized instruments to gather more data"],ans:1,exp:"Creative perception is about detecting prediction errors — mismatches between model predictions and observations — that other observers' models would suppress as noise or irrelevant."},
+  {q:"Functional fixedness occurs because:",opts:["The inventor lacks general intelligence","Categorical priors about object functions have excessively high precision","The problem is inherently unsolvable","The environment offers no affordances for creative action"],ans:1,exp:"When the model assigns very high precision to beliefs about what an object 'is for,' alternative functions cannot be predicted and therefore cannot be perceived as possibilities."},
+  {q:"The Generic Parts Technique works by:",opts:["Adding new parts to existing objects","Describing objects purely by physical properties, stripping functional labels","Combining parts from multiple objects into new assemblies","Asking experts to evaluate parts independently"],ans:1,exp:"By removing functional labels and describing only physical properties (material, shape, weight, etc.), the technique reduces precision on categorical priors, making alternative functions perceivable."},
+  {q:"Cross-domain pattern recognition requires:",opts:["Identical surface features between domains","Abstract structural models that transfer across domain boundaries","Formal training in both domains at the expert level","Computer-aided search through patent databases"],ans:1,exp:"Generative models encode hierarchical structures that separate domain-specific surface features from domain-general deep patterns. These abstract patterns (feedback loops, phase transitions, optimization) transfer between domains."},
+  {q:"Latent needs are unmet because:",opts:["Nobody has the technology to address them","They do not actually exist — they are imagined by inventors","Users have adapted their preferences to match available options rather than maintaining the prediction error as a signal","Market research always captures all genuine needs"],ans:2,exp:"Users' generative models adapt to the status quo, updating preferences to match what is available. The prediction error between ideal and actual states is suppressed, hiding the latent need."},
+  {q:"The Swiffer was invented after observing that consumers spent more time preparing to mop than mopping. This observation represents:",opts:["A standard market research survey finding","A prediction error in the design team's model of cleaning behavior","An obvious fact that all mop manufacturers already knew","A statistical analysis of cleaning product sales data"],ans:1,exp:"The team predicted that mopping was about dirt removal. Observation revealed that the dominant experience was tedious preparation, not cleaning — a prediction error that reframed the entire design problem."},
+  {q:"The 'inversion' perceptual reframing technique works by:",opts:["Physically rotating the product 180 degrees","Asking how to worsen the problem, then reversing each answer into a potential solution","Reversing the manufacturing process order","Inverting the organizational hierarchy of the design team"],ans:1,exp:"By predicting what makes a problem worse, the model generates features it normally suppresses. Inverting these features produces design principles that address the problem from an unexpected direction."}
+];
+
+let qi=0;
+function renderQ(){const q=quiz[qi];document.getElementById('q-title').textContent='Question '+(qi+1)+' of '+quiz.length;document.getElementById('q-text').textContent=q.q;document.getElementById('q-explain').style.display='none';document.getElementById('q-explain').textContent=q.exp;let h='';q.opts.forEach((o,i)=>{h+='<div class="quiz-opt" onclick="pickA('+i+','+q.ans+')">'+String.fromCharCode(65+i)+'. '+o+'</div>'});document.getElementById('q-opts').innerHTML=h}
+function pickA(sel,ans){document.querySelectorAll('.quiz-opt').forEach((o,i)=>{o.classList.remove('correct','wrong');if(i===ans)o.classList.add('correct');else if(i===sel)o.classList.add('wrong')});document.getElementById('q-explain').style.display='block'}
+function nextQ(){qi=Math.min(qi+1,quiz.length-1);renderQ()}
+function prevQ(){qi=Math.max(qi-1,0);renderQ()}
+renderQ();
+
+const objectives=["Explain creative perception as prediction error detection others miss","Analyze functional fixedness as excessive categorical prior precision","Describe cross-domain pattern recognition via generative model transfer","Apply latent need detection by perceiving user-model gaps","Practice perceptual reframing techniques to reveal hidden opportunities"];
+const clList=document.getElementById('cl-list');
+const stored=JSON.parse(localStorage.getItem('cl-s2m3')||'{}');
+objectives.forEach((o,i)=>{const d=document.createElement('div');d.className='cl-item';d.innerHTML='<input type="checkbox" id="cl'+i+'" '+(stored[i]?'checked':'')+' onchange="updateCL()"><label for="cl'+i+'">'+o+'</label>';clList.appendChild(d)});
+function updateCL(){const checks={};let done=0;objectives.forEach((_,i)=>{const c=document.getElementById('cl'+i).checked;checks[i]=c;if(c)done++});localStorage.setItem('cl-s2m3',JSON.stringify(checks));document.getElementById('cl-fill').style.width=(done/objectives.length*100)+'%';document.getElementById('cl-status').textContent=done+' of '+objectives.length+' completed'}
+updateCL();
+</script>
+</body>
+</html>

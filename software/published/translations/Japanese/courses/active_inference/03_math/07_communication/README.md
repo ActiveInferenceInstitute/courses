@@ -1,53 +1,53 @@
-# Module 7: Communication — Generalized Synchrony, Mutual Information, Coupled Systems
+# モジュール7：コミュニケーション — 一般化された同期、相互情報、結合システム
 
-> **Quick Navigation**: [← Learning](../06_learning/) | [Up](../) | [Planning →](../08_planning/)
+> **クイックナビゲーション**: [← 学習](../06_learning/) | [上へ](../) | [計画へ →](../08_planning/)
 
-## The Mathematics of Active Inference
+## 活性推論の数学
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Derivation lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20 個の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個のFR) |
+| [lab.md](./lab.md) | 導出ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了すると、あなたは以下のことができるようになるはずです：
 
-1. **Formalize** generalized synchrony between coupled dynamical systems via conditional Lyapunov exponents
-2. **Derive** the mutual information `I(X₁;X₂)` for coupled agents and relate it to communication capacity
-3. **Compute** transfer entropy `T_{X→Y}` and interpret it as directed information flow between agents
-4. **Prove** that coupled VFE minimization produces increasing mutual predictability and analyze coordination dynamics
+1.  条件付きリウプニツキー指数を用いて、結合された動的システム間の一般化された同期を形式化する
+2.  結合されたエージェントに対する相互情報 `I(X₁;X₂)` を導出し、コミュニケーション容量との関連付けを行う
+3.  エージェント間の方向付けられた情報フローとして、転送エントロピー `T_{X→Y}` を計算し解釈する
+4.  結合されたVFE最小化が相互予測の増加を生み出すことを証明し、協調ダイナミクスを分析する
 
 ---
 
-## Cross-Course Links
+## 異分野連携
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| 科目 | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/07_communication/) | Intersubjectivity, Social Kinds, and Alignment |
-| [Cognitive Science](../../02_cognitive_science/07_communication/) | Theory of Mind, Social Cognition, and Autism |
-| [Mathematics](../../03_math/07_communication/) | Generalized Synchrony, Mutual Information, Coupled Systems ← **You are here** |
-| [Computer Science](../../04_computer_science/07_communication/) | Multi-Agent Simulations: Agents Observing Agents |
+| [哲学](../../01_philosophy/07_communication/) | 相互主観性、社会的な種類の理解、および整合性 |
+| [認知科学](../../02_cognitive_science/07_communication/) | 心的理論、社会認知、および自閉症 |
+| [数学](../../03_math/07_communication/) | 一般化された同期、相互情報、結合システム ← **ここから** |
+| [コンピュータサイエンス](../../04_computer_science/07_communication/) | 複数のエージェントシミュレーション：エージェントがエージェントを観察する |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Learning](../06_learning/) | [Up](../) | [Planning →](../08_planning/)
+[← 学習](../06_learning/) | [上へ](../) | [計画へ →](../08_planning/)

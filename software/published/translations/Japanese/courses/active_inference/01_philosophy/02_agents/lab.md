@@ -1,61 +1,61 @@
-# Lab: Thought Experiment — The Spectrum of Agency
+# Lab: 思考実験 — 能動性のスペクトル
 
-## Objective
+## 目的
 
-Explore the philosophical boundaries of agency by analyzing a spectrum of candidate agents — from thermostats to humans — and examining what, if anything, distinguishes genuine agents from sophisticated reactive systems.
+能動性の哲学的な境界を探求するために、熱源計から人間まで、さまざまな候補能動主体を分析し、真の能動主体と高度な反応系を区別するものであれば何が異なるのかを検討します。
 
-## Part 1: The Agency Spectrum
+## 第1部：能動性のスペクトル
 
-**Goal**: Map the intuitive boundaries of agency.
+**目標**: 能動性の直感的な境界をマッピングする。
 
-Rank the following systems from "least agentive" to "most agentive": (a) a thermostat, (b) a bacterium performing chemotaxis, (c) a chess-playing AI, (d) a sleeping human, (e) a deliberating human. Justify your ranking using at least two criteria.
-
-{fill:textarea}
-
-## Part 2: The Markov Blanket Analysis
-
-**Goal**: Apply the formal framework to your intuitions.
-
-For two systems from your ranking (one you consider agentive, one not), identify their Markov Blanket components (sensory states, active states, internal states, external states). Does the formal analysis match your intuitive ranking? If not, what does the mismatch reveal?
+次のシステムを「最も能動的でない」から「最も能動的」へとランク付けしてください： (a) 熱源計、(b)  chemotaxis を行うバクテリア、(c) チェスをプレイする AI、(d) 眠っている人間、(e) 意思決定をしている人間。少なくとも2つの基準を用いて、あなたのランク付けを正当化してください。
 
 {fill:textarea}
 
-## Part 3: The Zombie Agent
+## 第2部：マルコフのベール分析
 
-**Goal**: Probe the relationship between agency and consciousness.
+**目標**: あなたの直感に対して、形式的な枠組みを適用する。
 
-Imagine a "philosophical zombie agent" — a system that has all the functional properties of an Active Inference agent (Markov Blanket, active states that minimize free energy, a generative model) but no subjective experience. Is such a system an agent? Does Active Inference require consciousness for agency, or is it indifferent to the presence of experience?
-
-{fill:textarea}
-
-## Part 4: Collective Agency
-
-**Goal**: Extend the concept of agency beyond individual organisms.
-
-Consider a colony of ants. Individual ants have limited "cognition," yet the colony as a whole exhibits sophisticated problem-solving. Does the colony have agency? Can a Markov Blanket be drawn around the colony as a whole? What philosophical issues arise from attributing agency at multiple scales simultaneously?
+あなたのランク付けから選択したシステム2つについて、感覚状態、活性状態、内部状態、外部状態のマルコフのベールコンポーネントを特定してください。形式的な分析はあなたの直感的なランク付けと一致しますか？ 一致しない場合、そのずれは何を明らかにしますか？
 
 {fill:textarea}
 
-## Part 5: Synthesis and Position Defense
+## 第3部：ゾンビ能動主体
 
-**Goal**: Articulate your own philosophical position on agency.
+**目標**: 能動性と意識の関係を探る。
 
-Write a 200-word statement addressing one of the following:
-
-- "Agency is real and graded — thermostats have a tiny amount, humans have a lot."
-- "Agency is a binary property that requires consciousness or self-awareness."
-- "Agency is not a property of systems at all but a stance we adopt toward them (Dennett's intentional stance)."
-
-Identify the strongest objection to your view and respond to it.
+「哲学的なゾンビ能動主体」を想像してください。これは、Active Inference 能動主体（マルコフのベール、フリーエネルギーを最小化する活性状態、生成モデル）のすべての機能的特性を持ちながら、主観的な経験がないシステムです。そのようなシステムは能動主体ですか？ Active Inference は能動性にとって意識を必要としますか、それとも経験の存在に無関心ですか？
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：集合能動性
 
-| Part | Skill Developed | Key Philosophical Move |
-|------|----------------|----------------------|
-| 1 | Intuition mapping | Eliciting and articulating pre-theoretical judgments about agency |
-| 2 | Formal analysis | Applying Markov Blanket formalism to test intuitions |
-| 3 | Modal reasoning | Exploring the logical independence of agency and consciousness |
-| 4 | Scale analysis | Examining agency at collective/superorganism scales |
-| 5 | Position defense | Constructing and defending a philosophical position under objection |
+**目標**: 個々の生物を超えた能動性の概念を拡張する。
+
+アリのコロニーを考えてください。個々のアリには限られた「認知」しかありませんが、コロニー全体は洗練された問題解決能力を示します。コロニーには能動性が存在しますか？ マルコフのベールをコロニー全体に引き当てることができますか？ 同時に複数のスケールで能動性を帰属させることによって生じる哲学的な問題は何ですか？
+
+{fill:textarea}
+
+## 第5部：合成と立場防御
+
+**目標**: 能動性に関するあなたの独自の哲学的な立場を明確にする。
+
+次のうちの 1 つに対処する 200 語の声明を書いてください。
+
+- 「能動性は現実的で段階的であり、熱源計にはわずかな量が、人間にはたくさんの量があります。」
+- 「能動性は、意識または自己認識を必要とする二分的な特性です。」
+- 「能動性はシステム自体のものではなく、システムに向かって私たちが採用する姿勢です（Dennett の意図的な姿勢）。」
+
+あなたの見解に対する最も強力な反論を特定し、それに対して答えてください。
+
+{fill:textarea}
+
+## 実験概要
+
+| 部門 | 開発されたスキル | 主要な哲学的な動き |
+|---|---|---|
+| 1 | 直感マッピング | あらかじめ理論的ではない判断に関する直感を引き出し、表現する |
+| 2 | 形式分析 | マルコフのベール形式を適用して直感のテストを行う |
+| 3 | 模態推論 | 能動性と意識の論理的独立性を探求する |
+| 4 | スケール分析 | 集合/スーパーオルガニズムスケールにおける能動性の調査 |
+| 5 | 立場防御 | 反論下で哲学的な立場を構築し、擁護する |

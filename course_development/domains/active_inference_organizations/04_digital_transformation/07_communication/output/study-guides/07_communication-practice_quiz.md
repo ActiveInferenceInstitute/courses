@@ -1,51 +1,23 @@
-# Practice Quiz: Communication
+# Practice Quiz: Digital Transformation — Module 07: Communication
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Communication** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. Disney's MagicBand creates value through: A) Wearable technology B) Omnichannel coherence — the same customer identity and experience across physical, digital, and wearable touchpoints C) Data collection D) Theme park access
+2. **APIs** function as organizational communication because: A) They connect computers B) They define what data passes between systems and what stays private — the communication protocol of the digital organization C) They're technical D) Developers use them
+3. Digital collaboration tools (Slack, Teams) change organizations by: A) Replacing email B) Reducing hierarchy, enabling parallel conversations, creating searchable organizational memory, but risking overload C) Being faster D) Costing less
+4. **Omnichannel communication** requires: A) Many channels B) A unified model of the customer/stakeholder maintained consistently across all touchpoints C) Expensive technology D) A marketing team
+5. The paradox of digital communication is: A) It's expensive B) More channels can create more noise and fragmentation rather than better understanding C) It's unreliable D) It's too fast
+6. An API design decision about what data to share is: A) Technical only B) A boundary management decision — what crosses the Markov blanket between systems C) Trivial D) Irrelevant
+7. **Channel proliferation** becomes a problem when: A) There are too many B) People can't find the right information across multiple overlapping channels, decreasing organizational signal quality C) Channels are expensive D) IT objects
 
-2. In Organizations, Communication is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+---
 
-3. Which mathematical quantity is most central to Communication?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+## Part B: Short Analysis
 
-4. How does Communication relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
-
-5. A failure in Communication would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
-
-6. Which scale is most relevant for analyzing Communication in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
-
-7. Communication connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
-
-## Part B: Short Answer
-
-1.  Explain how **Communication** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Communication failing in a Organizations scenario.
-3.  How would you model Communication using a POMDP (Partially Observable Markov Decision Process)?
+1. Your organization uses email, Slack, Teams, Zoom, a wiki, and three internal tools. Employees report "tool fatigue" and can't find information. Diagnose the communication architecture problem and design a rationalized channel strategy.
+2. Design an omnichannel customer communication architecture for a bank that serves customers through branches, app, website, phone, and ATM. How do you maintain model coherence across touchpoints?
+3. Your organization's two critical backend systems communicate through a fragile, undocumented API. Analyze the organizational risk and design an API governance approach.

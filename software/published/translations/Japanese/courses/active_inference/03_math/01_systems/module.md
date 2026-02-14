@@ -1,69 +1,69 @@
-# Module 01: Systems — Markov Blankets, Dynamic Systems, and the Free Energy Bound
+# モジュール 01: システム — マルコフカバー、ダイナミックシステム、および自由エネルギー上限
 
-## Learning Objectives
+## 学習目標
 
-1. Derive the **Markov Blanket** conditions from a factorized joint distribution and explain their implications for system-environment separation.
-2. Formalize the dynamics of a self-organizing system using stochastic differential equations with a Markov Blanket partition.
-3. Derive the **variational free energy** upper bound on surprise and explain its role as a tractable objective.
+1.  共役分布のファクター化からマルコフカバーの条件を導出し、システムと環境の分離に関するその影響を説明する。
+2.  マルコフカバーの分割を用いた確率微分方程式を用いて自己組織化システムにおけるダイナミクスを形式化する。
+3.  驚きに対する変分自由エネルギーの上限を導出し、その役割である扱いやすい目的関数を説明する。
 
-## Introduction
+## 導入
 
-Active Inference begins with a mathematical fact: any system that maintains its structural integrity over time can be described as if it possesses a Markov Blanket — a statistical boundary separating internal states from external states through sensory and active states. This module develops the formal mathematics of this partition and derives the free energy bound that is the foundation of the entire framework.
+アクティブ・インファーレンスは、数学的な事実から始まります：構造的な整合性を時間経過とともに維持できるシステムは、感覚的および活動的な状態を外部状態から感覚的状態を通して分離する統計的境界であるマルコフカバーを持っているかのように記述できます。このモジュールは、この分割の形式数学を開発し、この枠組み全体の基礎となる自由エネルギー上限を導き出します。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Markov Blanket Formalism
+### 1. マルコフカバーの形式論
 
-Consider a set of random variables partitioned into four subsets: **internal states** μ, **external states** η, **sensory states** s, and **active states** a. The set {s, a} forms a **Markov Blanket** if and only if:
+内部状態 μ、外部状態 η、感覚状態 s、および活動状態 a の4つのサブセットに分割された確率変数セットを考えます。セット {s, a} がマルコフカバーである場合と等価な場合：
 
 **p(μ | η, s, a) = p(μ | s, a)**
 
-That is, internal states are conditionally independent of external states given the blanket states. Equivalently:
+つまり、内部状態は、感覚的および活動的な状態が与えられた外部状態に対して条件付き独立です。等価に：
 
 **p(η | μ, s, a) = p(η | s, a)**
 
-External states are conditionally independent of internal states given the blanket states. This means all information exchange between internal and external states is mediated by the blanket.
+外部状態は、感覚的および活動的な状態が与えられた内部状態に対して条件付き独立です。これは、内部状態と外部状態間のすべての情報交換が、カバーを通して仲介されることを意味します。
 
-The full joint distribution factorizes as:
+完全な共役分布は次のようになります。
 
 **p(η, s, a, μ) = p(η) · p(s | η, a) · p(a | μ) · p(μ | s, a)**
 
-### 2. Stochastic Dynamics on a Markov Blanket
+### 2. マルコフカバー上の確率的ダイナミクス
 
-The dynamics of the system are governed by a Langevin equation:
+システムのダイナミクスは、ラングレー方程式によって支配されます。
 
 **dx/dt = f(x) + ω**
 
-where x = (η, s, a, μ), f(x) is the flow field, and ω is a Wiener process (random fluctuations). The Markov Blanket conditions constrain f:
+ここで、x = (η, s, a, μ)、f(x) は流れ場、ω はウィーナー過程（ランダムな変動）です。マルコフカバーの条件は、f を制約します。
 
-- **f_η** depends only on (η, s, a), not directly on μ
-- **f_μ** depends only on (μ, s, a), not directly on η
+- **f_η** は μ にのみ依存し、(η, s, a) にのみ依存します。
+- **f_μ** は μ、s、a にのみ依存し、η に直接依存しません。
 
-At nonequilibrium steady state, the system converges to a characteristic density p*(x). Any system that reaches such a steady state possesses a Markov Blanket structure.
+非平衡定常状態では、システムは特徴的な密度 p*(x) に収束します。そのような定常状態に到達するシステムは、マルコフカバー構造を持っています。
 
-### 3. The Free Energy Bound
+### 3. 自由エネルギー上限
 
-The **variational free energy** F is an upper bound on **surprise** (negative log-evidence):
+変分自由エネルギー F は、驚き（負の対証）の上限です。
 
 **F = E_q [ln q(η) - ln p(η, s)] ≥ -ln p(s)**
 
-where q(η) is a **recognition density** (the agent's "belief" about external states) and p(η, s) is the generative model. This decomposes into:
+ここで、q(η) は認識密度（エージェントの外部状態に対する「信念」）であり、p(η, s) は生成モデルです。これは次のようになります。
 
 **F = D_KL[q(η) ‖ p(η|s)] - ln p(s)**
 
-Since the KL divergence is non-negative, minimizing F simultaneously:
+KL divergence は非負であるため、F を最小化すると同時に：
 
-1. Minimizes surprise (maximizes model evidence)
-2. Brings q(η) close to the true posterior p(η|s)
+1.  驚きを最小化（モデルの証拠を最大化）します。
+2.  q(η) を真の事後分布 p(η|s) に近づけます。
 
-This is the mathematical foundation of Active Inference: by minimizing variational free energy, the agent both explains its sensory data and infers the hidden causes that generated it.
+これはアクティブ・インファーレンスの数学的基礎です。変分自由エネルギーを最小化することにより、エージェントは感覚データを説明し、それらによって生成されたものを推論します。
 
-## Derivation Exercises
+## 導出演習
 
-1. Starting from the joint distribution p(η, s, a, μ), prove that conditional independence μ ⊥ η | {s, a} is equivalent to the absence of edges between μ and η in the Bayesian network.
-2. Show that F = E_q[ln q(η) - ln p(η, s)] = D_KL[q(η) ‖ p(η|s)] - ln p(s).
-3. Prove that F ≥ -ln p(s) (ELBO inequality).
+1.  共役分布 p(η, s, a, μ) から始めて、条件付き独立性 μ ⊥ η | {s, a} がマルコフカバーの存在と等価であることを証明する。
+2.  F = E_q[ln q(η) - ln p(η, s)] = D_KL[q(η) ‖ p(η|s)] - ln p(s) を示す。
+3.  F ≥ -ln p(s) (ELBO 不等式) を証明する。
 
-## Conclusion
+## 結論
 
-The Markov Blanket and variational free energy provide the mathematical foundation for the entire Active Inference framework. Every subsequent module builds on this: agents (Module 02) are systems with particular internal dynamics; perception (Module 03) is the optimization of q; and action (Module 05) changes s and a to reduce F.
+マルコフカバーと変分自由エネルギーは、アクティブ・インファーレンスの枠組み全体の数学的基礎を提供します。エージェント（モジュール 02）、認識（モジュール 03）、および行動（モジュール 05）は、この基礎の上に構築されます。

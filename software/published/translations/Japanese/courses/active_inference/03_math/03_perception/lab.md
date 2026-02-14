@@ -1,87 +1,87 @@
-# Lab: Derivation Exercise — Predictive Coding Message Passing
+# Lab: 予測的コーディング メッセージ伝播 — 推論演習
 
-## Objective
+## 目的
 
-Derive the predictive coding equations step by step for increasingly complex generative models, connecting the mathematics to the neural architecture.
+予測的コーディングの式を、ますます複雑になる生成モデルについて段階的に導出し、数学を神経アーキテクチャに結びつけます。
 
-## Part 1: Single-Level Gaussian Inference
+## 第1部：単一レベルガウス推論
 
-**Goal**: Derive belief updating for the simplest possible model.
+**目標**: 最も単純なモデルの信念更新を導出する。
 
-**Generative model**: p(s) = N(s; μ₀, σ₀²), p(o|s) = N(o; s, σ_o²)
+**生成モデル**: p(s) = N(s; μ₀, σ₀²), p(o|s) = N(o; s, σ_o²)
 
-**Recognition density**: q(s) = N(s; μ, σ²)
+**認識密度**: q(s) = N(s; μ, σ²)
 
-**Task**:
+**タスク**:
 
-1. Write the free energy F = -E_q[ln p(o|s)] + D_KL[q(s) ‖ p(s)]
-2. Expand each term analytically using Gaussian integrals
-3. Compute ∂F/∂μ and set to zero → derive μ*
-4. Show that μ* = (σ_o² · μ₀ + σ₀² · o) / (σ_o² + σ₀²) — a precision-weighted average of prior and observation
-
-{fill:textarea}
-
-## Part 2: Two-Level Hierarchical Model
-
-**Goal**: Derive message passing in a hierarchy.
-
-**Generative model**:
-
-- Level 2 prior: p(s₂) = N(s₂; μ₂₀, σ₂₀²)
-- Level 2 → Level 1: p(s₁|s₂) = N(s₁; g₂(s₂), σ₂²) where g₂(s₂) = A·s₂ (linear)
-- Level 1 → Observations: p(o|s₁) = N(o; g₁(s₁), σ₁²) where g₁(s₁) = C·s₁ (linear)
-
-**Recognition density**: q(s₁) = N(μ₁, Σ₁), q(s₂) = N(μ₂, Σ₂)
-
-**Task**:
-
-1. Write the free energy as a sum of terms across levels
-2. Compute ∂F/∂μ₁ and ∂F/∂μ₂
-3. Identify the prediction errors ε₁ = o - C·μ₁ and ε₂ = μ₁ - A·μ₂
-4. Show that each level's update depends on bottom-up prediction errors (from below) and top-down predictions (from above)
+1.  F = -E_q[ln p(o|s)] + D_KL[q(s) ‖ p(s)] を記述する。
+2.  ガウス積分を用いて各項を解析的に展開する。
+3.  ∂F/∂μ を計算し、ゼロに設定 → μ* を導出する。
+4.  μ* = (σ_o² · μ₀ + σ₀² · o) / (σ_o² + σ₀²) – 事前分布と観測の精度に基づいた平均であることを示す。
 
 {fill:textarea}
 
-## Part 3: Nonlinear Extensions
+## 第2部：二層階層的モデル
 
-**Goal**: Extend to nonlinear generative mappings.
+**目標**: 階層におけるメッセージ伝播を導出する。
 
-Replace g₁(s₁) = C·s₁ with a nonlinear function g₁(s₁) (e.g., sigmoid, polynomial).
+**生成モデル**:
 
-**Task**:
+-   レベル2事前分布: p(s₂) = N(s₂; μ₂₀, σ₂₀²)
+-   レベル2 → レベル1: p(s₁|s₂) = N(s₁; g₂(s₂), σ₂²) where g₂(s₂) = A·s₂ (線形)
+-   レベル1 → 観測: p(o|s₁) = N(o; g₁(s₁), σ₁²) where g₁(s₁) = C·s₁ (線形)
 
-1. Derive the modified prediction error equation using the Jacobian ∂g₁/∂s₁
-2. Show that the gradient ∂F/∂μ₁ now involves the Jacobian transposed times the precision-weighted prediction error
-3. Explain why this requires the Laplace approximation (evaluating the Jacobian at the current estimate μ₁)
+**認識密度**: q(s₁) = N(μ₁, Σ₁), q(s₂) = N(μ₂, Σ₂)
 
-{fill:textarea}
+**タスク**:
 
-## Part 4: Generalized Coordinates
-
-**Goal**: Extend predictive coding to temporal dynamics using generalized coordinates.
-
-In generalized coordinates, the state vector is extended to include the state and its temporal derivatives: x̃ = [x, x', x'', ...]
-
-**Task**:
-
-1. Write the generalized state-space model: p(o|s̃) and p(s̃) in generalized coordinates
-2. Show that the free energy gradient in generalized coordinates has the form: dμ̃/dt = Dμ̃ - ∂F/∂μ̃, where D is the shift operator
-3. Explain how this enables the system to predict the temporal evolution of sensory input
+1.  エネルギーをレベルごとの項の合計として記述する。
+2.  ∂F/∂μ₁ と ∂F/∂μ₂ を計算する。
+3.  予測誤差 ε₁ = o - C·μ₁ と ε₂ = μ₁ - A·μ₂ を特定する。
+4.  各レベルの更新が、下からの予測誤差（下から）と上からの予測（上から）に依存することを示す。
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## 第3部：非線形拡張
 
-In 200 words, explain how Parts 1-4 build a complete mathematical framework: from single-level inference to hierarchical message passing to temporal prediction — and how this framework maps onto the cortical hierarchy.
+**目標**: 非線形生成マッピングへの拡張。
+
+g₁(s₁) = C·s₁ を、シグモイドや多項式などの非線形関数で置き換える。
+
+**タスク**:
+
+1.  ジャコビアン ∂g₁/∂s₁ を用いて、修正された予測誤差方程式を導出する。
+2.  勾配 ∂F/∂μ₁ が、ジャコビアンの転置に精度に基づいた予測誤差を掛けたものになることを示す。
+3.  なぜこれを行うためにラプラス近似が必要なのかを説明する（現在の推定値 μ₁ でジャコビアンを評価する）。
+
+{fill:textarea}
+
+## 第4部：一般化された座標
+
+**目標**: 時間的ダイナミクスを予測的コーディングに拡張するために、一般化された座標を使用する。
+
+一般化された座標では、状態ベクトルは、状態とその時間微分を含むように拡張されます： x̃ = [x, x', x'', ...]
+
+**タスク**:
+
+1.  一般化された状態空間モデル: x̃ = [x, x', x'', ...] を p(o|s̃) と p(s̃) で記述する。
+2.  一般化された座標では、エネルギー勾配が以下の形式を持つことを示す: dμ̃/dt = Dμ̃ - ∂F/∂μ̃,  ここで D はシフト演算子です。
+3.  この方法が、感覚入力の時間的な進化を予測するシステムを可能にすることについて説明する。
+
+{fill:textarea}
+
+## 第5部：合成
+
+Part 1 ～ 4 で構築された完全な数学的枠組みを、200語で説明します。単一レベルの推論から、階層的なメッセージ伝播、時間的予測まで—そして、この枠組みが皮質階層にマッピングされる方法について。
 
 {fill:textarea}
 
 ## Lab Summary
 
-| Part | Skill Developed | Mathematical Result |
-|------|----------------|-------------------|
-| 1 | Gaussian inference | Precision-weighted averaging (Bayesian updating) |
-| 2 | Hierarchical derivation | Bottom-up/top-down message passing |
-| 3 | Nonlinear extension | Jacobian-based prediction error propagation |
-| 4 | Temporal dynamics | Generalized coordinates and prediction |
-| 5 | Integration | Connecting math to neural predictive coding |
+| Part | 開発されたスキル | 数学的結果 |
+|------|-----------------|-------------------|
+| 1 | ガウス推論 | 精度に基づいた平均化 (ベイズ更新) |
+| 2 | 階層的推論 | 下からのメッセージ伝播/上からのメッセージ伝播 |
+| 3 | 非線形拡張 | ジャコビアンに基づく予測誤差伝播 |
+| 4 | 時間的ダイナミクス | 一般化された座標と予測 |
+| 5 | 統合 | 数学を皮質的予測的コーディングに結び付ける |

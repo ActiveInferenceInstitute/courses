@@ -1,0 +1,53 @@
+# Practice Quiz: Communication (Fiber & Flow)
+
+## Part A: Multiple Choice
+
+1. The color wheel functions in the crochet community as:
+A) A purely decorative tool
+B) A shared generative model that predicts how colors will interact
+C) Something only professional designers use
+D) An outdated concept with no practical value
+
+2. When a yarn label says "Worsted Weight," it communicates:
+A) Only the price of the yarn
+B) A compressed package of predictions about gauge, hook size, and project suitability
+C) That the yarn is old-fashioned
+D) Nothing useful to the crocheter
+
+3. The fiber content label works as communication because:
+A) Labels are always perfectly accurate
+B) Sender and receiver share a generative model of how each fiber behaves
+C) Fiber content has no effect on yarn behavior
+D) Only scientists can read fiber labels
+
+4. Texture in crochet communicates meaning because:
+A) All textures look the same
+B) Different textures carry culturally shared aesthetic and functional associations
+C) Texture is invisible to viewers
+D) Only the crocheter can perceive texture
+
+5. A well-written crochet pattern minimizes the receiver's uncertainty by:
+A) Being as brief as possible
+B) Transmitting a high-fidelity generative model of the construction process
+C) Only including pictures
+D) Leaving all decisions to the crocheter
+
+6. US and UK crochet terminology differences illustrate:
+A) That terminology does not matter
+B) How communication breaks down when shared codes diverge
+C) That only one system is correct
+D) A purely academic problem
+
+7. Online crochet communities enhance communication by:
+A) Replacing yarn labels
+B) Extending communicative range beyond what patterns alone can transmit
+C) Making all information unreliable
+D) Only serving experienced crocheters
+
+## Part B: Short Answer
+
+1. Explain why it is difficult to communicate the hand feel of a yarn through text alone. What perceptual information is lost, and how do crafters compensate?
+
+2. Describe a crochet pattern as a model transmission. What makes the difference between a pattern that communicates clearly and one that generates confusion?
+
+3. How does the yarn weight classification system create a shared predictive framework? Give a specific example of how the label "DK weight" sets expectations for a crocheter.

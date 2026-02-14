@@ -1,77 +1,77 @@
-# Lab: Thought Experiment — Action, Exploration, and Free Will
+# 実験室：思考実験 — 行動、探求、そして自由意志
 
-## Objective
+## 目的
 
-Investigate the philosophical implications of treating action as inference through thought experiments on exploration, skilled performance, and the problem of free will.
+行動を、探求、熟練したパフォーマンス、そして自由意志の問題という観点から、思考実験を通じて推論とみなすことの哲学的な影響を調査する。
 
-## Part 1: The Rattle Experiment
+## 第1部：ガラガラ実験
 
-**Goal**: Analyze epistemic action in the simplest case.
+**目標**: 最も単純なケースにおける認識行動を分析する。
 
-An infant shakes a rattle for the first time. The sound surprises her. She shakes it again — and again — each time with slightly different force and angle.
+赤ちゃんが初めてガラガラを振る。その音に驚き、再び振る—そして何度も—毎回、少しずつ力を加えたり角度を変えたりする。
 
-- Is the infant "playing" or "experimenting"? Does the distinction matter?
-- How does Active Inference explain this behavior (hint: epistemic action to reduce expected ambiguity about the rattle's causal properties)?
-- At what point does the infant stop exploring and move to a different toy? What does this transition reveal about the EFE balance between epistemic and pragmatic value?
-
-{fill:textarea}
-
-## Part 2: The Expert's Flow
-
-**Goal**: Connect the phenomenology of skilled action to the Active Inference framework.
-
-Imagine a jazz musician improvising a solo. She does not consciously plan each note; the music "flows" through her. Dreyfus calls this "absorbed coping."
-
-- How does Active Inference account for the transition from effortful, deliberate play (the student) to effortless, absorbed play (the expert)?
-- What changes in the generative model? (Hint: precision, model complexity, habitual policies.)
-- Is the improvising musician "free" in her playing? More free or less free than the deliberating student?
+- 赤ちゃんは「遊んでいる」のか、「実験をしている」のか？その区別は重要なのか？
+- Active Inference がこの行動をどのように説明するのか（ヒント：ガラガラの因果的性質に関する期待される曖昧さを軽減するための認識行動）？
+- 赤ちゃんが探求を止め、別の玩具に移ろうとするのはいつなのか？これは、認識的価値と実践的価値の EFE バランスについて何を示しているのか？
 
 {fill:textarea}
 
-## Part 3: The Free Will Dilemma
+## 第2部：専門家の流れ
 
-**Goal**: Engage directly with the philosophical problem of free will.
+**目標**: 熟練した行動の現象学的側面を、Active Inference フレームワークに結びつける。
 
-Active Inference says that actions are determined by prediction error minimization within a generative model. Counterargument: "If my actions are the output of a deterministic computational process, I am no more free than a thermostat."
+ジャズミュージシャンがソロを即興演奏する状況を想像してください。彼女は、各音を意識的に計画していません。「音楽が彼女の中に流れる」のです。ドレイフスはこの状態を「吸収された対処」と呼びました。
 
-- State the strongest version of this objection.
-- Present the Active Inference response (hierarchical generative models, counterfactual reasoning, Frankfurt-style higher-order volition).
-- Evaluate: Does this response genuinely preserve free will, or does it merely redescribe determinism in flattering language?
-
-{fill:textarea}
-
-## Part 4: Moral Responsibility Under Active Inference
-
-**Goal**: Explore the ethical implications of action as inference.
-
-If a person with an atypical generative model (due to psychopathology, developmental difference, or extreme environment) performs harmful actions, are they morally responsible?
-
-- How does Active Inference's account of action bear on the legal concept of diminished responsibility?
-- Is "my generative model made me do it" a valid excuse? Why or why not?
-- How does this connect to philosophical discussions of moral luck (Nagel, Williams)?
+- Active Inference が、努力を要する、意識的な演奏（学生）から、無意識で、吸収された演奏（専門家）への移行をどのように説明するのか？
+- 生成モデルにどのような変化があるのか？（ヒント：精度、モデルの複雑さ、習慣的なポリシー。）
+- 即興演奏をするミュージシャンは、「演奏において自由」なのか？ 学生の、意識的に計画している状態よりも自由なのか、それともそれよりも不自由なのか？
 
 {fill:textarea}
 
-## Part 5: Synthesis and Position Defense
+## 第3部：自由意志のジレンマ
 
-**Goal**: Articulate your philosophical view on action and free will.
+**目標**: 自由意志という哲学的な問題を直接的に検討する。
 
-Write a 200-word statement on one of:
+Active Inference によれば、行動は生成モデル内の予測誤差の最小化によって決定されます。反論：「もし私の行動が、計算プロセスからの出力であるなら、熱帯管のような、私には自由意志がない」
 
-- "Active Inference provides the best available compatibilist account of free will."
-- "Action as inference eliminates genuine agency — we are sophisticated prediction machines, nothing more."
-- "The distinction between epistemic and pragmatic action recaptures the Aristotelian distinction between *theoria* and *praxis*."
-
-Share with a peer and defend your position against their strongest objection.
+- この反論の最も強力なバージョンを記述してください。
+- Active Inference の応答を提示してください（階層的な生成モデル、反事実的推論、フランクフルトスタイルの高次の意志）。
+- 評価：この応答は、本当に自由意志を保存するのか、それとも単に決定論を褒め言葉のような言葉で言い換えているだけなのか？
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：Active Inference 下での道徳的責任
 
-| Part | Skill Developed | Key Philosophical Move |
-|------|----------------|----------------------|
-| 1 | Developmental analysis | Interpreting infant behavior through the epistemic/pragmatic value lens |
-| 2 | Phenomenological analysis | Connecting absorbed expertise to generative model dynamics |
-| 3 | Dialectical reasoning | Engaging with free will through objection and response |
-| 4 | Applied ethics | Connecting action as inference to moral responsibility |
-| 5 | Position defense | Articulating and defending a philosophical position on action and freedom |
+**目標**: 行動を推論とみなすことの倫理的影響を探求する。
+
+アティピカルな生成モデル（精神疾患、発達の違い、または極端な環境のために）を持つ人が有害な行動を行う場合、その人は道徳的に責任を負うのか？
+
+- Active Inference の行動の説明が、責任能力の概念にどのように影響を与えるのか？
+- 「私の生成モデルが私を動かした」という言い訳は有効か？ なぜそうなのか、なぜそうではないのか？
+- これは、ナゲルの議論やウィリアムズの議論など、道徳的運命に関する哲学的な議論とどのように関連しているのか？
+
+{fill:textarea}
+
+## 第5部：合成と立場擁護
+
+**目標**: 行動と自由意志に関する哲学的な見解を表明する。
+
+次のいずれかの内容で200語の声明を作成してください。
+
+- "Active Inference は、自由意志に対する最良の共存主義的な説明を提供する"
+- "行動は推論であるとみなされると、真の主体性（agency）は消滅する—私たちは単なる洗練された予測マシンに過ぎない"
+- "認識的行動と実践的行動の区別は、*theoria*（理論）と*praxis*（実践）のアーリストテレスの区別を捉え直す"
+
+ピアと共有し、あなたの立場に対する最も強い反論に備えて擁護してください。
+
+{fill:textarea}
+
+## 実験室概要
+
+| 部門 | 開発されたスキル | 主要な哲学的動き |
+|---|---|---|
+| 1 | 発達分析 | 赤ちゃんの行動を認識的/実践的価値のレンズを通して解釈する |
+| 2 | 現象学的分析 | 吸収された専門知識を生成モデルのダイナミクスに結びつける |
+| 3 | 弁証法的思考 | 反論と応答を通じて自由意志に取り組む |
+| 4 | 応用倫理 | 行動を推論とみなすことを、道徳的責任に結びつける |
+| 5 | 立場擁護 | 行動と自由意志に関する哲学的な立場を表明し、擁護する |

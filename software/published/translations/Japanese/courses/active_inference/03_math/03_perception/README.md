@@ -1,53 +1,53 @@
-# Module 3: Perception — Variational Free Energy, KL Divergence, and Recognition Density
+# モジュール3：認識 — 感受性理論、KL divergence、認識密度
 
-> **Quick Navigation**: [← Agents](../02_agents/) | [Up](../) | [Cognition →](../04_cognition/)
+> **クイックナビゲーション**: [← エージェント](../02_agents/) | [上へ](../) | [認知 →](../04_cognition/)
 
-## The Mathematics of Active Inference
+## 積極的推論の数学
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Derivation lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の全文 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ（7つのMC + 3つのFR） |
+| [lab.md](./lab.md) | 導出ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです：
 
-1. **Derive** the Variational Free Energy `F` from `D_KL[q(s) || p(s|o)]` and show it upper-bounds surprisal (ELBO)
-2. **Decompose** VFE into three equivalent forms: divergence + surprisal, complexity − accuracy, energy − entropy
-3. **Compute** KL divergence for discrete and Gaussian distributions and prove its non-negativity via Jensen's inequality
-4. **Apply** precision-weighted belief updating to hierarchical inference and predict convergence behavior
+1.  `D_KL[q(s) || p(s|o)]` から感受性理論（VAE）`F` を導出し、驚き（ELBO）の上限を示す
+2.  感受性理論（VAE）を、散逸 + 驚き、複雑性 − 正確性、エネルギー − エントロピーという3つの等価な形に分解する
+3.  離散分布とガウス分布におけるKL divergenceを計算し、ジェンセンの不等式を用いてその非負性を証明する
+4.  階層的推論への精密度重み付き信念更新を適用し、収束挙動を予測する
 
 ---
 
-## Cross-Course Links
+## 関連コースへのリンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/03_perception/) | Direct Perception, Inferentialism, and the User-Interface Theory |
-| [Cognitive Science](../../02_cognitive_science/03_perception/) | Predictive Coding, Sensory Attenuation, and Hallucinations |
-| [Mathematics](../../03_math/03_perception/) | Variational Free Energy, KL Divergence, and Recognition Density ← **You are here** |
-| [Computer Science](../../04_computer_science/03_perception/) | A-Matrix and B-Matrix: Likelihood, Transitions, State Estimation |
+| [哲学](../../01_philosophy/03_perception/) | 直接認識、推論主義、ユーザーインターフェース理論 |
+| [認知科学](../../02_cognitive_science/03_perception/) | 予測コーディング、感覚減衰、幻覚 |
+| [数学](../../03_math/03_perception/) | 感受性理論、KL divergence、認識密度 ← **ここにいる** |
+| [コンピュータサイエンス](../../04_computer_science/03_perception/) | A行列とB行列：尤度、遷移、状態推定 |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Agents](../02_agents/) | [Up](../) | [Cognition →](../04_cognition/)
+[← エージェント](../02_agents/) | [上へ](../) | [認知 →](../04_cognition/)

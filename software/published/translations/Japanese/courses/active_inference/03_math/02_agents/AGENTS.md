@@ -1,25 +1,25 @@
-# Module 2: Agents — Agent Guidelines
+# モジュール2：エージェント — エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コースAGENTS](../AGENTS.md) | [カリキュラムAGENTS](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Stochastic Systems: Random Processes, Differential Equations, and Steady States |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Agents) |
-| `lab.md` | File | Derivation: Stochastic Systems: Random Processes, Differential Equations, and Steady States |
-| `dashboard.html` | File | Interactive dashboard: Agents |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル — モジュールエージェントガイドライン |
+| `module.md` | ファイル | 講義全文: 確率的システム: 確率過程、微分方程式、および定常状態 |
+| `questions.md` | ファイル | 20の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7問のMC + 3問のFR (エージェント) |
+| `lab.md` | ファイル | 導出: 確率的システム: 確率過程、微分方程式、および定常状態 |
+| `dashboard.html` | ファイル | インタラクティブダッシュボード: エージェント |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Mathematical
-- **Topic**: Agents — Stochastic Systems: Random Processes, Differential Equations, and Steady States
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/02_agents/module.md` for parallel modules
+- **視点**: 数学的
+- **トピック**: エージェント — 確率的システム: 確率過程、微分方程式、および定常状態
+- **記号**: [notation_table.md](../../resources/notation_table.md) に基づく
+- **用語**: [glossary.md](../../resources/glossary.md) に基づく
+- **相互参照**: `../../XX_course/02_agents/module.md` へのリンクで、並行モジュールを参照します

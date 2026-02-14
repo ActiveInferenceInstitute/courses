@@ -1,79 +1,79 @@
-# Lab: Derivation Exercise — Precision Optimization and Attention
+# Lab: Derivation Exercise — 精度最適化と注意
 
-## Objective
+## 目的
 
-Derive the mathematical equations governing precision estimation and show how precision optimization implements attention in hierarchical models.
+精度推定を支配する数学的方程式を導出し、階層的モデルにおける精度最適化が注意をどのように実装しているかを示す。
 
-## Part 1: Univariate Precision Estimation
+## 第1部: 単変数精度推定
 
-**Goal**: Derive the optimal precision for the simplest Gaussian model.
+**目標**: 最も単純なガウスモデルの最適な精度を導出する。
 
-**Model**: p(o|μ) = N(o; μ, π⁻¹), with known mean μ and unknown precision π. Prior: p(π) = Gamma(π; α₀, β₀).
+**モデル**: p(o|μ) = N(o; μ, π⁻¹), 既知の平均 μ と未知の精度 π。事前分布: p(π) = Gamma(π; α₀, β₀)。
 
-**Task**:
+**課題**:
 
-1. Write the log-likelihood ln p(o₁:N | μ, π) for N observations
-2. Combine with the log-prior ln p(π) = (α₀ - 1)ln π - β₀π + const
-3. Find the posterior p(π | o₁:N) by recognizing it as a Gamma distribution with updated parameters
-4. Show that the posterior mean E[π | o₁:N] is related to the inverse sample variance
+1. N 個の観測に対する log-likelihood ln p(o₁:N | μ, π) を記述する。
+2. log-prior ln p(π) = (α₀ - 1)ln π - β₀π + const と組み合わせる。
+3. Gamma 分布を用いて更新されたパラメータを持つ後分布 p(π | o₁:N) を求める。
+4. 後分布の平均 E[π | o₁:N] が逆のサンプル分散に関連していることを示す。
 
 {fill:textarea}
 
-## Part 2: Precision in Hierarchical Predictive Coding
+## 第2部: 階層的予測コーディングにおける精度
 
-**Goal**: Derive how precision modulates message passing at each level.
+**目標**: 各レベルでのメッセージ伝達が精度によってどのように調節されるかを示す。
 
-**Model**: Two-level hierarchy with precision parameters π₁ (observation level) and π₂ (state level):
+**モデル**: 精度パラメータ π₁ (観察レベル) と π₂ (状態レベル) を持つ二層階層構造:
 
 - p(o|s₁) = N(o; s₁, π₁⁻¹)
 - p(s₁|s₂) = N(s₁; s₂, π₂⁻¹)
 
-**Task**:
+**課題**:
 
-1. Write the free energy F as a function of sufficient statistics μ₁, μ₂ and precision parameters π₁, π₂
-2. Compute ∂F/∂μ₁ and show it depends on the ratio π₁/π₂ — the relative precision of sensory and prior prediction errors
-3. Show that when π₁ >> π₂ (high sensory precision), updates are driven primarily by sensory data; when π₂ >> π₁ (high prior precision), updates are driven primarily by priors
-
-{fill:textarea}
-
-## Part 3: Log-Precision Dynamics
-
-**Goal**: Derive the gradient flow for log-precision γ = ln π.
-
-**Task**:
-
-1. Express free energy as a function of γ (not π directly)
-2. Compute ∂F/∂γ = ∂F/∂π · ∂π/∂γ = ∂F/∂π · π
-3. Show that the dynamics dγ/dt = -∂F/∂γ stably estimate precision from prediction error statistics
-4. Explain why using log-precision (which ranges over all reals) is numerically more stable than raw precision (which must be positive)
+1. 十分な統計量 μ₁, μ₂ と精度パラメータ π₁, π₂ を用いて、自由エネルギー F を関数として記述する。
+2. ∂F/∂μ₁ を計算し、それが π₁/π₂ の比によって依存することを示す - 感覚と事前予測誤差の相対的な精度。
+3. π₁ >> π₂ (高い感覚精度) の場合、更新は感覚データによって主に駆動され、π₂ >> π₁ (高い事前精度) の場合、更新は主に事前によって駆動されることを示す。
 
 {fill:textarea}
 
-## Part 4: Fisher Information and Confidence
+## 第3部: 対数精度ダイナミクス
 
-**Goal**: Connect precision to the information content of observations.
+**目標**: 対数精度 γ = ln π の勾配流れを導出する。
 
-**Task**:
+**課題**:
 
-1. Compute the Fisher information I(θ) = -E[∂²ln p(o|θ)/∂θ²] for p(o|θ) = N(θ, π⁻¹)
-2. Show that I(θ) = π — higher precision observations carry more information about hidden states
-3. State the Cramér-Rao bound: Var(θ̂) ≥ 1/I(θ). Explain what this means for inference under different precision regimes
-4. Discuss the implication: attention (increasing π) → more Fisher information → tighter Cramér-Rao bound → more confident inference
+1. 自由エネルギーを γ (π を直接用いない) の関数として表現する。
+2. ∂F/∂γ = ∂F/∂π · ∂π/∂γ = ∂F/∂π · π を計算する。
+3. 勾配流れ dγ/dt = -∂F/∂γ が予測誤差統計から精度を安定して推定することを示す。
+4. 対数精度 (すべての実数値をカバー) を使用することが、生の精度 (正の値でなければならない) よりも数値的に安定である理由を説明する。
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## 第4部: フィッシャー情報量と信頼
 
-In 200 words, explain how precision serves as the mathematical bridge between free energy theory (abstract variational inference) and attention (concrete cognitive process). Connect the derivations from Parts 1-4 into a unified account.
+**目標**: 精度が観測の情報コンテンツとどのように関連しているかを示す。
+
+**課題**:
+
+1. p(o|θ) = N(θ, π⁻¹) = N(θ, 1/π) の場合、Fisher 情報量 I(θ) = -E[∂²ln p(o|θ)/∂θ²] を計算する。
+2. I(θ) = π - 精度が高い観測ほど、隠れた状態に関する情報量が多いことを示す。
+3. Cramér-Rao 限界: Var(θ̂) ≥ 1/I(θ) を記述する。異なる精度レジームの下での推論に何の意味があるか説明する。
+4. 結論: 注意 (π の増加) → より多くのフィッシャー情報量 → より厳密な Cramér-Rao 限界 → より信頼性の高い推論
+
+{fill:textarea}
+
+## 第5部: 合成
+
+精度が、自由エネルギー理論 (抽象的な変分推論) と注意 (具体的な認知プロセス) の間の数学的な橋をどのように架けるかを200語で説明する。第1部から第4部までの導出を統一された説明に結びつける。
 
 {fill:textarea}
 
 ## Lab Summary
 
-| Part | Skill Developed | Mathematical Result |
+| 部 | 獲得スキル | 数学的結果 |
 |------|----------------|-------------------|
-| 1 | Bayesian estimation | Conjugate precision estimation (Gamma-Gaussian) |
-| 2 | Hierarchical analysis | Precision ratio modulates sensory vs. prior influence |
-| 3 | Dynamical systems | Log-precision gradient flow |
-| 4 | Information geometry | Fisher information = precision; Cramér-Rao bound |
-| 5 | Conceptual integration | Precision as the math of attention |
+| 1 | ベイズ推定 | 共役精度推定 (Gamma-Gaussian) |
+| 2 | 階層的分析 | 精度比が感覚と事前の影響を調節する |
+| 3 | 動的システム | 対数精度勾配流れ |
+| 4 | 情報幾何学 | フィッシャー情報量 = 精度; Cramér-Rao 限界 |
+| 5 | 概念統合 | 精度が注意の数学 |

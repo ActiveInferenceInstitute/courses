@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Invention as a Living System — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Module 01: The Invention as a Living System</h1>
+  <p class="subtitle">Boundaries between design and world — Markov blankets, nested systems, and the perception-action loop of inventions</p>
+  <span class="tag">Section 1: Invention Foundations</span>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="concepts">Key Concepts</div>
+  <div class="tab" data-tab="quiz">Self-Check Quiz</div>
+  <div class="tab" data-tab="checklist">Study Checklist</div>
+  <div class="tab" data-tab="modules">All Modules</div>
+</div>
+
+<div class="panel active" id="concepts">
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>Inventions as Systems</h3>
+    <div class="desc">An invention is not an object but a system: an entity that maintains a distinguishable boundary between itself and its environment over time. Internal states (mechanisms, logic, materials), external states (users, environments, competitors), and a boundary (the Markov blanket) define the system. A mousetrap's spring, latch, and bar are internal; the mouse, floor, and room temperature are external; the trigger plate is the boundary.</div>
+    <div class="meter"><div class="fill" style="width:20%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>Markov Blankets of Inventions</h3>
+    <div class="desc">The Markov blanket separates internal from external states such that they are conditionally independent given the blanket. For inventions, the blanket consists of sensory states (how the invention receives information) and active states (how it changes the world). Where you draw this boundary determines what you can control vs. what you must adapt to. Drawing it too narrow misses critical interactions; too broad creates unmanageable complexity.</div>
+    <div class="meter"><div class="fill" style="width:20%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>Sensory and Active Boundaries</h3>
+    <div class="desc">Every invention has two faces at its boundary. Sensory boundaries gather information (a thermostat's temperature sensor, a search engine parsing queries). Active boundaries change the environment (a thermostat activating heating, a search engine displaying results). Together they form the perception-action loop — the heartbeat of any functioning invention. Inventions fail when this loop breaks at any stage.</div>
+    <div class="meter"><div class="fill" style="width:20%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>Nested Systems and Compositional Design</h3>
+    <div class="desc">Complex inventions are compositions of subsystems, each with its own Markov blanket. An electric vehicle contains a battery management system, motor controller, climate system, and navigation — each sensing and acting independently. Conditional independence between subsystems is what makes complex inventions tractable. The IBM PC's hardware-software boundary is a canonical example: clean nesting enabled an entire ecosystem.</div>
+    <div class="meter"><div class="fill" style="width:20%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>Free Energy and Invention Persistence</h3>
+    <div class="desc">An invention persists by minimizing free energy — the gap between what its design expects and what it actually encounters. A tent designed for calm weather collapses in storms (high free energy). Robust inventions minimize free energy across conditions through the accuracy-complexity trade-off: precise performance under expected conditions vs. adaptability across unexpected conditions. Over-engineering (excessive accuracy) often fails in practice.</div>
+    <div class="meter"><div class="fill" style="width:20%"></div></div>
+  </div>
+</div>
+
+<div class="panel" id="quiz">
+  <div class="quiz-box">
+    <h3 id="q-counter">Question 1 of 5</h3>
+    <p id="q-text"></p>
+    <div id="q-opts"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" id="q-prev" onclick="navQ(-1)">Previous</button>
+      <button class="quiz-btn" id="q-next" onclick="navQ(1)">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="checklist">
+  <div class="checklist" id="cl-list"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill"></div></div>
+  <div class="cl-status" id="cl-status">0 / 8 complete</div>
+</div>
+
+<div class="panel" id="modules">
+  <div class="mod-grid">
+    <div class="mod-card current"><div class="num">01</div><div class="name">The Invention as a Living System</div></div>
+    <div class="mod-card"><div class="num">02</div><div class="name">The Inventor as an Adaptive Agent</div></div>
+    <div class="mod-card"><div class="num">03</div><div class="name">Seeing What Others Miss</div></div>
+    <div class="mod-card"><div class="num">04</div><div class="name">Thinking Like an Inventor</div></div>
+    <div class="mod-card"><div class="num">05</div><div class="name">From Idea to Intervention</div></div>
+    <div class="mod-card"><div class="num">06</div><div class="name">Learning from Every Attempt</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">Sharing the Vision</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">The Invention Roadmap</div></div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById(t.dataset.tab).classList.add('active');
+}));
+
+const quiz=[
+  {q:"What does the Markov blanket of an invention separate?",opts:["Internal mechanisms from competing products","Internal states from external states","Sensory states from active states","The inventor from the user"],ans:1,exp:"The Markov blanket separates the internal states of the system (its mechanisms, logic, materials) from the external states (users, environments, other systems), making them conditionally independent given the blanket."},
+  {q:"A thermostat's temperature sensor is an example of which type of Markov blanket state?",opts:["Internal state","External state","Sensory state","Active state"],ans:2,exp:"The temperature sensor sits on the boundary of the system and carries information from the environment (room temperature) into the internal processing of the thermostat, making it a sensory state."},
+  {q:"Edison chose high-resistance filaments for his light bulbs. At what system level does this make sense?",opts:["At the filament level alone","At the bulb level alone","At the electrical distribution network level","At no level — it was a mistake"],ans:2,exp:"High resistance filaments drew less current, allowing thinner copper wires in the distribution network. This decision only makes sense when the system boundary includes the entire electrical distribution system, not just the bulb."},
+  {q:"Conditional independence between subsystems in a complex invention means:",opts:["All subsystems must share all their data","Each subsystem can function without knowing everything about every other subsystem","Subsystems cannot communicate at all","The overall system has no Markov blanket"],ans:1,exp:"Conditional independence means that given the Markov blanket between subsystems, each can operate using only the information that crosses its boundary. A car's battery management system does not need to know the navigation route."},
+  {q:"The accuracy-complexity trade-off in invention design means:",opts:["Simple inventions always outperform complex ones","A design tuned precisely for narrow conditions may fail outside those conditions","Complexity always improves accuracy","Accuracy is irrelevant for robust inventions"],ans:1,exp:"An invention optimized for very specific conditions (high accuracy, high complexity) has committed to a narrow model of the world. When conditions change unexpectedly, its free energy spikes. A more adaptable design trades some peak accuracy for robustness across varied conditions."}
+];
+let qi=0;
+function showQ(){
+  const q=quiz[qi];
+  document.getElementById('q-counter').textContent=`Question ${qi+1} of ${quiz.length}`;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('q-explain').style.display='none';
+  const od=document.getElementById('q-opts');od.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('div');b.className='quiz-opt';b.textContent=o;
+    b.addEventListener('click',()=>{
+      od.querySelectorAll('.quiz-opt').forEach(x=>{x.classList.remove('correct','wrong');x.style.pointerEvents='none'});
+      b.classList.add(i===q.ans?'correct':'wrong');
+      if(i!==q.ans)od.children[q.ans].classList.add('correct');
+      const e=document.getElementById('q-explain');e.textContent=q.exp;e.style.display='block';
+    });
+    od.appendChild(b);
+  });
+  document.getElementById('q-prev').disabled=qi===0;
+  document.getElementById('q-next').disabled=qi===quiz.length-1;
+}
+function navQ(d){qi=Math.max(0,Math.min(quiz.length-1,qi+d));showQ()}
+showQ();
+
+const checks=["Define what makes an invention a system (internal, external, boundary states)","Explain the Markov blanket concept with an invention example","Distinguish sensory states from active states in an invention","Trace a complete perception-action loop for a real invention","Analyze nested subsystems in a complex invention","Apply the accuracy-complexity trade-off to a design decision","Map the system boundary of your own invention idea","Identify sensory gaps and missing active capabilities in a design"];
+const cl=document.getElementById('cl-list');
+checks.forEach((c,i)=>{
+  const d=document.createElement('div');d.className='cl-item';
+  d.innerHTML=`<input type="checkbox" id="ck${i}" onchange="updateCL()"><label for="ck${i}">${c}</label>`;
+  cl.appendChild(d);
+});
+function updateCL(){
+  const n=document.querySelectorAll('.cl-item input:checked').length;
+  document.getElementById('cl-fill').style.width=`${n/checks.length*100}%`;
+  document.getElementById('cl-status').textContent=`${n} / ${checks.length} complete`;
+}
+</script>
+</body>
+</html>

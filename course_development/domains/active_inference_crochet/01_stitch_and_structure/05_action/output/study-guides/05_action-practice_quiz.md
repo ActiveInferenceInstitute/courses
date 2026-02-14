@@ -1,0 +1,53 @@
+# Practice Quiz: Action
+
+## Part A: Multiple Choice
+
+1. In Active Inference, each crochet stitch is best understood as:
+A) A random event with no predictable outcome
+B) A policy execution — a coordinated motor sequence that transforms the fabric
+C) A passive observation of the yarn
+D) An external state imposed on the agent
+
+2. When a crocheter inserts the hook under the front loop only (instead of both loops), they are:
+A) Making an error that must be corrected
+B) Selecting a different motor sub-action that produces a different fabric texture
+C) Destroying the Markov blanket
+D) Ignoring their generative model
+
+3. Frogging (ripping back stitches to correct errors) is best described as:
+A) A failure of the agent
+B) Active inference — corrective action that changes the world to reduce prediction error
+C) A random process
+D) Perceptual inference only
+
+4. The range of stitches a crocheter knows (sc, dc, hdc, treble, etc.) constitutes their:
+A) Markov blanket
+B) External states
+C) Policy repertoire — the set of available actions for shaping the fabric
+D) Internal states
+
+5. Working two stitches into the same space (an increase) is an example of:
+A) A shaping action that changes the geometry of the fabric to match the predicted form
+B) A perceptual error
+C) An external state change
+D) The generative model dissolving
+
+6. When a crocheter decides whether to frog or continue despite an error, they are:
+A) Not performing any inference
+B) Evaluating competing policies based on expected free energy
+C) Ignoring the error completely
+D) Maximizing surprise
+
+7. The pull-through force applied during each stitch affects fabric tightness. This force is:
+A) Irrelevant to the action
+B) A continuous motor variable the agent calibrates based on sensory feedback
+C) Always the same regardless of yarn or pattern
+D) An external state the crocheter cannot control
+
+## Part B: Short Answer
+
+1. Describe the complete motor policy for a double crochet stitch, step by step. How does each sub-action transform the state of the system?
+
+2. A crocheter discovers an error 5 rows back. They could frog all 5 rows, or they could continue and try to compensate. Describe the expected free energy trade-off of each option.
+
+3. Explain how learning a new stitch (such as a post stitch or bobble) expands the crocheter's policy repertoire and enables new fabric outcomes that were previously impossible.

@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_Agents - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>02_Agents</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>02_Agents</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 02: Agents — Each Maker at the Table</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Recognize each circle member as an autonomous inference agent with their own generative model — shaped by their unique skill level, project history, and craft preferences.</li>
+<li>Describe how the diversity of generative models within a circle creates conditions for collective learning and mutual enrichment.</li>
+<li>Analyze the crochet circle as a collective agent whose group-level behavior emerges from the interactions of individual agents.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Look around your crochet circle. Each person at the table is working on something different — a baby blanket in pastel cotton, a lacy shawl in mohair, a simple granny square practice piece. Each person holds their hook differently, tensions their yarn in their own way, and carries a unique history of projects completed, patterns attempted, and stitches mastered. Each person, in the language of Active Inference, is an <strong>agent</strong> — an autonomous system that perceives, decides, and acts according to its own internal model of the world.</p>
+<p>In Module 1, we saw the circle as a system. Now we zoom in to the individuals who compose it. Understanding each maker as an agent — with their own <strong>generative model</strong>, their own <strong>prediction errors</strong>, and their own <strong>free energy</strong> to minimize — is essential to understanding how circles function, why they are so valuable, and how collective intelligence emerges from the interplay of diverse minds and hands.</p>
+<h2>Key Concepts</h2>
+<h3>1. The Generative Model of a Crocheter</h3>
+<p>Every agent in Active Inference carries a <strong>generative model</strong> — an internal representation of how the world works, which the agent uses to predict what will happen next and to guide its actions. For a crocheter in a circle, this generative model includes:</p>
+<ul>
+<li><strong>Technical knowledge</strong>: Which stitches they know, how patterns are structured, what different hook sizes and yarn weights do. A beginner's generative model might include chain, single crochet, and double crochet. An experienced maker's model includes cables, colorwork, Tunisian techniques, freeform sculpture, and an intuitive sense of how different fibers behave.</li>
+<li><strong>Project expectations</strong>: What the finished piece should look like, how many rows remain, what the gauge should be. These are predictions about the future state of the work.</li>
+<li><strong>Social knowledge</strong>: Who in the circle is good at what, who to ask about a particular technique, what topics of conversation are welcome, how the group dynamics flow.</li>
+<li><strong>Aesthetic preferences</strong>: What colors, textures, and styles appeal to them. These are prior beliefs that shape which projects they choose and how they evaluate their own work.</li>
+</ul>
+<p>The richness of a person's generative model is directly related to their experience. A beginner has a <strong>shallow model</strong> — few predictions available, high uncertainty about outcomes. They pick up the hook and are genuinely unsure whether the next stitch will produce the intended result. An expert has a <strong>deep model</strong> — layers of experience that allow precise predictions about what a stitch will do, what a yarn will feel like after washing, how a pattern will drape on a body.</p>
+<h3>2. Diversity of Models in the Circle</h3>
+<p>One of the most powerful features of a crochet circle is that it brings together agents with <strong>different generative models</strong>. This diversity is not a bug; it is the engine of collective intelligence.</p>
+<p>Consider a circle with five members:
+- <strong>Rosa</strong> has crocheted for forty years. Her generative model is deep and wide — she can look at a finished garment and mentally reverse-engineer the pattern. She has strong priors about how things "should" be done.
+- <strong>James</strong> learned to crochet two months ago. His model is narrow but growing fast. Every meeting brings prediction errors that drive rapid learning.
+- <strong>Priya</strong> is an adventurous intermediate. She tries techniques that are slightly beyond her current model, deliberately seeking prediction error as a learning strategy.
+- <strong>Devon</strong> is an expert in colorwork but has never done amigurumi. Their model is deep in one area and shallow in another.
+- <strong>Mei</strong> comes from a tradition of Chinese crochet lace and carries a generative model shaped by a different cultural lineage than the Western patterns most of the group uses.</p>
+<p>When these agents interact, something remarkable happens. Rosa's deep model can reduce James's prediction error by explaining why his stitches are uneven. Mei's different cultural model introduces the group to techniques that expand everyone's generative model. Priya's adventurous spirit exposes the group to new patterns that the more cautious members would never have tried alone. Devon's depth in colorwork benefits those working on multi-color projects, while their beginnership in amigurumi lets others experience the pleasure of teaching.</p>
+<p>The circle, in this sense, functions as a <strong>model-expansion machine</strong>. Each agent arrives with their own generative model; through interaction, all models grow.</p>
+<h3>3. The Circle as a Collective Agent</h3>
+<p>Beyond the individual agents, the circle itself can be understood as a <strong>collective agent</strong> — a higher-order entity that perceives, decides, and acts in ways that no individual member does alone.</p>
+<p>The collective agent has its own generative model: the group's shared understanding of what projects are feasible, what difficulty level is appropriate for a group challenge, what the local craft community values. It has its own preferences: the circle might gravitate toward practical items (blankets, hats) rather than decorative ones, or vice versa. It has its own active inference: when the circle decides to enter a craft fair, it is the group — not any one member — making a prediction about the future (we will have enough finished items, the fair will be worthwhile) and acting to make that prediction come true.</p>
+<p>The emergence of the collective agent from individual agents is not magic — it arises through the mechanisms we will explore in later modules (communication, shared perception, coordinated action). But it is real. Ask any long-time member of a crochet circle, and they will tell you: the group has a personality, a style, a way of being that is distinct from any of its members taken individually.</p>
+<h3>4. Autonomy Within Community</h3>
+<p>A crucial feature of agents in Active Inference is <strong>autonomy</strong> — each agent acts according to its own generative model, minimizing its own free energy. In a crochet circle, this means each person works on their own project, makes their own decisions about stitches and colors, and maintains their own creative vision.</p>
+<p>This autonomy is not threatened by community; it is enriched by it. The circle does not demand uniformity. Rosa does not have to crochet like James, and James does not have to crochet like Rosa. Each agent maintains its own boundary (its own Markov blanket) while participating in the larger system.</p>
+<p>The moments when autonomy and community intersect are some of the most generative in a circle's life. When Priya asks Rosa for help with a complex stitch, she is not giving up her autonomy — she is using the social environment to update her own generative model. When the circle decides on a group project, each member interprets and executes the project according to their own model, producing a collection of works that are related but not identical.</p>
+<h2>Applications</h2>
+<ul>
+<li>
+<p><strong>Agent Heterogeneity as Resource</strong>: In many social settings, differences in skill level are seen as problems to manage. In a crochet circle understood through Active Inference, heterogeneity is a resource. The beginner's fresh eyes and frequent prediction errors keep the group attentive to fundamentals. The expert's deep model provides stability and reduces collective uncertainty. The adventurous intermediate drives exploration. A circle composed entirely of experts or entirely of beginners would be a less effective learning environment than one with a healthy mix.</p>
+</li>
+<li>
+<p><strong>The Quiet Agent</strong>: Not every agent in a circle is verbally active. Some people crochet silently, absorbing the conversation and the visual information from others' work. In Active Inference, these quiet agents are still perceiving, predicting, and learning. Their generative models are updating even when they are not speaking. Recognizing this helps circles value all forms of participation, not just the vocal ones.</p>
+</li>
+</ul>
+<h2>Conclusion</h2>
+<p>Every person at the crochet circle table is an autonomous inference agent, carrying a unique generative model shaped by experience, culture, and preference. The circle thrives because of the diversity of these models — beginners and experts, adventurers and traditionalists, talkers and quiet observers all contribute to a collective intelligence that exceeds what any individual could achieve alone. The circle itself becomes a collective agent, with emergent properties that arise from the interaction of its members. In the next module, we explore how these agents perceive one another — how they read the room while they stitch.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Agent Profiles in the Circle</h1>
+<h2>Group Activity — Agents</h2>
+<h3>Objective</h3>
+<p>Create a profile of each circle member as an Active Inference agent, mapping their generative models and exploring how the diversity of agents in the group creates opportunities for collective learning.</p>
+<h3>Materials</h3>
+<ul>
+<li>Index cards (one per member)</li>
+<li>Pens or markers</li>
+<li>A shared large sheet of paper or whiteboard</li>
+<li>Your current crochet projects</li>
+</ul>
+<h3>Duration</h3>
+<p>45-60 minutes</p>
+<h3>Activity Steps</h3>
+<p><strong>Step 1: Individual Agent Profiles (15 minutes)</strong></p>
+<p>Each member fills out an index card as their "Agent Profile." Include:</p>
+<ul>
+<li><strong>Stitches I Know</strong> (list the stitches in your generative model)</li>
+<li><strong>Techniques I Am Learning</strong> (current edges of your model)</li>
+<li><strong>Techniques I Would Like to Learn</strong> (areas of high uncertainty / future prediction error)</li>
+<li><strong>My Specialty or Strength</strong> (the area where your model is deepest)</li>
+<li><strong>My Crochet History</strong> (brief: how long, who taught you, what tradition)</li>
+<li><strong>A Project That Surprised Me</strong> (a time your predictions about a project were wrong)</li>
+</ul>
+<p>Be honest and specific. There is no hierarchy here — a card that says "I know chain and single crochet" is just as valid as one listing twenty techniques.</p>
+<p><strong>Step 2: Share and Compare (15 minutes)</strong></p>
+<p>Go around the circle and read your cards aloud. As each person shares, notice:
+- Where do generative models overlap? (Shared knowledge)
+- Where do they differ? (Diversity of models)
+- Where does one person's strength match another's wish-to-learn? (Teaching opportunities)</p>
+<p>Place the cards on the large paper, arranging them to show connections. Draw lines between cards where one person's specialty matches another's learning goal.</p>
+<p><strong>Step 3: Map the Collective Agent (10 minutes)</strong></p>
+<p>On the large paper, around the individual cards, write down what the <strong>circle as a whole</strong> knows and can do:
+- What is the circle's collective range of stitches?
+- What projects could the group tackle together that no one could do alone?
+- What is the group's collective aesthetic — what kinds of projects does it gravitate toward?
+- What are the group's blind spots — techniques no one knows?</p>
+<p>Discuss: Does the collective generative model exceed any individual's model? In what ways?</p>
+<p><strong>Step 4: Prediction Error Exchange (10 minutes)</strong></p>
+<p>Pair up with someone whose profile is different from yours. Each person demonstrates one thing they know that the other does not — a stitch, a technique for holding yarn, a way of reading a pattern. Notice:
+- What prediction errors arise for the learner?
+- How does the teacher adjust their explanation?
+- What does the teacher learn from teaching?</p>
+<p>Switch pairs if time allows.</p>
+<h3>Reflection Prompts</h3>
+<ul>
+<li>Were you surprised by the range of knowledge in the group?</li>
+<li>Did you discover a match between your learning goal and someone else's specialty?</li>
+<li>How does seeing everyone as an "agent with a generative model" change how you think about skill differences in the circle?</li>
+<li>What would happen to the group's collective model if a member left? If a new member with a very different background joined?</li>
+</ul>
+<h3>Extension</h3>
+<p>Keep the Agent Profile cards and revisit them in a month. Has anyone's model expanded? Has someone learned the technique they wished for? Track the circle as a model-expansion machine in action.</p></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Agents — Each Maker at the Table</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>In Active Inference, a <strong>generative model</strong> for a crocheter in a circle includes:
+A) Only the stitches they have memorized
+B) Technical knowledge, project expectations, social knowledge, and aesthetic preferences
+C) Only the pattern instructions they are currently following
+D) A fixed set of rules that never changes</p>
+</li>
+<li>
+<p>A beginner crocheter experiences frequent <strong>prediction error</strong> because:
+A) They are not paying attention
+B) Their generative model is shallow, so many outcomes are unexpected
+C) They have chosen the wrong yarn
+D) The circle is teaching them incorrectly</p>
+</li>
+<li>
+<p>The diversity of generative models in a crochet circle is best understood as:
+A) A problem that makes the circle inefficient
+B) A resource that drives collective learning and model expansion
+C) Something that should be minimized by teaching everyone the same techniques
+D) Irrelevant to the group's functioning</p>
+</li>
+<li>
+<p>A crochet circle functioning as a <strong>collective agent</strong> means:
+A) All members must agree on everything
+B) The group exhibits perception, decision-making, and action at a level beyond any individual
+C) One dominant member controls the group
+D) The circle loses the individual agency of its members</p>
+</li>
+<li>
+<p>When Priya asks Rosa for help with a cable stitch, she is:
+A) Admitting failure as a crocheter
+B) Using the social environment to update her own generative model
+C) Transferring her autonomy to Rosa
+D) Creating unnecessary prediction error</p>
+</li>
+<li>
+<p>A quiet member who crochets without speaking during a meeting is:
+A) Not participating in the circle's dynamics
+B) Still perceiving, predicting, and updating their generative model through observation
+C) Wasting the circle's time
+D) Acting outside the Active Inference framework</p>
+</li>
+<li>
+<p><strong>Autonomy within community</strong> in a crochet circle means:
+A) Each member works in isolation despite being in the same room
+B) Each member maintains their own creative agency while benefiting from social interaction
+C) The group overrides individual preferences
+D) Members must alternate between autonomous and communal work</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Describe the generative models of two hypothetical circle members who differ in a meaningful way (skill level, cultural background, or specialty). Explain how their interaction in the circle benefits both.</p>
+</li>
+<li>
+<p>Give a concrete example of the crochet circle acting as a <strong>collective agent</strong> — making a decision or taking an action that no individual member makes or takes alone.</p>
+</li>
+<li>
+<p>Why is a circle with a mix of beginners, intermediates, and experts a more effective learning environment than one where all members are at the same skill level? Use Active Inference concepts in your answer.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

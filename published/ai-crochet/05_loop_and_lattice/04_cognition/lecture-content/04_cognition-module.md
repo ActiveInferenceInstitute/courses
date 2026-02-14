@@ -1,0 +1,109 @@
+# Module 04: Hidden Layers in Hook and Mind
+
+## Learning Objectives
+
+1. Explain how **crochet rows function as layers** in a structure analogous to a neural network — with foundation chains as input layers, stitch rows as hidden layers, and the finished edge as the output layer.
+2. Describe how **complex stitch patterns create hidden representations** in fabric: emergent textures that cannot be reduced to their individual component stitches, just as hidden layers in neural networks produce representations that are not present in the raw input.
+3. Map the **crocheter's multi-level mental model** of a project onto a deep generative model in Active Inference, where top-down predictions flow from "finished object" down to "this specific stitch."
+
+## Introduction
+
+Hold up a finished crocheted hat and look at it. You see a hat — a coherent, three-dimensional object with a brim, a body, and a crown. Now look more closely. You see texture: maybe a ribbed band, a section of half double crochet, a crown shaped by decreases. Look closer still and you see individual stitches, each one a tiny loop of yarn pulled through another loop.
+
+Here is the thing: the hat is all of these at once. It is stitches, and it is rows, and it is sections, and it is a hat. No single level of description captures it completely. You need all the levels — and you need to understand how each level builds on the one below it.
+
+This is exactly the structure of a deep neural network. A neural network is not one operation — it is many layers of operations stacked on top of each other. The input layer receives raw data. Each hidden layer transforms that data into something more abstract, more organized, more useful. The output layer produces the final result. No single layer does the whole job. The magic is in the layering.
+
+In this module, we explore the deep structural parallel between crochet and neural networks. Not as a loose metaphor, but as a genuine architectural correspondence. Crochet builds physical objects layer by layer, row by row, each layer literally supported by the one beneath it. Neural networks build representations layer by layer, each layer literally computed from the one beneath it. And the crocheter's mind holds a layered model of the entire project — from the finished hat all the way down to the current stitch — in a hierarchical generative model that mirrors the depth of the network itself.
+
+## Key Concepts
+
+### 1. Layers in Fabric, Layers in Networks
+
+Start a crochet project. The first thing you make is a foundation chain — a row of chain stitches that provides the base for everything that follows. In neural network terms, this is the input layer: the raw data that enters the system. The foundation chain carries no pattern information yet. It is just a line of loops, just as the input layer of a CNN holds just a grid of pixel values.
+
+Now work your first row of stitches into the foundation chain. Single crochets, perhaps. Each stitch reaches down into the chain, pulls up a loop, and creates a new structure on top of the old one. This first row is the first hidden layer. It transforms the raw input (the chain) into something with more structure — a row of stitches with height, texture, and a top edge that the next row can build on.
+
+Work the second row. Each stitch in this row is built on top of a stitch in the row below. The second hidden layer takes its input from the first hidden layer. Work the third, the fourth, the tenth. Each row reads from the row below and produces the row above. Each layer in a neural network reads from the layer below and produces output for the layer above.
+
+This is not a metaphor. It is a structural fact. In a crocheted fabric, each stitch is physically connected to the stitch below it and the stitches beside it. The physical structure of the fabric encodes the history of every row that came before. In a neural network, each neuron in a hidden layer receives input from neurons in the layer below, transforms that input through an activation function, and passes the result to the layer above. The activation values in a hidden layer encode the accumulated transformations of every layer that came before.
+
+When you finally bind off or fasten off at the top of a project, you have the output layer. In a neural network classifying images, the output layer might contain probabilities: "80% cat, 15% dog, 5% rabbit." In crochet, the output layer is the finished edge — the visible surface that presents the project's final form to the world. Everything that happened in the hidden layers (all those intermediate rows) is still there, holding the structure together, but it is the output that the viewer sees and the crocheter evaluates.
+
+The depth of a neural network — how many hidden layers it has — determines how complex its representations can be. Shallow networks (one or two hidden layers) can learn simple patterns. Deep networks (dozens or hundreds of layers) can learn intricate, hierarchical representations. The same is true of crochet. A washcloth with five rows of single crochet is a shallow project — simple, functional, but not complex. A lace shawl with two hundred rows of varying stitch patterns, increases, decreases, and border work is a deep project — rich, layered, and full of emergent structure.
+
+### 2. Hidden Representations in Crochet
+
+In a neural network, the most interesting things happen in the hidden layers. These are the layers between input and output where the network builds its internal representations of the data. If you could peek inside a well-trained image recognition network, you would find that the first hidden layer has learned to detect edges. The second has learned textures. Deeper layers have learned to detect eyes, wheels, petals, letters. These features are not present in the raw pixel data — they emerge from the layered transformations.
+
+Crochet produces the same kind of emergent hidden representations. Consider a shell stitch. A shell is typically five double crochets worked into a single stitch. The individual components are ordinary double crochets — nothing special on their own. But when five of them fan out from the same base stitch, they create a fan shape that is visually and structurally distinct from anything a single double crochet can produce. The shell is a hidden representation: an emergent property of the layer that is not present in any individual operation.
+
+Or consider a cable. In knitting, cables are created by physically crossing groups of stitches. In crochet, cable effects are achieved with front post and back post stitches — stitches that wrap around the post of a stitch in a previous row rather than inserting through the top. The individual front post double crochets are unremarkable on their own. But when they are arranged in a pattern across several rows, they produce a raised, twisting texture that looks like a braided rope. The cable is not in any single stitch — it is in the pattern of stitches across rows. It is a multi-layer hidden representation, emerging from the interaction of multiple hidden layers.
+
+This is precisely what happens inside a deep neural network. A single neuron in a hidden layer does a simple computation: weighted sum, activation function, done. But when thousands of neurons in a layer compute together, and their outputs feed into the next layer, complex features emerge that no single neuron could represent. The network learns to detect faces not because any one neuron is a "face detector" but because the pattern of activation across many neurons, across many layers, creates a distributed representation that corresponds to "face."
+
+In crochet, a granny square is a beautiful example of distributed, multi-layer representation. The center ring is the input. The first round of clusters and chain spaces is the first hidden layer. Each subsequent round adds another layer, and the characteristic granny square pattern — with its diagonal lines, open spaces, and solid clusters — emerges from the interaction of all the layers. You cannot point to any single stitch and say "this is the granny square." The granny square is the whole layered structure, just as a learned feature in a neural network is the whole pattern of activation across layers.
+
+Here is another way to see it. If you frog (unravel) a crocheted piece, pulling it apart row by row, you are peeling off the hidden layers one at a time. Each layer you remove loses information. The cable disappears when you frog through the rows that create it. The shell vanishes when you pull out the row it sits in. The emergent features exist only in the assembled layers, just as a neural network's learned representations exist only in the trained weights connecting the layers. Reinitialize the weights (frog the fabric), and the representations are gone.
+
+### 3. The Crocheter's Internal Model as a Deep Network
+
+So far we have talked about the physical layers of fabric and the computational layers of neural networks. But there is a third layered system at work in every crochet project: the crocheter's mind.
+
+When you crochet, you do not think only about the stitch you are currently making. You hold multiple levels of representation in your mind simultaneously:
+
+- **Stitch level**: "I am making a double crochet. Yarn over, insert hook, yarn over, pull through, yarn over, pull through two, yarn over, pull through two."
+- **Row level**: "I am on row 14 of the body. This row is all double crochet."
+- **Section level**: "I am working the body of the hat, between the ribbed band and the crown shaping."
+- **Project level**: "I am making a hat for my niece. It should fit a toddler head, about 18 inches circumference."
+- **Design level**: "This is a beanie with a folded brim and a pom-pom on top."
+
+These levels are nested. The design level contains the project level, which contains the section level, which contains the row level, which contains the stitch level. Information flows both ways: top-down (the design determines what sections are needed, which determines what rows to work, which determines what stitches to use) and bottom-up (the feel of the current stitch informs the crocheter about whether the row is going well, which informs whether the section is shaping correctly, which informs whether the project is on track).
+
+In Active Inference, this multi-level mental model is a **deep generative model**. The generative model is the brain's internal representation of how the world works — its theory of causes and effects. A deep generative model has many levels, each generating predictions about the level below.
+
+At the top level, the crocheter's generative model contains the concept "hat." This generates predictions about what sections a hat needs: brim, body, crown. The section-level model generates predictions about what rows each section requires: ribbed rows for the brim, plain rows for the body, decrease rows for the crown. The row-level model generates predictions about what stitches each row contains. The stitch-level model generates predictions about what each stitch should feel like when formed correctly.
+
+These predictions flow top-down through the hierarchy. The crocheter does not work stitch by stitch in a vacuum — they work stitch by stitch with a hat in mind. The hat-level prediction constrains and guides every lower-level operation. When the crocheter feels that the body section has reached the right length, the signal comes from the project-level model: "this is enough rows for a toddler hat body." When they start decreasing for the crown, the instruction comes from the section-level model: "crown shaping begins now."
+
+Simultaneously, sensory evidence flows bottom-up. The feel of each stitch (too tight? too loose?) feeds into the row-level assessment. The look of the current row feeds into the section-level assessment. The shape of the growing fabric feeds into the project-level assessment. At every level, top-down predictions meet bottom-up evidence, and mismatches generate prediction errors that the crocheter must resolve.
+
+This is why experienced crocheters can improvise — working without a written pattern, adjusting as they go, making design decisions in real time. Their deep generative model is rich enough to generate predictions at every level. They know what a hat should look like, feel like, and measure at every stage of construction. They do not need the pattern to tell them because the generative model already knows.
+
+Beginners, by contrast, have a shallow generative model. They may know what stitch to make (stitch level) and can follow a pattern row by row (row level), but they do not yet have strong predictions at the section or project level. They cannot look at a half-finished piece and judge whether it is on track because their model does not generate detailed predictions about what "on track" looks like at this stage. This is why beginners rely heavily on patterns and experienced crocheters can wing it: the depth of the generative model determines the depth of the cognitive support available.
+
+## Applications
+
+The layered structure of crochet cognition shows up in practical crafting situations throughout a project:
+
+* **Pattern Reading as Layer Navigation**: A crochet pattern is, in effect, a compressed description of a layered process. It specifies the stitch-level operations ("ch 3, dc in next st") but expects the crocheter to supply the higher-level understanding: that a chain-3 at the beginning of a row serves as a turning chain, that the row will be worked back across the previous row, that the section being worked is the body of a garment. Reading a pattern requires moving fluently between layers — zooming in to individual stitches and zooming out to see where the row fits in the project. This is navigation through the deep generative model.
+
+* **Frogging as Layer Deletion**: When a crocheter frogs back several rows to fix an error, they are deleting hidden layers and their associated representations. The cable that was forming is gone. The shaping that was emerging is gone. The crocheter must rebuild those representations from the point of frogging forward. This is cognitively expensive — not just because of the physical work but because the mental model must be rewound. The crocheter must re-establish their position in the hierarchy: "I am now at row 10, not row 15. The crown shaping has not started yet. I need to work five more plain rows before decreasing."
+
+* **Stitch Markers as External Memory**: Crocheters use stitch markers to offload cognitive load from their internal model to the physical world. A marker at the beginning of a round says, "you are here in the row-level model." A marker at the first decrease says, "section-level event here." Markers are external memory nodes in the crocheter's extended generative model — they supplement the brain's hidden layers with physical tokens that carry information between sessions and across interruptions.
+
+* **Teaching as Model Transfer**: When an experienced crocheter teaches a beginner, they are attempting to transfer their deep generative model — or at least the lower layers of it. "Feel how the yarn should slide through your fingers." "See how this row should look before you start the next one." "This is what a correctly formed double crochet looks like." Each instruction targets a specific layer of the model, building the beginner's hierarchy from the bottom up, stitch by stitch, row by row, until the higher layers can begin to form.
+
+## Conclusion
+
+Crochet is deep — literally and cognitively. The physical fabric is built layer by layer, row upon row, with emergent textures and structures appearing in the hidden layers between foundation chain and finished edge. The crocheter's mind mirrors this depth, maintaining a hierarchical generative model that spans from individual stitch mechanics to the vision of the completed project. And neural networks formalize the same principle: layered transformations that build complex representations from simple inputs, with hidden layers doing the crucial work of creating features that neither the input nor the output contains on its own.
+
+When you pick up your hook and yarn, you are operating a deep network — one made of fiber instead of silicon, but organized on the same principle: depth creates richness, layers create meaning, and the hidden layers are where the magic happens.
+
+In the next module, we move from thinking to doing: how the crocheter translates the deep internal model into physical action, stitch by stitch, turning mental representations into yarn and fabric.
+
+## Key Terms
+
+| Term | Definition |
+| --- | --- |
+| **Input layer** | The first layer of a neural network, which receives raw data. In crochet, the foundation chain — the starting row upon which all subsequent layers build. |
+| **Hidden layer** | An intermediate layer in a neural network between input and output, where internal representations are formed. In crochet, any intermediate row that contributes to the structure without being the starting or finishing edge. |
+| **Output layer** | The final layer of a neural network, which produces the result. In crochet, the finished edge or bound-off row — the visible surface the project presents to the world. |
+| **Hidden representation** | An emergent feature that exists in a hidden layer but is not present in the input. In crochet, textures like shells, cables, and granny square patterns that emerge from the arrangement of simple stitches across rows. |
+| **Deep network** | A neural network with many hidden layers, capable of learning complex hierarchical representations. In crochet, a project with many rows and varied stitch patterns that create rich emergent textures. |
+| **Deep generative model** | In Active Inference, a hierarchical internal model with multiple levels, each generating predictions about the level below. The crocheter's mental model that spans from "finished hat" down to "this specific stitch." |
+| **Frogging** | Unraveling crocheted fabric, typically to correct an error. Named for the sound "rip it, rip it." Analogous to deleting hidden layers and their learned representations. |
+| **Shell stitch** | A group of stitches (often five double crochets) worked into the same stitch or space, creating a fan-shaped texture. An example of a hidden representation in crochet. |
+| **Front post / back post stitch** | A stitch worked around the post (vertical body) of a stitch in a previous row rather than through its top loops. Used to create cables, ribbing, and raised textures. |
+| **Stitch marker** | A physical token placed on the fabric to mark a specific position. Functions as external memory in the crocheter's extended cognitive system. |
+| **Top-down prediction** | In Active Inference, a prediction generated by a higher level of the generative model about what the lower level should observe. In crochet cognition, the crocheter's project-level vision predicting what the current row should look like. |

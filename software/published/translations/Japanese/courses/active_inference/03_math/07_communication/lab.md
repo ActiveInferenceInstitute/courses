@@ -1,93 +1,93 @@
-# Lab: Derivation Exercise — Coupled Inference and Multi-Agent Free Energy
+# Lab: Derivation Exercise — 結合推論と多重エージェントの自由エネルギー
 
-## Objective
+## 目的
 
-Derive the mathematics of communication between Active Inference agents, from coupled generative models to generalized synchrony conditions.
+アクティブインファレンスエージェント間のコミュニケーションの数学を、結合された生成モデルから一般化された同期条件まで、導出する。
 
-## Part 1: Two-Agent Generative Models
+## 第1部：2エージェント生成モデル
 
-**Goal**: Formalize how two agents model each other.
+**目標**: 2つのエージェントが互いをどのようにモデル化するかを形式化する。
 
-**Setup**: Agent A and Agent B, each with 2 states. Agent A's generative model:
+**設定**: エージェントAとエージェントB、それぞれ2つの状態を持つ。エージェントAの生成モデル：
 
-- p_A(o_A | s_A, s_B) — likelihood depends on both agents' states
-- p_A(s_A) = N(s_A; 0, 1) — prior over own states
-- p_A(s_B) = N(s_B; 0, σ²_B) — prior over B's states (higher uncertainty)
+- p_A(o_A | s_A, s_B) — 尤度はお互いのエージェントの状態に依存する
+- p_A(s_A) = N(s_A; 0, 1) — 自身の状態に対する事前分布
+- p_A(s_B) = N(s_B; 0, σ²_B) — Bの自身の状態に対する事前分布（高い不確かさ）
 
-Agent B's generative model is symmetric.
+エージェントBの生成モデルは対称である。
 
-**Task**:
+**タスク**:
 
-1. Write A's free energy F_A as a function of q_A(s_A) and q_A(s_B)
-2. Derive the update equations for A's beliefs about s_A and s_B
-3. Show that A's beliefs about B depend on A's observations (which are influenced by B's actions)
-
-{fill:textarea}
-
-## Part 2: Joint Free Energy Decomposition
-
-**Goal**: Derive the relationship between individual and joint free energy.
-
-**Task**:
-
-1. Write the joint free energy: F_joint = F_A + F_B - I(s_A; s_B)
-2. Show that the mutual information I(s_A; s_B) = E[ln q(s_A, s_B) / (q(s_A)q(s_B))] captures the coupling
-3. Explain why minimizing F_joint simultaneously minimizes individual free energies and maximizes mutual predictability
-4. Interpret: when I(s_A; s_B) is high, the agents are in tight communication; when it is low, they are operating independently
+1.  q_A(s_A)とq_A(s_B)の関数として、Aの自由エネルギーF_Aを書く
+2.  Aのs_Aとs_Bに対する信念の更新方程式を導出する
+3.  AのBに対する信念がAの観測（Bの行動によって影響を受ける）に依存することを示す
 
 {fill:textarea}
 
-## Part 3: Generalized Synchrony Conditions
+## 第2部：結合自由エネルギー分解
 
-**Goal**: Derive the conditions for synchronization.
+**目標**: 個別自由エネルギーと結合自由エネルギーの関係を導出する。
 
-**Setup**: Two coupled dynamical systems:
+**タスク**:
+
+1.  結合自由エネルギー: F_joint = F_A + F_B - I(s_A; s_B) を書く
+2.  2つのエージェント間の相互情報 I(s_A; s_B) = E[ln q(s_A, s_B) / (q(s_A)q(s_B))] が結合を捉えることを示す
+3.  F_jointを最小化することが、個々の自由エネルギーを最小化し、相互予測を最大化する理由を説明する
+4.  相互情報 I(s_A; s_B) が高い場合、エージェントは緊密にコミュニケーションしていること、低い場合は独立して動作していることを解釈する
+
+{fill:textarea}
+
+## 第3部：一般化された同期条件
+
+**目標**: 同期するための条件を導出する。
+
+**設定**: 2つの結合されたダイナミックシステム：
 
 - dx₁/dt = f₁(x₁) + κ · (x₂ - x₁)
 - dx₂/dt = f₂(x₂) + κ · (x₁ - x₂)
 
-where κ is the coupling strength.
+ここで、κは結合の強さである。
 
-**Task**:
+**タスク**:
 
-1. Define the synchronization error e = x₁ - x₂
-2. Derive the dynamics of e: de/dt = f₁(x₁) - f₂(x₂) - 2κ · e
-3. Show that for identical systems (f₁ = f₂ = f), e → 0 is stable if κ > λ_max/2, where λ_max is the maximum Lyapunov exponent of f
-4. Interpret: coupling must be strong enough relative to the internal dynamics for synchronization to occur
-
-{fill:textarea}
-
-## Part 4: Theory of Mind as Hierarchical Modeling
-
-**Goal**: Formalize Theory of Mind mathematically.
-
-**Setup**: Agent A's hierarchical model:
-
-- Level 1: p_A(o_A | s_A) — how A's states generate A's observations
-- Level 2: p_A(s_A | s_B model) — how B's model of the world influences A's states
-- Level 3: p_A(s_B model | s_B meta-model) — A's model of B's model of A
-
-**Task**:
-
-1. Write the free energy for this three-level hierarchy
-2. Show how increasing hierarchical depth enables more sophisticated social inference
-3. Compute the additional cost (complexity) of each added level
-4. Discuss: what is the optimal depth of Theory of Mind modeling?
+1.  同期誤差 e = x₁ - x₂ を定義する
+2.  eのダイナミクスを導出する: de/dt = f₁(x₁) - f₂(x₂) - 2κ · e
+3.  f₁ = f₂ = f の場合、e → 0 がκ > λ_max/2 の場合に安定であることを示す（λ_maxはfの最大リウプシッツ指数）
+4.  結合が内部ダイナミクスに対して十分に強くなければ同期は起こらないことを解釈する
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## 第4部：理論的な心の階層的モデリング
 
-In 200 words, explain how the mathematics of coupled inference, joint free energy, and generalized synchrony provide a unified account of communication — from simple biological coordination to human language.
+**目標**: 理論的な心を数学的に形式化する。
+
+**設定**: エージェントAの階層的モデル：
+
+- レベル1: p_A(o_A | s_A) — Aの自身の状態がAの観測を生成する方法
+- レベル2: p_A(s_A | s_B model) — BのAについてのモデルがAの自身の状態にどのように影響するか
+- レベル3: p_A(s_B model | s_B meta-model) — AのBのモデルに対するモデル
+
+**タスク**:
+
+1.  この3レベルの階層の自由エネルギーを書く
+2.  階層の深さを増やすと、より高度な社会的推論が可能になることを示す
+3.  追加された各レベルの追加コスト（複雑さ）を計算する
+4.  議論する：理論的な心の最適な深さはどれくらいか？
 
 {fill:textarea}
 
-## Lab Summary
+## 第5部：合成
 
-| Part | Skill Developed | Mathematical Result |
+結合された推論の数学、結合された自由エネルギー、および一般化された同期条件が、単純な生物学的協調から人間の言語まで、コミュニケーションの統一された説明を提供する方法を200語で説明する。
+
+{fill:textarea}
+
+## 実験概要
+
+| 部位 | 獲得したスキル | 数学的結果 |
 |------|----------------|-------------------|
-| 1 | Multi-agent modeling | Two-agent free energy formulation |
-| 2 | Information theory | Joint free energy decomposition |
-| 3 | Dynamical systems | Synchronization stability conditions |
-| 4 | Hierarchical modeling | Theory of Mind as recursive generative models |
-| 5 | Conceptual integration | Connecting mathematical communication to natural language |
+| 1 | 複数エージェントモデリング | 2エージェントの自由エネルギーの形 |
+| 2 | 情報理論 | 結合された自由エネルギーの分解 |
+| 3 | 動的システム | 同期安定性条件 |
+| 4 | 階層的モデリング | 理論的な心として再帰的な生成モデル |
+| 5 | 概念統合 | 数学的コミュニケーションを自然言語に結びつける |

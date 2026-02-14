@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05_Action - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>05_Action</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>05_Action</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 05: Action — Teaching a New Stitch Across the Circle</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Describe teaching as an active inference process where the teacher adjusts their explanation based on the learner's prediction errors.</li>
+<li>Analyze collaborative projects and group decisions as collective action — the circle acting as a unified agent.</li>
+<li>Explain how action in the circle includes both physical action (stitching, demonstrating) and social action (helping, encouraging, deciding together).</li>
+</ol>
+<h2>Introduction</h2>
+<p>Rosa leans across the table. "Here, let me show you the bobble stitch. Watch my hands." She works a demonstration slowly, exaggerating each motion. James watches, tries to replicate it, fumbles. Rosa sees the fumble, pauses, and adjusts. "See this part? You are pulling up too soon. Wait until you have all five loops on the hook before you yarn over." James tries again. Closer this time.</p>
+<p>This is <strong>teaching</strong> — and it is one of the purest examples of active inference in action. The teacher is not simply transmitting information; they are running a real-time inference loop. They predict what the learner needs, observe the result of their explanation, detect prediction errors (the learner's confusion or mistakes), and adjust their actions accordingly. The learner, simultaneously, is running their own inference loop — predicting what the stitch should look like, attempting it, encountering prediction error, and updating their model.</p>
+<h2>Key Concepts</h2>
+<h3>1. Teaching as Active Inference</h3>
+<p>In Active Inference, action is the process by which an agent changes its environment to bring sensory input into alignment with its predictions. Teaching is a social form of this process: the teacher's goal is to change the learner's generative model so that it produces correct predictions about the stitch.</p>
+<p>The teaching loop works like this:</p>
+<ol>
+<li><strong>The teacher predicts</strong> what the learner needs. Based on their model of the learner (how much they know, what they have struggled with before), the teacher generates a prediction about what explanation or demonstration will be most helpful.</li>
+<li><strong>The teacher acts</strong> — demonstrating, explaining, guiding hands.</li>
+<li><strong>The teacher observes</strong> the result — does the learner succeed? Do they look confused? Do they make the right motions?</li>
+<li><strong>Prediction error</strong> is generated if the result does not match the teacher's prediction. If the learner is still confused, the teacher's model of "what this learner needs" was wrong. The teacher updates.</li>
+<li><strong>The teacher adjusts</strong> — tries a different approach, slows down, uses an analogy, physically guides the learner's hands.</li>
+</ol>
+<p>This loop continues until the learner's performance matches the teacher's prediction of success — or until both parties decide to take a break and try again later.</p>
+<p>Notice that the teacher is not just modeling the stitch; they are modeling the learner. This is a <strong>second-order inference</strong>: the teacher is building a generative model of another agent's generative model. "James does not understand where to insert the hook, so I need to show him the insertion point more clearly." This metacognitive capacity — thinking about what another person is thinking — is what makes human teaching so powerful.</p>
+<h3>2. The Learner's Inference Loop</h3>
+<p>The learner is simultaneously running their own active inference process:</p>
+<ol>
+<li><strong>The learner predicts</strong> what the stitch should look like, based on the teacher's demonstration and their own prior knowledge.</li>
+<li><strong>The learner acts</strong> — attempts the stitch.</li>
+<li><strong>Prediction error</strong> arises when the result does not match expectations — the stitch looks wrong, feels wrong, or the yarn does something unexpected.</li>
+<li><strong>The learner updates</strong> — adjusting grip, tension, timing, insertion point.</li>
+</ol>
+<p>The learner's prediction errors are the raw material of learning. Each error signals a gap between the learner's current generative model and the reality of the stitch. The teacher's role is to minimize the cost of these errors — to create a supportive environment where errors are informative rather than discouraging.</p>
+<p>In a crochet circle, this supportive environment is built into the culture. Mistakes are expected. Frogging is normal. The collective ethos says: every expert was once a beginner, and every stitch you frog teaches you something.</p>
+<h3>3. Collaborative Projects as Collective Action</h3>
+<p>Beyond individual teaching moments, the circle engages in <strong>collective action</strong> — coordinated activity by the group as a whole. The most vivid example is the collaborative project.</p>
+<p>When a circle decides to make a communal blanket — each member contributing squares that will be joined together — the group is acting as a collective agent. This requires:</p>
+<ul>
+<li><strong>Shared prediction</strong>: a collective generative model of what the finished blanket will look like (colors, size, stitch pattern).</li>
+<li><strong>Coordinated action</strong>: each member making squares that are compatible in size and gauge. This requires individual actions to be constrained by group-level predictions.</li>
+<li><strong>Distributed execution</strong>: the work is divided among agents who each bring their own skill and style, yet must produce compatible outputs.</li>
+<li><strong>Integration</strong>: someone (or the whole group) joins the squares together, resolving any mismatches between individual contributions.</li>
+</ul>
+<p>This is active inference at the group level. The circle predicts a future state (the finished blanket), takes coordinated actions to bring that state about, encounters prediction errors (squares that do not quite match in size, colors that clash when placed together), and adjusts (remaking squares, rearranging the layout).</p>
+<h3>4. Social Action: Helping, Encouraging, Deciding</h3>
+<p>Not all action in a circle involves hook and yarn. <strong>Social actions</strong> — helping someone who is stuck, encouraging someone who wants to give up, deciding together what to work on next — are equally important forms of active inference in the social domain.</p>
+<p><strong>Helping</strong> is an action taken to reduce another agent's prediction error. When you see someone struggling and offer guidance, you are acting on your social generative model: "This person's distress is a prediction error in my model of a well-functioning circle. I can reduce this error by helping."</p>
+<p><strong>Encouraging</strong> is an action that adjusts another agent's precision. When you say "You are doing great, just keep going," you are increasing the learner's confidence in their own predictions — raising the precision of their model, which helps them persist through difficulty rather than giving up.</p>
+<p><strong>Group deciding</strong> is collective action in its most deliberate form. When the circle debates whether to attempt a lace pattern or stick with something simpler, they are collectively evaluating expected free energy — weighing the predicted difficulty (epistemic cost) against the predicted satisfaction (pragmatic value). The decision emerges from the interaction of multiple generative models, each contributing predictions and preferences.</p>
+<h2>Applications</h2>
+<ul>
+<li>
+<p><strong>Teaching Styles as Inference Strategies</strong>: Different circle members teach differently — some demonstrate silently, some explain verbally, some guide hands physically. These are different strategies for reducing the learner's prediction error. A skilled teacher matches their strategy to the learner's model: a verbal learner benefits from explanation, a visual learner from demonstration, a kinesthetic learner from physical guidance. The best teachers switch strategies in real time based on the prediction errors they observe.</p>
+</li>
+<li>
+<p><strong>The Gift of a Finished Object</strong>: When a circle member gives away a finished project — a hat for a friend's baby, a blanket for a charity drive — this is action that extends the circle's influence into the external world. The act of giving is an active state in the Markov blanket, carrying the circle's internal skill and care outward. The recipient encounters the object and, through it, the circle's generative model: the craft, the care, the hours of work.</p>
+</li>
+</ul>
+<h2>Conclusion</h2>
+<p>Action in a crochet circle takes many forms — from the physical act of stitching to the social acts of teaching, helping, encouraging, and deciding together. Teaching is a particularly rich example of active inference, where teacher and learner run interleaved inference loops, each adjusting their actions based on the other's prediction errors. Collaborative projects reveal the circle acting as a collective agent, coordinating individual actions toward a shared predicted outcome. Social actions like helping and encouraging work on each other's generative models directly — adjusting beliefs, boosting precision, reducing isolation. In the next module, we explore how these actions accumulate into something deeper: learning that persists across time and generations.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Teaching Through Active Inference</h1>
+<h2>Group Activity — Action</h2>
+<h3>Objective</h3>
+<p>Practice teaching and learning a crochet technique with deliberate attention to the active inference loops of both teacher and learner, and experience collective decision-making as a group action.</p>
+<h3>Materials</h3>
+<ul>
+<li>Yarn and hooks for all participants</li>
+<li>A list of 4-5 techniques of varying difficulty (prepared in advance)</li>
+<li>Index cards for recording observations</li>
+<li>A timer</li>
+</ul>
+<h3>Duration</h3>
+<p>55-65 minutes</p>
+<h3>Activity Steps</h3>
+<p><strong>Step 1: Choose Teaching Pairs (5 minutes)</strong></p>
+<p>Pair up so that each pair includes someone who knows a technique and someone who does not. (If your circle is small, one teacher can work with two learners.) The technique should be something specific and teachable in 10-15 minutes — examples:
+- A new stitch (popcorn, bobble, front post double crochet)
+- A technique (invisible join, magic ring, standing stitch)
+- A construction method (working in the round, increasing evenly)</p>
+<p><strong>Step 2: Teach with Awareness (15 minutes)</strong></p>
+<p>The teacher teaches the technique while both teacher and learner pay deliberate attention to the active inference process:</p>
+<p><strong>Teacher</strong>: Before you start, predict what will be hardest for the learner. As you teach, notice:
+- What explanation or demonstration did you try first?
+- Where did the learner struggle? (Their prediction error)
+- How did you adjust your approach? (Your updated model of the learner)
+- Did you switch from verbal to visual to physical guidance?</p>
+<p><strong>Learner</strong>: As you learn, notice:
+- What did you expect the stitch to feel or look like?
+- Where did reality differ from your expectation? (Your prediction error)
+- What helped you most — words, watching, or having your hands guided?
+- At what point did the stitch "click"?</p>
+<p>Both parties jot brief notes on index cards during natural pauses.</p>
+<p><strong>Step 3: Debrief the Teaching Loop (10 minutes)</strong></p>
+<p>Each pair shares with the group:
+1. What technique was taught?
+2. What was the teacher's biggest prediction error about the learner? (Where did they misjudge what the learner needed?)
+3. What was the learner's biggest prediction error? (Where did the stitch surprise them?)
+4. How did the teacher adjust? Did they try multiple strategies?
+5. What teaching channel worked best — verbal, visual, or physical?</p>
+<p><strong>Step 4: Collective Decision Exercise (15 minutes)</strong></p>
+<p>The whole circle now does a group decision activity. Present 3 possible mini-projects that the group could make together (choose from your prepared list, e.g., a set of coasters, a small garland, a color-block scarf).</p>
+<p>For each option, discuss as a group:
+- <strong>Predicted difficulty</strong>: How hard will this be for each member? (Consider the range of skill levels.)
+- <strong>Predicted satisfaction</strong>: How rewarding will the result be?
+- <strong>Coordination cost</strong>: How much do individual contributions need to match?</p>
+<p>Make the decision together. Notice:
+- How do different generative models contribute different assessments?
+- Is there disagreement? How is it resolved?
+- Does the group converge on a choice that minimizes collective expected free energy (balancing challenge with achievability)?</p>
+<p><strong>Step 5: Begin the Collective Project (10 minutes)</strong></p>
+<p>Start the chosen project together. Even 10 minutes of working on a shared project lets you experience:
+- Coordinating individual actions toward a group goal
+- Checking that your contribution matches the group's shared prediction (same gauge, compatible colors)
+- The social pleasure of working toward something together</p>
+<h3>Reflection Prompts</h3>
+<ul>
+<li>How was teaching in person different from following written instructions or a video?</li>
+<li>As a teacher, what did you learn about the learner that you did not know before?</li>
+<li>As a learner, what was the most effective thing the teacher did? What would you ask them to do differently?</li>
+<li>During the group decision, did you feel your preferences were heard? How did the group balance individual desires with collective feasibility?</li>
+</ul>
+<h3>Extension</h3>
+<p>Continue the collective project across future meetings. At each meeting, briefly check: Is the project matching the group's original prediction? Have there been collective prediction errors (pieces that do not fit, a design choice that is not working)? How does the group adjust? This ongoing project becomes a living laboratory for collective active inference.</p></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Action — Teaching a New Stitch Across the Circle</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>Teaching in a crochet circle is best described as:
+A) One-way transmission of information from expert to beginner
+B) An active inference loop where the teacher predicts, observes, and adjusts based on the learner's prediction errors
+C) Simply demonstrating a stitch and hoping the learner copies it
+D) An activity that does not involve prediction or updating</p>
+</li>
+<li>
+<p>When a teacher builds a model of what the learner knows and does not know, this is called:
+A) First-order inference
+B) Second-order inference — modeling another agent's generative model
+C) Self-inference
+D) External state modeling</p>
+</li>
+<li>
+<p>A learner's prediction error when attempting a new stitch is:
+A) A sign of failure that should be avoided
+B) The raw material of learning — signaling gaps between their model and reality
+C) Evidence that the teacher is doing a bad job
+D) Irrelevant to the learning process</p>
+</li>
+<li>
+<p>When a circle decides to make a communal blanket with each member contributing squares, this is an example of:
+A) Individual action that happens to occur in a group setting
+B) Collective action where the group acts as a unified agent toward a shared predicted outcome
+C) Competition between members to make the best square
+D) Action that does not require coordination</p>
+</li>
+<li>
+<p>Encouragement like "You are doing great, keep going" functions in Active Inference as:
+A) Empty social pleasantry with no cognitive effect
+B) An action that increases the learner's precision — boosting confidence in their own predictions
+C) A way to distract the learner from their errors
+D) A signal that the teacher has given up on helping</p>
+</li>
+<li>
+<p>When a circle debates between a complex and a simple group project, they are evaluating:
+A) Who is the most skilled member
+B) Expected free energy — weighing predicted difficulty against predicted satisfaction
+C) Whether to disband the circle
+D) Nothing systematic — it is a random choice</p>
+</li>
+<li>
+<p>The gift of a finished crochet object to someone outside the circle represents:
+A) A loss of internal state
+B) An active state in the Markov blanket, carrying the circle's craft and care into the external world
+C) A violation of the system boundary
+D) An action with no relation to Active Inference</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Describe a teaching moment in a crochet circle using the full active inference loop: what does the teacher predict, what do they observe, what prediction error arises, and how do they adjust?</p>
+</li>
+<li>
+<p>How does a collaborative project (like a communal blanket) reveal the circle acting as a collective agent? What predictions, coordination, and error-correction are involved?</p>
+</li>
+<li>
+<p>Compare teaching a stitch in person at a circle with following a YouTube tutorial alone. What specific advantages does the in-person active inference loop provide?</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

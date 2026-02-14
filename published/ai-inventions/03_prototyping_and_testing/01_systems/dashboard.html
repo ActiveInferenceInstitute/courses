@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Prototype as a System — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>The Prototype as a System</h1>
+  <p class="subtitle">Section 3: Prototyping and Testing &mdash; Module 01: Systems</p>
+  <span class="tag">Markov Blankets &bull; Fidelity Levels &bull; System Boundaries</span>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="concepts">Concepts</div>
+  <div class="tab" data-tab="quiz">Quiz</div>
+  <div class="tab" data-tab="checklist">Checklist</div>
+  <div class="tab" data-tab="modules">Modules</div>
+</div>
+
+<!-- CONCEPTS PANEL -->
+<div class="panel active" id="concepts">
+  <h2 style="font-size:1.1rem;margin-bottom:1rem;">Core Concepts</h2>
+
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>1. Prototype as Embodied Generative Model</h3>
+    <div class="desc">A prototype is not a rough draft of a product. It is a physical instantiation of the inventor's beliefs about how the system works. Like any generative model, it encodes causal hypotheses and generates predictions that can be compared against observations. Dyson's cardboard cyclone cone was a generative model predicting that centrifugal force could separate dust from air. Each test generated prediction errors that guided the next iteration.</div>
+    <div class="meter"><div class="fill" style="width:90%"></div></div>
+  </div>
+
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>2. Markov Blanket as Prototype Boundary</h3>
+    <div class="desc">Every prototype has a boundary that separates its internal workings from the testing environment. The sensory surface receives inputs (user actions, environmental conditions). The active surface produces outputs (movements, displays, effects). Internal states are the mechanisms shielded by this boundary. Deciding what falls inside vs. outside this blanket is the most consequential prototyping decision you make.</div>
+    <div class="meter"><div class="fill" style="width:85%"></div></div>
+  </div>
+
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>3. Fidelity Levels as Model Resolution</h3>
+    <div class="desc">Low-fidelity prototypes are coarse-grained models with broad priors — paper sketches, cardboard models. High-fidelity prototypes are fine-grained models with tight priors — pre-production units. The right fidelity level depends on your current uncertainty: when priors are broad, use low fidelity for rapid, cheap updates. When priors are narrow and you need to detect subtle effects, invest in high fidelity.</div>
+    <div class="meter"><div class="fill" style="width:80%"></div></div>
+  </div>
+
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>4. Include/Exclude: Scope Discipline</h3>
+    <div class="desc">Include components causally upstream of your test variables; exclude components that are causally independent. The "kitchen sink prototype" tries to include everything, resulting in confounded test results. A pharmaceutical company testing a drug molecule in cell cultures is applying minimal blanket scope — testing only the drug-receptor interaction before expanding to whole-organism complexity.</div>
+    <div class="meter"><div class="fill" style="width:75%"></div></div>
+  </div>
+
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>5. Modularity and Nested Blankets</h3>
+    <div class="desc">Complex prototypes can often be decomposed into sub-systems, each with its own nested Markov blanket. Apple's iPhone prototypes tested multi-touch, radio, and UI separately before integration. Each sub-system prototype isolates specific hypotheses. Build and test sub-systems independently when their internal states are only weakly coupled to other sub-systems.</div>
+    <div class="meter"><div class="fill" style="width:70%"></div></div>
+  </div>
+
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>6. Prototype-Environment Interface</h3>
+    <div class="desc">The sensory and active surfaces of a prototype define not just the prototype but the experiment. If the sensory surface does not include temperature sensitivity, testing will not reveal temperature-related failures. NASA's JPL built separate test rigs for gravity, atmosphere, and terrain because no single environment could replicate Mars. The interface design determines what you can learn.</div>
+    <div class="meter"><div class="fill" style="width:65%"></div></div>
+  </div>
+</div>
+
+<!-- QUIZ PANEL -->
+<div class="panel" id="quiz">
+  <div class="quiz-box">
+    <h3 id="q-counter">Question 1 of 7</h3>
+    <p id="q-text"></p>
+    <div id="q-options"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" id="q-prev" onclick="quizNav(-1)">Previous</button>
+      <button class="quiz-btn" id="q-next" onclick="quizNav(1)">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST PANEL -->
+<div class="panel" id="checklist">
+  <h2 style="font-size:1.1rem;margin-bottom:1rem;">Learning Checklist</h2>
+  <div class="checklist" id="cl-items"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill" style="width:0%"></div></div>
+  <div class="cl-status" id="cl-status">0 of 5 complete</div>
+</div>
+
+<!-- MODULES PANEL -->
+<div class="panel" id="modules">
+  <h2 style="font-size:1.1rem;margin-bottom:1rem;">Section 3: Prototyping &amp; Testing</h2>
+  <div class="mod-grid">
+    <div class="mod-card current"><div class="num">01</div><div class="name">The Prototype as a System</div></div>
+    <div class="mod-card"><div class="num">02</div><div class="name">The Testing Agent</div></div>
+    <div class="mod-card"><div class="num">03</div><div class="name">Reading the Prototype's Signals</div></div>
+    <div class="mod-card"><div class="num">04</div><div class="name">Reasoning About Results</div></div>
+    <div class="mod-card"><div class="num">05</div><div class="name">Iterative Refinement</div></div>
+    <div class="mod-card"><div class="num">06</div><div class="name">Learning from Failure and Success</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">Documenting the Build</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">Test Planning Under Uncertainty</div></div>
+  </div>
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Quiz engine
+const quizData=[
+  {q:"A prototype functions as a physical generative model because it:",opts:["Looks like the final product","Embodies hypotheses and generates testable predictions","Uses the same materials as the final product","Has been approved by customers"],ans:1,explain:"A prototype encodes the inventor's beliefs about causal structure and produces observable outputs that can be compared to predictions — exactly what a generative model does."},
+  {q:"The Markov blanket of a prototype separates:",opts:["The inventor from the user","Internal mechanisms from the external testing environment","Physical from digital prototypes","Good designs from bad designs"],ans:1,explain:"The Markov blanket is the boundary (sensory + active surfaces) that separates the prototype's internal states from the external environment."},
+  {q:"Low-fidelity prototypes are most valuable when:",opts:["The inventor is confident in all design parameters","The product is nearly ready for market","Uncertainty is broad and many hypotheses need cheap, rapid testing","Investors require a polished demonstration"],ans:2,explain:"When priors are broad (high uncertainty), low-fidelity prototypes allow quick, cheap updates to the generative model."},
+  {q:"The 'kitchen sink prototype' failure occurs because:",opts:["It is too cheap to produce useful results","Too many variables are included, confounding test results","It does not include enough features","It takes too long to build"],ans:1,explain:"Including too many components makes it impossible to isolate which variable caused a specific observation, like an overfitted model."},
+  {q:"Apple tested multi-touch, radio, and UI in separate prototypes. This demonstrates:",opts:["High-fidelity prototyping","The modularity principle — decomposing a complex blanket into nested sub-blankets","Eliminating external states","Skipping low-fidelity stages"],ans:1,explain:"Complex systems can often be decomposed into sub-systems, each prototyped and tested independently before integration."},
+  {q:"NASA built separate test rigs for gravity, atmosphere, and terrain for Mars rovers because:",opts:["It was cheaper than building one test facility","No single Earth environment could replicate all Martian conditions within one Markov blanket","They had too many engineers with nothing to do","The rover was too fragile for integrated testing"],ans:1,explain:"Each test rig defined a different Markov blanket around the rover, isolating specific environmental interactions that could not be combined in one facility."},
+  {q:"Expected free energy guides fidelity choice by recommending:",opts:["Always the highest fidelity available","Always the lowest fidelity available","The fidelity that maximizes information gain relative to cost and current uncertainty","Matching competitor prototype fidelity"],ans:2,explain:"Expected free energy balances epistemic value (information gain) with pragmatic value (cost, time), recommending the fidelity level that optimizes this trade-off given current knowledge."}
+];
+
+let qIdx=0;
+function renderQuiz(){
+  const q=quizData[qIdx];
+  document.getElementById('q-counter').textContent=`Question ${qIdx+1} of ${quizData.length}`;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('q-explain').style.display='none';
+  document.getElementById('q-explain').textContent=q.explain;
+  const optC=document.getElementById('q-options');
+  optC.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const d=document.createElement('div');
+    d.className='quiz-opt';
+    d.textContent=String.fromCharCode(65+i)+') '+o;
+    d.addEventListener('click',()=>{
+      optC.querySelectorAll('.quiz-opt').forEach(x=>{x.classList.remove('correct','wrong')});
+      d.classList.add(i===q.ans?'correct':'wrong');
+      if(i!==q.ans) optC.children[q.ans].classList.add('correct');
+      document.getElementById('q-explain').style.display='block';
+    });
+    optC.appendChild(d);
+  });
+}
+function quizNav(dir){qIdx=Math.max(0,Math.min(quizData.length-1,qIdx+dir));renderQuiz();}
+renderQuiz();
+
+// Checklist with localStorage
+const clItems=[
+  "Describe a prototype as a physical generative model with testable predictions",
+  "Map a prototype's Markov blanket: internal states, sensory surface, active surface, external states",
+  "Choose appropriate fidelity levels based on current uncertainty and constraints",
+  "Apply the modularity principle to decompose a complex prototype into testable sub-systems",
+  "Design the prototype-environment interface to match specific learning goals"
+];
+const clKey='s3m01_cl';
+let clState=JSON.parse(localStorage.getItem(clKey)||'[]');
+if(clState.length!==clItems.length) clState=clItems.map(()=>false);
+
+function renderChecklist(){
+  const c=document.getElementById('cl-items');
+  c.innerHTML='';
+  clItems.forEach((item,i)=>{
+    const d=document.createElement('div');
+    d.className='cl-item';
+    const cb=document.createElement('input');
+    cb.type='checkbox';
+    cb.checked=clState[i];
+    cb.addEventListener('change',()=>{clState[i]=cb.checked;localStorage.setItem(clKey,JSON.stringify(clState));updateProg();});
+    const lbl=document.createElement('span');
+    lbl.textContent=item;
+    d.appendChild(cb);
+    d.appendChild(lbl);
+    c.appendChild(d);
+  });
+  updateProg();
+}
+function updateProg(){
+  const done=clState.filter(Boolean).length;
+  document.getElementById('cl-fill').style.width=(done/clItems.length*100)+'%';
+  document.getElementById('cl-status').textContent=`${done} of ${clItems.length} complete`;
+}
+renderChecklist();
+</script>
+</body>
+</html>

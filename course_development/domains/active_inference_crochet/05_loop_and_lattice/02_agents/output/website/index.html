@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_Agents - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>02_Agents</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>02_Agents</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 02: The Crocheter as Neural Architect</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Understand the crocheter as an agent who designs, selects, and physically builds network architectures in yarn — and recognize that the crocheter's own brain is a neural network designing another network.</li>
+<li>Compare the crocheter's stitch selection and tension control to neural network weight assignment, activation functions, and parameter tuning.</li>
+<li>Recognize how each stitch placement is a decision node governed by Active Inference — the crocheter minimizes surprise by selecting stitches that match the generative model (the pattern and the desired fabric).</li>
+</ol>
+<h2>Introduction</h2>
+<p>In the previous module, we looked at crocheted fabric as a topological surface and a network graph. We examined the structure of the thing being made. Now we turn to the maker.</p>
+<p>You, the crocheter, are a neural architect. Not metaphorically — literally. Every time you sit down with hook and yarn, you are designing and constructing a physical network. You decide the architecture (the pattern), select the connection types (the stitches), adjust the connection strengths (your tension), and execute the build node by node, stitch by stitch. The finished fabric is a network you have built with your hands, and every choice you made along the way shaped its topology.</p>
+<p>Here is the twist that makes this fascinating: the tool you use to design this network — your brain — is itself a neural network. A neural network is building a neural network. The architect is made of the same stuff as the architecture. This recursive loop, where an agent made of networks builds networks, is at the heart of Active Inference's view of agency. The crocheter does not simply follow instructions. The crocheter is a prediction machine, constantly generating expectations about what the next stitch should feel like, look like, and do — and then acting to make those predictions come true.</p>
+<h2>Key Concepts</h2>
+<h3>1. The Crocheter as Network Designer</h3>
+<p>Every pattern is a blueprint for a network. When a crocheter reads "Row 1: Ch 20. Sc in 2nd ch from hook and in each ch across. (19 sc)," they are reading an architectural specification. The pattern tells you how many nodes to create (19 stitches), what type of connections to use (single crochet), and how they link to the previous layer (into each chain).</p>
+<p>But the crocheter is more than a builder following a blueprint. Experienced crocheters make <strong>architectural decisions</strong> constantly — decisions that go beyond what the pattern specifies. They choose:</p>
+<p><strong>The base architecture.</strong> Will this be worked in rows (feedforward) or in the round (recurrent)? Will it have a fixed width (rectangular, like a scarf) or a changing width (shaped, like a garment piece)? These are global architectural choices that determine the network's overall topology.</p>
+<p><strong>The stitch type.</strong> Different stitches create fundamentally different connection patterns. A <strong>single crochet</strong> (sc) is compact: the hook enters the stitch below, yarn over, pull through, yarn over, pull through both loops. The resulting connection is tight, dense, and short. A <strong>double crochet</strong> (dc) is taller: yarn over, insert hook, pull through, yarn over, pull through two, yarn over, pull through two. It creates a longer, more open connection. A <strong>treble crochet</strong> (tr) is taller still.</p>
+<p>In neural network terms, these stitch types function like different <strong>activation functions</strong>. An activation function determines how a neuron transforms its input into output. A tight single crochet is like a step function — it transmits structure directly and compactly. A tall double crochet is like a ReLU (rectified linear unit) — it allows more signal to pass through, with more vertical reach. A chain space (skipping stitches with chains) is like a dropout layer — it intentionally leaves gaps in the connectivity, creating openness and reducing density.</p>
+<p>The crocheter choosing between sc, dc, and tr is making the same kind of decision as a machine learning engineer choosing between activation functions. Both choices shape how information flows through the network.</p>
+<p><strong>The connectivity pattern.</strong> Beyond individual stitch types, the crocheter decides how stitches connect to the previous layer. Working into both loops (standard), working into the front loop only (FLO), or working into the back loop only (BLO) creates different connection patterns. FLO and BLO leave one loop unworked, creating a visible ridge and a different structural bond — like a neural network where certain connections are deliberately pruned.</p>
+<p>Shell stitches (multiple stitches in one stitch) create fan-out connections — one node in the previous layer connects to five or more in the current layer. Decrease stitches (working two or more stitches together) create fan-in connections — multiple nodes in the previous layer merge into one. These are the same operations that neural network architects use to change the dimensionality of layers: expanding layers have more fan-out, contracting layers have more fan-in.</p>
+<p>The crocheter is, stitch by stitch, deciding the dimensionality of each layer and the connectivity between layers. This is network architecture design, executed in real time, with yarn.</p>
+<h3>2. Stitch Selection as Weight Assignment</h3>
+<p>In a neural network, each connection between neurons has a <strong>weight</strong> — a numerical value that determines how strongly one neuron influences another. High weights mean strong influence; low weights mean weak influence. The process of training a neural network is, fundamentally, the process of adjusting these weights until the network produces the desired output.</p>
+<p>In crochet, the analog of weight is <strong>tension</strong> — combined with stitch type and yarn characteristics.</p>
+<p><strong>Tension as a continuous weight parameter.</strong> Every crocheter has a characteristic tension: how tightly they hold the yarn, how snugly they pull each loop. Tight tension creates dense, stiff fabric with strong connections between stitches — high weights. Loose tension creates drapey, flowing fabric with softer connections — lower weights. The same pattern, crocheted by two people with different tension, produces two different fabrics. The network architecture is the same; the weights are different.</p>
+<p>This is exactly what happens in neural networks. Two networks with identical architecture (same number of layers, same connectivity) can produce entirely different outputs if their weights are different. The weights are what give the network its particular character, its specific behavior. In crochet, tension is the weight parameter, and it is continuous — not just "tight" or "loose," but an infinitely variable spectrum that experienced crocheters control with remarkable precision.</p>
+<p><strong>Stitch height as connection strength.</strong> Taller stitches create longer connections. A single crochet connects tightly to the stitch directly below it. A double crochet reaches higher, creating a more extended link. A treble crochet reaches higher still. The physical height of the stitch determines the "reach" of the connection — how far the signal travels. In neural network terms, taller stitches have different receptive fields. A treble crochet "sees" more of the surrounding structure than a single crochet, just as a convolution with a larger kernel size captures more of the input.</p>
+<p><strong>Learning to adjust weights.</strong> When a beginning crocheter practices gauge swatches, they are training their own neural network (their brain and hands) to produce consistent weights (tension). The first swatch might be too tight, the second too loose. Gradually, the crocheter's motor system converges on the target tension — just as a neural network's weights converge during training through gradient descent. The crocheter's "gradient" is the difference between their current gauge and the target gauge. Each practice swatch updates their internal model.</p>
+<p>This process is Active Inference in action. The crocheter has a <strong>generative model</strong> that predicts what a given tension should produce (a certain number of stitches per inch). When the swatch does not match the prediction, the crocheter experiences <strong>prediction error</strong> — free energy that needs to be minimized. The crocheter can minimize this error in two ways: adjust their tension (active inference — changing the world to match the model) or adjust their expectation (perceptual inference — changing the model to match the world, perhaps by switching to a different hook size).</p>
+<h3>3. Agency at the Node Level</h3>
+<p>Zoom in to a single moment in the crochet process. Your hook is loaded. You are about to make the next stitch. Where do you insert the hook? Into the next stitch? Into the one after that (skipping a stitch)? Into both loops or just the front loop? Do you yarn over once (sc), twice (dc), or three times (tr)? Do you make the stitch at all, or do you chain over it?</p>
+<p>This single moment — hook poised over the fabric — is a <strong>decision node</strong>. The crocheter has a set of available actions (the possible stitches and insertion points), and must select one. In a simple pattern, the choice is prescribed: "sc in next st." But even in prescribed patterns, micro-decisions abound. Exactly where the hook tip enters the stitch. How much yarn is pulled through. Whether the loop is snugged up or left relaxed.</p>
+<p>A crocheter working a row of 200 stitches makes at least 200 explicit decisions and hundreds more implicit micro-decisions. Over the course of a project, the number of decision nodes runs into the thousands or tens of thousands. Each one shapes the network.</p>
+<p><strong>Active Inference at each node.</strong> At every decision node, the crocheter is running a miniature Active Inference cycle:</p>
+<ol>
+<li>
+<p><strong>Prediction.</strong> The generative model (the pattern, the crocheter's experience, the feel of the fabric) predicts what the next stitch should be. "The next stitch should be a single crochet in the next stitch, and it should feel like a slight resistance as the hook enters, then a smooth pull-through."</p>
+</li>
+<li>
+<p><strong>Sensation.</strong> The crocheter inserts the hook and feels what actually happens. The yarn resists more than expected. The stitch below is tighter than the others. The hook catches on a split strand.</p>
+</li>
+<li>
+<p><strong>Prediction error.</strong> The difference between prediction and sensation is computed. Something feels off. The resistance is too high — perhaps the hook is entering the wrong part of the stitch, or the tension has drifted.</p>
+</li>
+<li>
+<p><strong>Update.</strong> The crocheter either adjusts their action (wiggles the hook to find the right insertion point — active inference) or adjusts their expectation (this yarn is just stiffer than usual, the resistance is normal — perceptual inference).</p>
+</li>
+</ol>
+<p>This cycle happens in fractions of a second, below conscious awareness, for every single stitch. The crocheter's agency is not exercised once, at the grand level of choosing a pattern. It is exercised continuously, at the node level, with each insertion of the hook. This is what makes crochet meditative and absorbing: the mind is engaged in a constant, rapid loop of prediction, sensation, and correction.</p>
+<p><strong>The meta-level: a neural network designing a neural network.</strong> Here is the recursive wonder of it all. The crocheter's brain — a biological neural network of roughly 86 billion neurons — is using its own network architecture to design and build a second network in yarn. The brain's networks encode the pattern, predict stitch outcomes, process sensory feedback from the fingers, and issue motor commands to the hands. The yarn network is the output.</p>
+<p>And the yarn network, in turn, feeds back into the brain network. Seeing the fabric take shape updates the crocheter's beliefs about the project. Feeling the texture informs the next prediction. The two networks — biological and textile — are coupled through the Active Inference loop, each shaping the other.</p>
+<p>This is not just a curiosity. It is a deep structural truth about agency in Active Inference. Agents are systems that maintain models of their world and act to make the world conform to those models. The crocheter maintains a model of the fabric (the pattern, the expected gauge, the anticipated shape) and acts to make the yarn conform to that model. The fabric, in turn, provides sensory evidence that updates the model. Agent and environment — crocheter and fabric — are coupled through a topological boundary (the Markov blanket of the working edge) in a continuous loop of prediction and action.</p>
+<h3>4. Collective Neural Architecture</h3>
+<p>The crocheter-as-architect metaphor extends beyond the individual. In a crochet circle, multiple agents collaboratively build network structure. Consider a group project where each participant crochets a granny square that will be joined into a blanket. Each person is a neural architect designing their own subnetwork (their square), but the final assembly — joining the squares — creates a meta-architecture that no single person designed. The overall network topology of the blanket emerges from the collective decisions of many agents.</p>
+<p>In neural network terms, this is <strong>modular architecture</strong>: a network composed of distinct subnetworks (modules) that are separately trained and then connected. Each crochet circle member is training their module (their square) according to shared specifications (the pattern and agreed-upon gauge), and the assembly process links these modules into a larger computational structure.</p>
+<p>The Active Inference framing here is particularly rich. Each crocheter has their own generative model. When the squares are joined and some do not quite match — one is slightly larger, another has a different tension — the group must collectively minimize prediction error. Someone blocks the squares to equalize size (active inference on the world). Someone adjusts the joining technique to accommodate variation (active inference on the assembly process). Someone accepts that small differences add character (perceptual inference — updating the model to accommodate the data).</p>
+<h2>Applications</h2>
+<p>In crochet, we see agency and neural architecture manifest in:</p>
+<ul>
+<li>
+<p><strong>Pattern Design as Architecture Search.</strong> When a crochet designer creates a new pattern, they are performing what machine learning calls "architecture search" — exploring the space of possible network topologies to find one that produces the desired output (the target garment, toy, or artwork). The designer experiments with stitch combinations, counts, and shaping until the fabric matches the vision. This is creative agency expressed through network design.</p>
+</li>
+<li>
+<p><strong>Tension Calibration as Weight Training.</strong> The practice of making gauge swatches and adjusting hook size or tension to match a pattern's specifications is analogous to training — adjusting the weights of a network until output matches the target. Experienced crocheters have well-trained weight parameters; beginners are still in early training epochs.</p>
+</li>
+<li>
+<p><strong>Freeform Crochet as Generative Exploration.</strong> Freeform crochet — where the crocheter works without a pattern, making stitch decisions intuitively — is the fiber arts equivalent of a generative model running in exploratory mode. The crocheter's internal model produces predictions about what might look good, and the crocheter acts on those predictions, observing the result and updating. There is no external target (no pattern), only the agent's own generative model. This is creativity as Active Inference: exploring the landscape of possible fabrics by iteratively predicting and acting.</p>
+</li>
+</ul>
+<h2>Conclusion</h2>
+<p>The crocheter is not a passive executor of instructions. The crocheter is a neural architect — an agent whose brain (a neural network) designs, builds, and continuously refines another network (the fabric) through a stitch-by-stitch process of prediction, sensation, and correction. Stitch selection is activation function choice. Tension is weight assignment. Each hook insertion is a decision node where Active Inference operates in real time. And the recursive beauty of it — a network building a network, an architect made of the same stuff as the architecture — reveals something profound about the nature of agency in Active Inference. We are all, always, networks building networks. The crocheter just happens to do it in a way you can see, touch, and wrap around your shoulders on a cold evening.</p>
+<p>In the next module, we turn from how the crocheter builds networks to how the crocheter perceives them: how do your fingers and eyes read the topology of the fabric, and what does that tell us about perception in Active Inference?</p>
+<h2>Key Terms</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Crochet Meaning</th>
+<th>Active Inference / Neural Network Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Network architect</td>
+<td>The crocheter who designs and builds fabric structure</td>
+<td>An agent who selects and constructs computational architectures</td>
+</tr>
+<tr>
+<td>Activation function</td>
+<td>Stitch type (sc, dc, tr) that determines how input transforms to output</td>
+<td>Mathematical function that determines a neuron's output given its input</td>
+</tr>
+<tr>
+<td>Weight</td>
+<td>Tension — how tightly or loosely the yarn is held and worked</td>
+<td>Numerical parameter on a connection that determines signal strength</td>
+</tr>
+<tr>
+<td>Decision node</td>
+<td>The moment of hook insertion — which stitch, where, how</td>
+<td>A point in a process where an agent must select among available actions</td>
+</tr>
+<tr>
+<td>Architecture search</td>
+<td>Pattern design — exploring stitch combinations to achieve a target fabric</td>
+<td>Automated process of finding optimal network topology</td>
+</tr>
+<tr>
+<td>Feedforward</td>
+<td>Working in rows, one direction</td>
+<td>Network where signal flows input-to-output with no loops</td>
+</tr>
+<tr>
+<td>Recurrent</td>
+<td>Working in the round, end connecting to beginning</td>
+<td>Network where output feeds back as input</td>
+</tr>
+<tr>
+<td>Fan-out</td>
+<td>Shell stitch — multiple stitches worked into one base stitch</td>
+<td>One node connecting to many in the next layer (expanding dimensionality)</td>
+</tr>
+<tr>
+<td>Fan-in</td>
+<td>Decrease — multiple stitches worked together into one</td>
+<td>Many nodes connecting to one in the next layer (contracting dimensionality)</td>
+</tr>
+<tr>
+<td>Generative model</td>
+<td>The pattern, plus the crocheter's understanding and expectations</td>
+<td>Internal model that predicts how sensory observations are generated</td>
+</tr>
+<tr>
+<td>Prediction error</td>
+<td>Fabric not matching expectations (wrong gauge, unexpected shape)</td>
+<td>Discrepancy between predicted and actual sensory input (free energy)</td>
+</tr>
+<tr>
+<td>Weight training</td>
+<td>Gauge swatch practice — adjusting tension to hit target gauge</td>
+<td>Iterative adjustment of network parameters to minimize loss</td>
+</tr>
+<tr>
+<td>Modular architecture</td>
+<td>Granny squares or motifs made separately and joined</td>
+<td>Network composed of distinct subnetworks connected in a larger structure</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Mapping Your Stitch Decisions</h1>
+<h2>Objective</h2>
+<p>Crochet a small sampler where you make deliberate, varied stitch choices across several rows. Then map those choices as a decision tree and draw the resulting network graph. By comparing your decisions to the way a neural network architect selects layer types, you will see your own agency as a network designer.</p>
+<h2>Materials</h2>
+<ul>
+<li>Worsted weight yarn (one color), approximately 30 yards</li>
+<li>Crochet hook, size H/8 (5.0mm)</li>
+<li>Stitch markers (at least 2)</li>
+<li>Scissors</li>
+<li>Paper and pen (two sheets — one for the decision tree, one for the network graph)</li>
+<li>Colored pencils or markers (at least 3 colors) — optional but helpful</li>
+</ul>
+<h2>Prerequisites</h2>
+<ul>
+<li>Ability to chain (ch), single crochet (sc), double crochet (dc), and half double crochet (hdc)</li>
+<li>Reading of Module 02: The Crocheter as Neural Architect (module.md)</li>
+<li>Completion of Lab 01 (Crocheting Three Surfaces) is recommended but not required</li>
+</ul>
+<h2>Steps</h2>
+<h3>Part 1: Crocheting the Sampler (20 minutes)</h3>
+<p>You are going to crochet a sampler with 6 rows, each using a different stitch or combination. The key is that <strong>you</strong> will choose the stitch for each row. The pattern provides the framework; you provide the architectural decisions.</p>
+<ol>
+<li>
+<p><strong>Foundation:</strong> Ch 16.</p>
+</li>
+<li>
+<p><strong>Row 1 — Single Crochet (prescribed).</strong> Sc in 2nd ch from hook and in each ch across. Turn. (15 sc)</p>
+</li>
+<li>
+<p>Before you start: On your decision tree paper, write "Row 1" and draw a box labeled "sc." This is a prescribed decision — no choice involved.</p>
+</li>
+<li>
+<p><strong>Row 2 — Your Choice.</strong> Choose one: all sc, all hdc, all dc, or a mix (e.g., alternating sc and dc). Work your chosen stitch(es) across the row. Turn.</p>
+</li>
+<li>
+<p>On your decision tree paper, write "Row 2" and draw a branching tree: the options you considered (sc / hdc / dc / mix), and circle the one you chose. Why did you choose it? Write a brief note.</p>
+</li>
+<li>
+<p><strong>Row 3 — Your Choice.</strong> Again, choose freely. You may repeat your Row 2 choice or try something different. Work across. Turn.</p>
+</li>
+<li>
+<p>Update your decision tree. Note what influenced your choice. Did the look of Row 2 affect your Row 3 decision?</p>
+</li>
+<li>
+<p><strong>Row 4 — Deliberate Contrast.</strong> Choose a stitch that is noticeably different from Row 3. If Row 3 was sc, try dc. If Row 3 was dc, try sc. Work across. Turn.</p>
+</li>
+<li>
+<p>On the decision tree, note that this was a deliberate contrast decision. Mark how the fabric feels different in your hands.</p>
+</li>
+<li>
+<p><strong>Row 5 — Mixed Row.</strong> Work a mix of stitch types across the row. For example: <em>sc in next 3 sts, dc in next 3 sts</em> — repeat. Or make up your own pattern. Turn.</p>
+</li>
+<li>
+<p>On the decision tree, note this as a "mixed architecture" row. Record the specific combination you used.</p>
+</li>
+<li>
+<p><strong>Row 6 — Free Choice.</strong> Make the final row whatever feels right to complete the sampler. Work across. Fasten off.</p>
+</li>
+<li>
+<p>Final entry on the decision tree. Note what "felt right" means — what was your generative model predicting for the finished piece?</p>
+</li>
+<li>
+<p>Weave in ends. Hold up your sampler and look at it.</p>
+</li>
+</ol>
+<h3>Part 2: Drawing the Decision Tree (10 minutes)</h3>
+<p>Review the decision tree you have been building as you crocheted. It should now show 6 rows, with branching options for Rows 2 through 6. For each decision point:</p>
+<ol>
+<li>Draw the available options as branches.</li>
+<li>Circle your actual choice.</li>
+<li>Note the reason for the choice. Categories might include:</li>
+<li><strong>Pattern compliance</strong> — "The instructions said to contrast."</li>
+<li><strong>Aesthetic prediction</strong> — "I thought dc would look better after sc."</li>
+<li><strong>Tactile feedback</strong> — "The fabric felt too stiff; I wanted something more open."</li>
+<li><strong>Generative model</strong> — "I had an image in my mind of the finished sampler."</li>
+<li>
+<p><strong>Habit</strong> — "I always default to sc when I am unsure."</p>
+</li>
+<li>
+<p>Look at the tree as a whole. How many decisions did you make? How many did you make consciously versus automatically? Which rows required more deliberation?</p>
+</li>
+</ol>
+<h3>Part 3: Drawing the Network Graph (15 minutes)</h3>
+<p>Now take your second sheet of paper. You are going to draw the stitch network of your sampler, showing how the architecture changes from row to row.</p>
+<ol>
+<li>
+<p><strong>Row 1 (foundation layer).</strong> Draw 15 small circles in a horizontal line. These are your 15 sc stitches — the input layer.</p>
+</li>
+<li>
+<p><strong>Row 2.</strong> Above the first row, draw circles for the stitches in Row 2. If you used sc, draw the same 15 circles directly above, each connected by a short vertical line to the stitch below. If you used dc, draw the circles slightly higher (to represent the taller stitch) and use longer vertical lines.</p>
+</li>
+<li>
+<p><strong>Rows 3-6.</strong> Continue stacking rows. Adjust the height between layers based on stitch type:</p>
+</li>
+<li>sc = short gap (tight connection)</li>
+<li>hdc = medium gap</li>
+<li>
+<p>dc = tall gap (extended connection)</p>
+</li>
+<li>
+<p><strong>Mixed rows.</strong> If a row has mixed stitch types (like Row 5), vary the connection heights within the row. The sc sections should have short connections; the dc sections should have tall ones.</p>
+</li>
+<li>
+<p><strong>Color coding (optional).</strong> If you have colored pencils, use different colors for different stitch types: one color for sc connections, another for hdc, another for dc.</p>
+</li>
+<li>
+<p><strong>Examine the network.</strong> Step back and look at your drawing. You have a layered network graph — just like a neural network diagram. Each row is a layer. Each stitch is a node. Each connection (where hook entered the previous row) is an edge. The height and character of the connection varies with stitch type, just as connection weights vary in a neural network.</p>
+</li>
+</ol>
+<h3>Part 4: Comparing Crocheter and Neural Network Architect (10 minutes)</h3>
+<p>On your decision tree paper, answer the following:</p>
+<ol>
+<li>
+<p><strong>Layer types.</strong> A neural network architect chooses the type of each layer (dense, convolutional, recurrent). You chose the stitch type for each row. Look at your sampler — you built a network with mixed layer types. Why might a neural network architect do the same thing? (Hint: different layer types are good at different things, just as different stitches produce different textures and structural properties.)</p>
+</li>
+<li>
+<p><strong>Weights.</strong> Feel the fabric with your fingers. Do some rows feel tighter or looser? Did your tension vary across the sampler? This is weight variation. A neural network's weights are its learned parameters; your tension is yours.</p>
+</li>
+<li>
+<p><strong>Architecture vs. training.</strong> The stitch choices you made are architecture decisions (what kind of connections). The tension you applied is a weight/parameter decision. Both shaped the final fabric. In neural networks, both architecture and weights determine the output. Which do you think matters more for the character of your sampler — the stitch choices or the tension?</p>
+</li>
+<li>
+<p><strong>The generative model.</strong> When you made Row 6 — the free choice — you chose what "felt right." That feeling was your generative model producing a prediction of the finished sampler. Describe what that prediction looked like. Did the actual Row 6 match the prediction, or did you experience prediction error?</p>
+</li>
+</ol>
+<h3>Part 5: Reflection and Discussion (5 minutes)</h3>
+<p>Hold your sampler in one hand and your decision tree in the other.</p>
+<h2>Discussion Questions</h2>
+<ul>
+<li>
+<p>Over 6 rows and 15 stitches per row, you made approximately 90 explicit stitch decisions and many more micro-decisions (hook placement, tension, timing). Were you aware of each one, or did many happen automatically? What does this tell you about the relationship between conscious and unconscious decision-making in Active Inference?</p>
+</li>
+<li>
+<p>Your decision tree shows the reasons behind your choices. How many of those reasons were about matching a prediction (generative model), and how many were about responding to something unexpected (prediction error)? Which rows involved more active inference and which involved more perceptual inference?</p>
+</li>
+<li>
+<p>Compare your sampler to a classmate's (or imagine someone else making the same lab exercise). Even though you started with the same foundation chain and the same options, the resulting fabrics would differ. What is the crocheter-equivalent of what machine learning calls "trained on different data"?</p>
+</li>
+<li>
+<p>If you were to crochet this sampler again from scratch, would you make the same decisions? What has your generative model learned from this first iteration that would change the second?</p>
+</li>
+</ul>
+<h2>Wrap-Up</h2>
+<p>You have experienced what it means to be a neural architect: making layer-by-layer decisions that shape a physical network, recording those decisions as a tree, and mapping the result as a graph. Your sampler is a six-layer network with heterogeneous layer types — something a neural network engineer might call a "mixed architecture." Your decision tree is the design log. Your network graph is the blueprint of what you built.</p>
+<p>Keep the sampler, the decision tree, and the network graph together. They form a complete record of architectural agency — the crocheter as designer, builder, and reflective practitioner. Bring all three to the next crochet circle for group comparison: how different are the architectures that different crafters build from the same starting point?</p></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Agents</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>The module describes different crochet stitch types as analogous to different activation functions in neural networks. A <strong>single crochet</strong> (compact, dense, short connection) is compared to a step function, while a <strong>double crochet</strong> (taller, more open connection) is compared to a ReLU. The key idea is that:
+A) Taller stitches use more yarn, just as complex functions use more computation
+B) Each stitch type transforms the input (previous row) into output (current row) in a structurally distinct way
+C) Single crochet is always better than double crochet, just as step functions are always better than ReLU
+D) Stitch type does not matter as long as the row count is correct</p>
+</li>
+<li>
+<p>When two crocheters follow the same pattern but produce fabric of different densities and drape, the variable that differs between them — analogous to neural network weights — is:
+A) The number of stitches per row
+B) The color of the yarn
+C) Their tension — how tightly they hold and work the yarn
+D) The direction they crochet (left-handed vs right-handed)</p>
+</li>
+<li>
+<p>A crocheter making a gauge swatch and adjusting their hook size until the stitch count matches the pattern is performing a process most analogous to:
+A) Neural network architecture search
+B) Neural network weight training (gradient descent)
+C) Dropout regularization
+D) Data augmentation</p>
+</li>
+<li>
+<p>At the moment of inserting the hook for the next stitch, the crocheter is at a <strong>decision node</strong>. The Active Inference cycle at this node involves:
+A) Prediction, sensation, prediction error, and update — all in a fraction of a second
+B) Reading the pattern once and never checking again
+C) Randomly choosing a stitch type to maximize variety
+D) Waiting for external instructions before each stitch</p>
+</li>
+<li>
+<p>A crocheter working freeform (without a written pattern) is generating stitch decisions from:
+A) No model at all — pure randomness
+B) Their internal generative model — predictions about what will look and feel right
+C) Muscle memory only, with no cognitive involvement
+D) A hidden pattern that all crocheters share</p>
+</li>
+<li>
+<p>In a crochet circle, multiple crafters each make a granny square that will be joined into a blanket. This is analogous to:
+A) A single monolithic neural network
+B) A modular neural network architecture — separate subnetworks connected into a larger structure
+C) A network with no connections between layers
+D) A random graph with no organizing principle</p>
+</li>
+<li>
+<p>The recursive observation that "a neural network (the crocheter's brain) is building another neural network (the fabric)" highlights:
+A) That crochet is impractical and should be replaced by machine knitting
+B) That agency in Active Inference involves systems made of networks constructing networks
+C) That the fabric is conscious
+D) That only neuroscientists should crochet</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Describe the Active Inference cycle that occurs at a single decision node — one stitch insertion — in a crocheter's work. Identify the generative model, the prediction, the sensory input, the prediction error, and the possible responses (active inference vs perceptual inference). Use a concrete example, such as a crocheter encountering unexpected resistance when inserting the hook.</p>
+</li>
+<li>
+<p>Explain the analogy between a crochet pattern and a neural network specification. What architectural information does the pattern encode (layer count, nodes per layer, connection types, etc.)? What aspects of the "network" does the pattern leave to the crocheter's discretion, similar to how a network spec might leave weight initialization to the training process?</p>
+</li>
+<li>
+<p>A beginning crocheter and an expert sit side by side, both making the same hat pattern. Compare their Active Inference processes. Where does the beginner spend most of their free energy? What has the expert's generative model learned that the beginner's has not? How does the concept of "weight training" (tension practice) explain the difference in their outputs?</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

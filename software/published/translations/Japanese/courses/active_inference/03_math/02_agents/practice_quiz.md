@@ -1,51 +1,53 @@
-# Practice Quiz: Agents
+# 練習クイズ：エージェント
 
-## Part A: Multiple Choice
+## Part A: 選択肢問題
 
-1. A generative model p(o, s, θ) specifies:
-A) Only the probability of observations
-B) The joint distribution over observations, hidden states, and parameters — encoding how observations are generated from hidden causes
-C) The mapping from inputs to outputs (discriminative)
-D) Only the prior over parameters
+1. 生成モデル p(o, s, θ) は、以下のものを指定しますか？
+A) 観測値の確率のみ
+B) 観測値、隠れ状態、パラメータの共分散分布 - 隠れ原因から観測値が生成される方法をエンコード
+C) 入力から出力へのマッピング（識別的）
+D) パラメータの事前分布のみ
 
-2. The recognition density q(s, θ) is:
-A) The exact posterior p(s, θ | o)
-B) An approximate posterior that is optimized to be close to the true posterior by minimizing free energy
-C) A fixed distribution that never changes
-D) The likelihood function
+2. 認識密度 q(s, θ) は、以下のものですか？
+A) 正確な事後確率 p(s, θ | o)
+B) 真の事後確率に近づくように、最小化エネルギーを最小化することで最適化された、近似事後確率
+C) 決して変わらない固定分布
+D) 尤度関数
 
-3. Sufficient statistics of an exponential family distribution:
-A) Are always the mean and variance
-B) Are the minimal statistics that fully determine the distribution (e.g., mean and covariance for Gaussian, concentration parameters for Dirichlet)
-C) Are irrelevant to Active Inference
-D) Must be computed exactly
+3. 指数族分布の十分統計量は：
+A) 常に平均と分散
+B) 分布を完全に決定する最小の統計量（例：ガウスの場合は平均と共分散、ディリクレの場合は濃度パラメータ）
+C) アクティブインファーエン্সে無関係
+D) 厳密に計算する必要がある
 
-4. The Free Energy Principle states that:
-A) All systems minimize thermodynamic free energy
-B) The internal states of a Markov-blanketed system can be described as parameterizing a recognition density that minimizes variational free energy
-C) Free energy is always zero for biological systems
-D) Only brains perform free energy minimization
+4. フリーエネルギー原則は述べています：
+A) すべてのシステムは熱力学的フリーエネルギーを最小化する
+B) マルコフ補完されたシステムの内部状態は、変分フリーエネルギーを最小化する認識密度をパラメータ化することで記述できる
+C) フリーエネルギーは生物学的システムでは常にゼロ
+D) 脳だけがフリーエネルギー最小化を実行する
 
-5. A Partially Observed Markov Decision Process (POMDP) extends an HMM by adding:
-A) More hidden states
-B) Actions that influence state transitions, making the agent an active participant
-C) Continuous observations only
-D) Deterministic dynamics
+5. 部分観測マルコフ意思決定プロセス (POMDP) は、HMM を拡張し、以下のものを追加します：
+A) より多くの隠れ状態
+B) 状態遷移に影響を与える行動、エージェントが積極的に参加する
+C) 連続的な観測のみ
+D) 決定論的なダイナミクス
 
-6. The mean-field approximation q(s, θ) = q(s) · q(θ):
-A) Is always exact
-B) Assumes independence between hidden states and parameters, which may introduce approximation error
-C) Requires Monte Carlo sampling
-D) Only works for discrete distributions
+6. 平均場近似 q(s, θ) = q(s) · q(θ):
+A) 常に正確
+B) 隠れ状態とパラメータ間の独立性を仮定し、近似誤差を導入する可能性がある
+C) モンテカルロサンプリングが必要
+D) 離散分布にのみ有効
 
-7. The natural gradient ∂F/∂μ in the space of sufficient statistics:
-A) Is identical to the ordinary gradient
-B) Accounts for the geometry of the probability distribution (Fisher information metric), enabling more efficient updates
-C) Is always zero
-D) Only applies to Gaussian distributions
+7. 十分統計量における勾配 ∂F/∂μ：
+A) 通常の勾配と同一
+B) 確率分布の幾何学（フィッシャー情報メトリック）を考慮し、より効率的な更新を可能にする
+C) 常にゼロ
+D) ガウス分布にのみ適用される
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. For a Gaussian generative model p(s) = N(0, σ_p²) and p(o|s) = N(s, σ_o²), with recognition density q(s) = N(μ_q, σ_q²), derive the optimal μ_q*and σ_q²* that minimize free energy. Show that the result is precision-weighted combination of prior and likelihood.
-2. Explain why model evidence ln p(o) is important for model comparison. If two generative models M₁ and M₂ are compared, how does the free energy F serve as a proxy for model evidence?
-3. Write the generative model for a two-level hierarchical model where observations depend on level-1 states, which depend on level-2 states. Explain how this hierarchy enables the representation of increasingly abstract causes.
+1. ガウス生成モデル p(s) = N(0, σ_p²) と p(o|s) = N(s, σ_o²)、認識密度 q(s) = N(μ_q, σ_q²) を用いて、フリーエネルギーを最小化する最適な μ_q* と σ_q²* を導出してください。事前分布と尤度を重み付けした組み合わせの結果であることを示してください。
+
+2. モデル証拠 ln p(o) がモデル比較にとって重要な理由を説明してください。生成モデル M₁ と M₂ を比較する場合、フリーエネルギー F はモデル証拠の代理としてどのように機能しますか？
+
+3. レベル1の状態が観察に影響を与え、レベル2の状態がレベル1の状態に影響を与える、2つのレベルの階層型モデルの生成モデルを記述してください。この階層構造が、より抽象的な原因の表現を可能にする方法を説明してください。

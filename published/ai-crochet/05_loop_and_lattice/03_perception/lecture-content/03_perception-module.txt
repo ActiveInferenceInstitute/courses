@@ -1,0 +1,106 @@
+Module 03: Reading Curvature in the Fabric
+
+Learning Objectives
+
+Explain how crocheters perceive topological features — curvature, twist, and connectivity — through tactile and visual feedback, and relate this to feature detection in neural networks.
+Describe how hierarchical feature extraction works in both crochet perception and convolutional neural networks, from raw signals to high-level structure.
+Identify topological prediction error — the felt sense that fabric is not lying correctly — as the Active Inference surprise signal that drives correction in both crafting and network learning.
+
+Introduction
+
+Run your fingers across a piece of crocheted fabric. Even with your eyes closed, you can tell something about its shape. Is it flat? Does it cup inward like a bowl? Does it ruffle and wave at the edges like a lettuce leaf? Your fingertips are reading topology.
+
+This is not a poetic metaphor. Topology is the branch of mathematics concerned with properties of space that are preserved under continuous deformation — stretching, bending, and twisting, but not cutting or gluing. When you feel a crocheted circle that cups into a dome, you are detecting positive Gaussian curvature. When you feel a hyperbolic plane that ruffles endlessly, you are detecting negative Gaussian curvature. When you feel a flat dishcloth, you are detecting zero curvature. Your fingers are topological sensors, and they have been trained by every piece of fabric you have ever touched.
+
+This is also what neural networks do when they process images. A convolutional neural network (CNN) does not see a photograph the way you see it. It detects features: edges, textures, curves, and shapes, building from simple to complex through successive layers. Each layer extracts more abstract features from the layer below. The first layer might detect an edge. The next detects a corner. The next detects a curve. Eventually, the network recognizes a face, a cat, or a crocheted granny square.
+
+In this module, we bring these two forms of perception together. The crocheter's hands and the neural network's layers are both doing the same fundamental work: extracting features from a structured signal to build a model of what is there. Active Inference frames this as perceptual inference — the process of updating an internal generative model to best explain incoming sensory data. When the model's predictions match the data, free energy is low and the crocheter proceeds confidently. When they do not — when the fabric cups when it should lie flat — the crocheter experiences a topological prediction error, and something must change.
+
+Key Concepts
+
+Tactile Topology: Feeling Curvature
+
+Pick up a crocheted circle. If you started with a magic ring and increased at the standard rate — six stitches per round in single crochet — the circle should lie flat. This flat circle has zero Gaussian curvature. Every point on the surface is locally like a plane. Your fingers confirm this: the fabric rests evenly against a table, no bunching, no gaps.
+
+Now pick up a circle where you increased too slowly — perhaps four stitches per round instead of six. This piece cups. It does not want to lie flat. It curves up into a bowl, or if you push it, it flips into a dome. This is positive Gaussian curvature. Mathematically, the surface has less area than a flat plane would have at the same radius. There are not enough stitches to fill the space, so the fabric curves inward, like the surface of a sphere. Your fingers feel this as resistance when you press down — the fabric pushes back, wanting to return to its curved shape.
+
+Now pick up a circle where you increased too quickly — eight or nine stitches per round. This piece ruffles. It waves and folds, and no matter how you press it flat, it springs back into undulating curves. This is negative Gaussian curvature. The surface has more area than a flat plane at the same radius. There are too many stitches, and they have nowhere to go except into ruffles and saddle shapes. This is the same geometry as a hyperbolic plane, and the mathematician Daina Taimina famously used crochet to create the first tactile models of hyperbolic space. Your fingers feel this as excess — the fabric bunches, overlaps itself, and refuses to be pinned down.
+
+Here is the remarkable thing: you do not need to count stitches or do any math to perceive these curvature differences. You feel them. The flat circle feels stable and calm under your hands. The positive-curvature dome feels springy and resistant. The negative-curvature ruffle feels busy and excessive. Your tactile system is computing Gaussian curvature without a single equation.
+
+A convolutional neural network performs an analogous operation when it processes an image. The first convolutional layer applies small filters (kernels) to the raw pixel values. Some of these filters detect horizontal edges. Others detect vertical edges. Others detect diagonal transitions. These are the network's equivalent of your fingertips sensing local texture — the immediate, point-by-point assessment of what is happening in the signal.
+
+In the next layer, the network combines edge detections into curves and corners. This is like the crocheter moving from sensing a single stitch to sensing the flow of a row — is the row curving inward, bending outward, or running straight? The network builds curves from edges just as the crocheter builds row-level perception from stitch-level sensation.
+
+The parallel runs deeper than analogy. Both systems are performing local-to-global feature extraction: starting with small, local measurements and building toward a global understanding of shape. The CNN kernel slides across the image the way your fingertip slides across the fabric, sampling local features everywhere and building a map of the whole.
+
+Perception as Feature Extraction
+
+Let us formalize the hierarchy. In a convolutional neural network processing an image, the layers typically detect features at increasing levels of abstraction:
+
+Layer 1: Edges — simple transitions between light and dark.
+Layer 2: Textures — repeated patterns of edges, like stripes or dots.
+Layer 3: Parts — combinations of textures that form recognizable components, like an eye or a wheel.
+Layer 4: Objects — assemblies of parts into coherent wholes, like a face or a car.
+
+In crochet perception, the crocheter detects features at an analogous hierarchy:
+
+Level 1: Single stitch — Is this stitch tight or loose? Was it worked correctly? Does the tension feel right? This is the raw sensory signal, the equivalent of an individual pixel or a single edge detection.
+Level 2: Row or round — Is the gauge consistent? Is the row curving? Is the stitch count correct? This combines stitch-level signals into a row-level assessment, like combining edges into textures.
+Level 3: Section curvature — Is this part of the fabric flat, cupping, or ruffling? Is the shaping working as intended? This is the crocheter perceiving the geometry of a region, like a CNN detecting a part within an image.
+Level 4: Overall shape — Does this look like a hat? A blanket? A sleeve? Is the finished form emerging correctly from the accumulated rows? This is object-level perception, the global assessment of what the fabric is becoming.
+
+An experienced crocheter monitors all four levels simultaneously, though not always consciously. While working a single stitch, they feel the tension (Level 1), notice whether the row is tracking correctly (Level 2), sense whether the shaping is producing the right curvature (Level 3), and hold a mental image of the finished object against which they compare the current state (Level 4). This is hierarchical perception, and it operates continuously throughout the crafting process.
+
+The key insight from Active Inference is that this hierarchy is not just bottom-up. It is not the case that the crocheter passively gathers stitch-level data and then assembles it into a global picture. Instead, the generative model works top-down as well: the crocheter's belief about what the finished object should look like generates predictions about what the current section's curvature should be, which generates predictions about what this row's gauge should be, which generates predictions about what this stitch's tension should feel like.
+
+When the bottom-up sensation matches the top-down prediction, perception is smooth and effortless. The crocheter flows. When they do not match — when the stitch feels wrong, or the row is curving unexpectedly, or the fabric is cupping when it should be flat — prediction errors propagate up the hierarchy, and the crocheter pauses to investigate.
+
+This bidirectional flow — top-down predictions meeting bottom-up sensations — is exactly how modern neural networks with feedback connections operate. And it is the core architecture of Active Inference: a generative model predicting sensory input at every level of the hierarchy, with mismatches driving learning and correction.
+
+Prediction Error as Topological Mismatch
+
+In Active Inference, a prediction error is the difference between what the generative model expects and what the senses actually report. For the crocheter working with topological features, prediction error often takes a very specific and visceral form: the fabric does not lie the way it should.
+
+You are crocheting a flat circle. You have been increasing correctly, six stitches per round, and the piece has been lying beautifully flat. But in the last round, you miscounted and added only four increases instead of six. You may not realize the mistake cognitively — you have not counted. But you will feel it. The edge of the circle starts to pull inward. The fabric does not sit flat on the table anymore. It has begun to cup. Your fingers feel the tension change, and your eyes see the edge lifting. Something is wrong.
+
+That feeling — "this doesn't look right," "this doesn't feel right" — is topological prediction error. Your generative model predicted a flat surface (zero Gaussian curvature), and the sensory evidence reports a curved surface (positive Gaussian curvature). The mismatch between prediction and observation generates surprise in the technical Active Inference sense: the observation is unlikely given the model.
+
+This prediction error is precisely analogous to the loss signal in a neural network. During training, a neural network generates a prediction (this image is a cat), compares it to the true label (it is actually a dog), and the difference between prediction and reality is the loss. The loss signal tells the network that its internal model is wrong and drives weight updates to improve future predictions. In crochet, the topological prediction error tells the crocheter that something about the stitch count or shaping is wrong, and drives the correction: frogging back, adding increases, or adjusting tension.
+
+What is striking is how different crafters respond to the same prediction error. A beginner crocheter, working a flat circle that has begun to cup, might not notice at all — their generative model does not yet generate precise predictions about curvature. They are still working at Level 1 (individual stitch tension) and have not yet developed strong Level 3 (section curvature) perception. An intermediate crocheter notices the cupping and thinks, "I need to add more increases." An expert crocheter feels the cupping beginning to emerge mid-round and adjusts before it becomes visible. The expert's generative model generates predictions with such fine temporal and spatial resolution that errors are caught almost as they happen.
+
+This is exactly the difference between a poorly trained and a well-trained neural network. A network with few training epochs generates blurry, imprecise predictions. It cannot distinguish between similar categories. A network trained extensively generates sharp, confident predictions and catches subtle mismatches. The crocheter's experience is training data, and every project refines the model.
+
+Applications
+
+The relationship between topological perception and prediction error shows up throughout crochet practice:
+
+ Blocking as Topological Correction: When you wet-block a finished piece — soaking it, pinning it to a blocking mat, and letting it dry — you are performing topological correction by hand. You are literally reshaping the fabric's curvature. The pins hold the fabric in the predicted shape while the water relaxes the yarn into compliance. Blocking is the crocheter's answer to a persistent topological prediction error: "this should lie flat, and I am going to make it lie flat." It is the physical equivalent of a neural network's gradient descent — iteratively adjusting the surface until the error is minimized.
+
+ Reading the Work vs. Reading the Pattern: There are two ways to crochet: following the written pattern stitch by stitch, or reading the work itself and letting the fabric tell you what it needs. The first approach is like running a feedforward network — input goes in, output comes out, no feedback. The second is like Active Inference — the crocheter's generative model predicts what the fabric should look like, compares that to what it actually looks like, and adjusts. Experienced crocheters do both, but they increasingly rely on reading the work. They can look at a half-finished shawl and see that the next section needs more increases to maintain the right drape, even if the pattern does not specify the exact number. They are perceiving topological features and generating corrections in real time.
+
+Experienced Crocheters "Seeing" Errors That Beginners Miss: Walk through a yarn shop with an experienced crocheter and they will spot a dropped stitch in a display sample from across the room. Show them a finished blanket and they will tell you where the gauge changed, where a wrong stitch was used, and where the blocking was uneven. Their visual system has been trained — like a deep neural network — to extract features at every level of the hierarchy. They see stitches, rows, sections, and shapes simultaneously. Beginners see yarn.
+
+Conclusion
+
+Your fingers are topological sensors. Your eyes are curvature detectors. Every time you pick up a piece of crocheted fabric and assess whether it lies flat, cups, twists, or ruffles, you are performing topological feature extraction — the same fundamental operation that convolutional neural networks perform when they process images, and the same perceptual inference that Active Inference describes as the core of all cognition.
+
+The hierarchy of crochet perception — stitch, row, section, shape — mirrors the hierarchy of feature detection in neural networks — edge, texture, part, object. And the crocheter's felt sense that something is wrong with the fabric's topology is prediction error: the surprise signal that drives correction, learning, and mastery.
+
+In the next module, we move inward, from perception to cognition. If perception is about detecting what is there in the fabric, cognition is about understanding what it means — building the internal model that connects individual stitches to finished objects, and holding multiple layers of representation in the mind simultaneously.
+
+Key Terms
+
+| Term | Definition |
+| --- | --- |
+| Gaussian curvature | A measure of the intrinsic curvature of a surface at a point. Positive curvature creates domes and bowls; negative curvature creates saddles and ruffles; zero curvature means the surface is locally flat. |
+| Topological feature | A property of a surface (such as curvature, connectedness, or number of holes) that is preserved under continuous deformation. |
+| Convolutional neural network (CNN) | A type of neural network that uses small, sliding filters (kernels) to detect local features in data, building from simple to complex features through successive layers. |
+| Feature extraction | The process of detecting meaningful patterns in raw data. In CNNs, this happens through convolutional layers. In crochet, it happens through tactile and visual sensing. |
+| Hierarchical perception | Perceiving at multiple levels of abstraction simultaneously — from fine details (stitches) to global structure (shape). |
+| Prediction error | The difference between what the generative model predicts and what the senses actually report. In crochet topology, this is the felt mismatch between expected and actual curvature. |
+| Topological prediction error | A prediction error specifically about the shape or curvature of the fabric — e.g., cupping when flat was expected, or ruffling when a dome was intended. |
+| Blocking | The process of wetting and pinning finished crochet fabric to reshape its curvature. A form of topological correction. |
+| Generative model | In Active Inference, the internal model that generates predictions about sensory input. The crocheter's generative model predicts what the fabric should look like, feel like, and behave like at every stage. |
+| Precision | The confidence or reliability assigned to a prediction or a sensory signal. High-precision predictions are trusted more and generate larger prediction errors when violated. |

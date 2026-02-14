@@ -1,59 +1,59 @@
-# Module 07: Communication — Coupled Inference, Shared Generative Models, and Multi-Agent Free Energy
+# モジュール07: コミュニケーション — 結合推論、共有生成モデル、多エージェント自由エネルギー
 
-## Learning Objectives
+## 学習目標
 
-1. Formalize communication as **coupled inference**: two agents mutually predicting each other's behavior.
-2. Derive the **multi-agent free energy** and show how it decomposes into individual and interaction terms.
-3. Develop the mathematics of **generalized synchrony** between coupled dynamical systems.
+1. コミュニケーションを**結合推論**として形式化する：2つのエージェントが互いの行動を相互に予測すること。
+2. **多エージェント自由エネルギー**を導出し、個々の項と相互作用項に分解される方法を示す。
+3. 結合された動的システムの**汎化された同期**の数学を開発する。
 
-## Introduction
+## 導入
 
-When two Active Inference agents interact, each treats the other as part of its environment — a generative model that must be inferred. Communication arises when both agents are simultaneously inferring each other's hidden states, producing a coupled dynamical system. This module develops the mathematics of multi-agent Active Inference.
+2つのアクティブインファーレンスエージェントが相互作用する場合、それぞれのエージェントはもう一方を自身の環境の一部として扱い、推論する必要がある生成モデルと見なす。コミュニケーションは、両方のエージェントが同時に互いの隠れた状態を推論し、結合された動的システムを生成するときに発生する。このモジュールは、多エージェントアクティブインファーレンスの数学を開発する。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Coupled Inference Between Two Agents
+### 1. 2つのエージェント間の結合推論
 
-Consider agents A and B. Agent A's generative model includes a model of agent B:
+エージェントAとBを考えてみよう。エージェントAの生成モデルには、エージェントBのモデルが含まれている：
 
 **p_A(o_A, s_A, s_B) = p_A(o_A | s_A, s_B) · p_A(s_A) · p_A(s_B)**
 
-Agent A treats B's states s_B as hidden causes of its own observations o_A. Symmetrically, agent B models agent A. Each agent minimizes its own free energy:
+エージェントAは、エージェントBの状態s_Bを自身の観察o_Aの隠れた原因として扱っている。対称的に、エージェントBもエージェントAをモデル化する。各エージェントは自身の自由エネルギーを最小化する：
 
 **F_A = E_{q_A}[ln q_A(s_A, s_B) - ln p_A(o_A, s_A, s_B)]**
 **F_B = E_{q_B}[ln q_B(s_A, s_B) - ln p_B(o_B, s_A, s_B)]**
 
-The coupling arises because A's actions influence B's observations and vice versa, creating a feedback loop.
+結合は、Aの行動がBの観察に影響を与え、その逆もまた起こるため、フィードバックループが作成されるため発生する。
 
-### 2. Multi-Agent (Joint) Free Energy
+### 2. 多エージェント（共）自由エネルギー
 
-For a system of N agents, the **joint free energy** is:
+Nエージェントのシステムの場合、**共自由エネルギー**は：
 
 **F_joint = ∑ᵢ F_i - I_mutual**
 
-where F_i is agent i's individual free energy and I_mutual captures the mutual information between agents' states. Joint free energy minimization implies:
+ここで、F_iはエージェントiの個別の自由エネルギーであり、I_mutualはエージェントの状態間の相互情報です。共自由エネルギーの最小化は、以下のことを意味する：
 
-1. Each agent minimizes its own free energy (individual inference)
-2. The agents' beliefs become mutually consistent (generalized synchrony)
+1. 各エージェントは自身の自由エネルギーを最小化する（個別の推論）
+2. エージェントの信念が相互に一貫している（汎化された同期）
 
-The interaction term measures the degree to which the agents' generative models align — successful communication corresponds to low interaction free energy (high mutual predictability).
+相互作用項は、エージェントの生成モデルがどれだけ一致しているかを示すものであり、成功したコミュニケーションは相互予測が低い共自由エネルギー（高い相互情報）に対応する。
 
-### 3. Generalized Synchrony
+### 3. 汎化された同期
 
-Two dynamical systems x₁ and x₂ are in **generalized synchrony** if there exists a smooth function h such that:
+2つの動的システムx₁とx₂が**汎化された同期**にある場合、そのような滑らかな関数hが存在し、以下の関係が成り立つ：
 
 **x₂(t) = h(x₁(t)) for all t**
 
-For coupled Active Inference agents, generalized synchrony means the agents' internal states (sufficient statistics) become functionally related — each agent's beliefs can be predicted from the other's. This is the mathematical formalization of "mutual understanding."
+結合されたアクティブインファーレンスエージェントの場合、汎化された同期は、エージェントの内部状態（統計量）が機能的に関連付けられることを意味し、各エージェントの信念は他のエージェントの信念から予測される。これは「相互理解」の数学的定式化である。
 
-The synchronization manifold is stabilized when the coupling strength exceeds the Lyapunov exponent of the uncoupled systems — a condition analogous to "paying enough attention to each other."
+同期の多様体が安定化されるのは、未結合システムのスラウスレー指数を超える結合強度になる場合である—これは「お互いに十分注意を払う」という条件に類似している。
 
-## Derivation Exercises
+## 導出練習問題
 
-1. For two coupled Gaussian agents, derive the joint free energy F_joint and show how it separates into individual and interaction terms.
-2. Derive the condition for generalized synchrony: when does the synchronization manifold become an attractor?
-3. Show that communication minimizes joint free energy by aligning the agents' generative models.
+1. 2つの結合されたガウスエージェントの場合、共自由エネルギーF_jointを導出し、個々の項と相互作用項に分解される方法を示す。
+2. 汎化された同期の条件を導出する：同期の多様体が吸引子になるのはいつですか？
+3. コミュニケーションが共自由エネルギーを最小化することを示す - エージェントの生成モデルを一致させることで。
 
-## Conclusion
+## 結論
 
-Communication is coupled inference — two agents minimizing their joint free energy through reciprocal prediction. The mathematics of generalized synchrony provides the formal framework for understanding how mutual understanding emerges from the dynamics of interacting generative models. Module 08 completes the mathematical framework with planning and sophisticated inference.
+コミュニケーションは結合推論である - 2つのエージェントは相互予測を通して共自由エネルギーを最小化する。汎化された同期の数学は、相互理解が相互作用する生成モデルのダイナミクスから生じる方法を理解するための形式的な枠組みを提供する。モジュール08は、計画と高度な推論を含む数学的枠組みを完成させる。

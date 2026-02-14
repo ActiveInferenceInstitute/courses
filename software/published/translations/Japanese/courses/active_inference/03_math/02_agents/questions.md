@@ -1,22 +1,22 @@
-# Study Questions: Agents
+# エージェントに関する学習問題
 
-1. Write the general form of a generative model as a joint distribution p(o, s, θ). Identify each component.
-2. What is the difference between a generative model and a discriminative model? Why does Active Inference use generative models?
-3. Define the recognition density q(s, θ). How does it relate to the true posterior p(s, θ | o)?
-4. What is the mean-field approximation q(s, θ) = q(s) · q(θ)? When is it appropriate and when does it fail?
-5. Define sufficient statistics for an exponential family distribution. Give examples for Gaussian, Categorical, and Dirichlet distributions.
-6. How do sufficient statistics correspond to the internal states of an Active Inference agent?
-7. State the Free Energy Principle precisely. What does it claim, and what does it *not* claim?
-8. Write the generative model for a Hidden Markov Model with discrete states. What are the sufficient statistics of q(s)?
-9. Write the generative model for a linear Gaussian state-space model. What are the sufficient statistics of q(s)?
-10. Why is exact Bayesian inference intractable for most interesting models? What is the computational barrier?
-11. How does the variational approach convert an intractable integration problem into a tractable optimization problem?
-12. What is the evidence lower bound (ELBO)? How does it relate to model comparison?
-13. Derive the optimal q*(s) under mean-field variational inference for a conjugate model.
-14. What is the natural gradient? How does it relate to updating sufficient statistics efficiently?
-15. How does a Partially Observed Markov Decision Process (POMDP) extend the basic HMM to include actions?
-16. What is the difference between state estimation (inferring s given o) and parameter estimation (inferring θ given o)?
-17. How does the concept of "model evidence" ln p(o) relate to model selection in Active Inference?
-18. Compare variational inference with Markov Chain Monte Carlo (MCMC) sampling. What are the trade-offs?
-19. How does amortized inference (training a neural network to approximate q) relate to the recognition density?
-20. Derive the free energy for a two-level hierarchical model: p(o|s₁)p(s₁|s₂)p(s₂). How do the sufficient statistics at each level interact?
+1. 生成モデルの一般形を p(o, s, θ) の共役分布として記述してください。各成分を特定してください。
+2. 生成モデルと識別モデルの違いは何ですか？アクティブインファーレンスが生成モデルを使用する理由は何ですか？
+3. 認識密度 q(s, θ) を定義してください。これは真の事後確率 p(s, θ | o) とどのように関連していますか？
+4. mean-field 近似 q(s, θ) = q(s) · q(θ) は何ですか？適切な場合と失敗する場合にはどのような場合ですか？
+5. 指数族分布の十分統計量を定義してください。ガウス分布、カテゴリカル分布、ディリクレ分布の例を挙げてください。
+6. 十分統計量は、アクティブインファーレンスエージェントの内部状態とどのように対応していますか？
+7. フリーエネルギー原則を正確に記述してください。それは何を主張し、何を主張しないのですか？
+8. 離散状態を持つ隠れマルコフモデルの生成モデルを記述してください。q(s) の十分統計量は何ですか？
+9. 線形ガウス状態空間モデルの生成モデルを記述してください。q(s) の十分統計量は何ですか？
+10. 正確なベイズ推論は、ほとんどの興味深いモデルに対してなぜ intractable なのですか？計算的な障壁は何ですか？
+11. 変分アプローチが intractable な積分問題を、 tractable な最適化問題にどのように変換するのですか？
+12. 証拠の下限 (ELBO) は何ですか？モデル比較との関係は？
+13. mean-field 変分推論の下で共役モデルに対して最適な q*(s) を導出してください。
+14. 自然勾配とは何ですか？十分統計量を効率的に更新することとどのように関連していますか？
+15. 部分観測マルコフ決定過程 (POMDP) が、基本的な HMM をアクションを含めるようにどのように拡張するのですか？
+16. 状態推定 (o が与えられた s を推論する) とパラメータ推定 (o が与えられた θ を推論する) の違いは何ですか？
+17. 「モデルの証拠」 ln p(o) の概念は、アクティブインファーレンスにおけるモデル選択とどのように関連していますか？
+18. 変分推論とマルコフ連鎖モンテカルロ (MCMC) サンプリングを比較してください。トレードオフは何ですか？
+19. 認識密度との関係で、アンコール推論 (q を近似するニューラルネットワークを訓練する) がどのような関係ですか？
+20. 階層モデル p(o|s₁)p(s₁|s₂)p(s₂) に対して、フリーエネルギーを導出してください。各レベルでの十分統計量はどのように相互作用しますか？

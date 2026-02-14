@@ -1,0 +1,45 @@
+# Study Questions: The Inventor as an Adaptive Agent
+
+## Analytical Questions
+
+1. Active Inference distinguishes between two strategies for minimizing free energy: changing the world to match your predictions (active inference) and changing your predictions to match the world (perceptual inference). Explain how these two strategies manifest differently in an inventor's response to discovering that their prototype does not work as expected. When is each strategy appropriate?
+
+2. The Wright Brothers and Samuel Langley both pursued powered flight, but their generative models differed fundamentally. The Wrights modeled flight as a control problem; Langley modeled it as a power problem. How did these different generative models lead to different designs, different testing strategies, and ultimately different outcomes? What does this tell us about the role of the generative model in invention?
+
+3. An inventor's prior preferences function at multiple scales: immediate (this prototype), project (the completed invention), and identity (the kind of inventor I am). Describe a scenario where these three scales of preference come into conflict. How would an Active Inference agent resolve this conflict? Which scale should take priority, and why?
+
+4. Explain how the concept of precision weighting in Active Inference applies to an inventor's trust in different sources of evidence. Why might a chemist weight the results of a laboratory experiment more heavily than customer feedback, while a market researcher does the opposite? How do these precision weightings affect the inventions each produces?
+
+5. Spencer Silver and Art Fry were both agents at 3M, but their different generative models meant that Silver classified his weak adhesive as a failure while Fry classified it as an opportunity. Using Active Inference terminology, explain how the same observation (a reusable, weak adhesive) generated different prediction errors in each agent. What does this teach about the relationship between generative models and invention recognition?
+
+6. In multi-agent invention teams, how does the concept of a shared generative model relate to organizational culture? Consider a startup where everyone shares the founder's vision versus a large corporation where different departments have different generative models. What are the trade-offs between model alignment and model diversity for inventive output?
+
+7. The Active Inference framework treats goals not as rewards to be maximized but as prior preferences — expected states that the agent believes it should find itself in. How does this reframing change the way we think about inventive motivation? Compare the implications of "I want to maximize the commercial value of my invention" versus "I expect to create tools that make life better for my community."
+
+8. Analyze the concept of identity priors as applied to Kodak's failure to embrace digital photography. Kodak engineers invented the first digital camera in 1975, yet the company bet its future on chemical film until it was too late. How did the identity prior "we are a film company" function as a strong, resistant-to-updating belief that filtered evidence and constrained action? What would an Active Inference account of organizational identity predict about large companies facing disruptive technologies?
+
+9. Consider the difference between a novice inventor and an experienced one in terms of their generative models. A novice has broad, vague priors with low precision; an experienced inventor has specific, confident priors with high precision. What are the advantages and disadvantages of each for creative invention? How does this relate to the "beginner's mind" concept in creative practice?
+
+10. In Active Inference, an agent's actions are selected to minimize expected free energy — balancing the exploitation of known solutions against the exploration of unknown possibilities. How does this balance manifest in the inventor's decision between refining an existing design (exploitation) and trying a radically different approach (exploration)? What factors should shift the balance toward exploration?
+
+## Applied Questions
+
+11. Write a one-paragraph description of your own generative model as an inventor. What domains do you understand well? What cause-and-effect relationships are clear to you? What areas are fuzzy or unknown? How does this model shape the solutions you naturally generate?
+
+12. Identify three prior beliefs you hold about your invention idea that you have not yet tested. For each, describe what evidence would update your belief, and what you would do differently if the belief turned out to be wrong.
+
+13. Think about a time when you changed your mind about something important (not necessarily invention-related). What evidence caused the update? Was the update gradual or sudden? How does this experience inform your understanding of how generative models change?
+
+14. Consider your preferred states at the identity level. What kind of inventor do you want to be? How does this identity shape your current project choices? If you adopted a completely different identity prior (for example, shifting from "I am a practical problem-solver" to "I am an artistic provocateur"), how would your invention change?
+
+15. Describe a real or hypothetical multi-agent invention scenario where two inventors with very different generative models must collaborate. Identify the likely points of friction and propose specific mechanisms (communication protocols, shared prototyping sessions, explicit preference discussions) to align their models enough for productive collaboration.
+
+16. Reflect on a moment when you were "accommodating" to the world when you could have been actively inventing. What was the situation? Why did you accommodate instead of act? What would it have taken for you to switch to the active path?
+
+17. If you could add one skill, knowledge domain, or perspective to your generative model, what would it be? How would this addition change the space of inventions you could create? Be specific about what new solutions would become visible to you.
+
+18. Design a brief interview (5 questions) that you could use to map another person's generative model as an inventor. What questions would reveal their prior beliefs, preferred states, and solution tendencies? Test these questions on someone and report what you learned.
+
+19. Consider the precision of your beliefs about your invention's users. Do you have high-precision beliefs (confident, specific predictions about who will use it and how) or low-precision beliefs (vague, uncertain ideas about users)? How does this precision level affect your design decisions? Should you increase or decrease your precision, and how would you do so?
+
+20. Write a letter from your future self (five years from now) to your present self about your inventive journey. What has your future self learned? What priors has the future version updated? What identity shifts have occurred? Use Active Inference language to describe how your generative model has evolved.

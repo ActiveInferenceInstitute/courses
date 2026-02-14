@@ -1,22 +1,22 @@
-# Study Questions: Systems
+# システムに関する学習問題
 
-1. Define a Markov Blanket formally. What conditional independence relation does it encode?
-2. Write the factorized joint distribution p(η, s, a, μ) for a system with Markov Blanket {s, a}. Explain each factor.
-3. What is the Langevin equation? How does it describe the stochastic dynamics of a system?
-4. How do the Markov Blanket conditions constrain the flow field f(x) in the Langevin equation?
-5. Define variational free energy F. Write the mathematical expression and identify each term.
-6. Prove that F = D_KL[q(η) ‖ p(η|s)] - ln p(s). Why is this decomposition important?
-7. Why is minimizing F equivalent to maximizing the evidence lower bound (ELBO)?
-8. What is the recognition density q(η)? What role does it play in variational inference?
-9. Why is exact Bayesian inference (computing p(η|s) directly) typically intractable? How does variational inference address this?
-10. What is the KL divergence D_KL[q ‖ p]? Prove that it is always non-negative.
-11. Explain the relationship between surprise (-ln p(s)) and entropy. When is surprise high?
-12. How does the free energy decompose into accuracy and complexity terms? Write the expression.
-13. What is a nonequilibrium steady-state density p*(x)? How does it relate to self-organization?
-14. How does the Fokker-Planck equation describe the evolution of the probability density over states?
-15. What is the relationship between the flow field f(x) and the gradient of surprise (solenoidal vs. curl-free flow)?
-16. How does the Helmholtz decomposition separate the flow into dissipative and conservative components?
-17. What happens to variational free energy when q(η) exactly equals the true posterior p(η|s)?
-18. Compare the free energy bound with the Helmholtz free energy in statistical thermodynamics. What is the analogy?
-19. How does the choice of variational family for q(η) (e.g., mean-field, Gaussian) affect the tightness of the free energy bound?
-20. Derive the conditions under which minimizing F with respect to q recovers exact Bayesian inference.
+1.  マルコフ包を形式的に定義しなさい。どのような条件独立関係をエンコードしているのか説明しなさい。
+2.  マルコフ包 {s, a} を持つシステムについて、共測確率 p(η, s, a, μ) の因子分解表現を記述しなさい。各因子について説明しなさい。
+3.  ランジェン方程式とは何か？この方程式は、システムの確率的ダイナミクスをどのように記述するのか説明しなさい。
+4.  ランジェン方程式における流れ場 f(x) は、マルコフ包の条件によってどのように制約されるのか説明しなさい。
+5.  変分フリーエネルギー F を定義しなさい。数学的な表現を記述し、各項を特定しなさい。
+6.  F = D_KL[q(η) ‖ p(η|s)] - ln p(s) であることを証明しなさい。この分解はなぜ重要なのか説明しなさい。
+7.  F を最小化することは、エビデンスの下限（ELBO）を最大化することと同等である理由を説明しなさい。
+8.  認識密度 q(η) とは何か？変分推論におけるその役割は何か説明しなさい。
+9.  正確なベイズ推論（p(η|s) を直接計算する）が通常 intractable な理由を説明しなさい。変分推論は、この問題にどのように対処するのか説明しなさい。
+10. KL 分散 D_KL[q ‖ p] とは何か？それが常に非負であることを証明しなさい。
+11. 驚き (-ln p(s)) とエントロピーの関係を説明しなさい。驚きが最も高い場合を説明しなさい。
+12. フリーエネルギーは、精度と複雑さの項にどのように分解されるか説明しなさい。表現を記述しなさい。
+13. 非平衡状態定常密度 p*(x) とは何か？これは自己組織化とどのように関連しているのか説明しなさい。
+14. ファッコー・プランク方程式は、状態間の確率密度の進化をどのように記述するのか説明しなさい。
+15. 流れ場 f(x) と驚きの勾配（ソレノイド型 vs. クールフリーフロー）の関係を説明しなさい。
+16. ヘルムホルツ分解は、流れを散逸性と保存性の成分にどのように分離するのか説明しなさい。
+17. q(η) が真の事後分布 p(η|s) と完全に一致する場合、変分フリーエネルギーはどのように変化するか説明しなさい。
+18. 統計力学におけるフリーエネルギーとヘルムホルツフリーエネルギーを比較しなさい。このアナロジーは何ですか？
+19. 変分ファミリー q(η) を選択すると（例：平均場、ガウス分布）、フリーエネルギーの制約の厳密さにどのように影響するか説明しなさい。
+20. F を q に関して最小化する条件の下で、正確なベイズ推論が回復されることを導出しなさい。

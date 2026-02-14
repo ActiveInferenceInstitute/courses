@@ -1,67 +1,67 @@
-# Module 03: Perception — Belief Updating, Message Passing, and Predictive Coding Equations
+# モジュール 03: 認識 — 信念更新、メッセージ伝播、予測コーディング方程式
 
-## Learning Objectives
+## 学習目標
 
-1. Derive the **belief updating equations** for perception: how the recognition density q(s) is updated in response to new observations.
-2. Formalize **message passing** in hierarchical generative models — how prediction errors propagate up and predictions propagate down.
-3. Connect these equations to the **predictive coding** scheme of Rao and Ballard (1999).
+1. 認識密度 q(s) の **信念更新方程式** を認識に適用する方法を導き出す：新しい観察に反応して q(s) がどのように更新されるかを示す。
+2. 階層的生成モデルにおける **メッセージ伝播** を形式化する：予測誤差が上方向に伝播し、予測が下方向に伝播する方法。
+3. これらの方程式を Rao と Ballard (1999) の **予測コーディング** スキームに結び付ける。
 
-## Introduction
+## 導入
 
-Perception in Active Inference is the optimization of the recognition density q(s) given new observations o — updating beliefs about hidden states to minimize free energy. This module derives the mathematical equations governing this process, showing how they give rise to the message-passing architecture known as predictive coding.
+アクティブインファレンスの認識とは、新しい観察 o を与えて認識密度 q(s) を最適化すること—隠れた状態に関する信念を最小化することによりフリーエネルギーを更新することです。このモジュールでは、このプロセスを支配する数学的方程式を導出し、それがメッセージ伝播アーキテクチャである予測コーディングの起源を示しています。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Perception as Free Energy Minimization
+### 1. フリーエネルギー最小化としての認識
 
-Given an observation oₜ, perception updates the recognition density:
+観察 oₜ が与えられた場合、認識は認識密度を更新します：
 
 **q*(sₜ) = argmin_{q(sₜ)} F(oₜ, q)**
 
-For a Gaussian recognition density q(sₜ) = N(μₜ, Σₜ), this reduces to gradient descent on free energy with respect to the sufficient statistics:
+ガウス認識密度 q(sₜ) = N(μₜ, Σₜ) の場合、これは十分な統計量に関するフリーエネルギーの勾配降下に減少します：
 
 **dμ/dt = -∂F/∂μ**
 
-This is the **perception equation**: internal states (sufficient statistics) flow in the direction that minimizes free energy.
+これは**認識方程式**です。内部状態（十分な統計量）は、フリーエネルギーを最小化する方向に流れます。
 
-### 2. Hierarchical Message Passing
+### 2. 階層的メッセージ伝播
 
-For a hierarchical generative model with L levels:
+L レベルの階層的生成モデルの場合：
 
 **p(o, s₁, ..., s_L) = p(o | s₁) ∏ₗ p(sₗ | sₗ₊₁)**
 
-The free energy gradient at level l takes the form:
+レベル l におけるフリーエネルギーの勾配は次の形式を取ります：
 
 **dμₗ/dt = -Πₗ · εₗ + Πₗ₊₁ · (∂g/∂μₗ)ᵀ · εₗ₊₁**
 
-where:
+ここで：
 
-- **εₗ = μₗ - gₗ(μₗ₊₁)** is the prediction error at level l (difference between the current estimate and the prediction from the level above)
-- **Πₗ** is the precision (inverse covariance) at level l
-- **gₗ(·)** is the generative mapping from level l+1 to level l
+- **εₗ = μₗ - gₗ(μₗ₊₁)** はレベル l における予測誤差（現在の推定値と上位レベルからの予測との差）です。
+- **Πₗ** はレベル l における精密さ（逆共分散）です。
+- **gₗ(·)** はレベル l+1 からレベル l への生成マップです。
 
-This decomposes into two streams:
+これは次の2つのストリームに分解されます：
 
-- **Bottom-up**: prediction errors εₗ weighted by their precision Πₗ
-- **Top-down**: predictions gₗ(μₗ₊₁) from the level above
+- **上からのストリーム**: 予測誤差 εₗ がその精密さ Πₗ で重み付けされています。
+- **下からのストリーム**: 上位レベルからの予測 gₗ(μₗ₊₁) です。
 
-### 3. Predictive Coding
+### 3. 予測コーディング
 
-The message-passing equations above are exactly the **predictive coding** scheme:
+上記のメッセージ伝播方程式はまさに**予測コーディング** スキームです：
 
-1. Each level generates a prediction of the level below: **prediction = g(μₗ₊₁)**
-2. The prediction error is computed: **εₗ = observed - predicted**
-3. Precision-weighted prediction errors drive updates at each level
-4. The system iterates until prediction errors are minimized
+1. 各レベルは下位レベルの予測を生成します：**予測 = g(μₗ₊₁)**
+2. 予測誤差が計算されます：**εₗ = 観測値 - 予測**
+3. 精密さで重み付けされた予測誤差が各レベルの更新を駆動します。
+4. システムは予測誤差が最小化されるまで反復します。
 
-Rao and Ballard (1999) showed this scheme reproduces classical receptive field properties in V1. Friston (2005) showed it arises naturally from free energy minimization in hierarchical Gaussian models.
+Rao と Ballard (1999) は、このスキームが V1 の古典的な受容野特性を再現することを示しました。Friston (2005) は、階層的なガウスモデルにおけるフリーエネルギー最小化から自然に生じることを示しました。
 
-## Derivation Exercises
+## 導出練習
 
-1. For a two-level Gaussian model p(o|s₁) = N(g₁(s₁), Σ₁) and p(s₁|s₂) = N(g₂(s₂), Σ₂), derive the prediction error form of the free energy gradient ∂F/∂μ₁.
-2. Show that the fixed point of dμ/dt = -∂F/∂μ corresponds to the MAP estimate of the posterior p(s|o).
-3. Derive the precision-weighted prediction error message passing for a three-level hierarchy.
+1. ガウスモデル p(o|s₁) = N(g₁(s₁), Σ₁) と p(s₁|s₂) = N(g₂(s₂), Σ₂) の 2 レベルの場合、フリーエネルギー勾配 ∂F/∂μ₁ の予測誤差の形を導出します。
+2. dμ/dt = -∂F/∂μ が固定点に一致することを示し、これは事後分布 p(s|o) の MAP 推定値に対応します。
+3. 3 レベルの階層構造における精密さで重み付けられた予測誤差メッセージ伝播を導出します。
 
-## Conclusion
+## 結論
 
-Perception is gradient descent on free energy, implemented through precision-weighted prediction error message passing in a hierarchical generative model. This is the formal foundation of predictive coding. Module 04 extends this to the mathematics of precision and attention.
+認識はフリーエネルギーに対する勾配降下であり、階層的生成モデルにおける精密さで重み付けされた予測誤差メッセージ伝播を通して実装されています。これは予測コーディングの形式的な基礎です。モジュール 04 は、精密さと注意の数学的基礎を拡張します。

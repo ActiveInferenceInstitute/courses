@@ -1,22 +1,22 @@
-# Study Questions: Communication
+# 考察問題：コミュニケーション
 
-1. How does agent A model agent B in the coupled inference framework? Write the generative model.
-2. Write agent A's free energy F_A when it includes hidden states of agent B.
-3. What is coupled inference? How does it differ from single-agent inference?
-4. Define the joint free energy F_joint for a system of N agents.
-5. How does the interaction term in joint free energy measure the alignment of generative models?
-6. What is generalized synchrony? Define it formally.
-7. What is the synchronization manifold? Under what conditions does it become an attractor?
-8. How does coupling strength relate to the stability of generalized synchrony?
-9. What is the relationship between mutual information and communication success?
-10. How does the concept of common ground emerge from the alignment of generative models?
-11. Derive the belief update equation for agent A when it observes the actions of agent B.
-12. How does turn-taking in conversation relate to alternating free energy minimization?
-13. What is the mathematical relationship between theory of mind and hierarchical modeling of another agent?
-14. How does the concept of Nash equilibrium relate to joint free energy minimization?
-15. Can communication fail due to incompatible generative models? Formalize this mathematically.
-16. How does the exchange of cultural practices relate to shared prior distributions?
-17. What is the role of shared environmental context in reducing the complexity of inter-agent inference?
-18. How does Active Inference model deception? (Hint: an agent acts to create prediction errors in the other agent's model.)
-19. Derive the conditions under which consensus (all agents converging to the same belief) emerges from coupled inference.
-20. How does the mathematics of coupled oscillators (Kuramoto model) relate to the synchronization of Active Inference agents?
+1. 結合推論フレームワークにおいて、エージェントAはエージェントBをどのようにモデル化するのか？ 生成モデルを記述してください。
+2. エージェントAの隠れ状態にエージェントBの隠れ状態を含めた自由エネルギーF_Aを記述してください。
+3. 結合推論とは何か？ それは単独エージェント推論とどのように異なりますか？
+4. Nエージェントのシステムに対する共役自由エネルギーF_jointを定義してください。
+5. 共役自由エネルギーにおける相互作用項は、生成モデルの整合性をどのように測定するのか？
+6. 一般化された同期性とは何か？ それを形式的に定義してください。
+7. 同期多様体とは何か？ それが安定点になる条件は何か？
+8. 結合強度は一般化された同期性の安定性とどのように関連しているのか？
+9. 相互情報量とコミュニケーション成功の関係は何か？
+10. 生成モデルの整合性から共通基盤の概念がどのように生まれるのか？
+11. エージェントAがエージェントBの行動を観測するとき、信念更新方程式を導出してください。
+12. 会話におけるターンテイク（交互発話）は、共役自由エネルギー最小化とどのように関連しているのか？
+13. 理論の知（Theory of Mind）と、別のエージェントの階層的モデリングとの間の数学的な関係は何か？
+14. 共役自由エネルギー最小化との関連で、ナッシュ均衡の概念は何か？
+15. 不整合な生成モデルのためにコミュニケーションが失敗することは可能か？ それを数学的に形式化してください。
+16. 文化的慣習の交換は、共有事前分布とどのように関連しているのか？
+17. 相互エージェント推論の複雑さを軽減するために、共有環境文脈の役割は何か？
+18. アクティブ推論は欺瞞をどのようにモデル化するのか？ (ヒント：エージェントは、別のエージェントのモデルに予測誤差を生み出すために行動する。)
+19. 結合推論から合意（すべてのエージェントが同じ信念に収束する状態）が生まれる条件を導出してください。
+20. アクティブ推論エージェントの同期化と、結合オシレーター（クルモートモデル）の数学との関連性は何か？
