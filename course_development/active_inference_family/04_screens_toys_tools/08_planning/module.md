@@ -1,52 +1,72 @@
-# Module 08: Planning in Family
+# Module 08: Planning — Coding a Game
 
 ## Learning Objectives
 
-1.  Define **Planning** within the context of Family.
-2.  Analyze how Planning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Family to the formal definition of Planning.
+1. Understand that **Planning** is the first step of coding.
+2. Learn about **Logic** (If This, Then That).
+3. Know that you can be a **Creator**, not just a Consumer.
 
-## Introduction
+## Introduction: The Architect
 
-This module explores **Planning**. In the **Family** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Before you build a house, you need a blueprint.
+Before you write code, you need a plan.
+What is the game about?
+Who is the hero?
+How do you win?
+Planning is imagining the future and working backwards.
 
 ## Key Concepts
 
-### 1. Planning as a Markov Blanket Boundary
-How does Planning define the boundary between the agent and the environment?
+### 1. The Goal (The Objective)
 
-### 2. Generative Models of Planning
-What parameters involved in Planning must be optimized to minimize variational free energy?
+Every game needs a goal.
 
-### 3. Active Inference Dynamics
-How does the process of Planning drive the perception-action loop?
+* Save the Princess.
+* Collect 100 coins.
+* Survive the zombie apocalypse.
+Without a goal, it's just a toy, not a game.
 
-## Applications
+### 2. The Logic (If/Then)
 
-In Family, we see Planning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+Computers think in logic.
 
-## Conclusion
+* **IF** Mario touches a mushroom, **THEN** he gets big.
+* **IF** Mario touches a spike, **THEN** he shrinks.
+This is the "Physics" of the digital world.
 
-Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 3. Loop (Repeat)
 
-<!-- Content padding to ensure file size requirements -->
+Computers are great at doing the same thing over and over.
 
-<!-- Content padding to ensure file size requirements -->
+* "Spawn a new enemy every 10 seconds."
+* "Keep playing music until Game Over."
+Loops make the game run.
 
-<!-- Content padding to ensure file size requirements -->
+## Activities
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 1: Design a Level
 
-<!-- Content padding to ensure file size requirements -->
+Draw a level for a platformer game (like Mario).
 
-<!-- Content padding to ensure file size requirements -->
+* Where is the start?
+* Where is the goal?
+* Where are the enemies?
+* Is it too hard? Too easy? (Playtesting).
 
-<!-- Content padding to ensure file size requirements -->
+### Activity 2: "If This, Then That" (IRL)
 
-<!-- Content padding to ensure file size requirements -->
+Make rules for your house using code logic.
 
-<!-- Content padding to ensure file size requirements -->
+* "IF it is 8:00 PM, THEN brush teeth."
+* "IF room is messy, THEN no iPad."
+* "IF dinner is eaten, THEN get dessert."
+Coding is just rules for life!
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
+
+Don't just play games. Make them. The world needs your ideas.
+
+## References
+
+* *Scratch* (Programming for Kids) by MIT
+* *Code.org* (Hour of Code)
