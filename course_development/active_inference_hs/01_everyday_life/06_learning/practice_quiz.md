@@ -1,51 +1,95 @@
-# Practice Quiz: Learning
+# Practice Quiz: Learning -- How Experience Updates Your Model
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Learning** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. In Active Inference, learning is best defined as:
+A) Memorizing facts for a test
+B) The long-term updating of your generative model's parameters through accumulated prediction errors
+C) Something that only happens in school
+D) A one-time event that happens when you first encounter information
 
-2. In Hs, Learning is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+**Answer: B.** Learning is the gradual refinement of your internal model so that future predictions become more accurate.
 
-3. Which mathematical quantity is most central to Learning?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+2. The first time you cook a new recipe, every step generates large prediction errors. By the fifth attempt, the dish comes out right because:
+A) The recipe changed
+B) Your generative model updated with each attempt, learning to predict timing and temperatures accurately
+C) You got lucky
+D) Cooking does not involve prediction
 
-4. How does Learning relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+**Answer: B.** Each repetition provided prediction errors that refined your model, reducing surprise over time.
 
-5. A failure in Learning would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+3. Learning to drive a car illustrates **hierarchical model updating** because:
+A) You only learn one thing
+B) At first you cannot predict how much to turn the wheel, but over weeks your brain builds precise models at multiple levels -- from steering to lane-changing to route planning
+C) Driving is purely instinctive
+D) You learn everything in the first lesson
 
-6. Which scale is most relevant for analyzing Learning in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+**Answer: B.** Learning operates at multiple levels of the generative model hierarchy, from fine motor control to strategic planning.
 
-7. Learning connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+4. The relationship between learning and prediction error is:
+A) Learning eliminates all prediction error permanently
+B) Prediction errors are the signal that drives learning -- without surprise, there is nothing to update
+C) Prediction error prevents learning
+D) Learning and prediction error are unrelated
+
+**Answer: B.** Prediction error is the essential ingredient; a world with zero surprise would produce zero learning.
+
+5. Why does "cramming" the night before a test often fail to produce lasting learning?
+A) You are too tired
+B) Rapid shallow exposure generates surface-level model updates that do not consolidate into deep, persistent changes in your generative model
+C) Tests are unfair
+D) Cramming always works
+
+**Answer: B.** Deep learning requires repeated prediction errors over time to update parameters at multiple hierarchical levels.
+
+6. The feeling of "flow" during a challenging activity can be understood as:
+A) Complete absence of prediction error
+B) A state where prediction errors are at an optimal level -- frequent enough to drive learning but manageable enough that your model can keep up
+C) Boredom
+D) Overwhelming confusion
+
+**Answer: B.** Flow emerges when challenge and skill are balanced, producing a productive learning rate.
+
+7. You learn more from a surprising failure than from an expected success because:
+A) Failure is always good
+B) Surprising failures generate larger prediction errors, which drive more significant model updates
+C) Success teaches nothing
+D) Your brain only processes negative information
+
+**Answer: B.** The size of the prediction error determines the magnitude of the model update.
+
+8. Practicing a skill (like playing guitar or a sport) involves learning because:
+A) Your muscles get bigger
+B) Repeated prediction errors gradually tune your generative model until your predictions of motor outcomes become accurate enough that actions feel automatic
+C) Practice is just repetition with no purpose
+D) Skills cannot be learned through practice
+
+**Answer: B.** Motor learning is the generative model becoming precise enough that conscious monitoring is no longer needed.
+
+9. A student who studies by testing themselves (active recall) learns more than one who just rereads notes because:
+A) Reading is bad
+B) Self-testing generates prediction errors that force genuine model updates, while rereading produces a false sense of fluency with minimal surprise
+C) Notes are useless
+D) Testing is less stressful than reading
+
+**Answer: B.** Active recall creates the prediction errors necessary for deep model updating.
+
+10. Learning from other people's experiences (hearing their stories, reading books) works because:
+A) You are copying their brain
+B) Vicarious experiences generate simulated prediction errors in your generative model, updating it without requiring you to make every mistake yourself
+C) Other people's experiences are identical to yours
+D) Books contain all possible knowledge
+
+**Answer: B.** Your generative model can learn from imagined or observed prediction errors, not only from direct experience.
 
 ## Part B: Short Answer
 
-1.  Explain how **Learning** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Learning failing in a Hs scenario.
-3.  How would you model Learning using a POMDP (Partially Observable Markov Decision Process)?
+1. Describe a skill you have learned over the past year. Map out how prediction errors decreased as your generative model improved -- what surprised you at first that now feels automatic?
+
+2. Why do people sometimes say "I learn best from my mistakes"? Explain this using the Active Inference concept of prediction error driving model updates.
+
+3. Compare learning a new language to learning to ride a bike. How are the hierarchical model updates similar, and how are they different?
+
+4. How might understanding learning as "prediction error reduction" change the way you study for exams? Propose a study strategy based on this insight.
+
+5. Explain why curiosity can be thought of as a drive to seek out prediction errors. How does this connect to the exploration side of expected free energy?

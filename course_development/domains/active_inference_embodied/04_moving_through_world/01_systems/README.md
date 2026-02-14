@@ -6,6 +6,34 @@
 
 Part of **Moving Through the World**.
 
+## Learning Objectives
+
+1. **Experience** the body's boundary through the lens of dance, yoga, martial arts as an embodied Markov blanket
+2. **Distinguish** interoception (sensing the inside) from exteroception (sensing the outside) through direct awareness
+3. **Explore** how dance, yoga, martial arts reveals the body's self-regulatory boundaries
+4. **Recognize** allostasis as the body's predictive regulation that maintains system viability
+5. **Apply** the 4E cognition framework (embodied, embedded, enacted, extended) to system boundaries
+
+## Key Concepts
+
+- **Embodied systems**: Systems as experienced through the body, not just theorized about
+- **Active Inference**: Systems as a component of the free energy minimization process
+- **4E Cognition**: Systems as embodied, embedded, enacted, and extended
+- **Interoception and proprioception**: How inner sensing shapes systems
+- **Sensorimotor coupling**: The inseparability of systems from bodily engagement
+- **Dance, yoga, martial arts**: The specific lens this course brings to systems
+
+## Prerequisites
+
+- No prior knowledge required
+- Willingness to engage in movement lab activities
+
+## Estimated Time
+
+- Module reading: 20 minutes
+- Lab (movement lab): 25 minutes
+- Questions and reflection: 15 minutes
+
 ## Contents
 
 | File | Description |
@@ -16,13 +44,8 @@ Part of **Moving Through the World**.
 | [lab.md](./lab.md) | Lab: Feeling the Boundary of Your Skin |
 | [dashboard.html](./dashboard.html) | Interactive Dashboard |
 
-## Learning Goals
-
-1. **Feel** where you end and the world begins
-2. **Notice** the sense of containment
-3. **Practice** grounding in your body
-
 ## Resources
 
 - [Notation](../../resources/notation_table.md)
 - [Glossary](../../resources/glossary.md)
+- [References](../../resources/references.md)

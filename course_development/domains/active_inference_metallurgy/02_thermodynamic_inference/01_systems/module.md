@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This module explores **Systems** within the context of **Thermodynamic Inference**. In the Active Inference framework, systems plays a critical role in how systems maintain their identity, process information, and adapt to perturbation. Here we examine this through the lens of phase equilibria, transformation kinetics, and calphad.
+This module explores **Systems** within the context of **Thermodynamic Inference**. In the Active Inference framework, the systems concept plays a critical role in understanding how bounded entities maintain their identity, process information, and adapt to perturbation. Here we examine this through the lens of phase equilibria, transformation kinetics, and calphad.
 
 **Key themes**: Binary and ternary phase diagrams as predictive maps, tie lines, lever rule
 
@@ -24,7 +24,7 @@ By the end of this module, you will be able to:
 
 ### 1. Systems in the Active Inference Framework
 
-In Active Inference, systems refers to the process by which systems maintain and update their relationship with the environment. For metallurgical systems, this maps directly onto physical processes: Binary and ternary phase diagrams as predictive maps, tie lines, lever rule.
+In Active Inference, the concept of a system refers to any bounded entity that maintains and updates its relationship with the environment through the exchange of sensory and active states across a Markov blanket. For thermodynamic inference, this maps directly onto phase equilibria: binary and ternary phase diagrams as predictive maps, tie lines, and the lever rule.
 
 The Free Energy Principle provides a unifying lens: every metallurgical phenomenon involving systems can be understood as a system minimizing the difference between its current state and its preferred (equilibrium) state.
 

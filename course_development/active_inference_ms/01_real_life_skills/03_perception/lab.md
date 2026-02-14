@@ -1,23 +1,100 @@
-# Lab: Exploring Perception
+# Lab: Perception Detectives -- When Your Brain Tricks You
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Perception**.
+> **Learning Goal:** Discover how your brain uses predictions to shape what you perceive, and investigate what happens when those predictions go wrong.
 
-## Prerequisites
+This is a **group challenge** designed for middle school students (Grades 6-8).
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Perception.
+---
 
-## Steps
+## Materials Needed
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Ms.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Perception.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Perception (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+- Printed optical illusions (or a device to view them)
+- Blindfold or eye mask
+- Various small objects for a touch test (coin, eraser, key, paperclip, etc.)
+- Noise-canceling headphones or earplugs (optional)
+- Lab journal or notebook
 
-## Discussion Requirements
+---
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Perception.
+## Part 1: The Prediction Game (10 min)
+
+Your brain does not just passively receive information -- it actively PREDICTS what it expects to see, hear, and feel. Perception is your brain checking its predictions against reality.
+
+**Try this:** One partner closes their eyes. The other partner places a common object in their hand. The "blind" partner has 5 seconds of touch only to guess what it is.
+
+| Trial | Object | Prediction (First Guess) | Correct? | How confident were you (1-5)? |
+|-------|--------|--------------------------|----------|-------------------------------|
+| 1 | | | | |
+| 2 | | | | |
+| 3 | | | | |
+| 4 | | | | |
+| 5 | | | | |
+
+{fill:textarea, placeholder: "What clues did your brain use to make predictions? Were you more confident on some objects than others? Why?"}
+
+---
+
+## Part 2: Illusion Investigation (15 min)
+
+Look at the following types of optical illusions (your teacher will provide examples or you can search for them):
+
+1. **Size illusion** (e.g., the Ebbinghaus illusion -- circles that look different sizes but are the same)
+2. **Motion illusion** (e.g., a static image that appears to move)
+3. **Color illusion** (e.g., two squares that are the same color but look different)
+
+For each illusion, fill in this table:
+
+| Illusion | What you SEE | What is ACTUALLY there | Why does your brain get it wrong? |
+|----------|-------------|----------------------|----------------------------------|
+| Size | | | |
+| Motion | | | |
+| Color | | | |
+
+{fill:textarea, placeholder: "For each illusion, explain the gap between your prediction and reality. What was your brain expecting?"}
+
+---
+
+## Part 3: Social Perception Challenge (10 min)
+
+Perception is not just about eyes and ears -- you also perceive social situations. Your brain predicts how people will act based on past experience.
+
+**Scenario sort:** Read each scenario and write what you would PREDICT happens next, then what ACTUALLY might happen.
+
+| Scenario | Your Prediction | A Surprising Alternative |
+|----------|----------------|-------------------------|
+| A classmate you do not know well smiles at you in the hallway | | |
+| Your teacher hands back a test face-down | | |
+| Your best friend has not texted you back in 3 hours | | |
+| You hear laughing from a group as you walk by | | |
+
+{fill:textarea, placeholder: "How did your past experiences shape your predictions in each scenario? Were your predictions fair or biased?"}
+
+---
+
+## Part 4: Perception Journal (5 min)
+
+For the rest of today, try to catch your brain making predictions. Every time you notice a prediction (right or wrong), jot it down.
+
+| Time | Situation | What I predicted | What actually happened | Prediction error? |
+|------|-----------|-----------------|----------------------|-------------------|
+| | | | | |
+| | | | | |
+| | | | | |
+
+{fill:textarea, placeholder: "Describe at least one moment where your brain's prediction was clearly wrong. How did you feel?"}
+
+---
+
+## Reflection Table
+
+| Question | Your Answer |
+|----------|-------------|
+| Is perception just recording reality? Why or why not? | |
+| What is a prediction error? | |
+| Why do optical illusions work? | |
+| How do social predictions affect how you treat people? | |
+| How does Active Inference explain perception? | |
+
+{fill:textarea, placeholder: "Complete the reflection table. Remember: perception = prediction + reality check."}

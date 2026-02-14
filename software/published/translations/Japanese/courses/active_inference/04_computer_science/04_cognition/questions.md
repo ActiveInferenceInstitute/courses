@@ -1,41 +1,41 @@
-# Study Questions: Cognition
+# 認知に関する質問
 
-1. What does each entry of the C-vector represent, and on what scale is it expressed (linear probability, log probability, or utility)?
+1. Cベクトルの各エントリはそれぞれ何を代表し、どのようなスケールで表現されるのか (線形確率、対数確率、またはユーティリティ)？
 
-2. Write the formula for the preferred observation distribution $\tilde{P}(o)$ in terms of the C-vector. What function converts C to a valid probability distribution?
+2. 優先的な観測分布 $\tilde{P}(o)$ の公式を C ベクトルを用いて記述してください。C を有効な確率分布に変換する関数は何ですか？
 
-3. If `C = np.zeros(num_obs)`, what does the risk term in EFE evaluate to? What type of behavior results?
+3. `C = np.zeros(num_obs)` の場合、EFE のリスク項はどのような値を評価しますか？ どのような行動の結果となりますか？
 
-4. Construct a C-vector for a 4-observation system where observation 2 is strongly preferred, observations 0 and 1 are neutral, and observation 3 is strongly avoided.
+4. 観測 2 を強く好む、観測 0 と 1 を中立的、観測 3 を強く回避する 4 つの観測を持つシステムにおける C ベクトルを構築してください。
 
-5. Explain the difference between $D$ (prior over initial states) and $q(s)$ (current posterior). When are they equal?
+5. $D$ (初期状態に対する事前分布) と $q(s)$ (現在の事後分布) の違いを説明してください。それらは常に等しいですか？
 
-6. If $D = [1, 0, 0]$, the agent starts with zero entropy over initial states. What is the computational implication for the first state inference step?
+6. $D = [1, 0, 0]$ の場合、エージェントは初期状態についてゼロエントロピーを持っています。最初の状態推論ステップにおける計算上の意味は何ですか？
 
-7. What validation does `GenerativeModel` perform on the D-vector? Write the two conditions that must hold.
+7. `GenerativeModel` は D ベクトルに対してどのような検証を行いますか？ 満たすべき 2 つの条件は何ですか？
 
-8. How does the E-vector enter the policy posterior formula? Write the equation for $q(\pi)$ with and without E.
+8. E ベクトルはポリシー事後分布の公式にどのように入力されますか？ E がない場合とある場合の $q(\pi)$ の式を記述してください。
 
-9. If `E = np.array([0.99, 0.005, 0.005])` and γ = 0.01, which policy will the agent almost certainly select? Why?
+9. `E = np.array([0.99, 0.005, 0.005])` および γ = 0.01 の場合、エージェントはほぼ確実にどのポリシーを選択しますか？ なぜですか？
 
-10. What happens to policy selection when γ = 0? Does the agent still use EFE, or does it rely entirely on E?
+10. γ = 0 の場合、ポリシー選択はどのように変化しますか？ エージェントは依然として EFE を使用し、それとも E にのみ依存しますか？
 
-11. Design an experiment that isolates the effect of the C-vector: keep A, B, D, E, and γ fixed, vary only C, and predict how agent behavior changes.
+11. C ベクトルの効果を分離する実験を設計してください。A, B, D, E, および γ を固定し、C のみを変え、エージェントの行動がどのように変化するか予測してください。
 
-12. Explain precision γ in terms of the inverse temperature of a Boltzmann distribution. What is the policy posterior equation in this form?
+12. γ を、ボルツマン分布の逆温度の用語で説明してください。この形式でポリシー事後分布の式は何ですか？
 
-13. How would you use `plot_C_preferences()` to verify that your C-vector matches your intended preference structure? What should you look for in the plot?
+13. `plot_C_preferences()` を使用して、C ベクトルが意図した好みの構造と一致することを確認する方法を説明してください。プロットで何を探すべきですか？
 
-14. What does `plot_D_prior()` annotate on the bar chart beyond the prior probabilities? Why is this annotation useful?
+14. `plot_D_prior()` は、事前確率をそれ以外にプロットの棒グラフに何を追加しますか？ その注記が役立つ理由は何ですか？
 
-15. Write code to create two agents with identical A, B, C, D but different E-vectors, run them in the same environment, and compare their action sequences.
+15. 異なる E ベクトルを持つが、A、B、C、D は同一の 2 つのエージェントを作成するためのコードを記述し、同じ環境で実行し、行動シーケンスを比較してください。
 
-16. At what value of γ does the policy posterior transition from near-uniform to near-deterministic? How would you determine this experimentally?
+16. どのような γ の値で、ポリシー事後分布がほぼ一様からほぼ決定論的になりますか？ 経験的にこれをどのように決定しますか？
 
-17. Use `plot_precision_sweep()` to visualize $q(\pi)$ across γ values. Describe the expected shape of the curves.
+17. `plot_precision_sweep()` を使用して、$q(\pi)$ を γ 値に対して可視化してください。予想される曲線形状を記述してください。
 
-18. If C-vector entries are in log-probability, can negative C values occur? What do they mean?
+18. C ベクトルエントリが対数確率で表されている場合、負の C 値が起こりえますか？ それらは何を意味しますか？
 
-19. How would you model an agent that prefers to stay in its current state? Which component(s) — C, D, E, or B — would you modify?
+19. 現在の状態に留まることを好むエージェントをモデル化するにはどうすればよいですか？ C、D、E、または B のどのコンポーネントを変更しますか？
 
-20. Explain why an agent with strong C-preferences and low γ might still act randomly. What is the mathematical mechanism?
+20. 強力な C 偏好と低い γ を持つエージェントが依然としてランダムに動作する理由を説明してください。その数学的メカニズムは何ですか？

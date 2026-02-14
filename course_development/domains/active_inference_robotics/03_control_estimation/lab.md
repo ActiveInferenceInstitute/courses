@@ -1,23 +1,51 @@
-# Lab: Exploring Perception
+# Lab: Control & Estimation Integration Project
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Perception**.
+Design a comprehensive robotic system that integrates all eight Active Inference modules from the Control & Estimation course. You will apply kalman filters, pid, mpc, active inference to create a unified system specification that demonstrates how systems, agents, perception, cognition, action, learning, communication, and planning work together under the Active Inference framework.
 
 ## Prerequisites
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Perception.
+- Completion of Modules 01-08 in the Control & Estimation course
+- Familiarity with kalman filters, pid, mpc, active inference
+- Understanding of Active Inference fundamentals
 
-## Steps
+## Part 1: System Design
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Robotics.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Perception.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Perception (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+Define the overall system architecture for your robot:
 
-## Discussion Requirements
+1. Specify the robotic platform (mobile robot, manipulator, UAV, etc.).
+2. Define the Markov blanket boundary and state partitioning.
+3. List all sensors, actuators, and computational resources.
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Perception.
+{fill:textarea}
+
+## Part 2: Module Integration
+
+For each of the eight Active Inference modules, specify how it manifests in your design:
+
+| Module | Your Design Choice | Key Parameters | Active Inference Mapping |
+| --- | --- | --- | --- |
+| Systems | {fill} | {fill} | Markov blanket |
+| Agents | {fill} | {fill} | Self-evidencing |
+| Perception | {fill} | {fill} | Variational inference |
+| Cognition | {fill} | {fill} | Generative model |
+| Action | {fill} | {fill} | Free energy minimization |
+| Learning | {fill} | {fill} | Parameter optimization |
+| Communication | {fill} | {fill} | Model alignment |
+| Planning | {fill} | {fill} | Expected free energy |
+
+{fill:textarea}
+
+## Part 3: Integration Analysis
+
+1. Identify the three most critical interfaces between modules in your design.
+2. For each interface, describe the information flow and how prediction errors propagate.
+3. What is the weakest link in your integrated system? How would you address it?
+
+{fill:textarea}
+
+## References
+
+- Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. *Frontiers in Neurorobotics*.
+- Parr, T., Pezzulo, G., & Friston, K. J. (2022). *Active Inference*. MIT Press.

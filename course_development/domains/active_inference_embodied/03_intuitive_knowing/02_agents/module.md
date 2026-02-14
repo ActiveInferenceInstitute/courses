@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Agents**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Agents**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between Systems and Perception.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Agents drive the perception-action loop?
 ## Applications
 
 In Embodied, we see Agents manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A seasoned firefighter entering a burning building feels a gut-level "pull" to evacuate seconds before the floor collapses; as an embodied agent, his generative model has accumulated deep priors from years of structural fire experience, and the intuitive urgency he feels is the agent's active inference process generating a prediction of catastrophic surprise that his body enacts as immediate withdrawal before conscious reasoning can articulate why.
+*   **Specific Example 2**: A veteran midwife places her hands on a laboring mother's abdomen and intuitively knows the baby has shifted position, even though the palpation findings are ambiguous to a less experienced practitioner; the midwife functions as an expert embodied agent whose Markov blanket (hands, proprioceptive sensitivity, visceral resonance) is exquisitely tuned by decades of tactile inference, allowing her generative model to infer fetal position with a precision that feels like knowing rather than calculating.
 
 ## Conclusion
 
 Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

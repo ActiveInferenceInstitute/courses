@@ -1,23 +1,50 @@
-# Lab: Exploring Action
+# Lab: Moving from the Inside Out
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Action**.
+Explore embodied action through mindfulness practice that reveals how movement arises from inner impulse, engages with environmental affordances, and unfolds through the sensorimotor loop, through the lens of breath, heartbeat, embodied being.
 
 ## Prerequisites
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Action.
+- A quiet, comfortable space for 25 minutes
+- Willingness to engage in mindfulness practice
+- No prior experience required
 
-## Steps
+## Part 1: Arriving (5 minutes)
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Embodied.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Action.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Action (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+Sit comfortably and close your eyes. Take three slow breaths, letting each exhale be longer than the inhale. Bring your attention to the natural rhythm of your breathing without trying to change it.
 
-## Discussion Requirements
+Do not decide to move. Wait for your body to want to move. When the impulse comes, follow it. Let the body lead.
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Action.
+{fill:textarea}(What was the first impulse? Where in your body did it begin? What was the quality of the movement that followed?)
+
+## Part 2: Affordances (7 minutes)
+
+Through breath, heartbeat, embodied being, explore how the environment invites action. Look around your space. Notice what each surface, object, and opening offers your body. Follow at least three affordances -- sit, lean, reach, grasp.
+
+{fill:textarea}(List three affordances you noticed. How did your body and the environment cooperate to produce action?)
+
+## Part 3: Effort and Flow (7 minutes)
+
+Perform a familiar action the natural way (flowing). Then try it an awkward way (effortful). Through breath, heartbeat, embodied being, notice the difference in prediction error.
+
+{fill:textarea}(Describe the felt difference between flowing and effortful action. What does effort tell you about the body's predictions?)
+
+## Part 4: Reflection (5 minutes)
+
+Through breath, heartbeat, embodied being, reflect on what action means.
+
+{fill:textarea}(Is action something you do, or something that unfolds through you? How does breath, heartbeat, embodied being illuminate the nature of embodied action?)
+
+## Reflection Table
+
+| Dimension | What I Noticed | Active Inference Connection |
+| --- | --- | --- |
+| Initial awareness | {fill:text} | Baseline generative model state |
+| Embodied exploration | {fill:text} | Prediction error through direct experience |
+| Breath, heartbeat, embodied being lens | {fill:text} | Course-specific perspective on action |
+| Integration | {fill:text} | Updated understanding through bodily knowing |
+
+## Discussion
+
+Consider how breath, heartbeat, embodied being reveals aspects of action that other perspectives might miss. In Active Inference, every perspective changes the precision weighting of different signals, revealing different dimensions of the same underlying process of free energy minimization.

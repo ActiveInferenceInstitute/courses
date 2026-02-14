@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Systems**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Systems**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between Planning and Agents.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Systems drive the perception-action loop?
 ## Applications
 
 In Robotics, we see Systems manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A gecko-inspired climbing robot uses hierarchical dry-adhesion microstructures on its toe pads as part of its Markov blanket boundary -- the adhesion system acts as both a sensory surface (detecting normal and shear forces at each contact point to infer wall surface properties) and an active surface (engaging or peeling adhesive patches), forming a bio-inspired system where the physical interface simultaneously mediates perception of and action upon the climbing substrate.
+*   **Specific Example 2**: An octopus-inspired soft robotic arm built with silicone pneumatic actuators and distributed strain sensors embodies a decentralized system architecture where each arm segment maintains its own local generative model of deformation dynamics, mirroring the biological octopus's distributed nervous system; the overall system minimizes free energy through coordinated local inference rather than centralized computation, enabling compliant manipulation in unstructured underwater environments.
 
 ## Conclusion
 
 Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

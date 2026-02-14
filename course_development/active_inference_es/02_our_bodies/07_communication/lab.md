@@ -2,47 +2,67 @@
 
 ## Goal
 
-To send complex messages using only your Body and Face (No words allowed!).
+Send messages using only your Face and Body -- no words allowed!
 
 ## What You Need
 
-* Paper slips with words to act out.
-* A timer.
+* Paper slips with words to act out
+* A timer (phone or clock)
+* Friends or family to play with
 
 ## Steps
 
 ### 1. Write the Clues
 
-Write down 5 things on paper slips:
+Write down these words on paper slips (or make up your own!):
 
 * Monkey
 * Sleeping
 * Playing Soccer
 * Eating Spaghetti
 * Brushing Teeth
+* Swimming
+* Being Really Cold
+* A Happy Puppy
 
-### 2. The Acting Game (Charades)
+### 2. Pick and Act
 
-Pick a slip.
-Set the timer for 1 minute.
-Act it out!
+Pick a paper slip from the pile. Set the timer for 1 minute.
+Now act it out using your body and face!
 
-* Use your hands!
-* Use your face!
-* Move your body!
-* **NO SOUNDS!**
+* Use your hands to show actions.
+* Use your face to show feelings.
+* Move your whole body.
+* **NO SOUNDS!** Not even "Hmm" or "Shhh"!
 
 ### 3. The Guess
 
-Can your friends guess the message before the timer runs out?
+Can your friends guess the word before time runs out?
+If they guess it, everyone cheers!
+If they cannot guess it, show them and laugh together.
+
+### 4. Switch Turns
+
+Everyone takes a turn being the Silent Actor. Who is the best at sending body messages?
 
 ## My Acting Log
 
-| My Word | Did they guess it? | Hard or Easy? |
+*{fill:textarea}*
+The word I was best at acting out was: ___
+The word that was hardest to act out was: ___
+The funniest moment was when: ___
+
+| My Word | Did They Guess It? | Hard or Easy? |
 | :--- | :--- | :--- |
-| **Monkey** | Yes | Easy (Act like a monkey!) |
-| **Spaghetti** | No | Hard (They thought I was knitting!) |
+| | | |
+| | | |
+| | | |
+| | | |
 
 ## What We Learned
 
-We rely on words a lot, but our bodies can say a whole story if we try! Effective signals help people understand us.
+| Question | My Answer |
+| :--- | :--- |
+| **Can you say a lot without any words?** | |
+| **What was the best body signal you saw?** | |
+| **Why is body communication important?** | |

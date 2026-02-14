@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Communication**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Communication**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between Learning and Planning.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Communication drive the perception-action loop?
 ## Applications
 
 In Robotics, we see Communication manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A firefly-inspired swarm of aerial robots communicates through synchronized LED flashing patterns, where each robot's generative model predicts the timing and frequency of its neighbors' flashes; phase coupling between oscillators drives the swarm toward synchronization (minimizing collective prediction error), enabling emergent coordination for search-and-rescue operations where RF communication is unreliable -- the robots converge on a shared flashing frequency that signals "area cleared" or "target found" without any centralized message broker.
+*   **Specific Example 2**: A bee-waggle-dance-inspired communication protocol allows a foraging robot that has discovered a resource to transmit location information to teammates through a structured motor display (a specific movement pattern encoding distance and direction), which observing robots decode using their own generative models of the dance-to-location mapping; this bio-inspired stigmergic communication reduces bandwidth requirements by orders of magnitude compared to transmitting raw sensor data, while remaining robust to individual robot failures.
 
 ## Conclusion
 
 Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

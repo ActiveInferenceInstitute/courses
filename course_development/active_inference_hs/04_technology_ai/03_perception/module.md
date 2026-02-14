@@ -1,14 +1,14 @@
-# Module 03: Perception in Hs
+# Module 03: Perception in High School
 
 ## Learning Objectives
 
-1.  Define **Perception** within the context of Hs.
+1.  Define **Perception** within the context of High School.
 2.  Analyze how Perception interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Hs to the formal definition of Perception.
+3.  Apply specific constraints of High School to the formal definition of Perception.
 
 ## Introduction
 
-This module explores **Perception**. In the **Hs** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Perception**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between Agents and Cognition.
 
 ## Key Concepts
 
@@ -23,30 +23,10 @@ How does the process of Perception drive the perception-action loop?
 
 ## Applications
 
-In Hs, we see Perception manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+In High School, we see Perception manifest in:
+*   **Specific Example 1**: When your phone's Face ID unlocks, it performs Active Inference perception: the infrared dot projector captures a 3D map of your face (sensory input), the neural engine compares it against a stored generative model of your facial geometry, and unlocking only occurs when the prediction error falls below a security threshold -- which is why it fails when you wear a full face mask that creates too much surprise relative to the stored model.
+*   **Specific Example 2**: A speech recognition system like Siri perceives your voice through Active Inference: it generates predictions of likely phoneme sequences based on a language model (prior expectations), compares them against the actual audio waveform (sensory evidence), and selects the transcription that minimizes total prediction error -- which is why it handles common phrases easily but struggles with unusual names where its priors are weak.
 
 ## Conclusion
 
 Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

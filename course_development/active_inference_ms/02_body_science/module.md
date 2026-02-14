@@ -1,52 +1,45 @@
-# Module 02: Agents in Ms
+# Unit 02: Body Science — The Prediction Machine You Live In
 
 ## Learning Objectives
 
-1.  Define **Agents** within the context of Ms.
-2.  Analyze how Agents interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Ms to the formal definition of Agents.
+1. Understand how your body uses **predictions and feedback loops** to regulate everything from hunger to muscle movement.
+2. Explore how **active inference** explains athletic performance, growth, nutrition, and health in ways that connect to your daily life.
+3. Learn to work *with* your body's prediction systems instead of against them, especially during the changes of puberty and adolescence.
 
 ## Introduction
 
-This module explores **Agents**. In the **Ms** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Right now, without you thinking about it, your body is doing something incredible. Your heart is beating at exactly the right speed. Your lungs are pulling in exactly enough air. Your body temperature is hovering right around 98.6 degrees. How does your body "know" how to do all this?
 
-## Key Concepts
+The answer: prediction. Your body is constantly predicting what it needs next and making adjustments before problems even happen. When you stand up too fast and feel dizzy, that's a prediction error — your body expected to stay at the same level and didn't adjust blood pressure fast enough. When you get butterflies in your stomach before a big game, that's your body predicting a challenge and getting ready for action.
 
-### 1. Agents as a Markov Blanket Boundary
-How does Agents define the boundary between the agent and the environment?
+This unit takes you inside the most sophisticated prediction machine ever built — your own body — and shows you how understanding it can make you a better athlete, a healthier eater, and more comfortable with all the changes happening during these years.
 
-### 2. Generative Models of Agents
-What parameters involved in Agents must be optimized to minimize variational free energy?
+## What You'll Explore in This Unit
 
-### 3. Active Inference Dynamics
-How does the process of Agents drive the perception-action loop?
+### Module 1: Systems — Your Body Is a Team Sport
+Your organs, muscles, nerves, and hormones don't work alone. They form interconnected systems that are constantly talking to each other. You'll see how a change in one part ripples through the whole body.
 
-## Applications
+### Module 2: Agents — Your Body Has a Mind of Its Own
+Your conscious mind is only part of the story. Your immune system, your digestive system, even individual cells act like tiny agents with their own goals. You'll discover the hidden intelligence in your biology.
 
-In Ms, we see Agents manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### Module 3: Perception — More Than Five Senses
+Forget the "five senses" you learned about in elementary school. Your body has dozens of internal sensors tracking balance, temperature, blood sugar, and more. You'll learn about interoception — your body's inner sense.
 
-## Conclusion
+### Module 4: Cognition — Your Body's Mental Models
+Your brain builds models of what your body should feel like, and problems happen when reality doesn't match. You'll explore how this explains everything from motion sickness to phantom limb sensations.
 
-Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### Module 5: Action — Movement as Prediction
+Every time you catch a ball, ride a bike, or dance, your brain is predicting where your body needs to be milliseconds in the future. You'll learn why practice actually works at a brain level.
 
-<!-- Content padding to ensure file size requirements -->
+### Module 6: Learning — How Your Body Rewires Itself
+Muscle memory, building endurance, adapting to a new sleep schedule — your body is constantly learning by updating its predictions. You'll see why consistency matters more than intensity.
 
-<!-- Content padding to ensure file size requirements -->
+### Module 7: Communication — The Body's Messaging System
+Hormones, nerve signals, pain, and even gut feelings are all ways your body communicates with itself and with your brain. You'll decode these internal messages.
 
-<!-- Content padding to ensure file size requirements -->
+### Module 8: Planning — Your Body Thinks Ahead
+From storing energy for a growth spurt to preparing your immune system for flu season, your body is always planning for the future. You'll learn how to support these natural planning processes.
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+Your body isn't just a vehicle you ride around in — it's an active, intelligent prediction machine that's constantly working to keep you alive, healthy, and ready for action. Understanding how it works through active inference will help you take better care of yourself, improve your physical performance, and feel more at home in a body that's going through a lot of changes right now. Let's explore.

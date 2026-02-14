@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Agents**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Agents**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between Systems and Perception.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Agents drive the perception-action loop?
 ## Applications
 
 In Organizations, we see Agents manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: Cross-functional product teams act as active inference agents, where each team member contributes a specialized generative model (design, engineering, business) and the team collectively minimizes free energy by integrating diverse predictions into a shared product roadmap that reduces market uncertainty.
+*   **Specific Example 2**: Middle managers serve as boundary-spanning agents between executive strategy and frontline operations, continuously updating their internal models of both leadership intent and ground-level reality, then selecting actions (resource allocation, priority setting) that minimize the prediction error between organizational goals and actual performance.
 
 ## Conclusion
 
 Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

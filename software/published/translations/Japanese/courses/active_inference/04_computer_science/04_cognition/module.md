@@ -1,141 +1,140 @@
-# Module 04: Cognition — Preferences, Priors, and Habits
+# モジュール 04: 認知 — 偏好、先知識、習慣
 
-## Learning Objectives
+## 学習目標
 
-1. Construct and interpret the C-vector (log-preferences), D-vector (initial state prior), and E-vector (habit prior).
-2. Analyze how precision γ modulates the balance between epistemic and pragmatic behavior.
-3. Visualize preference, prior, and habit structures using the `active_inference` visualization functions.
+1.  Cベクトルの（対数偏好）ベクトル、Dベクトルの（初期状態の先知識）ベクトル、およびEベクトルの（習慣の先知識）ベクトルを構築し、解釈する。
+2.  精度パラメータγが、知識的行動と実用的な行動のバランスにどのように影響するかを分析する。
+3.  `active_inference`の可視化関数を使用して、偏好、先知識、習慣の構造を視覚化する。
 
-## Introduction
+## 導入
 
-Modules 01–03 covered the environment (generative process), the agent's model structure (A, B matrices), and perception (state inference). This module completes the agent's inner life by examining the three vectors that define its _cognitive stance_: what it wants (C), where it thinks it starts (D), and what it habitually does (E). These vectors don't just parameterize inference — they define the agent's character.
+モジュール01～03では、環境（生成的プロセス）、エージェントのモデル構造（A、B行列）、および知覚（状態推論）について扱いました。このモジュールは、エージェントの内面的な活動を、その認知的な立場を定義する3つのベクトルを調べることで完了します：それは何に関心があるのか（C）、どこから始めると思うのか（D）、そして習慣的に何をするのか（E）。これらのベクトルは推論パラメータとしてのみ機能するのではなく、エージェントの性格を定義します。
 
-## Key Concepts
+## 主要な概念
 
-### 1. The C-Vector: Log-Preferences Over Observations
+### 1. Cベクトルの：観察に対する対数偏好
 
-The C-vector encodes which observations the agent prefers on a log scale:
+Cベクトルは、エージェントが観察を対数スケールで好む度合いをエンコードします：
 
 $$C[o] = \ln P_{\text{preferred}}(o)$$
 
 ```python
 import numpy as np
 
-# T-maze: strongly prefer reward, strongly avoid no-reward
-C = np.array([0.0, 3.0, -3.0])  # [neutral, reward, no-reward]
+# T-maze: 報酬を強く好む、報酬なしを強く避ける
+C = np.array([0.0, 3.0, -3.0])  # [中立、報酬、報酬なし]
 ```
 
-C enters the Expected Free Energy (EFE) through the **risk** term:
+Cは、期待されるフリーエネルギー（EFE）を通してリスク項に入力されます：
 
 $$\text{risk}(\pi) = D_{KL}[q(o \mid \pi) \| \tilde{P}(o)]$$
 
-where $\tilde{P}(o) = \sigma(C)$ is the preferred observation distribution. When $C$ is all zeros, the risk term vanishes and the agent becomes purely epistemic.
+ここで、$\tilde{P}(o) = \sigma(C)$は好ましい観察分布です。Cがすべてゼロの場合、リスク項はゼロになり、エージェントは知識的行動のみになります。
 
-**Visualizing C**:
+**Cベクトルの可視化：**
 
 ```python
 from active_inference.visualization import plot_C_preferences
-plot_C_preferences(model, obs_labels=["neutral", "reward", "no-reward"])
+plot_C_preferences(model, obs_labels=["中立", "報酬", "報酬なし"])
 ```
 
-This produces a bar chart of log-preferences with a softmax probability overlay.
+これにより、対数偏好の棒グラフがソフトマックス確率のオーバーレイとともに生成されます。
 
-### 2. The D-Vector: Prior Over Initial States
+### 2. Dベクトルの：初期状態の先知識
 
-The D-vector is $P(s_0)$ — the agent's belief about which state it starts in:
+Dベクトルは、$P(s_0)$—エージェントがどの状態から始まるかについての信念です：
 
 ```python
-D = np.array([1.0, 0.0, 0.0, 0.0])  # certain: start at center
+D = np.array([1.0, 0.0, 0.0, 0.0])  # 確信：中心から開始
 ```
 
-D serves as the initial prior for state inference. If D is uniform, the agent begins with maximum uncertainty. If D is peaked, the agent starts confident about its location.
+Dは状態推論のための初期先知識として機能します。Dが均一の場合、エージェントは最大まで不確実性を持っています。Dが尖っている場合、エージェントは自分の場所について自信を持って開始します。
 
-**Visualizing D**:
+**Dベクトルの可視化：**
 
 ```python
 from active_inference.visualization import plot_D_prior
-plot_D_prior(model, state_labels=["center", "left", "right", "cue"])
+plot_D_prior(model, state_labels=["中心", "左", "右", "ヒント"])
 ```
 
-The plot annotates the entropy of D — $H(D) = 0$ means the agent is fully certain about its initial state.
+グラフはDのエントロピーを注釈として示します：$H(D) = 0$はエージェントが初期状態について完全に確信していることを意味します。
 
-### 3. The E-Vector: Habit Prior Over Policies
+### 3. Eベクトルの：ポリシーに対する習慣の先知識
 
-The optional E-vector encodes a prior over policies before EFE is considered:
+オプションのEベクトルは、EFEが考慮される前にポリシーに対する先知識をエンコードします：
 
 $$q(\pi) = \sigma(-\gamma \cdot G(\pi) + \ln E(\pi))$$
 
 ```python
-# Strong habit favoring policy 0 (stay)
+# 強い習慣がポリシー0（維持）を好む
 E = np.array([0.8, 0.1, 0.1])
 ```
 
-When γ is low, habits dominate — the agent acts according to E regardless of EFE. When γ is high, EFE dominates and habits have little effect. When E is `None`, a uniform habit prior is used.
+γが低い場合、習慣が支配します—エージェントはEに関係なく、EFEを考慮することなく、Eに基づいて行動します。γが高くなると、EFEが支配し、習慣の影響はほとんどありません。Eが`None`の場合、均一な習慣先知識が使用されます。
 
-**Visualizing E**:
+**Eベクトルの可視化：**
 
 ```python
 from active_inference.visualization import plot_E_habits
-plot_E_habits(model, policy_labels=["stay", "go-left", "go-right"])
+plot_E_habits(model, policy_labels=["維持", "左に進む", "右に進む"])
 ```
 
-### 4. Precision γ: The Exploration–Exploitation Knob
+### 4. 精度パラメータγ：探索–活用ノブ
 
-The precision parameter γ controls how sharply the agent commits to the policy with lowest EFE:
+精度パラメータγは、エージェントが最も低いEFEのポリシーにコミットする際の鋭さに制御します：
 
-| γ value | Behavior |
+| γの値 | 行動 |
 |---------|----------|
-| γ → 0 | Random policy selection — exploration dominates (or habits dominate if E is set) |
-| γ ≈ 1–4 | Balanced — considers both EFE and randomness |
-| γ → ∞ | Greedy/exploitative — always picks the policy with lowest G |
+| γ → 0 | ランダムなポリシー選択—探索が支配（またはEが設定されている場合、習慣が支配） |
+| γ ≈ 1–4 | バランス—EFEとランダム性の両方を考慮 |
+| γ → ∞ | 貪欲/搾取—常に最も低いGを持つポリシーを選択 |
 
-**Precision sweep**:
+**精度スキャン：**
 
 ```python
 from active_inference.visualization import plot_precision_sweep
 from active_inference.math import compute_efe, softmax
 
 gamma_values = [0.1, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0]
-# Compute q(π) for each γ and visualize
+# 各γについてq(π)を計算し、可視化
 plot_precision_sweep(gamma_values, q_pi_matrix,
-                     policy_labels=["stay", "go-left", "go-right"])
+                     policy_labels=["維持", "左に進む", "右に進む"])
 ```
 
-### 5. Interaction Between C, D, E, and γ
+### 5. C、D、E、およびγの相互作用
 
-These components interact in a principled way:
+これらのコンポーネントは、原理的な方法で相互作用します：
 
 ```
 ┌──────────────┐     ┌──────────────┐
-│  D-vector    │────▶│  State       │
-│  P(s₀)      │     │  Inference   │
+│  D-ベクトル    │────▶│  状態       │
+│  P(s₀)      │     │  推論       │
 └──────────────┘     └──────┬───────┘
                             │ q(s)
                             ▼
 ┌──────────────┐     ┌──────────────┐     ┌───────────┐
-│  C-vector    │────▶│    EFE       │────▶│  Policy   │
+│  C-ベクトル    │────▶│    EFE       │────▶│  ポリシー   │
 │  ln P(o)     │     │  G(π)       │     │  q(π)     │
 └──────────────┘     └──────────────┘     └─────┬─────┘
                             ▲                     │
 ┌──────────────┐            │              ┌─────▼─────┐
-│  E-vector    │────────────┘              │  Action   │
-│  P(π)        │     ┌──────────────┐      │  Selection│
-└──────────────┘     │  γ precision │──────┘           │
-                     └──────────────┘                   ▼
+│  E-ベクトル    │────────────┘              │  行動   │
+│  P(π)        │     ┌──────────────┐      │  選択   │
+└──────────────┘     └──────────────┘──────┘           │
 ```
 
-- **D** initializes perception and determines the starting beliefs used for policy evaluation.
-- **C** shapes the risk term in EFE — driving **pragmatic** (goal-directed) behavior.
-- **A** shapes the ambiguity term in EFE — driving **epistemic** (information-seeking) behavior.
-- **E** biases the policy posterior toward habitual actions.
-- **γ** controls how much EFE matters relative to habits and randomness.
+- **D**は知覚を初期化し、ポリシー評価における初期信念を決定します。
+- **C**はEFEにおけるリスク項に影響を与え、**実用的な**（目標指向）行動を推進します。
+- **A**はEFEにおける曖昧さ項に影響を与え、**知識的な**（情報探索）行動を推進します。
+- **E**はポリシー後分布を習慣的な行動に向けるバイアスをかけます。
+- **γ**は、EFEがランダム性と習慣に比べてどの程度重要であるかを制御します。
 
-## Applications
+## アプリケーション
 
-- **Goal-directed vs. curious agents**: By varying C from peaked to flat, you can create agents that are purely exploitative, purely exploratory, or balanced between the two.
-- **Habitual behavior**: Setting a strong E-vector can model agents that default to familiar actions unless the situation is clearly novel.
-- **Anxiety and avoidance**: A C-vector with very negative entries for certain observations models agents that actively avoid aversive outcomes.
+- **目標指向対好奇心のあるエージェント**: Cを尖ったものから平坦なものに変えることで、目標を追求するエージェント、純粋な探索エージェント、または両方のバランスを取るエージェントを作成できます。
+- **習慣的な行動**: 強いEベクトルを設定することで、エージェントが明確に新しい状況でない限り、慣れ親しんだ行動にデフォルトするエージェントをモデル化できます。
+- **不安と回避**: 観察に関して非常に負の値を持ち、特定の観察を強く好むCベクトルは、有害な結果を積極的に回避するエージェントをモデル化します。
 
-## Conclusion
+## 結論
 
-C, D, E, and γ define the agent's cognitive character: what it values, what it assumes, what it defaults to, and how decisive it is. With all five matrix components (A, B, C, D, E) and precision in hand, Module 05 can now show how these components combine to select actions through Expected Free Energy.
+C、D、E、およびγは、エージェントの認知的な性格を定義します：それは何に関心があるのか、何と仮定しているのか、何にデフォルトしているのか、そして、それがどの程度決断的であるかです。A、B、C、D、Eの5つの行列コンポーネントと精度がすべてあると、モジュール05はこれらのコンポーネントがどのように組み合わされて、期待されるフリーエネルギーを通して行動を選択するかを示すことができます。

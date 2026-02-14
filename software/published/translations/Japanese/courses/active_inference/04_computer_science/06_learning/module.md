@@ -1,24 +1,24 @@
-# Module 06: Learning — Updating Dirichlet Concentrations
+# モジュール 06: 学習 — ディリクレ濃縮の更新
 
-## Learning Objectives
+## 学習の目的
 
-1. Implement parameter learning using Dirichlet concentration updates for the A and B matrices.
-2. Compute expected parameter matrices from Dirichlet posteriors and compare with ground truth.
-3. Evaluate model quality using Bayesian Model Reduction (BMR).
+1.  A と B の行列のディリクレ濃縮更新を使用してパラメータ学習を実装する。
+2.  ディリクレ事後分布から期待されるパラメータ行列を計算し、真の値と比較する。
+3.  ベイズモデル削減 (BMR) を使用してモデルの品質を評価する。
 
-## Introduction
+## 導入
 
-In Modules 01–05, the agent's generative model was fixed — the A, B, C, D, E matrices were set once and never changed. But a truly adaptive agent must **learn**: it should update its beliefs about the environment's causal structure based on experience. In Active Inference, learning means updating the **Dirichlet concentration parameters** (pA, pB) that parameterize the agent's beliefs about A and B.
+モジュール 01〜05 では、エージェントの生成モデルは固定されていました—A、B、C、D、E の行列は一度設定され、決して変更されませんでした。しかし、真に適応的なエージェントは**学習**する必要があります—経験に基づいて環境の因果構造について信念を更新する必要があります。アクティブインファーレンスにおいて、学習とはディリクレ濃縮パラメータ (pA、pB) を更新することであり、これらのパラメータはエージェントが A と B についての信念をパラメータ化します。
 
-## Key Concepts
+## 重要な概念
 
-### 1. Why Dirichlet Distributions?
+### 1. なぜディリクレ分布を使うのか？
 
-Each column of the A-matrix is a categorical distribution. The Bayesian conjugate prior for a categorical distribution is the **Dirichlet distribution**. Instead of storing point estimates for A, the agent maintains concentration parameters $\mathbf{p}_A$ where:
+A行列の各列はカテゴリカル分布です。カテゴリカル分布のベイズ共役事前分布は**ディリクレ分布**です。Aの点推定値ではなく、エージェントは、次の式でパラメータ化された濃縮パラメータ $\mathbf{p}_A$ を維持します。
 
 $$P(\mathbf{A}[:, s]) = \text{Dir}(\mathbf{p}_A[:, s])$$
 
-The expected (mean) A-matrix is:
+期待される (平均) A行列は次のとおりです。
 
 $$\mathbb{E}[\mathbf{A}[:, s]] = \frac{\mathbf{p}_A[:, s]}{\sum_o \mathbf{p}_A[o, s]}$$
 
@@ -32,13 +32,13 @@ A_expected = expected_A(pA)
 # A_expected ≈ [[0.909, 0.091], [0.091, 0.909]]
 ```
 
-### 2. Updating pA: Learning the Likelihood
+### 2. pA の更新：尤度の学習
 
-After each observation-state pair $(o_t, q_s)$, the agent updates pA:
+各観測-状態ペア $(o_t, q_s)$ ごとに、エージェントは pA を更新します。
 
 $$\mathbf{p}_A[o_t, :] \mathrel{+}= q(s) \cdot \eta$$
 
-where $\eta$ is the learning rate. This is an outer-product update weighted by the posterior beliefs.
+ここで、η は学習率です。これは、事後信念に基づいて外積更新されます。
 
 ```python
 from active_inference.math import update_dirichlet_A
@@ -49,13 +49,13 @@ pA_new = update_dirichlet_A(
     q_s=np.array([0.9, 0.1]),
     learning_rate=1.0,
 )
-# pA_new[0, 0] increased by 0.9 (matched obs-state pair)
-# pA_new[0, 1] increased by 0.1 (secondary belief)
+# pA_new[0, 0] は 0.9 で増加 (観測-状態ペアに一致)
+# pA_new[0, 1] は 0.1 で増加 (二次的な信念)
 ```
 
-### 3. Updating pB: Learning the Transitions
+### 3. pB の更新：遷移の学習
 
-Similarly, the transition concentrations are updated after each (state, action, next-state) triple:
+同様に、各 (状態、行動、次の状態) 三重項ごとの、遷移濃度は次のとおりに更新されます。
 
 $$\mathbf{p}_B[:, s, a] \mathrel{+}= q(s') \cdot q(s) \cdot \eta$$
 
@@ -71,82 +71,82 @@ pB_new = update_dirichlet_B(
 )
 ```
 
-### 4. Online Learning Loop
+### 4. オンライン学習ループ
 
-The full perception-action-learning loop at each timestep:
+各タイムステップでの完全な知覚-行動-学習ループ：
 
 ```python
 for t in range(100):
-    # 1. Perceive
+    # 1. 知覚
     action = agent.step(obs)
 
-    # 2. Learn A
+    # 2. A の学習
     pA = update_dirichlet_A(pA, obs, agent.q_s, learning_rate=1.0)
     agent.model.A = expected_A(pA)
 
-    # 3. Act and observe
+    # 3. 行動と観察
     obs = env.step(action)
 
-    # 4. Learn B
+    # 4. B の学習
     pB = update_dirichlet_B(pB, q_s_prev, agent.q_s, action, learning_rate=1.0)
     agent.model.B = expected_B(pB)
 ```
 
-### 5. Tracking Learning Progress
+### 5. 学習の進捗状況の追跡
 
-Use KL divergence to measure how close the learned model is to the truth:
+KL 分散を使用して、学習されたモデルが真の値にどれだけ近いかを測定します。
 
 ```python
 from active_inference.math import kl_divergence
 
-# Compare each column of learned A vs true A
+# 各列の学習された A と真の A を比較
 for s in range(num_states):
     kl = kl_divergence(expected_A(pA)[:, s], true_A[:, s])
-    print(f"KL[learned || true] for state {s}: {kl:.6f}")
+    print(f"KL[学習済み || 真実] for state {s}: {kl:.6f}")
 ```
 
-Visualize with `plot_learning_progress()`:
+`plot_learning_progress()` を使用して可視化します。
 
 ```python
 from active_inference.visualization import plot_learning_progress
 plot_learning_progress(kl_history)
 ```
 
-### 6. Dirichlet Entropy
+### 6. ディリクレエントロピー
 
-The entropy of the Dirichlet distribution measures the agent's uncertainty about a parameter column:
+ディリクレ分布のエントロピーは、エージェントがパラメータ列についてどれだけ不確実であるかを測定します。
 
 $$H[\text{Dir}(\boldsymbol{\alpha})] = \ln B(\boldsymbol{\alpha}) + (\alpha_0 - K) \psi(\alpha_0) - \sum_k (\alpha_k - 1) \psi(\alpha_k)$$
 
 ```python
 from active_inference.math import dirichlet_entropy
 
-# Low entropy = confident about the parameter
+# pA 列 0 のエントロピー
 H = dirichlet_entropy(pA[:, 0])
-print(f"Entropy of pA column 0: {H:.4f}")
+print(f"pA 列 0 のエントロピー: {H:.4f}")
 ```
 
-### 7. Bayesian Model Reduction (BMR)
+### 7. ベイズモデル削減 (BMR)
 
-BMR compares a full model against a reduced (simpler) model by computing the change in free energy:
+BMR は、完全なモデルと簡略化された (より単純) モデルの間のフリーエネルギーの変化を計算することにより、モデルを比較します。
 
-$$\Delta F = F_{\text{reduced}} - F_{\text{full}}$$
+$$\Delta F = F_{\text{簡略化}} - F_{\text{完全}}$$
 
-A negative ΔF means the reduced model is better (simpler and equally good).
+ΔF が負である場合、簡略化されたモデルが優れていることを意味します (より単純で、同じ性能)。
 
 ```python
 from active_inference.math import bayesian_model_reduction
 
 delta_F = bayesian_model_reduction(pA_full, pA_reduced)
-print(f"ΔF = {delta_F:.4f}")  # Negative = reduced model preferred
+print(f"ΔF = {delta_F:.4f}")  # 負 = 簡略化されたモデルが好まれる
 ```
 
-## Applications
+## 応用
 
-- **Multi-episode training**: Run many episodes, accumulating pA and pB across episodes. The agent develops increasingly accurate models.
-- **Catastrophic forgetting**: Monitor whether learning in one context degrades performance in another.
-- **Model comparison**: Use BMR to prune unnecessary parameters from the model.
+- **マルチエピソードのトレーニング**: 多くのエピソードを実行し、エピソードごとに pA と pB を蓄積します。エージェントは、より正確なモデルを開発します。
+- **カタルシスフォゲッティング**: 一つのコンテキストで学習がパフォーマンスに影響を与えるかどうかを監視します。
+- **モデルの比較**: BMR を使用してモデルから不要なパラメータを削除します。
 
-## Conclusion
+## 結論
 
-Learning closes the loop: the agent not only perceives and acts but also improves its generative model over time. Dirichlet updates provide a principled Bayesian mechanism for this improvement. Module 07 extends these ideas to multi-agent settings where agents learn about each other.
+学習は、エージェントが感知し、行動するだけでなく、時間とともに生成モデルを改善することによって、ループを閉じます。ディリクレ更新は、この改善のための、原理的なベイズメカニズムを提供します。モジュール 07 は、エージェントが互いについて学習するマルチエージェント設定でこれらのアイデアを拡張します。

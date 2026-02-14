@@ -1,23 +1,98 @@
-# Lab: Exploring Agents
+# Lab: Your Brain as Agent -- The Command Center
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Agents**.
+> **Learning Goal:** Investigate how your brain acts as an agent -- receiving sensory information, building models of the body and world, and sending commands to keep you alive and functioning.
 
-## Prerequisites
+This is an **investigation lab** designed for middle school students (Grades 6-8).
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Agents.
+---
 
-## Steps
+## Materials Needed
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Ms.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Agents.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Agents (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+- Ruler (for reaction time test)
+- Blindfold or eye mask
+- Paper and colored pencils
+- Lab journal or notebook
 
-## Discussion Requirements
+---
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Agents.
+## Part 1: Reaction Time Test (10 min)
+
+Your brain is an agent that constantly predicts what is about to happen and prepares actions in advance. Let's measure how fast your brain-agent reacts.
+
+**Ruler Drop Test:** Partner A holds a ruler vertically. Partner B places their thumb and finger at the 0 cm mark (without touching). Partner A drops the ruler without warning. Partner B catches it. Record the centimeter mark where they caught it.
+
+| Trial | Catch Position (cm) | Were you expecting the drop? | Prediction helped? |
+|-------|---------------------|------------------------------|-------------------|
+| 1 | | No (surprise) | |
+| 2 | | Somewhat | |
+| 3 | | Getting better | |
+| 4 | | | |
+| 5 | | | |
+| **Average** | | | |
+
+{fill:textarea, placeholder: "Did your reaction time improve with practice? How does your brain use prediction to react faster? What happens when you are surprised vs. prepared?"}
+
+---
+
+## Part 2: Brain Agent Profile (15 min)
+
+Your brain is the ultimate agent. It has sensors (your senses), an internal model (your mental picture of the world), and actions (motor commands). Map your brain as an agent.
+
+| Agent Feature | Your Brain's Version | Example |
+|--------------|---------------------|---------|
+| **Sensors** | Eyes, ears, skin, nose, tongue + internal sensors | |
+| **Internal model** | Your mental picture of your body and the world | |
+| **Goals** | Keep you alive, safe, comfortable, and happy | |
+| **Predictions** | What you expect to feel, see, hear next | |
+| **Actions** | Muscle commands, hormone releases, reflexes | |
+| **Surprise handlers** | Startle reflex, pain response, attention shift | |
+
+{fill:textarea, placeholder: "What is the difference between your brain as an agent and YOU as an agent? Are they the same thing? Explain your thinking."}
+
+---
+
+## Part 3: Reflex vs. Decision (10 min)
+
+Some of your brain's actions are automatic (reflexes) and some require conscious thought (decisions). Sort these actions:
+
+| Action | Reflex or Decision? | Which part of the brain handles it? | How fast? |
+|--------|---------------------|-------------------------------------|----------|
+| Pulling your hand off a hot stove | | | |
+| Choosing what to eat for lunch | | | |
+| Your pupils shrinking in bright light | | | |
+| Solving a math problem | | | |
+| Catching a ball thrown at your face | | | |
+| Deciding whether to raise your hand in class | | | |
+
+{fill:textarea, placeholder: "Why does your brain have both reflexes and decisions? What would happen if EVERYTHING required conscious thought? What if everything were automatic?"}
+
+---
+
+## Part 4: Sensory Deprivation Challenge (5 min)
+
+Close your eyes for 60 seconds in a quiet space. Pay attention to what your brain does when it loses visual input.
+
+| Observation | What happened? |
+|------------|----------------|
+| What did you "see" with your eyes closed? | |
+| Did your other senses get stronger? | |
+| What did your brain predict would happen? | |
+| How did you feel (calm, anxious, bored)? | |
+
+{fill:textarea, placeholder: "When your brain loses one source of input, how does it compensate? What does this tell you about prediction?"}
+
+---
+
+## Reflection Table
+
+| Question | Your Answer |
+|----------|-------------|
+| In what ways is your brain an agent? | |
+| What is the difference between a reflex and a decision? | |
+| How does prediction make your reactions faster? | |
+| What happens when your brain-agent is surprised? | |
+| How does Active Inference describe the brain? | |
+
+{fill:textarea, placeholder: "Complete the reflection table. Your brain is the agent that runs the show -- always predicting, always adjusting."}

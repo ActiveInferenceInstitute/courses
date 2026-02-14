@@ -1,22 +1,22 @@
-# Lab 06: Parameter Learning with Dirichlet Updates
+# Lab 06: パラメータ学習におけるディレクトリ更新
 
-## Objective
+## 目的
 
-Implement online parameter learning, track convergence toward the true model, and evaluate model quality with BMR.
+オンラインパラメータ学習を実行し、真のモデルへの収束を追跡し、BMRを使用してモデルの品質を評価します。
 
-## Prerequisites
+## 前提条件
 
-- Completed Labs 01–05
-- Understanding of Dirichlet distributions and conjugate priors
+- Lab 01～05 の完了
+- ディリクレ分布と共役事前分布の理解
 
-## Part 1: Initializing Dirichlet Concentrations
+## 第1部：ディリクレ濃度の初期化
 
-**Goal**: Set up pA and pB prior concentrations for a 2-state system.
+**目標**: 2状態システムに対して pA および pB 事前濃度を設定します。
 
-1. Create a `DiscreteEnvironment` with known `true_A` and `true_B`.
-2. Initialize `pA = np.ones((2, 2))` (uniform Dirichlet prior).
-3. Compute the initial expected A-matrix using `expected_A(pA)`.
-4. Compare with `true_A` using KL divergence for each column.
+1. `DiscreteEnvironment` を既知の `true_A` および `true_B` で作成します。
+2. `pA = np.ones((2, 2))` (一様ディリクレ事前分布) を初期化します。
+3. `expected_A(pA)` を使用して初期期待される A 行列を計算します。
+4. 各列について KL 分散を使用して `true_A` と比較します。
 
 ```python
 import numpy as np
@@ -27,18 +27,18 @@ A_initial = expected_A(pA)
 
 for s in range(2):
     kl = kl_divergence(A_initial[:, s], true_A[:, s])
-    print(f"Initial KL for state {s}: {kl:.4f}")
+    print(f"初期 KL for state {s}: {kl:.4f}")
 ```
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 2: Online Learning Loop
+## 第2部：オンライン学習ループ
 
-**Goal**: Run 100 steps of perception-action-learning and track model convergence.
+**目標**: 認識と行動の学習を100ステップ実行し、モデルの収束を追跡します。
 
-1. Create an agent with the initial expected A-matrix.
-2. At each step: infer states, select action, update pA, update pB, recompute expected matrices.
-3. Log the KL divergence between `expected_A(pA)` and `true_A` at each step.
+1. 初期期待される A 行列を持つエージェントを作成します。
+2. 各ステップにおいて：状態を推論し、行動を選択し、pA を更新し、pB を更新し、期待される行列を再計算します。
+3. `expected_A(pA)` と `true_A` の間の KL 分散を各ステップで記録します。
 
 ```python
 from active_inference.math import update_dirichlet_A, update_dirichlet_B, expected_B
@@ -52,15 +52,15 @@ for t in range(100):
     # TODO: update pB, compute KL, append to kl_history
 ```
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 3: Visualizing Learning Progress
+## 第3部：学習進捗の可視化
 
-**Goal**: Plot the learning curve and compare initial vs. learned matrices.
+**目標**: 学習曲線と初期値と学習された行列の比較をプロットします。
 
-1. Plot KL divergence over time using `plot_learning_progress()`.
-2. Plot the initial and final pA using `plot_dirichlet_concentration()`.
-3. Plot the final expected A-matrix using `plot_A_matrix()`.
+1. `plot_learning_progress()` を使用して、時間の経過に伴う KL 分散をプロットします。
+2. `plot_dirichlet_concentration()` を使用して、初期値と最終的な pA をプロットします。
+3. `plot_A_matrix()` を使用して、最終的な期待される A 行列をプロットします。
 
 ```python
 from active_inference.visualization import (
@@ -70,25 +70,25 @@ from active_inference.visualization import (
 plot_learning_progress(kl_history, save_path="output/lab06_learning.png")
 ```
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 4: Multi-Episode Training
+## 第4部：複数エピソードのトレーニング
 
-**Goal**: Run 5 episodes of 50 steps, accumulating pA across episodes.
+**目標**: 50ステップの5エピソードを実行し、エピソード間で pA を累積します。
 
-1. After each episode, reset the environment and agent beliefs, but keep pA.
-2. Record the mean KL divergence during each episode.
-3. Plot a bar chart of mean KL per episode to show improvement.
+1. 各エピソードの後に、環境とエージェントの信念をリセットしますが、pA は保持します。
+2. 各エピソード中の平均 KL 分散を記録します。
+3. 平均 KL 分散をエピソードごとに示す棒グラフを作成します。
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 5: Bayesian Model Reduction
+## 第5部：ベイズモデル削減
 
-**Goal**: Use BMR to compare the learned model against a reduced model.
+**目標**: BMRを使用して、学習されたモデルを削減されたモデルと比較します。
 
-1. After 100 steps of learning, compute `bayesian_model_reduction(pA_learned, pA_reduced)`.
-2. For `pA_reduced`, set small off-diagonal concentrations to 0.1 (sparser model).
-3. Report ΔF and interpret whether the reduced model is preferred.
+1. 100ステップの学習後に、`bayesian_model_reduction(pA_learned, pA_reduced)` を計算します。
+2. `pA_reduced` に対して、小さな対角成分の濃度を 0.1 に設定します (疎なモデル)。
+3. 削減されたモデルの好みを報告し、解釈します。
 
 ```python
 from active_inference.math import bayesian_model_reduction
@@ -101,14 +101,14 @@ delta_F = bayesian_model_reduction(pA, pA_reduced)
 print(f"ΔF = {delta_F:.4f} → {'Reduced preferred' if delta_F < 0 else 'Full preferred'}")
 ```
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Summary
+## 概要
 
-| Skill | Library Component | Status |
-|-------|------------------|--------|
-| Initialize Dirichlet concentration priors | `pA = np.ones(...)`, `expected_A()` | |
-| Update pA/pB after each step | `update_dirichlet_A()`, `update_dirichlet_B()` | |
-| Track learning convergence | KL divergence, `plot_learning_progress()` | |
-| Run multi-episode training | Accumulated pA across resets | |
-| Evaluate models with BMR | `bayesian_model_reduction()` | |
+| スキル | ライブラリコンポーネント | ステータス |
+|---|---|---|
+| ディリクレ濃度の事前分布の初期化 | `pA = np.ones(...)`, `expected_A()` | |
+| 各ステップで pA/pB を更新 | `update_dirichlet_A()`, `update_dirichlet_B()` | |
+| 学習収束の追跡 | KL 分散, `plot_learning_progress()` | |
+| 複数エピソードのトレーニングの実行 | エピソードごとの pA の累積 | |
+| BMR を使用したモデル評価 | `bayesian_model_reduction()` | |

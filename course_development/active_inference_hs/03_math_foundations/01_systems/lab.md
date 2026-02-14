@@ -1,23 +1,79 @@
-# Lab: Exploring Systems
+# Lab: Sets, Variables, and Graphs -- The Mathematical Language of Systems
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Systems**.
+Build mathematical representations of systems using **set notation**, **variables**, and **graphs**, connecting these tools to the formal definition of Markov blankets and system boundaries.
 
 ## Prerequisites
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Systems.
+- Completed the Everyday Life section on Systems
+- Basic algebra (variables, equations)
+- Familiarity with set notation (optional -- will be introduced)
 
-## Steps
+## Part 1: Set Notation for Systems
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Hs.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Systems.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Systems (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+**Goal**: Represent a system's components using formal set notation.
 
-## Discussion Requirements
+A system consists of internal states, sensory states, active states, and external states. Define these as sets:
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Systems.
+1. Let I = {i1, i2, i3} be internal states. Give a concrete example (e.g., for a thermostat: I = {target temperature, current reading, error signal}).
+2. Let S = {s1, s2} be sensory states. What are the sensory inputs for your example?
+3. Let A = {a1, a2} be active states. What actions can the system take?
+4. Let E = {e1, e2, e3, e4} be external states. What is outside the system?
+5. Define the Markov blanket as B = S union A. Write it out for your example.
+
+{fill:textarea}
+
+## Part 2: Variables and State Spaces
+
+**Goal**: Represent system states as variables with ranges.
+
+For a room thermostat system:
+
+1. Let x = current room temperature. What is the range? (e.g., x is in [0, 50] degrees Celsius.)
+2. Let s = sensor reading. Is s continuous or discrete?
+3. Let a = heater setting. What values can a take? (e.g., {off, low, medium, high}.)
+4. Write the state space as the Cartesian product of all variables.
+5. How many possible states exist if temperature is discretized into 1-degree bins?
+
+{fill:textarea}
+
+## Part 3: Graphs and Networks
+
+**Goal**: Represent a system as a graph showing dependencies between variables.
+
+Draw or describe a graph where:
+- Each variable (x, s, a, e) is a node.
+- An edge from node A to node B means "A influences B."
+
+For the thermostat example:
+1. Does the external temperature (e) influence the sensor reading (s)? Draw the edge.
+2. Does the sensor reading (s) influence the heater action (a)?
+3. Does the heater action (a) influence the room temperature (x)?
+4. Does the room temperature (x) influence the sensor reading (s)?
+
+You have drawn a **causal graph**. Identify the cycle (feedback loop) in your graph.
+
+{fill:textarea}
+
+## Part 4: The Markov Blanket in Graph Form
+
+**Goal**: Identify the Markov blanket on your graph.
+
+On your graph from Part 3:
+1. Highlight the internal state nodes.
+2. Highlight the blanket nodes (sensory + active states).
+3. Highlight the external state nodes.
+4. Verify that the internal states are only connected to external states *through* blanket states (never directly). This is the Markov property.
+
+{fill:textarea}
+
+## Summary Table
+
+| Math Tool | What It Represents | Example |
+|-----------|-------------------|---------|
+| Set | A collection of possible values for a variable | I = {i1, i2, i3} |
+| Variable | A quantity that can take different values | x = room temperature |
+| State Space | All possible combinations of variable values | X = I x S x A x E |
+| Graph | A diagram of dependencies between variables | Nodes and directed edges |
+| Markov Blanket | The set of nodes that separate internal from external | B = S union A |

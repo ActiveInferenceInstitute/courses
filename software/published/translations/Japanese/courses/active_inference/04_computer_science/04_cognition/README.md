@@ -1,53 +1,53 @@
-# Module 4: Cognition — C, D, E Matrices: Configuring Precision and Attention
+# モジュール4：認知 – C, D, E行列：精度と注意の構成
 
-> **Quick Navigation**: [← Perception](../03_perception/) | [Up](../) | [Action →](../05_action/)
+> **クイックナビゲーション**: [← 認識](../03_perception/) | [上へ](../) | [アクション →](../05_action/)
 
-## Computational Active Inference
+## 計算的な能動的推論
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Python Coding Exercise lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7問のMC + 3問のFR) |
+| [lab.md](./lab.md) | Pythonコーディング演習ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了すると、あなたは次のことができるようになるはずです：
 
-1. Define **Cognition** from a computational perspective within Active Inference
-2. Explain the role of **C** in the FEP framework
-3. Connect cognition to the broader concepts of free energy minimization
-4. Apply computational reasoning to analyze real-world examples of cognition
+1. 能動的推論における計算的な視点から **認知** を定義する
+2. FEPフレームワークにおける **C** の役割を説明する
+3. 自由エネルギー最小化のより広範な概念と認知を結びつける
+4. 実際の認知の例を分析するために計算的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 関連コース
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/04_cognition/) | Beliefs as Physical States, the Embodied Mind, and Predictive Processing |
-| [Cognitive Science](../../02_cognitive_science/04_cognition/) | Attention as Precision Weighting and Working Memory |
-| [Mathematics](../../03_math/04_cognition/) | Precision Matrices, Hierarchical Gaussian Filters, Message Passing |
-| [Computer Science](../../04_computer_science/04_cognition/) | C, D, E Matrices: Configuring Precision and Attention ← **You are here** |
+| [哲学](../../01_philosophy/04_cognition/) | 物理的な状態としての信念、身体化された心、予測処理 |
+| [認知科学](../../02_cognitive_science/04_cognition/) | 注意の精度重み付けとしての注意、ワーキングメモリ |
+| [数学](../../03_math/04_cognition/) | 精度行列、階層的ガウスフィルタ、メッセージ伝播 |
+| [コンピュータサイエンス](../../04_computer_science/04_cognition/) | C, D, E行列：精度と注意の構成 ← **ここ** |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) – 記号の定義
+- [用語集](../../resources/glossary.md) – 用語の定義
+- [参考文献](../../resources/references.md) – このモジュールの主要な引用
 
 ---
 
-[← Perception](../03_perception/) | [Up](../) | [Action →](../05_action/)
+[← 認識](../03_perception/) | [上へ](../) | [アクション →](../05_action/)

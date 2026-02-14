@@ -1,53 +1,53 @@
-# Practice Quiz: Learning
+# 練習クイズ：学習
 
-## Part A: Multiple Choice
+## 部門 A：多肢選択
 
-1. In Active Inference, parameter learning updates the:
-A) Hidden states
-B) Dirichlet concentration parameters (pA, pB)
-C) C-vector preferences
-D) Precision γ
+1. Active Inference において、パラメータ学習は以下のものを更新しますか？
+    A) 隠れ状態
+    B) ディリクレ濃度パラメータ (pA, pB)
+    C) Cベクトルの好みを
+    D) 精度 γ
 
-2. `expected_A(pA)` computes:
-A) The entropy of the Dirichlet distribution
-B) The mean of the Dirichlet distribution — the normalized concentrations
-C) The maximum likelihood estimate of A
-D) The posterior over hidden states
+2. `expected_A(pA)` は以下のものを計算しますか？
+    A) ディリクレ分布の熵
+    B) ディリクレ分布の平均 - 正規化された濃度
+    C) A の最尤推定値
+    D) 隠れ状態の事後分布
 
-3. After `update_dirichlet_A(pA, obs=0, q_s=[0.8, 0.2], lr=1.0)`, which pA entries increase?
-A) pA[0, 0] by 0.8 and pA[0, 1] by 0.2
-B) pA[0, 0] by 1.0 only
-C) All entries increase equally
-D) pA[1, 0] by 0.8 and pA[1, 1] by 0.2
+3. `update_dirichlet_A(pA, obs=0, q_s=[0.8, 0.2], lr=1.0)` 実行後、pA のどのエントリが増加しますか？
+    A) pA[0, 0] が 0.8、pA[0, 1] が 0.2 で増加
+    B) pA[0, 0] が 1.0 でのみ増加
+    C) 全エントリが均等に増加
+    D) pA[1, 0] が 0.8、pA[1, 1] が 0.2 で増加
 
-4. With a learning rate of η = 0, the pA update:
-A) Sets pA to zero
-B) Leaves pA unchanged — no learning occurs
-C) Halves all concentrations
-D) Resets to uniform
+4. 学習率 η = 0 の場合、pA の更新は：
+    A) pA を 0 に設定
+    B) pA が変更されない - 学習は発生しない
+    C) 全濃度を半分にする
+    D) 均一にリセット
 
-5. `dirichlet_entropy(alpha)` is low when:
-A) The concentrations are all 1.0 (uniform prior)
-B) The concentrations are very large (peaked distribution)
-C) The distribution is flat
-D) The entropy is always constant
+5. `dirichlet_entropy(alpha)` が低いのは、以下の理由によるか？
+    A) 濃度がすべて 1.0 (一様事前分布)
+    B) 濃度が非常に大きい (尖った分布)
+    C) 分布がフラット
+    D) 熵は常に一定
 
-6. Bayesian Model Reduction returns ΔF < 0 when:
-A) The full model is better
-B) The reduced model is preferred (simpler and equally good)
-C) Both models are identical
-D) The computation failed
+6. Bayesian Model Reduction が ΔF < 0 を返すのは、以下の理由によるか？
+    A) フルモデルの方が良い
+    B) 削減されたモデルが好まれる (簡潔で同等の性能)
+    C) 両方のモデルが同一
+    D) 計算が失敗
 
-7. In the online learning loop, when should `agent.model.A` be updated?
-A) Before state inference
-B) After state inference but before action selection
-C) After updating pA with `expected_A(pA)`
-D) Only at the end of the episode
+7. オンライン学習ループにおいて、`agent.model.A` はいつ更新すべきか？
+    A) ステート推論の前に
+    B) ステート推論の後に、アクション選択の前に
+    C) `expected_A(pA)` で pA を更新した後
+    D) エピソードの終わりにのみ
 
-## Part B: Short Answer
+## 部門 B：短い回答
 
-1. If `pA = [[10, 1], [1, 10]]`, compute `expected_A(pA)` by hand. Show the normalization for each column.
+1. `pA = [[10, 1], [1, 10]]` の場合、`expected_A(pA)` を手計算で計算してください。 各列の正規化を示してください。
 
-2. Explain why the agent needs both `pA` (concentration parameters) and `model.A` (expected matrix). Why can't it just use pA directly for state inference?
+2. エージェントが `pA` (濃度パラメータ) と `model.A` (期待値行列) の両方が必要な理由を説明してください。 ステート推論に pA を直接使用することはできない理由は何ですか？
 
-3. Design an experiment to detect catastrophic forgetting: an agent learns environment A for 50 steps, then switches to environment B for 50 steps. Describe what you would measure and what result would indicate forgetting.
+3. 忘却の激化を検出するための実験を設計してください。 エージェントは 50ステップで環境Aを学習し、その後 50ステップで環境Bを学習します。 測定するものを記述し、その結果が忘却を示唆するかどうかの結果を説明してください。

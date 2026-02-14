@@ -1,25 +1,25 @@
-# Module 6: Learning — Agent Guidelines
+# モジュール6：学習—エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コースのエージェント](../AGENTS.md) | [カリキュラムのエージェント](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Parameter Updating: Learning A and B Matrices from Experience |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Learning) |
-| `lab.md` | File | Python Coding Exercise: Parameter Updating: Learning A and B Matrices from Experience |
-| `dashboard.html` | File | Interactive dashboard: Learning |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル—モジュールエージェントガイドライン |
+| `module.md` | ファイル | 完全な講義: パラメータ更新: 経験からAとB行列を学習する |
+| `questions.md` | ファイル | 20問の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7問のMC + 3問の自由記述 (学習) |
+| `lab.md` | ファイル | Pythonコーディング演習: パラメータ更新: 経験からAとB行列を学習する |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード: 学習 |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Computational
-- **Topic**: Learning — Parameter Updating: Learning A and B Matrices from Experience
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/06_learning/module.md` for parallel modules
+- **視点**: 計算機的な
+- **トピック**: 学習—パラメータ更新: 経験からAとB行列を学習する
+- **記号**: [記号表](../../resources/notation_table.md) にて
+- **用語**: [用語集](../../resources/glossary.md) にて
+- **相互参照**: `../../XX_course/06_learning/module.md` へのリンクで、並行モジュールを参照します。

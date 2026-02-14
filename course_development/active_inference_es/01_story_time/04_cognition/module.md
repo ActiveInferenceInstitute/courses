@@ -67,23 +67,3 @@ Use your Thinking Cap to guess what's inside.
 
 * *It Looked Like Spilt Milk* by Charles G. Shaw (A book about guessing shapes!)
 * *Thinking, Fast and Slow* (Just kidding! That's for grown-ups. Read *The Boy Who Cried Wolf* instead—it's about bad predictions!)
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

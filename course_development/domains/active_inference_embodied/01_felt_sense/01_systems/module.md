@@ -1,52 +1,52 @@
-# Module 01: Systems in Embodied
+# Module 01: Systems — The Body as a Self-Organizing System of Feeling
 
 ## Learning Objectives
 
-1.  Define **Systems** within the context of Embodied.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Embodied to the formal definition of Systems.
+1. Describe the living body as a **self-organizing system** whose boundaries are maintained through continuous interoceptive inference.
+2. Explain how the **Markov blanket** of the feeling body encompasses skin, visceral membranes, and sensory surfaces that mediate between internal somatic states and the external world.
+3. Analyze the relationship between **homeostatic regulation** and the systemic organization of the felt sense, drawing on Damasio's nested hierarchy of life regulation.
+4. Recognize the body-as-system as the foundational unit of embodied cognition from which all subsequent modules build.
 
 ## Introduction
 
-This module explores **Systems**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Close your eyes and feel the boundary of your body. Not by touching your skin, but from the inside — the warmth of your torso, the subtle pulsing in your fingertips, the weight of your body against the chair. This interior landscape, sensed from within, is not just anatomy. It is a system: a self-organizing, self-maintaining whole that continuously distinguishes itself from everything that is not-body. Before you can have a felt sense, you must first have a felt system — a living organization that registers its own states and guards its own persistence.
+
+Antonio Damasio (1999) proposed a nested hierarchy of life regulation: from basic homeostasis through emotions to feelings to consciousness. At every level, the organism operates as a system that must maintain its internal states within viable bounds. Active inference formalizes this insight: the body is a generative model of itself, predicting its own internal milieu and acting to minimize the surprise of deviations from expected physiological norms.
 
 ## Key Concepts
 
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
+### 1. The Body as Markov Blanket
 
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
+In active inference, a system is defined by its **Markov blanket** — the statistical boundary that separates internal states from external states. For the feeling body, this blanket is not abstract. It is the skin, the mucosal linings, the retinal surface, the cochlear membrane — every interface where the organism meets the world. Interoceptive sensors (baroreceptors, chemoreceptors, thermoreceptors) form the inward-facing surface of this blanket, reporting on the body's internal states. The felt sense arises at this boundary: it is the phenomenology of the Markov blanket sensing itself.
 
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
+### 2. Homeostatic Systems and Allostatic Regulation
 
-## Applications
+The body maintains itself through **homeostasis** — the active regulation of temperature, blood glucose, pH, osmolarity, and dozens of other variables within narrow viability bounds. Karl Friston has argued that homeostasis is a special case of free energy minimization: the organism's generative model embodies deep priors about the physiological states compatible with life, and all regulatory action serves to minimize the divergence between actual and expected states. **Allostasis** extends this account: the system does not merely react to deviations but anticipates future demands, adjusting set-points proactively. The felt sense of hunger, fatigue, or restlessness is the subjective surface of allostatic prediction error.
 
-In Embodied, we see Systems manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### 3. Nested Systems: Cells, Organs, Organism
 
-## Conclusion
+The body is not a single system but a hierarchy of nested systems. Each cell maintains its own Markov blanket; organs emerge as coupled ensembles of cells; the organism emerges as the integrated whole. Thomas Fuchs (2018) emphasizes that this nested organization means the body is always simultaneously local and global — a headache is both a neural event and a whole-organism experience. The felt sense reflects this nesting: when you attend to a sensation in your chest, you are simultaneously engaging the local dynamics of cardiac tissue and the global dynamics of emotional self-regulation.
 
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 4. System Boundaries and the Sense of Self
 
-<!-- Content padding to ensure file size requirements -->
+The most fundamental aspect of the felt sense may be the pre-reflective awareness of being a bounded, coherent system — what Damasio calls the **proto-self**. This is not the narrative self of autobiography but the moment-to-moment bodily sense of existing as a coherent entity. In active inference, the proto-self corresponds to the generative model's deepest prior: the prediction that "I am a persisting, bounded system." Disruptions to this prior — through dissociation, depersonalization, or extreme interoceptive uncertainty — reveal how fundamental this systemic self-sense is to all subsequent experience.
 
-<!-- Content padding to ensure file size requirements -->
+## Active Inference Connection
 
-<!-- Content padding to ensure file size requirements -->
+The felt sense begins with the body's identity as a self-organizing system. Active inference shows that this identity is not given but continuously achieved — the organism must perpetually infer its own boundaries, predict its own internal states, and act to maintain itself within viable bounds. Free energy minimization at the systemic level is what keeps the organism alive; the felt sense is the experiential signature of this ongoing self-maintenance. Every heartbeat, every breath, every micro-adjustment of posture is an act of systemic self-inference — the body confirming, moment by moment, that it still exists.
 
-<!-- Content padding to ensure file size requirements -->
+## Experiential Applications
 
-<!-- Content padding to ensure file size requirements -->
+* **Practice — Sensing System Boundaries**: Sit quietly and bring attention to the surface of your body — not what you see, but what you feel from inside. Notice the boundary between the warmth of your body and the temperature of the surrounding air. Feel the pressure of contact with the chair. Attend to the membrane of your lips, the inside of your nostrils. You are tracing the Markov blanket of your felt system, the interface where self meets world.
 
-<!-- Content padding to ensure file size requirements -->
+* **Case Study — Interoceptive Disruption in Panic Disorder**: Individuals with panic disorder exhibit heightened sensitivity to interoceptive signals — a racing heart is interpreted not as normal physiological variation but as evidence of cardiac failure. In active inference terms, the system's precision weighting on interoceptive prediction errors is pathologically elevated: minor deviations from expected states generate massive surprise, triggering a cascade of autonomic arousal that further amplifies the prediction errors. Treatment involves recalibrating the system — restoring appropriate precision and helping the generative model learn that variation is normal, not catastrophic.
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+* **Module 02 (Agents)**: Builds on the systems foundation to explore the felt sense of agency — being a system that acts.
+* **Unit 02 (Living Presence)**: Connects systemic self-organization to sustained mindful awareness of the body.
+* **Unit 04 (Moving Through World)**: Extends the body-as-system into dynamic engagement with spatial environments.
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+The felt sense begins with the body's fundamental identity as a self-organizing system — a bounded, self-maintaining whole that continuously infers its own states and guards its own viability. The Markov blanket of this system is not abstract but lived: it is the skin, the sensory surfaces, the visceral membranes through which the body meets the world. Homeostatic and allostatic regulation, nested system organization, and the proto-self all contribute to the foundational somatic experience on which all subsequent modules build. To feel is, first and foremost, to be a system that registers its own existence.

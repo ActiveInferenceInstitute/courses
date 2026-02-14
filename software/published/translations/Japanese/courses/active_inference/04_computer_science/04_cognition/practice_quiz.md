@@ -1,53 +1,53 @@
-# Practice Quiz: Cognition
+# 練習クイズ：認知
 
-## Part A: Multiple Choice
+## 部門 A：多肢選択
 
-1. The C-vector encodes:
-A) Transition probabilities between states
-B) Log-preferences over observations
-C) Prior beliefs over initial states
-D) The agent's learning rate
+1. C-ベクトルは以下のものをエンコードしますか？
+A) 状態間の遷移確率
+B) 観測に対する対数優先度
+C) 初期状態に対する事前信念
+D) エージェントの学習率
 
-2. If `C = [0, 0, 0]`, the agent's behavior is driven entirely by:
-A) Risk (pragmatic value)
-B) Ambiguity (epistemic value)
-C) Habits (E-vector)
-D) Nothing — the agent is frozen
+2. `C = [0, 0, 0]` の場合、エージェントの行動は主に何によって駆動されますか？
+A) リスク（実用的な価値）
+B) 不確実性（知識的な価値）
+C) 習慣（Eベクトル）
+D) 何も—エージェントは凍り付いている
 
-3. The D-vector is used in Active Inference as:
-A) The posterior after the first observation
-B) The initial prior for state inference
-C) The reward signal
-D) The transition dynamics prior
+3. D-ベクトルはアクティブインファーレンスにおいてどのような役割を果たしますか？
+A) 最初の観測後の事後分布
+B) 状態推論のための初期事前分布
+C) 報酬信号
+D) 遷移ダイナミクス事前分布
 
-4. What role does the E-vector play in the policy posterior equation?
-A) It replaces EFE entirely
-B) It adds a log-prior bias to each policy's score
-C) It scales the precision parameter
-D) It modifies the A-matrix
+4. E-ベクトルはポリシー事後分布の式においてどのような役割を果たしますか？
+A) EFE を完全に置き換える
+B) 各ポリシーのスコアに対数事前バイアスを加える
+C) 精度パラメータをスケーリングする
+D) A行列を変更する
 
-5. When precision γ = 0.01, the agent's policy selection is:
-A) Nearly deterministic
-B) Nearly random (or dominated by habits if E is set)
-C) Identical to maximum EFE selection
-D) Always action 0
+5. 精度 γ = 0.01 の場合、エージェントのポリシー選択は：
+A) ほぼ決定論的
+B) ほぼランダム（または E が設定されている場合、習慣に支配される）
+C) 最大 EFE 選択に一致する
+D) 常にアクション 0
 
-6. The risk component of EFE is $D_{KL}[q(o|\pi) \| \tilde{P}(o)]$. The target distribution $\tilde{P}(o)$ is:
-A) The empirical observation frequency
-B) $\sigma(C)$ — the softmax of the C-vector
-C) The A-matrix likelihood
-D) A uniform distribution
+6. EFE のリスク成分は、$D_{KL}[q(o|\pi) \| \tilde{P}(o)]$ です。ターゲット分布 $\tilde{P}(o)$ は：
+A) 観測の経験的頻度
+B) $\sigma(C)$ — Cベクトルのソフトマックス
+C) A行列の尤度
+D) 一様分布
 
-7. `plot_D_prior()` annotates the bar chart with:
-A) The VFE value
-B) The entropy of D
-C) The number of states
-D) The D-vector norm
+7. `plot_D_prior()` は棒グラフに以下の情報を付記しますか？
+A) VFE の値
+B) D のエントロピー
+C) 状態の数
+D) Dベクトルのノルム
 
-## Part B: Short Answer
+## 部門 B：記述式
 
-1. An agent has `C = [0, 5, -5]` for (neutral, food, predator). Its current beliefs are $q(s) = [0.5, 0.5]$. The A-matrix maps state 0 to observation 1 (food) and state 1 to observation 2 (predator). Describe qualitatively what policy the agent should prefer and why, in terms of the risk component.
+1. エージェントは、中立状態、食べ物状態、捕食者状態に対して `C = [0, 5, -5]` を持っています。現在の信念は $q(s) = [0.5, 0.5]$ です。A行列は、状態 0 を観測 1（食べ物）に、状態 1 を観測 2（捕食者）にマッピングします。リスク成分の観点から、エージェントが好むべきポリシーを記述し、その理由を説明してください。
 
-2. Write code to create an `ActiveInferenceAgent` with a habit prior that strongly favors policy 1 (go-left) and a low precision γ = 0.1. Explain why this agent would almost always go left regardless of observations.
+2. 習慣事前分布を持って、ポリシー 1（左に進む）を強く好むアクティブインファーレンスエージェントを作成するコードを記述してください。精度 γ = 0.1 を設定してください。このエージェントが観察に関係なくほとんど常に左に進む理由を説明してください。
 
-3. Design an experiment to determine the "critical γ" at which an agent transitions from exploratory to exploitative behavior. Describe the setup, the measurement, and what plot you would produce.
+3. エージェントが探求から搾取的な行動に移行する「臨界 γ」を決定するための実験を設計してください。設定、測定、および生成するプロットについて説明してください。

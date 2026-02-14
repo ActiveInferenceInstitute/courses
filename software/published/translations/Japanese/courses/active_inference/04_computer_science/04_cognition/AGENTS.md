@@ -1,25 +1,25 @@
-# Module 4: Cognition — Agent Guidelines
+# モジュール4：認知 — エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コースのエージェント](../AGENTS.md) | [カリキュラムのエージェント](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: C, D, E Matrices: Configuring Precision and Attention |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Cognition) |
-| `lab.md` | File | Python Coding Exercise: C, D, E Matrices: Configuring Precision and Attention |
-| `dashboard.html` | File | Interactive dashboard: Cognition |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル — モジュールエージェントガイドライン |
+| `module.md` | ファイル | フル講義: C, D, E Matrices: 正確度と注意の構成 |
+| `questions.md` | ファイル | 20 の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7 個の MC + 3 個の FR (認知) |
+| `lab.md` | ファイル | Python コーディング演習: C, D, E Matrices: 正確度と注意の構成 |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード: 認知 |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Computational
-- **Topic**: Cognition — C, D, E Matrices: Configuring Precision and Attention
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/04_cognition/module.md` for parallel modules
+- **視点**: 計算機的な
+- **トピック**: 認知 — C, D, E Matrices: 正確度と注意の構成
+- **記号**: [notation_table.md](../../resources/notation_table.md) に基づく
+- **用語**: [glossary.md](../../resources/glossary.md) に基づく
+- **相互参照**: `../../XX_course/04_cognition/module.md` へのリンクで、並行するモジュールを参照

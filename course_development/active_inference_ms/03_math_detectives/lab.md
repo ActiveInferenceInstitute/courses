@@ -1,23 +1,43 @@
-# Lab: Exploring Perception
+# Lab Overview: Math Detectives
 
-## Objective
+## Course Lab Theme: Guided Worksheets
 
-Design and simulate a simple agent that demonstrates the principles of **Perception**.
+> All labs in the Math Detectives course use a **Guided Worksheet** format, with structured data collection tables, pattern analysis, and prediction challenges.
 
-## Prerequisites
+---
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Perception.
+## Lab Sequence
 
-## Steps
+| Module | Lab Title | Core Activity | Active Inference Concept |
+|--------|-----------|---------------|------------------------|
+| 01 Systems | Number Systems: Counting and Categorizing | Classroom data collection and categorization | Systems as data structures |
+| 02 Agents | Data Agents: Who Collects the Data? | Survey design and data collection role-play | Agent as data collector |
+| 03 Perception | Observing Data: What Do Numbers Tell Us? | Graph detective -- finding misleading visualizations | Data as perception |
+| 04 Cognition | Analyzing Patterns: Signal vs. Noise | Mystery solving with probability clues | Pattern recognition as inference |
+| 05 Action | Testing Hypotheses: Experiments and Evidence | Design and run a classroom experiment | Action as hypothesis testing |
+| 06 Learning | Improving Predictions: Getting Better Over Time | Prediction tracking with improving accuracy | Learning as prediction improvement |
+| 07 Communication | Sharing Findings: Data Storytelling | Create and present a data story | Communication as sharing models |
+| 08 Planning | Strategy: Using Data for Better Plans | Strategy game with probability-based decisions | Planning with expected value |
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Ms.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Perception.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Perception (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+---
 
-## Discussion Requirements
+## Common Materials
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Perception.
+All labs in this course require only basic materials:
+
+- Pencil and paper
+- Calculator (optional)
+- Graph paper
+- Dice and/or coins
+- Colored pencils for graphing
+
+---
+
+## Design Principles
+
+1. **Math as mystery-solving** -- every lab frames data analysis as detective work
+2. **Structured worksheets** -- clear tables and prompts guide students through analysis
+3. **Real data** -- students collect and analyze real (not made-up) data
+4. **Prediction-focused** -- every lab ends with making and testing a prediction
+5. **Accessible math** -- uses fractions, percentages, and simple graphs (no algebra required)
+6. **Reflective** -- every lab connects mathematical findings to Active Inference

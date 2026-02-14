@@ -1,14 +1,14 @@
-# Module 05: Action in Ms
+# Module 05: Action in Middle School
 
 ## Learning Objectives
 
-1.  Define **Action** within the context of Ms.
+1.  Define **Action** within the context of Middle School.
 2.  Analyze how Action interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Ms to the formal definition of Action.
+3.  Apply specific constraints of Middle School to the formal definition of Action.
 
 ## Introduction
 
-This module explores **Action**. In the **Ms** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Action**. In the **Middle School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between Cognition and Learning.
 
 ## Key Concepts
 
@@ -23,30 +23,10 @@ How does the process of Action drive the perception-action loop?
 
 ## Applications
 
-In Ms, we see Action manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+In Middle School, we see Action manifest in:
+*   **Specific Example 1**: Every time you press "Run" on your code, you are taking an action that tests a prediction. You predicted that your program would print "Hello World," but instead you get a syntax error. That mismatch between your expectation and the actual output is a prediction error, and it drives you to scan the code, find the missing colon, fix it, and run again -- each action-observation cycle improves your mental model of how the code works.
+*   **Specific Example 2**: In a game you are coding, the player character's jump is an action driven by a simple physics model: when the user presses the space bar, the code applies an upward velocity and then gravity pulls the character back down each frame. If the jump feels too floaty, you tweak the gravity constant -- that is your program's action model being tuned based on the prediction error between "how this should feel" and "how it actually feels."
 
 ## Conclusion
 
 Understanding Action allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

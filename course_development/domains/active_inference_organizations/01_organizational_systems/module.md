@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Systems**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Systems**. In the **Organizations** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between Planning and Agents.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Systems drive the perception-action loop?
 ## Applications
 
 In Organizations, we see Systems manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A corporation's departmental boundaries act as Markov blankets, where each division (e.g., finance, engineering, marketing) maintains internal states while selectively exchanging information across team interfaces, enabling the organization to minimize surprise by filtering relevant market signals from noise.
+*   **Specific Example 2**: A supply chain network operates as a coupled dynamical system, where each supplier-manufacturer-distributor link continuously updates its generative model of demand forecasts, adjusting inventory and production flows to reduce prediction error across the entire value chain.
 
 ## Conclusion
 
 Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

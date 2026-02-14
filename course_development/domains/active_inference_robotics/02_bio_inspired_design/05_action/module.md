@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Action**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Action**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between Cognition and Learning.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Action drive the perception-action loop?
 ## Applications
 
 In Robotics, we see Action manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A cheetah-inspired quadruped robot generates galloping gaits through central pattern generators (CPGs) that act as the action component of an Active Inference loop -- the CPG produces rhythmic motor predictions (expected joint trajectories), and ground reaction force sensors provide prediction error signals that modulate stride timing and foot placement in real time, allowing the robot to maintain stable high-speed locomotion over uneven terrain the same way biological quadrupeds use spinal reflexes to adapt gait without conscious planning.
+*   **Specific Example 2**: An elephant-trunk-inspired continuum manipulator with 12 pneumatic muscle segments generates grasping actions by inflating and deflating antagonistic actuator pairs to minimize the difference between its predicted tip position (derived from a piecewise-constant-curvature generative model) and the observed tip pose from an electromagnetic tracker, embodying bio-inspired action where the compliant morphology itself absorbs uncertainty about object shape and contact geometry that would require explicit planning in a rigid-link manipulator.
 
 ## Conclusion
 
 Understanding Action allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

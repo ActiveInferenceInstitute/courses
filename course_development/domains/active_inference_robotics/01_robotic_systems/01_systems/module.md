@@ -1,52 +1,106 @@
-# Module 01: Systems in Robotics
+# The Robot as a System: Boundaries Between Machine and World
+
+## Executive Summary
+
+Every robot exists at a boundary between its engineered internals and the unpredictable physical world. Active Inference provides a principled framework for understanding this boundary through Markov blankets — the statistical surfaces that separate a robot's internal states (joint configurations, onboard computations, stored models) from external states (objects, terrain, human collaborators). This module establishes the foundational view that a robot is not merely a collection of components but a dynamic system that maintains its functional coherence through continuous sensing and acting. Whether examining a UR5 industrial manipulator bolted to a factory floor or a quadruped navigating rocky terrain, understanding system boundaries is the first step toward principled robotic design.
 
 ## Learning Objectives
 
-1.  Define **Systems** within the context of Robotics.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Systems.
+1. Define a robotic system as an entity with identifiable internal states, external states, and a Markov blanket that separates them.
+2. Identify the sensory and active boundaries of specific robotic platforms — how they receive information from and act upon their environment.
+3. Analyze nested system architectures in robotic platforms, recognizing how subsystems (sensors, actuators, controllers) compose into coherent wholes.
+4. Apply the concept of variational free energy to understand how robots maintain stable operation against environmental perturbation.
+5. Map the system boundaries of a concrete robotic platform, distinguishing internal computational and mechanical states from external world states.
 
 ## Introduction
 
-This module explores **Systems**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Robotics is fundamentally a systems discipline. A robot that cannot be understood as a coherent system — with clear boundaries, well-defined inputs and outputs, and a tractable internal architecture — cannot be designed, debugged, or deployed reliably. Yet the question of where a robot ends and the world begins is not trivial. Consider a UR5 collaborative robot arm mounted on a workbench. Its internal states include the angular positions of six revolute joints, the torques applied by six servo motors, the temperature of each motor's driver electronics, and the data structures maintained by its onboard controller. Its external states include the workpiece it manipulates, the fixture that holds the workpiece, the human operator nearby, and the ambient temperature of the factory. The Markov blanket — the boundary between inside and outside — runs through the joint encoders (sensory states that carry information inward) and the motor shafts (active states that exert force outward).
+
+This module examines robotic systems through the Active Inference lens, establishing concepts that every subsequent module in this unit builds upon.
 
 ## Key Concepts
 
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
+### 1. What Makes a Robot a System?
 
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
+A robot is a system in the precise Active Inference sense: it is an entity that maintains a distinguishable boundary between itself and its environment over time. This boundary is not merely the physical casing of the robot. It is the statistical separation between variables that the robot can directly influence (internal states) and variables that it cannot (external states), mediated by the sensory and active states that constitute its Markov blanket.
 
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
+Consider the ROS2 (Robot Operating System 2) software architecture that governs many modern robotic platforms. ROS2 organizes a robot's software into nodes — independent processes that communicate through typed message-passing. Each node maintains its own internal state (subscriber buffers, parameter values, computational results) and interacts with other nodes through topics and services. From an Active Inference perspective, each ROS2 node is itself a system with a Markov blanket: its subscriptions are sensory states (information flowing in from the rest of the system), and its publications are active states (information flowing out to influence other nodes). The full robot is a nested hierarchy of such systems.
+
+This decomposition is not just a software convenience. It reflects a deep principle: complex systems are manageable precisely because they can be decomposed into subsystems with well-defined boundaries. A lidar processing node does not need to know about the gripper's force sensor. A trajectory planner does not need to know the raw pixel values from the camera. Each subsystem operates within its own Markov blanket, achieving conditional independence from the details of other subsystems.
+
+### 2. The Physical Markov Blanket of a Robot
+
+The physical boundary of a robotic system is defined by its sensors and actuators. Sensors are the sensory states of the Markov blanket — they carry information from the external world into the robot's internal processing. Actuators are the active states — they carry the robot's decisions outward into physical changes in the world.
+
+A typical industrial manipulator like the UR5 has a well-defined physical Markov blanket. Its sensory states include six joint encoders (reporting angular position at 500 Hz), a force/torque sensor at the wrist (reporting six-axis loads), and optionally a wrist-mounted camera or proximity sensor. Its active states are six brushless DC motors that apply torques to the joints. Between these boundary states, the robot's internal states include the joint-level PID controllers, the inverse kinematics solver, the trajectory interpolator, and the safety monitoring system.
+
+The precision of this boundary matters for engineering. If a joint encoder has a resolution of 0.001 degrees, the robot can distinguish angular positions to that precision — this sets the information capacity of that sensory channel. If a motor can apply torques from 0 to 150 Nm with 0.1 Nm resolution, that defines the granularity of the robot's active influence on the world. The Markov blanket is not an abstraction here — it has quantifiable bandwidth, latency, noise characteristics, and dynamic range.
+
+### 3. Nested Systems in Robotic Architecture
+
+Real robotic platforms are compositions of subsystems, each with its own Markov blanket, nested within larger systems. Understanding this nesting is essential for managing the complexity of modern robots.
+
+Consider a mobile manipulation platform: a wheeled base carrying a manipulator arm, equipped with multiple sensors and running a full autonomy stack. At the highest level, the platform is a single system with a Markov blanket separating it from the warehouse environment. But inside, there are at least four major subsystems: the mobile base (with wheel encoders, IMU, and drive motors), the manipulator (with joint encoders, force sensors, and joint motors), the perception system (cameras, lidar, processing pipeline), and the planning system (task planner, motion planner, behavior executive).
+
+Each subsystem maintains its own Markov blanket. The mobile base subsystem senses wheel encoder ticks and IMU readings; it acts by commanding wheel velocities. It does not need to know about the manipulator's joint torques — those are outside its blanket, conditionally independent given the shared state estimate. The manipulator subsystem senses joint positions and wrist forces; it does not need to know the lidar point cloud directly. This conditional independence is what makes it possible for different engineering teams to design, test, and maintain different subsystems independently.
+
+The interfaces between subsystems are themselves critical design decisions. In ROS2, these interfaces are formalized as message types on topics. The navigation subsystem publishes a velocity command (geometry_msgs/Twist) to the mobile base — this is the active state of navigation's Markov blanket and simultaneously the sensory state of the base controller's blanket. Getting these interfaces right is one of the core challenges of robotic systems engineering.
+
+### 4. Free Energy and Robotic System Persistence
+
+In Active Inference, a system persists by minimizing its variational free energy — maintaining an accurate generative model of its environment and acting to keep its states within viable bounds. For robots, this principle manifests in concrete engineering terms.
+
+A robot "persists" when it continues to function as intended despite environmental variability. A UR5 performing pick-and-place operations persists when it reliably grasps workpieces despite variation in their position, orientation, and surface properties. An autonomous mobile robot persists when it navigates to its goal despite unexpected obstacles, slippery floors, and changing lighting conditions.
+
+Variational free energy in the robotic context is the divergence between the robot's generative model (what it expects the world to be like) and the actual sensory observations it receives. When a robot's lidar scan matches its predicted scan given its internal map, free energy is low — the robot is unsurprised. When the scan reveals an unexpected obstacle, free energy spikes. The robot must then either update its model (perceptual inference — "there is an obstacle here I did not know about") or act to change the world (active inference — "I will navigate around the obstacle to restore my expected trajectory").
+
+Robust robotic systems are those designed to minimize free energy across a wide range of operating conditions. This is achieved through the accuracy-complexity trade-off: a robot with a highly detailed model of one specific factory layout is accurate in that setting but brittle elsewhere, while a robot with a more generic navigation model trades some precision for robustness across many environments.
+
+### 5. System Identification and Model Calibration
+
+Before a robot can minimize free energy effectively, it must have a generative model that approximates the true dynamics of its body and environment. System identification is the engineering practice of estimating the parameters of this generative model from data.
+
+For a manipulator, system identification involves estimating the mass, center of gravity, and inertia tensor of each link, as well as the friction and compliance characteristics of each joint. These parameters define the robot's internal model of its own body — its proprioceptive generative model. If these parameters are wrong, the robot's predicted joint torques will diverge from the torques actually needed, resulting in tracking errors and increased free energy.
+
+Modern system identification for robots uses techniques that parallel Active Inference's variational methods. Exciting trajectories are designed to maximally inform the parameter estimates (analogous to epistemic foraging — acting to reduce uncertainty). Parameters are estimated by minimizing prediction error between the model's output and measured sensor data (analogous to variational free energy minimization). The resulting calibrated model enables the robot to predict its own behavior accurately, closing the loop between generative model and physical reality.
+
+## Active Inference Connection
+
+The robotic system, viewed through Active Inference, is an entity that maintains its existence by minimizing surprise. The Markov blanket formalism provides the mathematical structure for this: the robot's sensors define what it can observe, and its actuators define what it can do. The internal states — running on onboard computers — encode a generative model of the world. The robot's "goal" is to ensure that its sensory observations remain consistent with the predictions of this generative model, either by updating the model (perception) or by acting on the world (action). This dual optimization process — inference and control unified under a single objective — is what distinguishes Active Inference from traditional robotics architectures that treat perception and control as separate problems.
 
 ## Applications
 
-In Robotics, we see Systems manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### Case Study 1: UR5 Collaborative Manipulator System Architecture
 
-## Conclusion
+The Universal Robots UR5 is a six-degree-of-freedom collaborative robot arm widely used in manufacturing, research, and education. Its system architecture illustrates Markov blanket nesting clearly. At the joint level, each of the six joints is a subsystem: an encoder senses position, a motor applies torque, and a local PID controller maintains the internal state of desired versus actual position. At the arm level, these six joint subsystems are composed into a kinematic chain, with an inverse kinematics solver and trajectory interpolator maintaining arm-level internal states. At the application level, the arm is integrated with grippers, cameras, and force sensors to form a manipulation system whose Markov blanket encompasses the entire workcell. Each level of nesting has its own characteristic timescale: joint control at 500 Hz, arm trajectory at 125 Hz, and task-level planning at 1-10 Hz.
 
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### Case Study 2: ROS2-Based Mobile Robot System Decomposition
 
-<!-- Content padding to ensure file size requirements -->
+A ROS2-based mobile robot such as the Clearpath Jackal demonstrates how software architecture formalizes system boundaries. The robot's software is decomposed into lifecycle-managed nodes: a lidar driver node (sensory boundary to the physical lidar), an odometry node (fusing wheel encoders and IMU into a state estimate), a costmap node (maintaining a local obstacle map), a planner node (computing velocity commands), and a base driver node (active boundary to the wheel motors). Each node's subscriptions and publications define its Markov blanket explicitly. The DDS (Data Distribution Service) middleware that connects nodes enforces quality-of-service policies — reliability, latency bounds, history depth — that shape the information flow across blanket boundaries. This architecture allows subsystems to be developed, tested, and replaced independently, embodying the principle that well-defined Markov blankets enable modular system design.
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+- **Module 2 (Agents)**: How the system boundaries defined here give rise to agency — the capacity to act on the world to minimize surprise
+- **Module 3 (Perception)**: How the sensory states of the Markov blanket are processed into beliefs about the world
+- **Module 5 (Action)**: How the active states of the Markov blanket translate decisions into physical forces
+- **Module 8 (Planning)**: How system architecture constrains and enables long-horizon planning
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+| Concept | Definition | Robotics Example |
+|---------|-----------|-----------------|
+| System | An entity with distinguishable internal and external states | A UR5 arm with its joints, controllers, and software |
+| Markov Blanket | The boundary separating internal from external states | Joint encoders (sensory) and motors (active) of a manipulator |
+| Sensory States | Boundary states carrying information from environment to system | Lidar returns, IMU readings, joint encoder positions |
+| Active States | Boundary states through which the system changes the environment | Motor torques, gripper commands, wheel velocities |
+| Nested Systems | Subsystems with their own Markov blankets within a larger system | ROS2 nodes within a mobile manipulation platform |
+| Variational Free Energy | The gap between a system's model and actual sensory observations | Prediction error between expected and observed lidar scans |
+| System Identification | Estimating generative model parameters from data | Calibrating link masses and joint friction of a manipulator |
 
-<!-- Content padding to ensure file size requirements -->
+## References
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+1. Friston, K. (2013). Life as we know it. *Journal of the Royal Society Interface*, 10(86), 20130475.
+2. Parr, T., Pezzulo, G., & Friston, K. J. (2022). *Active Inference: The Free Energy Principle in Mind, Brain, and Behavior*. MIT Press.
+3. Siciliano, B., & Khatib, O. (Eds.). (2016). *Springer Handbook of Robotics* (2nd ed.). Springer.
+4. Macenski, S., et al. (2022). Robot Operating System 2: Design, architecture, and uses in the wild. *Science Robotics*, 7(66).
+5. Lanillos, P., et al. (2021). Active Inference in robotics and artificial agents: Survey and challenges. *arXiv preprint arXiv:2112.01871*.

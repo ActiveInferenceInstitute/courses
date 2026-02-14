@@ -1,14 +1,14 @@
-# Module 03: Perception in Ms
+# Module 03: Perception in Middle School
 
 ## Learning Objectives
 
-1.  Define **Perception** within the context of Ms.
+1.  Define **Perception** within the context of Middle School.
 2.  Analyze how Perception interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Ms to the formal definition of Perception.
+3.  Apply specific constraints of Middle School to the formal definition of Perception.
 
 ## Introduction
 
-This module explores **Perception**. In the **Ms** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Perception**. In the **Middle School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between Agents and Cognition.
 
 ## Key Concepts
 
@@ -23,30 +23,10 @@ How does the process of Perception drive the perception-action loop?
 
 ## Applications
 
-In Ms, we see Perception manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+In Middle School, we see Perception manifest in:
+*   **Specific Example 1**: When your phone's camera app detects faces and draws little boxes around them, that is computational perception. The app does not "see" faces the way you do -- it runs each frame through a model trained to predict where face-like patterns appear, comparing pixel data against learned predictions of what eyes, noses, and mouths look like. When the prediction matches the data strongly enough, it draws the box.
+*   **Specific Example 2**: Autocorrect on your phone is a perception system for text. When you type "teh," the system perceives those three letters, compares them against its prediction model of what word you probably meant, and suggests "the." Sometimes it fails hilariously because its model predicts the wrong word -- proof that computational perception, like human perception, depends on the quality of its internal predictions.
 
 ## Conclusion
 
 Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

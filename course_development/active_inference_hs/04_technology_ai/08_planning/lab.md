@@ -11,7 +11,7 @@ Design and simulate a simple agent that demonstrates the principles of **Plannin
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Hs.
+1.  **Define the Environment**: Create a simple grid world or state space relevant to High School.
 2.  **Define the Agent**: Specify the agent's generative model, focusing on Planning.
 3.  **Simulation**: Run the agent for 100 timesteps.
 4.  **Perturbation**: Introduce a specific challenge to Planning (e.g., increased noise, occlusion).

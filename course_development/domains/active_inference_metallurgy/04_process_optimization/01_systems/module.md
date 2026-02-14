@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This module explores **Systems** within the context of **Process Optimization**. In the Active Inference framework, systems plays a critical role in how systems maintain their identity, process information, and adapt to perturbation. Here we examine this through the lens of heat treatment, welding, additive manufacturing, industry 4.0.
+This module explores **Systems** within the context of **Process Optimization**. In the Active Inference framework, the systems concept plays a critical role in understanding how bounded entities maintain their identity, process information, and adapt to perturbation. Here we examine this through the lens of heat treatment, welding, additive manufacturing, industry 4.0.
 
 **Key themes**: Furnace, rolling mill, or AM printer as bounded inference systems, process boundaries
 
@@ -24,7 +24,7 @@ By the end of this module, you will be able to:
 
 ### 1. Systems in the Active Inference Framework
 
-In Active Inference, systems refers to the process by which systems maintain and update their relationship with the environment. For metallurgical systems, this maps directly onto physical processes: Furnace, rolling mill, or AM printer as bounded inference systems, process boundaries.
+In Active Inference, the concept of a system refers to any bounded entity that maintains and updates its relationship with the environment through the exchange of sensory and active states across a Markov blanket. For process optimization, this maps directly onto manufacturing equipment: furnaces, rolling mills, and AM printers as bounded inference systems with defined process boundaries.
 
 The Free Energy Principle provides a unifying lens: every metallurgical phenomenon involving systems can be understood as a system minimizing the difference between its current state and its preferred (equilibrium) state.
 

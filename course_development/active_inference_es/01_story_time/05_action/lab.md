@@ -23,19 +23,27 @@ Think: "How can I show this using only my body? I need to move my hand up and do
 
 ### 3. Take Action
 
-Do the movement! No talking!
+Do the movement! No talking! Use your whole body to show the word.
+Make your movements big and clear so your friends can see what you are doing.
 
 ### 4. Friend's Perception
 
 Your friend watches (Perception) and guesses (Cognition).
-"Are you eating given corn?" -> "No."
+"Are you eating corn?" -> "No."
 "Are you brushing your teeth?" -> "YES!"
+
+### 5. Switch Turns
+
+Now your friend picks a slip and acts it out. Can you guess what they are doing?
+Keep playing until all the slips are used up!
 
 ## My Action Log
 
 *{fill:textarea}*
-I acted out: [Word]
-My friend guessed: [Right/Wrong]
+I acted out: ___
+My friend guessed: ___
+The hardest word to act out was: ___
+The easiest word to act out was: ___
 
 ## What We Learned
 
@@ -44,3 +52,4 @@ My friend guessed: [Right/Wrong]
 | **What was my secret action?** | |
 | **Did my friend guess it?** | |
 | **Was I a good actor?** | |
+| **What made some words harder to act out?** | |

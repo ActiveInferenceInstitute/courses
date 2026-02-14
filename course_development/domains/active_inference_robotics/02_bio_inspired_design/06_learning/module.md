@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Learning**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Learning**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between Action and Communication.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Learning drive the perception-action loop?
 ## Applications
 
 In Robotics, we see Learning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A fly-inspired robot learns visuomotor associations using a spiking neural network architecture modeled on the Drosophila mushroom body, where dopaminergic reward signals modulate synaptic weights between visual feature neurons and motor output neurons; this Hebbian-style learning updates the robot's generative model parameters so that over hundreds of trials, specific visual patterns become reliably associated with approach or avoidance motor programs, mirroring how fruit flies learn to associate odors with food or danger.
+*   **Specific Example 2**: A snake-inspired hyper-redundant robot learns effective locomotion gaits (sidewinding, lateral undulation, concertina) for different terrain types by treating each surface interaction as evidence for updating the parameters of its body-terrain generative model; after traversing sand, gravel, and grass, the robot's learned precision matrices encode which gait pattern produces the least prediction error on each substrate, enabling it to automatically select the bio-inspired locomotion mode that best fits novel terrain without human specification.
 
 ## Conclusion
 
 Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

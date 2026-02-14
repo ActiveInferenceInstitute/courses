@@ -1,41 +1,41 @@
-# Study Questions: Learning
+# 学習に関する質問：学習
 
-1. Why does Active Inference use Dirichlet distributions to represent uncertainty about the A and B matrices?
+1.  アクティブ・インファレンスが、AとB行列に関する不確実性を表すために、Dirichlet分布を使用する理由はなぜですか？
 
-2. Write the formula for the expected A-matrix $\mathbb{E}[\mathbf{A}]$ given concentration parameters $\mathbf{p}_A$. What does `expected_A(pA)` compute?
+2.  濃度パラメータ $\mathbf{p}_A$ が与えられたとき、期待されるA行列 $\mathbb{E}[\mathbf{A}]$ の公式を記述してください。`expected_A(pA)` は何を計算しますか？
 
-3. If `pA = np.ones((3, 2))` (all concentrations = 1), what is the expected A-matrix? What does this represent in terms of prior beliefs?
+3.  `pA = np.ones((3, 2))` (すべての濃度が1) の場合、期待されるA行列はどれですか？これは、事前信念の点で何を意味しますか？
 
-4. Explain the update rule for `update_dirichlet_A()`. Which entries of pA increase after observing $o = 0$ with beliefs $q(s) = [0.7, 0.3]$?
+4.  `update_dirichlet_A()` の更新ルールを説明してください。観測 $o = 0$ と信念 $q(s) = [0.7, 0.3]$ を与えられたとき、pAのどの要素が増加しますか？
 
-5. How does the learning rate $\eta$ affect the pA update? What happens if $\eta = 0$? If $\eta = 10$?
+5.  学習率 $\eta$ は、pAの更新にどのように影響しますか？ $\eta = 0$ の場合、何が起こりますか？ $\eta = 10$ の場合、何が起こりますか？
 
-6. Write the complete online learning loop (perception, action, pA update, pB update) for 50 timesteps.
+6.  感覚（perception）、行動（action）、pAの更新、pBの更新を含む、50ステップのオンライン学習ループを記述してください。
 
-7. After 100 learning updates, how would you measure whether the agent has accurately recovered the true A-matrix?
+7.  100回の学習更新後、エージェントが真のA行列を正確に回復したかどうかを測定するには、どのような方法を用いますか？
 
-8. What is `expected_B(pB)` and how is it used after each pB update?
+8.  `expected_B(pB)` は何であり、各pB更新後にどのように使用されますか？
 
-9. Compute `update_dirichlet_B()` by hand for $q(s) = [1, 0]$, $q(s') = [0, 1]$, $a = 0$, $\eta = 1$. Which entry of $\mathbf{p}_B$ changes?
+9.  $q(s) = [1, 0]$, $q(s') = [0, 1]$, $a = 0$, $\eta = 1$ の場合、`update_dirichlet_B()` を手計算で計算してください。$\mathbf{p}_B$ のどの要素が変化しますか？
 
-10. What does `dirichlet_entropy(alpha)` measure? Is a low or high Dirichlet entropy desirable for a well-learned model?
+10. `dirichlet_entropy(alpha)` は何を測定しますか？良好に学習されたモデルに対して、低または高いDirichletエントロピーが望ましいですか？
 
-11. How does the agent's learned A-matrix affect its state inference? Describe the feedback loop between learning and perception.
+11. エージェントが学習したA行列は、その状態推論にどのように影響しますか？学習と感覚の間のフィードバックループについて説明してください。
 
-12. What is Bayesian Model Reduction and what problem does it solve?
+12. ベイジアンモデル削減とは何か、それはどのような問題を解決しますか？
 
-13. When does `bayesian_model_reduction(pA_full, pA_reduced)` return a negative ΔF? What does this mean for model selection?
+13. `bayesian_model_reduction(pA_full, pA_reduced)` が負のΔFを返すのはいつですか？モデル選択にとって、これは何を意味しますか？
 
-14. How would you visualize the convergence of pA toward the true A? Which visualization function would you use?
+14. pAが真のAに向かって収束するのを視覚化するには、どのような方法を用いますか？どの視覚化関数を使用しますか？
 
-15. Design an experiment with 3 episodes of 50 steps each. Between episodes, reset the environment but keep the accumulated pA. Predict how performance changes across episodes.
+15. 3エピソード、各エピソード50ステップで設計された実験を設計してください。エピソード間には、環境をリセットしますが、累積されたpAを保持します。エピソード間でパフォーマンスがどのように変化するか予測してください。
 
-16. What is `update_dirichlet_D()` and when would you use it? How does it differ from updating pA?
+16. `update_dirichlet_D()` は何であり、いつ使用しますか？pAの更新とはどのように異なりますか？
 
-17. If the true A-matrix changes after 50 steps (non-stationary environment), how would you modify the learning to adapt? Consider the effect of learning rate.
+17. 真のA行列が50ステップ後に変化する（非定常環境）場合、学習を適応させるにはどうすればよいですか？学習率の影響を考慮してください。
 
-18. What is the relationship between the concentration magnitudes in pA and the agent's confidence in its likelihood model?
+18. pAの濃度（magnitude）と、エージェントがその確率モデルに対する確信の間にどのような関係がありますか？
 
-19. Use `plot_dirichlet_concentration()` to compare the initial and learned pA. What does the visualization show?
+19. `plot_dirichlet_concentration()` を使用して、初期値と学習されたpAを比較してください。視覚化は何を示していますか？
 
-20. Explain why Dirichlet learning is online (incremental) rather than batch. What are the computational advantages?
+20. Dirichlet学習がバッチ（まとめて）ではなくオンライン（段階的に）である理由を説明してください。計算上の利点は何ですか？

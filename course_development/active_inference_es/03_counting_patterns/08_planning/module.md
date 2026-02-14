@@ -1,14 +1,14 @@
-# Module 08: Planning in Es
+# Module 08: Planning in Elementary School
 
 ## Learning Objectives
 
-1.  Define **Planning** within the context of Es.
+1.  Define **Planning** within the context of Elementary School.
 2.  Analyze how Planning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Es to the formal definition of Planning.
+3.  Apply specific constraints of Elementary School to the formal definition of Planning.
 
 ## Introduction
 
-This module explores **Planning**. In the **Es** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Planning**. In the **Elementary School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between Communication and Systems.
 
 ## Key Concepts
 
@@ -23,30 +23,10 @@ How does the process of Planning drive the perception-action loop?
 
 ## Applications
 
-In Es, we see Planning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+In Elementary School, we see Planning manifest in:
+*   **Specific Example 1**: If you have 12 grapes and want to share them equally with 3 friends, you can plan ahead by counting out groups of 3 grapes each -- thinking about the answer before you start handing them out helps you make sure everyone gets the same amount!
+*   **Specific Example 2**: When you want to build a block tower that is 5 blocks tall but you only have 3 blocks, you can make a plan: count how many more you need (5 minus 3 equals 2), then go find 2 more blocks before you start building so your tower turns out just right.
 
 ## Conclusion
 
 Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

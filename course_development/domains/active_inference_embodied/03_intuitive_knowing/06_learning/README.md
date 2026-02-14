@@ -6,6 +6,34 @@
 
 Part of **Intuitive Knowing**.
 
+## Learning Objectives
+
+1. **Experience** learning as a bodily transformation through pattern-feeling without numbers
+2. **Compare** the felt sense of practiced versus novel activities to understand embodied model updating
+3. **Explore** procedural memory and how the body stores and retrieves learned patterns
+4. **Connect** embodied learning to Active Inference: the progressive refinement of the generative model
+5. **Investigate** how learning transforms perception and the habitual body (Merleau-Ponty)
+
+## Key Concepts
+
+- **Embodied learning**: Learning as experienced through the body, not just theorized about
+- **Active Inference**: Learning as a component of the free energy minimization process
+- **4E Cognition**: Learning as embodied, embedded, enacted, and extended
+- **Interoception and proprioception**: How inner sensing shapes learning
+- **Sensorimotor coupling**: The inseparability of learning from bodily engagement
+- **Pattern-feeling without numbers**: The specific lens this course brings to learning
+
+## Prerequisites
+
+- Completion of Modules 01-05 recommended
+- Willingness to engage in reflective journaling activities
+
+## Estimated Time
+
+- Module reading: 20 minutes
+- Lab (reflective journaling): 25 minutes
+- Questions and reflection: 15 minutes
+
 ## Contents
 
 | File | Description |
@@ -16,13 +44,8 @@ Part of **Intuitive Knowing**.
 | [lab.md](./lab.md) | Lab: How the Body Remembers |
 | [dashboard.html](./dashboard.html) | Interactive Dashboard |
 
-## Learning Goals
-
-1. **Notice** how the body stores learning
-2. **Feel** the difference between new and practiced
-3. **Honor** the body's accumulated wisdom
-
 ## Resources
 
 - [Notation](../../resources/notation_table.md)
 - [Glossary](../../resources/glossary.md)
+- [References](../../resources/references.md)

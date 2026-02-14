@@ -1,23 +1,63 @@
-# Lab: Exploring Agents
+# Lab: My Amazing Body Map
 
-## Objective
+## Goal
 
-Design and simulate a simple agent that demonstrates the principles of **Agents**.
+Draw a life-size map of your body and label all the amazing systems inside you!
 
-## Prerequisites
+## What You Need
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Agents.
+* A very large piece of paper (or tape together several sheets) -- big enough to trace your body!
+* Crayons, markers, or colored pencils
+* A friend or family member to help trace your outline
+* Stickers (optional, for labeling)
 
 ## Steps
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Es.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Agents.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Agents (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+### 1. Trace Your Body
 
-## Discussion Requirements
+Lie down on the big paper. Ask your helper to trace around your body with a marker. Stand up and look -- that is your Body Map!
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Agents.
+### 2. Draw the Inside Team
+
+Now draw the parts of your body system inside the outline:
+
+* **Heart** (Red, in the middle of your chest): Draw it beating! *Thump-thump!*
+* **Lungs** (Pink, on either side of the heart): Draw air going in and out.
+* **Brain** (Purple, in your head): Draw it thinking! Add little lightning bolts.
+* **Stomach** (Orange, in your tummy): Draw some food inside it.
+* **Muscles** (Red lines, in your arms and legs): Draw them flexing!
+
+### 3. Draw the Five Spies
+
+Label your senses on the body map:
+
+* **Eyes**: "I see!"
+* **Ears**: "I hear!"
+* **Nose**: "I smell!"
+* **Hands**: "I touch!"
+* **Tongue**: "I taste!"
+
+### 4. Draw the Skin Blanket
+
+Color in the outline of your body. This is your **Skin** -- the blanket that keeps your insides safe and the outside out!
+
+### 5. Show the Connections
+
+Draw arrows showing how the parts help each other:
+Brain -> Muscles (to move), Eyes -> Brain (to see), Stomach -> Muscles (food gives energy)
+
+## My Body Map Log
+
+*{fill:textarea}*
+My favorite body part to draw was: ___
+The part I learned the most about was: ___
+I was surprised to learn that: ___
+
+## What We Learned
+
+| Question | My Answer |
+| :--- | :--- |
+| **How many body parts did I draw?** | |
+| **Which part is the "Captain"?** | |
+| **What does my skin do?** | |
+| **How do the parts work together?** | |

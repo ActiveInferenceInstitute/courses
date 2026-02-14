@@ -6,6 +6,34 @@
 
 Part of **Living Presence**.
 
+## Learning Objectives
+
+1. **Experience** embodied agency through the perspective of breath, heartbeat, embodied being
+2. **Distinguish** voluntary from involuntary processes and explore agency as a lived spectrum
+3. **Sense** motor intention and the pre-reflective quality of being a subject of experience
+4. **Understand** the embodied agent as a system minimizing free energy through prediction and action
+5. **Explore** morphological computation: how the body's structure contributes to the agent's capacities
+
+## Key Concepts
+
+- **Embodied agents**: Agents as experienced through the body, not just theorized about
+- **Active Inference**: Agents as a component of the free energy minimization process
+- **4E Cognition**: Agents as embodied, embedded, enacted, and extended
+- **Interoception and proprioception**: How inner sensing shapes agents
+- **Sensorimotor coupling**: The inseparability of agents from bodily engagement
+- **Breath, heartbeat, embodied being**: The specific lens this course brings to agents
+
+## Prerequisites
+
+- Completion of Modules 01-01 recommended
+- Willingness to engage in mindfulness practice activities
+
+## Estimated Time
+
+- Module reading: 20 minutes
+- Lab (mindfulness practice): 25 minutes
+- Questions and reflection: 15 minutes
+
 ## Contents
 
 | File | Description |
@@ -16,13 +44,8 @@ Part of **Living Presence**.
 | [lab.md](./lab.md) | Lab: You Are the One Who Notices |
 | [dashboard.html](./dashboard.html) | Interactive Dashboard |
 
-## Learning Goals
-
-1. **Sense** your own aliveness
-2. **Notice** the difference between doing and being done to
-3. **Feel** intention before movement
-
 ## Resources
 
 - [Notation](../../resources/notation_table.md)
 - [Glossary](../../resources/glossary.md)
+- [References](../../resources/references.md)

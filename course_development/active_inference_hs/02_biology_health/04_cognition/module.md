@@ -1,52 +1,56 @@
-# Module 04: Cognition in Hs
+# Module 04: Cognition -- The Brain's Models of the Body and World
 
 ## Learning Objectives
 
-1.  Define **Cognition** within the context of Hs.
-2.  Analyze how Cognition interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Hs to the formal definition of Cognition.
+1. Describe the brain as a **prediction engine** that maintains hierarchical generative models of both the body (interoceptive models) and the external world (exteroceptive models).
+2. Explain how **predictive processing** in neural circuits implements Active Inference through the exchange of predictions (top-down) and prediction errors (bottom-up).
+3. Analyze **adolescent brain development** -- synaptic pruning, myelination, and prefrontal cortex maturation -- as a process of generative model optimization.
+4. Connect the neuroscience of cognition to the experience of thinking, feeling, and deciding during the teenage years.
 
 ## Introduction
 
-This module explores **Cognition**. In the **Hs** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Your brain weighs about 1.4 kilograms, consumes 20% of your body's energy, and contains roughly 86 billion neurons connected by trillions of synapses. What is all that hardware doing? According to Active Inference, the brain's primary function is to maintain a **generative model** of the body and the world -- a continuously running simulation that predicts sensory input, guides action, and updates itself when predictions fail.
+
+This module explores how the brain implements Active Inference at the level of neural circuits, and why the adolescent brain is going through the most dramatic model revision of your entire life.
 
 ## Key Concepts
 
-### 1. Cognition as a Markov Blanket Boundary
-How does Cognition define the boundary between the agent and the environment?
+### 1. The Predictive Brain
 
-### 2. Generative Models of Cognition
-What parameters involved in Cognition must be optimized to minimize variational free energy?
+The traditional view of the brain is that sensory information flows in, gets processed, and results in perception and behavior. Active Inference proposes the opposite direction as primary: the brain constantly generates **top-down predictions** about what it expects to sense, and sensory areas report back only the **prediction errors** -- the differences between prediction and reality. Higher cortical areas generate predictions; lower areas compute errors. This bidirectional flow is the neural implementation of variational free energy minimization.
 
-### 3. Active Inference Dynamics
-How does the process of Cognition drive the perception-action loop?
+### 2. Neural Hierarchy and Deep Models
+
+The brain is organized hierarchically. The lowest levels (primary sensory cortices) process detailed, fast-changing features -- edges, colors, tones. Higher levels (association cortices) model slower, more abstract patterns -- objects, scenes, narratives. The highest levels (prefrontal cortex, default mode network) model the most abstract, slowest-changing aspects of reality -- your sense of self, your goals, your model of other people's minds. Each level generates predictions for the level below and receives prediction errors from it. This hierarchical architecture allows the brain to model reality at multiple timescales simultaneously.
+
+### 3. Interoceptive Modeling and Emotion
+
+The brain does not just model the external world -- it maintains a detailed generative model of the body's internal state. The **insular cortex** is a key region for interoceptive modeling, predicting heart rate, breathing, gut activity, and metabolic state. When interoceptive predictions fail (your heart races unexpectedly), the prediction error is experienced as an emotion or feeling. This is the neurobiological basis of the claim from Module 04 of Unit 01: emotions are signals about prediction error in the body model.
+
+### 4. Adolescent Brain Development as Model Optimization
+
+Between ages 12 and 25, the brain undergoes two major processes that radically reshape its generative model. **Synaptic pruning** eliminates neural connections that are rarely used or produce persistent prediction errors -- a form of model simplification that removes unnecessary complexity. **Myelination** insulates frequently used connections with fatty myelin sheaths, increasing their transmission speed -- essentially increasing the precision of well-tested predictions. The net effect is a brain that is smaller in total synaptic count but dramatically more efficient. Your teenage brain is not deteriorating; it is being optimized.
+
+### 5. The Prefrontal Cortex: Last to Mature, Most to Gain
+
+The **prefrontal cortex** -- responsible for planning, impulse control, abstract reasoning, and modeling other minds -- is the last brain region to fully mature, typically completing development in the mid-twenties. This means that during high school, the highest levels of your generative model's hierarchy are still under construction. This explains why teenagers can be brilliant in specific domains (where lower-level models are well-developed) while struggling with long-term planning, emotional regulation, and impulse control (which depend on the still-developing prefrontal regions).
+
+## Active Inference Connection
+
+The brain implements Active Inference through a specific computational architecture: **predictive coding**. At each level of the neural hierarchy, prediction units generate top-down signals encoding what the brain expects, while error units compute the mismatch between predictions and incoming signals. The brain minimizes free energy by adjusting either its predictions (perceptual inference, updating beliefs) or its actions (active inference, changing the world). Synaptic strength encodes the parameters of the generative model, and synaptic plasticity -- the strengthening and weakening of connections -- is the neural mechanism of learning.
 
 ## Applications
 
-In Hs, we see Cognition manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+* **Case Study 1 -- Why Teenagers Take Risks**: The adolescent brain has a fully developed limbic system (which processes reward and emotion) but an immature prefrontal cortex (which evaluates long-term consequences). In Active Inference terms, the reward-prediction system is high-precision, while the long-term planning system is low-precision. This imbalance means that the expected free energy calculation overweights immediate reward relative to future consequences. It is not that teenagers cannot think about the future -- it is that their neural architecture assigns lower precision to those predictions. Understanding this reframes risk-taking from "poor judgment" to "model with different precision settings."
 
-## Conclusion
+* **Case Study 2 -- Neuroplasticity and Recovery**: When a young person suffers a brain injury, their recovery is often remarkably better than an adult with the same injury. Active Inference explains this through the concept of model flexibility: the adolescent brain's generative model is still in active construction, with high synaptic plasticity. When connections are damaged, the brain can more easily recruit alternative pathways and rebuild parts of the model. In an adult brain, where the model has been extensively optimized and compiled, rebuilding is much harder. Youth confers a kind of cognitive resilience precisely because the model is still being shaped.
 
-Understanding Cognition allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+## Discussion Questions
 
-<!-- Content padding to ensure file size requirements -->
+1. If the prefrontal cortex is not fully developed until your mid-twenties, what does this imply about the kinds of decisions teenagers should and should not be expected to make well? How should society account for this?
+2. How does the concept of synaptic pruning change the way you think about the phrase "use it or lose it" in relation to learning and brain development?
+3. If emotions are prediction errors in the body model, does understanding this neuroscience make emotional experiences more or less meaningful? Why?
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+The brain is a hierarchical prediction engine that implements Active Inference through predictive coding -- a continuous exchange of predictions and prediction errors across neural levels. During adolescence, the brain undergoes dramatic optimization through synaptic pruning and myelination, producing a more efficient but still-developing generative model. The late maturation of the prefrontal cortex has profound implications for planning, impulse control, and emotional regulation. Understanding your brain through Active Inference provides both scientific insight and practical self-understanding during the most neurologically dynamic period of your life. In Module 05, we examine **action** -- how biological systems, from reflexes to deliberate behavior, act to fulfill their predictions and maintain homeostasis.

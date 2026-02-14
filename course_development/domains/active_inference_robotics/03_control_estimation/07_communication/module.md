@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Communication**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Communication**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between Learning and Planning.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Communication drive the perception-action loop?
 ## Applications
 
 In Robotics, we see Communication manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A distributed Kalman filter across a formation of three drones shares state estimate covariance matrices over a wireless mesh network, where each drone treats its neighbors' transmitted state estimates as additional measurement updates in its own filter; the communication bandwidth directly constrains the precision of shared information -- when packet loss increases, each drone's filter automatically downweights the missing neighbor's contribution (reducing that channel's precision), demonstrating how Active Inference's precision-weighting naturally handles unreliable communication channels in multi-robot estimation.
+*   **Specific Example 2**: A CAN-bus communication backbone on an industrial robot transmits joint encoder readings, motor current measurements, and torque commands between the central controller and distributed motor drives at 1 ms intervals; timing jitter and bus congestion introduce variable delays that the state estimator must account for by adjusting the prediction horizon of its generative model -- messages arriving late carry stale information with higher uncertainty, and the controller's communication protocol implicitly encodes this as reduced precision on delayed observations.
 
 ## Conclusion
 
 Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

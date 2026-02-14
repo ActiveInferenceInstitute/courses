@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Agents**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Agents**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between Systems and Perception.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Agents drive the perception-action loop?
 ## Applications
 
 In Embodied, we see Agents manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A parkour practitioner approaching a wall sees it not as an obstacle but as an affordance -- a surface to vault, a ledge to grab, a launch point for a precision jump; her body-as-agent generates action possibilities directly from the visual array at her Markov blanket, perceiving the environment in terms of what her movement repertoire allows, which is the embodied agent's generative model specifying the world in relation to its own motor capabilities.
+*   **Specific Example 2**: When I navigate a crowded sidewalk, my body acts as an autonomous locomotor agent that automatically adjusts stride length, pace, and trajectory to weave through gaps between other pedestrians without conscious planning; this is the embodied agent's active inference loop operating in real time, where each predicted collision generates a prediction error at the Markov blanket that is immediately resolved through corrective stepping policies, all beneath the threshold of deliberate awareness.
 
 ## Conclusion
 
 Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
