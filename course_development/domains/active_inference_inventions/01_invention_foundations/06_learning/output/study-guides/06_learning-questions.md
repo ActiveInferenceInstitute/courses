@@ -1,0 +1,45 @@
+# Study Questions: Learning from Every Attempt
+
+## Analytical Questions
+
+1. In Active Inference, prediction error is the engine of learning. Explain why a prototype that fails in a specific, unexpected way is more informative than one that succeeds exactly as predicted. Use Bayesian updating concepts (prior, likelihood, posterior) to structure your argument.
+
+2. Define parameter learning and structure learning in Active Inference. Then provide an invention example of each. For the parameter learning example, describe what specific values were adjusted. For the structure learning example, describe what causal relationships were changed.
+
+3. Edison tested thousands of filament materials for his light bulb. Was this predominantly parameter learning or structure learning? At what point did the search shift from one type to the other (hint: the transition from carbon to tungsten filaments)? What prediction errors triggered the structural shift?
+
+4. Netflix transitioned from DVD-by-mail to streaming to original content. Analyze each transition as a learning event. What persistent prediction errors triggered each structural change? Why could parameter optimization within the old model not resolve them?
+
+5. Explain the concept of a local optimum in the context of invention. How does parameter learning within a fixed model structure risk converging on a local optimum? What signals should alert an inventor that they are stuck at a local optimum rather than approaching the global best design?
+
+6. The WD-40 story (40 sequential formulations) represents systematic parameter learning. Contrast this with a hypothetical inventor who tests only 5 formulations and then switches to a completely different chemical approach (structure learning). Under what conditions is each strategy more appropriate? What is the opportunity cost of each?
+
+7. Active Inference treats learning as hierarchical — prediction errors can update beliefs at different levels of the model (parameters, structure, hyperparameters). Explain how this hierarchical updating applies to an inventor who first adjusts a recipe ingredient quantity (parameter), then changes the cooking method entirely (structure), and then reconceives the dish's purpose (higher-level restructuring).
+
+8. Why does structure learning feel psychologically more difficult than parameter learning? Use the concept of identity priors (from Module 2) to explain why inventors resist abandoning a model structure they have invested in. What organizational or cognitive practices can reduce this resistance?
+
+9. The concept of a "learning protocol" (documenting predictions before experiments and analyzing errors after) is modeled on the scientific method. But many inventors work intuitively, without explicit documentation. Make the case for and against formal learning protocols in invention. Under what conditions does intuitive learning outperform systematic documentation?
+
+10. Cumulative learning means that each experiment builds on the knowledge gained from all previous experiments. What conditions must be met for learning to be genuinely cumulative rather than circular (repeating the same experiments)? How does the learning protocol support cumulative learning?
+
+## Applied Questions
+
+11. Analyze the last prototype test you conducted (or plan to conduct). Classify the result as parameter learning, structure learning, or inconclusive. What specific prediction error generated the learning? How did (or would) you update your model?
+
+12. Identify one area of your invention project where you are engaged in parameter learning (refining within a framework) and one area where you might need structure learning (fundamental rethinking). What evidence would trigger the shift from parameter to structure learning in the area you are currently optimizing?
+
+13. Create an iteration log entry for a past or planned experiment using the template from the lab. Include: hypothesis, prediction, observation, prediction error, model update, and next action. Reflect on the discipline of making predictions explicit before testing.
+
+14. Map the learning trajectory of your invention project to date. What have you learned so far? Was the learning primarily parameter or structure? Where are you on the trajectory: early exploration (structure learning), optimization (parameter learning), or convergence (diminishing returns)?
+
+15. Think about a time in any area of your life when you persisted too long with a failing approach (stuck in parameter learning when structure learning was needed). What prevented you from making the structural shift? What finally triggered it?
+
+16. Conversely, think about a time when you abandoned an approach too quickly (structure learning when parameter learning was needed). Were there signs that the approach was fundamentally sound and just needed refinement?
+
+17. Design a learning experiment for your invention that would provide the maximum information per unit of effort. What makes this experiment high-information? What prediction errors would it generate regardless of the outcome?
+
+18. If you are working on a team, how can the team's learning be made cumulative? What shared documentation, communication practices, or coordination mechanisms would ensure that each team member's experiments contribute to a shared generative model?
+
+19. Consider the role of failure tolerance in learning. An environment that punishes failure discourages the experimentation that generates prediction errors, which are necessary for learning. How would you create an environment (for yourself or your team) that treats failure as information rather than defeat?
+
+20. Write a "lessons learned" document for your invention project so far. For each lesson, identify: the prediction error that generated it, whether it was parameter or structure learning, and how it changed your approach going forward. This document should be useful to a future inventor working on a similar project.

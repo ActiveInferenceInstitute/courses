@@ -1,46 +1,46 @@
-# Module 04: Cognition — Beliefs as Physical States, the Embodied Mind, and Consciousness
+# モジュール 04: 認知 — 信念は物理的状態、身体化された心、そして意識
 
-## Learning Objectives
+## 学習目標
 
-1. Explain the Active Inference claim that beliefs are physically instantiated states of a generative model, not abstract propositions.
-2. Analyze the relationship between precision, attention, and consciousness within the Active Inference framework.
-3. Evaluate the "dark room problem" and other philosophical challenges to Active Inference as a theory of cognition.
+1.  生成モデルの物理的にインスタンス化された状態として、信念は抽象的な命題ではなく、Active Inference の主張であると説明する。
+2.  Active Inference の枠組みにおける、精密さ、注意、そして意識の関係性を分析する。
+3.  Active Inference を認知理論として評価し、「暗い部屋の問題」やその他の哲学的な課題を検討する。
 
-## Introduction
+## 導入
 
-Cognition — thinking, believing, reasoning, attending — is perhaps the most philosophically fraught concept in our entire curriculum. What is a belief? Is it an abstract proposition stored in the mind, a dispositional state of the organism, or a physical configuration of neural activity? Does cognition require consciousness? And how does the brain decide what to think about?
+認知 — 思考、信念、推論、注意 — は、当校のカリキュラム全体の中で最も哲学的に複雑な概念の一つである。信念とは何か？それは、精神に格納された抽象的な命題なのか、生物の dispositional な状態なのか、神経活動の物理的な構成なのか？認知には意識が必要なのか？そして、脳はどのようなことを考え、判断するのだろうか？
 
-Active Inference answers these questions radically: **beliefs are probability distributions over the hidden states of the world, physically realized in the internal states of the agent**. Cognition is not a separate faculty "above" perception and action but the same inferential process operating at different timescales and levels of abstraction. This module explores what this implies philosophically.
+Active Inference は、これらの質問に革命的な答えを与える：**信念は、エージェントの内側の状態に物理的に実現された、世界の隠れた状態に関する確率分布である**。認知は、知覚と行動「上記」にある別個の能力ではなく、異なる時間スケールと抽象レベルで機能する同じ推論プロセスである。このモジュールは、このことの哲学的な意味合いを探求する。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Beliefs as Physical States
+### 1. 信念は物理的状態として
 
-In the Active Inference framework, a "belief" is not a sentence in a language of thought (Fodor) nor a disposition to behave (Ryle). It is a **posterior probability distribution** Q(s) over hidden states, physically realized in the brain's internal states. These beliefs are updated continuously as new observations arrive — cognition is ongoing inference.
+Active Inference の枠組みにおいて、「信念」は、Fodor の「思考言語の文」や、Ryle の「行動への傾向」ではない。それは、後方確率分布 Q(s) であり、脳の内側の状態に物理的に実現されている。これらの信念は、新しい観察が到着するにつれて継続的に更新され、認知は継続的な推論である。
 
-This places Active Inference in the tradition of **physicalism** about mental states, but with an important twist: the physical states are not arbitrary neural firings but states that are *about* something — they carry representational content because they are components of a generative model that maps onto the causal structure of the world.
+これは、メンタル状態に関する **物理主義** の伝統に Active Inference を位置付けさせるが、重要な違いがある。物理的な状態は、恣意的な神経放電ではなく、**何かのことを「知っている」** 状態であり、それは世界の因果構造に対応するような生成モデルのコンポーネントであるため、表象的な内容を保持している。
 
-### 2. Precision, Attention, and the Architecture of Cognition
+### 2. 精密さ、注意、そして認知のアーキテクチャ
 
-Not all beliefs are created equal. Some predictions are held with high confidence (high **precision**), others with low confidence. Precision, in Active Inference, plays the role of attention: precision-weighting determines which prediction errors are amplified and which are suppressed.
+すべての信念が同じものではない。ある予測は高い確信度（高い **精密さ**）で保持され、他の予測は低い確信度で保持される。Active Inference における精密さは、注意の役割を果たす：精密さを重み付けることで、増幅される誤差と抑制される誤差が決定される。
 
-This accounts for a range of cognitive phenomena:
+これは、さまざまな認知現象を説明する：
 
-- **Selective attention**: High precision on one sensory channel suppresses others
-- **Cognitive flexibility**: Adjusting precision allows switching between habitual and deliberate modes of thought
-- **Psychopathology**: Aberrant precision (too high or too low) may underlie conditions like anxiety (overweighting threat predictions) and autism (overweighting sensory prediction errors)
+-   **選択的注意**: 高い精密さは、他の感覚チャネルを抑制する
+-   **認知の柔軟性**: 精密さを調整することで、習慣的な思考モードと意図的な思考モードの切り替えが可能になる
+-   **精神疾患**: 異常な精密さ（過剰に高いか低いか）が、不安（脅威予測の過剰な重み付け）や自閉症（感覚予測誤差の過剰な重み付け）のような状態の基盤となる可能性がある
 
-### 3. The Dark Room Problem and Active Cognition
+### 3. 暗い部屋の問題と能動的な認知
 
-The "dark room problem" is a standard objection to Active Inference: If agents minimize surprise, why don't they simply find a dark, quiet room and stay there — minimizing all sensory input? The answer reveals something deep about cognition: agents minimize *expected* surprise relative to their **prior preferences** (the C vector). A human has priors for social contact, nutrition, warmth, and curiosity. Staying in a dark room would *violate* these priors and thus *increase* expected free energy.
+「暗い部屋の問題」は、Active Inference への標準的な異議である。エージェントが驚きを最小化しようとする場合、なぜ彼らは単に暗くて静かな部屋を見つけてそこに留まらないのか？この答えは、認知について深く知っていることを明らかにする：エージェントは、**事前確率**（C ベクトル）に対する *期待される* 驚きを最小化する。人間には、社会的接触、栄養、暖かさ、好奇心といった事前確率がある。暗い部屋に留まることは、これらの事前確率を*違反*し、したがって期待される自由エネルギーを*増加*させることになる。
 
-Philosophically, this connects to the Aristotelian idea that living well requires the active exercise of capacities, not mere passive comfort.
+これは、アリストテレスのアイデアとつながっており、幸福を達成するためには、単なる受動的な快適さではなく、能力の積極的な訓練が必要である。
 
-## Applications
+## 応用
 
-- **Consciousness**: If cognition is inference, is consciousness the *experience* of inference? Or can inference proceed unconsciously? This connects to the "hard problem" of consciousness (Chalmers, 1995).
-- **Extended Cognition**: If beliefs are physical states of a generative model, can external artifacts (notebooks, smartphones) be part of the model? This returns us to Clark and Chalmers' extended mind hypothesis.
+-   **意識**: 認知が推論である場合、意識は推論の *経験* であるのか？あるいは、推論は無意識的に進むことができるのか？これは、「意識のハード問題」（Chalmers, 1995）に関連する。
+-   **拡張された認知**: 信念が生成モデルの物理的状態である場合、ノートブックやスマートフォンなどの外部の道具がモデルの一部になることができるのか？これは、Clark と Chalmers の拡張された心仮説に私たちを連回させる。
 
-## Conclusion
+## 結論
 
-Cognition, in Active Inference, is not a mysterious inner theater but the ongoing process of belief updating under precision-weighted prediction error. This view has radical implications for consciousness, psychopathology, and the boundaries of the mind. Module 05 examines how beliefs are translated into action.
+Active Inference における認知は、神秘的な内なる劇場ではなく、精密さに基づいた予測誤差の下で信念が更新される継続的なプロセスである。この見方は、意識、精神疾患、そして心の境界線について、革命的な意味合いを持つ。モジュール 05 では、信念が行動に翻訳される方法について検討する。

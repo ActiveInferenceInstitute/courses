@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Invention Roadmap — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>Module 08: The Invention Roadmap</h1>
+  <p class="subtitle">Planning under uncertainty — expected free energy, staged development, and adaptive roadmaps</p>
+  <span class="tag">Section 1: Invention Foundations</span>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="concepts">Key Concepts</div>
+  <div class="tab" data-tab="quiz">Self-Check Quiz</div>
+  <div class="tab" data-tab="checklist">Study Checklist</div>
+  <div class="tab" data-tab="modules">All Modules</div>
+</div>
+<div class="panel active" id="concepts">
+  <div class="concept-card" onclick="this.classList.toggle('open')"><h3>Expected Free Energy and Planning</h3><div class="desc">Planning means selecting actions that minimize expected free energy — balancing pragmatic value (goal progress) and epistemic value (uncertainty reduction). Early stages should weight learning heavily; later stages should weight results. This is computed, not guessed.</div><div class="meter"><div class="fill" style="width:20%"></div></div></div>
+  <div class="concept-card" onclick="this.classList.toggle('open')"><h3>Staged Development</h3><div class="desc">Break projects into phases: problem validation, concept validation, user validation, feasibility, market launch. Each phase generates information for the next. Irreversible decisions are deferred until uncertainty is reduced. This minimizes total project free energy.</div><div class="meter"><div class="fill" style="width:20%"></div></div></div>
+  <div class="concept-card" onclick="this.classList.toggle('open')"><h3>Decision Trees and Branch Points</h3><div class="desc">Plans are trees, not lines. Explicit branch points specify what evidence triggers which path. Option value means keeping multiple paths open can be worth the cost. Decision criteria should be written before emotional investment clouds judgment.</div><div class="meter"><div class="fill" style="width:20%"></div></div></div>
+  <div class="concept-card" onclick="this.classList.toggle('open')"><h3>Adaptive Roadmaps</h3><div class="desc">Plans must include mechanisms for their own revision. Review points, pivot criteria, and learning integration ensure the roadmap stays calibrated to reality. The planning horizon limits detailed planning to the range of useful prediction — beyond that, only directional intent.</div><div class="meter"><div class="fill" style="width:20%"></div></div></div>
+  <div class="concept-card" onclick="this.classList.toggle('open')"><h3>Resource Allocation Under Uncertainty</h3><div class="desc">Invest where expected free energy is highest. Early: fundamental viability questions. Later: operational optimization. Premature optimization (e.g., designing packaging before confirming the mechanism works) misallocates resources to low-uncertainty areas while high-uncertainty questions remain.</div><div class="meter"><div class="fill" style="width:20%"></div></div></div>
+</div>
+<div class="panel" id="quiz"><div class="quiz-box"><h3 id="q-counter">Question 1 of 5</h3><p id="q-text"></p><div id="q-opts"></div><div class="quiz-explain" id="q-explain"></div><div class="quiz-nav"><button class="quiz-btn" id="q-prev" onclick="navQ(-1)">Previous</button><button class="quiz-btn" id="q-next" onclick="navQ(1)">Next</button></div></div></div>
+<div class="panel" id="checklist"><div class="checklist" id="cl-list"></div><div class="cl-prog"><div class="fill" id="cl-fill"></div></div><div class="cl-status" id="cl-status">0 / 8 complete</div></div>
+<div class="panel" id="modules"><div class="mod-grid">
+  <div class="mod-card"><div class="num">01</div><div class="name">The Invention as a Living System</div></div>
+  <div class="mod-card"><div class="num">02</div><div class="name">The Inventor as an Adaptive Agent</div></div>
+  <div class="mod-card"><div class="num">03</div><div class="name">Seeing What Others Miss</div></div>
+  <div class="mod-card"><div class="num">04</div><div class="name">Thinking Like an Inventor</div></div>
+  <div class="mod-card"><div class="num">05</div><div class="name">From Idea to Intervention</div></div>
+  <div class="mod-card"><div class="num">06</div><div class="name">Learning from Every Attempt</div></div>
+  <div class="mod-card"><div class="num">07</div><div class="name">Sharing the Vision</div></div>
+  <div class="mod-card current"><div class="num">08</div><div class="name">The Invention Roadmap</div></div>
+</div></div>
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));t.classList.add('active');document.getElementById(t.dataset.tab).classList.add('active');}));
+const quiz=[
+  {q:"Expected free energy in invention planning balances:",opts:["Cost and revenue","Pragmatic value (goal progress) and epistemic value (uncertainty reduction)","Speed and quality","Risk and reward"],ans:1,exp:"Expected free energy combines how much an action advances toward goals (pragmatic) and how much it reduces uncertainty (epistemic). Good plans balance both, emphasizing learning early and results later."},
+  {q:"Staged development defers irreversible decisions because:",opts:["The inventor is indecisive","Making decisions before resolving critical uncertainties creates excess free energy — the agent cannot predict whether the decision will produce the desired outcome","Stages look impressive to investors","Government regulations require stages"],ans:1,exp:"If critical uncertainties are unresolved, any major commitment is a gamble. Staged development ensures that each commitment is informed by evidence, minimizing the expected surprise."},
+  {q:"An inventor investing in packaging design before confirming the core mechanism works is committing:",opts:["Premature optimization — allocating resources to low-uncertainty areas while the highest-uncertainty question remains unresolved","Strategic brand building","Efficient parallel development","Staged development"],ans:0,exp:"The highest-free-energy question is 'does the mechanism work?' Until that is answered, investing in packaging (a low-uncertainty, later-stage question) wastes resources and creates false progress."},
+  {q:"Pivot criteria should be written:",opts:["After the project fails","Before emotional investment clouds judgment, so that the criteria are based on evidence thresholds rather than sunk cost attachment","Only by investors, not inventors","Never — pivoting is always a mistake"],ans:1,exp:"Sunk cost bias makes it hard to pivot after significant investment. Pre-specifying pivot criteria while relatively detached ensures decisions are based on evidence, not emotion."},
+  {q:"The planning horizon is the distance at which:",opts:["The invention will be launched","The generative model can still make useful predictions — beyond which detailed planning is counterproductive","All team members agree on the plan","The patent expires"],ans:1,exp:"Planning beyond the model's predictive range produces false confidence. Detailed plans for the current stage, rough plans for the next, and directional intent beyond that is the appropriate structure."}
+];
+let qi=0;
+function showQ(){const q=quiz[qi];document.getElementById('q-counter').textContent=`Question ${qi+1} of ${quiz.length}`;document.getElementById('q-text').textContent=q.q;document.getElementById('q-explain').style.display='none';const od=document.getElementById('q-opts');od.innerHTML='';q.opts.forEach((o,i)=>{const b=document.createElement('div');b.className='quiz-opt';b.textContent=o;b.addEventListener('click',()=>{od.querySelectorAll('.quiz-opt').forEach(x=>{x.classList.remove('correct','wrong');x.style.pointerEvents='none'});b.classList.add(i===q.ans?'correct':'wrong');if(i!==q.ans)od.children[q.ans].classList.add('correct');const e=document.getElementById('q-explain');e.textContent=q.exp;e.style.display='block';});od.appendChild(b);});document.getElementById('q-prev').disabled=qi===0;document.getElementById('q-next').disabled=qi===quiz.length-1;}
+function navQ(d){qi=Math.max(0,Math.min(quiz.length-1,qi+d));showQ()}showQ();
+const checks=["Explain expected free energy with pragmatic and epistemic components","Design a staged development plan for your invention with go/no-go criteria","Build a decision tree with at least three branches for a critical decision point","Rate planned actions on epistemic and pragmatic value","Identify premature optimization in a project plan","Set your planning horizon and explain why detailed planning beyond it is counterproductive","Write pivot criteria before emotional investment clouds judgment","Create an adaptive roadmap with review points and revision mechanisms"];
+const cl=document.getElementById('cl-list');checks.forEach((c,i)=>{const d=document.createElement('div');d.className='cl-item';d.innerHTML=`<input type="checkbox" id="ck${i}" onchange="updateCL()"><label for="ck${i}">${c}</label>`;cl.appendChild(d);});
+function updateCL(){const n=document.querySelectorAll('.cl-item input:checked').length;document.getElementById('cl-fill').style.width=`${n/checks.length*100}%`;document.getElementById('cl-status').textContent=`${n} / ${checks.length} complete`;}
+</script>
+</body>
+</html>

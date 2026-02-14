@@ -1,25 +1,25 @@
-# Module 5: Action — Agent Guidelines
+# モジュール5：行動—エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コースエージェント](../AGENTS.md) | [カリキュラムエージェント](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Motor Control as Active Inference; Habits vs Goals |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Action) |
-| `lab.md` | File | Experimental Analysis: Motor Control as Active Inference; Habits vs Goals |
-| `dashboard.html` | File | Interactive dashboard: Action |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル—モジュールエージェントガイドライン |
+| `module.md` | ファイル | フルレクチャー：運動制御をアクティブな推論として; 習慣と目標 |
+| `questions.md` | ファイル | 20の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ：7問のMC + 3問のFR (行動) |
+| `lab.md` | ファイル | 実験分析：運動制御をアクティブな推論として; 習慣と目標 |
+| `dashboard.html` | ファイル | インタラクティブダッシュボード：行動 |
 
 ---
 
-## Content Conventions
+## コンテンツの規約
 
-- **Perspective**: Cognitive-Behavioral
-- **Topic**: Action — Motor Control as Active Inference; Habits vs Goals
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/05_action/module.md` for parallel modules
+- **視点**: 認知行動療法
+- **トピック**: 行動—運動制御をアクティブな推論として; 習慣と目標
+- **記号**: [記号表.md](../../resources/notation_table.md)を参照
+- **用語**: [用語集.md](../../resources/glossary.md)を参照
+- **相互参照**: `../../XX_course/05_action/module.md`へのリンクで、並行モジュールを参照

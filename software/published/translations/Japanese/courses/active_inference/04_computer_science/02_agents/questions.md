@@ -1,41 +1,41 @@
-# Study Questions: Agents
+# 考察問題：エージェント
 
-1. What are the five matrices (A, B, C, D, E) in a `GenerativeModel`, and what does each one encode?
+1.  `GenerativeModel` における行列 A, B, C, D, E の5つは何で、それぞれ何がエンコードされていますか？
 
-2. Why must the columns of the A-matrix sum to 1.0 rather than the rows? What probability does each column represent?
+2.  A行列の列の合計が1.0である必要があるのはなぜですか、行の合計である必要はありませんか？ 各列はどのような確率を表していますか？
 
-3. Write the Python code to create a `GenerativeModel` for a 3-state, 3-observation system with 2 actions (identity and cyclic permutation), uniform C, uniform D, and no E.
+3.  3状態、3観察システムで、2つの行動（identity と cyclic permutation）があり、Cはuniform、Dはuniform、Eは存在しない場合に、`GenerativeModel`を作成するためのPythonコードを記述してください。
 
-4. What validation error would you get if you passed a B-matrix with shape `(3, 2, 2)` when the A-matrix has shape `(2, 2)`? Why?
+4.  A行列の形状が`(2, 2)`で、B行列の形状が`(3, 2, 2)`を渡した場合、どのような検証エラーが発生しますか？ なぜですか？
 
-5. Explain the role of the precision parameter γ in `ActiveInferenceAgent`. What happens when γ → 0? When γ → ∞?
+5.  `ActiveInferenceAgent` における精度パラメータ γ の役割を説明してください。 γ → 0 のとき、γ → ∞ のとき、何が起こりますか？
 
-6. What is the difference between `agent.step(obs)` and calling `agent.infer_states(obs)`, `agent.infer_policies()`, `agent.select_action()` separately?
+6.  `agent.step(obs)` と `agent.infer_states(obs)`, `agent.infer_policies()`, `agent.select_action()` を個別に呼び出すことの違いは何ですか？
 
-7. If `model.E = None`, what prior over policies does the agent use? How does this change the policy posterior equation?
+7.  `model.E = None` の場合、エージェントはどのようなポリシーに対する事前分布を使用しますか？ これがポリシー事後分布の式にどのように影響しますか？
 
-8. Describe the relationship between `model.num_actions` and `len(agent.policies)`. Are they always equal?
+8.  `model.num_actions` と `len(agent.policies)` の関係を説明してください。 常に等しいですか？
 
-9. How would you construct custom multi-step policies for a 2-action agent? Provide a Python example with 3-step policies.
+9.  2つの行動を持つエージェントに対して、カスタムの複数ステップポリシーを構築するにはどうすればよいですか？ 3ステップポリシーの例として、Pythonコードを提供してください。
 
-10. What does `agent.reset()` do to the agent's beliefs and history? When would you call it during a simulation?
+10. `agent.reset()` はエージェントの信念と履歴にどのような影響を与えますか？ シミュレーション中に呼び出すタイミングはいつですか？
 
-11. Explain why `GenerativeModel` raises a `ValueError` for a D-vector of `[0.5, 0.3]`. What is the validation rule?
+11. Dベクトルの `[0.5, 0.3]` に対して `GenerativeModel` が `ValueError` を発生させる理由を説明してください。 検証ルールは何ですか？
 
-12. How does the C-vector influence which actions the agent selects? Trace the path from C through EFE to the policy posterior.
+12. Cベクトルは、エージェントが選択する行動にどのように影響しますか？ C を EFE を通ってポリシー事後分布にたどり着くまでの経路を追跡してください。
 
-13. If you set `C = np.zeros(num_obs)`, the agent becomes purely epistemic. Explain what "purely epistemic" means in terms of the risk component of EFE.
+13. `C = np.zeros(num_obs)` を設定すると、エージェントは純粋に知識に基づいたものになります。 EFE のリスク成分の観点から、「純粋に知識に基づいた」とはどういう意味ですか？
 
-14. Construct a T-maze `GenerativeModel` with 4 states (center, left, right, cue), 3 observations (neutral, reward, no-reward), and 3 actions (stay, go-left, go-right). Define each matrix.
+14. 4つの状態（中心、左、右、ヒント）、3つの観察（中立、報酬、報酬なし）、3つの行動（待機、左に進む、右に進む）を持つTマズ `GenerativeModel` を構築してください。 各行列を定義してください。
 
-15. What does `model.predict_observation(q_s)` compute? Write the mathematical formula.
+15. `model.predict_observation(q_s)` は何を計算しますか？ 数学的な公式を記述してください。
 
-16. Why does `model.predict_state(q_s, action)` need both the belief vector and the action index? What matrix does it use?
+16. `model.predict_state(q_s, action)` が信念ベクトルとアクションインデックスの両方を必要とする理由は何ですか？ どのような行列を使用しますか？
 
-17. Explain the output of `model.log_joint(obs=0, state=0)`. What two terms are summed?
+17. `model.log_joint(obs=0, state=0)` の出力について説明してください。 合計される2つの項は何ですか？
 
-18. How does `model.surprisal(obs, q_s)` relate to the log-model-evidence? Is lower surprisal better or worse for the agent?
+18. `model.surprisal(obs, q_s)` がログモデル証拠とどのように関連しますか？ より低い驚異はより良いか、悪いかどうですか？
 
-19. What is the default policy structure when you create `ActiveInferenceAgent(model)` without specifying `policies`? How many policies does a 4-action model produce?
+19. `ActiveInferenceAgent(model)` を作成するときに `policies` を指定せずにデフォルトのポリシー構造は何ですか？ 3つの行動を持つモデルはいくつ多くのポリシーを生成しますか？
 
-20. After running 10 steps of the perception-action loop, what data can you extract from `agent.history`? List all tracked quantities.
+20. 認識行動ループの10ステップを実行した後、`agent.history` から抽出できるデータは何ですか？ 追跡されているすべての量を示してください。

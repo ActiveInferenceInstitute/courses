@@ -1,53 +1,53 @@
-# Practice Quiz: Perception
+# 練習クイズ：認識
 
-## Part A: Multiple Choice
+## 部門 A：選択式
 
-1. The goal of state inference in Active Inference is to find $q(s)$ that minimizes:
-A) Expected Free Energy $G$
-B) Variational Free Energy $F$
-C) Entropy $H$
-D) Surprisal $S$
+1. Active Inference における状態推論の目的は、$q(s)$ を見つけて、以下のどれを最小化するかを見つけることです：
+A) 期待自由エネルギー $G$
+B) 変分自由エネルギー $F$
+C) エントロピー $H$
+D) 驚愕 $S$
 
-2. In `run_state_inference()`, convergence is determined by:
-A) The VFE reaching zero
-B) The change in beliefs falling below a threshold
-C) The posterior matching the prior exactly
-D) A fixed number of iterations completing
+2. `run_state_inference()` で、収束は以下のいずれかで決定されますか？
+A) VFE がゼロに達すること
+B) 信念の変化が閾値以下になること
+C) 事後分布が事前分布と完全に一致すること
+D) 固定数の反復回数が完了すること
 
-3. If the A-matrix is the identity, observing $o = 2$ in a 3-state system yields posterior:
+3. A行列が単位行列の場合、3状態システムで $o = 2$ を観測すると、事後分布は次のようになります：
 A) $q(s) = [1/3, 1/3, 1/3]$
 B) $q(s) = [0, 0, 1]$
 C) $q(s) = [0.5, 0.5, 0]$
-D) The result depends on the prior
+D) 結果は事前分布に依存します。
 
-4. `model.log_likelihood(obs)` returns:
-A) A scalar — the total log-probability of the observation
-B) A vector — $\ln A[o, :]$ for each state
-C) A matrix — the full log A-matrix
-D) The posterior distribution
+4. `model.log_likelihood(obs)` は返す：
+A) スカラー — 観測の総対数確率
+B) ベクトル — $\ln A[o, :]$ 各状態について
+C) 行列 —  πλήρες 対数 A行列
+D) 事後分布
 
-5. After running `agent.infer_states(obs)`, which of these is updated?
-A) `agent.q_s` only
-B) `agent.q_s` and `agent.history["vfe"]`
-C) `agent.q_s`, `agent.history["vfe"]`, and `agent.history["beliefs"]`
-D) Only `agent.history`
+5. `agent.infer_states(obs)` を実行した後、次のものは更新されますか？
+A) `agent.q_s` のみ
+B) `agent.q_s` と `agent.history["vfe"]`
+C) `agent.q_s`、`agent.history["vfe"]`、および `agent.history["beliefs"]`
+D) ただし `agent.history` のみ
 
-6. A prediction error of $\varepsilon = [0.15, -0.15]$ after observing $o = 0$ means:
-A) The agent predicted observation 0 perfectly
-B) The agent underestimated the probability of observation 0 by 0.15
-C) The observation was impossible under the model
-D) The agent needs to increase γ
+6. 観測 $o = 0$ の後に $\varepsilon = [0.15, -0.15]$ の予測誤差が得られた場合、それは意味しますか？
+A) エージェントは観測 0 を完璧に予測しました
+B) エージェントは観測 0 の確率を 0.15 単位過小評価しました
+C) 観測はモデルの下では不可能です
+D) エージェントは γ を増やす必要があります
 
-7. With a noisy A-matrix ($A = [[0.55, 0.45], [0.45, 0.55]]$) and uniform prior, the posterior after observing $o = 0$ will be:
-A) Identical to the prior
-B) Slightly favoring state 0
-C) Strongly favoring state 0
-D) Deterministic at state 0
+7. ノイズのある A行列 ($A = [[0.55, 0.45], [0.45, 0.55]]$) と一様分布の事前分布の場合、観測 $o = 0$ の後に得られる事後分布は次のようになります：
+A) 事前分布と全く同じ
+B) 状態 0 をわずかに好む
+C) 状態 0 を強く好む
+D) 状態 0 で決定論的
 
-## Part B: Short Answer
+## 部門 B：短い回答
 
-1. Given $A = [[0.8, 0.2], [0.2, 0.8]]$ and prior $q(s) = [0.5, 0.5]$, compute the posterior $q(s \mid o = 0)$ by hand using one iteration of fixed-point inference. Show your work.
+1. $A = [[0.8, 0.2], [0.2, 0.8]]$ と事前分布 $q(s) = [0.5, 0.5]$ が与えられた場合、固定点推論の 1 回回の反復を使って手動で事後分布 $q(s \mid o = 0)$ を計算してください。計算過程を示してください。
 
-2. Explain why `agent.prediction_error(obs).sum()` always equals zero. What mathematical property guarantees this?
+2. `agent.prediction_error(obs).sum()` が常にゼロになる理由を説明してください。どのような数学的性質がこの保証を保証しますか？
 
-3. An agent with a clear A-matrix receives observations $[0, 0, 0, 0, 0]$. After each observation, $q(s_0)$ increases. Explain why there are diminishing returns — why does the 5th observation change beliefs less than the 1st?
+3. 明確な A 行列を持つエージェントが [0, 0, 0, 0, 0] の観測を受け取った場合、各観測の後、$q(s_0)$ が増加します。なぜ 5 番目の観測が最初の観測ほど信念を変えないのかを説明してください。

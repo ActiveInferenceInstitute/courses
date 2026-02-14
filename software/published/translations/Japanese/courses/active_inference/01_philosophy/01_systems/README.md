@@ -1,53 +1,53 @@
-# Module 1: Systems — Boundaries, Markov Blankets, and the Philosophy of Biology
+# モジュール 1: システム - 境界、マルコフブランケット、そして生物学の哲学
 
-> **Quick Navigation**: [← Course Home](../) | [Up](../) | [Agents →](../02_agents/)
+> **クイックナビゲーション**: [←コースホーム](../) | [上へ](../) | [エージェントへ →](../02_agents/)
 
-## The Philosophy of Active Inference
+## 積極的推論の哲学
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Thought Experiment lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の全文 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個のFR) |
+| [lab.md](./lab.md) | 思考実験ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです：
 
-1. Define **Systems** from a philosophical perspective within Active Inference
-2. Explain the role of **Boundaries** in the FEP framework
-3. Connect systems to the broader concepts of free energy minimization
-4. Apply philosophical reasoning to analyze real-world examples of systems
+1. 積極的推論における哲学的な観点から「システム」を定義する。
+2. FEP フレームワークにおける「境界」の役割を説明する。
+3. システムを、自由エネルギー最小化のより広い概念と関連付ける。
+4. 実際のシステムに関する例を分析するために、哲学的な推論を適用する。
 
 ---
 
-## Cross-Course Links
+## 相互コースへのリンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/01_systems/) | Boundaries, Markov Blankets, and the Philosophy of Biology ← **You are here** |
-| [Cognitive Science](../../02_cognitive_science/01_systems/) | Neural Assemblies and Functional Integration |
-| [Mathematics](../../03_math/01_systems/) | Mathematical Foundations: Matrices, Probability, and Bayesian Reasoning |
-| [Computer Science](../../04_computer_science/01_systems/) | Setting Up Environments: Generative Process vs Generative Model |
+| [哲学](../../01_philosophy/01_systems/) | 境界、マルコフブランケット、そして生物学の哲学 ← **現在地** |
+| [認知科学](../../02_cognitive_science/01_systems/) | 神経集積体と機能統合 |
+| [数学](../../03_math/01_systems/) | 数学的な基礎：行列、確率、ベイズ推論 |
+| [コンピュータサイエンス](../../04_computer_science/01_systems/) | 環境のセットアップ：生成プロセス vs 生成モデル |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Course Home](../) | [Up](../) | [Agents →](../02_agents/)
+[←コースホーム](../) | [上へ](../) | [エージェントへ →](../02_agents/)

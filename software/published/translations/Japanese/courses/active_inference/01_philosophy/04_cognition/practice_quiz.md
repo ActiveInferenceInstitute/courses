@@ -1,51 +1,55 @@
-# Practice Quiz: Cognition
+# 認知に関する練習問題
 
-## Part A: Multiple Choice
+## Part A: 選択式
 
-1. In Active Inference, a "belief" is best understood as:
-A) A sentence in a language of thought
-B) A posterior probability distribution over hidden states, physically realized in internal states
-C) A subjective feeling of confidence about a proposition
-D) A behavioral disposition to act in a certain way
+1.  Active Inference において、「信念」とは最もよく理解されるのは：
+    A) 思考言語の文
+    B) 内部状態に物理的に実現された、隠れた状態に関する事後確率分布
+    C) 主観的な命題に対する確信の感覚
+    D) 特定の方法で行動する行動傾向
 
-2. Precision in Active Inference plays the functional role of:
-A) Memory consolidation
-B) Attention — determining which prediction errors are amplified
-C) Emotion — generating affective valence
-D) Motor planning — selecting the best action sequence
+2.  Active Inference における「精密さ」の機能的な役割は：
+    A) 記憶の統合
+    B) 注意 - 強化する予測誤差を決定する
+    C) 感情 - 感覚的価値を生み出す
+    D) 運動計画 - 最適な行動シーケンスを選択する
 
-3. The dark room problem challenges Active Inference by asking:
-A) How agents can perceive in dark environments
-B) Why agents don't seek out maximally predictable environments to minimize surprise
-C) Whether light is necessary for generative models to function
-D) How sleep relates to free energy minimization
+3.  暗闇の部屋の問題は、Active Inference に挑戦することで尋ねる：
+    A) 代理人が暗い環境でどのように知覚できるか
+    B) 代理人が驚きを最小限に抑えるために、最も予測可能な環境を積極的に探さない理由
+    C) 生成モデルが機能するために光が必要かどうか
+    D) 睡眠が自由エネルギー最小化とどのように関連しているか
 
-4. The resolution of the dark room problem relies on:
-A) The claim that agents also maximize entropy
-B) Prior preferences (C vector) that make a dark room surprising relative to the agent's model
-C) The physical impossibility of finding a completely dark room
-D) The distinction between conscious and unconscious agents
+4.  暗闇の部屋の問題の解決は、次のことに依存する：
+    A) 代理人がエントロピーを最大化することも事実であるという主張
+    B) 代理人のモデルに対する事前好み (C ベクトル) が、代理人の認識に対する暗闇を驚くべきものにする
+    C) 完全に暗い部屋を見つけることが物理的に不可能であること
+    D) 意識と無意識の代理人の間の違い
 
-5. According to the Active Inference view, aberrant precision may explain:
-A) Viral infections
-B) Conditions like anxiety (overweighting threat) and autism (overweighting sensory prediction errors)
-C) Normal aging
-D) Evolutionary adaptation
+5.  Active Inference の観点から見ると、異常な精密さは次のことを説明できる：
+    A) ウイルスの感染症
+    B) 不安（脅威の過大評価）や自閉症（感覚予測誤差の過大評価）のような状態
+    C) 通常の老化
+    D) 進化的適応
 
-6. The "hard problem of consciousness" (Chalmers) asks:
-A) How the brain generates neural activity
-B) Why physical processes give rise to subjective experience
-C) Whether AI can be intelligent
-D) How to measure brain activity using fMRI
+6.  「意識のハード問題」（チャルマーズ）は尋ねる：
+    A) 脳が神経活動を生成する方法
+    B) 物理的プロセスが主観的な経験の源泉となる理由
+    C) AI が知能を持つことができるかどうか
+    D) fMRI を使用して脳活動を測定する方法
 
-7. If beliefs are physical states of a generative model, then the extended mind hypothesis implies:
-A) External tools can never be part of cognition
-B) Beliefs can, in principle, be physically instantiated in artifacts outside the brain
-C) Consciousness must extend to all physical objects
-D) Only digital devices can extend the mind
+7.  信念が生成モデルの物理的な状態である場合、拡張されたマインド仮説は意味する：
+    A) 外部ツールは認知の一部となることは決してない
+    B) 信念は、原理的には脳の外にある人工物に物理的に実装できる
+    C) 意識はすべての物理的物体に拡張される必要がある
+    D) 精神を拡張できるのはデジタルデバイスだけ
 
-## Part B: Short Answer
+## Part B: 記述式
 
-1. Explain how Active Inference accounts for the difference between habitual behavior and deliberate reasoning. What role does precision play?
-2. A patient with blindsight denies seeing a stimulus but can "guess" its location above chance. Analyze this case from the Active Inference perspective: does the patient have a "belief" about the stimulus? What does this reveal about the relationship between inference and consciousness?
-3. Construct a philosophical argument for or against the claim: "If the self is a belief (an inference), it is no less real than if it were a substance."
+1.  Active Inference が習慣的な行動と意図的な推論の間の違いをどのように説明するのか説明してください。精密さはどのような役割を果たすのか？
+2.  盲視の患者が刺激を見ることを否定しつつも、「当て」でその場所を推測できるというケースを、Active Inference の観点から分析してください。患者は「刺激に関する信念」を持っていると言えるでしょうか？これは推論と意識の関係について何を明らかにするでしょうか？
+3.  次の主張に対する哲学的な議論を構築してください：「自己が信念（推論）である場合、それは物質である場合と本質的に違いがない」
+
+---
+
+Would you like me to translate any other text, or perhaps elaborate on a specific question from the quiz?

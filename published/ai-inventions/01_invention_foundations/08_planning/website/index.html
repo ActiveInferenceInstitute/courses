@@ -733,6 +733,9 @@ body.dark-mode .question-container:hover {
             <div class="sidebar-nav" id="sidebar-nav">
                 <!-- Navigation links will be injected here -->
                 <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
 </div>
             </div>
 
@@ -766,7 +769,603 @@ body.dark-mode .question-container:hover {
                     <button class="global-btn" onclick="expandAll()">Expand All</button>
                 </div>
 
-                
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>The Invention Roadmap: Planning Under Uncertainty</h1>
+<h2>Executive Summary</h2>
+<p>Invention projects unfold over time under pervasive uncertainty. The inventor does not know which designs will work, which users will adopt, which competitors will emerge, or which regulations will apply. Yet decisions must be made, resources must be allocated, and milestones must be set. Active Inference provides a principled framework for planning under uncertainty through the concept of expected free energy — evaluating future actions based on both their pragmatic value (how much they advance toward the goal) and their epistemic value (how much they reduce uncertainty). This module develops the inventor's planning capabilities: decomposing complex projects into stages, making irreversible decisions at the right time, building contingency into plans, and adapting the roadmap as learning progresses.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Explain planning in Active Inference as the selection of action sequences that minimize expected free energy across time.</li>
+<li>Apply the concept of expected free energy to evaluate invention project plans, balancing information-gathering actions against goal-advancing actions.</li>
+<li>Design staged development plans that defer irreversible decisions until uncertainty is sufficiently reduced.</li>
+<li>Construct decision trees for invention projects, identifying branch points where evidence should guide the choice of path.</li>
+<li>Develop adaptive roadmaps that incorporate learning from each stage to update plans for subsequent stages.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. Planning as Expected Free Energy Minimization</h3>
+<p>In Active Inference, planning means selecting a sequence of future actions that minimizes expected free energy — the agent's best estimate of how much surprise (prediction error) it will encounter if it follows a particular plan. Expected free energy has two components that are particularly relevant for inventors:</p>
+<p><strong>Pragmatic value</strong> measures how much a plan advances the agent toward its preferred states. For an inventor, pragmatic value is progress toward a working, adopted, impactful invention. A plan with high pragmatic value is one that produces tangible results: functional prototypes, validated markets, signed partnerships.</p>
+<p><strong>Epistemic value</strong> measures how much a plan reduces the agent's uncertainty. For an inventor, epistemic value is learning — discovering whether an approach works, what users need, how a material behaves. A plan with high epistemic value resolves critical unknowns early, even if it does not immediately produce a sellable product.</p>
+<p>The optimal plan balances both. A plan that is pure pragmatic value (rushing to market without testing) is risky — it may produce a product that fails because critical uncertainties were never resolved. A plan that is pure epistemic value (perpetual research without commercialization) never achieves impact. The Active Inference framework treats this not as a philosophical question but as a computational one: for each candidate plan, estimate the expected free energy (combining pragmatic and epistemic terms), and select the plan with the lowest total.</p>
+<p>In practice, this means that early stages of an invention project should weight epistemic value heavily — the primary goal is learning, not selling. As uncertainty decreases through learning, the plan should shift toward pragmatic value — now the primary goal is achieving the preferred outcome. This shift is not a single moment but a gradual reweighting as the project matures.</p>
+<h3>2. Staged Development: Deciding When to Decide</h3>
+<p>One of the most important planning principles from Active Inference is that irreversible decisions should be deferred until uncertainty is sufficiently reduced. This is the logic behind staged development: breaking the invention project into phases, with each phase generating the information needed to make the decisions in the next phase.</p>
+<p>A typical staged plan for an invention might look like:</p>
+<p><strong>Stage 1: Problem Validation</strong> — Is the problem real, widespread, and severe? Actions: observation, user interviews, evidence gathering. Key decision at the end: is this problem worth solving?</p>
+<p><strong>Stage 2: Concept Validation</strong> — Does the proposed mechanism address the problem? Actions: proof-of-concept prototyping, mechanism testing. Key decision: does the core mechanism work?</p>
+<p><strong>Stage 3: User Validation</strong> — Do users interact with the invention as intended? Actions: user experience prototyping, usability testing. Key decision: does the invention deliver value to real users?</p>
+<p><strong>Stage 4: Feasibility Validation</strong> — Can the invention be manufactured, distributed, and supported at scale? Actions: manufacturing prototyping, supply chain investigation. Key decision: can the invention be produced viably?</p>
+<p><strong>Stage 5: Market Validation</strong> — Will the market adopt and pay for the invention? Actions: limited launch, pricing experiments, channel testing. Key decision: should the invention be scaled?</p>
+<p>Each stage produces specific information that reduces the uncertainty about a specific dimension of viability. The decisions at stage boundaries are go/no-go decisions — and they should be informed by the evidence gathered in the previous stage, not by enthusiasm or sunk cost.</p>
+<p>The Active Inference rationale for staging is that it minimizes total expected free energy across the project. Making a large investment before critical uncertainties are resolved (skipping stages) dramatically increases expected free energy because the agent cannot predict whether the investment will produce the desired outcome. Making the investment after uncertainties are resolved (following stages) reduces expected free energy because the agent's predictions are better calibrated.</p>
+<h3>3. Decision Trees and Branch Points</h3>
+<p>Invention plans are not linear paths — they are trees with branch points where different evidence leads to different courses of action. A good plan explicitly identifies these branch points and specifies the criteria for choosing each branch.</p>
+<p>An Active Inference decision tree for invention includes:</p>
+<p><strong>Branch points</strong>: Moments where a decision must be made based on evidence. "If user testing shows that 80% of users can complete the task in under 2 minutes, proceed to manufacturing prototyping. If less than 50% can complete it, redesign the interface. If 50-80% can complete it, conduct additional testing with a refined prototype."</p>
+<p><strong>Information-gathering actions</strong>: Steps specifically designed to provide the evidence needed for branch point decisions. "Before choosing between injection molding and 3D printing for production, produce 50 units by each method and compare quality, cost, and time."</p>
+<p><strong>Contingency plans</strong>: Alternative paths for different outcomes. "If the primary material fails environmental testing, we have identified two alternative materials with the following properties..." The inventor who has only one plan — no contingencies — is maximizing expected free energy because they have no response strategy for unexpected outcomes.</p>
+<p>The concept of <strong>option value</strong> is relevant here. A plan that keeps multiple options open (even at some cost) may have lower expected free energy than a plan that commits irrevocably to one path. The inventor who develops two parallel approaches and chooses between them after testing both has higher option value than the inventor who bets everything on one approach.</p>
+<p>This does not mean that decisions should be avoided indefinitely. At some point, the information gained from maintaining options is outweighed by the cost of not committing. The Active Inference framework provides the criterion: commit when the expected free energy of committing (accounting for the risk of being wrong) is lower than the expected free energy of continuing to explore (accounting for the cost of delay).</p>
+<h3>4. Adaptive Roadmaps: Planning to Replan</h3>
+<p>Traditional project plans assume that the future is predictable enough to specify in advance. Active Inference recognizes that the future is uncertain and that plans must be updated as new information arrives. An adaptive roadmap is a plan that includes explicit mechanisms for its own revision.</p>
+<p>The key principle is that each stage of the plan generates evidence that updates the generative model, and the updated model may require revisions to subsequent stages. An inventor who discovers in Stage 2 that their core mechanism does not work as expected should not proceed to Stage 3 (user testing) — they should loop back and revise their mechanism or explore alternatives.</p>
+<p>Adaptive roadmaps include:</p>
+<p><strong>Review points</strong>: Scheduled moments to evaluate progress, compare predictions against observations, and update the plan. "At the end of each month, review the iteration log and assess whether the current plan still reflects our best understanding."</p>
+<p><strong>Pivot criteria</strong>: Pre-specified conditions under which the plan would fundamentally change. "If we cannot achieve cost-per-unit below $X by Stage 4, we will pivot from consumer to industrial application."</p>
+<p><strong>Learning integration</strong>: Mechanisms for incorporating lessons from earlier stages into later plans. "User testing in Stage 3 revealed that the primary value proposition is portability, not precision. Stage 5 marketing should emphasize portability."</p>
+<p>The concept of the <strong>planning horizon</strong> is important. Active Inference agents do not plan infinitely far ahead — they plan to the horizon where their generative model can still make useful predictions. Beyond that horizon, the uncertainty is so high that detailed planning is counterproductive. For most invention projects, the planning horizon is one to two stages ahead, with only rough outlines for later stages.</p>
+<p>This means that a complete invention roadmap might have detailed plans for the current stage, rough plans for the next stage, and only directional intent for stages beyond that. This is not laziness — it is epistemic humility. Planning details for a stage that may never be reached, or may be reached under completely different conditions than anticipated, is wasted effort that creates false confidence.</p>
+<h3>5. Resource Allocation Under Uncertainty</h3>
+<p>Planning also involves allocating limited resources — time, money, materials, attention — across competing demands. Active Inference provides a framework for this allocation: invest resources where they will reduce expected free energy the most.</p>
+<p>In the early stages of an invention project, the highest-free-energy questions are typically about fundamental viability: "Does the mechanism work?" "Do users want this?" Resources should be concentrated on answering these questions, even if other aspects (branding, packaging, business model) are also important. The other aspects contribute less to uncertainty reduction at this stage.</p>
+<p>As fundamental viability questions are resolved, resources should shift to operational questions: "Can we manufacture this affordably?" "What is the right distribution channel?" "How do we comply with regulations?" These questions become the highest-free-energy items as the project matures.</p>
+<p>A common planning error is premature optimization — investing heavily in aspects that will only matter if fundamental viability is established. An inventor who spends six months designing packaging before confirming that the product works is misallocating resources. The expected free energy of "does the product work?" is far higher than the expected free energy of "does the packaging look good?"</p>
+<p>The countermeasure is to rank all uncertainties by their impact on the project's viability and allocate resources in priority order. This ranking should be updated at each review point as some uncertainties are resolved and others emerge.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: SpaceX's Staged Rocket Development</h3>
+<p>SpaceX's development of reusable rockets demonstrates staged planning with adaptive roadmaps at an extraordinary scale. Elon Musk's original plan was straightforward: build a cheap rocket, launch payloads to orbit, use the revenue to fund Mars colonization. But the actual development followed a deeply staged, adaptive process.</p>
+<p>Stage 1 was the Falcon 1 — a small, simple rocket designed to demonstrate that a startup could reach orbit. This was primarily epistemic: could SpaceX build and launch a rocket at all? The first three Falcon 1 launches failed, each generating specific prediction errors (turbopump failure, fuel slosh, stage separation timing). Each failure updated the generative model, and the fourth launch succeeded.</p>
+<p>Stage 2 was the Falcon 9 — a much larger rocket designed for commercial payloads. This shifted toward pragmatic value (generating revenue) while still pursuing epistemic goals (testing landing legs for reusability). The decision to attempt rocket landings added epistemic value to every commercial launch — even if the landing failed, SpaceX learned something about its reusability model.</p>
+<p>Stage 3 was reusable operations — proving that reflown boosters could be reliable and economically beneficial. This required extensive parameter learning about refurbishment costs, re-flight reliability, and turnaround time.</p>
+<p>The adaptive element is evident throughout. SpaceX's original plan did not include the Falcon Heavy (added when a market for heavy-lift emerged) or Starship (a structural redesign when the original Mars architecture proved inadequate). Each plan revision was driven by prediction errors from previous stages updating the generative model.</p>
+<h3>Case Study 2: The Invention of the Microwave Oven</h3>
+<p>Percy Spencer's invention of the microwave oven illustrates how an adaptive roadmap can navigate from an accidental discovery to a consumer product through multiple stages with radically different uncertainty profiles.</p>
+<p>Spencer's initial observation — a chocolate bar in his pocket melting near a magnetron — was an unplanned prediction error that suggested a new causal relationship: microwave radiation could heat food. Stage 1 was a simple experiment: directing a magnetron at popcorn kernels (which popped) and an egg (which exploded). The epistemic value was high: does microwave heating work on food?</p>
+<p>Stage 2 shifted to feasibility: Raytheon built a prototype microwave oven called the Radarange. The first version was 6 feet tall, weighed 750 pounds, and cost $5,000 (in 1947 dollars). The prediction errors from this stage were clear: while the mechanism worked, the form factor and cost were completely wrong for consumer adoption. The plan had to adapt — the consumer market would need to wait for miniaturization.</p>
+<p>Stage 3 involved decades of parameter learning: shrinking the magnetron, reducing power consumption, finding food-safe enclosure materials, and lowering cost through manufacturing innovation. Each of these was a parameter optimization within the established structural model (magnetron heats food in an enclosed cavity).</p>
+<p>Stage 4 reached the consumer market in the late 1960s, but adoption was slow because of a communication problem (Module 7) — consumers did not understand what a microwave oven was for and feared radiation. The plan adapted again: marketing shifted from "cook meals" to "reheat leftovers and make snacks," reducing the prediction error gap for consumers whose model of cooking was firmly centered on conventional ovens.</p>
+<p>The microwave oven roadmap spanned 20 years from discovery to consumer adoption, with multiple plan revisions driven by prediction errors at each stage. No linear, fixed plan could have navigated this journey.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 5 (Action)</strong>: Planning selects which actions to take and in what order</li>
+<li><strong>Module 6 (Learning)</strong>: Planning must incorporate learning from past stages into future plans</li>
+<li><strong>Module 2 (Agents)</strong>: The inventor's goals (preferred states) drive planning priorities</li>
+<li><strong>Module 1 (Systems)</strong>: System boundaries determine the scope of what must be planned for</li>
+</ul>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Invention Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expected Free Energy</td>
+<td>The predicted surprise from a future action, balancing pragmatic and epistemic value</td>
+<td>Choosing to test user response before investing in manufacturing</td>
+</tr>
+<tr>
+<td>Pragmatic Value</td>
+<td>How much a plan advances toward preferred states (goals)</td>
+<td>A working prototype that can be demonstrated to investors</td>
+</tr>
+<tr>
+<td>Epistemic Value</td>
+<td>How much a plan reduces uncertainty about the world</td>
+<td>A user test that reveals whether people need the product</td>
+</tr>
+<tr>
+<td>Staged Development</td>
+<td>Breaking projects into phases where each phase generates information for the next</td>
+<td>Problem validation, concept validation, user validation, feasibility, market launch</td>
+</tr>
+<tr>
+<td>Decision Tree</td>
+<td>A plan with explicit branch points where evidence determines the path</td>
+<td>"If testing shows X, proceed; if Y, redesign; if Z, pivot"</td>
+</tr>
+<tr>
+<td>Adaptive Roadmap</td>
+<td>A plan with built-in mechanisms for revision based on new evidence</td>
+<td>SpaceX adding Starship after Falcon 9 results updated their Mars architecture model</td>
+</tr>
+<tr>
+<td>Planning Horizon</td>
+<td>The temporal distance at which the generative model can still make useful predictions</td>
+<td>Detailed plans for the current stage, rough plans for the next, directional intent beyond</td>
+</tr>
+<tr>
+<td>Option Value</td>
+<td>The benefit of keeping multiple paths open before committing</td>
+<td>Developing two approaches in parallel before choosing one</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Friston, K. J., FitzGerald, T., Rigoli, F., Schwartenbeck, P., &amp; Pezzulo, G. (2017). Active Inference: A process theory. <em>Neural Computation</em>, 29(1), 1-49.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>McGrath, R. G., &amp; MacMillan, I. C. (1995). Discovery-driven planning. <em>Harvard Business Review</em>, 73(4), 44-54.</li>
+<li>Ries, E. (2011). <em>The Lean Startup: How Today's Entrepreneurs Use Continuous Innovation to Create Radically Successful Businesses</em>. Crown Business.</li>
+<li>Vance, A. (2015). <em>Elon Musk: Tesla, SpaceX, and the Quest for a Fantastic Future</em>. Ecco.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Building Your Invention Roadmap</h1>
+<h2>Objective</h2>
+<p>Create an adaptive roadmap for your invention project that uses Active Inference principles: stage-gated development, expected free energy evaluation, explicit decision points, and built-in plan revision mechanisms. By the end of this lab, you will have a practical, evidence-driven project plan that balances learning with progress.</p>
+<h2>Materials and Prerequisites</h2>
+<ul>
+<li>All previous lab outputs (system map, agent profile, prediction error hunt, causal model, prototype plans, learning log, communication strategy)</li>
+<li>Paper or digital planning tool (a simple spreadsheet or even a hand-drawn timeline works)</li>
+<li>No project management background required</li>
+</ul>
+<h2>Part 1: Current State Assessment (10 minutes)</h2>
+<p>Before planning where to go, you need to know where you are.</p>
+<p><strong>Summarize your invention in one sentence:</strong></p>
+<p>{fill:textarea}</p>
+<p><strong>What stage is your invention at currently?</strong>
+- [ ] Idea stage — I have not validated the problem yet
+- [ ] Problem validated — I know the problem is real but have not tested a solution
+- [ ] Concept tested — I have a proof-of-concept that the mechanism works
+- [ ] User tested — I know users want this and can use it
+- [ ] Feasibility tested — I know it can be manufactured/delivered
+- [ ] Market ready — I am ready to launch</p>
+<p><strong>What are the three biggest uncertainties remaining?</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Uncertainty</th>
+<th>Impact if not resolved (1-10)</th>
+<th>Current confidence (1-10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>2</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>3</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What resources do you have available?</strong> (time per week, budget, tools, collaborators)</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: Designing Your Staged Plan (15 minutes)</h2>
+<p>Break your project into 3-5 stages. For each stage, specify what you will learn and what decision it enables.</p>
+<h3>Stage 1:</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Primary goal (epistemic or pragmatic?)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Key uncertainty to resolve</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Actions to take</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Evidence that would mean "go"</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Evidence that would mean "no-go"</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Estimated time and resources</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<h3>Stage 2:</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Primary goal (epistemic or pragmatic?)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Key uncertainty to resolve</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Actions to take</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Evidence that would mean "go"</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Evidence that would mean "no-go"</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Estimated time and resources</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<h3>Stage 3:</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Primary goal (epistemic or pragmatic?)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Key uncertainty to resolve</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Actions to take</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Evidence that would mean "go"</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Evidence that would mean "no-go"</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Estimated time and resources</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<h3>Stage 4 (optional):</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Primary goal</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Key uncertainty to resolve</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Actions and go/no-go criteria</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<h3>Stage 5 (optional):</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Primary goal</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Key uncertainty to resolve</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Actions and go/no-go criteria</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<h2>Part 3: Building Decision Trees (10 minutes)</h2>
+<p>For your most critical decision point (the transition from Stage 1 to Stage 2 or from Stage 2 to Stage 3), build an explicit decision tree.</p>
+<p><strong>Decision point:</strong> {fill:textarea}</p>
+<p><strong>Branch A: If evidence supports the current approach:</strong></p>
+<p>What do you do next? {fill:textarea}</p>
+<p>What resources do you commit? {fill:textarea}</p>
+<p><strong>Branch B: If evidence is mixed (partially supportive):</strong></p>
+<p>What additional information would resolve the ambiguity? {fill:textarea}</p>
+<p>What modified approach would you try? {fill:textarea}</p>
+<p><strong>Branch C: If evidence contradicts the current approach:</strong></p>
+<p>What alternative approach would you pursue? {fill:textarea}</p>
+<p>What aspects of your work are salvageable from the current approach? {fill:textarea}</p>
+<p><strong>What is the most informative observation you could make to determine which branch to follow?</strong></p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Expected Free Energy Analysis (10 minutes)</h2>
+<p>Evaluate your plan using the expected free energy framework.</p>
+<p><strong>For Stage 1, rate each planned action on two dimensions:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Epistemic Value (how much it reduces uncertainty, 1-10)</th>
+<th>Pragmatic Value (how much it advances toward the goal, 1-10)</th>
+<th>Total EFE Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Based on this analysis, what should you do first?</strong> (The action with the highest combined epistemic + pragmatic value)</p>
+<p>{fill:textarea}</p>
+<p><strong>Is there an action with high epistemic value but low pragmatic value that you should do early?</strong> (Pure learning actions)</p>
+<p>{fill:textarea}</p>
+<p><strong>Is there an action with high pragmatic value but low epistemic value that you should defer?</strong> (Actions that produce results but do not resolve uncertainty)</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Adaptive Mechanisms (10 minutes)</h2>
+<p>Build revision mechanisms into your plan.</p>
+<p><strong>Review schedule</strong>: How often will you review and potentially revise your plan?</p>
+<p>{fill:textarea}</p>
+<p><strong>Pivot criteria</strong>: Under what conditions would you make a major change to your plan?</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Resulting Plan Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Planning horizon</strong>: How far ahead can you plan with useful detail?</p>
+<p>{fill:textarea}</p>
+<p><strong>What is explicitly NOT planned yet</strong> (and should not be, because the uncertainty is too high)?</p>
+<p>{fill:textarea}</p>
+<p><strong>Sunk cost check</strong>: What would you need to see to abandon this project entirely? Write this down now, when you are not yet emotionally invested.</p>
+<p>{fill:textarea}</p>
+<h2>Part 6: One-Page Roadmap Summary (5 minutes)</h2>
+<p>Synthesize your plan into a one-page summary.</p>
+<p><strong>Invention:</strong> {fill:textarea}</p>
+<p><strong>Current stage:</strong> {fill:textarea}</p>
+<p><strong>Next milestone:</strong> {fill:textarea}</p>
+<p><strong>Timeline to next milestone:</strong> {fill:textarea}</p>
+<p><strong>Three biggest risks and mitigations:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>First action (what I will do tomorrow):</strong></p>
+<p>{fill:textarea}</p>
+<h2>Discussion and Debrief</h2>
+<ol>
+<li>
+<p><strong>Epistemic vs. pragmatic balance</strong>: Does your plan weight learning early and results later? Or does it try to produce results before critical uncertainties are resolved? How would you adjust?</p>
+</li>
+<li>
+<p><strong>Decision quality</strong>: Are your go/no-go criteria specific enough to actually make decisions? Or are they vague enough that you could justify any decision? Sharpen them.</p>
+</li>
+<li>
+<p><strong>Adaptiveness</strong>: How resilient is your plan to unexpected results? If Stage 1 produces a surprise, can your plan accommodate it without total replanning?</p>
+</li>
+<li>
+<p><strong>Planning horizon humility</strong>: Did you plan too far ahead? Is there detail in your later stages that you cannot possibly know yet?</p>
+</li>
+<li>
+<p><strong>First step clarity</strong>: Can you take the first action immediately? If not, what is blocking you, and how can you remove the blocker?</p>
+</li>
+</ol>
+<p>{fill:textarea}</p></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: The Invention Roadmap</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>Expected free energy in Active Inference planning consists of:
+   A) Revenue and cost estimates
+   B) Pragmatic value (progress toward goals) and epistemic value (reduction of uncertainty)
+   C) Speed and quality metrics
+   D) Team size and budget projections</p>
+</li>
+<li>
+<p>Staged development in invention planning means:
+   A) Building the entire product in one stage and then testing
+   B) Breaking the project into phases where each phase generates information for decisions in the next phase, deferring irreversible decisions until uncertainty is reduced
+   C) Having many stages but making all decisions at the beginning
+   D) Staging a dramatic product launch</p>
+</li>
+<li>
+<p>An inventor who invests heavily in product packaging before confirming that the core mechanism works is committing which planning error?
+   A) Premature optimization — investing in low-uncertainty aspects while high-uncertainty questions remain unresolved
+   B) Excessive caution — they should invest even more in packaging
+   C) Staged development — they are properly sequencing their work
+   D) Adaptive planning — they are adjusting to market feedback</p>
+</li>
+<li>
+<p>The planning horizon is:
+   A) The date when the project will be completed
+   B) The temporal distance at which the generative model can still make useful predictions — beyond which detailed planning is counterproductive
+   C) The distance to the nearest competitor
+   D) The maximum height of the product</p>
+</li>
+<li>
+<p>Option value in invention planning refers to:
+   A) The value of stock options in the company
+   B) The benefit of keeping multiple approaches open before committing, because the information gained may outweigh the cost of maintaining parallel paths
+   C) The number of options on a product menu
+   D) The value of optional features in the product</p>
+</li>
+<li>
+<p>SpaceX developed rockets through a staged process (Falcon 1, Falcon 9, reusable operations) rather than building a fully reusable rocket immediately. This strategy:
+   A) Wasted time on simpler rockets when they could have built the final version directly
+   B) Minimized expected free energy by resolving fundamental uncertainties before committing to complex, expensive designs
+   C) Was forced by government regulation
+   D) Was accidental — they did not have a plan</p>
+</li>
+<li>
+<p>Pivot criteria are:
+   A) The angle at which the product rotates
+   B) Pre-specified conditions under which the plan would fundamentally change, written before emotional investment clouds judgment
+   C) Criteria for hiring new team members
+   D) Standards for product quality</p>
+</li>
+</ol>
+<h2>Part B: Short Answer and Analysis</h2>
+<ol>
+<li>
+<p>An inventor has developed a working prototype of a new type of portable water filter. The prototype works in laboratory conditions but has not been tested in real-world conditions, with real users, or at manufacturing scale. Design a three-stage plan for the next phase of development. For each stage, specify: (a) the key uncertainty to resolve, (b) the actions to take, (c) the go/no-go criteria, and (d) how the learning from this stage would update the plan for the next stage.</p>
+</li>
+<li>
+<p>An inventor is choosing between two project paths:</p>
+</li>
+<li><strong>Path A</strong>: A low-risk incremental improvement to an existing product (high pragmatic value, low epistemic value — they already know it will work, but the upside is modest).</li>
+<li>
+<p><strong>Path B</strong>: A high-risk novel approach that could be transformative if it works but has major technical uncertainty (lower pragmatic value currently, but high epistemic value — testing will resolve critical unknowns).
+   Using the expected free energy framework, analyze which path the inventor should pursue. Under what conditions would Path A be preferable? Under what conditions would Path B be preferable? Is there a way to pursue both that leverages option value?</p>
+</li>
+<li>
+<p>Review the microwave oven case study: Percy Spencer's discovery of microwave heating in 1945 led to a consumer product only in the late 1960s. Identify three points in this 20-year roadmap where the plan had to adapt based on prediction errors. For each point, describe: (a) the prediction error (what was expected vs. what happened), (b) the plan revision (how the roadmap changed), and (c) whether this was a parameter adjustment or a structural change to the plan.</p>
+</li>
+</ol></div>
+</div></section>
+
             </div>
             
             <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>

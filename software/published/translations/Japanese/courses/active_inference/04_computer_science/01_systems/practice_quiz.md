@@ -1,53 +1,53 @@
-# Practice Quiz: Systems
+# 練習クイズ: システム
 
-## Part A: Multiple Choice
+## Part A: 選択肢
 
-1. What does the `true_A` matrix in a `DiscreteEnvironment` represent?
-A) The agent's beliefs about observations
-B) The true probability of observing $o$ given hidden state $s$
-C) The transition dynamics between states
-D) The agent's prior over initial states
+1. `true_A`行列が `DiscreteEnvironment` で何を表していますか？
+A) エージェントの観察に関する信念
+B) 隠れた状態 $s$ が与えられた観察 $o$ の真の確率
+C) 状態間の遷移ダイナミクス
+D) 初期状態に対するエージェントの事前分布
 
-2. If `true_A` has shape `(5, 3)`, the environment has:
-A) 5 states and 3 observations
-B) 3 states and 5 observations
-C) 5 observations and 3 states
-D) 15 state-observation pairs
+2. `true_A` の形状が `(5, 3)` の場合、環境は次のとおりです。
+A) 5 つの状態と 3 つの観察
+B) 3 つの状態と 5 つの観察
+C) 5 つの観察と 3 つの状態
+D) 15 個の状態と観察のペア
 
-3. When `env.step(action)` is called, what happens first?
-A) An observation is generated from the current state
-B) The hidden state transitions according to `true_B`
-C) The agent updates its beliefs
-D) Free energy is computed
+3. `env.step(action)` が呼び出されると、最初に何が起こりますか？
+A) 現在の状態から観察が生成されます
+B) 隠れた状態が `true_B` に従って遷移します
+C) エージェントが信念を更新します
+D) 自由エネルギーが計算されます
 
-4. A fully observable environment corresponds to:
-A) `true_A` being all zeros
-B) `true_A` being the identity matrix
-C) `true_B` being the identity matrix
-D) `true_A` having uniform columns
+4. 完全に観測可能な環境は次のものに対応します。
+A) `true_A` がすべてゼロである
+B) `true_A` がアイデンティティ行列である
+C) `true_B` がアイデンティティ行列である
+D) `true_A` が一様列を持つ
 
-5. If `true_B` is passed as a 2-D matrix (shape `(N, N)`), the environment assumes:
-A) There are N possible actions
-B) There is exactly 1 action
-C) The transitions are stochastic
-D) The B matrix is invalid
+5. `true_B` が N x N の 2 次元行列 (形状) として渡される場合、環境は次のことを前提としています。
+A) N 個の可能なアクションがある
+B) 正確に 1 つのアクションがある
+C) 遷移は確率的である
+D) B 行列が無効である
 
-6. After calling `env.reset(initial_state=0)` followed by 10 calls to `env.step()`, how many entries does `env.history["states"]` contain?
+6. `env.reset(initial_state=0)` を呼び出し、その後 `env.step()` を 10 回呼び出した後、`env.history["states"]` にはいくつエントリが含まれていますか？
 A) 10
 B) 11
 C) 9
 D) 12
 
-7. The key difference between `DiscreteEnvironment` and `GenerativeModel` is:
-A) `DiscreteEnvironment` uses continuous states
-B) `GenerativeModel` represents ground truth; `DiscreteEnvironment` is an approximation
-C) `DiscreteEnvironment` represents ground truth; `GenerativeModel` is the agent's hypothesis
-D) There is no difference; they use the same matrices
+7. `DiscreteEnvironment` と `GenerativeModel` の主な違いは次のとおりです。
+A) `DiscreteEnvironment` は連続的な状態を使用する
+B) `GenerativeModel` は真のデータを示し、`DiscreteEnvironment` は近似である
+C) `DiscreteEnvironment` は真のデータを示し、`GenerativeModel` はエージェントの仮説である
+D) 違いはなく、同じ行列を使用する
 
-## Part B: Short Answer
+## Part B: 短答形式
 
-1. Write Python code to create a `DiscreteEnvironment` for a 3-state system where observations are deterministic (identity A-matrix) and action 0 keeps the state while action 1 cycles through states. Show the `true_A` and `true_B` matrices.
+1. 観察が決定論的 (アイデンティティ A 行列) で、アクション 0 が状態を維持し、アクション 1 が状態をサイクルさせる 3 つの状態システム用の `DiscreteEnvironment` を作成するための Python コードを記述してください。`true_A` と `true_B` 行列を示してください。
 
-2. Explain why columns (not rows) of the `true_A` matrix must sum to 1.0. What probability is each column encoding, and what would go wrong if the normalization were over rows instead?
+2. `true_A` 行列の列 (行ではない) が 1.0 に加算される理由を説明してください。各列がエンコードしている確率は何であり、正規化を行が代わりに実施した場合に何が問題になるでしょうか？
 
-3. You observe the sequence $[0, 0, 1, 0, 1]$ from a 2-state environment. Using Bayes' rule and the `true_A` matrix $\begin{bmatrix} 0.9 & 0.2 \\ 0.1 & 0.8 \end{bmatrix}$, compute $P(s_0 = 0 \mid o_0 = 0)$ assuming a uniform prior $P(s_0) = [0.5, 0.5]$.
+3. $[0, 0, 1, 0, 1]$ のシーケンスを 2 つの状態環境から観察します。Bayes の法則と `true_A` 行列 $\begin{bmatrix} 0.9 & 0.2 \\ 0.1 & 0.8 \end{bmatrix}$ を使用して、均一な事前分布 $P(s_0) = [0.5, 0.5]$ を仮定して、$P(s_0 = 0 \mid o_0 = 0)$ を計算してください。

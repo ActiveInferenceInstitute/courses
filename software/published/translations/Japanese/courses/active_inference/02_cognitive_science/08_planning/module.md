@@ -1,46 +1,46 @@
-# Module 08: Planning — Prefrontal Cortex, Decision-Making, and Temporal Abstraction
+# モジュール08：計画—前頭前皮質、意思決定、および時間的抽象
 
-## Learning Objectives
+## 学習目標
 
-1. Describe the role of the **prefrontal cortex** in planning as hierarchical policy selection over extended timescales.
-2. Explain how the brain evaluates Expected Free Energy through interactions between prefrontal cortex, basal ganglia, and dopaminergic systems.
-3. Analyze planning deficits (frontal lobe syndrome, impulsivity, addiction) as specific failures of hierarchical temporal inference.
+1.  **前頭前皮質**の役割を、広範な時間スケールにおける階層的なポリシー選択という観点から計画の説明する。
+2.  前頭前皮質、基底 ganglia、ドーパミン系間の相互作用を通して、脳が期待される自由エネルギーをどのように評価するかを説明する。
+3.  階層的な時間的推論の特定の失敗として、計画障害（前頭葉症候群、衝動性、依存症）を分析する。
 
-## Introduction
+## 導入
 
-Planning is the brain's most temporally extended form of inference — evaluating what might happen next, and the step after that, and choosing actions accordingly. The **prefrontal cortex (PFC)**, the most recently evolved and most elaborate region of the human brain, is the neural substrate of planning. It maintains hierarchical, temporally extended representations of possible futures — what Active Inference formalizes as policy evaluation through Expected Free Energy.
+計画は、脳における最も時間的に拡張された推論の形態であり、次に何が起こるか、そしてその次の行動を選択します。**前頭前皮質 (PFC)**、人類の脳において最も最近進化し、最も複雑な領域であるニューラル基盤です。これは、アクティブインファーレンスが形式化するように、期待される自由エネルギーを通してポリシー評価という、可能な未来の階層的、時間的に拡張された表現を維持します。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Prefrontal Cortex and Temporal Abstraction
+### 1. 前頭前皮質と時間的抽象
 
-The PFC is organized along a rostro-caudal gradient of **temporal abstraction**:
+PFCは、**時間的抽象**の rostro-caudal 勾配に沿って組織されています。
 
-- **Posterior PFC** (premotor, dorsolateral): encodes concrete, near-future motor plans
-- **Anterior PFC** (frontopolar cortex, BA10): encodes abstract, long-horizon goals and meta-cognitive planning
+-   **後部前頭皮質**（前運動皮質、背外側）：具体的な、近い将来の運動計画をエンコードします。
+-   **前方前頭皮質**（前極皮質、BA10）：抽象的な、長期的な目標とメタ認知計画をエンコードします。
 
-Badre and D'Esposito (2009) demonstrated this gradient experimentally: progressively more abstract action rules activated progressively more anterior regions of PFC. In Active Inference terms, this gradient corresponds to the hierarchical depth of the generative model — lower levels predict concrete sensorimotor states; higher levels predict abstract, temporally extended outcomes.
+Badre and D’Esposito (2009) は、この勾配を実験的に実証しました。より抽象的な行動ルールがより前方の PFC の領域を活性化しました。アクティブインファーレンスの用語では、この勾配は生成モデルの階層的な深さに対応し、より低いレベルは具体的な感覚運動状態を予測し、より高いレベルは抽象的で時間的に拡張された結果を予測します。
 
-### 2. Basal Ganglia and Policy Selection
+### 2. 基底 gangliaとポリシー選択
 
-The **basal ganglia** (striatum, globus pallidus, subthalamic nucleus) implement a selection mechanism for policies. The direct pathway facilitates a chosen policy; the indirect pathway suppresses competing policies. Dopaminergic input from the ventral tegmental area (VTA) and substantia nigra pars compacta (SNc) modulates the precision of policy selection:
+**基底 ganglia**（線条体、球形暗赤核、線条体核）は、ポリシーの選択メカニズムを実装します。直接経路は選択されたポリシーを促進し、間接経路は競合するポリシーを抑制します。腹側辺縁系 (VTA) と黒質球形暗赤核 (SNc) からのドーパミン入力は、ポリシー選択の精度を調整します。
 
-- High dopamine → high precision → decisive policy selection
-- Low dopamine → low precision → indecisive, slow policy selection (as in Parkinson's disease)
+-   高いドーパミン → 高い精度 → 決定的なポリシー選択
+-   低いドーパミン → 低い精度 → 不確定的で遅いポリシー選択（例：パーキンソン病）
 
-The **Expected Free Energy** of each policy is evaluated through cortico-basal ganglia-thalamic loops, with the ventromedial PFC encoding **pragmatic value** (how well the policy achieves goals) and the dorsolateral PFC and frontopolar cortex encoding **epistemic value** (how much information the policy provides).
+各ポリシーの**期待される自由エネルギー**は、腹内側前頭皮質が**実用的な価値**（ポリシーが目標を達成する程度）をエンコードし、背外側前頭皮質と前極皮質が**認識的な価値**（ポリシーが提供する情報量）をエンコードする、皮質基底 ganglia-線条体ループを通して評価されます。
 
-### 3. Planning Disorders
+### 3. 計画障害
 
-- **Frontal lobe syndrome**: Damage to PFC impairs the ability to plan, sequence actions, and inhibit inappropriate responses. Patients may show "utilization behavior" — automatically using objects placed in front of them without a plan. Interpretation: loss of hierarchical policy evaluation above the concrete motor level.
-- **Impulsivity**: May reflect low precision on long-horizon policies → the agent selects short-term policies that minimize immediate free energy without considering future consequences. Connects to temporal discounting (preference for immediate over delayed reward).
-- **Addiction**: A progressively narrowing policy space — the generative model increasingly predicts that only one policy (drug seeking) minimizes expected free energy, overriding competing policies for health, relationships, and goals.
+-   **前頭葉症候群**: PFCへの損傷は、計画、行動のシーケンス、および不適切な反応の抑制能力を損ないます。患者は、「利用行動」を示す場合があります。これは、計画なしに、目の前に置かれたオブジェクトを自動的に使用することです。解釈：具体的な運動レベルを上回る階層的なポリシー評価の喪失。
+-   **衝動性**: 長期的なポリシーに対する低い精度を反映している可能性があります。エージェントは、即時の自由エネルギーを最小限に抑える短期的なポリシーを選択し、将来の結果を考慮することなく、短期的なポリシーを選択します。これは、時間割引（即時報酬よりも遅延した報酬を好むこと）に関連しています。
+-   **依存症**: 生成モデルが、薬物探求（ポリシー）のみが期待される自由エネルギーを最小限に抑えるため、徐々に狭いポリシー空間を予測する—競合する健康、関係、および目標のポリシーを上回ります。
 
-## Clinical Connections
+## 臨床的関連
 
-- **ADHD and impulsivity**: Reduced dopaminergic tone → low precision on policy evaluation → difficulty sustaining long-term plans, shifting attention to whatever provides immediate prediction error reduction.
-- **Depression and planning paralysis**: High precision on negative outcome predictions → all policies evaluated as leading to bad outcomes → behavioral inertia and anhedonia (nothing is worth doing).
+-   **注意欠陥・多動症と衝動性**: ドーパミントーンの低下 → ポリシー評価の精度低下 → 長期的な計画の維持の困難さ → 即時予測エラーの軽減を提供するものに注意が向く。
+-   **うつ病と計画の麻痺**: 否定的な結果に対する高い精度評価 → すべてのポリシーが悪い結果につながると評価される → 行動的停滞と無感情（何も価値がない）
 
-## Conclusion
+## 結論
 
-Planning is hierarchical, temporally extended policy evaluation implemented by the prefrontal cortex, basal ganglia, and dopaminergic system. Understanding this neural architecture connects Active Inference to clinical conditions involving planning deficits and to the broader question of what makes human cognition uniquely powerful. This concludes the Cognitive Science course's eight-module exploration of the neural implementation of Active Inference.
+計画は、前頭前皮質、基底 ganglia、およびドーパミン系の階層的で時間的に拡張されたポリシー評価を実装しています。この神経アーキテクチャを理解することで、アクティブインファーレンスは、計画障害や、人間の認知が他に比べてどのようにユニークな力を持つのかというより広範な質問に関連付けられます。この Cognitive Science コースの8つのモジュールにおけるアクティブインファーレンスの神経実装の探求が完了します。

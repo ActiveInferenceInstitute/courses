@@ -1,53 +1,53 @@
-# Module 2: Agents — Autopoiesis, Agency, and the Self-Organizing System
+# モジュール2：エージェント — 自律性、主体性、自己組織化システム
 
-> **Quick Navigation**: [← Systems](../01_systems/) | [Up](../) | [Perception →](../03_perception/)
+> **クイックナビゲーション**: [← システム](../01_systems/) | [上へ](../) | [認識 →](../03_perception/)
 
-## The Philosophy of Active Inference
+## 積極的推論の哲学
 
 ---
 
-## Contents
+## 概要
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Thought Experiment lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個のFR) |
+| [lab.md](./lab.md) | 思考実験のラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブなダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです。
 
-1. Define **Agents** from a philosophical perspective within Active Inference
-2. Explain the role of **Autopoiesis** in the FEP framework
-3. Connect agents to the broader concepts of free energy minimization
-4. Apply philosophical reasoning to analyze real-world examples of agents
+1. 積極的推論における哲学的な視点から **エージェント** を定義する
+2. FEP フレームワークにおける **自律性** の役割を説明する
+3. エージェントをより広い概念である自由エネルギー最小化に結びつける
+4. 現実世界の例を分析するために哲学的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 異分野関連リンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| 科目 | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/02_agents/) | Autopoiesis, Agency, and the Self-Organizing System ← **You are here** |
-| [Cognitive Science](../../02_cognitive_science/02_agents/) | The Self-Model, Interoception, and Ego Boundaries |
-| [Mathematics](../../03_math/02_agents/) | Stochastic Systems: Random Processes, Differential Equations, and Steady States |
-| [Computer Science](../../04_computer_science/02_agents/) | The Agent Class: States, Observations, and Actions in pymdp |
+| [哲学](../../01_philosophy/02_agents/) | 自律性、主体性、自己組織化システム ← **現在地** |
+| [認知科学](../../02_cognitive_science/02_agents/) | 自己モデル、内臓知覚、自我境界 |
+| [数学](../../03_math/02_agents/) | 確率的なシステム：ランダムプロセス、微分方程式、安定状態 |
+| [コンピュータサイエンス](../../04_computer_science/02_agents/) | エージェントクラス：pymdp における状態、観測、アクション |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する主要な引用
 
 ---
 
-[← Systems](../01_systems/) | [Up](../) | [Perception →](../03_perception/)
+[← システム](../01_systems/) | [上へ](../) | [認識 →](../03_perception/)

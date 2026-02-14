@@ -1,69 +1,69 @@
-# Lab: Case Study Analysis — Self-Model Disruptions
+# 実験：症例分析 — 自己モデルの混乱
 
-## Objective
+## 目的
 
-Analyze clinical cases involving disruptions of the self-model, applying the Active Inference framework to interpret interoceptive and body ownership phenomena.
+Active Inference フレームワークを用いて、内在感覚と身体所有感の現象を解釈し、自己モデルの混乱を伴う臨床症例を分析する。
 
-## Part 1: The Rubber Hand Illusion
+## 第1部：ゴムの手の錯覚
 
-**Goal**: Interpret a classic experimental paradigm through Active Inference.
+**目標**: Active Inferenceを通して、古典的な実験パラダイムを解釈する。
 
-**Case**: In a standard rubber hand illusion setup, participant J.K. watches a rubber hand being stroked while her own hand is hidden and stroked simultaneously. After 90 seconds, J.K. reports that the rubber hand "feels like my hand." When the experimenter unexpectedly strikes the rubber hand with a hammer, J.K. flinches and reports a brief flash of fear.
+**症例**: 標準的なゴムの手の錯覚のセットアップにおいて、参加者J.K.がゴムの手が撫でられているのを見ながら、自身の手は隠されて同時に撫でられている。90秒後、J.K.はゴムの手が「自分の手のように感じられる」と報告する。実験者が予期せぬ状態でゴムの手をハンマーで叩くと、J.K.は身震いし、短い恐怖の閃光を報告する。
 
-- Why does the flinch response occur even though J.K. knows the rubber hand is not hers?
-- Map this onto the Active Inference framework: what multisensory prediction errors drove the body ownership update?
-- Predict what would happen if the stroking were asynchronous (200ms delay between visual and tactile strokes). Why?
-
-{fill:textarea}
-
-## Part 2: Depersonalization Following Trauma
-
-**Goal**: Analyze a clinical case of self-model attenuation.
-
-**Case**: Patient S.L., 34, presents with persistent depersonalization following a car accident. She reports: "I feel like I'm watching myself from behind a glass wall. My hands don't feel like mine. Even my voice sounds like it belongs to a stranger."
-
-- Interpret S.L.'s symptoms in Active Inference terms. Which component of the generative model is affected, and how?
-- What role might precision play? (Hint: low precision on interoceptive prediction errors → attenuated self-model.)
-- What therapeutic intervention might Active Inference suggest? (Consider interventions that increase interoceptive precision — e.g., body scanning, grounding exercises.)
+- なぜ身震い反応が起こるのか？J.K.がゴムの手が自分の手ではないことを知っているにもかかわらず。
+- Active Inferenceの枠組みにマッピングする：身体所有感の更新を駆動した多感覚予測誤差とは何か？
+- 撫でる動作が非同期（視覚と触覚の間のストロークの遅延200ms）である場合に何が起こるかを予測する。なぜ？
 
 {fill:textarea}
 
-## Part 3: Body Integrity Identity Disorder
+## 第2部：トラウマ後の脱個人化
 
-**Goal**: Analyze a rare condition through the lens of body representation.
+**目標**: 自己モデルの減衰を伴う臨床症例を分析する。
 
-**Case**: Patient R.M., 48, has felt since childhood that his left leg below the knee "does not belong" to him. He covers it with blankets, avoids looking at it, and has researched amputation. His leg is neurologically healthy.
+**症例**: 患者S.L.(34歳)は、自動車事故後に持続的な脱個人化を訴えている。彼女は「まるでガラスの壁の向こう側から自分自身を眺めているようだ。私の手は私のもののように感じられない。私の声さえも、見知らぬ人の声のように聞こえる」と報告する。
 
-- How does Active Inference explain this persistent mismatch between body and body model?
-- Compare this case with phantom limb syndrome (missing limb, present model) — how are they inverse conditions?
-- What does this case reveal about the relationship between the body and the body model? Which is more "real" for the patient?
-
-{fill:textarea}
-
-## Part 4: Interoception and Emotional Awareness
-
-**Goal**: Connect interoceptive inference to emotional experience.
-
-**Case**: Participant A.G. scores in the bottom 10th percentile on the Heartbeat Detection Task (counting heartbeats without taking a pulse). She also reports difficulty identifying her emotions (alexithymia). However, she shows normal autonomic responses (heart rate, skin conductance) to emotional stimuli.
-
-- How does Active Inference explain the dissociation between normal autonomic responses and poor interoceptive awareness?
-- If emotions are "predictions about interoceptive causes," what happens when interoceptive precision is low?
-- Design a brief study to test whether interoceptive training improves emotional awareness.
+- S.L.の症状をActive Inferenceの用語で解釈する。生成モデルのどのコンポーネントが影響を受けているのか、そしてどのように？
+- 正確さはどのような役割を果たす可能性があるか？（ヒント：内在感覚予測誤差の低精度 → 減衰した自己モデル。）
+- Active Inferenceがどのような治療介入を提案する可能性があるか？（内在感覚の精度を高める介入を検討する—例えば、身体スキャン、グラウンディングエクササイズ。）
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## 第3部：身体完全性同一性障害
 
-Write a 200-word synthesis explaining how all four cases illustrate the central claim: the self is not a given but an ongoing inference, vulnerable to disruption at multiple levels.
+**目標**: 稀な状態を身体表現のレンズを通して分析する。
+
+**症例**: 患者R.M.(48歳)は、幼い頃から左の膝下の脚が「自分のものではない」と感じてきた。彼は毛布で覆い、見つめるのを避け、切断手術について調べている。彼の脚は神経学的に健康である。
+
+- Active Inferenceは、身体と身体モデル間の持続的な不一致をどのように説明するのか？
+- 幻肢症候群（欠損した肢、存在するモデル）と比較する—これらは逆条件である。
+- この症例は何を身体と身体モデルの関係について明らかにするのか？患者にとってどちらがより「現実」なのか？
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：内在感覚と感情認識
 
-| Part | Skill Developed | Case Type |
-|------|----------------|-----------|
-| 1 | Experimental analysis | Body ownership illusion |
-| 2 | Clinical reasoning | Depersonalization disorder |
-| 3 | Comparative analysis | Body integrity identity disorder |
-| 4 | Research design | Interoception and alexithymia |
-| 5 | Integrative synthesis | Connecting four cases to the self-model framework |
+**目標**: 内在感覚の推論を感情体験に結びつける。
+
+**症例**: 参加者A.G.は、心拍数検出タスク（脈を測らないで心拍数を数える）で心拍数第10パーセンタイル以下のスコアを得ている。彼女はまた、自分の感情を認識することに苦労している（アレクシタミン）。しかし、彼女は正常な自律反応（心拍数、皮膚電気伝導度）が感情的な刺激に対して見られる。
+
+- Active Inferenceは、正常な自律反応と内因感覚認識の欠如の間の乖離をどのように説明するのか？
+- 感情が「内在感覚の原因に関する予測」である場合、内在感覚の精度が低くなるとどうなるのか？
+- 内在感覚の訓練が感情認識を改善するかテストする短い研究を設計する。
+
+{fill:textarea}
+
+## 第5部：統合
+
+上記4つの症例が、自己は与えられたものではなく、複数のレベルで混乱を受けやすい継続的な推論であるという中心的な主張をどのように示しているかを200語で要約してください。
+
+{fill:textarea}
+
+## 実験概要
+
+| 部門 | 開発されたスキル | 症例タイプ |
+|---|---|---|
+| 1 | 実験的分析 | 身体所有感の錯覚 |
+| 2 | 臨床的推論 | 脱個人化障害 |
+| 3 | 比較分析 | 身体完全性同一性障害 |
+| 4 | 研究デザイン | 内在感覚とアレクシタミン |
+| 5 | 統合的合成 | 四つの症例を自己モデルの枠組みに結びつける |

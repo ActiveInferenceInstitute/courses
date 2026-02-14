@@ -14,7 +14,7 @@ Map the creative system in which you currently operate (or intend to operate) as
 
 ## Part 1: Define Your Creative System's Boundary (12 minutes)
 
-Every creative system has a boundary — the Markov blanket — that separates its internal processes from the external environment. Your task is to identify this boundary for your own inventive practice.
+Every creative system has a boundary — the Markov blanket — that separates its internal processes from the external environment. Your task is to identify this boundary for your own inventive practice. Think broadly about what constitutes your creative system. It is not just your desk or workshop — it includes your digital tools, your reference materials, the people you regularly consult, the websites you browse for inspiration, and the communities you participate in. The Markov blanket includes everything that mediates between your internal creative states and the external world.
 
 **Step 1 (4 min):** Describe the physical and informational boundaries of your creative system. Where do you invent? What physical spaces, digital tools, and social networks constitute your system?
 
@@ -115,7 +115,7 @@ Every creative system has a boundary — the Markov blanket — that separates i
 
 ## Part 2: Inventory Your Constraints (12 minutes)
 
-Constraints are the priors of your creative system — they define the space of possible inventions.
+Constraints are the priors of your creative system — they define the space of possible inventions. Most inventors think of constraints as obstacles, but the Active Inference framework reveals them as generative forces that focus the creative search space. A project with no constraints has no direction — every possibility is equally likely, which means no possibility is salient. Constraints create the gradient that tells you which direction to explore. In this exercise, you will catalog all the constraints operating on your creative system and then practice the critical skill of reframing blocking constraints as focusing ones.
 
 **Step 1 (6 min):** List every constraint on your creative system. Be thorough. Include constraints you normally take for granted.
 
@@ -183,7 +183,7 @@ What did you learn from the reframing exercise?
 
 ## Part 3: Map Your Affordances (12 minutes)
 
-Affordances are the action possibilities your creative system offers.
+Affordances are the action possibilities your creative system offers. James Gibson's concept of affordances — what the environment offers to an agent — maps directly to the Active Inference concept of available policies. Your creative system's affordances determine the adjacent possible: the set of inventions you could create next given your current tools, materials, knowledge, and relationships. An inventor with access to a 3D printer, a soldering station, and a machine shop has a different adjacent possible than one with only a laptop and internet access. Neither is better — they simply afford different types of invention. This exercise maps your current affordances and identifies gaps you might want to fill.
 
 **Step 1 (4 min):** Walk through your workspace (physically or mentally). List every tool, material, resource, and relationship that enables creative action:
 
@@ -236,6 +236,8 @@ Affordances are the action possibilities your creative system offers.
  |
 
 ## Part 4: Analyze Your Feedback Loops (12 minutes)
+
+Feedback loops are the engine of creative progress. Every time you build something, observe the result, update your understanding, and build again, you are completing one cycle of the perception-action loop that drives Active Inference. The speed and richness of these loops determine how quickly your creative system can learn and improve. Some loops are fast (you build a sketch and immediately see whether the proportions work); others are slow (you launch a product and wait months for market feedback). Understanding which loops are operating and how quickly they cycle gives you leverage to accelerate your creative process.
 
 **Step 1 (6 min):** Identify the feedback loops currently operating in your creative system. For each loop, note how quickly it cycles and what information it carries:
 
@@ -294,7 +296,7 @@ Upload or describe your diagram here:
 
 ## Part 5: Design Intervention (12 minutes)
 
-Based on your analysis, design one concrete modification to your creative system that would improve its inventive capacity.
+The purpose of mapping a creative system is not academic — it is to identify specific, actionable modifications that will improve the system's inventive capacity. In Active Inference terms, you are acting on your own creative system to reduce the free energy between what it currently produces and what you want it to produce. The most effective interventions target the aspect of the system that is currently the biggest bottleneck: a missing sensory input (you are not getting important information), a blocking constraint (a rule that prevents productive exploration), a missing affordance (a tool or relationship you need), or a broken feedback loop (you are building without testing, or testing without learning). Based on your analysis in Parts 1 through 4, design one concrete modification.
 
 **The modification I will make:**
 

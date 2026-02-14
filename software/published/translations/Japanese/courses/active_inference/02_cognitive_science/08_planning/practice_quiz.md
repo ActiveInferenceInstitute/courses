@@ -1,51 +1,51 @@
-# Practice Quiz: Planning
+# 練習クイズ：計画
 
-## Part A: Multiple Choice
+## Part A: 選択問題
 
-1. The rostro-caudal gradient of the prefrontal cortex encodes:
-A) Emotional intensity from low to high
-B) Temporal abstraction — posterior regions for concrete plans, anterior regions for abstract long-term goals
-C) Motor complexity from simple to compound movements
-D) Sensory modalities from visual to auditory
+1. 前頭前皮質の rostro-caudal 勾配は、以下のものをエンコードしますか？
+   A) 低から高への感情の強さ
+   B) 時間的抽象化 — 後側の領域は具体的な計画、前側の領域は抽象的な長期目標
+   C) 単純な動きから複雑な動きへの運動の複雑さ
+   D) 視覚から聴覚への感覚のモダリティ
 
-2. The basal ganglia's role in Active Inference is to:
-A) Store long-term memories
-B) Implement policy selection through direct (facilitation) and indirect (suppression) pathways
-C) Generate prediction errors for sensory stimuli
-D) Produce cerebrospinal fluid
+2. アクティブ・インファーレンスにおける基底核の役割は、以下の通りですか？
+   A) 長期記憶を保存する
+   B) 直接（促進）および間接（抑制）経路を通じてポリシー選択を実装する
+   C) 感覚刺激のための予測誤差を生成する
+   D) 脊髄液を生成する
 
-3. Dopamine in the context of planning primarily modulates:
-A) Sensory acuity
-B) The precision of policy selection — how decisively the brain commits to a particular action plan
-C) Body temperature
-D) Language production speed
+3. 計画の文脈におけるドーパミンは、主に以下のものを調整しますか？
+   A) 感覚の鋭敏度
+   B) ポリシー選択の精度 — 脳が特定の行動計画にどれだけ決断的にコミットするか
+   C) 体温
+   D) 言語生成速度
 
-4. "Utilization behavior" in frontal lobe patients demonstrates:
-A) Preserved intellectual function
-B) Loss of hierarchical policy evaluation — objects are used automatically without contextual planning
-C) Enhanced motor control
-D) Improved creativity
+4. 前頭葉患者における「利用行動」は、以下のことを示していますか？
+   A) 保存された知能機能
+   B) 階層的なポリシー評価の喪失 — 物体は文脈計画なしに自動的に使用される
+   C) 向上した運動制御
+   D) 向上した創造性
 
-5. In Active Inference, temporal discounting (preferring $10 now over $20 later) reflects:
-A) Rational economic optimization
-B) Low precision on long-horizon policies — the generative model's planning depth is truncated
-C) Superior mathematical reasoning
-D) Cultural values about immediacy
+5. アクティブ・インファーレンスにおいて、時間割引（後で $20 を選択する代わりに今、$10 を選択する）は、以下のものを反映していますか？
+   A) 理論経済的な最適化
+   B) 長期ポリシーに対する精度が低い — 生成モデルの計画の深さが切り詰められる
+   C) 優れている数学的推論
+   D) 即時性に関する文化的価値観
 
-6. Depression-related behavioral paralysis occurs when:
-A) The brain generates no predictions at all
-B) High precision on negative outcome predictions causes all policies to appear equally futile
-C) The motor cortex is damaged
-D) The patient lacks knowledge of available options
+6. うつ病に関連する行動麻痺は、以下の状況で発生しますか？
+   A) 脳が全く予測を生成しない
+   B) 否定的な結果の予測の精度が高いと、すべてのポリシーが等しく徒労に思われる
+   C) 基底核が損傷する
+   D) 患者が利用可能なオプションを知らない
 
-7. Addiction progressively narrows the policy space because:
-A) Drug use damages all prefrontal neurons
-B) Dopaminergic sensitization increases precision on drug-seeking policies relative to alternatives
-C) The patient forgets about other options
-D) Social pressure eliminates alternative behaviors
+7. 依存症は、ポリシー空間を徐々に狭めるため、以下のようになりますか？
+   A) 薬物使用がすべての前頭葉ニューロンを損傷する
+   B) ドーパミン感受性亢進が、代替品と比較して薬物探知ポリシーに対する精度を高める
+   C) 患者が他のオプションを忘れる
+   D) 社会的プレッシャーが代替行動を排除する
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. A patient with orbitofrontal cortex damage makes poor financial decisions despite normal intelligence. Analyze this in Active Inference terms: what component of policy evaluation (pragmatic value, epistemic value, or precision) is impaired?
-2. Explain how behavioral activation therapy for depression (scheduling small, achievable activities) might work through Active Inference mechanisms. What precision dynamics are being modified?
-3. Compare model-based planning (evaluating Expected Free Energy of future policies) with model-free habitual behavior (repeating previously reinforced actions). What neural systems support each, and when does the brain switch between them?
+1. orbitofrontal cortex 損傷を受けた患者が、通常の知能にもかかわらず、不適切な金融判断をすることがあります。Active Inference の観点から分析してください。ポリシー評価のどのコンポーネント（実用的な価値、認識的な価値、または精度）が損なわれていますか？
+2. 行動的活性化療法（小さな達成可能な活動をスケジュールすること）におけるうつ病の治療が、Active Inference のメカニズムを通してどのように機能するのか説明してください。どの精度ダイナミクスが修正されていますか？
+3. 期待されるフリーエネルギーに基づくモデルベース計画（将来のポリシーの期待されるフリーエネルギーを評価すること）と、以前に強化された行動の習慣的な行動（モデルなし）との比較を説明してください。それぞれのサポートする神経系は何か、脳がそれらの間で切り替わるタイミングはいつですか？

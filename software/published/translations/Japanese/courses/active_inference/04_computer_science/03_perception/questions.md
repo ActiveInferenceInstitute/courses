@@ -1,41 +1,41 @@
-# Study Questions: Perception
+# 質問：認識
 
-1. Write the VFE formula in terms of complexity and accuracy. Which term encourages the posterior to stay close to the prior, and which encourages it to explain the observation?
+1. VFEの公式を、複雑さと精度という観点から記述してください。どの項が事前の信念を保つように後部を促し、どの項が観察を説明するように促しますか？
 
-2. In `run_state_inference()`, what does the `convergence_threshold` parameter control? What happens if you set it to 0?
+2. `run_state_inference()` で、`convergence_threshold` パラメータは何を制御しますか？ それを 0 に設定した場合、何が起こりますか？
 
-3. If the prior is $q(s) = [0.5, 0.5]$ and the A-matrix is the identity, what is the posterior after observing $o = 0$?
+3. 事前の信念が $q(s) = [0.5, 0.5]$ で、A行列が単位行列の場合、観察 $o = 0$ を行った後に後部信念は何になりますか？
 
-4. Explain why `result["delta_history"]` generally decreases over iterations. Under what conditions might it not decrease monotonically?
+4. `result["delta_history"]` が一般的に反復ごとに減少する理由を説明してください。どのような条件下で単調に減少しない可能性がありますか？
 
-5. What is `model.log_likelihood(obs)` and how is it used during state inference? Write the formula.
+5. `model.log_likelihood(obs)` と、状態推論中にどのように使用されるかについて説明してください。公式を記述してください。
 
-6. If the A-matrix has uniform columns ($A[:, s] = 1/N_o$ for all $s$), what happens to beliefs after state inference? Why?
+6. A行列が単位列を持つ ($A[:, s] = 1/N_o$ for all $s$) 場合、状態推論後に信念はどうなりますか？ なぜですか？
 
-7. Write code that runs state inference for 3 sequential observations $[0, 0, 1]$, updating the prior with the posterior from each step.
+7. 観察 $[0, 0, 1]$ を3回連続で状態推論を実行するコードを記述してください。各ステップで事前の信念を後部信念で更新してください。
 
-8. How does `agent.infer_states(obs)` differ from calling `run_state_inference()` directly? What additional bookkeeping does the agent method perform?
+8. `agent.infer_states(obs)` が `run_state_inference()` を直接呼び出すのとはどのように異なりますか？ エージェントメソッドはどのような追加の帳簿処理を行いますか？
 
-9. Compute the prediction error $\varepsilon$ by hand for a 2-state system where $q(s) = [0.8, 0.2]$, $A = [[0.9, 0.1], [0.1, 0.9]]$, and the observation is $o = 0$.
+9. $\varepsilon$ を手計算で予測誤差として計算し、状態が2つである場合に、$q(s) = [0.8, 0.2]$、$A = [[0.9, 0.1], [0.1, 0.9]]$で、観察 $o = 0$ の場合。
 
-10. What does `agent.prediction_error(obs).sum()` return, and why? Prove it algebraically.
+10. `agent.prediction_error(obs).sum()` が何を返し、なぜそうなるのでしょうか？ 代数学的に証明してください。
 
-11. How would you detect that an observation is "surprising" to an agent from the `run_state_inference()` result? Name two quantitative indicators.
+11. `run_state_inference()` の結果から、観察がエージェントにとって「驚くべき」ものかどうかをどのように検出しますか？ 2つの定量的指標名を挙げてください。
 
-12. Compare the posterior after observing $o = 0$ with a clear A-matrix ($A = [[0.95, 0.05], [0.05, 0.95]]$) versus a noisy one ($A = [[0.6, 0.4], [0.4, 0.6]]$). Which produces a more peaked posterior?
+12. 観察 $o = 0$ を行った後の後部信念を、明確な A行列 ($A = [[0.95, 0.05], [0.05, 0.95]]$) と、ノイズの多い A行列 ($A = [[0.6, 0.4], [0.4, 0.6]]$) と比較してください。どちらがより尖った後部信念を生み出しますか？
 
-13. What is the maximum number of iterations `run_state_inference()` will perform by default? What happens if convergence is not reached?
+13. `run_state_inference()` がデフォルトで実行する最大反復回数はいくつですか？ 収束に到達しない場合に何が起こりますか？
 
-14. How does the prior $q(s)$ influence the posterior when the observation is weakly informative? Give a concrete numerical example.
+14. 事前の信念 $q(s)$ が観察が弱い情報を提供する場合に、後部信念にどのように影響するか説明してください。具体的な数値例を挙げてください。
 
-15. Write code to visualize the convergence of state inference using `plot_convergence()` and interpret the resulting plot.
+15. `plot_convergence()` を使用して状態推論の収束を視覚化するコードを記述し、結果のプロットを解釈してください。
 
-16. Explain the connection between `model.surprisal(obs, q_s)` and VFE. How are they related mathematically?
+16. `model.surprisal(obs, q_s)` と VFE の間の関係を説明してください。それらは数学的にどのように関連していますか？
 
-17. If an agent receives the same observation 10 times in a row, describe qualitatively how $q(s)$ evolves. Does it converge, and to what?
+17. エージェントが同じ観察を10回連続で受信した場合、事前の信念 $q(s)$ がどのように進化するかについて定性的に説明してください。収束しますか？ そして、それは何に収束しますか？
 
-18. What is the shape of `agent.get_predicted_observation()` and what does it represent? How is it computed from $q(s)$ and $A$?
+18. `agent.get_predicted_observation()` の形状は何で、それは何を表していますか？ $q(s)$ と $A$ からどのように計算されますか？
 
-19. In a 3-state system, state inference with $o = 1$ and a uniform prior yields $q(s) = [0.1, 0.8, 0.1]$. What can you infer about the second column of A?
+19. 3つの状態システムにおいて、観察 $o = 1$ と単位事前の信念を与えると、$q(s) = [0.1, 0.8, 0.1]$ となります。2列目の A行列について何が推論できますか？
 
-20. Design a scenario where the agent's A-matrix significantly mismatches the environment's true A-matrix. What happens to the agent's beliefs over time? How would you detect this misspecification?
+20. エージェントの A行列が環境の真の A行列と大幅に異なっているシナリオを設計してください。エージェントの信念が時間の経過とともにどのように進化しますか？ この外れ値をどのように検出しますか？

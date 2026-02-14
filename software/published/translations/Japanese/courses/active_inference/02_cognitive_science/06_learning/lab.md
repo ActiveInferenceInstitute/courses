@@ -1,61 +1,61 @@
-# Lab: Case Study Analysis — Learning, Plasticity, and Clinical Change
+# 実験：症例分析 — 学習、可塑性、および臨床的変化
 
-## Objective
+## 目的
 
-Analyze clinical and experimental cases that illustrate learning as generative model updating, connecting synaptic mechanisms to cognitive change.
+学習を生成モデルの更新として、シナプス機構と認知変化を結びつける、臨床および実験的な症例を分析する。
 
-## Part 1: Critical Period Plasticity
+## 第1部：臨界期間可塑性
 
-**Case**: Hubel and Wiesel's classic monocular deprivation experiment: kittens raised with one eye sutured shut during the critical period develop permanent blindness in that eye, even when the suture is removed. Kittens deprived after the critical period close show normal vision recovery.
+**症例**: Hubel と Wiesel の古典的な単眼遮断実験：臨界期間中に片目の縫合をして育った子猫は、縫合を解除しても、その目において永続的な盲点を生じる。臨界期間後に遮断された子猫は、正常な視覚回復を示す。
 
-- Interpret this in Active Inference terms: what happens to the generative model's visual component during critical period deprivation?
-- Why is the effect irreversible after the critical period? (Hint: precision on existing priors increases, closing the window of plasticity.)
-- What does this tell us about the importance of early experience for model architecture?
-
-{fill:textarea}
-
-## Part 2: Sleep and Memory Consolidation
-
-**Case**: Participants learn a list of word pairs (e.g., "dog-umbrella") before either a period of sleep or an equivalent period of wakefulness. Sleep group shows 20% better recall and, crucially, better ability to generalize to related word pairs they never saw.
-
-- How does NREM sleep replay contribute to parameter consolidation (strengthening correct associations)?
-- How might Bayesian Model Reduction during sleep explain the generalization benefit (extracting the abstract structure from specific examples)?
-- Predict what would happen if participants were deprived specifically of NREM sleep (e.g., through targeted auditory disruptions).
+- 活性推論の用語でこの現象を解釈する：臨界期間の遮断中に生成モデルの視覚的な要素はどのように変化するのか？
+- 臨界期間後には効果が不可逆的なのはなぜか？（ヒント：既存の事前確率の精度が向上し、可塑性の窓が閉じる。）
+- これは、モデルアーキテクチャにおける初期経験の重要性について何を示しているか？
 
 {fill:textarea}
 
-## Part 3: PTSD and Maladaptive Priors
+## 第2部：睡眠と記憶の固定化
 
-**Case**: Veteran J.B., 34, experiences flashbacks, hypervigilance, and startle responses 2 years after combat deployment. A car backfiring triggers a full fight-or-flight response. J.B. knows intellectually that he is safe but cannot override the automatic response.
+**症例**: 参加者は、「犬 - 傘」のような単語のペアを学習した後、睡眠期間または同等の覚醒期間のいずれかに入る。睡眠グループは20%高い想起率を示し、より重要なことに、見たことのない関連する単語ペアへの一般化能力も向上する。
 
-- Interpret PTSD as the creation of high-precision priors about environmental danger. Why does intellectual knowledge of safety fail to override these priors?
-- How does prolonged exposure therapy work in Active Inference terms? (Hint: repeated exposure to trauma cues without negative outcome generates prediction errors that gradually reduce the precision of danger priors.)
-- What is the role of precision in the therapeutic process? What might "resistance to treatment" look like in precision terms?
-
-{fill:textarea}
-
-## Part 4: Expertise and Perceptual Learning
-
-**Case**: Radiologists with 10+ years of experience can detect breast cancer on mammograms within 200 milliseconds — faster than conscious recognition. Novice radiology trainees require several seconds and make significantly more errors.
-
-- How does the expert's generative model differ from the novice's? (Consider precision, hierarchical depth, and automated policy selection.)
-- How does perceptual learning (improving sensitivity to subtle features through practice) reshape the early visual processing hierarchy?
-- Is the expert's 200ms detection "conscious"? What does Active Inference predict about the relationship between speed and awareness?
+- NREM 睡眠の再生がパラメータの固定化（正しい関連を強化する）にどのように貢献するか？
+- ベイズモデル削減が睡眠中に説明できる一般化のメリット（具体的な例から抽象的な構造を抽出する）について、どのように考えられるか？
+- 参加者に特定のNREM睡眠（例えば、標的とする聴覚的干渉によって）を奪われた場合、何が起こるかを予測する。
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## 第3部：PTSD と不適応的な事前確率
 
-Write a 200-word synthesis explaining how these four cases collectively demonstrate that learning is not information storage but active, precision-weighted reorganization of the generative model.
+**症例**: 戦闘任務後に2年間のVeteran J.B.（34歳）は、フラッシュバック、過剰警戒、および反射的な反応を経験する。車のバックファイアーが、闘争か逃げるかの反応を引き起こす。J.B.は、自分が安全であることを知っているが、自動的な反応を上書きできない。
+
+- PTSDを環境上の危険に関する高精度な事前確率の作成として解釈する。なぜ、安全に関する知的な知識がこれらの事前確率を上書きできないのか？
+- 活性推論の用語で、持続的暴露療法がどのように機能するのか？（ヒント：否定的な結果なしに、トラウマ的な手がかりへの反復曝露は、徐々に危険な事前確率の精度を低下させる予測誤差を生成する。）
+- 治療プロセスにおける精度の役割とは何か？「治療への抵抗」を精度という用語でどのように見ることが出来るか？
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：専門知識と知覚学習
 
-| Part | Skill Developed | Case Type |
-|------|----------------|-----------|
-| 1 | Developmental reasoning | Critical period plasticity |
-| 2 | Sleep research analysis | Memory consolidation and BMR |
-| 3 | Therapeutic reasoning | PTSD and maladaptive priors |
-| 4 | Expertise analysis | Perceptual learning in radiology |
-| 5 | Integrative synthesis | Connecting learning cases to model updating |
+**症例**: 10年以上の経験を持つ放射線科医は、マンモグラフィーで乳がんを200ミリ秒以内に検出できる—これは意識的な認識よりも速い。初級の放射線科医の訓練生は、数秒を要し、有意に多くのエラーを犯す。
+
+- 専門家の生成モデルは、初級者の生成モデルとどのように異なるか？（精度、階層構造の深さ、および自動ポリシー選択を考慮する。）
+- 知覚学習（練習を通じて、微妙な特徴への感度を向上させること）が初期の視覚処理階層をどのように再構築するか？
+- 専門家の200ミリ秒の検出は「意識的」か？活性推論は、速度と意識の関係について何と予測するか？
+
+{fill:textarea}
+
+## 第5部：統合
+
+これらの4つの症例がどのように集まって、学習は情報保存ではなく、生成モデルの精密な重み付けされた再編成であることを示しているかを説明する200語の統合を作成する。
+
+{fill:textarea}
+
+## 実験概要
+
+| 部位 | 開発されたスキル | 症例のタイプ |
+|---|---|---|
+| 1 | 発達的推論 | 臨界期間可塑性 |
+| 2 | 睡眠研究分析 | 記憶の固定化とBMR |
+| 3 | 治療的推論 | PTSD と不適応的な事前確率 |
+| 4 | 専門知識分析 | 知覚学習における放射線学 |
+| 5 | 統合的合成 | 学習の症例をモデルの更新に結びつける |

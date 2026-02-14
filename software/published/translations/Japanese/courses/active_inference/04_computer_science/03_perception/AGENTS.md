@@ -1,25 +1,25 @@
-# Module 3: Perception — Agent Guidelines
+# モジュール3：認識 — エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コースのAGENTS](../AGENTS.md) | [カリキュラムのAGENTS](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: A-Matrix and B-Matrix: Likelihood, Transitions, State Estimation |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Perception) |
-| `lab.md` | File | Python Coding Exercise: A-Matrix and B-Matrix: Likelihood, Transitions, State Estimation |
-| `dashboard.html` | File | Interactive dashboard: Perception |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル — モジュールエージェントガイドライン |
+| `module.md` | ファイル | 完全な講義: A行列とB行列: 確率、遷移、状態推定 |
+| `questions.md` | ファイル | 20の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7問のMC + 3問の自由記述 (認識) |
+| `lab.md` | ファイル | Pythonコーディング演習: A行列とB行列: 確率、遷移、状態推定 |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード: 認識 |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Computational
-- **Topic**: Perception — A-Matrix and B-Matrix: Likelihood, Transitions, State Estimation
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/03_perception/module.md` for parallel modules
+- **視点**: 計算機上
+- **トピック**: 認識 — A行列とB行列: 確率、遷移、状態推定
+- **記号**: [記号表.md](../../resources/notation_table.md) を参照
+- **用語**: [用語集.md](../../resources/glossary.md) を参照
+- **相互参照**: `../../XX_course/03_perception/module.md` へのリンク (並行モジュール) を参照

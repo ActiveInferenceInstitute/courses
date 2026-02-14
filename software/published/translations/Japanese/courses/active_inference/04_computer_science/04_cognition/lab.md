@@ -1,88 +1,88 @@
-# Lab 04: Preferences, Priors, and Precision Tuning
+# Lab 04: 偏好、事前分布、精度調整
 
-## Objective
+## 目的
 
-Explore how C, D, E vectors and precision γ shape agent behavior.
+C、D、E ベクトルと精度 γ がエージェントの行動にどのように影響するかを探求する。
 
-## Prerequisites
+## 前提条件
 
-- Completed Labs 01–03
-- Understanding of EFE decomposition (risk + ambiguity)
+- Lab 01～03 を完了する
+- EFE 分解（リスク＋不確実性）の理解
 
-## Part 1: C-Vector Effects
+## Part 1: C ベクトル効果
 
-**Goal**: Compare agent behavior with different preference vectors.
+**目標**: 異なる好みのベクトルでエージェントの行動を比較する。
 
-1. Create a T-maze `GenerativeModel` (4 states, 3 obs, 3 actions).
-2. Run the perception-action loop for 15 steps with three C-vectors:
-   - `C_neutral = [0, 0, 0]` (no preferences)
-   - `C_reward = [0, 3, -3]` (prefer reward)
-   - `C_explore = [0, 0, 0]` with a noisy A-matrix (epistemic drive)
-3. Record and compare the action sequences and states visited.
+1. T-maze の `GenerativeModel` (4 状態、3 観測、3 行動) を作成する。
+2. 以下の C ベクトルで 15 ステップの知覚-行動ループを実行する:
+   - `C_neutral = [0, 0, 0]` (好みが無い)
+   - `C_reward = [0, 3, -3]` (報酬を好む)
+   - `C_explore = [0, 0, 0]` とノイズのある A 行列 (認識的ドライブ)
+3. 行動シーケンスと訪問した状態を記録し、比較する。
 
 ```python
-# TODO: Create models with different C-vectors
-# TODO: Run loops and compare
+# TODO: 異なる C ベクトルでモデルを作成する
+# TODO: ループを実行し、比較する
 ```
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 2: D-Vector Effects
+## Part 2: D ベクトル効果
 
-**Goal**: Investigate how the initial state prior affects early behavior.
+**目標**: 初期状態の事前分布が初期行動にどのように影響するかを調査する。
 
-1. Fix C and E. Create two agents with:
-   - `D_certain = [1, 0, 0, 0]` (confident at center)
-   - `D_uncertain = [0.25, 0.25, 0.25, 0.25]` (uniform)
-2. Run 5 steps. Compare the first action selected and the VFE trajectory.
-3. Visualize both D-vectors using `plot_D_prior()`.
+1. C と E を固定する。以下の 2 つのエージェントを作成する:
+   - `D_certain = [1, 0, 0, 0]` (中心が確信している)
+   - `D_uncertain = [0.25, 0.25, 0.25, 0.25]` (均一)
+2. 5 ステップ実行する。最初の選択された行動と VFE 軌跡を比較する。
+3. `plot_D_prior()` を使用して両方の D ベクトルを視覚化する。
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 3: E-Vector and Habit Formation
+## Part 3: E ベクトルと習慣形成
 
-**Goal**: Demonstrate how habits bias action selection.
+**目標**: 習慣が行動選択のバイアスを示すことを実証する。
 
-1. Create an agent with `E = [0.8, 0.1, 0.1]` (strong stay habit) and γ = 0.5.
-2. Create an agent with `E = None` and the same γ.
-3. Run both for 20 steps. Count how often each agent selects action 0 (stay).
-4. Visualize habits using `plot_E_habits()`.
+1. `E = [0.8, 0.1, 0.1]` (強い滞留習慣) と γ = 0.5 のエージェントを作成する。
+2. `E = None` と同じ γ のエージェントを作成する。
+3. 両方を 20 ステップ実行する。各エージェントが行動 0 (滞留) を選択する回数を数える。
+4. 習慣を `plot_E_habits()` を使用して視覚化する。
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 4: Precision Sweep
+## Part 4: 精度スキャン
 
-**Goal**: Map the exploration–exploitation tradeoff across γ values.
+**目標**: γ 値に対する探索–利用トレードオフをマッピングする。
 
-1. For γ ∈ {0.1, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0}:
-   - Run `run_policy_inference()` with the same beliefs and C-vector
-   - Record the resulting $q(\pi)$
-2. Visualize with `plot_precision_sweep()`.
-3. Identify the γ value where the agent transitions from near-random to near-deterministic.
+1. γ ∈ {0.1, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0}:
+   - 同じ信念と C ベクトルで `run_policy_inference()` を実行する
+   - 得られた $q(\pi)$ を記録する
+2. `plot_precision_sweep()` を使用して視覚化する。
+3. エージェントがほぼランダムからほぼ決定論的になる γ 値を特定する。
 
 ```python
 from active_inference.math import run_policy_inference
 from active_inference.visualization import plot_precision_sweep
 
-# TODO: Sweep γ and collect q(π) matrix
+# TODO: γ をスキャンし、q(π) 行列を収集する
 ```
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 5: Analysis Questions
+## Part 5: 分析質問
 
-1. Did the agent with `C = [0, 3, -3]` consistently reach the reward arm? If not, what prevented it?
-2. How many steps did the habit-biased agent waste on action 0 compared to a habit-free agent?
-3. At which γ value did policy selection become effectively deterministic? How does this relate to the magnitude of EFE differences?
+1. `C = [0, 3, -3]` のエージェントが常に報酬腕に到達したか？もしそうでないなら、何がそれを防いだか？
+2. 習慣バイアスされたエージェントが行動 0 でどれくらいのステップを浪費したか、習慣バイアスされていないエージェントと比較して？
+3. ポリシー選択が効果的に決定論的になった γ 値は何か？これは EFE の大きさとの関連性があるか？
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Summary
+## 概要
 
-| Skill | Library Component | Status |
+| スキル | ライブラリコンポーネント | ステータス |
 |-------|------------------|--------|
-| Design C-vectors for goal-directed behavior | `GenerativeModel(C=...)` | |
-| Visualize preferences, priors, and habits | `plot_C_preferences()`, `plot_D_prior()`, `plot_E_habits()` | |
-| Investigate precision effects | `run_policy_inference(gamma=...)` | |
-| Map the exploration–exploitation tradeoff | `plot_precision_sweep()` | |
-| Compare agents with different cognitive configurations | Multi-agent experiment design | |
+| 目標指向の行動のための C ベクトルを設計する | `GenerativeModel(C=...)` | |
+| 偏好、事前分布、習慣を視覚化する | `plot_C_preferences()`, `plot_D_prior()`, `plot_E_habits()` | |
+| 精度効果を調査する | `run_policy_inference(gamma=...)` | |
+| 探索–利用トレードオフをマッピングする | `plot_precision_sweep()` | |
+| 異なる認知構成のエージェントを比較する | 複数エージェント実験設計 | |

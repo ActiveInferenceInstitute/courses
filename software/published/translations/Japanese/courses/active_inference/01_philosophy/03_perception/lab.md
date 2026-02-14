@@ -1,77 +1,77 @@
-# Lab: Thought Experiment — Perception as Inference
+# 実験室：思考実験 - 認識は推論
 
-## Objective
+## 目的
 
-Investigate the philosophical implications of treating perception as inference through structured thought experiments, phenomenological reflection, and conceptual analysis.
+構造化された思考実験、現象学的考察、および概念分析を通じて、認識を推論と見なすことの哲学的な影響を調査する。
 
-## Part 1: The Müller-Lyer Illusion
+## 第1部：ミラー・ライヤー錯視
 
-**Goal**: Examine what visual illusions reveal about the nature of perception.
+**目標**: 認識の性質について視覚的な錯視が何を明らかにするかを検討する。
 
-The Müller-Lyer illusion causes two lines of equal length to appear different due to arrowhead configurations. Even knowing the lines are equal, the illusion persists.
+ミラー・ライヤー錯視は、矢印の構成によって同じ長さの2本の線が異なるように見えるようにする。同じ長さの線であることを知っていても、この錯視は持続する。
 
-- What does this persistence tell us about the relationship between perception and belief?
-- How would a direct realist (Gibson), a representationalist (Locke), and an inferentialist (Active Inference) each explain this illusion?
-- Which explanation do you find most satisfying, and why?
-
-{fill:textarea}
-
-## Part 2: The Expert's Eye
-
-**Goal**: Analyze perceptual learning as evidence for the inferentialist account.
-
-A radiologist can glance at a chest X-ray and immediately see a subtle mass that a novice would miss entirely. Consider:
-
-- Is the radiologist "seeing" something the novice cannot, or "interpreting" what they both see? What hangs on this distinction?
-- How does Active Inference account for this difference (hint: refined generative model, higher precision predictions)?
-- Does this example support or undermine the claim that perception is "direct"?
+- この持続性は何を私たちに教えてくれますか？認識と信念の関係についてですか？
+- 直接実在論者（ギブソン）、代表論者（ロック）、推論論者（アクティブ・インファーレンス）のそれぞれがこの錯視をどのように説明しますか？
+- あなたにとって最も満足のいく説明はどれで、なぜそう思うのですか？
 
 {fill:textarea}
 
-## Part 3: Controlled Hallucination
+## 第2部：専門家の視点
 
-**Goal**: Probe the boundary between perception and hallucination.
+**目標**: 推論論的説明における認識の学習を分析し、その証拠として利用する。
 
-Anil Seth calls normal perception "controlled hallucination" — the brain generates predictions that are constrained by sensory input, but hallucinations occur when predictions dominate input.
+放射線科医は、初学者が見逃してしまう微妙な腫瘍を胸部X線写真を見渡すだけですぐに見つけることができる。考慮してください：
 
-- Is there a sharp boundary between perception and hallucination, or is it a continuum?
-- What are the philosophical implications of calling all perception a form of hallucination? Does this lead to skepticism?
-- How would a pragmatist respond to this framing?
-
-{fill:textarea}
-
-## Part 4: The Veil of Predictions
-
-**Goal**: Engage with the epistemological consequences of predictive processing.
-
-If we only ever access our own predictions (updated by prediction error), are we trapped behind a "veil of predictions" — never touching reality itself? This echoes Locke's "veil of ideas" and Kant's distinction between phenomena and noumena.
-
-- Is this a genuine epistemic problem or a pseudo-problem?
-- Does the Active Inference framework provide resources to respond to skepticism that classical representationalism does not?
-- Write a 100-word response from either the pragmatist or the phenomenological perspective.
+- 放射線科医は、初学者が見逃すものを「見ている」のか、「見ているものを解釈している」のか。この区別に何が依存していますか？
+- アクティブ・インファーレンスは、この違いをどのように説明しますか（ヒント：洗練された生成モデル、より高い精度予測）？
+- この例は、認識が「直接的」であるという主張を支持または弱体化しますか？
 
 {fill:textarea}
 
-## Part 5: Synthesis and Position Defense
+## 第3部：制御された幻覚
 
-**Goal**: Develop your own view on the nature of perception.
+**目標**: 認識と幻覚の境界を探る。
 
-Write a 200-word position statement on one of the following:
+アニル・セッスは、通常の認識を「制御された幻覚」と呼んでいます。脳は感覚入力によって制約される予測を生成しますが、予測が優勢になると幻覚が発生します。
 
-- "Perception is inference — and this is a deep truth about the nature of mind."
-- "The inferentialist account of perception is a useful scientific model but a misleading philosophical theory."
-- "Active Inference dissolves the realism/anti-realism debate about perception."
-
-Share with a peer and defend your position against their strongest objection.
+- 認識と幻覚の間には明確な境界があるのでしょうか、それとも連続体なのでしょうか？
+- すべての認識を幻覚の形と呼ぶことの哲学的な意味は何でしょうか。これは懐疑主義につながりますか？
+- 実用主義者は、このフレームワークにどのように対応しますか？
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：予測のベール
 
-| Part | Skill Developed | Key Philosophical Move |
+**目標**: 予測処理の認識論的結果と向き合う。
+
+私たちが自分の予測（予測誤差によって更新されるもの）にのみアクセスする場合、私たちは自分自身が現実そのものに触れないことになったのか、まるで「予測のベール」の裏に閉じ込められているのでしょうか。これはロックの「アイデアのベール」やカントの現象と noumenon の区別に反響します。
+
+- これは真の認識論的課題なのでしょうか、それとも疑似課題なのでしょうか？
+- アクティブ・インファーレンスは、古典的な表象論では提供できない懐疑主義への対応のためのリソースを提供しますか？
+- どちらかの実用主義者または現象学的視点から、100語の回答を書いてください。
+
+{fill:textarea}
+
+## 第5部：合成と立場防御
+
+**目標**: 認識の性質に関する独自の視点を開発する。
+
+以下のいずれかの視点について200語の立場表明を書いてください。
+
+- 「認識は推論である—これは心という本質についての深い真実です。」
+- 「認識に関する推論論的説明は、有用な科学的モデルですが、誤解を招く哲学的な理論です。」
+- 「アクティブ・インファーレンスは、認識に関するリアリズム/反リアリズムの議論を解消します。」
+
+同僚と共有し、最も強い反論に対してあなたの立場を弁護してください。
+
+{fill:textarea}
+
+## 実験室の概要
+
+| 部位 | 開発されたスキル | キーとなる哲学的な動き |
 |------|----------------|----------------------|
-| 1 | Theory comparison | Applying multiple philosophical frameworks to a single phenomenon |
-| 2 | Conceptual analysis | Distinguishing perception from interpretation under inferentialism |
-| 3 | Boundary reasoning | Exploring the continuum between normal perception and hallucination |
-| 4 | Epistemological reasoning | Engaging with skeptical implications of predictive processing |
-| 5 | Position defense | Constructing a view on perception and defending it under criticism |
+| 1 | 理論の比較 | 単一の現象に対して複数の哲学的な枠組みを適用する |
+| 2 | 概念分析 | 推論論的観点から認識と解釈を区別する |
+| 3 | 境界の推論 | 通常の認識と幻覚の間の連続体を探求する |
+| 4 | 認識論的な推論 | 予測処理の懐疑的な意味合いと向き合う |
+| 5 | 立場防御 | 批判のもとで認識に関する視点を構築し、弁護する |

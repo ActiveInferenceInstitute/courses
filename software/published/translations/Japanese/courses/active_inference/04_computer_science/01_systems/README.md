@@ -1,53 +1,53 @@
-# Module 1: Systems — Setting Up Environments: Generative Process vs Generative Model
+# モジュール 1: システム — 環境のセットアップ: 生成的プロセス vs 生成的モデル
 
-> **Quick Navigation**: [← Course Home](../) | [Up](../) | [Agents →](../02_agents/)
+> **クイックナビゲーション**: [← コースホーム](../) | [上へ](../) | [エージェントへ →](../02_agents/)
 
-## Computational Active Inference
-
----
-
-## Contents
-
-| File | Description |
-|------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Python Coding Exercise lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+## 計算活性推論
 
 ---
 
-## Learning Objectives
+## 構成
 
-By the end of this module, you should be able to:
-
-1. Define **Systems** from a computational perspective within Active Inference
-2. Explain the role of **Setting Up Environments: Generative Process vs Generative Model** in the FEP framework
-3. Connect systems to the broader concepts of free energy minimization
-4. Apply computational reasoning to analyze real-world examples of systems
-
----
-
-## Cross-Course Links
-
-See this topic from other perspectives:
-
-| Course | Focus |
-|--------|-------|
-| [Philosophy](../../01_philosophy/01_systems/) | Boundaries, Markov Blankets, and the Philosophy of Biology |
-| [Cognitive Science](../../02_cognitive_science/01_systems/) | Neural Assemblies and Functional Integration |
-| [Mathematics](../../03_math/01_systems/) | Mathematical Foundations: Matrices, Probability, and Bayesian Reasoning |
-| [Computer Science](../../04_computer_science/01_systems/) | Setting Up Environments: Generative Process vs Generative Model ← **You are here** |
+| ファイル | 説明 |
+|---|---|
+| [module.md](./module.md) | 講義の全文 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個のFR) |
+| [lab.md](./lab.md) | Python コーディング演習 ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Resources
+## 学習目標
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+このモジュールを完了すると、以下のことができるようになるはずです。
+
+1. 活性推論における計算的な視点から **システム** を定義する
+2. FEP フレームワークにおける **環境のセットアップ: 生成的プロセス vs 生成的モデル** の役割を説明する
+3. システムをより広い概念であるフリーエネルギー最小化に結びつける
+4. 実際のシステムに関する例を分析するために計算的な推論を適用する
 
 ---
 
-[← Course Home](../) | [Up](../) | [Agents →](../02_agents/)
+## 関連コース
+
+このトピックを他の視点から見てみましょう:
+
+| コース | 焦点 |
+|---|---|
+| [哲学](../../01_philosophy/01_systems/) | 境界、マルコフ畳み込み、生物学の哲学 |
+| [認知科学](../../02_cognitive_science/01_systems/) | 神経集合と機能統合 |
+| [数学](../../03_math/01_systems/) | 数学的な基礎: 行列、確率、ベイズ推論 |
+| [コンピュータサイエンス](../../04_computer_science/01_systems/) | 環境のセットアップ: 生成的プロセス vs 生成的モデル ← **ここ** |
+
+---
+
+## リソース
+
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
+
+---
+
+[← コースホーム](../) | [上へ](../) | [エージェントへ →](../02_agents/)

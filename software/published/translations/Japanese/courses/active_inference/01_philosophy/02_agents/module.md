@@ -1,42 +1,42 @@
-# Module 02: Agents — Autopoiesis, Agency, and the Self-Organizing System
+# モジュール02：エージェント — 自律性、主体性、および自己組織化システム
 
-## Learning Objectives
+## 学習目標
 
-1. Explain how the concept of **agency** emerges from the Markov Blanket formalism when active states are distinguished from sensory states.
-2. Compare autopoietic, enactivist, and Active Inference accounts of what it means to be an agent.
-3. Critically assess whether agency is an intrinsic property of systems or a description imposed by observers.
+1.  マルコフブランケット形式において、活動状態と感覚状態を区別することで、**主体性**の概念がどのように生まれるかを説明する。
+2.  エウテイスト、能動的推論の観点から、エージェントであるとはどういう意味かを比較する。
+3.  主体性はシステム固有の性質なのか、それとも観察者の付加によって課せられた記述なのかについて、批判的に評価する。
 
-## Introduction
+## 導入
 
-In Module 01, we established that systems are defined by their boundaries. But not all bounded systems are *agents*. A rock has a boundary, yet we do not attribute agency to it. What additional feature transforms a system into an agent? In Active Inference, the answer lies in the asymmetry of the Markov Blanket: an agent is a system whose active states influence external states in a way that is conditioned on — and serves to maintain — its internal states.
+モジュール01では、システムは境界によって定義されることを確立しました。しかし、すべての境界を持つシステムがエージェントであるとは限りません。岩石は境界を持っていますが、そこに主体性は属性されません。システムをエージェントに変える追加の要素は何でしょうか？能動的推論では、マルコフブランケットの非対称性が答えを与えます。エージェントとは、外部の状態がその内部の状態に依存し、維持するように作用する活動状態を持つシステムです。
 
-This module explores the philosophical depth of this claim, connecting it to classical discussions of agency in phenomenology (Husserl's intentionality), pragmatism (Dewey's organism-environment transaction), and enactivism (Varela's sense-making).
+このモジュールでは、この主張の哲学的な深さを探求し、現象学（ヒュッセルを意図性、プラクシズム（デューイの生物-環境取引、エウテイスト主義（ヴァレラの意味構築）との関連性）に結びつけます。
 
-## Key Concepts
+## 主要な概念
 
-### 1. From Boundary to Agency
+### 1. 境界から主体性へ
 
-A Markov Blanket has two faces: sensory states (how the world affects the system) and active states (how the system affects the world). An agent arises when active states are not random but serve to minimize the system's free energy — that is, when the system acts *so as to maintain itself*. Agency, on this account, is not a mysterious faculty but a consequence of self-organization.
+マルコフブランケットには、感覚状態（世界がシステムに与える影響）と活動状態（システムが世界に与える影響）の二つの側面があります。エージェントは、活動状態がランダムではなく、システムの自由エネルギーを最小化するように作用する場合に現れます—つまり、システムは「自分自身を維持するように作用する」ことです。この観点から、主体性は神秘的な能力ではなく、自己組織化の結果です。
 
-Philosophically, this resonates with Spinoza's *conatus* — the striving of every being to persist in its own existence — and with Heidegger's concept of *Sorge* (care): to be an agent is to be concerned with one's own continuation.
+哲学的には、これはスポンジの「コンニュタス」（すべての存在が自身の存在を維持しようとする衝動）やハイデガーの「ゾルゲ」（心配）と共鳴します。エージェントであるとは、自身の継続に関心を持つことです。
 
-### 2. Self-Models and Minimal Selfhood
+### 2. 自己モデルと最小限の自己性
 
-Does an agent need a *self*? The philosopher Thomas Metzinger argues that selfhood requires a self-model — an internal representation of oneself as an entity distinct from the world. In Active Inference terms, this corresponds to the agent's generative model containing a representation of its own Markov Blanket. Even a bacterium, insofar as its metabolic network "models" the boundary conditions for its own persistence, instantiates a minimal form of selfhood.
+エージェントは**自己**を必要としますか？哲学者のトーマス・メッツィンガーは、自己性には自己モデル—自分自身を世界とは異なる存在として内部表現すること—が必要だと主張しています。能動的推論の観点から、これはエージェントの生成モデルに、自身のマルコフブランケットの表現を含むことが対応します。代謝ネットワークが自身の持続のための境界条件を「モデル化」する細菌であっても、最小限の自己性は具現化されます。
 
-This raises the question: is there a continuum from bacterial self-organization to human self-consciousness? And if so, where do morally relevant properties like sentience and autonomy enter?
+このことは、細菌の自己組織化から人間の自己意識への連続性について疑問を投げかけます。そして、もしそうであれば、意識や自律性のような道徳的に重要な性質はどこに入るのでしょうか？
 
-### 3. The Problem of Other Agents
+### 3. 他のエージェントの問題
 
-How do we recognize other agents? The "problem of other minds" — how I can know that you are conscious — takes new form in Active Inference. If I model you as a system with active states that minimize your free energy, I am attributing agency to you. This attribution is itself an inference: I infer your internal states through the lens of my own generative model.
+他のエージェントをどのように認識しますか？「他者の意識の問題」—私があなたに意識があることを知ることができるのか—は、能動的推論において新たな形をとります。もしあなたが、自身の活動状態があなたの自由エネルギーを最小化するようにモデル化するシステムとしてあなたをモデル化するなら、あなたに主体性があるということを示唆していることになります。この属性は自己推論です—私は自分の生成モデルを通して自分の内部状態を推論します。
 
-This connects to Husserl's concept of *Einfühlung* (empathy) and to the simulation theory / theory-theory debate in philosophy of mind.
+これは、ヒュッセルを「インフュルツング」（共感）の概念や、心哲学におけるシミュレーション理論/理論理論の議論とつながります。
 
-## Applications
+## 応用
 
-* **Artificial Agency**: If agency is defined by self-organizing dynamics rather than biological substrate, do thermostat-like systems count as agents? What about reinforcement learning algorithms?
-* **Moral Status**: If agency is graded rather than binary, what implications does this have for the moral status of animals, ecosystems, and AI systems?
+*   **人工エージェント**: 主体性が生物学的基質よりも自己組織化のダイナミクスによって定義される場合、サーモスタットのようなシステムはエージェントと見なされますか？強化学習アルゴリズムはどうでしょうか？
+*   **道徳的地位**: 主体性が二項的なものではなく段階的なものである場合、動物、生態系、AIシステムに道徳的地位を与えることの含意は何でしょうか？
 
-## Conclusion
+## 結論
 
-Agency is not a primitive concept but an emergent one: it arises when a Markov Blanket system acts to maintain itself. This reframes classical philosophical debates about free will, intentionality, and moral status. In Module 03, we turn to the agent's most fundamental activity — perception.
+主体性は原始的な概念ではなく、現れ出した概念です—それは、マルコフブランケットを持つシステムが自分自身を維持するように作用する場合に現れます。これは、自由意志、意図性、道徳的地位に関する古典的な哲学的議論を再考することを意味します。モジュール03では、エージェントの最も基本的な活動—知覚—に焦点を当てます。

@@ -1,43 +1,43 @@
-# Module 06: Learning — Epistemic Growth, Niche Construction, and Self-Transformation
+# モジュール06：学習 — 認識的成長、ニッチ構築、そして自己変容
 
-## Learning Objectives
+## 学習目標
 
-1. Explain how learning in Active Inference is formalized as updating the parameters of the generative model (structure learning).
-2. Connect the concept of niche construction to the Active Inference view that agents shape their environments to make them more predictable.
-3. Evaluate the philosophical implications of learning as self-transformation — the agent that learns is no longer the same agent.
+1.  アクティブ・インファーレンスにおける学習が、生成モデルのパラメータを更新することで形式化されることを説明する。 (構造学習)
+2.  エージェントが環境をより予測可能にするために環境を形作り、アクティブ・インファーレンスの見方とニッチ構築を結びつける。
+3.  学習を自己変容として評価することの哲学的な意味合いを評価する - 学習したエージェントはもはや以前のエージェントではない。
 
-## Introduction
+## 導入
 
-Learning is the process by which experience changes the agent. In traditional epistemology, learning is the accumulation of justified true beliefs. In behavioral psychology, it is the modification of response patterns through reinforcement. Active Inference offers a deeper account: **learning is the updating of the generative model's parameters so that future predictions are more accurate**. This is not merely acquiring information but *changing the very structure of the mind*.
+学習とは、経験によってエージェントが変化するプロセスです。伝統的な認識論では、学習は正当化された真実の信念の蓄積です。行動心理学では、強化によって反応パターンの修正です。アクティブ・インファーレンスはより深い説明を提供します：**学習とは、将来の予測がより正確になるように生成モデルのパラメータを更新することです。** これは単なる情報の獲得ではなく、*思考そのものの構造を変えること* です。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Parameter Learning and Structure Learning
+### 1. パラメータ学習と構造学習
 
-Active Inference distinguishes two forms of learning:
+アクティブ・インファーレンスは、学習の二つの形態を区別します：
 
-- **Parameter learning**: Updating the concentration parameters of existing model components (e.g., learning that a particular observation is more likely than previously expected). This corresponds to sharpening Dirichlet priors.
-- **Structure learning**: Adding or removing components of the generative model itself. This is implemented through **Bayesian Model Reduction (BMR)** — analytically comparing the evidence for different model structures and keeping the one that best balances accuracy and complexity.
+-   **パラメータ学習**: 既存のモデルコンポーネントの濃度パラメータを更新すること（例：ある観察が以前予想よりも可能性が高いことを学習すること）。これはディリクレ事前分布をシャープ化することに対応します。
+-   **構造学習**: 生成モデル自体にコンポーネントを追加または削除すること。これは**ベイズモデル削減 (BMR)** によって実装されます - 異なるモデル構造の証拠を分析的に比較し、精度と複雑さのバランスが最も良いものを維持します。
 
-Philosophically, parameter learning is like refining one's vocabulary; structure learning is like learning a new language. The latter is more transformative and more philosophically interesting.
+哲学的には、パラメータ学習は自分の語彙を洗練しているようなものです。構造学習は、新しい言語を学ぶようなものです。後者はより変革的で、より哲学的に興味深いです。
 
-### 2. Niche Construction and the Co-Evolution of Agent and Environment
+### 2. ニッチ構築とエージェントと環境の共進化
 
-Agents do not merely adapt to their environments — they also **construct** them. A beaver builds a dam; a human builds a city. In Active Inference, niche construction is the environmental complement of learning: the agent acts on its environment to make it more predictable, thereby reducing future surprise.
+エージェントは単に環境に適応するだけでなく、**環境を構築** します。ビーバーがダムを建設し、人間が都市を建設します。アクティブ・インファーレンスにおけるニッチ構築は、学習の環境的な補完です - エージェントは環境に対して作用し、それをより予測可能にし、将来の驚きを軽減します。
 
-This connects to the philosophical concept of **Umwelt** (von Uexküll) — the species-specific world that each organism inhabits. The Umwelt is not a pre-given environment but a co-construction of organism and world. Laland et al. (2015) argue that niche construction is a neglected dimension of evolution, alongside natural selection.
+これは、**Umwelt** (von Uexküll) という哲学的な概念とつながっています - 各生物が住む種特有の世界です。Umweltはあらかじめ与えられた環境ではなく、生物と世界が共同で構築するものです。Laland et al. (2015) は、自然選択とともに、ニッチ構築が進化の無視された次元であると主張しています。
 
-### 3. Learning as Self-Transformation
+### 3. 学習を自己変容として
 
-If the agent *is* its generative model (as Active Inference suggests), then changing the model is changing the agent. Learning is not the addition of content to a fixed container but the **transformation of the container itself**. This resonates with Bildung in the German philosophical tradition — education as self-formation, not mere information transfer.
+エージェントが生成モデル *である* (アクティブ・インファーレンスが示唆するように) 場合、モデルを変更することはエージェントを変更することです。学習は、固定された容器に内容を追加することではなく、**容器自体を変革すること** です。これは、ドイツの哲学伝統におけるBildungと共鳴しています - 教育は単なる情報伝達ではなく、自己形成です。
 
-It also raises a paradox: the agent that needs to learn is not yet the agent who has learned. Pre-learning, the agent cannot fully grasp what it will become. This connects to Kierkegaard's concept of "the leap" and to Thomas Kuhn's account of paradigm shifts in science.
+これはまた、パラドックスを引き起こします - 学習する必要があるエージェントはまだ学習したエージェントではありません。学習前のエージェントは、自分が何になるのかを完全に理解することができません。これは、キルケゴールが「飛躍」という概念や、トマス・クーンが科学におけるパラダイムシフトの説明とつながっています。
 
-## Applications
+## 応用
 
-- **Education**: If learning is self-transformation, education is not the transfer of facts from teacher to student but the guided restructuring of the student's generative model.
-- **Psychotherapy**: Therapeutic change, in Active Inference terms, involves restructuring maladaptive generative models — not merely providing insight but changing the patterns of prediction and precision that sustain distress.
+-   **教育**: 学習が自己変容である場合、教師から生徒への事実の転送ではなく、生徒の生成モデルのガイダンスされた再構成です。
+-   **心理療法**: アクティブ・インファーレンスの用語で言うと、治療の変化は、 maladaptive な生成モデルの再構成を伴います - 単に洞察を提供することだけでなく、苦痛を維持する予測と精度パターンを変えることです。
 
-## Conclusion
+## 結論
 
-Learning in Active Inference is not a passive accumulation of data but an active, transformative process that changes the agent's very identity. This has profound implications for education, therapy, and the philosophy of personal identity. Module 07 examines how agents share their models with others — the problem of communication.
+アクティブ・インファーレンスにおける学習は、単なるデータの被動的な蓄積ではなく、エージェント自身のアイデンティティを変容させる積極的なプロセスです。これは、教育、セラピー、そして個人的なアイデンティティの哲学に深い影響を与えます。モジュール07は、エージェントが他のエージェントとモデルを共有する方法を調べます - コミュニケーションの問題です。

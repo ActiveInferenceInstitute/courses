@@ -29,6 +29,8 @@ Before applying cognitive strategies, clearly define the inventive problem you a
 
 ## Part 2: Analogical Reasoning (12 minutes)
 
+Analogical reasoning is the most powerful cognitive tool for invention because it allows you to leverage solutions from well-understood domains to solve problems in less-understood domains. The key to effective analogy is abstraction: you must strip away the surface features of your problem (the specific materials, contexts, and domain jargon) to reveal its structural essence (the relationships, flows, and transformations). Once you have the structural essence, you can search for it in other domains. The best analogies are often surprising — they come from domains that seem completely unrelated on the surface but share deep structural patterns with your problem.
+
 **Step 1 (4 min):** Abstract your problem to its structural essence. Strip away domain-specific details and describe the problem in terms of relationships, flows, transformations, and constraints. For example, "designing a better wheelchair ramp" becomes "facilitating transition between two surfaces at different heights with minimal effort."
 
 Structural abstraction of my problem:
@@ -54,6 +56,8 @@ Resulting invention concept: {fill:textarea}
 
 ## Part 3: Combinatorial Creativity (12 minutes)
 
+Combinatorial creativity works by assembling components from different generative models into novel configurations. The smartphone combined telephony, computing, photography, navigation, and audio into a single device — none of the components were individually novel, but the combination produced emergent capabilities that none possessed alone. The key to productive combination is selectivity: not all combinations are creative. Random mashing-together produces Rube Goldberg machines, not inventions. Productive combinations require complementarity (components address different aspects of a coherent need), emergence (the combination creates capabilities that no component has alone), and coherence (the combination can be described by a single unified concept).
+
 **Step 1 (4 min):** List 8-10 existing technologies, methods, materials, or concepts that are individually relevant to your problem domain. Include items from outside your primary domain:
 
 1. {fill:textarea}
@@ -78,6 +82,8 @@ Resulting invention concept: {fill:textarea}
 {fill:textarea}
 
 ## Part 4: TRIZ Contradiction Resolution (15 minutes)
+
+TRIZ approaches invention as a systematic discipline rather than a creative art. At its core, TRIZ identifies the fundamental contradiction in a problem — the conflict between two desirable properties that seem mutually exclusive — and then applies proven resolution principles to transform the problem so that both properties can be achieved. This transforms the inventor's mindset from "I must choose between A and B" to "I must find a way to have both A and B by changing how the system works." The 40 inventive principles represent decades of analysis across hundreds of thousands of patents, making them an empirically validated toolkit for cognitive transformation.
 
 **Step 1 (5 min):** Identify a core contradiction in your invention problem. A contradiction exists when improving one desirable parameter worsens another.
 
@@ -107,6 +113,8 @@ Resulting invention concept:
 {fill:textarea}
 
 ## Part 5: Mental Simulation (13 minutes)
+
+Mental simulation is the cognitive counterpart to physical prototyping. By running your generative model forward in time — imagining the invention in use, predicting how users will interact with it, anticipating failure modes and edge cases — you can identify problems before investing resources in building. Mental simulation is not daydreaming: it is disciplined, step-by-step prediction that deliberately stress-tests the model at each stage. The quality of your mental simulation depends entirely on the accuracy of your generative model. If your model accurately represents the relevant physics, user behavior, and environmental conditions, the simulation will be informative. If your model has gaps or errors, the simulation will be misleading — which is why alternating between mental and physical prototyping is the most effective strategy.
 
 **Step 1 (3 min):** Choose the most promising invention concept from Parts 2, 3, or 4. Describe it clearly enough to simulate:
 

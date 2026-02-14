@@ -1,22 +1,23 @@
-# Study Questions: Planning
+# 勉強問題：計画
 
-1. What is the rostro-caudal gradient of temporal abstraction in the prefrontal cortex? What evidence supports it?
-2. How does the basal ganglia implement policy selection through direct and indirect pathways?
-3. What role does dopamine play in precision of policy selection?
-4. How does Expected Free Energy decompose into pragmatic and epistemic value, and which PFC regions encode each?
-5. What is frontal lobe syndrome? How does damage to PFC impair planning?
-6. What is "utilization behavior," and how does Active Inference explain it?
-7. How does Active Inference model impulsivity as low precision on long-horizon policies?
-8. How does temporal discounting (preference for immediate rewards) relate to planning depth?
-9. How does addiction progressively narrow the policy space in Active Inference terms?
-10. How does depression lead to planning paralysis? What precision dynamics are involved?
-11. Compare Active Inference's account of decision-making with classical expected utility theory.
-12. What is the role of the anterior cingulate cortex (ACC) in effort-based decision-making and conflict monitoring?
-13. How does working memory contribute to planning? What PFC regions support it?
-14. What is the relationship between the default mode network (DMN) and planning/prospection?
-15. How does theory of mind interact with planning in social contexts (strategic interaction)?
-16. How might the prefrontal hierarchical gradient develop across childhood and adolescence?
-17. How does Active Inference explain the "paradox of choice" — the finding that too many options can impair decision-making?
-18. What is the computational difference between model-based planning (evaluating policies) and model-free habitual behavior?
-19. How do orbitofrontal cortex (OFC) lesions affect decision-making? What Active Inference component is impaired?
-20. Design a study using fMRI to test whether more abstract planning tasks activate more anterior PFC regions, as the temporal abstraction gradient predicts.
+1.  前頭前皮質における時間的抽象の頭尾勾配とは何か？ その根拠は何ですか？
+2.  基底核は、直接的および間接的な経路を通してポリシー選択をどのように実装していますか？
+3.  ポリシー選択の精度において、ドーパミンはどのような役割を果たしていますか？
+4.  期待される自由エネルギーは、実用的および認識的な価値にどのように分解され、それぞれの価値をエンコードする前頭前皮質領域はどこですか？
+5.  前頭葉症候群とは何か？ 前頭前皮質損傷が計画をどのように損なうのですか？
+6.  「利用行動」とは何か、そしてアクティブインファレンスはそれをどのように説明していますか？
+7.  アクティブインファレンスは、長期ホライズンのポリシーに対する低精度を、衝動性としてどのようにモデル化していますか？
+8.  即時報酬に対する好み（時間割引率）は、計画の深さとどのように関連していますか？
+9.  アクティブインファレンスの用語において、依存症がポリシー空間をどのように段階的に狭めていくのでしょうか？
+10. うつ病は計画停止を引き起こす。 どのような精度ダイナミクスが関与していますか？
+11. アクティブインファレンスの意思決定の説明を、古典的な期待効用理論と比較してください。
+12. 前央性状皮質（ACC）は、労力に基づく意思決定と対立監視においてどのような役割を果たしていますか？
+13. 作業記憶は計画にどのように貢献していますか？ それをサポートする前頭前皮質領域はどこですか？
+14. デフォルトモードネットワーク（DMN）と計画/予見はどのような関係にありますか？
+15. 社会的文脈（戦略的相互作用）における計画と理論的意識はどのように相互作用しますか？
+16. 前頭前皮質の階層的勾配は、子供時代と青年期にどのように発達する可能性がありますか？
+17. アクティブインファレンスは、「選択のパラドックス」をどのように説明しますか - 選択肢が多すぎると意思決定を損なうという発見を。
+18. モデルベース計画（ポリシーの評価）とモデルフリー習慣的な行動との間の計算上の違いは何ですか？
+19. orbitofrontal cortex (OFC) 損傷が意思決定にどのように影響しますか？ どのようなアクティブインファレンスのコンポーネントが損なわれますか？
+20. タイムリー抽象勾配を予測するように、より抽象的な計画タスクがより前頭前皮質の領域を活性化するかどうかをテストするために、fMRIを用いた研究を設計してください。
+

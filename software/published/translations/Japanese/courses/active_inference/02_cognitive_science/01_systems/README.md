@@ -1,53 +1,53 @@
-# Module 1: Systems — Neural Assemblies and Functional Integration
+# モジュール1：システム - 神経集団と機能統合
 
-> **Quick Navigation**: [← Course Home](../) | [Up](../) | [Agents →](../02_agents/)
+> **クイックナビゲーション**: [←コースホーム](../) | [上へ](../) | [エージェント→](../02_agents/)
 
-## Cognitive Behavioral Science & Active Inference
+## 認知行動科学と能動的推論
 
 ---
 
-## Contents
+## 概要
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Experimental Analysis lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の内容 |
+| [questions.md](./questions.md) | 20個の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ（7問のMC + 3問のFR） |
+| [lab.md](./lab.md) | 実験分析ラボ活動 |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを修了することで、あなたは以下ができるようになるはずです。
 
-1. Define **Systems** from a cognitive-behavioral perspective within Active Inference
-2. Explain the role of **Neural Assemblies and Functional Integration** in the FEP framework
-3. Connect systems to the broader concepts of free energy minimization
-4. Apply cognitive-behavioral reasoning to analyze real-world examples of systems
+1. 能動的推論における認知行動科学的な視点から「システム」を定義する。
+2. FEPフレームワークにおける「神経集団と機能統合」の役割を説明する。
+3. システムをより広い概念である「フリーエネルギー最小化」に結びつける。
+4. 認知行動科学的な推論を用いて、実際のシステムの例を分析する。
 
 ---
 
-## Cross-Course Links
+## 関連コースへのリンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/01_systems/) | Boundaries, Markov Blankets, and the Philosophy of Biology |
-| [Cognitive Science](../../02_cognitive_science/01_systems/) | Neural Assemblies and Functional Integration ← **You are here** |
-| [Mathematics](../../03_math/01_systems/) | Mathematical Foundations: Matrices, Probability, and Bayesian Reasoning |
-| [Computer Science](../../04_computer_science/01_systems/) | Setting Up Environments: Generative Process vs Generative Model |
+| [哲学](../../01_philosophy/01_systems/) | 境界線、マルコフブランケット、生物学の哲学 |
+| [認知科学](../../02_cognitive_science/01_systems/) | 神経集団と機能統合 ← **現在地** |
+| [数学](../../03_math/01_systems/) | 数学的基礎：行列、確率、ベイズ推論 |
+| [コンピュータサイエンス](../../04_computer_science/01_systems/) | 環境の構築：生成過程 vs 生成モデル |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Course Home](../) | [Up](../) | [Agents →](../02_agents/)
+[←コースホーム](../) | [上へ](../) | [エージェント→](../02_agents/)

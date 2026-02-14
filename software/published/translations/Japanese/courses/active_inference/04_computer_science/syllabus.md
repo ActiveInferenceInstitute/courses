@@ -4,81 +4,81 @@
 
 ## Course Description
 
-This course implements Active Inference algorithms in Python using a custom `active_inference` library (inspired by pymdp). Students will build, run, and analyze discrete-state-space Active Inference agents from scratch. Topics include generative model specification (A-E matrices), belief updating via variational inference, policy selection via Expected Free Energy, parameter learning with Dirichlet updates, multi-agent simulation, and deep temporal planning. All code is executable, well-documented, and builds progressively across modules.
+このコースでは、Pythonを用いてアクティブ・インファーレンスアルゴリズムを実装します。pymdpにインスパイアされたカスタム`active_inference`ライブラリを使用し、学生はゼロから、離散状態空間のActive Inferenceエージェントを構築、実行、分析します。含まれるトピックには、生成モデルの仕様（A-E行列）、変分推論による信念の更新、期待されるフリーエネルギーによるポリシー選択、Dirichlet更新によるパラメータ学習、多エージェントシミュレーション、深層時間的計画が含まれます。すべてのコードは実行可能で、よく文書化されており、モジュール間で段階的に構築されます。
 
 ---
 
 ## Prerequisites
 
-- Courses 1-3 (Philosophy, Cognitive Science, and Mathematics of Active Inference)
-- Python programming: comfortable with NumPy, basic OOP (classes, methods), matplotlib
-- The course uses a custom `active_inference` library bundled with the curriculum (see `src/active_inference/`)
-- Recommended: Jupyter notebooks for interactive development
+- Course 1-3（哲学、認知科学、Active Inferenceの数学）
+- Pythonプログラミング：NumPy、基本的なOOP（クラス、メソッド）、matplotlibに慣れていること
+- このコースでは、カリキュラムにバンドルされたカスタム`active_inference`ライブラリを使用します（`src/active_inference/`を参照）
+- 推奨：インタラクティブな開発のためのJupyterノートブック
 
-> **Note**: All source paths (e.g., `src/active_inference/`) are relative to the `04_computer_science/` directory.
+> **注**: すべてのソースパス（例：`src/active_inference/`）は`04_computer_science/`ディレクトリ内の相対パスです。
 
 ---
 
 ## Course Schedule
 
-| Week | Module | Topic | Implementation Focus | Key Components | Deliverables |
-|------|--------|-------|---------------------|----------------|-------------|
-| 1 | [Module 1](./01_systems/) | **Systems** | Environment setup, generative process vs model | `DiscreteEnvironment`, observation generation | Lab 1, Quiz 1 |
-| 2 | [Module 2](./02_agents/) | **Agents** | Agent class, A-E matrix specification | `GenerativeModel`, `ActiveInferenceAgent`, T-maze | Lab 2, Quiz 2 |
-| 3 | [Module 3](./03_perception/) | **Perception** | Belief updating, A-matrix likelihood | `run_state_inference()`, posterior visualization | Lab 3, Quiz 3 |
-| 4 | [Module 4](./04_cognition/) | **Cognition** | Preferences (C), priors (D), habits (E) | C, D, E vector construction, precision γ | Lab 4, Quiz 4 |
-| 5 | [Module 5](./05_action/) | **Action** | Policy selection, G(π) computation | `compute_efe()`, softmax policy selection | Lab 5, Quiz 5 |
-| 6 | [Module 6](./06_learning/) | **Learning** | Parameter learning, Dirichlet updates | `update_dirichlet_A()`, `update_dirichlet_B()` | Lab 6, Quiz 6 |
-| 7 | [Module 7](./07_communication/) | **Communication** | Multi-agent simulation, signaling games | Multi-agent loop, mutual information tracking | Lab 7, Quiz 7 |
-| 8 | [Module 8](./08_planning/) | **Planning** | Deep temporal models, gridworlds | Temporal depth T, sophisticated inference | Lab 8, Quiz 8, Final Project |
+| 週 | モジュール | トピック | 実装の焦点 | 主要なコンポーネント | 成果物 |
+|---|---|---|---|---|---|
+| 1 | [Module 1](./01_systems/) | **システム** | 環境設定、生成プロセス vs モデル | `DiscreteEnvironment`、観測生成 | Lab 1、クイズ 1 |
+| 2 | [Module 2](./02_agents/) | **エージェント** | エージェントクラス、A-E行列の仕様 | `GenerativeModel`、`ActiveInferenceAgent`、T-maze | Lab 2、クイズ 2 |
+| 3 | [Module 3](./03_perception/) | **知覚** | 信念の更新、A-行列の尤度 | `run_state_inference()`、事後分布の可視化 | Lab 3、クイズ 3 |
+| 4 | [Module 4](./04_cognition/) | **認知** | 優先度（C）、事前分布（D）、習慣（E） | C、D、Eベクトルの構築、精度γ | Lab 4、クイズ 4 |
+| 5 | [Module 5](./05_action/) | **行動** | ポリシー選択、G(π)の計算 | `compute_efe()`、ソフトマックスポリシー選択 | Lab 5、クイズ 5 |
+| 6 | [Module 6](./06_learning/) | **学習** | パラメータ学習、Dirichlet更新 | `update_dirichlet_A()`、`update_dirichlet_B()` | Lab 6、クイズ 6 |
+| 7 | [Module 7](./07_communication/) | **コミュニケーション** | 多エージェントシミュレーション、シグナリングゲーム | 多エージェントループ、相互情報量の追跡 | Lab 7、クイズ 7 |
+| 8 | [Module 8](./08_planning/) | **計画** | 深層時間的モデル、グリッドワールド | 時間的深さT、高度な推論 | Lab 8、クイズ 8、最終プロジェクト |
 
 ---
 
 ## Learning Objectives
 
-By the end of this course, you should be able to:
+このコースの終了時までに、あなたは以下のことができるようになるはずです。
 
-1. **Build** a complete Active Inference agent with A, B, C, D, and E matrices using the `active_inference` library
-2. **Implement** state estimation using variational belief updating (fixed-point iteration)
-3. **Compute** Expected Free Energy (G) and select policies via softmax
-4. **Simulate** the canonical T-maze benchmark with exploration-exploitation tradeoff
-5. **Implement** online parameter learning through Dirichlet concentration updates (pA, pB)
-6. **Design** multi-agent simulations where agents observe and influence each other
-7. **Build** deep temporal models for planning over extended time horizons
-8. **Visualize** beliefs, prediction errors, EFE components, and free energy trajectories
+1.  A, B, C, D, E行列を使用して、`active_inference`ライブラリで完全なActive Inferenceエージェントを構築できること
+2.  固定点反復（変分信念更新）を使用して状態推定を実装できること
+3.  期待されるフリーエネルギー（G）を計算し、ソフトマックスを使用してポリシーを選択できること
+4.  探索と利用のトレードオフを示す、標準的なT-mazeベンチマークをシミュレーションできること
+5.  Dirichlet濃度更新（pA、pB）を通してオンラインパラメータ学習を実装できること
+6.  Active Inferenceエージェントが互いに観測し影響し合う多エージェントシミュレーションを設計できること
+7.  将来の時間の時間軸にわたる計画のための深層時間的モデルを構築できること
+8.  信念、予測誤差、EFEコンポーネント、フリーエネルギー軌跡を可視化できること
 
 ---
 
 ## Assessment Components
 
-| Component | Description | Frequency |
-|-----------|-------------|-----------|
-| Practice Quizzes | Part A: 7 multiple choice + Part B: 3 free response per module (code comprehension) | Weekly (8 total) |
-| Coding Labs | Hands-on implementation with running code | Weekly (8 total) |
-| Study Questions | 20 computational questions per module | Weekly (8 total) |
-| Final Project | Extended implementation project | End of course |
+| コンポーネント | 説明 | 頻度 |
+|---|---|---|
+| 練習クイズ | パートA：7つの選択肢＋パートB：各モジュールで3つの自由記述（コードの理解） | 毎週（合計8件） |
+| コーディングラボ | コードの実行を含む実践的な実装 | 毎週（合計8件） |
+| 調査問題 | 各モジュールあたり20個の計算問題 | 毎週（合計8件） |
+| 最終プロジェクト | 拡張された実装プロジェクト | コースの終了時 |
 
-### Final Project Options
+### 最終プロジェクトのオプション
 
-1. **Custom Environment**: Design and implement a novel Active Inference environment (not T-maze or gridworld) that demonstrates a specific cognitive phenomenon (e.g., foraging, social dilemma, perceptual rivalry)
-2. **Multi-Agent System**: Build a multi-agent simulation that demonstrates emergent communication, cooperation, or competition between Active Inference agents
-3. **Benchmarking Study**: Compare Active Inference agents against reinforcement learning baselines (Q-learning, SARSA) on a standard task, measuring sample efficiency, exploration behavior, and asymptotic performance
-4. **Visualization Tool**: Build an interactive dashboard that visualizes the internal dynamics of an Active Inference agent in real time (beliefs, EFE components, policy probabilities, learning curves)
+1.  **カスタム環境**: T-mazeまたはグリッドワールドではなく、特定の認知現象（例：採餌、社会的ジレンマ、知覚的競争）を示すActive Inferenceの新しい環境を設計および実装します。
+2.  **多エージェントシステム**: Active Inferenceエージェント間の出現するコミュニケーション、協力、または競争を示す多エージェントシミュレーションを構築します。
+3.  **ベンチマーク研究**: Q-learning、SARSAなどの強化学習のベースラインと比較して、標準的なタスクでActive Inferenceエージェントの効率性、探索行動、および漸近的なパフォーマンスを測定します。
+4.  **可視化ツール**: Active Inferenceエージェントの内部ダイナミクスをリアルタイムでインタラクティブに可視化するダッシュボードを構築します（信念、EFEコンポーネント、ポリシー確率、学習曲線）。
 
 ---
 
 ## Technical Setup
 
 ```bash
-# Navigate to the curriculum's CS course
+# Active Inferenceコースのディレクトリに移動
 cd active_inference/04_computer_science/
 
-# The custom active_inference library is in src/
-# Add to Python path:
+# カスタムactive_inferenceライブラリはsrc/にあります
+# Pythonパスに追加:
 import sys
 sys.path.insert(0, 'src')
 
-# Verify installation
+# インストールを確認
 from active_inference.agent import GenerativeModel, ActiveInferenceAgent
 from active_inference.math import compute_vfe, compute_efe
 from active_inference.visualization import plot_beliefs, plot_free_energy
@@ -94,12 +94,12 @@ pip install numpy matplotlib scipy jupyter
 
 ## Resources
 
-| Resource | Purpose |
-|----------|---------|
-| [Notation Table](../resources/notation_table.md) | Mapping between mathematical notation and code variables |
-| [Glossary](../resources/glossary.md) | Definitions with implementation notes |
-| [References](../resources/references.md) | Key papers and tutorial references |
-| [Cross-Course Map](../resources/cross_course_map.md) | Navigate to conceptual counterparts in other courses |
-| `src/active_inference/` | Custom library: agent/, math/, visualization/ subpackages |
-| [pymdp GitHub](https://github.com/infer-actively/pymdp) | Foundational library that inspired this implementation |
-| [pymdp JOSS Paper](https://joss.theoj.org/papers/10.21105/joss.04098) | Heins et al. (2022) — pymdp publication |
+| リソース | 目的 |
+|---|---|
+| [Notation Table](../resources/notation_table.md) | 数学記号とコード変数間のマッピング |
+| [Glossary](../resources/glossary.md) | 実装ノート付きの定義 |
+| [References](../resources/references.md) | キーとなる論文とチュートリアルリファレンス |
+| [Cross-Course Map](../resources/cross_course_map.md) | 他のコースの概念的な対応物へのナビゲーション |
+| `src/active_inference/` | カスタムライブラリ：agent/, math/, visualization/サブパッケージ |
+| [pymdp GitHub](https://github.com/infer-actively/pymdp) | この実装にインスパイアされた基礎となるライブラリ |
+| [pymdp JOSS Paper](https://joss.theoj.org/papers/10.21105/joss.04098) | Heins et al. (2022) — pymdp の出版 |

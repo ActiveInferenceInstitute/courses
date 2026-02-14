@@ -1,44 +1,44 @@
-# Module 01: Systems — Boundaries, Markov Blankets, and the Philosophy of Biology
+# モジュール 01: システム — 境界、マルコフブランケット、そして生物学の哲学
 
-## Learning Objectives
+## 学習目標
 
-1. Articulate how the concept of a **system** presupposes a boundary, and how Active Inference formalizes this through Markov Blankets.
-2. Trace the philosophical lineage of systems thinking from autopoiesis (Maturana & Varela) through enactivism to the Free Energy Principle.
-3. Evaluate the ontological status of system boundaries — are Markov Blankets "real" features of nature or useful fictions?
+1. 「システム」という概念が境界を前提としていること、そしてアクティブインファレンスがマルコフブランケットを通してこれを具体化していることを説明する。
+2. 自律性 (マチュラーナ & ベレラ) から能動的エンタビズムを経てフリーエネルギー原則に至るまで、システム思考の哲学的な起源を追跡する。
+3. マルコフブランケットは自然の「現実の」特徴なのか、それとも便利な虚構なのか、システム境界の存在論的地位を評価する。
 
-## Introduction
+## 導入
 
-What makes something a *system* rather than a mere collection of parts? A cell, a hurricane, a conversation — each seems to possess a coherent identity that persists through exchanges with its surroundings. In Active Inference, this intuition is formalized: a system is anything that can be distinguished from its environment by a **Markov Blanket** — a statistical boundary that separates internal states from external states while mediating their interaction through sensory and active states.
+何が「システム」であるかを決定する要因とは何だろう？ 細胞、ハリケーン、会話—それぞれが環境との交換を通して一貫したアイデンティティを維持しているように見える。アクティブインファレンスでは、この直感は形式化される：システムとは、**マルコフブランケット**—感覚状態 (**s**) と能動状態 (**a**) を介して内部状態と外部状態の相互作用を仲介し、感覚と能動状態を通して環境と区別できるものを指す統計的な境界のことである。
 
-This module explores the philosophical depth behind this apparently simple idea. We will see that the question "What is a system?" is not merely technical but deeply philosophical, touching on the nature of individuality, the boundaries of the self, and the relationship between living and non-living things.
+このモジュールでは、この見かけ上単純なアイデアの背後にある哲学的な深さを探求する。 “システムとは何か？”という問いは、単なる技術的な問題ではなく、個性の性質、自己の境界線、そして生と非生物の関係といった、深く哲学的な問題に触れていることに気づくはずだ。
 
-## Key Concepts
+## 主要な概念
 
-### 1. The Problem of Demarcation
+### 1. 分離の問題
 
-How do we distinguish a system from its environment? In classical science, boundaries are often taken for granted — the skin of an organism, the walls of a cell. But philosophers have long noted that boundaries are not self-evident. Merleau-Ponty observed that the body is not simply *in* the world like water in a glass; it is *of* the world, constituted through its transactions with the environment.
+システムと環境を区別するにはどうすればよいのか？ 古典科学では、境界線はしばしば前提として扱われる—生物の皮膚、細胞の壁など。しかし、哲学者は境界線が自明ではないことを長年指摘してきた。メルローポンティは、体が水のようにガラスの中に「いる」のではなく、「世界の一部」として環境との取引を通して構成されていると観察した。
 
-Active Inference addresses this through a formal concept: the **Markov Blanket**. A Markov Blanket is a set of states (sensory states **s** and active states **a**) that render the internal states **μ** conditionally independent of external states **η**. Formally: P(μ | s, a, η) = P(μ | s, a). This means internal states "know" about external states only through the blanket.
+アクティブインファレンスは、この問題を形式的な概念—**マルコフブランケット**—を通して解決する。マルコフブランケットとは、感覚状態 (**s**) と能動状態 (**a**) のセットであり、それが内部状態 (**μ**) を外部状態 (**η**) から条件付きで独立させる。形式的には、P(μ | s, a, η) = P(μ | s, a)である。これは、内部状態が外部状態について、ブランケットを通してのみ「知っている」ことを意味する。
 
-### 2. Autopoiesis and Self-Organization
+### 2. 自律性と自己組織化
 
-Maturana and Varela (1980) introduced **autopoiesis** — the idea that living systems are self-producing networks that generate and maintain their own boundaries. A cell produces its membrane; the membrane enables the chemical reactions that produce the membrane. This circular causality is the hallmark of life.
+マチュラーナとベレラ (1980) は**自律性**—生命体は自己生成ネットワークであり、独自の境界を生成し維持する—という概念を導入した。細胞は膜を生成し、膜は膜を生成する化学反応を可能にする。この循環的な因果関係は、生命のトレードマークである。
 
-The Free Energy Principle extends this insight mathematically: any system that persists over time *must* minimize its variational free energy, which is equivalent to maintaining its Markov Blanket — its boundary with the world. To exist is to resist dissolution; to resist dissolution is to minimize surprise.
+フリーエネルギー原則は、この洞察を数学的に拡張する：時間を通じて持続するシステムは、その変分フリーエネルギーを最小化*しなければならない*—これはマルコフブランケット—つまり、世界との境界を維持することに相当する。存在することとは、溶解に抵抗することであり、溶解に抵抗することとは、驚きを最小化することである。
 
-### 3. The Life-Mind Continuity Thesis
+### 3. 生命-意識の連続性
 
-If systems are defined by their boundaries, and maintaining boundaries requires a form of inference (minimizing free energy), then even the simplest living systems can be described as performing a rudimentary form of "cognition." This is the **life-mind continuity thesis** (Kirchhoff & Froese, 2017): there is no sharp line between being alive and having a mind; rather, mind is a natural extension of the self-organizing dynamics that characterize all living systems.
+システムが境界線によって定義され、境界線を維持するには推論 (フリーエネルギーの最小化) が必要である場合、最も単純な生命体もまた、ある程度の「認知」を行っていると記述できる。これは**生命-意識の連続性** (キルヒホフ & フロイセ、2017) である：生命と意識の間に明確な境界線はない—むしろ、意識はすべての生命体に特徴付けられる自己組織化ダイナミクスの自然な拡張である。
 
-This is a deeply contested claim. Critics argue it commits the "fallacy of equivocation" — conflating formal self-organization with genuine cognition. Proponents respond that it reveals a deep structural unity in nature.
+これは強く争われている主張である。批判者は「同音の謬誤」を犯していると主張する—形式的な自己組織化を本物の認知と混同する。擁護者は、これは自然の深い構造的な統一性を明らかにするものであると答える。
 
-## Applications
+## 応用
 
-In philosophy, the systems perspective illuminates:
+哲学において、システムからの視点は次のように照らし出す：
 
-* **The Ship of Theseus**: If a system's identity is constituted by its Markov Blanket dynamics rather than its material parts, the puzzle dissolves — identity is a pattern maintained through change, not a fixed substance.
-* **Extended Mind Hypothesis**: Clark and Chalmers (1998) argue that cognitive processes extend beyond the brain. From a Markov Blanket perspective, the relevant question becomes: where does the blanket lie? If tools are reliably coupled to internal states, they may fall within the agent's effective blanket.
+* **テュセーデスの船**: システムのアイデンティティがマルコフブランケットのダイナミクスによって構成され、その物質的な部分ではなく、維持される場合、パズルは解決される—アイデンティティは固定された物質ではなく、変化を通して維持されるパターンである。
+* **拡張されたマインド仮説**: クラークとチャルマーズ (1998) は、認知プロセスが脳を超えて及ぶと主張する。マルコフブランケットの視点からは、関連する質問は次のようになる：ブランケットはどこにあるのか？ ツールが内部状態と信頼できる方法で結合されている場合、それらはエージェントの有効なブランケット内に含まれる可能性がある。
 
-## Conclusion
+## 結論
 
-The concept of a system is not a starting point but a philosophical achievement. Active Inference shows that system boundaries are not arbitrary but emerge from the dynamics of self-organization and inference. In Module 02, we will move from the boundary to what lies within it — the agent, its models, and its capacity for self-reference.
+システムという概念は、出発点ではなく、哲学的な成果である。アクティブインファレンスは、システム境界が任意ではなく、自己組織化と推論のダイナミクスから生じることを示している。モジュール 02 では、境界線から内部—エージェント、モデル、自己参照能力へと移行する。

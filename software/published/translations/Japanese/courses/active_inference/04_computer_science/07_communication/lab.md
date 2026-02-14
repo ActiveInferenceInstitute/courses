@@ -1,40 +1,38 @@
-# Lab 07: Multi-Agent Signaling Game
+# Lab 07: 複数エージェントシグナリングゲーム
 
-## Objective
+## 目的
 
-Build a 2-agent signaling game, run it with learning, and measure emergent communication via mutual information.
+2エージェントのシグナリングゲームを構築し、学習を用いて実行し、相互情報による emergent コミュニケーションを測定する。
 
-## Prerequisites
+## 前提条件
 
-- Completed Labs 01–06
-- Understanding of mutual information and multi-agent dynamics
+- Lab 01～06 を完了する
+- 相互情報と多エージェントダイナミクスに関する理解
 
-## Part 1: Setting Up the Agents
+## Part 1: エージェントの設定
 
-**Goal**: Create sender and receiver agents for a 2-state signaling game.
+**目標**: 2状態のシグナリングゲームのための送信者と受信者エージェントを作成する。
 
-1. Define the sender's model: A = identity (observes true state), B = identity, C = [reward preference], D = uniform.
-2. Define the receiver's model: A = identity (maps signal to observation), B shaped by the sender's action, C = same reward preference.
-3. Instantiate both `ActiveInferenceAgent` instances with γ = 4.0.
+1. 送信者のモデルを定義する: A = 識別 (真のステートを観察), B = 識別, C = [報酬の好みを], D = 一様分布。
+2. 受信者のモデルを定義する: A = 識別 (信号を観察にマッピング), B は送信者の行動によって影響を受ける, C = 同じ報酬の好み。
+3. γ = 4.0 で `ActiveInferenceAgent` インスタンスの両方をインスタンス化する。
 
 ```python
 import numpy as np
 from active_inference.agent import GenerativeModel, ActiveInferenceAgent
 
-# TODO: Define sender and receiver models
-# TODO: Create agents
+# TODO: 送信者と受信者のモデルを定義する
+# TODO: エージェントを作成する
 ```
 
-**Response**: {fill:textarea}
+## Part 2: シグナリングループの実行
 
-## Part 2: Running the Signaling Loop
+**目標**: シグナリングゲームを100ラウンド実行する。
 
-**Goal**: Run 100 rounds of the signaling game.
-
-1. At each round: randomly sample a world state (0 or 1).
-2. Sender observes the state and selects a signal.
-3. Receiver observes the signal and selects a direction.
-4. Record success (receiver chose correct direction) and the (signal, state) pair.
+1. 各ラウンドで: ランダムにワールドステート (0 または 1) をサンプリングする。
+2. 送信者はステートを観察し、シグナルを選択する。
+3. 受信者はシグナルを観察し、方向を選択する。
+4. 成功 (受信者が正しい方向を選択した) と (シグナル, ステート) ペアを記録する。
 
 ```python
 signals = []
@@ -52,26 +50,22 @@ for t in range(100):
     successes.append(success)
 ```
 
-**Response**: {fill:textarea}
+## Part 3: 学習の追加
 
-## Part 3: Adding Learning
+**目標**: エージェントがコミュニケーションプロトコルを開発できるように、Dirichlet 学習を追加する。
 
-**Goal**: Add Dirichlet learning so agents can develop a communication protocol.
+1. 各ラウンドの後に、両方のエージェントに対して `update_dirichlet_A()` を追加する。
+2. 後の推論のための期待される A 行列を更新する。
+3. 学習を有効にした状態で200ラウンド実行する。
+4. ラウンド 1～50 とラウンド 151～200 での成功率を比較する。
 
-1. Add `update_dirichlet_A()` for both agents after each round.
-2. Update expected A-matrices for subsequent inference.
-3. Run 200 rounds with learning enabled.
-4. Compare success rate in rounds 1–50 vs rounds 151–200.
+## Part 4: 相互情報量の測定
 
-**Response**: {fill:textarea}
+**目標**: 時間経過に伴い、シグナルとワールドステート間の相互情報量を追跡する。
 
-## Part 4: Measuring Mutual Information
-
-**Goal**: Track mutual information between signals and world states over time.
-
-1. Compute MI using a sliding window of 20 rounds.
-2. Build the joint distribution from the windowed (signal, state) pairs.
-3. Plot MI over time. It should increase if communication emerges.
+1. スライディングウィンドウ (20ラウンド) を使用して相互情報量を計算する。
+2. ウィンドウ化された (シグナル, ステート) ペアから共分散分布を構築する。
+3. 相互情報量を時間とともにプロットする。 コミュニケーションがemergeした場合、増加するはず。
 
 ```python
 from active_inference.math import mutual_information
@@ -86,22 +80,18 @@ for t in range(window, len(signals)):
     mi_history.append(mutual_information(joint))
 ```
 
-**Response**: {fill:textarea}
+## Part 5: 分析質問
 
-## Part 5: Analysis Questions
+1. 相互情報量は時間とともに増加しましたか？ 最終的なMIは最大値 ($\ln 2 \approx 0.693$) と比較してどの程度でしたか？
+2. 送信者はワールドステートとシグナル間の一貫したマッピングを開発しましたか？ マッピングは何でしたか？
+3. 受信者の精度が80%を超えたまでに何ラウンド必要でしたか？
 
-1. Did mutual information increase over time? What was the final MI compared to the maximum ($\ln 2 \approx 0.693$)?
-2. Did the sender develop a consistent mapping between world states and signals? What was the mapping?
-3. How many rounds were needed before the receiver's accuracy exceeded 80%?
+## 要約
 
-**Response**: {fill:textarea}
-
-## Summary
-
-| Skill | Library Component | Status |
+| スキル | ライブラリコンポーネント | ステータス |
 |-------|------------------|--------|
-| Build multi-agent Active Inference systems | Multiple `ActiveInferenceAgent` instances | |
-| Implement a signaling game loop | Sender-receiver architecture | |
-| Add Dirichlet learning to multi-agent settings | `update_dirichlet_A()` per agent | |
-| Measure emergent communication | `mutual_information()` on joint distributions | |
-| Analyze communication development over time | Sliding-window MI tracking | |
+| 複数エージェントの Active Inference システムを構築する | 複数の `ActiveInferenceAgent` インスタンス | |
+| シグナリングゲームループを実装する | 送信者-受信者アーキテクチャ | |
+| 多エージェント設定で Dirichlet 学習を追加する | `update_dirichlet_A()` per エージェント | |
+| Emergent コミュニケーションを測定する | `mutual_information()` on 共分散分布 | |
+| コミュニケーション開発を時間経過とともに追跡する | スライディングウィンドウによる MI 追跡 | |

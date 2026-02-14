@@ -1,53 +1,53 @@
-# Module 5: Action — Policy Selection and Expected Free Energy Calculation
+# モジュール 5: 行動 — ポリシー選択と期待自由エネルギー計算
 
-> **Quick Navigation**: [← Cognition](../04_cognition/) | [Up](../) | [Learning →](../06_learning/)
+> **クイックナビゲーション**: [← 認知](../04_cognition/) | [上へ](../) | [学習 →](../06_learning/)
 
-## Computational Active Inference
+## 計算的活性推論
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Python Coding Exercise lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個のFR) |
+| [lab.md](./lab.md) | Python コーディング演習のラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです：
 
-1. Define **Action** from a computational perspective within Active Inference
-2. Explain the role of **Policy Selection and Expected Free Energy Calculation** in the FEP framework
-3. Connect action to the broader concepts of free energy minimization
-4. Apply computational reasoning to analyze real-world examples of action
+1. 活性推論における計算的な視点から**行動**を定義する
+2. FEP フレームワークにおける**ポリシー選択と期待自由エネルギー計算**の役割を説明する
+3. 行動をより広い概念である自由エネルギー最小化に結び付ける
+4. 現実世界の行動の例を分析するために計算的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 関連コース
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/05_action/) | Agency as Inference, Affordances, and Active Exploration |
-| [Cognitive Science](../../02_cognitive_science/05_action/) | Motor Control as Active Inference; Habits vs Goals |
-| [Mathematics](../../03_math/05_action/) | Expected Free Energy (G): Risk and Ambiguity Decomposition |
-| [Computer Science](../../04_computer_science/05_action/) | Policy Selection and Expected Free Energy Calculation ← **You are here** |
+| [哲学](../../01_philosophy/05_action/) | 代理人としての推論、機能と活性探索 |
+| [認知科学](../../02_cognitive_science/05_action/) | モーター制御を活性推論として；習慣と目標 |
+| [数学](../../03_math/05_action/) | 期待自由エネルギー (G)：リスクと曖昧さの分解 |
+| [コンピュータサイエンス](../../04_computer_science/05_action/) | ポリシー選択と期待自由エネルギー計算 ← **ここにいる** |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する主要な引用
 
 ---
 
-[← Cognition](../04_cognition/) | [Up](../) | [Learning →](../06_learning/)
+[← 認知](../04_cognition/) | [上へ](../) | [学習 →](../06_learning/)

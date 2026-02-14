@@ -1,51 +1,51 @@
-# Practice Quiz: Action
+# 練習クイズ：行動
 
-## Part A: Multiple Choice
+## 部門 A：選択式
 
-1. In Active Inference, motor commands are best understood as:
-A) Explicit signals from motor cortex to muscles specifying force and direction
-B) Precision-weighted proprioceptive predictions resolved by spinal reflex arcs
-C) Random motor outputs filtered by reinforcement learning
-D) Copies of sensory signals reflected back to the periphery
+1.  Active Inference において、運動命令は最もよく理解されるのは：
+    A) 運動皮質から筋肉への明示的な信号であり、力と方向を指定する
+    B) 脊髄反射弧によって解決される、精密な重み付けられたプロプリオセプティブ予測
+    C) 強化学習によってフィルタリングされたランダムな運動出力
+    D) 辺縁への反射的な感覚信号のコピー
 
-2. The spinal stretch reflex, in the Active Inference framework, functions as:
-A) A primitive safety mechanism unrelated to cognition
-B) The final stage of hierarchical inference — resolving prediction error between predicted and actual body position
-C) A feedback mechanism operating independently from cortical predictions
-D) A learned reflex that requires extensive practice
+2.  Active Inference の枠組みにおける脊髄のストレッチ反射は、機能する：
+    A) 認知とは無関係な原始的な安全メカニズム
+    B) 予測誤差を予測された体勢と実際の体勢の間に解決する階層的推論の最終段階
+    C) 皮質予測とは独立して動作するフィードバック機構
+    D) 大量の練習が必要な学習された反射
 
-3. Active sensing (e.g., saccadic eye movements) is driven by:
-A) Random exploration of the visual field
-B) Expected Free Energy — moving the eyes to locations that maximally reduce expected ambiguity
-C) Bottom-up visual contrast only
-D) Social cues about where to look
+3.  Active Sensing (例: サクラデジ) は、主に駆動される：
+    A) 視覚フィールドのランダムな探索
+    B) 期待される自由エネルギー - 期待される曖昧さを最大化するように目を動かす場所
+    C) 下からの視覚コントラストのみ
+    D) 見るべき場所についての社会的手がかり
 
-4. Bradykinesia in Parkinson's disease is explained in Active Inference as:
-A) Muscle weakness from motor neuron degeneration
-B) Reduced precision on motor predictions due to dopamine loss — the brain cannot commit to a single motor plan
-C) Excessive motor predictions leading to uncontrolled movement
-D) An emotional reluctance to move
+4.  パーキンソン病における緩慢症は、Active Inference において説明される：
+    A) 運動ニューロンの変性による筋肉の弱さ
+    B) ドーパミン喪失による運動予測の精度低下 - 脳は単一の運動計画にコミットできない
+    C) 過剰な運動予測による制御不能な運動
+    D) 移動を拒む感情的な躊躇
 
-5. Functional motor disorder (paralysis with no neurological cause) is explained as:
-A) A psychological choice to not move
-B) A strong prior belief about inability that overrides motor predictions through high precision
-C) Subclinical damage too small to detect on MRI
-D) A purely linguistic misunderstanding of the patient's symptoms
+5.  機能性運動障害（神経学的原因のない麻痺）は、説明される：
+    A) 移動をしない心理的な選択
+    B) 運動予測を上回る高い精度による能力に関する強い先入観
+    C) MRI で検出できない軽微なサブ臨床損傷
+    D) 患者の症状に対する純粋な言語的な誤解
 
-6. In the visuomotor adaptation paradigm (prism glasses), the "aftereffect" occurs because:
-A) The muscles have become physically reshaped
-B) The generative model has updated to expect the prism-shifted mapping, producing errors when the prisms are removed
-C) The participant consciously remembers the prism shift
-D) The cerebellum has been permanently altered
+6.  ビズューモטור適応パラダイム（プリズムメガネ）における「アフターエフェクト」は、なぜ発生するのか：
+    A) 筋肉が物理的に再形成された
+    B) プリズムシフトされたマッピングを期待するように生成モデルが更新され、プリズムを取り外したときにエラーが発生する
+    C) 参加者はプリズムシフトを意識的に記憶している
+    D) 小脳が永久に変更された
 
-7. Mirror neuron activity during action observation can be interpreted as:
-A) The brain automatically predicting the motor trajectory of the observed action
-B) Simple imitation with no inferential component
-C) Emotional contagion unrelated to motor prediction
-D) An artifact of fMRI methodology
+7.  行動観察中のミラーニューロンの活動は、解釈される：
+    A) 観察された行動の運動軌跡を脳が自動的に予測する
+    B) 推論成分のない単純な模倣
+    C) 運動予測とは無関係な感情感染
+    D) fMRI 手法の一種のアーティファクト
 
-## Part B: Short Answer
+## 部門 B：記述式
 
-1. Compare optimal control theory (computing motor commands to minimize a cost function) with Active Inference (generating proprioceptive predictions resolved by reflexes). What is the key conceptual difference?
-2. A patient with functional tremor shows tremor that changes frequency when distracted. Explain why this is consistent with the Active Inference account (the prior belief about inability competes with other cognitive demands for precision) but inconsistent with a neurological tremor.
-3. Design a brief experiment using eye-tracking to test whether saccadic patterns in visual search are better predicted by Expected Free Energy (ambiguity reduction) or by bottom-up saliency (visual contrast).
+1.  最適な制御理論（コスト関数を最小化する運動命令を計算する）と Active Inference（反射によって解決されるプロプリオセプティブ予測を生成する）を比較してください。その主な概念的な違いは何ですか？
+2.  機能性振戦を示す患者は、気を散らすと振戦の周波数が変化します。これは、Active Inference の説明と一致する理由（能力に関する先入観が他の認知的な要求と精度を競合する）と、神経学的振戦とは異なる理由を説明してください。
+3.  眼軸追跡を使用した実験を設計して、期待される自由エネルギー（曖昧さの削減）または下からの視覚的な注目（視覚的なコントラスト）によってサクラデジのパターンがより良く予測されるかどうかをテストします。

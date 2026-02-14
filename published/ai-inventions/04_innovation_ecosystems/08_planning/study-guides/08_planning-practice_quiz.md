@@ -1,0 +1,60 @@
+# Practice Quiz — Long-Term Innovation Strategy
+
+## Part A: Multiple Choice
+
+1. A technology roadmap functions in Active Inference as:
+
+A) A fixed schedule of product releases
+B) A hierarchical planning model with predictions at multiple time horizons and explicit conditions for plan revision
+C) A marketing document for investors
+D) A regulatory compliance requirement
+
+2. The three-horizon portfolio framework recommends separating investments because:
+
+A) Tax regulations require investment categorization
+B) Each horizon requires a different model of success, evaluation criteria, and management approach
+C) Only Horizon 1 investments are worth making
+D) Horizon 3 investments always fail
+
+3. Organizations naturally drift toward exploitation rather than exploration because:
+
+A) Exploitation is always more valuable than exploration
+B) Exploitation produces short-term returns that reinforce themselves, while exploration's returns are uncertain and delayed
+C) Regulatory environments prevent exploration
+D) Customers prefer companies that do not innovate
+
+4. In Stage-Gate innovation management, early-stage gates should:
+
+A) Require the same level of evidence as late-stage gates
+B) Be more permissive, requiring low-precision evidence, because early-stage ideas have not yet had opportunity to generate high-precision evidence
+C) Automatically approve all ideas to maximize pipeline volume
+D) Be more demanding to save resources by killing weak ideas early
+
+5. Alphabet X's "monkey-first" approach means:
+
+A) Using animals in product testing
+B) Identifying and testing the highest-uncertainty component of a plan before investing in lower-uncertainty components
+C) Prioritizing the most fun aspects of development
+D) Starting with the easiest part of the project to build momentum
+
+6. "Commander's intent" in innovation planning means:
+
+A) The CEO makes all tactical decisions
+B) Specifying the desired end state and key constraints while allowing flexible adaptation of specific plans
+C) Following military organizational structure
+D) Keeping the strategic plan secret from most employees
+
+7. Microsoft's pivot to "cloud-first, mobile-first" under Nadella demonstrates:
+
+A) That strategic planning is unnecessary
+B) Successful adaptive strategy — restructuring the generative model in response to accumulated prediction errors about the Windows-centric model
+C) That leadership changes always improve company performance
+D) That cloud computing was an obvious bet with no uncertainty
+
+## Part B: Short Answer and Analysis
+
+8. Elon Musk's Tesla Master Plan specified a sequence of vehicles (Roadster, Model S, Model 3) where each stage generated the resources and evidence needed for the next. Analyze this as a hierarchical Active Inference plan: (a) how does each stage reduce the uncertainty of the next, (b) what was the "monkey" that could have invalidated the entire plan, and (c) what evidence would have triggered plan revision at each stage?
+
+9. 3M's innovation culture maintains a "15% rule" (employees spend 15% of time on self-directed projects) and a target that 30% of revenue comes from products introduced in the last four years. Analyze these policies as organizational mechanisms for balancing exploration and exploitation. What Active Inference function does each policy serve? What risks would the company face if it eliminated either policy?
+
+10. You are leading a cleantech startup with a 10-year vision for decarbonizing industrial heating. Design an adaptive innovation strategy that includes: (a) a three-milestone roadmap with explicit uncertainty and revision conditions, (b) a portfolio allocation across the three horizons, (c) one structural mechanism to protect exploration, and (d) a "commander's intent" statement that guides decision-making when specific plans must change. Frame your entire strategy in Active Inference terms.

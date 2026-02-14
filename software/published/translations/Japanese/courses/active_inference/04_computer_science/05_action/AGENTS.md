@@ -1,25 +1,25 @@
-# Module 5: Action — Agent Guidelines
+# モジュール 5: 行動 — エージェント ガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コース エージェント](../AGENTS.md) | [カリキュラム エージェント](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Policy Selection and Expected Free Energy Calculation |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Action) |
-| `lab.md` | File | Python Coding Exercise: Policy Selection and Expected Free Energy Calculation |
-| `dashboard.html` | File | Interactive dashboard: Action |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル — モジュールエージェントガイドライン |
+| `module.md` | ファイル | 全講義: ポリシー選択と期待される自由エネルギー計算 |
+| `questions.md` | ファイル | 20 の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7 個のMC + 3 個のFR (行動) |
+| `lab.md` | ファイル | Python コーディング演習: ポリシー選択と期待される自由エネルギー計算 |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード: 行動 |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Computational
-- **Topic**: Action — Policy Selection and Expected Free Energy Calculation
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/05_action/module.md` for parallel modules
+- **視点**: 計算論的な
+- **トピック**: 行動 — ポリシー選択と期待される自由エネルギー計算
+- **記号**: [notation_table.md](../../resources/notation_table.md) にて
+- **用語**: [glossary.md](../../resources/glossary.md) にて
+- **相互参照**: `../../XX_course/05_action/module.md` へのリンクで、並行モジュールを参照

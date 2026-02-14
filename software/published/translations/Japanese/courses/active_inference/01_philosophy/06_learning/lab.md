@@ -1,77 +1,77 @@
-# Lab: Thought Experiment — Learning, Transformation, and Niche Construction
+# 実験室：思考実験—学習、変容、およびニッチ建設
 
-## Objective
+## 目的
 
-Investigate the philosophical implications of learning as self-transformation and niche construction through structured thought experiments.
+構造化された思考実験を通じて、学習を自己変容とニッチ建設として捉え、その哲学的な意味合いを調査する。
 
-## Part 1: The Apprentice's Transformation
+## 第1部：調教生の変容
 
-**Goal**: Analyze learning as self-transformation, not mere information acquisition.
+**目標**: 学習を自己変容として分析し、単なる情報収集ではないことを検討する。
 
-Consider a medical student who, after years of training, can look at a patient and immediately recognize the signs of a disease invisible to the untrained eye.
+訓練の数年を経て、患者を診察し、未訓練の目には見えない病気の兆候を即座に認識できる医師の学生を考えてみよう。
 
-- Has the student acquired new *information* or become a new *kind of perceiver*? What is the philosophical difference?
-- How does Active Inference formalize this transformation (hint: generative model restructuring, precision changes)?
-- Does the student who graduated remember what it was like *not* to see the disease? What does this suggest about the nature of learning?
-
-{fill:textarea}
-
-## Part 2: Niche Construction — The Built Environment
-
-**Goal**: Explore how agents transform their environments to reduce surprise.
-
-Humans build houses, write books, create institutions, and establish laws. Each of these is a form of niche construction — restructuring the environment to make it more predictable.
-
-- Choose one human niche construction activity (e.g., writing a calendar, building a road, creating a law). Analyze it as an Active Inference strategy: how does it reduce expected surprise?
-- Is niche construction "cheating" — avoiding the need to learn by making the environment simpler? Or is it the most sophisticated form of learning?
-- How does this relate to Clark's concept of "cognitive scaffolding"?
+- 学生は新しい*情報*を獲得したのか、それとも新しい*認識様式*となったのか？その哲学的な違いとは何か？
+- Active Inferenceは、この変容をどのように形式化するのか（ヒント：生成モデルの再構成、精度変化）？
+- 卒業した学生は、病気を認識しなかった状態を覚えているのだろうか？それは学習の本質について何を示唆しているのだろうか？
 
 {fill:textarea}
 
-## Part 3: The Paradigm Shift
+## 第2部：ニッチ建設—構築された環境
 
-**Goal**: Apply structure learning to revolutionary changes in worldview.
+**目標**: エージェントが驚きを減らすために環境をどのように変化させるかを探求する。
 
-Kuhn argued that scientific revolutions involve not merely new data but a change in the entire framework for interpreting data — a "paradigm shift." Before and after the shift, scientists literally "see" different things.
+人間は家を建て、本を書いたり、機関を設立したり、法律を制定したりする。これらのすべてはニッチ建設の一形態であり、環境をより予測可能にするために再構成することである。
 
-- How does Bayesian Model Reduction (BMR) — comparing nested models and selecting the one with best evidence — relate to Kuhn's account?
-- Is a paradigm shift more like parameter learning (refining existing predictions) or structure learning (changing the model itself)?
-- Can BMR explain why paradigm shifts are often resisted? What does "resistance to learning" look like in Active Inference terms?
-
-{fill:textarea}
-
-## Part 4: Personal Identity Under Transformation
-
-**Goal**: Engage with the philosophical problem of identity through change.
-
-If I am my generative model, and my generative model changes through learning, am I still the same person? Consider the case of a profound life experience (e.g., becoming a parent, surviving a trauma) that fundamentally restructures one's priorities and perceptions.
-
-- Is the post-learning agent the "same" agent as the pre-learning one?
-- How does this relate to Parfit's concept of personal identity as a matter of psychological continuity rather than substance identity?
-- Write a 100-word reflection on a learning experience that changed who you are, not just what you know.
+- カレンダーを作成したり、道路を建設したり、法律を制定したりするなど、人間のニッチ建設活動の1つを選択する。Active Inferenceの戦略として分析し、期待される驚きをどれだけ減少させるのか？
+- ニッチ建設は「ズル」なのか？学習の必要性を回避するために、環境を単純化しているのか？あるいは、最も洗練された学習の形なのか？
+- これは、クラークの「認知的な支柱」という概念とどのように関連しているのか？
 
 {fill:textarea}
 
-## Part 5: Synthesis and Position Defense
+## 第3部：パラダイムシフト
 
-**Goal**: Articulate your philosophical position on learning.
+**目標**: 世界観における革命的な変化に構造学習を適用する。
 
-Write a 200-word statement on one of:
+クーンは、科学革命が単に新しいデータだけでなく、データの解釈のための枠組み全体の変化であると主張した—“パラダイムシフト”。シフトの前後で、科学者は文字通り「異なるもの」を見る。
 
-- "Learning is the most philosophically radical concept in Active Inference because it implies the agent's identity is always in flux."
-- "Niche construction is just as important as perception and action — and philosophy has neglected it."
-- "Bayesian Model Reduction captures the logic of paradigm shifts better than Kuhn's own account."
-
-Share with a peer and defend against their strongest objection.
+- 埋め込みモデルと最適な証拠を持つモデルを選択するBayesian Model Reduction (BMR) は、クーンの説明とどのように関連しているのか？
+- パラメータ学習（既存の予測を微調整する）と構造学習（モデル自体を変更する）のどちらが、パラダイムシフトをよりよく捉えているのか？
+- BMRは、なぜパラダイムシフトはしばしば抵抗されるのかを説明できるのか？Active Inferenceの用語で「学習への抵抗」とはどのようなものか？
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：変容下での自己同一性
 
-| Part | Skill Developed | Key Philosophical Move |
+**目標**: 変容を通じて同一性という哲学的な問題を検討する。
+
+もし私が私の生成モデルであり、私の生成モデルが学習によって変化するなら、私は依然として同じ人なのか？親になる、またはトラウマを経験するなど、根本的に優先順位と認識を再構成するような、深刻な人生経験を考慮してみよう。
+
+- 学習後のがエージェントは、学習前のエージェントと「同じ」エージェントなのか？
+- これは、パファティの自己同一性の概念（物質的な同一性ではなく、心理的な連続性として）とどのように関連しているのか？
+- あなたが変化した、知識だけでなくあなた自身を変えた学習経験についての100語の考察を書いてください。
+
+{fill:textarea}
+
+## 第5部：統合と立場擁護
+
+**目標**: 学習に関する哲学的な立場を明確にする。
+
+以下のいずれかの内容で200語の声明を作成する：
+
+- 「Active Inferenceにおける学習は、エージェントの同一性が常に変動していることを意味するため、最も哲学的に根本的な概念である。」
+- 「ニッチ建設は感覚と行動と同じくらい重要であり、哲学はそれを軽視してきた。」
+- 「Bayesian Model Reductionは、クーン自身の説明よりも、パラダイムシフトのロジックをよりよく捉えている。」
+
+ピアと共有し、最も強い異議を唱えることによって擁護する。
+
+{fill:textarea}
+
+## 実験室概要
+
+| 部 | 開発されたスキル | キーとなる哲学的な動き |
 |------|----------------|----------------------|
-| 1 | Transformation analysis | Distinguishing information acquisition from perceptual transformation |
-| 2 | Environmental analysis | Analyzing niche construction as a cognitive strategy |
-| 3 | History of science reasoning | Connecting structure learning to paradigm shifts |
-| 4 | Identity reasoning | Examining personal identity under transformative learning |
-| 5 | Position defense | Constructing and defending a philosophical position on learning |
+| 1 | 変容分析 | 情報収集と認識変容の区別 |
+| 2 | 環境分析 | ニッチ建設を認知戦略として分析 |
+| 3 | 科学史の推論 | 構造学習とパラダイムシフトの関連付け |
+| 4 | 識別分析 | 変容的な学習の下での自己同一性を探求 |
+| 5 | 立場擁護 | 学習に関する哲学的な立場を構築し擁護 |

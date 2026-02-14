@@ -1,22 +1,22 @@
-# Study Questions: Agents
+# エージェントに関する学習問題
 
-1. What is interoception, and why does Seth (2013) argue it is fundamental to the sense of self?
-2. Describe the role of the anterior insular cortex in interoceptive inference. What signals does it process?
-3. How does the rubber hand illusion demonstrate that body ownership is an inference?
-4. Explain how Active Inference accounts for the rubber hand illusion in terms of multisensory prediction error minimization.
-5. What is depersonalization disorder? How does Active Inference explain it in terms of precision on interoceptive predictions?
-6. What is body integrity identity disorder (BIID)? How does Active Inference explain the mismatch between the body and the body model?
-7. How might the Active Inference framework account for phantom limb experiences?
-8. What is alexithymia, and how does it relate to interoceptive inference?
-9. How does the vagus nerve contribute to the brain's self-model? What role does the parasympathetic nervous system play?
-10. Compare the Active Inference account of self-model with Damasio's somatic marker hypothesis. Are they compatible?
-11. How does the brain distinguish between signals originating from inside the body and signals from the external environment?
-12. What is the role of heartbeat-evoked potentials (HEP) in the neuroscience of self-awareness?
-13. How does interoceptive sensitivity vary across individuals, and what cognitive consequences does this variation have?
-14. How does the concept of allostasis (maintaining internal stability through change) relate to the self-model in Active Inference?
-15. How might developmental changes in the self-model explain the gradual emergence of self-recognition in infants (mirror test)?
-16. What neural evidence supports the claim that the anterior insula integrates interoceptive and exteroceptive signals?
-17. How does Active Inference explain out-of-body experiences? What has gone wrong in the generative model?
-18. Compare the Active Inference self-model with the Buddhist concept of *anattā* (no-self). Is the mapping appropriate?
-19. How does emotional experience relate to interoceptive inference? Is an emotion a "prediction about interoceptive causes"?
-20. Design a study that could test whether manipulating interoceptive precision (e.g., through breathing exercises) alters the strength of the rubber hand illusion.
+1.  内因受容とは何で、セト（2013）はなぜそれが自己の感覚と関連付けられているという根本的なものだと主張するのでしょうか？
+2.  前皮質島皮質が内因受容的な推論においてどのような役割を果たしているのか説明してください。どのような信号を処理しますか？
+3.  ゴムの手の錯覚が所有感覚が推論であることをどのように示しているのでしょうか？
+4.  アクティブ・インファーレンスが、マルチセンサリー予測誤差最小化の観点からゴムの手の錯覚をどのように説明するのか説明してください。
+5.  解離性人格障害とは何ですか？アクティブ・インファーレンスは、内因受容予測の精度に関する観点からそれをどのように説明しますか？
+6.  身体完全性同一性障害（BIID）とは何ですか？アクティブ・インファーレンスは、身体と身体モデルの間の不一致をどのように説明しますか？
+7.  アクティブ・インファーレンス枠組みが麻痺性肢の経験をどのように説明できるでしょうか？生成モデルで何がうまくいっていないのでしょうか？
+8.  解離性情動障害とは何で、内因受容的な推論とどのように関連していますか？感情は「内因受容の原因に関する予測」でしょうか？
+9.  迷走神経は脳の自己モデルにどのように貢献していますか？交感神経系はどのような役割を果たしますか？
+10. アクティブ・インファーレンスの自己モデルとダマシオの体性マーカー仮説を比較してください。それらは互換性があるのでしょうか？
+11. 脳は、身体の内側から来る信号と外部環境から来る信号をどのように区別するのでしょうか？
+12. 自己認識の神経科学における心拍数誘発電位（HEP）の役割は何ですか？
+13. 内因受容の感受性が個人間でどのように変化し、その変化は認知的な結果は何をもたらすのでしょうか？
+14. 全所作性（変化を通して内部の安定を維持する概念）は、アクティブ・インファーレンスの自己モデルとどのように関連しているのでしょうか？
+15. 自己モデルにおける発達的な変化が、赤ちゃんの鏡テストにおける自己認識の段階的な出現をどのように説明できるでしょうか？
+16. 前皮質島皮質が内因受容的および外因受容的信号を統合することを示す神経学的証拠は何ですか？
+17. アクティブ・インファーレンスが体外体験をどのように説明するのでしょうか？生成モデルで何がうまくいっていないのでしょうか？
+18. アクティブ・インファーレンスの自己モデルと仏教の概念である*anattā*（無我）を比較してください。そのマッピングは適切でしょうか？
+19. 感情的な経験は内因受容的な推論とどのように関連していますか？感情は「内因受容の原因に関する予測」でしょうか？
+20. 内因受容の精度（例えば、呼吸法によって）を操作することで、ゴムの手の錯覚の強さが変化するかどうかをテストできるような研究を設計してください。

@@ -150,6 +150,28 @@ Write a brief prototype specification using the template below:
 
 ---
 
+## Part 6: The "What If I Am Wrong?" Exercise (5 minutes)
+
+**Goal**: Stress-test your prototype specification by imagining it fails.
+
+Imagine that you build the prototype described in Part 5 and it fails completely — the observation during testing is the opposite of your success criteria. Work backward:
+
+What could cause this failure? Is there a variable you excluded from the Markov blanket that might actually be critical?
+
+{fill:textarea}
+
+Would this failure be a parameter error (your hypothesis was right but the specific values were wrong) or a structure error (your fundamental approach is wrong)?
+
+{fill:textarea}
+
+If the failure is structural, what entirely different prototype might you need to build? Would it have a different Markov blanket?
+
+{fill:textarea}
+
+This exercise is designed to prepare you for the possibility of failure before you invest in building. An inventor who has imagined failure in advance is better equipped to recognize and learn from it when it occurs (see Module 06 on learning from failure).
+
+---
+
 ## Discussion and Debrief
 
 Reflect on the following questions. If working in a group, discuss with your peers:

@@ -1,25 +1,25 @@
-# Module 2: Agents — Agent Guidelines
+# モジュール2：エージェント — エージェント ガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コース AGENTS](../AGENTS.md) | [カリキュラム AGENTS](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: The Agent Class: States, Observations, and Actions in pymdp |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Agents) |
-| `lab.md` | File | Python Coding Exercise: The Agent Class: States, Observations, and Actions in pymdp |
-| `dashboard.html` | File | Interactive dashboard: Agents |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル — モジュールエージェントガイドライン |
+| `module.md` | ファイル | 完全な講義: クラス エージェント: States, Observations, and Actions in pymdp |
+| `questions.md` | ファイル | 20 の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7 個の MC + 3 個の FR (エージェント) |
+| `lab.md` | ファイル | Python コーディング演習: クラス エージェント: States, Observations, and Actions in pymdp |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード: エージェント |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Computational
-- **Topic**: Agents — The Agent Class: States, Observations, and Actions in pymdp
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/02_agents/module.md` for parallel modules
+- **視点**: 計算論的な
+- **トピック**: エージェント — クラス エージェント: States, Observations, and Actions in pymdp
+- **記号**: [notation_table.md](../../resources/notation_table.md) に基づく
+- **用語**: [glossary.md](../../resources/glossary.md) に基づく
+- **クロス参照**: `../../XX_course/02_agents/module.md` へのリンク（並行モジュール用）

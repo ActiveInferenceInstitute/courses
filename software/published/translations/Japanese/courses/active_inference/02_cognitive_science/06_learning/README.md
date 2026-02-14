@@ -1,52 +1,52 @@
-# Module 6: Learning — Synaptic Plasticity as Parameter Updating; Dopamine
+# モジュール6：学習 - シナプティックプラスティシズムをパラメータ更新として；ドーパミン
 
-> **Quick Navigation**: [← Action](../05_action/) | [Up](../) | [Communication →](../07_communication/)
+> **クイックナビゲーション**: [← Action](../05_action/) | [Up](../) | [Communication →](../07_communication/)
 
-## Cognitive Behavioral Science & Active Inference
+## 認知行動科学と能動的推論
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Experimental Analysis lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個のFR) |
+| [lab.md](./lab.md) | 実験分析ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュール終了までに、あなたは以下のことができるようになるはずです：
 
-1. Define **Learning** from a cognitive-behavioral perspective within Active Inference
-2. Explain the role of **Synaptic Plasticity as Parameter Updating; Dopamine** in the FEP framework
-3. Connect learning to the broader concepts of free energy minimization
-4. Apply cognitive-behavioral reasoning to analyze real-world examples of learning
+1.  能動的推論における認知行動科学的な観点から「学習」を定義する
+2.  FEPフレームワークにおける「シナプティックプラスティズムをパラメータ更新として；ドーパミン」の役割を説明する
+3.  フリーエネルギー最小化のより広い概念と学習を結びつける
+4.  学習の実際の例を分析するために認知行動科学的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 関連コース
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/06_learning/) | Epistemic Growth, Niche Construction, and the Evolution of Self |
-| [Cognitive Science](../../02_cognitive_science/06_learning/) | Synaptic Plasticity as Parameter Updating; Dopamine ← **You are here** |
-| [Mathematics](../../03_math/06_learning/) | Gradient Descent on VFE, Bayesian Model Reduction |
-| [Computer Science](../../04_computer_science/06_learning/) | Parameter Updating: Learning A and B Matrices from Experience |
+| [Philosophy](../../01_philosophy/06_learning/) | 認識的成長、ニッチ構築、そして自己の進化 |
+| [Cognitive Science](../../02_cognitive_science/06_learning/) | シナプティックプラスティズムをパラメータ更新として；ドーパミン ← **現在地** |
+| [Mathematics](../../03_math/06_learning/) | VFEにおける勾配降下、ベイズモデル削減 |
+| [Computer Science](../../04_computer_science/06_learning/) | 経験からAとB行列を学習するパラメータ更新 |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [Notation Table](../../resources/notation_table.md) — シンボル定義
+- [Glossary](../../resources/glossary.md) — 用語定義
+- [References](../../resources/references.md) — このモジュールのキー引用
 
 ---
 

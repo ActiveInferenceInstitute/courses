@@ -1,53 +1,53 @@
-# Practice Quiz: Action
+# 行動 練習クイズ
 
-## Part A: Multiple Choice
+## Part A: 選択肢
 
-1. Expected Free Energy $G(\pi)$ is minimized by policies that:
-A) Maximize reward
-B) Lead to preferred and informative outcomes
-C) Maintain the current state
-D) Increase entropy
+1. 期待される自由エネルギー $G(\pi)$ は、次のポリシーによって最小化されますか？
+A) 報酬を最大化する
+B) 優先順位が高く、情報的な結果につながる
+C) 現在の状態を維持する
+D) エントロピーを増加させる
 
-2. The risk component of EFE measures:
-A) The KL divergence between predicted and preferred observations
-B) The entropy of the posterior
-C) The agent's model accuracy
-D) The transition probability
+2. EFE（期待自由エネルギー）のリスク成分は、次のものを測定しますか？
+A) 予測と優先順位の高い観測物間のKLダイバージェンス
+B) 事後エントロピー
+C) エージェントのモデル精度
+D) 遷移確率
 
-3. The ambiguity component of EFE is the:
-A) KL divergence between the posterior and prior
-B) Expected conditional entropy of the A-matrix along the policy's predicted states
-C) Entropy of the C-vector
-D) Mutual information between states and observations
+3. EFE（期待自由エネルギー）の曖昧性成分は、次のものですか？
+A) 事後と事前間のKLダイバージェンス
+B) ポリシーが予測する状態に沿ってA行列の条件付き期待エントロピー
+C) Cベクトルのエントロピー
+D) 状態と観測物間の相互情報量
 
-4. In the T-maze, the agent visits the cue location because:
-A) The cue has the highest C-value
-B) The cue reduces ambiguity — it resolves which arm has the reward
-C) The agent always visits all states
-D) The B-matrix forces the transition
+4. Tマズにおいて、エージェントはヒントの場所に訪問するのはなぜですか？
+A) ヒントは最高のC値を持ちます
+B) ヒントは曖昧さを解消します—報酬のある腕を解決します
+C) エージェントは常にすべての状態を訪問します
+D) B行列が遷移を強制します
 
-5. `run_policy_inference()` returns `q_pi` which is:
-A) A vector of EFE values
-B) A probability distribution over policies
-C) The selected action index
-D) The prior over policies
+5. `run_policy_inference()` は `q_pi` を返します—これは：
+A) EFEの値のベクトル
+B) ポリシーに関する確率分布
+C) 選択されたアクションのインデックス
+D) ポリシーに関する事前分布
 
-6. If the A-matrix is the identity (fully observable), the ambiguity for all policies is:
-A) Maximum
-B) Equal to the risk
-C) Zero
-D) Undefined
+6. A行列がアイデンティティ（完全に観測可能）の場合、すべてのポリシーにおける曖昧さは：
+A) 最大
+B) リスクに等しい
+C) ゼロ
+D) 定義されない
 
-7. The softmax function in policy selection converts:
-A) Positive EFE values to probabilities
-B) Negative-γ-scaled EFE values (plus log-E) to probabilities
-C) Observation likelihoods to beliefs
-D) C-vector to preferred distribution
+7. ポリシー選択におけるソフトマックス関数は、次のものを変換しますか？
+A) 肯定的なEFE値を確率に変換する
+B) -γでスケーリングされたEFE値を（+log-E）確率に変換する
+C) 観測の尤度を信念に変換する
+D) Cベクトルを優先分布に変換する
 
-## Part B: Short Answer
+## Part B: 記述式
 
-1. A 2-state agent has $q(s) = [1, 0]$, $A = I$, $B_{a=0} = I$, $C = [3, -3]$. Compute $G(a = 0)$ by hand, showing risk and ambiguity separately.
+1. 2状態のエージェントは、$q(s) = [1, 0]$、$A = I$、$B_{a=0} = I$、$C = [3, -3]$ です。リスクと曖昧さを個別に示して、手動で$G(a = 0)$を計算してください。
 
-2. Explain why an agent with `C = np.zeros(num_obs)` and a noisy A-matrix still takes non-random actions. What drives its behavior and which EFE component is responsible?
+2. $C = np.zeros(num_obs)$とノイズのあるA行列を持つエージェントが、ランダムでない行動をとる理由を説明してください。その行動を駆動するものは何で、どのEFE成分が責任を負っていますか？
 
-3. Describe the full path from observation to action in a single `agent.step(obs)` call. List every function invoked, what it computes, and what data flows between them.
+3. 単一の `agent.step(obs)` の呼び出しにおける、観測からアクションへの完全なパスを記述してください。呼び出されたすべての関数、計算内容、およびそれらの間のデータフローをリストしてください。

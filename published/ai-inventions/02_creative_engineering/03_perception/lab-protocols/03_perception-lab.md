@@ -14,7 +14,7 @@ Practice the perceptual skills that underpin creative invention: detecting predi
 
 ## Part 1: The Generic Parts Technique (10 minutes)
 
-Functional fixedness locks you into seeing objects by their conventional function. The Generic Parts Technique breaks this by describing objects purely by physical properties.
+Functional fixedness locks you into seeing objects by their conventional function. The Generic Parts Technique breaks this by describing objects purely by physical properties. This technique was developed by cognitive scientists studying creative problem solving and has been shown to significantly increase the number and novelty of alternative uses people can generate for common objects. The key mechanism is simple: when you remove the functional label from an object, you reduce the precision of your categorical priors about what the object "is for," making alternative functions perceptible. This is not a metaphorical exercise — it produces measurable changes in creative output.
 
 **Step 1 (3 min):** Take the household object you selected. Write its conventional name and function:
 
@@ -70,6 +70,8 @@ Reflection: How did stripping the conventional label change what you could see? 
 
 ## Part 2: Cross-Domain Pattern Recognition (15 minutes)
 
+Cross-domain pattern recognition is the ability to see structural similarities between systems in completely different domains. This capacity underlies many of history's most important inventions: the Wright brothers applied bird flight principles to airplane control, de Mestral applied burr hook-and-loop mechanisms to fastener design, and Nakatsu applied kingfisher beak morphology to bullet train nose design. The skill is not innate — it is developed by exposing yourself to diverse domains and practicing the abstraction of structural principles from specific instances. In this exercise, you will deliberately search for structural analogies to your invention problem across three different domains.
+
 **Step 1 (5 min):** Describe your invention idea in one paragraph. Focus on the core PROBLEM you are trying to solve, not your current solution:
 
 
@@ -120,7 +122,7 @@ What new features or approaches does this translation suggest?
 
 ## Part 3: Perceptual Reframing Exercise (15 minutes)
 
-Apply three systematic reframing techniques to your invention idea.
+Perceptual reframing techniques work by deliberately modifying your generative model so that different prediction errors become visible. Each technique changes a different aspect of the model — inversion changes what outcomes are predicted, scale shifting changes which variables are salient, and stakeholder rotation changes whose preferences are being modeled. The goal is not to find one "right" reframe but to experience how the same problem looks completely different when perceived through a different model. Apply all three techniques below to your invention idea.
 
 **Reframe 1 — Inversion (5 min):** Instead of asking "How can I solve this problem?", ask "How can I make this problem as bad as possible?" List at least five ways to make the problem worse:
 
@@ -196,6 +198,8 @@ Did the stakeholder rotation reveal needs you had not considered?
 
 ## Part 4: Latent Need Detection (12 minutes)
 
+Latent needs are the most valuable type of need to address because they represent uncontested market space — no competitor is addressing them because no one has articulated them. Users themselves cannot express latent needs in surveys because their generative models have adapted to the status quo. The only way to detect latent needs is through careful observation of actual behavior, paying attention to workarounds, frustrations, and the small adaptations people make unconsciously. Jane Fulton Suri of IDEO called these adaptations "thoughtless acts" — they are the visible traces of needs that have gone unmet for so long that people have stopped noticing them.
+
 **Step 1 (6 min):** Think about the users or beneficiaries of your invention. Describe their current behavior — not what they say they want, but what they actually do. Focus on workarounds, frustrations, and "thoughtless acts" (unconscious adaptations to the current situation):
 
 | Observed Behavior / Workaround | What It Reveals About Their Actual Needs | Is This Need Currently Addressed? |
@@ -253,7 +257,7 @@ How does addressing this latent need change my invention concept?
 
 ## Part 5: Integration (8 minutes)
 
-Review everything you have generated in Parts 1-4. Identify the three most valuable perceptual insights — things you can now see about your invention idea that you could not see before this lab:
+This is the most important part of the lab. The perceptual techniques in Parts 1-4 generated raw material — new observations, new framings, new needs. Integration is the process of synthesizing this material into actionable insights that will change how you approach your invention going forward. Not everything you generated will be valuable, but the best labs typically produce two or three genuinely transformative insights — perceptions that permanently change the inventor's understanding of their problem. Review everything you have generated in Parts 1-4. Identify the three most valuable perceptual insights — things you can now see about your invention idea that you could not see before this lab:
 
 **Insight 1:**
 

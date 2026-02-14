@@ -1,25 +1,26 @@
-# Module 1: Systems — Agent Guidelines
+# モジュール1：システム - エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コースのAGENTS](../AGENTS.md) | [コースのAGENTS](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Setting Up Environments: Generative Process vs Generative Model |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Systems) |
-| `lab.md` | File | Python Coding Exercise: Setting Up Environments: Generative Process vs Generative Model |
-| `dashboard.html` | File | Interactive dashboard: Systems |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル - モジュールエージェントガイドライン |
+| `module.md` | ファイル | フル講義: 環境のセットアップ: 生成プロセス vs 生成モデル |
+| `questions.md` | ファイル | 20の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7問のMC + 3問のFR (システム) |
+| `lab.md` | ファイル | Pythonコーディング演習: 環境のセットアップ: 生成プロセス vs 生成モデル |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード: システム |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Computational
-- **Topic**: Systems — Setting Up Environments: Generative Process vs Generative Model
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/01_systems/module.md` for parallel modules
+- **視点**: 計算機科学的な
+- **トピック**: システム - 環境のセットアップ: 生成プロセス vs 生成モデル
+- **記号**: [notation_table.md](../../resources/notation_table.md) に基づく
+- **用語**: [glossary.md](../../resources/glossary.md) に基づく
+- **クロス参照**: `../../XX_course/01_systems/module.md` へのリンク (並行モジュール)
+

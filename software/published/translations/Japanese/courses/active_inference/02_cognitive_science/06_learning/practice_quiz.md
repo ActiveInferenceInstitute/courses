@@ -1,51 +1,51 @@
-# Practice Quiz: Learning
+# 練習クイズ：学習
 
-## Part A: Multiple Choice
+## Part A: 選択肢問題
 
-1. Spike-timing-dependent plasticity (STDP) implements learning by:
-A) Randomly strengthening or weakening synapses
-B) Changing synaptic strength based on the temporal relationship between pre-synaptic (prediction) and post-synaptic (input) firing
-C) Only strengthening synapses, never weakening them
-D) Operating independently of neural activity patterns
+1. スパイクタイミング依存性可塑性 (STDP) は学習を以下のように実現しますか？
+    A) ランダムにシナプスを強化または弱化させる
+    B) プリシナプティック（予測）とポストシナプティック（入力）の放火の間の時間的関係に基づいてシナプスの強度を変更する
+    C) シナプスを強化するだけで、決して弱化させることはない
+    D) 神経活動パターンとは独立して動作する
 
-2. Bayesian Model Reduction is proposed to occur during:
-A) Active waking cognition
-B) NREM sleep — when the brain replays experiences and prunes unnecessary model complexity
-C) REM dreaming only
-D) Exercise-induced neurogenesis
+2. ベイジアンモデル削減は、主に次の時に起こると提案されていますか？
+    A) 活性化された覚醒認知
+    B) NREM睡眠 - 脳が経験を再生し、不要なモデル複雑さを除去するとき
+    C) REM睡眠でのみ
+    D) 運動誘発性神経新生
 
-3. The synaptic homeostasis hypothesis proposes that sleep:
-A) Globally strengthens all synapses
-B) Globally weakens synapses, preserving only the most informative connections
-C) Has no effect on synaptic strength
-D) Operates only on motor learning circuits
+3. シナプスホメオスタジー仮説は、睡眠が以下のように提案していますか？
+    A) 全てのシナプスをグローバルに強化する
+    B) 全てのシナプスをグローバルに弱化させ、最も情報量の多い接続のみを維持する
+    C) シナプスの強度に影響を与えない
+    D) 運動学習回路のみを操作する
 
-4. Critical periods are windows of heightened plasticity characterized by:
-A) High precision on prediction errors, driving rapid model updating
-B) Complete absence of prediction errors
-C) Reduced neural activity
-D) Exclusive growth of inhibitory neurons
+4. クリティカルペリオドは、以下で特徴付けられる、可塑性が高まった窓であると定義されていますか？
+    A) 予測誤差に対する高い精度を持ち、急速なモデル更新を駆動する
+    B) 予測誤差の完全な欠如
+    C) 減少した神経活動
+    D) 抑制性ニューロンの排他的な成長
 
-5. PTSD in Active Inference terms involves:
-A) Complete loss of the generative model
-B) High-precision priors about danger that resist updating despite evidence of safety
-C) Low precision on all predictions
-D) Exclusive damage to the hippocampus
+5. 活性推論の観点から見たPTSDは、以下に関係していますか？
+    A) 生成モデルの完全な喪失
+    B) 危険に関する高精度な事前分布であり、安全の証拠にもかかわらず更新を拒否する
+    C) 全ての予測に対する低精度
+    D) 海馬の排他的な損傷
 
-6. Expert performance (e.g., radiological detection in 200ms) is characterized by:
-A) Slower, more deliberate processing
-B) A simplified model with fewer features
-C) Deep hierarchical generative model with high-precision priors and automated policies
-D) Conscious analysis of each feature
+6. 専門家のパフォーマンス（例：放射線検出における200ms）は、以下で特徴付けられますか？
+    A) 速度が遅く、より慎重な処理
+    B) より少ない特徴を持つ簡略化されたモデル
+    C) 高精度な事前分布と自動化されたポリシーを備えた深い階層的な生成モデル
+    D) 各特徴の意識的な分析
 
-7. Exposure therapy for PTSD works by:
-A) Erasing the traumatic memory
-B) Generating prediction errors (exposure to trauma cues without harm) that gradually reduce the precision of danger priors
-C) Increasing avoidance behavior
-D) Pharmacologically blocking all emotional responses
+7. PTSDのための暴露療法は、以下によって機能しますか？
+    A)  traumatic memoryを消去する
+    B) 予測誤差（危害なしのトラウマ的手がかりへの暴露）を生成し、それが危険に関する事前分布の精度を徐々に減少させる
+    C) 回避行動を増加させる
+    D) 全ての感情的な反応を薬理学的にブロックする
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Explain how the "stability-plasticity dilemma" (maintaining stable knowledge while remaining open to new learning) maps onto precision dynamics in Active Inference. How does the brain solve this?
-2. A patient with early-stage Alzheimer's disease repeats the same stories and fails to learn new information. Analyze this in Active Inference terms: what synaptic plasticity mechanisms have been compromised?
-3. Design an experiment to test whether a nap (allowing NREM replay) improves generalization performance on a newly learned category, as Bayesian Model Reduction would predict.
+1. 「安定性-可塑性ジレンマ」（安定した知識を維持しながら新しい学習にオープンな状態を維持する）が、活性推論における精度ダイナミクスにどのように対応するかを説明してください。脳はこれをどのように解決しますか？
+2. 初期段階のアルツハイマー病患者が同じ話を繰り返し、新しい情報を学習することができないという状況を、活性推論の観点から分析してください。どのようなシナプス可塑性メカニズムが損なわれているのでしょうか？
+3. NREM再生を可能にする昼寝が、新しいカテゴリの汎化性能を改善するかどうかをテストするための実験を設計してください。これは、ベイジアンモデル削減によって予測されるものと一致しますか？

@@ -1,22 +1,22 @@
-# Study Questions: Systems
+# システムに関する学習問題
 
-1. What distinguishes a "system" from a mere collection of parts, and how does Active Inference formalize this distinction?
-2. Explain the concept of a Markov Blanket in non-mathematical language. What philosophical work does it do?
-3. How does Merleau-Ponty's phenomenology of the body challenge naive conceptions of system boundaries?
-4. Define autopoiesis as introduced by Maturana and Varela. Why is circular causality central to their account?
-5. In what sense does the Free Energy Principle extend the autopoietic account of living systems?
-6. What does it mean to say that "to exist is to resist dissolution"? Is this a metaphysical claim, a tautology, or an empirical hypothesis?
-7. State the life-mind continuity thesis. What evidence or arguments support it?
-8. What is the "fallacy of equivocation" objection to the life-mind continuity thesis, and how might a proponent respond?
-9. How does the Markov Blanket formalism relate to the philosophical concept of individuality?
-10. Can non-living systems (hurricanes, candle flames) have Markov Blankets? What are the philosophical consequences?
-11. How does the Ship of Theseus paradox look different from a Markov Blanket perspective compared to a substance-based ontology?
-12. Evaluate Clark and Chalmers' Extended Mind Hypothesis in light of the Markov Blanket framework. Does the framework support or undermine it?
-13. What is the difference between an "epistemic" boundary (statistical separation) and an "ontic" boundary (physical separation)? Which does Active Inference invoke?
-14. How does the concept of sensory and active states in a Markov Blanket relate to the philosophical distinction between receptivity and spontaneity?
-15. Friston argues that any system that persists must minimize variational free energy. Is this a descriptive claim about nature or a definitional condition?
-16. What role does the concept of "surprise" play in the systems-level account? How does it differ from the everyday meaning of the word?
-17. Compare the Active Inference account of system boundaries with Gibson's ecological psychology. Are they compatible?
-18. How might a process philosopher (e.g., Whitehead) view the Markov Blanket formalism? Is it consistent with a process-relational ontology?
-19. If systems are defined by their boundaries, what happens at the boundaries of boundaries? Is there an infinite regress problem?
-20. Construct a philosophical argument for or against the claim that the Free Energy Principle is a genuine *law of nature* rather than a useful modeling convention.
+1.  「システム」を単なる部品の集まりと区別するとはどういうことか、そしてアクティブ・インファーレンスはどのようにしてこの区別を形式化するのか？
+2.  マルコフ・ブランケットの概念を数学的な言葉を使わずに説明してください。その哲学的な役割は何ですか？
+3.  メルロー＝ポンティの身体の現象学は、システム境界の直感的な概念にどのように挑戦しますか？
+4.  マチュラーナとベレアが導入したオートポイオシスを定義してください。その説明において、循環因果関係がなぜ中心的な役割を果たしているのですか？
+5.  フリーエネルギー原則は、オートポイオティックな生きるシステムの説明をどのように拡張しますか？
+6.  「存在することとは、溶解に抵抗することである」という言葉の意味を説明してください。これは形而上学的な主張、タウトロジー、または経験的な仮説ですか？
+7.  生命と精神の連続性理論を述べてください。その支持する証拠や議論は何ですか？
+8.  生命と精神の連続性理論に対する「曖昧さの誤謬」の反論は何か、そしてその支持者はどのように対応する可能性がありますか？
+9.  マルコフ・ブランケットの形式主義は、哲学的な概念である個性の概念とどのように関連していますか？
+10. 生物学のないシステム（ハリケーン、キャンドルフレイム）はマルコフ・ブランケットを持つことができますか？その哲学的な結果は何ですか？
+11. させの船パラドックスは、マルコフ・ブランケットの視点から見た場合、物質に基づく存在論とどのように異なりますか？
+12. マルコフ・ブランケットの枠組みに照らして、クラックとチャルマーズの拡張された心理論を評価してください。その枠組みはそれを支持または弱体化しますか？
+13. 「認識的な境界」（統計的分離）と「実在的な境界」（物理的分離）の違いは何ですか？アクティブ・インファーレンスはどちらを呼び出しますか？
+14. マルコフ・ブランケットにおける感覚状態と活動状態の概念は、受容性と自発性の間の哲学的な区別とどのように関連していますか？
+15. フリストンは、永続するシステムは変分フリーエネルギーを最小化しなければならないと主張しています。これは自然に関する記述的な主張ですか、それとも定義的な条件ですか？
+16. 「驚き」という概念は、システムレベルの説明においてどのような役割を果たしますか？それは日常的な言葉の意味とどのように異なりますか？
+17. アクティブ・インファーレンスのシステム境界の説明を、ギブソンの生態心理学と比較してください。それらは互いに一致しますか？
+18. プロセス哲学（例：ウィトベルト）は、マルコフ・ブランケットの形式主義をどのように見るでしょうか。それはプロセス・関係論的な存在論と一貫性がありますか？
+19. システムがその境界で定義されている場合、境界の境界はどのようになりますか？無限の退行の問題がありますか？
+20. フリーエネルギー原則が、本物の「自然の法則」であるという主張、または便利なモデリングの慣例であるという主張を支持する哲学的な議論を構築してください。

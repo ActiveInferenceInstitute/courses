@@ -1,22 +1,22 @@
-# Study Questions: Agents
+# 考察問題：エージェント
 
-1. What distinguishes an agent from a non-agentive bounded system in the Active Inference framework?
-2. How does the asymmetry between sensory and active states in a Markov Blanket give rise to agency?
-3. Explain Spinoza's concept of *conatus* and compare it with the Active Inference account of self-maintenance.
-4. What is a "self-model" in Metzinger's sense, and how does it relate to the generative model in Active Inference?
-5. Can a bacterium have a self? Defend your answer using concepts from this module.
-6. How does Heidegger's concept of *Sorge* (care) relate to the Active Inference understanding of agency?
-7. State the "problem of other minds." How does Active Inference reframe it as a problem of inference?
-8. Compare the simulation theory and theory-theory of mind reading. How does Active Inference relate to each?
-9. Is agency an intrinsic property of certain systems or a description imposed by external observers? Present arguments for both views.
-10. What role does intentionality play in philosophical accounts of agency, and how does Active Inference handle it?
-11. Husserl described intentionality as "aboutness" — consciousness is always consciousness *of* something. How does this map onto the generative model's relationship to external states?
-12. Can a thermostat be an agent under the Active Inference definition? What philosophical consequences follow from your answer?
-13. If agency exists on a continuum from bacteria to humans, where (if anywhere) does moral responsibility begin?
-14. How does Dewey's concept of the "organism-environment transaction" anticipate the Active Inference framework?
-15. What is the relationship between agency and autonomy? Can an agent lack autonomy?
-16. How does the concept of active states in a Markov Blanket relate to Gibson's concept of affordances?
-17. Evaluate the claim: "Free will is the experience of being a system that minimizes its own free energy."
-18. What does Varela mean by "sense-making"? How does it compare with the Active Inference account of agency?
-19. How might the concept of agency in Active Inference apply to collective systems — swarms, organizations, or societies?
-20. Construct a philosophical argument that distinguishes genuine agency from mere reactivity. Where does Active Inference draw this line, if at all?
+1. Active Inference の枠組みにおいて、エージェントを非エージェント的な限られたシステムと区別する点は何ですか？
+2. 感覚状態と活動状態の間の非対称性が、マルコフ・ブランケットの中でエージェンシーを生み出す仕組みは何ですか？
+3. スピノーザの *conatus* (衝動) の概念を説明し、Active Inference の自己維持の説明と比較してください。
+4. メッツィンガーの言葉における「自己モデル」とは何か、そしてそれは Active Inference の生成モデルとどのように関連していますか？
+5. 細菌は「自己」を持つことができますか？このモジュールから抽出した概念を用いて、あなたの答えを弁証してください。
+6. ハイデガーの *Sorge* (関心) の概念は、Active Inference のエージェンシーの理解とどのように関連していますか？
+7. 「他者の意識の問題」を述べ、Active Inference はそれを推論の問題としてどのように再構築しますか？
+8. シミュレーション理論と心の読解理論を比較してください。Active Inference はそれぞれにどのように関連していますか？
+9. エージェンシーは、特定のシステム固有の性質なのか、それとも外部観察者によって課せられた説明なのか？両方の視点について議論してください。
+10. エージェンシーに関する哲学的な説明において、意図性はどのような役割を果たしていますか？Active Inference はそれをどのように扱いますか？
+11. ヒュッセルは意図性を「対象性」と定義しました - 意識は常に何か *の* 意識です。これは生成モデルの関係における外部の状態とどのように対応しますか？
+12. Active Inference の定義の下で、サーモスタットはエージェントになることができますか？あなたの答えから続く哲学的な意味合いは何ですか？
+13. エージェンシーが細菌から人間まで連続した存在である場合、倫理的責任は（もしどこにあろうとも）どこから始まりますか？
+14. デューイの「生物体-環境の取引」の概念は、Active Inference フレームワークをどのように予見していますか？
+15. エージェンシーと自律性にはどのような関係がありますか？エージェントは自律性を欠くことができますか？
+16. マルコフ・ブランケット内の活動状態の概念は、ギブソンの「付提示」の概念とどのように関連していますか？
+17. 「自由意志とは、自己の自由エネルギーを最小限に抑えるシステムの経験である」という主張を評価してください。
+18. ヴァレラは「意味構築」とは何を意味していますか？それは Active Inference のエージェンシーの説明と比較するとどうなりますか？
+19. Active Inference のエージェンシーの概念は、群衆、組織、または社会のような集団システムにどのように適用できますか？
+20. 実際のエージェンシーと単なる反応性の違いを区別する哲学的な議論を構築してください。Active Inference は、もしあれば、その線をどこで引きますか？

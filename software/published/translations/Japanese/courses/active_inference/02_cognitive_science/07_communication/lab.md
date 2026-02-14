@@ -1,61 +1,61 @@
-# Lab: Case Study Analysis — Neural Bases of Social Communication
+# 実験室：神経基盤における社会的コミュニケーションのケーススタディ分析
 
-## Objective
+## 目的
 
-Analyze experimental and clinical cases illustrating the neural systems supporting communication, applying Active Inference to interpret each.
+コミュニケーションを支える神経系を明らかにし、Active Inference を用いて各ケースを解釈する。実験的および臨床的な症例を分析する。
 
-## Part 1: Speaker-Listener Neural Coupling
+## 第1部：発話者-聴衆間の神経的カップリング
 
-**Case**: In a hyperscanning fMRI study, a speaker narrates a personal story while a listener hears the recording. The listener's brain activity in auditory, language, and prefrontal regions mirrors the speaker's with a 1-3 second lag. The degree of coupling predicts the listener's subsequent comprehension accuracy.
+**ケース**: ハイパースキャン fMRI 研究において、発話者が個人的な物語を語り、聴衆が録音を聞いている。聴衆の脳活動は、聴覚、言語、前頭皮質領域で発話者と1〜3秒の遅れでミラーする。カップリングの程度が、聴衆のその後の理解精度を予測する。
 
-- How does Active Inference explain this coupling as generalized synchrony between two generative models?
-- Why does a temporal lag exist, and what does it represent cognitively?
-- Predict what would happen to the coupling if the story were told in a language the listener does not understand.
-
-{fill:textarea}
-
-## Part 2: Mirror Neurons and Action Understanding
-
-**Case**: TMS (transcranial magnetic stimulation) is applied to a participant's inferior frontal gyrus (mirror neuron region) while they observe a hand grasping an object. Normally, observing this action produces a measurable increase in motor-evoked potentials (MEPs) in the observer's hand muscles. After TMS disruption, this motor facilitation is abolished, and the participant shows impaired ability to predict the goal of ambiguous grasping actions.
-
-- Interpret the motor facilitation as motor simulation — the observer's generative model predicting the proprioceptive consequences of the observed action.
-- How does abolishing this facilitation impair goal prediction?
-- Does this evidence prove mirror neurons are necessary for action understanding, or could alternative mechanisms compensate?
+- Active Inference は、このカップリングを二つの生成モデル間の一般化された同期としてどのように説明するのか？
+- 遅延が存在する理由と、それが認知的に何を表しているのか？
+- 物語が聴衆が理解できない言語で語られた場合、カップリングはどう変化するか予測する。
 
 {fill:textarea}
 
-## Part 3: False Belief Task and Theory of Mind
+## 第2部：ミラーニューロンと行動理解
 
-**Case**: A child watches a puppet show: Sally puts a marble in a basket and leaves. Anne moves the marble to a box. Sally returns. When asked "Where will Sally look for the marble?", children under 4 typically answer "in the box" (reality), while children over 4 answer "in the basket" (Sally's false belief).
+**ケース**: 参加者の下部前頭葉野（ミラーニューロン領域）に経頭蓋磁気刺激（TMS）を適用し、彼らが物体を掴む行動を観察している。通常、この行動を観察すると、観察者の手筋における運動誘発電位（MEP）の測定可能な増加が生じる。TMS 障害後、この運動促進は抑制され、参加者は曖昧な掴み行動の目標予測能力が低下していることが示される。
 
-- How does Active Inference model the false belief task? What hierarchical level of the generative model must be engaged?
-- What changes in the child's brain around age 4 that enables false belief reasoning? (Consider TPJ maturation, precision on higher-order social models.)
-- How does this task relate to "recursive" inference — modeling another agent's model of the world?
-
-{fill:textarea}
-
-## Part 4: Social Communication in Autism
-
-**Case**: Adult with autism spectrum condition participates in a conversation. Eye-tracking shows reduced fixation on the speaker's eyes and increased fixation on the mouth. The participant reports understanding the literal content perfectly but missing "the point" of ironic or sarcastic remarks. fMRI shows typical activation in language regions but reduced activation in the mentalizing network (TPJ, mPFC).
-
-- How does the Active Inference framework explain the pattern of preserved literal but impaired pragmatic comprehension?
-- How might reduced mentalizing network activation reflect lower precision on social-inferential models?
-- Is the autism profile best described as a deficit or a different optimization profile? Defend your answer.
+- この運動促進を運動シミュレーションとして解釈する - 観察された行動の固有感覚的な結果を予測する、観察者の生成モデル。
+- この促進を抑制することで目標予測がどのように損なわれるのか？
+- この証拠は、ミラーニューロンが行動理解のために必要であることを証明するのか、それとも代替メカニズムが補償できるのか？
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## 第3部：誤った信念タスクと心の理論
 
-Write a 200-word synthesis explaining how these four cases collectively demonstrate that communication requires coupled inference at multiple levels — from motor simulation to higher-order belief modeling.
+**ケース**: 子供が人形劇を観ている：サリーはボールをバスケットに入れ、去る。アンはボールを箱に移動させる。サリーは戻ってくる。 “サリーはボールをどこで見つけるだろう？”と尋ねられたとき、4歳未満の子供は通常、「箱」と答える（現実）、4歳を超える子供は「バスケット」と答える（サリーの誤った信念）。
+
+- Active Inference は、この誤った信念タスクをどのようにモデル化するのか？ どの階層の生成モデルが関与する必要があるのか？
+- 4歳頃に子供の脳でどのような変化が起こり、誤った信念の推論を可能にするのか？ （TPJ の成熟、より上位の社会的モデルの精度を考慮する。）
+- このタスクは、「再帰的」推論—他のエージェントの世界モデルをモデル化すること—とどのように関連しているのか？
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：自閉症における社会的コミュニケーション
 
-| Part | Skill Developed | Case Type |
-|------|----------------|-----------|
-| 1 | Neuroimaging interpretation | Speaker-listener neural coupling |
-| 2 | Experimental reasoning | Mirror neurons and TMS disruption |
-| 3 | Developmental analysis | Theory of Mind and false belief |
-| 4 | Clinical analysis | Autism and pragmatic communication |
-| 5 | Integrative synthesis | Multi-level social inference |
+**ケース**: 自閉スペクトラム症の成人が出席する会話。眼球追跡により、話者の目への固定時間が減少し、口への固定時間が増加する。参加者は、皮肉や皮肉の言に対する「ポイント」を理解できないが、言葉の表面的な内容を完璧に理解していると報告する。fMRI は言語領域で通常の活性化を示し、心の理論ネットワーク（TPJ、mPFC）での活性化が低下している。
+
+- Active Inference の枠組みは、保全された表面的な内容と損なわれた実践的な理解のパターンをどのように説明するのか？
+- 減少した心の理論ネットワークの活性化が、社会的な推論モデルの精度低下を反映している可能性があるのか？
+- 自閉症のプロファイルは、欠陥または異なる最適化プロファイルとして最も適切に記述されるべきか？ あなたの答えを弁護する。
+
+{fill:textarea}
+
+## 第5部：統合
+
+これらの4つのケースが、モーターシミュレーションからより上位の信念モデル化までのように、コミュニケーションには複数のレベルでカップリングされた推論が必要であることを示すことを説明する200語の合成文を記述してください。
+
+{fill:textarea}
+
+## 実験室概要
+
+| 部位 | 開発されたスキル | ケースタイプ |
+|---|---|---|
+| 1 | 脳画像解釈 | 発話者-聴衆間の神経的カップリング |
+| 2 | 実験的推論 | ミラーニューロンとTMS 障害 |
+| 3 | 発達分析 | 心の理論と誤った信念 |
+| 4 | 臨床分析 | 自閉症と実践的なコミュニケーション |
+| 5 | 統合的合成 | 複数レベルの社会的推論 |

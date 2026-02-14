@@ -64,6 +64,8 @@ The concept of "adjacent possible," introduced by Stuart Kauffman and popularize
 
 Inventors who understand the ecology of their creative system — who know what tools, materials, knowledge, and collaborators are available — can navigate the adjacent possible more effectively. They can also deliberately expand it by importing affordances from other domains, a process known as "exaptation" in evolutionary biology and "technology transfer" in engineering.
 
+The relationship between affordances and creative output is not merely theoretical. Research on innovation clusters consistently shows that the density and diversity of affordances in a creative system predicts its inventive productivity. Route 128 near Boston had comparable technical talent to Silicon Valley in the 1970s, but its corporate structures created fewer cross-pollination affordances — engineers worked in vertically integrated companies that discouraged lateral movement and informal knowledge sharing. Silicon Valley's culture of job-hopping, garage startups, and informal networking created a denser affordance landscape, ultimately producing more radical innovations. The lesson for individual inventors: deliberately diversify the affordances in your creative system by seeking tools, materials, knowledge, and relationships from outside your primary domain.
+
 ## Applications
 
 ### Case Study 1: Bell Labs as a Creative System (1925–1985)

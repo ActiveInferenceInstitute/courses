@@ -1,86 +1,86 @@
-# Module 01: Systems — Generative Process vs Generative Model
+# モジュール 01: システム - 生成的プロセスと生成的モデル
 
-## Learning Objectives
+## 学習目標
 
-1. Distinguish the **generative process** (the true environment) from the **generative model** (the agent's internal model).
-2. Implement a `DiscreteEnvironment` with true A and B matrices and step through it programmatically.
-3. Explain how observations are sampled from the true likelihood matrix and how states transition under the true dynamics.
+1.  **生成的プロセス**（真の環境）と**生成的モデル**（エージェントの内部モデル）を区別する。
+2.  真のAとB行列を持つ`DiscreteEnvironment`を実装し、プログラム的にステップを進める。
+3.  観察が真の確率行列からサンプリングされ、状態が真のダイナミクスのもとでどのように遷移するかを説明する。
 
-## Introduction
+## 導入
 
-Every Active Inference agent lives inside a world it cannot access directly. The **generative process** is the real causal structure of that world — the true states, transition probabilities, and observation likelihoods. The **generative model** is the agent's _approximation_ of that structure, encoded in matrices it can update.
+Active Inferenceのエージェントは、直接アクセスできない世界の中に住んでいます。**生成的プロセス**は、その世界の真の因果構造—真の状態、遷移確率、観察確率—です。**生成的モデル**は、エージェントが更新できる行列にエンコードされた、その構造の _近似_ です。
 
-This distinction is the starting point for everything in computational Active Inference. If the generative model perfectly matched the generative process, free energy would be zero and the agent would have nothing left to learn. In practice, the mismatch between the two is exactly what drives perception, action, and learning.
+この区別は、計算Active Inferenceのすべてにおいて出発点となります。生成的モデルが生成的プロセスと完全に一致する場合、フリーエネルギーはゼロになり、エージェントは学習する以上のことがなくなります。実際には、この二つの間の不一致こそが、認識、行動、学習を駆動するものです。
 
-In the `active_inference` library, these two sides of the coin are represented by separate classes:
+`active_inference`ライブラリでは、これらの二つのコインの側面は、以下のクラスでそれぞれ表されます。
 
-| Concept | Class | Matrices |
-|---------|-------|----------|
-| Generative Process | `DiscreteEnvironment` | `true_A`, `true_B` (ground truth) |
-| Generative Model | `GenerativeModel` | `A`, `B`, `C`, `D`, `E` (agent's beliefs) |
+| 概念 | クラス | 行列 |
+|---|---|---|
+| 生成的プロセス | `DiscreteEnvironment` | `true_A`, `true_B` (真の値) |
+| 生成的モデル | `GenerativeModel` | `A`, `B`, `C`, `D`, `E` (エージェントの信念) |
 
-## Key Concepts
+## 主要な概念
 
-### 1. The Generative Process as Ground Truth
+### 1. 生成的プロセスが真の値であること
 
-The generative process defines the true causal structure of the environment. In the discrete case, this consists of:
+生成的プロセスは、環境の真の因果構造を定義します。離散的な場合、これには以下が含まれます。
 
-- **True states** $s \in \{0, 1, \ldots, N_s - 1\}$: the hidden states of the world.
-- **True likelihood** $\mathbf{A}_{\text{true}}$: a matrix where $A[o, s] = P(o \mid s)$ — the probability of observing $o$ when the world is in state $s$.
-- **True transitions** $\mathbf{B}_{\text{true}}$: a tensor where $B[s', s, a] = P(s' \mid s, a)$ — the probability of transitioning to state $s'$ given the current state $s$ and action $a$.
+-   **真の状態** $s \in \{0, 1, \ldots, N_s - 1\}$：世界の隠れた状態。
+-   **真の確率** $\mathbf{A}_{\text{true}}$： $A[o, s] = P(o \mid s)$—状態$s$にあるとき観察$o$の確率—を示す行列。
+-   **真の遷移** $\mathbf{B}_{\text{true}}$： $B[s', s, a] = P(s' \mid s, a)$—現在の状態$s$と行動$a$に対する状態$s'$の確率—を示すテンソル。
 
-In code, you create a `DiscreteEnvironment` by supplying these matrices:
+コードでは、これらの行列を提供することで`DiscreteEnvironment`を作成します。
 
 ```python
 import numpy as np
 from active_inference.agent import DiscreteEnvironment
 
-# True likelihood: observation 0 is strong evidence for state 0
+# 真の確率：観察 0 は状態 0 の強力な証拠
 true_A = np.array([[0.9, 0.1],
                     [0.1, 0.9]])
 
-# True transitions: action 0 = stay, action 1 = swap
+# 真の遷移：行動 0 = 待機、行動 1 = スワップ
 true_B = np.zeros((2, 2, 2))
-true_B[:, :, 0] = np.eye(2)           # stay
+true_B[:, :, 0] = np.eye(2)           # 待機
 true_B[:, :, 1] = np.array([[0, 1],
-                              [1, 0]])  # swap
+                              [1, 0]])  # スワップ
 
 env = DiscreteEnvironment(true_A, true_B, initial_state=0)
 ```
 
-### 2. Observation Generation
+### 2. 観察の生成
 
-When the environment is queried, it samples an observation from the true likelihood column corresponding to the current hidden state:
+環境がクエリされると、現在の隠れた状態から真の確率列から観察をサンプリングします。
 
 $$o_t \sim \text{Cat}(\mathbf{A}_{\text{true}}[\cdot, s_t])$$
 
-This is implemented via `env.step(action)`, which:
+これは、`env.step(action)`を通じて実装され、以下を実行します。
 
-1. Transitions the hidden state: $s_{t+1} \sim \text{Cat}(\mathbf{B}_{\text{true}}[\cdot, s_t, a_t])$
-2. Generates an observation: $o_{t+1} \sim \text{Cat}(\mathbf{A}_{\text{true}}[\cdot, s_{t+1}])$
-3. Returns the observation index
+1.  隠れた状態の遷移：$s_{t+1} \sim \text{Cat}(\mathbf{B}_{\text{true}}[\cdot, s_t, a_t])$
+2.  観察の生成：$o_{t+1} \sim \text{Cat}(\mathbf{A}_{\text{true}}[\cdot, s_{t+1}])$
+3.  観察インデックスの返却
 
 ```python
-obs = env.reset(initial_state=0)   # sample first observation
-obs = env.step(action=1)            # take swap action, get new observation
+obs = env.reset(initial_state=0)   # 最初の観察をサンプリング
+obs = env.step(action=1)            # スワップアクションを実行し、新しい観察を取得
 print(f"State: {env.state}, Obs: {obs}, Timestep: {env.timestep}")
 ```
 
-### 3. State-Space Dimensionality
+### 3. スパース・スペースの次元
 
-The environment's dimensionality is derived from the matrices:
+環境の次元は、行列から導出されます。
 
-| Property | Derivation | Example |
-|----------|-----------|---------|
-| `num_obs` | Rows of A | 2 |
-| `num_states` | Columns of A | 2 |
-| `num_actions` | Third dimension of B (or 1 if B is 2-D) | 2 |
+| プロパティ | 導出 | 例 |
+|---|---|---|
+| `num_obs` | Aの行数 | 2 |
+| `num_states` | Aの列数 | 2 |
+| `num_actions` | Bの3次元 (またはBが2次元の場合) | 2 |
 
-A 2-D B matrix is treated as a single-action environment (the agent has no choice).
+2次元のB行列は、エージェントに選択肢がない（単一のアクション環境）と見なされます。
 
-### 4. History Tracking
+### 4. 履歴追跡
 
-The environment records a complete trajectory:
+環境は、完全な軌跡を記録します。
 
 ```python
 env = DiscreteEnvironment(true_A, true_B, initial_state=0)
@@ -88,37 +88,37 @@ env.reset(initial_state=0)
 for a in [0, 1, 1, 0]:
     env.step(a)
 
-print(env.history["states"])        # [0, 0, 1, 0, 0]  (initial + 4 steps)
+print(env.history["states"])        # [0, 0, 1, 0, 0]  (初期 + 4 ステップ)
 print(env.history["observations"])  # [obs0, obs1, obs2, obs3]
 print(env.history["actions"])       # [0, 1, 1, 0]
 ```
 
-This history can be visualized with `plot_environment_trajectory()`.
+この履歴は、`plot_environment_trajectory()`を使用して視覚化できます。
 
-### 5. The Generative Model as the Agent's Hypothesis
+### 5. 生成的モデルがエージェントの仮説であること
 
-While the environment uses `true_A` and `true_B`, the agent constructs its own hypothesis — a `GenerativeModel` — with matrices that may or may not match reality:
+環境は `true_A` と `true_B` を使用しますが、エージェントは `GenerativeModel`という独自の仮説を構築し、これは現実と一致するかどうかに関わらず、行列でエンコードされています。
 
 ```python
 from active_inference.agent import GenerativeModel
 
-# Agent's model (might differ from truth)
+# エージェントのモデル（真の値と異なる可能性がある）
 model = GenerativeModel(
-    A=true_A.copy(),       # agent's likelihood beliefs
-    B=true_B.copy(),       # agent's transition beliefs
-    C=np.zeros(2),         # preferences (log scale)
-    D=np.array([0.5, 0.5]) # prior over initial state
+    A=true_A.copy(),       # エージェントの確率信念
+    B=true_B.copy(),       # エージェントの遷移信念
+    C=np.zeros(2),         # 偏り (対数スケール)
+    D=np.array([0.5, 0.5]) # 初期状態に対する事前確率
 )
 ```
 
-The gap between `model.A` and `true_A` (and similarly for B) is what the agent must close through perception and learning. This is the fundamental asymmetry of Active Inference.
+`model.A` と `true_A` (および同様に `B`) の間のギャップこそが、Active Inferenceにおいてエージェントが閉じる必要があるものです。これはActive Inferenceの基本的な非対称性です。
 
-## Applications
+## 応用
 
-- **Sensory noise**: A `true_A` with off-diagonal probability > 0 simulates noisy observations. Setting `true_A = np.eye(N)` creates a fully observable environment.
-- **Stochastic dynamics**: A `true_B` that is not a permutation matrix creates environments where actions have uncertain effects (e.g., slippery gridworlds).
-- **Benchmarking**: By comparing the agent's learned A against `true_A`, you can measure how accurately the agent has recovered the environment's causal structure.
+-   **感覚ノイズ:** `true_A` の対角成分外の確率>0は、ノイズのある観察をシミュレートします。`true_A = np.eye(N)`を設定すると、完全に観測可能な環境が作成されます。
+-   **確率的なダイナミクス:** `true_B` が正方行列でない場合、行動の効果が不確実（たとえば、滑りやすいグリッドワールド）になる環境を作成します。
+-   **ベンチマーク:** エージェントが学習した`A`と`true_A`を比較することで、エージェントが環境の因果構造をどれだけ正確に復元したかを測定できます。
 
-## Conclusion
+## 結論
 
-The generative process / generative model distinction structures every Active Inference computation. The `DiscreteEnvironment` class encodes this process, providing the ground truth that agents must infer. In Module 02, we build the agent class that maintains and updates a `GenerativeModel` to minimize the mismatch.
+生成的プロセス/生成的モデルの区別は、Active Inferenceのすべての計算構造化されています。`DiscreteEnvironment`クラスは、エージェントが推論する必要がある真の値をエンコードします。モジュール 02 では、エージェントクラスを構築して、不一致を最小限に抑えるために`GenerativeModel`を維持および更新します。

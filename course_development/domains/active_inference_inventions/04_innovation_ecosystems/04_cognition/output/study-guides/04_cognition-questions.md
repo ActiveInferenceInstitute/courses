@@ -1,0 +1,45 @@
+# Questions — Strategic Thinking for Inventors
+
+## Analytical Questions
+
+1. Explain how a business model functions as a generative model in the Active Inference framework. Map the nine elements of the Business Model Canvas to components of a generative model, and describe what "prediction error" means in a business context.
+
+2. Compare Porter's three generic strategies (cost leadership, differentiation, focus) as different approaches to free energy minimization. For each strategy, explain what source of customer uncertainty it reduces and why the strategies are typically incompatible with each other.
+
+3. How does Active Inference explain the difficulty of strategic inflection points — moments when the fundamental model of a business must be restructured? Why is model restructuring harder than model updating, and what cognitive biases make it even harder?
+
+4. Analyze scenario planning as Bayesian model averaging. How does maintaining multiple generative models of the future differ from single-point forecasting? What are the advantages and limitations of scenario-based strategy?
+
+5. Technology S-curves describe the typical trajectory of performance improvement. Explain why S-curve transitions (from one technology generation to the next) are particularly difficult to forecast, and how Active Inference can improve transition timing.
+
+6. How does recursive modeling — modeling competitors who are modeling you — create strategic complexity? Use a specific example to illustrate how this recursion affects decision-making, and explain when it is worth investing in deeper levels of recursive modeling.
+
+7. Explain the concept of "model evidence" in the context of strategic decisions. How does an inventor assess whether their strategic model is generating accurate predictions, given that strategic evidence is noisy, delayed, and often ambiguous?
+
+8. Discuss the tension between exploitation (optimizing the current model) and exploration (seeking model improvements) in strategic cognition. How does this tension manifest differently for startups versus established companies?
+
+9. How do cognitive biases (confirmation bias, anchoring, overconfidence, survivorship bias) distort strategic inference? For each bias, describe its Active Inference mechanism and a specific strategic decision it might corrupt.
+
+10. Analyze Jeff Bezos's "Day 1" philosophy as a metacognitive strategy. What specific organizational practices does it prescribe, and how do these practices maintain generative model flexibility?
+
+## Applied Questions
+
+11. Design a Business Model Canvas for your invention with explicit confidence levels for each element. Identify the three lowest-confidence elements and design experiments to test them.
+
+12. Analyze your competitive landscape using Porter's Five Forces, framing each force as a variable in your generative model. Where are the largest prediction errors? Which force are you most underestimating?
+
+13. Construct a 2x2 scenario matrix for your invention based on two critical uncertainties. For each scenario, assess your invention's viability and describe the strategic adjustments you would make.
+
+14. Your invention's core technology is approaching the top of its S-curve. A successor technology exists but is still in its early phase. Design a strategic plan for managing this transition, specifying when to begin investing in the successor and how to maintain competitiveness during the transition period.
+
+15. Conduct a metacognitive audit of your strategic model. Identify three untested assumptions, assess the consequences of each being wrong, and design a test for the most critical assumption.
+
+16. A major incumbent has entered your market with a product that is inferior to yours but backed by a powerful brand and distribution network. Using competitive positioning analysis, design three possible strategic responses and evaluate the free energy implications of each.
+
+17. Your business model hypothesis predicts that customers will pay a monthly subscription. Early evidence suggests that customers prefer one-time purchases. Describe how you would update your business model generative model: what elements change, what stays the same, and what new predictions does the updated model generate?
+
+18. Apply Andy Grove's "strategic inflection point" framework to your invention's market. Is a strategic inflection point approaching? What signals would indicate it? How should you prepare?
+
+19. Design a technology forecast for your invention's domain over the next 10 years. Specify at least three S-curves (current technology, emerging successor, and a speculative long-term technology), estimate their trajectories, and describe the strategic implications of each transition.
+
+20. Create a "strategic dashboard" for your invention — five metrics that collectively provide the earliest and most accurate signal about whether your strategic model is performing as predicted. For each metric, specify what prediction it tests and what action you would take if it signals a prediction error.

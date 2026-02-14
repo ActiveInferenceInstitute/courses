@@ -164,6 +164,27 @@ Now categorize your updates:
 
 ---
 
+## Part 6: Bias Mitigation Plan (5 minutes)
+
+**Goal**: Create specific, actionable countermeasures for the biases identified in Part 1.
+
+For each bias you rated as Medium or High risk, design a concrete mitigation strategy:
+
+| Bias | Specific Countermeasure | When will you implement it? |
+|------|------------------------|---------------------------|
+| Confirmation bias | {fill:textarea} | {fill:textarea} |
+| Sunk cost bias | {fill:textarea} | {fill:textarea} |
+| Anchoring bias | {fill:textarea} | {fill:textarea} |
+| Expertise blindness | {fill:textarea} | {fill:textarea} |
+
+Example countermeasures include: video-recording all test sessions for review, having a co-inventor independently analyze the same data, setting a specific "kill criterion" before testing (a result that would definitively end this approach), randomizing the order of test conditions, or committing to show test results to at least one external person before making decisions based on them.
+
+Which single countermeasure would make the biggest difference in the quality of your testing? Why?
+
+{fill:textarea}
+
+---
+
 ## Discussion and Debrief
 
 1. **The hardest part**: What was most difficult about observing someone else interact with your invention without intervening? What does this reveal about your priors?

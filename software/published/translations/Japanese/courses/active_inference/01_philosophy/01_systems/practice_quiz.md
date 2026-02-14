@@ -1,51 +1,51 @@
-# Practice Quiz: Systems
+# 練習クイズ：システム
 
-## Part A: Multiple Choice
+## Part A: 選択肢問題
 
-1. The concept of a Markov Blanket in Active Inference primarily formalizes:
-A) The physical membrane of a cell
-B) The statistical boundary separating internal from external states
-C) The computational limits of an agent's processor
-D) The spatial extent of an organism's body
+1. アクティブ・インファレンスにおける「マルコフ・ブランケット」の概念は、主に以下のものを形式化している：
+A) 細胞の物理的膜
+B) 内部状態と外部状態を隔てる統計的境界
+C) エージェントのプロセッサの計算上の限界
+D) 生物の体の空間的範囲
 
-2. Autopoiesis, as defined by Maturana and Varela, refers to:
-A) The ability of a system to reproduce sexually
-B) A self-producing network that generates and maintains its own boundary
-C) The tendency of all systems to maximize entropy
-D) The process by which organisms evolve through natural selection
+2. マトゥラーナとベレアが定義する「オートポイオシス」とは：
+A) 生物が性的に繁殖する能力
+B) 自身の境界を生成・維持する自律的なネットワーク
+C) 全てのシステムがエントロピーを最大化する傾向
+D) 生物が自然選択によって進化するプロセス
 
-3. The life-mind continuity thesis claims that:
-A) Only organisms with nervous systems have minds
-B) Consciousness requires language and higher-order thought
-C) There is no sharp boundary between being alive and having a mind
-D) Machines will inevitably become conscious
+3. 生命-意識の連続性理論は主張する：
+A) 神経系を持つ生物のみが意識を持つ
+B) 意識は言語と上位思考を必要とする
+C) 生きていることと意識を持つことの間に明確な境界はない
+D) 機械は不可避的に意識を持つようになる
 
-4. In the Markov Blanket formalism, **sensory states** are:
-A) Internal states that encode the agent's beliefs
-B) States that mediate the influence of external states on internal states
-C) States that the agent uses to change the environment
-D) External states that the agent cannot access
+4. マルコフ・ブランケットの形式において、「感覚状態」とは：
+A) エージェントの信念を符号化する内部状態
+B) 外部状態が内部状態に影響を与える仲介状態
+C) エージェントが環境を変更するために使用する状態
+D) エージェントがアクセスできない外部状態
 
-5. The "fallacy of equivocation" objection to the FEP argues that:
-A) Free energy is not a real physical quantity
-B) The formal description of self-organization is being conflated with genuine cognition
-C) Markov Blankets cannot exist in continuous systems
-D) The FEP is unfalsifiable because it predicts everything
+5. FEP（フィジカル・エナジー・パラドックス）に対する「曖昧語の誤謬」の反論は主張する：
+A) フリーエネルギーは現実の物理量ではない
+B) 自己組織化の形式的な記述が、真の認知と混同されている
+C) マルコフ・ブランケットは連続系では存在できない
+D) FEPは、すべてを予測するため検証不可能である
 
-6. Clark and Chalmers' Extended Mind Hypothesis suggests that:
-A) The mind is confined to neural activity in the brain
-B) Cognitive processes can extend beyond the brain to include external tools and artifacts
-C) All physical objects have rudimentary mental properties
-D) The mind exists only as emergent social phenomena
+6. クラークとチャルマーズの拡張された意識仮説は示唆する：
+A) 意識は脳内の神経活動に限定される
+B) 認知プロセスは、脳を超えて外部ツールや人工物を含めることができる
+C) 全ての物理的物体は、本質的に精神的性質を持つ
+D) 意識は、単なるエマージェントな社会現象として存在する
 
-7. From a Markov Blanket perspective, the Ship of Theseus paradox is best resolved by:
-A) Insisting that identity requires material continuity
-B) Accepting that there are now two equally valid Ships of Theseus
-C) Recognizing identity as constituted by dynamical pattern maintenance, not material substance
-D) Rejecting the concept of identity altogether as philosophically incoherent
+7. マルコフ・ブランケットの視点から、これらのウスエウスのパラドックスは最もうまく解決される：
+A) 連続性を要求することで同一性を主張する
+B) 現在、2つの同等に有効なウスエウスが存在するということを受け入れる
+C) 識別性を、物質的な実質ではなく、動的パターンの維持によって構成されていると認識する
+D) 哲学的に矛盾しているため、同一性の概念を完全に否定する
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Explain how the concept of "surprise" in Active Inference differs from its everyday usage, and why minimizing surprise is essential for a system's persistence.
-2. A candle flame maintains a stable form by consuming wax and oxygen. Does it have a Markov Blanket? Does it "resist dissolution"? What are the philosophical implications of your answer for the life-mind continuity thesis?
-3. Construct a two-step argument: first, show how the Markov Blanket formalism captures the philosophical intuition behind autopoiesis; second, identify one aspect of autopoiesis that it *fails* to capture.
+1. アクティブ・インファレンスにおける「驚き」の概念が、日常的な用法とどのように異なるかを説明し、システムの持続可能性のために最小限の驚きを最小化することがなぜ重要であるかを説明してください。
+2. キャンドルの炎は、ワックスと酸素を消費することで安定した形を維持します。それはマルコフ・ブランケットを持っているのでしょうか？それは「溶解の抵抗」をしているのでしょうか？あなたの答えが生命-意識の連続性理論にどのような哲学的な意味合いがあるのでしょうか？
+3. 2段階の議論を構築してください。まず、マルコフ・ブランケットの形式が、オートポイオシスの背後にある哲学的な直観をどのように捉えているかを示してください。次に、その形式が捉えられないオートポイオシスの側面を1つ特定してください。

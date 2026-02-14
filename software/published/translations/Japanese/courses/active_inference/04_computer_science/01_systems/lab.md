@@ -1,48 +1,48 @@
-# Lab 01: Building and Exploring a Discrete Environment
+# Lab 01: 離散環境の構築と探索
 
-## Objective
+## 目的
 
-Build a `DiscreteEnvironment` from scratch, step through it, record trajectories, and visualize the generative process.
+`DiscreteEnvironment` をゼロから構築し、その中をステップごとに進み、軌跡を記録し、生成過程を視覚化する。
 
-## Prerequisites
+## 前提条件
 
-- Python with NumPy and matplotlib installed
-- Familiarity with probability distributions and matrix notation
-- Access to the `active_inference` library (`src/active_inference/`)
+- NumPy と matplotlib がインストールされた Python
+- 確率分布と行列表記に関する知識
+- `active_inference` ライブラリへのアクセス (`src/active_inference/`)
 
-## Part 1: Constructing the Environment
+## Part 1: 環境の構築
 
-**Goal**: Create a 3-state, 2-observation environment with 2 actions.
+**目標**: 3状態、2観察状態の環境を2つの行動で作成する。
 
-1. Define a `true_A` matrix of shape `(2, 3)` where:
-   - State 0 produces observation 0 with probability 0.8
-   - State 1 produces each observation with equal probability
-   - State 2 produces observation 1 with probability 0.9
+1. 形状 `(2, 3)` の `true_A` 行列を定義する。ここで：
+   - 状態 0 は観察 0 を確率 0.8 で生成する
+   - 状態 1 は各観察を等しい確率で生成する
+   - 状態 2 は観察 1 を確率 0.9 で生成する
 
-2. Define a `true_B` tensor of shape `(3, 3, 2)` where:
-   - Action 0 is the identity (stay in current state)
-   - Action 1 rotates: state 0 → 1, state 1 → 2, state 2 → 0
+2. 形状 `(3, 3, 2)` の `true_B` テンソルを定義する。ここで：
+   - 行動 0 はアイデンティティ（現在の状態を維持）
+   - 行動 1 は回転：状態 0 → 1、状態 1 → 2、状態 2 → 0
 
-3. Create a `DiscreteEnvironment` starting in state 0.
+3. 状態 0 から開始する `DiscreteEnvironment` を作成する。
 
 ```python
 import numpy as np
 from active_inference.agent import DiscreteEnvironment
 
-# TODO: Define true_A and true_B
-# TODO: Create environment
+# TODO: true_A と true_B を定義
+# TODO: 環境を作成
 ```
 
-**Response**: {fill:textarea}
+**Response**: {}
 
-## Part 2: Running a Trajectory
+## Part 2: 軌跡の実行
 
-**Goal**: Step the environment for 20 timesteps using a fixed action sequence.
+**目標**: 固定された行動シーケンスで環境を 20 回ステップする。
 
-1. Reset the environment to state 0.
-2. Alternate between action 0 (stay) and action 1 (rotate) for 20 steps.
-3. Record the state, observation, and action at each step.
-4. Print the full trajectory.
+1. 環境を状態 0 にリセットする。
+2. 20 回ステップごとに行動 0 (維持) と行動 1 (回転) を交互に行う。
+3. 各ステップで状態、観察、行動を記録する。
+4. 軌跡全体を出力する。
 
 ```python
 env.reset(initial_state=0)
@@ -52,15 +52,15 @@ for t in range(20):
     print(f"t={t}: action={action}, state={env.state}, obs={obs}")
 ```
 
-**Response**: {fill:textarea}
+**Response**: {}
 
-## Part 3: Visualizing the Trajectory
+## Part 3: 軌跡の視覚化
 
-**Goal**: Use `plot_environment_trajectory` to visualize the state-observation-action sequence.
+**目標**: `plot_environment_trajectory` を使用して、状態-観察-行動シーケンスを視覚化する。
 
-1. After running Part 2, extract `env.history`.
-2. Call `plot_environment_trajectory` to generate a figure.
-3. Save the figure to `output/lab01_trajectory.png`.
+1. Part 2 を実行した後、`env.history` から状態、観察を抽出する。
+2. `plot_environment_trajectory` を呼び出して、図を作成する。
+3. 図を `output/lab01_trajectory.png` に保存する。
 
 ```python
 from active_inference.visualization import plot_environment_trajectory
@@ -72,35 +72,35 @@ plot_environment_trajectory(
 )
 ```
 
-**Response**: {fill:textarea}
+**Response**: {}
 
-## Part 4: Empirical Likelihood Estimation
+## Part 4: 経験的尤度推定
 
-**Goal**: Verify the `true_A` matrix by collecting observations.
+**目標**: `true_A` 行列を収集した観察で検証する。
 
-1. Reset the environment. Fix the state by using action 0 (identity) from a known starting state.
-2. Collect 1000 observations from each state (reset to each state, step with identity action 1000 times).
-3. Compute the empirical frequency of each observation per state.
-4. Compare with the original `true_A` matrix.
+1. 環境をリセットする。行動 0 (アイデンティティ) を使用して既知の開始状態から状態を固定する。
+2. 各状態から 1000 個の観察を収集する (各状態にリセットし、アイデンティティの行動で 1000 回ステップする)。
+3. 各状態あたりの観察の経験的頻度を計算する。
+4. 元の `true_A` 行列と比較する。
 
-**Response**: {fill:textarea}
+**Response**: {}
 
-## Part 5: Analysis Questions
+## Part 5: 分析問題
 
-1. When you ran 20 steps with alternating actions, how many unique states did the trajectory visit? Was this predictable from the `true_B` matrix?
+1. 20 回ステップで交互に行動を行った場合、軌跡が訪問したユニークな状態はいくつでしたか？これは `true_B` 行列から予測可能でしたか？
 
-2. Did your empirical likelihood estimates in Part 4 converge to the true values? How many samples were needed for 2-decimal accuracy?
+2. Part 4 で計算された経験的尤度推定値は、真の値に収束しましたか？ 2 桁の精度を得るために必要なサンプル数はいくつでしたか？
 
-3. What would change if you made `true_A = np.eye(3, 2).T` (a non-square identity-like matrix)? Would the environment still be valid?
+3. `true_A = np.eye(3, 2).T` (非正方形のアイデンティティのような行列) を使用した場合、何が変わりますか？環境は依然として有効ですか？
 
-**Response**: {fill:textarea}
+**Response**: {}
 
 ## Summary
 
-| Skill | Library Component | Status |
+| スキル | ライブラリコンポーネント | ステータス |
 |-------|------------------|--------|
-| Create environments with custom A and B matrices | `DiscreteEnvironment(true_A, true_B)` | |
-| Step through environments and collect trajectories | `env.step(action)`, `env.history` | |
-| Visualize state-observation trajectories | `plot_environment_trajectory()` | |
-| Empirically verify likelihood matrices | Manual frequency counting vs `true_A` | |
-| Understand the generative process abstraction | Generative process ≠ generative model | |
+| カスタム A および B 行列で環境を作成 | `DiscreteEnvironment(true_A, true_B)` | |
+| 環境をステップし、軌跡を収集 | `env.step(action)`, `env.history` | |
+| 状態-観察軌跡を視覚化 | `plot_environment_trajectory()` | |
+| 経験的に尤度行列を検証 | 手動で頻度をカウント vs `true_A` | |
+| 生成プロセス抽象を理解 | 生成的モデル ≠ 生成的プロセス | |

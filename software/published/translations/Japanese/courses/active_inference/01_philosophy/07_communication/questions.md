@@ -1,22 +1,22 @@
-# Study Questions: Communication
+# コミュニケーションに関する質問
 
-1. How does Active Inference model communication between two agents? What is "generalized synchrony"?
-2. What is the philosophical problem of other minds, and how does Active Inference address it?
-3. Explain Friston and Frith's (2015) account of communication as coupled inference. What are the conditions for successful communication?
-4. How does Theory of Mind (ToM) function as hierarchical inference in Active Inference?
-5. What is Husserl's concept of *Einfühlung* (empathy), and how does it relate to the Active Inference account of modeling other agents?
-6. How does Wittgenstein's private language argument relate to the concept of shared generative models?
-7. Explain how language functions as a "shared generative model." What does this claim mean precisely?
-8. If language shapes the generative model, does language shape perception? Connect this to the Sapir-Whorf hypothesis.
-9. How does miscommunication arise in the Active Inference framework? Give a concrete example.
-10. What is the role of context in communication from an Active Inference perspective?
-11. How does Levinas's ethics of the face relate to the encounter with another inference system?
-12. Can non-linguistic communication (gesture, music, dance) be understood through the Active Inference framework? How?
-13. How do cultural practices (rituals, institutions) function as long-duration synchronization mechanisms?
-14. What is the role of precision in communication? How does "listening carefully" differ from "listening casually" in Active Inference terms?
-15. Compare the Active Inference account of communication with Grice's theory of conversational implicature. Are they compatible?
-16. How does deception work in the Active Inference framework? The deceiver must model the target's model to predict how the lie will be received.
-17. Can AI systems engage in genuine communication under the Active Inference framework, or only in functional imitation?
-18. How does the concept of "shared attention" (Tomasello) relate to coupled inference?
-19. What challenges does communication between agents with very different generative models (e.g., across cultures, species, or neurodivergent perspectives) pose for the framework?
-20. Construct an argument: Does Active Inference show that communication is fundamentally cooperative (Grice, Tomasello), or can it equally account for adversarial communication (propaganda, manipulation)?
+1.  Active Inferenceモデルは、2つのエージェント間のコミュニケーションをどのようにモデル化しますか？「汎化された同期性」とは何ですか？
+2.  他者の意識の問題（他者の意識のパラドックス）とは何か、そしてActive Inferenceはどのようにそれに対処しますか？
+3.  FristonとFrith (2015) のコミュニケーションをカップリングされた推論として説明してください。コミュニケーションが成功するための条件は何ですか？
+4.  理論的知能（ToM）は、Active Inferenceにおける階層的な推論として機能しますか？
+5.  Husserlの概念である *Einfühlung*（共感）とは何か、そしてActive Inferenceにおける他のエージェントをモデル化する説明とどのように関連していますか？
+6.  Wittgensteinの私語論は、共有生成モデルの概念とどのように関連していますか？
+7.  言語は「共有生成モデル」として機能します。この主張は具体的に何を意味していますか？
+8.  言語が生成モデルを形成する場合、言語は認識を形成しますか？これはサピア・ウォーフ仮説に繋がりますか？
+9.  Active Inferenceの枠組みにおいて、誤解が生じる原因は何ですか？具体的な例を挙げてください。
+10. Active Inferenceの観点から、コミュニケーションにおいて文脈の役割は何ですか？
+11. Levinasの顔の倫理は、別の推論システムとの遭遇とどのように関連していますか？
+12. 手振り、音楽、ダンスなどの言語以外のコミュニケーションは、Active Inferenceの枠組みを通して理解できますか？どのように？
+13. 儀式、制度などの文化的慣習は、長期的な同期メカニズムとして機能しますか？
+14. コミュニケーションにおける正確さの役割は何ですか？Active Inferenceの用語で、「注意深く聞く」は「気楽に聞く」とどのように異なりますか？
+15. Active Inferenceにおけるコミュニケーションの説明を、Griceの会話的含意理論と比較してください。それらは互いに一致しますか？
+16. Active Inferenceの枠組みにおいて、欺瞞はどのように機能しますか？欺瞞者は、嘘がどのように受け入れられるかを予測するために、ターゲットのモデルをモデル化する必要があります。
+17. Active Inferenceの枠組み下で、AIシステムは本物のコミュニケーションに参加できますか、それとも機能的な模倣に過ぎませんか？
+18. 「共有注意」（Tomasello）の概念は、カップリングされた推論とどのように関連していますか？
+19. 非常に異なる生成モデル（例えば、文化、種、または神経多様性からの視点）を持つエージェント間のコミュニケーションは、枠組みにどのような課題を突き付けますか？
+20. 主張を構築してください：Active Inferenceは、コミュニケーションが本質的に協力的なもの（Grice、Tomasello）であることを示しているのでしょうか、それとも、敵対的なコミュニケーション（プロパガンダ、操作）を説明することもできますか？

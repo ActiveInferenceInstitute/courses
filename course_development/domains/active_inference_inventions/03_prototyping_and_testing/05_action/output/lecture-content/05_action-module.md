@@ -1,0 +1,111 @@
+# Module 05: Iterative Refinement — The Action-Perception Loop in Design
+
+## Executive Summary
+
+Prototyping is not a single act of building and testing — it is a **cycle** of action, perception, reasoning, and further action. This module examines the iterative refinement process through the lens of the Active Inference action-perception loop. Each prototype iteration is an action that generates new observations, which drive belief updates, which motivate new actions. The module covers design iteration cycles, A/B testing as controlled action selection, the concept of minimum viable prototypes, the critical pivot-or-persevere decision, and how the entire cycle is governed by the principle of free energy minimization. Knowing when to tweak, when to restructure, and when to start over is the highest-order action skill in the inventor's repertoire.
+
+## Learning Objectives
+
+1. Model the prototype iteration cycle as an Active Inference action-perception loop, identifying how each iteration reduces free energy.
+2. Apply the minimum viable prototype (MVP) concept to determine the smallest prototype that generates the maximum information per unit cost.
+3. Design A/B tests as controlled comparisons between competing design actions, specifying what each comparison is designed to resolve.
+4. Evaluate the pivot-or-persevere decision using the expected free energy framework, distinguishing between situations that call for parameter refinement and those that call for structural change.
+5. Plan an iteration roadmap for your invention project that specifies the sequence of prototype actions and the decision criteria between them.
+
+## Key Concepts
+
+### 1. The Action-Perception Loop in Prototyping
+
+Active Inference describes cognition as a continuous loop: the agent acts on the world, perceives the consequences, updates its model, and selects new actions. This loop is precisely the structure of iterative prototyping. The inventor builds a prototype (action), tests it (perception), reasons about the results (belief updating), and decides what to change for the next version (action selection).
+
+Each turn of the loop is governed by free energy minimization. The action taken — the specific design change made in the next iteration — should be the one that is expected to minimize free energy most effectively. This means the action should either reduce uncertainty (epistemic value) or improve the prototype's performance toward the target (pragmatic value), or ideally both.
+
+The Toyota Production System's concept of **kaizen** (continuous improvement) is an industrial-scale implementation of this loop. Toyota engineers make small, incremental changes to manufacturing processes, measure the results, and iterate. Each change is a hypothesis: "If I adjust this parameter, performance will improve by X." The measurement confirms or denies the hypothesis, and the next change is selected accordingly. Over decades, these small loops accumulate into transformative improvements that no single design leap could have achieved.
+
+The key insight for inventors is that the loop's value comes from its frequency, not its amplitude. Many small, fast iterations are generally more valuable than a few large, slow ones. Each turn of the loop provides an opportunity to detect and correct errors in the generative model. The faster you turn the loop, the faster your model converges on reality.
+
+### 2. The Minimum Viable Prototype
+
+The concept of the Minimum Viable Product (MVP), introduced by Frank Robinson and popularized by Eric Ries in *The Lean Startup*, translates directly into Active Inference terms as the **minimum viable prototype** — the simplest prototype that generates enough prediction error to update the generative model in a meaningful way.
+
+The MVP principle states that you should build only what is necessary to test the most critical assumption. Everything beyond that is waste — it consumes resources without contributing to belief updating. In Active Inference terms, the minimum viable prototype is the one that maximizes the ratio of expected free energy reduction to construction cost.
+
+Drew Houston's proof of concept for Dropbox is a canonical MVP example. Rather than building the complex file synchronization technology, Houston created a 3-minute video demonstrating the intended user experience. The prototype's Markov blanket included only the user interface and the user's reaction — the internal mechanism (cloud synchronization) was entirely excluded. This minimal prototype was sufficient to test the most critical assumption: "Do people want seamless file synchronization across devices?" The answer (yes, as evidenced by 75,000 signup requests overnight) resolved a critical uncertainty at essentially zero engineering cost.
+
+The minimum viable prototype is not the worst possible prototype — it is the most efficient. It includes exactly the components needed to test the highest-priority hypothesis and excludes everything else. The art is in identifying what is necessary and what is wasteful for the current state of knowledge.
+
+### 3. A/B Testing as Controlled Action Selection
+
+When the inventor faces a design choice — should the button be on the left or the right? Should the material be aluminum or titanium? Should the algorithm use method A or method B? — the appropriate action is not to guess, but to test both options simultaneously and let the data decide. This is A/B testing, and in Active Inference terms, it is **controlled action selection** — choosing between alternative policies by evaluating their consequences empirically.
+
+An A/B test creates two parallel versions of the prototype (or two parallel conditions of the same prototype), each implementing a different design choice. Users or test conditions are randomly assigned to one version or the other, and the results are compared. The version that performs better provides evidence for which action (design choice) more effectively reduces free energy.
+
+Google's culture of A/B testing is perhaps the most extreme example. Google tests over 10,000 variations of its search interface annually, from font sizes to button colors to algorithm tweaks. Each test is a controlled experiment that resolves a specific design uncertainty. The cumulative effect of thousands of small, data-driven action selections is a product that converges toward optimal performance through relentless iteration.
+
+For physical prototypes, true A/B testing is harder (you cannot randomly assign physical objects as easily as web pages), but the principle applies. If you are unsure whether a foam or a gel handle is more comfortable, build both and have testers use each. If you are unsure whether a clockwise or counterclockwise dial is more intuitive, test both with different user groups. The key discipline is to vary only one factor at a time, so that any performance difference can be attributed to the design choice rather than to confounding variables.
+
+### 4. Pivot or Persevere: The Structural Decision
+
+The most consequential action decision in prototyping is not what parameter to tweak next — it is whether to continue refining the current approach or to pivot to a fundamentally different one. In Active Inference, this is the difference between **action within a model** (continuing to minimize free energy by adjusting parameters) and **model switching** (abandoning the current generative model for a new one).
+
+The expected free energy framework provides a principled basis for this decision. If the expected free energy under continued refinement (more parameter adjustments, same model structure) is lower than the expected free energy under a pivot (new model structure, higher initial uncertainty but potentially better long-term fit), then persist. If the pivot's expected free energy is lower, then switch.
+
+In practice, this calculation is rarely precise, but the framework provides useful heuristics. **Persevere signals**: each iteration is producing measurable improvement; the prediction errors are getting smaller; the remaining problems feel like calibration issues rather than fundamental flaws. **Pivot signals**: iterations are producing diminishing returns; prediction errors are not decreasing despite multiple changes; user feedback suggests that the fundamental approach is wrong, not just the implementation details.
+
+Stewart Butterfield's Slack is a famous pivot case. Butterfield's team was building an online game called Glitch. The game was failing commercially, but the internal communication tool the team had built to coordinate development was working brilliantly. Butterfield recognized that the expected free energy of continuing with the game (persistent large prediction errors between expected and actual user engagement) was higher than the expected free energy of pivoting to the communication tool (strong signals of product-market fit from internal use). The pivot created a company worth over $20 billion.
+
+The hardest aspect of the pivot decision is that it requires the inventor to admit that their generative model is structurally wrong — not just miscalibrated. This requires intellectual honesty and the emotional resilience to abandon invested work, which connects back to the sunk cost bias discussed in Module 04.
+
+### 5. Iteration Roadmapping
+
+An iteration roadmap is a planned sequence of prototype actions, specifying what each iteration will test, what success and failure look like, and what decision will be made based on the results. It transforms ad hoc tinkering into a structured convergence process.
+
+An effective iteration roadmap has three components: **the sequence** (which hypotheses to test in which order, from most critical to least), **the decision gates** (specific criteria that determine whether to proceed, iterate, or pivot at each stage), and **the resource allocation** (how much time and money is budgeted for each iteration).
+
+The Stage-Gate product development process, developed by Robert Cooper, formalizes this approach. Each "stage" is a development phase with specific activities and deliverables. Each "gate" is a decision point where the project is evaluated against predetermined criteria and either approved, revised, recycled, or killed. The gates enforce disciplined action selection by requiring evidence-based decisions at each transition.
+
+For individual inventors, the roadmap can be simpler but should still include: the priority ordering of hypotheses, the fidelity level of each planned prototype, the test protocol for each, and the decision criteria that connect each test outcome to the next action. Without a roadmap, iteration tends to become circular rather than convergent — the inventor makes changes without a clear logic connecting each change to the overall goal.
+
+## Applications
+
+### Case Study 1: SpaceX Starship — Rapid Iteration Through Controlled Failure
+
+SpaceX's development of the Starship rocket represents an extreme application of the rapid iteration philosophy. Rather than following the traditional aerospace approach of exhaustive simulation and careful testing before any flight, SpaceX adopted a "build, fly, fail, learn, repeat" cycle with unprecedented speed.
+
+The early Starship prototypes (SN5 through SN15) were explicitly designed as minimum viable prototypes for specific hypotheses. SN5 tested basic hop capability. SN8 tested the belly-flop maneuver and landing flip. SN9 and SN10 iterated on the landing sequence. Each test flight was an action in the perception-action loop, generating data (including spectacular failures) that drove rapid design updates.
+
+The key Active Inference insight is that SpaceX treated each prototype as disposable — the value was in the prediction errors generated, not in the hardware preserved. A rocket that crashes spectacularly but provides high-quality data on engine relight timing is more valuable than a rocket that sits safely in a hangar. This is expected free energy minimization in its purest form: select the action (test flight) that maximizes information gain, even if the pragmatic cost (hardware loss) is high.
+
+### Case Study 2: The Dyson Pivot That Almost Did Not Happen
+
+James Dyson's cyclone vacuum development included a near-pivot moment. After approximately 3,000 prototypes, Dyson's single-cyclone design had reached diminishing returns — each iteration produced smaller improvements, and the prototype still could not achieve the fine-particle separation needed for commercial viability. The expected free energy of further parameter adjustments was high and dropping slowly.
+
+Rather than giving up, Dyson made a structural revision: he added a second cyclone stage, creating a dual-cyclone system that separated coarse particles in the first stage and fine particles in the second. This was not a parameter adjustment within the existing model — it was a structure revision that added new variables (a second cyclone with its own geometry parameters) and new relationships (the sequential interaction between the two stages).
+
+The dual-cyclone structure resolved the diminishing returns problem, opening a new region of design space where rapid iteration could resume. This case illustrates the importance of recognizing when iteration within a model has stalled and a structural change is needed — and the even greater importance of making the structural change rather than continuing to polish an approach that has reached its limits.
+
+## Cross-References
+
+- **Module 01 (The Prototype as a System)**: The system designed in Module 01 is the object being iteratively refined here; changes to the Markov blanket correspond to structural revisions.
+- **Module 04 (Reasoning About Results)**: Reasoning determines what to change; this module focuses on the act of changing it.
+- **Module 06 (Learning from Failure and Success)**: Each iteration generates learning; Module 06 addresses how to consolidate and transfer that learning.
+- **Module 08 (Test Planning Under Uncertainty)**: The iteration roadmap connects to the planning framework in Module 08.
+
+## Summary Table
+
+| Concept | Definition | Iteration Application |
+|---------|-----------|---------------------|
+| Action-Perception Loop | Continuous cycle of acting, perceiving consequences, updating beliefs, and selecting new actions | Each prototype iteration is one turn of the loop |
+| Minimum Viable Prototype | Simplest prototype that generates meaningful prediction errors for belief updating | Maximize information gain per unit of construction cost |
+| A/B Testing | Controlled comparison of two design alternatives to resolve a specific design choice | Vary one factor, randomly assign conditions, compare outcomes |
+| Pivot vs. Persevere | Decision between parameter refinement (persevere) and structural model change (pivot) | Persevere when errors decrease; pivot when iterations show diminishing returns |
+| Iteration Roadmap | Planned sequence of prototype actions with decision gates and resource allocation | Transforms ad hoc tinkering into structured convergence |
+| Expected Free Energy | Combined epistemic and pragmatic value used to select the optimal next action | Guides which design change to prioritize at each iteration |
+
+## References
+
+1. Ries, E. (2011). *The Lean Startup: How Today's Entrepreneurs Use Continuous Innovation*. Crown Business.
+2. Cooper, R. G. (2017). *Winning at New Products: Creating Value Through Innovation* (5th ed.). Basic Books.
+3. Friston, K. J., FitzGerald, T., Rigoli, F., Schwartenbeck, P., & Pezzulo, G. (2017). Active inference and learning. *Neuroscience & Biobehavioral Reviews*, 68, 862-879.
+4. Thomke, S. H. (2003). *Experimentation Matters: Unlocking the Potential of New Technologies for Innovation*. Harvard Business School Press.
+5. Liker, J. K. (2004). *The Toyota Way: 14 Management Principles*. McGraw-Hill Education.

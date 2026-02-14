@@ -1,51 +1,55 @@
-# Practice Quiz: Systems
+# システムに関する練習問題
 
-## Part A: Multiple Choice
+## 部門 A: 選択式
 
-1. A cortical column can be understood as:
-A) A complete brain region responsible for a single cognitive function
-B) A local inference engine maintaining predictions about specific sensory features
-C) A random grouping of neurons with no functional significance
-D) A structure found only in the visual cortex
+1. 皮質カラムを理解する上で最も適切なものは次のうちどれですか？
+A) 単一の認知機能を担当する完全な脳領域
+B) 特定の感覚特徴に関する予測を維持する局所的な推論エンジン
+C) 機能的意義のない神経細胞のランダムな集まり
+D) 視覚皮質にのみ存在する構造
 
-2. The Markov Blanket of the brain is best identified with:
-A) The skull and meninges
-B) The sensory and motor surfaces of the body
-C) The blood-brain barrier
-D) The corpus callosum connecting the two hemispheres
+2. 脳のマルコフ包囲圏は、次のうち最も適切に識別されますか？
+A) スカルと硬膜
+B) 体の感覚および運動表面
+C) 脳に対する血脳関門
+D) 左右の半球を接続する脳梁
 
-3. Resting-state fMRI activity reflects:
-A) Neural noise with no functional significance
-B) The brain's ongoing generative model — prior predictions maintained even without external stimulation
-C) Damage to the default mode network
-D) The brain entering a sleep-like state
+3. 静止状態のfMRI活動は、次のうち何を反映していますか？
+A) 機能的意義のない神経ノイズ
+B) 外部刺激なしで維持された、脳の継続的な生成モデル – 事前の予測
+C) デフォルトモードネットワークの損傷
+D) 睡眠のような状態への移行
 
-4. The salience network, anchored by the anterior insula and dACC, likely implements:
-A) Long-term memory storage
-B) Precision weighting — determining which prediction errors are amplified
-C) Motor planning and execution
-D) Language comprehension
+4. 前頭葉insulaとdACCによって支えられた注意ネットワークは、おそらく次を実装します：
+A) 長期記憶の保存
+B) 精度の重み付け – どの予測エラーを強調するかを決定
+C) 運動計画と実行
+D) 言語理解
 
-5. Anosognosia (unawareness of deficit) is best explained in Active Inference as:
-A) Psychological denial as a defense mechanism
-B) A failure to update the generative model's self-component despite contradictory sensory evidence
-C) Damage to the visual cortex preventing visual feedback
-D) An emotional response to trauma
+5. 意識障害（機能障害への無意識）は、Active Inferenceにおいて最もよく説明されます：
+A) 防衛メカニズムとしての心理的な否認
+B) 矛盾する感覚的証拠にもかかわらず、生成モデルの自己成分を更新しないこと
+C) 視覚皮質への損傷による視覚フィードバックの妨害
+D) 心的外傷への感情的な反応
 
-6. The mismatch negativity (MMN) in EEG experiments is considered a neural correlate of:
-A) Motor intention
-B) Prediction error — the brain's response to a stimulus that violates expected patterns
-C) Memory consolidation
-D) Emotional processing
+6. EEG実験における不一致陰性波（MMN）は、次のうち神経的な相関として考慮されていますか？
+A) 運動意図
+B) 予測エラー – 期待されるパターンに違反する刺激に対する脳の応答
+C) 記憶の統合
+D) 感情処理
 
-7. The hierarchical organization of cortex (primary → association areas) maps onto:
-A) The temporal sequence of neural development
-B) The hierarchical depth of the generative model (concrete → abstract predictions)
-C) The physical distance from the brainstem
-D) The density of myelinated axons
+7. 皮質の階層的組織（一次 → 関連領域）は、次のうち何にマッピングされますか？
+A) 神経発達の時間的順序
+B) 生成モデルの階層的深さ（具体的 → 抽象的な予測）
+C) 脳幹からの物理的距離
+D) ミエリン化された軸索の密度
 
-## Part B: Short Answer
+## 部門 B: 記述式
 
-1. Explain why the default mode network's activity during rest may represent the brain's self-model rather than mere neural idling. What experimental evidence supports this interpretation?
-2. A patient with depersonalization reports feeling detached from their own body — as if observing themselves from outside. Analyze this experience using Active Inference: what has happened to the precision of self-model predictions?
-3. Design a simple experiment that could test the Active Inference prediction that mismatch negativity (MMN) amplitude correlates with the precision of auditory prediction errors.
+1. デフォルトモードネットワークの休息中の活動が、単なる神経の怠惰ではなく、脳の自己モデルを代表する理由を説明してください。この解釈を支持する実験的証拠を挙げてください。
+2. 身体からの疎外感を自覚する患者（まるで自分自身を外部から観察しているかのように）が報告した場合、Active Inferenceを用いてこの経験を分析してください。自己モデルの精度はどのように変化したと考えられますか？
+3. 不一致陰性波（MMN）の振幅が、聴覚的予測エラーの精度と相関しているというActive Inferenceの予測をテストできる、単純な実験を設計してください。
+
+---
+
+**Note:**  I have translated the text and formatted it as requested, preserving all markdown, links, and code blocks.  The Japanese translation is a direct translation of the English text.

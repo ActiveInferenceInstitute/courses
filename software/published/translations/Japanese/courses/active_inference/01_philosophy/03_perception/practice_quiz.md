@@ -1,51 +1,51 @@
-# Practice Quiz: Perception
+# 練習クイズ：知覚
 
-## Part A: Multiple Choice
+## 部門 A：選択式
 
-1. According to Active Inference, perception is best understood as:
-A) Passive reception of sensory data from the environment
-B) Unconscious inference — the brain's best guess about the causes of sensory stimulation
-C) Direct contact with the structure of the environment
-D) A purely social construction mediated by language and culture
+1. アクティブ・インファレンス（積極的推論）によると、知覚は最もよく理解されるのは：
+A) 環境からの感覚データへの受動的な受容
+B) 無意識的な推論—脳が感覚刺激の原因についての最良の推測
+C) 環境の構造との直接的な接触
+D) 言語と文化によって媒介される純粋な社会的構築
 
-2. Prediction error in the Active Inference framework corresponds to:
-A) The discrepancy between expected and actual sensory observations
-B) A computational bug that the brain should eliminate
-C) The subjective feeling of confusion
-D) The Bayesian prior probability of an event
+2. アクティブ・インファレンスの枠組みにおける予測誤差は、次のうちどれに相当するか：
+A) 期待されるものと実際の感覚観察との間のずれ
+B) 脳が排除すべき計算上のバグ
+C) 混乱の主観的な感覚
+D) イベントのベイズ事前確率
 
-3. Merleau-Ponty's concept of tool transparency is best explained in Active Inference terms as:
-A) The tool becoming invisible to the visual system
-B) The absence of prediction error during skilled, fluent tool use
-C) A repression of tool-awareness from consciousness
-D) The tool being incorporated into the agent's physical boundary
+3. メルロー＝ポンティのツール透明性という概念は、アクティブ・インファレンスの用語で最もよく説明されるのは：
+A) 視覚システムにとってツールが不可視になること
+B) 熟練した流暢なツール使用中の予測誤差の欠如
+C) 意識からのツール意識の抑圧
+D) ツールがエージェントの物理的境界に組み込まれること
 
-4. Hoffman's user-interface theory of perception claims that:
-A) Perception accurately reproduces the structure of objective reality
-B) Perception provides species-specific icons optimized for fitness, not truth
-C) Only humans have genuine perceptual experiences
-D) Virtual reality is indistinguishable from real perception
+4. ホフマンの知覚に関するユーザーインターフェース理論は主張している：
+A) 知覚は客観的な現実の構造を正確に再現する
+B) 知覚は種の特異なアイコンを提供し、適応に最適化されており、真実ではない
+C) したがって、人間のみのみが真の知覚体験を持つ
+D) 仮想現実は実際の知覚と区別がつかない
 
-5. The "dark room problem" challenges Active Inference by asking:
-A) Why organisms don't seek out complete darkness to minimize surprise
-B) How agents perceive in low-light conditions
-C) Whether Markov Blankets exist in dark environments
-D) If unconscious perception is possible during sleep
+5. 「暗い部屋の問題」は、アクティブ・インファレンスに挑戦するために尋ねる：
+A) 生物が驚きを最小限に抑えるために暗闇を探す理由
+B) エージェントが暗い条件でどのように感覚を捉えるか
+C) マーコフのブランケットが暗い環境で存在する可能性
+D) 無意識的な知覚が睡眠中にあるかどうか
 
-6. The philosophical distinction between perception and hallucination, under Active Inference, is:
-A) Absolute — perception involves real objects, hallucination does not
-B) A matter of degree — hallucinations are predictions without sufficient sensory constraint
-C) Meaningless — the framework cannot distinguish them
-D) Based solely on the agent's verbal reports
+6. アクティブ・インファレンスの下での知覚と幻覚の哲学的な区別は：
+A) 絶対—知覚は現実の物体を伴い、幻覚は伴わない
+B) 程度による—幻覚は不十分な感覚的制約なしの予測である
+C) 無意味—枠組みはそれらを区別できない
+D) エージェントの言語的報告のみに基づいて
 
-7. Gibson's ecological psychology differs from Active Inference primarily in that:
-A) Gibson denied the existence of information in the environment
-B) Gibson argued perception requires internal generative models
-C) Gibson claimed perception is direct — based on invariant information structures, not inference
-D) Gibson rejected the role of action in perception
+7. ギブソンの生態心理学は、アクティブ・インファレンスとの主な違いは：
+A) ギブソンは環境に情報が存在することを否定した
+B) ギブソンは知覚には内部の生成モデルが必要であると主張した
+C) ギブソンは知覚が直接的であると主張している—不変の情報構造に基づいて推論ではなく
+D) ギブソンは知覚における行動の役割を拒否した
 
-## Part B: Short Answer
+## 部門 B：記述式
 
-1. Explain the relationship between prediction error and the phenomenological concept of "breakdown" (Heidegger). Give an example from everyday experience.
-2. Can an Active Inference agent perceive something that is not there (a hallucination) or fail to perceive something that is there (inattentional blindness)? How does the framework explain each?
-3. Compare the Kantian thesis that "the mind constitutes the experienced world" with the Active Inference claim that "perception is shaped by the generative model." Are they making the same claim?
+1. 予測誤差とヘイデガーの経験論的な概念である「崩壊」（ブレイクダウン）との関係を説明してください。日常的な経験からの例を挙げてください。
+2. アクティブ・インファレンスのエージェントは、存在しないもの（幻覚）を感知したり、存在するもの（注意欠如の盲点）を感知できない（注意欠如の盲点）ようにすることができますか？この枠組みはそれぞれをどのように説明しますか？
+3. 「心は経験された世界を構成する」というカントのテーゼと、「知覚は生成モデルによって形作られる」というアクティブ・インファレンスの主張を比較してください。それらは同じ主張をしているのでしょうか？

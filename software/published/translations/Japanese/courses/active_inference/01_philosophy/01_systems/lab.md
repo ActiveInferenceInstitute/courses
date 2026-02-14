@@ -1,80 +1,80 @@
-# Lab: Thought Experiment — Drawing Boundaries
+# Lab: 思考実験 — 境界線を定める
 
-## Objective
+## 目的
 
-Explore the philosophical implications of system boundaries by constructing and analyzing thought experiments about where systems begin and end.
+システム境界の哲学的な意味合いを探求するために、システムがどこからどこまでであるかを考察する思考実験を構築・分析する。
 
-## Prerequisites
+## 前提知識
 
-* Familiarity with the concepts of Markov Blankets, autopoiesis, and the life-mind continuity thesis from this module's lecture.
+* このモジュールの講義で学んだ、マルコフブランケット、オートポイエシス、生命・意識の連続性理論の概念に精通していること。
 
-## Part 1: The Boundary Problem
+## 第1部: 境界線の問題
 
-**Goal**: Identify the assumptions hidden in everyday boundary attributions.
+**目標**: 日常的な境界線付けに潜む仮定を特定する。
 
-Consider three candidate systems: (a) a single cell, (b) a human being walking through a city, (c) a jazz quartet improvising a piece. For each, answer:
+以下の3つのシステムを検討してください。 (a) 単一の細胞、(b) 都市を歩く人、(c) ジャズ四重奏団が楽曲を即興演奏する。それぞれのケースについて、次の質問に答えてください。
 
-* Where would you intuitively place the boundary between the system and its environment?
-* What criteria did you use (spatial, functional, informational, phenomenological)?
-
-{fill:textarea}
-
-## Part 2: Applying the Markov Blanket
-
-**Goal**: Translate the intuitive boundary into the formal language of Active Inference.
-
-For the human walking through a city (case b above), identify plausible candidates for:
-
-* **Sensory states (s)**: What aspects of the environment does the person sample?
-* **Active states (a)**: What actions does the person take that change the environment?
-* **Internal states (μ)**: What hidden states are shielded from the environment by the blanket?
-* **External states (η)**: What environmental states are relevant but only known through the blanket?
-
-Does the blanket fall at the skin? Or does it extend further — to include the phone in the person's hand, the headphones, the navigation app?
+* システムと環境の間に境界線を直感的にどこに置きますか？
+* どのような基準（空間的、機能的、情報的、現象学的）を使用しましたか？
 
 {fill:textarea}
 
-## Part 3: Life-Mind Continuity Challenge
+## 第2部: マルコフブランケットの適用
 
-**Goal**: Construct an argument for or against attributing "mind" to a minimal living system.
+**目標**: 経験的な推論の形式言語に直感的な境界線を翻訳する。
 
-Consider a bacterium performing chemotaxis — swimming toward nutrients and away from toxins. The bacterium has internal metabolic states, a membrane (blanket), and active locomotion.
+都市を歩いている人（上記bのケース）について、以下の候補を特定してください。
 
-* In what sense, if any, does the bacterium "perceive" its environment?
-* Does it have "beliefs" about where nutrients are? Or is this merely a useful metaphor?
-* Write a short argument (3-5 sentences) either defending or criticizing the attribution of mind to the bacterium.
+* **感覚状態 (s)**: 人がサンプリングする環境の側面は？
+* **行動状態 (a)**: 環境を変化させるために人がとる行動は？
+* **内部状態 (μ)**: ブランケットによって環境から保護されている隠れた状態は？
+* **外部状態 (η)**: ブランケットを通してのみ知られるが環境の側面は？
 
-{fill:textarea}
-
-## Part 4: The Ship of Theseus Revisited
-
-**Goal**: Apply the Markov Blanket perspective to a classical philosophical puzzle.
-
-A ship has every plank replaced, one by one, over the course of a decade. The old planks are assembled into a second ship. Which is the Ship of Theseus?
-
-Reframe this puzzle using the concept of Markov Blanket dynamics. Is identity a property of material constitution or of dynamical pattern? Does the Markov Blanket framework dissolve the paradox, or does it merely relocate it?
+ブランケットは皮膚に落ちますか？ それとも、手の中の携帯電話、ヘッドホン、ナビゲーションアプリを含めてさらに広がりますか？
 
 {fill:textarea}
 
-## Part 5: Synthesis and Peer Review
+## 第3部: 生命・意識の連続性への挑戦
 
-**Goal**: Develop and defend your own philosophical position.
+**目標**: 最小限の生体システムに「意識」を付与することを支持または反対する議論を構築する。
 
-Write a 200-word position statement on one of the following:
-* "Markov Blankets are real boundaries in nature, not mere mathematical conveniences."
-* "The life-mind continuity thesis is a category error dressed in formal clothing."
-* "The Free Energy Principle is best understood as a principle of organization, not a law of physics."
+栄養源に向かって泳ぎ、毒素から離れることを行う細菌を検討してください。細菌には内部の代謝状態、膜（ブランケット）、および積極的な運動があります。
 
-Share your position with a peer. Identify the strongest objection to your view and respond to it.
+* いったん、「感知」するという意味で細菌は何を認識しているのでしょうか？
+* 栄養源について「信念」を持っているのでしょうか？ それは単なる便利な比喩に過ぎないのでしょうか？
+* 3〜5文の短い議論を書いて、細菌に意識を付与することの擁護または批判を行ってください。
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部: これらのウスの再検討
 
-| Part | Skill Developed | Key Philosophical Move |
+**目標**: マルコフブランケットの視点から古典的な哲学パズルを適用する。
+
+船のすべての板が10年間かけて1枚ずつ交換されます。古い板は2番目の船に組み立てられます。これはどの船のウスですか？
+
+マルコフブランケットのダイナミクスという概念を用いてこのパズルを再構成してください。同一性は物質構成の性質か、それともダイナミックなパターンに依存するのか？ マルコフブランケットの枠組みはパラドックスを解決するのか、それとも単にそれを別の場所に移動させるだけなのか？
+
+{fill:textarea}
+
+## 第5部: 統合とピアレビュー
+
+**目標**: 独自の哲学的な立場を開発し、擁護する。
+
+以下のいずれかの立場について200語の立場表明を書いてください。
+* 「マルコフブランケットは、自然界における実際の境界線であり、単なる数学的な便宜ではない。」
+* 「生命・意識の連続性理論は、形式的な服装をしたカテゴリの誤りである。」
+* 「フリーエネルギー原則は、物理法則ではなく、組織の原則として最もよく理解されるべきである。」
+
+あなたの立場をピアと共有してください。あなたの見方に対する最も強力な反論を特定し、それに対して応答してください。
+
+{fill:textarea}
+
+## 実験のまとめ
+
+| 部 | 開発されたスキル | キーとなる哲学的な動き |
 |------|----------------|----------------------|
-| 1 | Boundary identification | Exposing hidden assumptions in everyday system attributions |
-| 2 | Formal translation | Mapping intuitive boundaries onto the Markov Blanket formalism |
-| 3 | Argumentative construction | Building and critiquing the life-mind continuity thesis |
-| 4 | Conceptual analysis | Applying dynamical identity to classical puzzles |
-| 5 | Position defense | Articulating and defending a philosophical position under objection |
+| 1 | 境界線識別 | 日常的なシステム付ributionにおける隠れた仮定を明らかにする |
+| 2 | 形式的な翻訳 | 直感的な境界線をマルコフブランケットの形式にマッピングする |
+| 3 | 議論の構築 | 生命・意識の連続性理論を構築・批判する |
+| 4 | 概念分析 | 動的な同一性を古典的なパズルに適用する |
+| 5 | 立場擁護 | 反論に対して自身の哲学的な立場を表明・擁護する |

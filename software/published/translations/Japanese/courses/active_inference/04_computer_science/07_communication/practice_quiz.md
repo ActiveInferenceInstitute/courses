@@ -1,53 +1,53 @@
-# Practice Quiz: Communication
+# 練習クイズ：コミュニケーション
 
-## Part A: Multiple Choice
+## Part A: 選択肢問題
 
-1. In a multi-agent Active Inference setting, one agent's actions become:
-A) Another agent's hidden states
-B) Another agent's observations
-C) Another agent's C-vector
-D) Another agent's precision
+1. マルチエージェントのActive Inference設定において、あるエージェントのアクションは次のうちどれになるか：
+A) 別のエージェントの隠れ状態
+B) 別のエージェントの観測
+C) 別のエージェントのCベクトルの値
+D) 別のエージェントの精度
 
-2. In the signaling game, mutual information between signals and world states measures:
-A) The reward gained by the receiver
-B) How much the sender's signals reduce uncertainty about the world state
-C) The entropy of the A-matrix
-D) The agent's VFE
+2. シグナリングゲームにおいて、信号と世界状態間の相互情報量は、次のうちどれを測るか：
+A) 受信側の獲得報酬
+B) 送信者の信号が世界状態に関する不確実性をどれだけ減らすか
+C) A行列のエントロピー
+D) エージェントのVFE
 
-3. If the sender always produces signal 0 regardless of the world state, MI is:
-A) Maximum
+3. 送信者が世界状態に関わらず常に信号0を生成する場合、MIは次のうちどれになるか：
+A) 最大値
 B) $\ln 2$
-C) Zero
-D) Undefined
+C) ゼロ
+D) 定義されない
 
-4. Communication in Active Inference multi-agent systems is:
-A) Pre-programmed via the C-vector
-B) Emergent through learning
-C) Impossible without a shared B-matrix
-D) Only possible with 2 agents
+4. Active Inferenceのマルチエージェントシステムにおけるコミュニケーションは：
+A) Cベクトルの設定により事前にプログラムされる
+B) 学習を通じて発生する
+C) 공유 B行列なしには不可能
+D) 2エージェントのみで可能
 
-5. The receiver learns the signal-to-state mapping by updating:
-A) Its C-vector
-B) Its Dirichlet pA concentrations
-C) Its precision γ
-D) Its D-vector
+5. 受信者は信号と状態のマッピングを更新することで学習する：
+A) 自身のCベクトル
+B) 自身のDirichlet pA濃度
+C) 自身の精度 γ
+D) 自身のDベクトル
 
-6. Maximum mutual information between a binary signal and a binary state is:
+6. 二値信号と二値状態間の最大相互情報量は：
 A) 0
 B) 0.5
 C) $\ln 2$
 D) 1.0
 
-7. A "theory of mind" in computational terms means:
-A) The agent has a separate model of its own mental states
-B) The agent includes other agents' beliefs as hidden states in its own generative model
-C) The agent communicates using language
-D) The agent has higher precision than other agents
+7. 計算機用語における「理論的思考」とは：
+A) エージェントが自身のメンタル状態の別なモデルを持つ
+B) エージェントが自身の生成モデルに他のエージェントの信念を隠れ状態として含める
+C) エージェントが言語を用いてコミュニケーションを行う
+D) エージェントが他のエージェントよりも高い精度を持つ
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Write code to compute the joint distribution of (signal, state) pairs from two lists `signals = [0, 1, 0, 1, 0]` and `states = [0, 1, 1, 1, 0]`, then compute MI.
+1.  信号のリスト `signals = [0, 1, 0, 1, 0]` と状態のリスト `states = [0, 1, 1, 1, 0]` から (信号、状態) のペアの共分散分布を計算し、MIを計算するコードを記述してください。
 
-2. Explain why agents with conflicting C-vectors (one prefers observation 0, the other prefers observation 1) may not develop effective communication. What would the equilibrium behavior look like?
+2.  Cベクトルの競合するエージェント（一方の観測 0 を、もう一方の観測 1 を好む）が効果的なコミュニケーションを確立できない理由を説明してください。均衡状態はどのようなものになるでしょうか？
 
-3. Design an extension of the signaling game with 3 world states and 2 available signals. Can the sender communicate the world state perfectly? Why or why not? What is the maximum achievable MI?
+3.  2つの世界状態と2つの信号が利用可能な3つの世界状態を持つシグナリングゲームの拡張を設計してください。送信者は世界状態を完全に伝達できますか？その理由と、最大で達成できるMIはどれですか？

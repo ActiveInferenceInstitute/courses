@@ -1,53 +1,53 @@
-# Practice Quiz: Planning
+# 練習クイズ：計画
 
-## Part A: Multiple Choice
+## 部門 A：選択肢
 
-1. A multi-step policy specifies:
-A) A single action
-B) A sequence of actions over T future timesteps
-C) A probability distribution over actions
-D) A belief update rule
+1. 多段階ポリシーは次のうち何を示すか：
+A) 単一のアクション
+B) 将来の T 個のタイムステップにおけるアクションのシーケンス
+C) アクションに対する確率分布
+D) 信念更新ルール
 
-2. The total EFE of a 3-step policy is computed by:
-A) Taking the EFE at the first step only
-B) Taking the maximum EFE across steps
-C) Summing $G_\tau(\pi)$ for $\tau = 0, 1, 2$
-D) Multiplying the three step EFEs
+2. 3段階ポリシーの総EFE（期待報酬関数）は、次のうちどのように計算されるか：
+A) 最初のステップのみのEFEを取り出す
+B) ステップごとの最大EFEを求める
+C) $G_\tau(\pi)$を $\tau = 0, 1, 2$ の範囲で合計する
+D) 3つのステップのEFEを掛ける
 
-3. Marginal Message Passing differs from single-step inference because it:
-A) Uses the C-vector
-B) Infers beliefs at multiple time points simultaneously
-C) Only works for gridworlds
-D) Does not use the A-matrix
+3. 辺际メッセージ伝播は、単一ステップ推論と異なっているのはなぜか：
+A) Cベクターを使用する
+B) 複数の時間点において同時に信念を推論する
+C) グリッドワールドにのみ適用できる
+D) A行列を使用しない
 
-4. For a 3-action system with temporal depth T = 4, the number of exhaustive policies is:
+4. 3アクションシステムで、時間的深さが T = 4 の場合、網羅的なポリシーの数はいくつになるか：
 A) 12
 B) 64
 C) 81
 D) 256
 
-5. In a gridworld, walls are encoded by:
-A) Removing states from the state space
-B) Setting the B-matrix to have self-transitions at wall positions
-C) Modifying the A-matrix
-D) Setting C to zero at wall states
+5. グリッドワールドにおいて、壁はどのようにエンコードされるか：
+A) ステート空間から状態を削除する
+B) 壁の位置でB行列に自己遷移を持つように設定する
+C) A行列を修正する
+D) 壁の状態においてCを0に設定する
 
-6. Why does the T-maze require T ≥ 2 for reliable performance?
-A) The environment has more than 2 states
-B) The agent must visit the cue (step 1) before choosing an arm (step 2)
-C) The B-matrix requires 2 transitions
-D) Precision γ must equal 2
+6. Tマズが信頼できるパフォーマンスのために T ≥ 2 が必要な理由は何か：
+A) 環境には2つ以上の状態がある
+B) エージェントは選択肢（ステップ2）を選ぶ前に、手がかり（ステップ1）を訪問する必要がある
+C) B行列には2つの遷移が必要である
+D) 精度γは2と等しい必要がある
 
-7. `plot_simulation_dashboard()` displays:
-A) A single belief plot
-B) 5 panels: beliefs, VFE, predictions, prediction errors, and EFE
-C) The gridworld state space
-D) The A and B matrices
+7. `plot_simulation_dashboard()` は次のものを表示する：
+A) 単一の信念プロット
+B) 5つのパネル：信念、VFE、予測、予測誤差、EFE
+C) グリッドワールドのステート空間
+D) A行列とB行列
 
-## Part B: Short Answer
+## 部門 B：記述式
 
-1. Write code to define all 2-step policies for a 3-action system. How many policies are there? Display them as a list of lists.
+1. 3アクションシステムに対するすべての2段階ポリシーを定義するコードを記述してください。ポリシーの数はいくつですか？リストのリストとして表示してください。
 
-2. Explain why the computational cost of planning scales exponentially with temporal depth T. Describe one strategy to manage this complexity (e.g., pruning, hierarchical policies, or Monte Carlo sampling).
+2. 計画の計算コストが時間的深さ T で指数関数的に増加する理由を説明してください。複雑さを管理するための戦略を1つ記述してください（例：枝刈り、階層的なポリシー、モンテカルロサンプリング）。
 
-3. Design a delayed-reward gridworld where a greedy (T = 1) agent gets stuck but a planning (T = 3) agent succeeds. Sketch the grid, identify the obstacle, and explain why depth matters.
+3. 貪欲戦略（T = 1）が詰まってしまうが、計画戦略（T = 3）が成功する遅延報酬グリッドワールドを設計してください。グリッドのスケッチを作成し、障害物を特定し、深さが重要な理由を説明してください。

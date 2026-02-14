@@ -1,46 +1,48 @@
-# Lab 02: Building an Active Inference Agent
+Okay, here's the translation of the provided text into Japanese, maintaining all markdown formatting, links, and code blocks exactly as they are.
 
-## Objective
+# Lab 02: Active Inference Agent を構築する
 
-Construct a complete `GenerativeModel` with A–E matrices, create an `ActiveInferenceAgent`, and run a perception-action loop against a `DiscreteEnvironment`.
+## 目的
 
-## Prerequisites
+`GenerativeModel` (A-E行列) を完成させ、`ActiveInferenceAgent` を作成し、`DiscreteEnvironment` に対して知覚-行動ループを実行する。
 
-- Completed Lab 01 (Systems)
-- Understanding of probability distributions, matrix normalization
-- Access to the `active_inference` library
+## 前提条件
 
-## Part 1: Defining the A–E Matrices
+- Lab 01 (Systems) を完了する。
+- 確率分布、行列正規化の理解
+- `active_inference` ライブラリへのアクセス
 
-**Goal**: Build a T-maze generative model with 4 states, 3 observations, and 3 actions.
+## Part 1: A-E 行列の定義
 
-States: center (0), left arm (1), right arm (2), cue location (3)
-Observations: neutral (0), reward (1), no-reward (2)
-Actions: stay (0), go-left (1), go-right (2)
+**目標**: 4つの状態、3つの観察、3つの行動を持つT-maze 生成モデルを構築する。
 
-1. Define the A-matrix (3×4) encoding: center and cue give neutral observation; left arm gives reward; right arm gives no-reward (with some noise).
-2. Define the B-tensor (4×4×3) encoding the transition dynamics.
-3. Define C = [0, 3, -3] (prefer reward, avoid no-reward).
-4. Define D = [1, 0, 0, 0] (start at center).
+状態: 中心 (0), 左腕 (1), 右腕 (2), 刺激場所 (3)
+観察: 中立 (0), 報酬 (1), 報酬なし (2)
+行動: 待機 (0), 左に進む (1), 右に進む (2)
+
+1. A行列 (3×4) を定義する (エンコード): 中心と刺激場所は中立の観察を、左腕は報酬を、右腕は報酬なし (ある程度のノイズ付き) を与える。
+2. Bテンソル (4×4×3) を定義する (遷移ダイナミクスをエンコード)。
+3. C = [0, 3, -3] を定義する (報酬を好む、報酬なしを避ける)。
+4. D = [1, 0, 0, 0] を定義する (中心から開始)。
 
 ```python
 import numpy as np
 from active_inference.agent import GenerativeModel
 
-# TODO: Define A, B, C, D matrices
-# TODO: Create model = GenerativeModel(A=A, B=B, C=C, D=D)
-# TODO: Print model
+# TODO: A, B, C, D 行列を定義する
+# TODO: モデル = GenerativeModel(A=A, B=B, C=C, D=D) を作成する
+# TODO: モデルを出力する
 ```
 
 **Response**: {fill:textarea}
 
-## Part 2: Visualizing the Model
+## Part 2: モデルの可視化
 
-**Goal**: Use the visualization functions to inspect your model.
+**目標**: モデルを検査するために、可視化関数を使用する。
 
-1. Call `plot_model_summary(model)` to see all matrices at once.
-2. Call `plot_A_matrix(model)` with custom observation and state labels.
-3. Call `plot_B_transition_graph(model)` to see the state transition graph.
+1. `plot_model_summary(モデル)` を呼び出して、すべての行列を一気に表示する。
+2. `plot_A_matrix(モデル)` を呼び出して、カスタム観察と状態ラベル付きでA行列を表示する。
+3. `plot_B_transition_graph(モデル)` を呼び出して、状態遷移グラフを表示する。
 
 ```python
 from active_inference.visualization import (
@@ -50,54 +52,54 @@ from active_inference.visualization import (
 obs_labels = ["neutral", "reward", "no-reward"]
 state_labels = ["center", "left", "right", "cue"]
 
-# TODO: Generate visualizations
+# TODO: 可視化を生成する
 ```
 
 **Response**: {fill:textarea}
 
-## Part 3: Creating the Agent and Running the Loop
+## Part 3: エージェントの作成とループの実行
 
-**Goal**: Run 10 steps of the perception-action loop.
+**目標**: 知覚-行動ループを10ステップ実行する。
 
-1. Create a `DiscreteEnvironment` with the same A and B matrices, starting in state 0.
-2. Create an `ActiveInferenceAgent` with γ=4.0.
-3. Run 10 steps, printing the observation, beliefs, and selected action at each step.
+1. 同じAとB行列で開始し、状態0で `DiscreteEnvironment` を作成する。
+2. γ=4.0 の `ActiveInferenceAgent` を作成する。
+3. 10ステップを実行し、各ステップでの観察、信念、選択された行動を出力する。
 
 ```python
 from active_inference.agent import DiscreteEnvironment, ActiveInferenceAgent
 
-# TODO: Create environment and agent
-# TODO: Run perception-action loop for 10 steps
+# TODO: 環境とエージェントを作成する
+# TODO: 知覚-行動ループを10ステップ実行する
 ```
 
 **Response**: {fill:textarea}
 
-## Part 4: Precision Sweep
+## Part 4: 精度スキャン
 
-**Goal**: Investigate how γ affects action selection.
+**目標**: γが行動選択にどのように影響するかを調査する。
 
-1. Run the same scenario with γ = 0.1, 1.0, 4.0, and 16.0.
-2. For each γ, record which actions the agent selects over 10 steps.
-3. Plot or tabulate the results and describe the trend.
+1. γ = 0.1, 1.0, 4.0, 16.0 で同じシナリオを実行する。
+2. 各γについて、エージェントが10ステップで選択する行動を記録する。
+3. 結果をプロットまたは表形式で記述し、トレンドを説明する。
 
 **Response**: {fill:textarea}
 
-## Part 5: Analysis Questions
+## Part 5: 分析問題
 
-1. Did the agent visit the reward arm (state 1)? If not, what changes to the model would encourage it?
+1. エージェントが報酬腕 (状態1) を訪問しましたか？ もしそうでない場合、モデルをどのように変更すれば、報酬腕を訪問するように促せますか？
 
-2. How did increasing γ change the agent's behavior? At what γ value did the agent become nearly deterministic?
+2. γを大きくすると、エージェントの行動はどのように変化しましたか？ エージェントがほぼ決定論的になったγの値はどれですか？
 
-3. What happens if you set C = [0, 0, 0]? Run the loop and compare with your original results.
+3. C = [0, 0, 0] を設定するとどうなりますか？ ループを実行し、元の結果と比較します。
 
 **Response**: {fill:textarea}
 
 ## Summary
 
-| Skill | Library Component | Status |
+| スキル | ライブラリコンポーネント | ステータス |
 |-------|------------------|--------|
-| Define A, B, C, D, E matrices with correct shapes | `GenerativeModel(A, B, C, D, E)` | |
-| Visualize model structure | `plot_model_summary()`, `plot_A_matrix()` | |
-| Create and run an Active Inference agent | `ActiveInferenceAgent(model, gamma)` | |
-| Investigate precision-action tradeoff | Varying γ in `ActiveInferenceAgent` | |
-| Understand the T-maze benchmark | 4 states, 3 obs, 3 actions, reward preference | |
+| A, B, C, D, E 行列を適切な形状で定義する | `GenerativeModel(A, B, C, D, E)` | |
+| モデル構造を可視化する | `plot_model_summary()`, `plot_A_matrix()` | |
+| Active Inference エージェントを作成して実行する | `ActiveInferenceAgent(モデル, gamma)` | |
+| 精度-行動トレードオフを調査する | γの変動 (`ActiveInferenceAgent`) | |
+| T-maze ベンチマークを理解する | 4つの状態、3つの観察、3つの行動、報酬の好みを理解する | |

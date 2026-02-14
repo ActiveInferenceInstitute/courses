@@ -1,94 +1,94 @@
-# Cognitive Behavioral Science & Active Inference
+# 認知行動科学と能動的推論
 
-> **Quick Navigation**: [Curriculum Home](../README.md) | [Syllabus](./syllabus.md) | [Agent Guidelines](./AGENTS.md) | [Resources](../resources/)
+> **クイックナビゲーション**: [コース概要](../README.md) | [シラバス](./syllabus.md) | [エージェントガイドライン](./AGENTS.md) | [リソース](../resources/)
 
-## Overview
+## 概要
 
-Examines how Active Inference is implemented in the brain and body. Covers the neural correlates of prediction, precision, and attention; the neuroscience of perception, motor control, and learning; clinical applications in psychiatry and neurology; and the developmental trajectory from infancy to adulthood.
+能動的推論が脳と体でどのように実装されているかを調査します。予測、精度、注意の神経基盤、感覚、運動制御、学習の神経科学、精神医学および神経学における臨床応用、そして幼少期から成人期への発達軌跡を扱います。
 
 ---
 
-## Modules
+## モジュール
 
-| # | Topic | Subtitle | Description |
+| # | トピック | サブタイトル | 説明 |
 |---|-------|----------|-------------|
-| 1 | [Systems](./01_systems/) | Neural Assemblies, Cortical Organization, and Self-Environment Distinction | How the brain organizes itself into functional units. Cortical columns as Markov Blankets. The brain-body-environment loop. |
-| 2 | [Agents](./02_agents/) | The Self-Model, Interoception, and Ego Boundaries | How the brain builds a model of the self. Interoception, emotion, and the insular cortex. Clinical disruptions of selfhood. |
-| 3 | [Perception](./03_perception/) | Predictive Coding, Sensory Attenuation, and Hallucinations | Predictive coding in visual cortex. Sensory attenuation during action. Hallucinations as runaway prediction. |
-| 4 | [Cognition](./04_cognition/) | Precision Weighting, Neuromodulation, and Attention | Attention as precision optimization. Dopamine, acetylcholine, and norepinephrine. Clinical: ADHD, autism. |
-| 5 | [Action](./05_action/) | Motor Control as Active Inference; Habits vs Goals | Motor inference and the cerebellum. Habit formation in basal ganglia. Movement disorders. |
-| 6 | [Learning](./06_learning/) | Synaptic Plasticity, Dopamine, and Sleep Consolidation | Hebbian learning as parameter updating. Dopamine as precision signal. Sleep and Bayesian model reduction. |
-| 7 | [Communication](./07_communication/) | Mirror Neurons, Mentalizing, and Social Cognition | Theory of Mind in the TPJ. Mirror neuron system. Social cognition development. Autism spectrum. |
-| 8 | [Planning](./08_planning/) | Prefrontal Cortex, Default Mode Network, and Executive Function | PFC and temporal abstraction. Default mode network and episodic future thinking. Executive function. |
+| 1 | [システム](./01_systems/) | 神経回路、皮質構造、自己と環境の区別 | 脳が機能的な単位にどのように組織化されるか。皮質列とマルコフの空箱。脳-体-環境のループ。 |
+| 2 | [エージェント](./02_agents/) | 自己モデル、内臓感覚、自己境界 | 脳が自己モデルを構築する方法。内臓感覚、感情、島皮質。自己の混乱。 |
+| 3 | [感覚](./03_perception/) | 予測符号化、感覚減衰、幻覚 | 視覚皮質における予測符号化。行動中の感覚減衰。幻覚は制御不能な予測。 |
+| 4 | [認知](./04_cognition/) | 精度重み付け、神経調節、注意 | 注意は精度最適化として。ドーパミン、アセチルコリン、ノルアドレナリン。臨床：ADHD、自閉症。 |
+| 5 | [行動](./05_action/) | 運動制御における能動的推論; 習慣と目標 | 運動推論と小脳。基底核における習慣形成。運動障害。 |
+| 6 | [学習](./06_learning/) | シナプス可塑性、ドーパミン、睡眠固定化 | ヘッビアン学習はパラメータ更新として。ドーパミンは精度信号として。睡眠とベイズモデル削減。 |
+| 7 | [コミュニケーション](./07_communication/) | ミラーニューロン、心の理論、社会的認知 | TPJにおける心の理論。ミラーニューロンシステム。社会的認知の発展。自閉スペクトラム。 |
+| 8 | [計画](./08_planning/) | 前頭前皮質、デフォルトモードネットワーク、実行機能 | PFCと時間的抽象。デフォルトモードネットワークとエピソード的未来思考。実行機能。 |
 
 ---
 
-## Module Contents
+## モジュールの内容
 
-Each module folder contains 7 files:
+各モジュールフォルダには以下のファイルが含まれます：
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| `module.md` | Full lecture content from a cognitive-behavioral perspective |
-| `questions.md` | 20 study questions (cognitive-behavioral focus) |
-| `practice_quiz.md` | Quiz: Part A Multiple Choice (7 questions) + Part B Free Response (3 questions) |
-| `lab.md` | Case Study Analysis lab: clinical case interpretation, experimental data analysis, and neural correlate mapping |
-| `dashboard.html` | Interactive HTML5 dashboard with concept cards and quiz |
-| `README.md` | Module overview with cross-references |
-| `AGENTS.md` | Agent guidelines for content generation |
+| `module.md` | 認知行動学的な視点から見た完全な講義内容 |
+| `questions.md` | 認知行動学に焦点を当てた20の学習問題 |
+| `practice_quiz.md` | クイズ：パートA 多肢選択式（7問）＋パートB フリーレスポンス（3問） |
+| `lab.md` | 臨床症例の解釈、実験データの分析、神経基底マッピングに関するケーススタディ分析 |
+| `dashboard.html` | コンセプトカードとクイズを含むインタラクティブなHTML5ダッシュボード |
+| `README.md` | モジュールの概要とクロス参照 |
+| `AGENTS.md` | このコースのコンテンツ生成のためのエージェントガイドライン |
 
 ---
 
-## Prerequisites
+## 必要な知識
 
-Course 1 (Philosophy of Active Inference). Basic familiarity with neuroscience terminology is helpful but not required.
-
----
-
-## Key References
-
-- Rao & Ballard (1999) Predictive coding in the visual cortex
-- Feldman & Friston (2010) Attention, uncertainty, and free-energy
-- Seth (2013) Interoceptive inference, emotion, and the embodied self
-- Adams, Shipp, & Friston (2013) Predictions not commands: Active inference in the motor system
-- Parr & Friston (2017) The active construction of the visual world
-- Friston & Frith (2015) A duet for one
-
-See [resources/references.md](../resources/references.md) for the complete reference list with 82 canonical citations.
+コース1（アクティブ推論の哲学）。神経科学用語の基本的な知識は役立ちますが、必須ではありません。
 
 ---
 
-## Cross-References
+## 主要な参照文献
 
-This course is part of a 4-course sequence. Each row below covers the same topic from a different angle:
+- Rao & Ballard (1999) 視覚皮質における予測符号化
+- Feldman & Friston (2010) 注意、不確実性、およびフリーエネルギー
+- Seth (2013) 内臓推論、感情、および身体化された自己
+- Adams, Shipp, & Friston (2013) 命令ではない予測：運動システムにおける能動的推論
+- Parr & Friston (2017) 視覚世界の積極的な構築
+- Friston & Frith (2015) 一つのデュエット
 
-| Course | Perspective | Lab Type |
+[リソース/references.md](../resources/references.md) で完全な参考文献リスト（82の標準的な引用を含む）を確認してください。
+
+---
+
+## クロス参照
+
+このコースは4つのコースの1つです。各行は異なる角度から同じトピックを扱います。
+
+| コース | 視点 | 実験タイプ |
 |--------|-------------|----------|
-| [Philosophy](../01_philosophy/) | Philosophical foundations | Thought Experiment |
-| [Cognitive Science](../02_cognitive_science/) | Neural and behavioral correlates | Case Study Analysis |
-| [Mathematics](../03_math/) | Formal derivation and proof | Derivation Exercise |
-| [Computer Science](../04_computer_science/) | Python implementation with pymdp | Coding Lab |
+| [哲学](../01_philosophy/) | 哲学的な基礎 | 思考実験 |
+| [認知科学](../02_cognitive_science/) | 神経および行動的相関 | ケーススタディ分析 |
+| [数学](../03_math/) | 正式推論と証明 | 推論演習 |
+| [コンピュータサイエンス](../04_computer_science/) | pymdpを使用したPythonの実装 | コーディングラボ |
 
-See [resources/cross_course_map.md](../resources/cross_course_map.md) for the full cross-course navigation map with links to all 32 modules.
-
----
-
-## Shared Resources
-
-| Resource | Description |
-|----------|-------------|
-| [Notation Table](../resources/notation_table.md) | Canonical notation used across all courses |
-| [Glossary](../resources/glossary.md) | 50+ term definitions with per-course usage |
-| [References](../resources/references.md) | 82 canonical citations organized by topic |
-| [Cross-Course Map](../resources/cross_course_map.md) | Links to parallel modules in other courses |
+[リソース/cross_course_map.md](../resources/cross_course_map.md) で、すべての32モジュールへのリンクを含む完全なクロスコースナビゲーションマップを確認してください。
 
 ---
 
-## Documentation
+## 共有リソース
 
-| Document | Description |
+| リソース | 説明 |
 |----------|-------------|
-| [syllabus.md](./syllabus.md) | Full course syllabus with schedule, learning objectives, and assessment |
-| [AGENTS.md](./AGENTS.md) | Agent guidelines for this course |
-| [../README.md](../README.md) | Curriculum overview and learning pathway |
-| [../AGENTS.md](../AGENTS.md) | Curriculum-wide conventions and standards |
+| [Notation Table](../resources/notation_table.md) | すべてのコースで使用されている標準的な記号 |
+| [Glossary](../resources/glossary.md) | 50以上の用語の定義と、各コースでの使用状況 |
+| [References](../resources/references.md) | トピックごとに整理された82の標準的な引用文献 |
+| [Cross-Course Map](../resources/cross_course_map.md) | 他のコースのすべての32モジュールへのリンクを含むクロスコースマップ |
+
+---
+
+## ドキュメント
+
+| ドキュメント | 説明 |
+|----------|-------------|
+| [syllabus.md](./syllabus.md) | スケジュール、学習目標、および評価を含む完全なコースシラバス |
+| [AGENTS.md](./AGENTS.md) | このコースのエージェントガイドライン |
+| [../README.md](../README.md) | コース概要と学習パス |
+| [../AGENTS.md](../AGENTS.md) | コース全体の慣例と基準 |

@@ -1,22 +1,22 @@
-# Study Questions: Learning
+# 学習に関する質問：学習
 
-1. Distinguish parameter learning from structure learning. What neural mechanisms implement each?
-2. What is long-term potentiation (LTP)? How does Hebb's rule ("fire together, wire together") relate to Active Inference?
-3. Explain spike-timing-dependent plasticity (STDP). How does the temporal relationship between pre- and post-synaptic firing encode prediction error?
-4. How does Bayesian Model Reduction (BMR) differ from simple parameter updating? Why is it computationally efficient?
-5. How does the synaptic homeostasis hypothesis (Tononi & Cirelli) relate to structure learning during sleep?
-6. What happens during NREM sleep that might implement Bayesian Model Reduction? What neural evidence supports this?
-7. What is a critical period, and how does Active Inference explain why plasticity is heightened and then reduced?
-8. How does the concept of precision change across development? Compare infant and adult precision profiles.
-9. How does expertise develop in terms of the generative model? What changes in precision, hierarchy, and habitual policies?
-10. How does Active Inference account for the phenomenon of "overlearning" — performing a skill so automatically that conscious attention degrades performance?
-11. What goes wrong in Alzheimer's disease from a synaptic plasticity perspective? How does this manifest as failures of inference?
-12. How does PTSD represent maladaptive learning? What high-precision priors are created by traumatic experience?
-13. How does exposure therapy work in Active Inference terms? What precision dynamics are being modified?
-14. Compare Active Inference's account of learning with classical conditioning (Pavlov). How does prediction error drive conditioning?
-15. What is the role of the hippocampus in learning within the Active Inference framework?
-16. How does neurogenesis (new neuron growth) in the hippocampus relate to structure learning?
-17. What is the "stability-plasticity dilemma"? How does the brain balance maintaining stable models with remaining open to new information?
-18. How does reinforcement learning (Rescorla-Wagner model) relate to Active Inference's account of prediction error-driven learning?
-19. Can unlearning occur deliberately? How does Active Inference model the extinction of conditioned responses?
-20. Design a sleep study that could test whether a night of sleep improves model simplicity (as BMR predicts) rather than simply strengthening memories.
+1. パラメータ学習と構造学習を区別してください。それぞれの学習はどのような神経メカニズムによって実装されていますか？
+2. 長期増強 (LTP) は何ですか？ ヘブの法則 ("一緒に発火すれば、一緒に接続すれば") はアクティブ・インファレンスとどのように関連していますか？
+3. スパイク時間依存性可塑性 (STDP) を説明してください。前シナプスと後シナプスの発火間の時間的な関係が、予測誤差をどのようにエンコードしますか？
+4. ベイジアンモデル削減 (BMR) は、単純なパラメータ更新とはどのように異なりますか？ なぜ計算効率が高いのですか？
+5. トノニとシレッリのシナプスホメオスタジー仮説は、睡眠中の構造学習とどのように関連していますか？
+6. NREM睡眠中に何が起こり、それがベイジアンモデル削減を実装する可能性がありますか？ その根拠となる神経的証拠は何ですか？
+7. クリティカルペリオドとは何ですか？ アクティブ・インファレンスは、可塑性が高められ、その後低下する理由をどのように説明していますか？
+8. 正確性の概念は発達の過程でどのように変化しますか？ 乳児と成人の正確性プロファイルを比較してください。
+9. 生成的モデルの観点から、専門知識がどのように発達しますか？ 正確性、階層、習慣的なポリシーにおける変化は何ですか？
+10. アクティブ・インファレンスは、「過学習」という現象をどのように説明していますか - スキルを自動的に実行し、意識的な注意がパフォーマンスを低下させること？
+11. アルツハイマー病は、シナプス可塑性の観点から何がうまくいきませんか？ このことは、推論の失敗としてどのように現れますか？
+12. PTSDは、 maladaptive 学習としてどのように表されますか？ 心的外傷的な経験によって作成される高精度な事前分布とは何ですか？
+13. アクティブ・インファレンスの観点から、暴露療法はどのように機能しますか？ 修正されている正確性ダイナミクスは何ですか？
+14. アクティブ・インファレンスの学習の説明を、クラシック条件付け (パブロフ) と比較してください。 予測誤差が条件付けをどのように駆動しますか？
+15. 海馬は、アクティブ・インファレンスの枠組み内で学習においてどのような役割を果たしていますか？
+16. 海馬における神経新生 (新しいニューロンの成長) は、構造学習とどのように関連していますか？
+17. 「安定性と可塑性のジレンマ」とは何ですか？ 脳は、安定したモデルを維持しながら、新しい情報を受け入れることを維持するためにどのようにバランスをとっていますか？
+18. 再入学習 (Rescorla-Wagner モデル) は、アクティブ・インファレンスの予測誤差駆動型学習の説明とどのように関連していますか？
+19. 意図的に忘れることは可能ですか？ アクティブ・インファレンスは、条件付けられた反応の消去をどのようにモデル化していますか？
+20. 睡眠中にモデルの単純化が改善するか（BMR が予測するように）、単に記憶を強化するかをテストできる睡眠研究を設計してください。

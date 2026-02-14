@@ -1,38 +1,38 @@
-# Module 04: Cognition — Precision Weighting, Neuromodulation, and Attention
+# モジュール 04: 認知 — 精密重み付け、神経調節、および注意
 
-## Learning Objectives
+## 学習目標
 
-1. Explain how **precision weighting** — the gain control on prediction errors — implements attention in the brain.
-2. Describe the neuromodulatory systems (dopamine, serotonin, noradrenaline, acetylcholine) that regulate precision and their roles in cognition.
-3. Analyze ADHD, autism, and anxiety as specific patterns of aberrant precision weighting.
+1.  **精密重み付け**—予測誤差のゲイン制御—が、脳における注意の仕組みをどのように実現しているかを説明する。
+2.  精密性とそれらの役割を含む、ドーパミン、セロトニン、ノルアドレナリン、アセチルコリンなどの神経調節システムについて記述する。
+3.  精密重み付けの特定の異常パターンとして、ADHD、自閉症、および不安を分析する。
 
-## Introduction
+## 導入
 
-Cognition in the Active Inference framework is not a separate faculty but the result of **precision weighting** — the brain's mechanism for determining which prediction errors matter and which can be safely ignored. This is the neural implementation of attention: high precision amplifies a signal; low precision attenuates it. The neuromodulators (dopamine, acetylcholine, serotonin, noradrenaline) are the brain's "precision engineers," adjusting the gain on prediction errors across the entire hierarchy.
+アクティブインファレンス（Active Inference）の枠組みにおける認知は、独立した能力ではなく、**精密重み付け**—脳がどの予測誤差が重要であり、どの予測誤差を安全に無視できるかを決定するメカニズム—の結果です。これは注意の神経的な実装であり、高い精密性は信号を増幅し、低い精密性は信号を減衰させます。神経調節物質（ドーパミン、アセチルコリン、セロトニン、ノルアドレナリン）は、脳の「精密エンジニア」として、階層全体で予測誤差のゲインを調整します。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Precision as Neural Gain
+### 1. 精密性としての神経ゲイン
 
-In mathematical terms, precision is the inverse variance (Π = 1/σ²) of a probability distribution. Neurally, precision is implemented as the **gain** on prediction error units — how strongly a given prediction error drives updates to the generative model. High-precision prediction errors demand updating; low-precision prediction errors are ignored.
+数学的には、精密性は確率分布の逆分散（Π = 1/σ²）です。神経レベルでは、精密性は予測誤差ユニットに対する**ゲイン**として実装され、ある予測誤差が生成モデルの更新をどれだけ強く駆動するかを示します。高い精密性を持つ予測誤差は更新を必要とし、低い精密性を持つ予測誤差は無視されます。
 
-Feldman and Friston (2010) proposed that precision is encoded by the synaptic gain of superficial pyramidal cells — the same neurons that carry prediction errors up the cortical hierarchy. Neuromodulators control this gain: **acetylcholine** increases precision on bottom-up sensory prediction errors (making the brain more sensitive to sensory data); **dopamine** modulates precision on predictions about reward and policy outcomes.
+FeldmanとFriston（2010）は、精密性が表皮ピラミッド細胞のシナプスゲインによってエンコードされると提案しました—これらのニューロンは予測誤差を皮質階層の上へ運びます。神経調節物質がこのゲインを制御します。**アセチルコリン**は、下からの感覚予測誤差（より感覚データに対する脳の感度を高める）の精密性を高め、**ドーパミン**は報酬とポリシーに関する予測誤差の精密性を調節します。
 
-### 2. Neuromodulatory Systems and Precision
+### 2. 神経調節物質と精密性
 
-| Neuromodulator | Primary Precision Role | Clinical Relevance |
+| 神経調節物質 | 主な精密性役割 | 臨床的関連性 |
 |---|---|---|
-| **Acetylcholine** | Increases precision on sensory (bottom-up) prediction errors | Basal forebrain degeneration (Alzheimer's) → reduced sensory precision |
-| **Dopamine** | Modulates precision on reward predictions and policy selection | Excess → psychosis (overweighting predictions); deficit → Parkinson's akinesia |
-| **Noradrenaline** | Controls overall arousal and the volatility of the environment model | Dysregulation → PTSD (hyperarousal), attention disorders |
-| **Serotonin** | Regulates affective precision and interoceptive prediction errors | Imbalance → depression, anxiety |
+| **アセチルコリン** | 下からの感覚予測誤差の精密性を高める | 線条前野の退化（アルツハイマー病）→感覚精密性の低下 |
+| **ドーパミン** | 報酬予測とポリシー選択の精密性を調節する | 過剰→精神病（予測の重み付け過多）; 欠乏→パーキンソン病の運動不全 |
+| **ノルアドレナリン** | 全体的な覚醒と環境モデルの変動性を制御する | 不均衡→PTSD（過覚醒）、注意障害 |
+| **セロトニン** | 感情的な精密性と内因性予測誤差を調節する | 不均衡→うつ病、不安 |
 
-### 3. Clinical Applications
+### 3. 臨床応用
 
-* **ADHD**: May reflect low tonic dopamine → difficulty sustaining precision on task-relevant prediction errors → constant shifting of attention to novel (high prediction error) stimuli.
-* **Autism Spectrum**: Lawson et al. (2014) proposed that autism involves high precision on sensory prediction errors → difficulty ignoring sensory details → reduced influence of top-down contextual priors, leading to both perceptual strengths (pattern detection) and challenges (sensory overwhelm, difficulty with ambiguity).
-* **Anxiety**: Excessive precision on threat-related prediction errors → a generative model chronically biased toward detecting danger, even in safe environments.
+*   **ADHD**: タスクに関連する予測誤差に対する一貫した精密性の維持の困難さにつながる、トニックドーパミンの低下を反映している可能性があります。新しい（高い予測誤差）刺激への注意を常にシフトさせます。
+*   **自閉スペクトラム症**: Lawsonら（2014）は、自閉症が感覚予測誤差に対する高い精密性に関連していると提案しました—感覚の詳細を無視することの困難さ、上位からの文脈先入観の影響の低下、およびその結果、感覚の強み（パターン検出）と課題（感覚過負荷、曖昧さへの対処の困難さ）につながります。
+*   **不安**: 脅威に関連する予測誤差に対する過剰な精密性は、危険を検出するように生成モデルが慢性的にバイアスされ、安全な環境でも危険を検出する傾向につながります。
 
-## Conclusion
+## 結論
 
-Precision weighting is the bridge between the abstract mathematics of Active Inference and the neurochemistry of the brain. By understanding how neuromodulators control the gain on prediction errors, we connect theory to pharmacology, clinical psychiatry, and the everyday experience of attention. Module 05 examines how precision-weighted inference drives action and motor control.
+精密重み付けは、アクティブインファレンスの抽象的な数学と脳の神経化学を結びつける架け橋です。神経調節物質が予測誤差のゲインをどのように制御するかを理解することで、理論を薬学、臨床精神医学、そして注意の日常的な経験と結びつけることができます。モジュール 05 では、精密重み付けされた推論が行動と運動制御をどのように駆動するかを調べます。

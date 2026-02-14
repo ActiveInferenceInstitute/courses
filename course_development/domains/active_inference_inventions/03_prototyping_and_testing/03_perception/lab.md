@@ -156,6 +156,25 @@ If your prototype is physical, consider: What internal stresses, temperatures, v
 
 ---
 
+## Part 6: Cross-Signal Integration (5 minutes)
+
+**Goal**: Practice combining signals from different categories to form a holistic picture of your prototype's performance.
+
+Look across all the signals you identified in Parts 2-5. Do any signals from different categories tell a consistent story? Do any contradict each other?
+
+| Story / Pattern | Supporting Signals (list category and specific signal) | Contradicting Signals | Your Interpretation |
+|----------------|------------------------------------------------------|----------------------|-------------------|
+| {fill:textarea} | {fill:textarea} | {fill:textarea} | {fill:textarea} |
+| {fill:textarea} | {fill:textarea} | {fill:textarea} | {fill:textarea} |
+
+When signals converge (multiple signal types pointing to the same conclusion), your confidence in the interpretation should increase. When signals diverge (quantitative data says one thing, qualitative feedback says another), this is a flag for deeper investigation — the divergence may reveal that your generative model is structured incorrectly.
+
+What is the single most important signal your testing has produced so far? Which category does it belong to?
+
+{fill:textarea}
+
+---
+
 ## Discussion and Debrief
 
 1. **Observation discipline**: Was separating observation from inference harder than expected? What does this tell you about how tightly coupled perception and interpretation are?

@@ -1,51 +1,51 @@
-# Practice Quiz: Agents
+# 練習クイズ：エージェント
 
-## Part A: Multiple Choice
+## Part A: 選択肢問題
 
-1. Interoception is the perception of:
-A) External visual stimuli
-B) Internal bodily states such as heartbeat, breathing, and gut sensations
-C) Other people's emotional states
-D) The spatial layout of the environment
+1. インテロセプションとは、以下のうちどれを認識することですか？
+    A) 外部の視覚的な刺激
+    B) 心拍数、呼吸、腸の感覚などの内部身体の状態
+    C) 他の人の感情状態
+    D) 環境の空間レイアウト
 
-2. The anterior insular cortex is primarily associated with:
-A) Visual perception and object recognition
-B) Interoceptive processing and integration of internal bodily signals
-C) Motor planning and execution
-D) Language production (Broca's area)
+2. 前頭島皮質は主に以下のうち何と関連していますか？
+    A) 視覚的な認識と物体認識
+    B) インテロセプション処理と内部身体信号の統合
+    C) 運動計画と実行
+    D) 言語の生成（ブローカ領域）
 
-3. The rubber hand illusion demonstrates that:
-A) Visual perception always overrides tactile perception
-B) Body ownership is an inference based on multisensory prediction error minimization
-C) The brain cannot distinguish between real and artificial limbs
-D) Touch is the most reliable sensory modality
+3. ラバーハンド錯体は、以下のうち何を示していますか？
+    A) 視覚的な認識が触覚的な認識を常に上回る
+    B) 体の所有感は、マルチセンサリー予測誤差の最小化に基づいた推論である
+    C) 脳は現実の肢と人工の肢を区別できない
+    D) 触覚は最も信頼できる感覚モダリティである
 
-4. In Active Inference, depersonalization may result from:
-A) Excessive precision on interoceptive prediction errors
-B) Low precision on interoceptive prediction errors, attenuating the self-model
-C) Damage to the motor cortex
-D) Overactivity in the visual cortex
+4. アクティブ・インファーレンスにおいて、疎外感が生じる原因として、以下のうちどれが考えられますか？
+    A) インテロセプション予測誤差に対する過度な精密さ
+    B) インテロセプション予測誤差に対する低精度で、自己モデルを弱める
+    C) 運動皮質の損傷
+    D) 視覚皮質における過剰な活動
 
-5. Body integrity identity disorder (BIID) illustrates:
-A) A mismatch between the physical body and the generative model's body representation
-B) A purely psychiatric condition with no neurological basis
-C) Normal variation in body image
-D) A failure of motor control
+5. 体の完全性アイデンティティ障害（BIID）は、以下のうち何を示していますか？
+    A) 身体と生成モデルの身体表現との間に不一致
+    B) 神経学的根拠のない純粋な精神疾患
+    C) 身体イメージの正常な変動
+    D) 運動制御の失敗
 
-6. Emotional experience, according to interoceptive inference accounts, is:
-A) A purely cognitive judgment about a situation
-B) A prediction about the causes of interoceptive signals (a "gut feeling" is literally a prediction)
-C) An entirely separate system from perception and cognition
-D) A behavioral response with no subjective component
+6. インテロセプティブ・インファーレンスに基づくと、感情的な経験は、以下のうちどれですか？
+    A) 状況に関する純粋な認知判断
+    B) インテロセプティブ信号の原因に関する予測（「第六感」は文字通り予測である）
+    C) 感覚と認知とは完全に独立したシステム
+    D) 主観的な要素を持たない行動反応
 
-7. The somatic marker hypothesis (Damasio) proposes that:
-A) The body has no role in decision-making
-B) Bodily signals (heart rate, gut feelings) function as emotional tags that guide decisions
-C) Somatic markers are always accurate
-D) All emotional processing occurs in the amygdala
+7. ダマシオの身体マーカー仮説は、以下のうち何を示唆していますか？
+    A) 身体は意思決定において何の役割も果たさない
+    B) 身体信号（心拍数、第六感）は、意思決定を導く感情的なタグとして機能する
+    C) 身体マーカーは常に正確である
+    D) すべての感情処理は扁桃体で起こる
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Explain how the rubber hand illusion could be disrupted if the experimenter introduced asynchronous stroking (200ms delay). What does this predict about the temporal precision requirements of multisensory integration?
-2. Patient describes feeling "detached" from his body after trauma. Suggest a therapeutic approach based on Active Inference (increasing interoceptive precision) and explain why it might help.
-3. Compare phantom limb syndrome (present model, missing limb) with body integrity identity disorder (missing model component, present limb). How are they inverse disruptions of the same self-modeling process?
+1. ラバーハンド錯体が実験者によって非同期なストローキング（200msの遅延）が導入された場合、どのように妨害される可能性があるかを説明してください。これは、マルチセンサリー統合のタイミング精度要件について何を予示しているでしょうか？
+2. 患者が「身体から切り離されている」と感じていることを説明しています。アクティブ・インファーレンスに基づいたセラピーアプローチを提案し、なぜそれが役立つ可能性があるかを説明してください。
+3. 幻肢症（現在のモデル、欠損肢）と体完全性アイデンティティ障害（欠損モデルコンポーネント、存在する肢）を比較してください。これらは、自己モデリングプロセスの逆転した障害であるという点について、どのように関連していますか？

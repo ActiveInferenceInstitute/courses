@@ -1,87 +1,87 @@
-# Module 07: Communication — Multi-Agent Simulation and Signaling Games
+# モジュール 07: コミュニケーション — マルチエージェントシミュレーションとシグナリングゲーム
 
-## Learning Objectives
+## 学習目標
 
-1. Build a multi-agent simulation where agents observe and influence each other.
-2. Implement a signaling game with sender and receiver Active Inference agents.
-3. Track mutual information to measure emergent communication.
+1. 互いに観察し、影響を与えることができるマルチエージェントシミュレーションを構築する。
+2. 送信者と受信者のアクティブインファーレンスエージェントを用いたシグナリングゲームを実装する。
+3. 発生するコミュニケーションを測定するために、相互情報量を追跡する。
 
-## Introduction
+## 導入
 
-Active Inference agents don't exist in isolation. When multiple agents share an environment, each agent's actions become part of the other agents' observations. This creates a rich dynamics: agents develop implicit communication by learning to predict and influence each other's behavior. This module builds multi-agent simulations from the single-agent tools developed in Modules 01–06.
+アクティブインファーレンスエージェントは、孤立して存在しません。複数のエージェントが共有する環境において、各エージェントのアクションは他のエージェントの観察の一部となります。これにより、豊かなダイナミクスが生まれます。エージェントは、他者の行動を予測し、影響を与えることを学習することで、暗黙的なコミュニケーションを開発します。このモジュールでは、モジュール 01～06 で開発されたシングルエージェントのツールからマルチエージェントシミュレーションを構築します。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Multi-Agent Architecture
+### 1. マルチエージェントアーキテクチャ
 
-In a multi-agent setup, each agent has its own generative model, but the environment's state includes the states and actions of all agents:
+マルチエージェント設定では、各エージェントは独自の生成モデルを持ちますが、環境の状態はすべてのエージェントの状態とアクションを含みます。
 
 ```python
 from active_inference.agent import GenerativeModel, ActiveInferenceAgent, DiscreteEnvironment
 
-# Agent 1: Sender
+# エージェント1：送信者
 model_sender = GenerativeModel(A=A_sender, B=B_sender, C=C_sender, D=D_sender)
 agent_sender = ActiveInferenceAgent(model_sender, gamma=4.0)
 
-# Agent 2: Receiver
+# エージェント2：受信者
 model_receiver = GenerativeModel(A=A_receiver, B=B_receiver, C=C_receiver, D=D_receiver)
 agent_receiver = ActiveInferenceAgent(model_receiver, gamma=4.0)
 ```
 
-### 2. The Signaling Game
+### 2. シグナリングゲーム
 
-A canonical test for emergent communication:
+発生するコミュニケーションの標準的なテストです。
 
-- **2 world states**: food-left (0), food-right (1)
-- **Sender**: observes the true state, selects a signal (action 0 or 1)
-- **Receiver**: observes the sender's signal, selects a direction (go-left or go-right)
-- **Success**: the receiver reaches the food
+- **2 つの世界の状態**: 食料の左側（0）、食料の右側（1）
+- **送信者**: 真の状態を観察し、信号（アクション 0 または 1）を選択する。
+- **受信者**: 送信者の信号を観察し、方向（左に進むか右に進むか）を選択する。
+- **成功**: 受信者が食料に到達する。
 
-The sender's A-matrix allows it to observe the world state. The receiver's A-matrix maps signals to observations. Reward is shared — both agents prefer the receiver reaching the food.
+送信者の A-行列を使用すると、その状態を観察できます。受信者の A-行列は、信号を観察にマッピングします。報酬は共有され、両方のエージェントが受信者が食料に到達することを好みます。
 
 ```python
-# Sender's A-matrix: directly observes the true state
-A_sender = np.eye(2)  # o = s (fully observable)
+# 送信者の A-行列: 真の状態を直接観察する
+A_sender = np.eye(2)  # o = s (完全に観測可能)
 
-# Receiver's A-matrix: observes the sender's action
-A_receiver = np.eye(2)  # initially: signal 0 → obs 0, signal 1 → obs 1
+# 受信者の A-行列: 送信者のアクションを観察する
+A_receiver = np.eye(2)  # 初期状態: 信号 0 → 観察 0、信号 1 → 観察 1
 ```
 
-### 3. Multi-Agent Simulation Loop
+### 3. マルチエージェントシミュレーションループ
 
 ```python
 num_steps = 100
 mi_history = []
 
 for t in range(num_steps):
-    # Sender observes world state and produces a signal
+    # 送信者が世界の状態を観察し、信号を生成する
     obs_sender = env.get_observation(agent_id=0)
     signal = agent_sender.step(obs_sender)
 
-    # Receiver observes the signal and selects an action
-    obs_receiver = signal  # receiver sees sender's action
+    # 受信者が信号を観察し、アクションを選択する
+    obs_receiver = signal  # 受信者は送信者のアクションを見る
     direction = agent_receiver.step(obs_receiver)
 
-    # Environment evaluates: did receiver find food?
+    # 環境が評価する: 受信者は食料を見つけたか？
     reward = env.evaluate(direction)
 
-    # Track mutual information between signals and world states
+    # 相互情報量を追跡する
     mi = compute_mutual_information(signals, states)
     mi_history.append(mi)
 ```
 
-### 4. Measuring Communication with Mutual Information
+### 4. 相互情報量によるコミュニケーションの測定
 
-Mutual information $I(X; Y)$ quantifies how much the sender's signals reduce uncertainty about the world state:
+相互情報量 $I(X; Y)$ は、送信者の信号が世界の状態に関する不確実性をどれだけ減らすかを定量化します。
 
 $$I(\text{signal} ; \text{state}) = H(\text{signal}) + H(\text{state}) - H(\text{signal}, \text{state})$$
 
-If $I = 0$, signals are uncorrelated with states (no communication). If $I = H(\text{state})$, signals perfectly encode the state.
+$I = 0$ の場合、信号は状態と相関していません（コミュニケーションはありません）。$I = H(\text{state})$ の場合、信号は状態を完璧にエンコードします。
 
 ```python
 from active_inference.math import mutual_information
 
-# Build a joint distribution from observed signal-state pairs
+# 観測された信号-状態のペアからの共役分布を構築する
 joint = np.zeros((2, 2))
 for s, sig in zip(world_states, signals):
     joint[sig, s] += 1
@@ -91,28 +91,28 @@ mi = mutual_information(joint)
 print(f"Mutual Information: {mi:.4f} bits")
 ```
 
-### 5. Learning to Communicate
+### 5. コミュニケーション学習
 
-Neither agent has a built-in communication protocol. Communication **emerges** through learning:
+どちらのエージェントも組み込みのコミュニケーションプロトコルを持っていません。コミュニケーションは学習を通じて**発生**します。
 
-1. The sender learns (via pA/pB updates) which signals lead to reward.
-2. The receiver learns which signals correlate with which world states.
-3. Over time, mutual information increases as the agents develop a shared code.
+1. 送信者は、報酬につながる信号を学習します（pA/pB の更新）。
+2. 受信者は、どの信号がどの世界状態と相関しているかを学習します。
+3. 時間の経過とともに、エージェントが共有コードを開発するにつれて、相互情報量は増加します。
 
-### 6. Scaling to More Agents
+### 6. より多くのエージェントへの拡張
 
-The same pattern extends to N agents:
+同じパターンは N エージェントに拡張できます。
 
-- Each agent maintains its own `GenerativeModel` and `ActiveInferenceAgent`
-- The environment maps agent actions to other agents' observations
-- Mutual information can be tracked pairwise
+- 各エージェントは独自の `GenerativeModel` と `ActiveInferenceAgent` を維持します。
+- 環境はエージェントのアクションを他のエージェントの観察にマッピングします。
+- 相互情報量はペアごとに追跡できます。
 
-## Applications
+## 応用
 
-- **Language evolution**: How do symbolic systems emerge from non-linguistic agents?
-- **Cooperative robotics**: Agents that develop coordination protocols without pre-programmed signals.
-- **Social inference**: An agent that models other agents' beliefs (theory of mind) as part of its generative model.
+- **言語進化**: 記述的なシステムが非言語エージェントからどのように発生するか？
+- **協調ロボティクス**: 事前にプログラムされた信号なしで協調プロトコルを開発するエージェント。
+- **社会的推論**: 他のエージェントの信念（理論の知性）を生成モデルの一部としてモデル化するエージェント。
 
-## Conclusion
+## 結論
 
-Multi-agent Active Inference extends the single-agent framework naturally: each agent's actions become observations for other agents. Communication emerges when agents learn that their signals systematically influence others' behavior. Module 08 extends the temporal dimension — planning over multiple future steps.
+マルチエージェントアクティブインファーレンスは、シングルエージェントのフレームワークを自然に拡張します。各エージェントのアクションは、他のエージェントの観察になります。コミュニケーションは、エージェントが自分の信号が他者の行動にシステム的に影響を与えることを学習することで発生します。モジュール 08 は時間的次元を拡張します—複数の将来ステップに対する計画。

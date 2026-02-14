@@ -1,51 +1,51 @@
-# Practice Quiz: Agents
+# 練習クイズ：エージェント
 
-## Part A: Multiple Choice
+## Part A: 選択肢問題
 
-1. In Active Inference, an agent is distinguished from a passive system by:
-A) Having a nervous system
-B) Having active states that influence the environment to minimize free energy
-C) Being made of organic material
-D) Being able to communicate with other agents
+1. Active Inference において、エージェントはパッシブなシステムと区別されるのは：
+A) 神経系を持っていること
+B) 環境を操作して自由エネルギーを最小化するアクティブな状態を持っていること
+C) 有機物質でできていること
+D) 他のエージェントとコミュニケーションできること
 
-2. Spinoza's concept of *conatus* refers to:
-A) The drive to maximize pleasure and minimize pain
-B) The striving of every being to persist in its own existence
-C) The tendency of systems to increase in complexity
-D) The moral obligation to help others persist
+2. スピノーザの概念である *conatus* は、次のうちどれを指すか：
+A) 喜びを最大化し、苦痛を最小化しようとする駆動力
+B) 存在を維持しようとするすべての存在の努力
+C) システムが複雑化する傾向
+D) 他の存在を維持するための道徳的義務
 
-3. According to Metzinger, a self-model is:
-A) A photograph of oneself
-B) An internal representation of oneself as a distinct entity
-C) A philosophical impossibility
-D) A model that only humans can possess
+3. メッツィンガーによると、自己モデルとは：
+A) 自分自身の写真
+B) 自分自身を独立した存在として内部的に表現したもの
+C) 哲学的に不可能
+D) 人間だけが持つことができるモデル
 
-4. The "problem of other minds" in the Active Inference framework becomes:
-A) Irrelevant, because all systems are agents
-B) A problem of inferring another system's internal states through one's own generative model
-C) Unsolvable, because Markov Blankets prevent access to internal states
-D) A linguistic confusion rather than a genuine philosophical problem
+4. Active Inference の枠組みにおける「他者の意識の問題」は：
+A) 無関係である。なぜなら、すべてのシステムがエージェントであるから
+B) 自分の生成モデルを通して他方のシステムの内部状態を推論する問題
+C) マルコフ・ブランケットが内部状態へのアクセスを妨げるため解決できない
+D) 実際の哲学的な問題ではなく、言語的な混乱である
 
-5. Varela's concept of "sense-making" refers to:
-A) Linguistic meaning production
-B) An organism's active engagement in generating significance from its environment
-C) The process of translating raw sense data into propositions
-D) A computational operation performed only by neural networks
+5. ベレアの概念である「意味の構築」とは、次のうちどれを指すか：
+A) 言語的な意味の生産
+B) 生物が環境から意味を生成するために積極的に関わること
+C) 未加工の感覚データを命題に翻訳するプロセス
+D) ニューラルネットワークによってのみ実行される計算操作
 
-6. If agency exists on a continuum, which philosophical consequence follows most directly?
-A) Moral status must also be graded rather than binary
-B) Only the most complex agents have genuine free will
-C) Simple agents cannot be studied scientifically
-D) The concept of agency is philosophically useless
+6. エージェントが存在する状態が連続体である場合、最も直接的にどのような哲学的な結果が導かれるか：
+A) 道徳的地位も二値ではなく、格付けされたものでなければならない
+B) 最も複雑なエージェントのみが真の自由意志を持つ
+C) 単純なエージェントは科学的に研究できない
+D) エージェントの概念は哲学的に無用である
 
-7. Dewey's concept of the "organism-environment transaction" anticipated Active Inference by emphasizing:
-A) That organisms and environments are separate, independent entities
-B) That cognition is fundamentally about internal computation
-C) That organism and environment are co-constituted through ongoing interaction
-D) That evolution is the only form of adaptation
+7. デューイの「生物-環境の取引」という概念は、Active Inference を先取りし、強調した：
+A) 生物と環境は別個かつ独立した存在である
+B) 認知は本質的に内部計算に関するものである
+C) 生物と環境は継続的な相互作用を通して共構成される
+D) 進化が唯一の適応の形である
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Explain why, in Active Inference, agency does not require consciousness. What philosophical problems does this create?
-2. A reinforcement learning algorithm selects actions that maximize expected reward. In what philosophically relevant ways does this differ from an Active Inference agent that minimizes expected free energy?
-3. Construct a brief argument for or against the claim: "An ant colony is a single agent with beliefs and goals."
+1. Active Inference において、エージェントは意識を必要としない理由を説明しなさい。このことによってどのような哲学的な問題が生じるか。
+2. 強化学習アルゴリズムは、期待される報酬を最大化する行動を選択する。これは、Active Inference エージェントが期待される自由エネルギーを最小化することと、哲学的に関連のある点でどのように異なるか。
+3. 「アリのコロニーは、信念と目標を持つ単一のエージェントである」という主張について、賛成または反対の短い議論を構築しなさい。

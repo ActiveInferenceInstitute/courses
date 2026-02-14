@@ -1,61 +1,61 @@
-# Lab: Case Study Analysis — Motor Inference and Its Disorders
+# 実験室：症例分析 — モーター推論とそれらの障害
 
-## Objective
+## 目的
 
-Analyze clinical motor cases through the Active Inference framework, connecting proprioceptive prediction to motor pathology.
+アクティブ・インファーレンスフレームワークを通じて臨床的なモーター症例を分析し、固有感覚予測とモーター病理との関連性を探る。
 
-## Part 1: Parkinson's Disease and Motor Precision
+## 第1部：パーキンソン病と運動精度
 
-**Case**: Patient H.R., 68, presents with bilateral resting tremor (4-6 Hz), cogwheel rigidity, and bradykinesia. DaTscan confirms loss of dopaminergic neurons in the substantia nigra. L-DOPA treatment significantly improves motor symptoms but produces dyskinesias at higher doses.
+**症例**: 患者H.R.、68歳で、左右に安静時の振戦（4～6Hz）、歯車硬直、緩慢な運動を認める。DaTscan検査で、黒質におけるドーパミン作動性ニューロンの減少が確認される。L-DOPA治療により運動症状が大幅に改善されるが、高用量では運動失調が生じる。
 
-- Interpret the triad of symptoms (tremor, rigidity, bradykinesia) in Active Inference terms. How does dopamine loss affect motor precision?
-- Why does L-DOPA improve symptoms? (Hint: restoring dopamine → restoring precision on motor predictions.)
-- Why do dyskinesias (excessive involuntary movements) occur at high doses? (Hint: excessive precision → overconfident motor predictions.)
-
-{fill:textarea}
-
-## Part 2: Functional Motor Disorder
-
-**Case**: Patient C.W., 32, presents with sudden-onset paralysis of the right arm following a workplace accident. Neurological examination and MRI reveal no structural brain or spinal cord damage. However, C.W. cannot move the arm and reports no sensation in it. Under anesthesia, passive range of motion is normal.
-
-- How does Active Inference explain functional paralysis as a "strong prior belief" about inability?
-- Why does the arm move under anesthesia? (Hint: the prior belief is not active when consciousness is suppressed.)
-- What therapeutic approach does Active Inference suggest? (Consider precision modulation, graded motor imagery, physiotherapy to generate new prediction errors.)
+- 振戦、硬直、緩慢な運動という3つの症状をアクティブ・インファーレンスの観点から解釈する。ドーパミン減少が運動精度にどのように影響を与えるか？
+- L-DOPAが症状を改善する理由を説明する。（ヒント：ドーパミン回復 → モーター予測における精度回復。）
+- 運動失調（過剰な不随意運動）が高用量で生じる理由を説明する。（ヒント：過剰な精度 → 過信されたモーター予測。）
 
 {fill:textarea}
 
-## Part 3: Saccadic Eye Movements as Epistemic Action
+## 第2部：機能性運動障害
 
-**Case**: Eye-tracking data from a participant viewing a natural scene (a forest with a partially hidden animal) shows saccades concentrated on areas of high visual uncertainty (partially occluded regions, boundaries between objects) rather than uniformly distributed or focused on the brightest regions.
+**症例**: 患者C.W.、32歳で、職場事故後に右腕の突然発症の麻痺を訴える。神経学的検査とMRI検査では、脳や脊髄の構造的な損傷は認められない。しかし、C.W.は腕を動かせず、感覚も得られない。麻酔下では、被動的な可動域は正常である。
 
-- How does Expected Free Energy explain this pattern? What drives the eyes to areas of high uncertainty?
-- Compare this with a "saliency map" model (Itti & Koch, 2000) that drives saccades to areas of high visual contrast. How do the predictions differ?
-- Design a modified experiment that could distinguish between ambiguity-driven (Active Inference) and saliency-driven saccadic patterns.
-
-{fill:textarea}
-
-## Part 4: Motor Learning and the Reaching Task
-
-**Case**: A participant performs a visuomotor adaptation task — reaching for a target while wearing prism glasses that shift the visual field 10° to the right. Initially, reaches systematically miss the target (to the right). Over 200 trials, reaches gradually correct to accurate. When the prisms are removed, there is an "aftereffect" — reaches now miss to the left.
-
-- Interpret the adaptation process in Active Inference terms: what is being updated in the generative model?
-- Why does the aftereffect occur? (Hint: the model has been updated to expect the prism-shifted mapping.)
-- How does this relate to the concept of error-based learning vs. model-based learning?
+- アクティブ・インファーレンスが機能性麻痺を「能力に対する強い先入観」としてどのように説明するか？
+- 麻酔下で腕が動く理由を説明する。（ヒント：意識が抑制されると、先入観は活動しなくなる。）
+- アクティブ・インファーレンスが提案する治療アプローチは何か。（精度モジュレーション、段階的な運動イメージング、理学療法による新しい予測誤差の生成といった要素を考慮する。）
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## 第3部：サカージック眼球運動と認識的行動
 
-Write a 200-word synthesis explaining how all four cases demonstrate that motor control is a form of embodied inference — prediction error minimization enacted through the body.
+**症例**: 自然な風景（一部隠れた動物のある森）を観察する参加者のアイ・トラッキングデータから、サカージック運動が、均一に分布していたり、最も明るい領域に集中していたりするのではなく、視覚的な不確実性が高い領域（部分的に遮蔽された領域、物体間の境界）に集中していることがわかった。
+
+- 期待されたフリーエネルギーがこのパターンをどのように説明するか？ 何が目を不確実性の高い領域へと導くのか？
+- これを「サリエンシーマップ」モデル（Itti & Koch, 2000）と比較する。このモデルがサカージック運動を駆動する仕組みは？ 予測の違いをどのように説明するか？
+- 曖昧さに基づいた（アクティブ・インファーレンス）とサリエンシーに基づいたサカージックパターンを区別できるような改良された実験を設計する。
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：運動学習とリーチタスク
 
-| Part | Skill Developed | Case Type |
-|------|----------------|-----------|
-| 1 | Neuropharmacological reasoning | Parkinson's disease |
-| 2 | Clinical analysis | Functional motor disorder |
-| 3 | Eye-tracking interpretation | Saccadic epistemic action |
-| 4 | Motor learning analysis | Visuomotor adaptation |
-| 5 | Integrative synthesis | Connecting motor cases to embodied inference |
+**症例**: 参加者がプリズムメガネを装着し、視覚フィールドを10°右にずらしてリーチタスクを行う。当初、ターゲットに向かってリーチする際に、システム的にターゲットを外す（右へ）。200回を超えてリーチが徐々に修正される。プリズムを取り外すと、「アフター効果」が現れる。つまり、現在のリーチは左へ外れる。
+
+- アクティブ・インファーレンスの観点から、この適応プロセスを解釈する。生成モデルの何が更新されているか？
+- アフター効果が起こる理由を説明する。（ヒント：プリズムオフセットされたマッピングを期待するようにモデルが更新されている。）
+- これがエラーに基づく学習とモデルに基づく学習という概念とどのように関連するか？
+
+{fill:textarea}
+
+## 第5部：統合
+
+アクティブ・インファーレンスという、予測誤差の最小化を通じて体を通して行われる、身体的な推論の一形態であることを示す4つの症例がすべてどのように示しているかを200語で要約する。
+
+{fill:textarea}
+
+## 実験室概要
+
+| 部位 | 開発されたスキル | 症例タイプ |
+|---|---|---|
+| 1 | 神経薬理学的推論 | パーキンソン病 |
+| 2 | 臨床分析 | 機能性運動障害 |
+| 3 | アイ・トラッキング解釈 | サカージック認識的行動 |
+| 4 | 運動学習分析 | 視覚運動適応 |
+| 5 | 包括的な統合 | モーターケースを身体的な推論に結びつける |

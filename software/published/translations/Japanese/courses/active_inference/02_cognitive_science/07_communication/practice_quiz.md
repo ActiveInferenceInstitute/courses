@@ -1,51 +1,53 @@
-# Practice Quiz: Communication
+# 練習クイズ：コミュニケーション
 
-## Part A: Multiple Choice
+## Part A: 複数選択問題
 
-1. Mirror neurons fire:
-A) Only during the execution of actions
-B) Both during action execution and during observation of the same action performed by another
-C) Only during language comprehension
-D) Only in the visual cortex
+1. ミラーニューロンは発火する：
+A) 行為の実行中のみ
+B) 行為の実行中と他者が同じ行為を観察している間の両方
+C) 言語理解中のみ
+D) 視覚皮質のみ
 
-2. In Active Inference, mirror neuron activity represents:
-A) Simple motor imitation
-B) Motor simulation — the observer's generative model predicting the proprioceptive consequences of observed actions
-C) Emotional contagion
-D) Random motor noise
+2. アクティブ・インファーレンスにおいて、ミラーニューロンの活動は：
+A) 単純な運動模倣
+B) 観察者の生成モデルが、観測された行動のプロプリオセプティブな結果を予測する運動シミュレーション
+C) 感情感染
+D) ランダムな運動ノイズ
 
-3. Interpersonal neural synchrony is best described as:
-A) Two brains generating identical neural activity simultaneously
-B) Correlated oscillatory activity between interacting brains, reflecting alignment of generative models
-C) Physical proximity between people
-D) Emotional similarity between conversational partners
+3. 相互作用ニューラルシンクロニシティは、最もよく記述される：
+A) 2つの脳が同時に同一の神経活動を生成すること
+B) 相互作用する脳間の相関する振動活動であり、生成モデルの整合性を示すこと
+C) 人々間の物理的な距離
+D) 会話のパートナー間の感情的な類似性
 
-4. The mentalizing network (TPJ, mPFC, pSTS, temporal poles) is primarily involved in:
-A) Visual perception
-B) Representing others' beliefs, desires, and intentions
-C) Motor control
-D) Auditory processing
+4. メンタリングネットワーク（TPJ、mPFC、pSTS、時間極）は主に：
+A) 視覚認識
+B) 他者の信念、欲求、意図を表現すること
+C) 運動制御
+D) 聴覚処理
 
-5. The false belief task measures:
-A) Memory for object locations
-B) The ability to attribute a belief to another person that differs from reality — a core Theory of Mind capacity
-C) Visual tracking ability
-D) Language comprehension
+5. 偽信念タスクは測定する：
+A) 物体の場所に関する記憶
+B) 現実とは異なる他者の信念を割り当てる能力 - 理論的思考の核心的な能力
+C) 視覚追跡能力
+D) 言語理解
 
-6. In schizophrenia, paranoid ideation may result from:
-A) Absent Theory of Mind
-B) Overactive mentalizing — excessive attribution of intentions (often threatening) to others
-C) Damage to the visual system
-D) Complete loss of mirror neuron function
+6. 統合失調症において、妄想的なアイデアが生まれる原因として：
+A) 理論的思考の欠如
+B) 過剰なメンタリング - 他者への意図（しばしば脅迫的）の過剰な付与
+C) 視覚系の損傷
+D) ミラーニューロン機能の完全な喪失
 
-7. Successful speaker-listener communication in hyperscanning studies correlates with:
-A) Identical brain anatomy
-B) Tighter temporal coupling of neural activity between speaker and listener
-C) The listener's ability to speak the same dialect
-D) Higher intelligence in both participants
+7. ハイパースキャン研究における成功した話し手と聞き手のコミュニケーションは、次のものと相関している：
+A) 運動神経学的な相同性
+B) 話し手と聞き手間の神経活動のより緊密な時間的カップリング
+C) 聞き手が同じ方言を話す能力
+D) 両方の参加者における知能の高さ
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Explain how Active Inference's concept of "generalized synchrony" accounts for the neural coupling observed in hyperscanning studies. What must align between two agents for communication to succeed?
-2. A child under age 4 fails the false belief task. Analyze this in Active Inference terms: what level of the generative model hierarchy is not yet developed?
-3. An adult with autism understands literal language but misses sarcasm and irony. Design a study to test whether this reflects reduced precision on mentalizing predictions or a fundamentally different social inference strategy.
+1. アクティブ・インファーレンスの「汎化されたシンクロニシティ」の概念が、ハイパースキャン研究で観察される神経結合を説明する方法を説明してください。コミュニケーションが成功するためには、2つのエージェント間で何が一致する必要がありますか？
+
+2. 4歳未満の子供が偽信念タスクに失敗します。アクティブ・インファーレンスの用語で分析してください。生成モデル階層のどのレベルがまだ発達していませんか？
+
+3. 読み言葉は理解できますが、皮肉や反語を理解できない成人について、メンタリング予測の精度が低下しているのか、あるいは根本的に異なる社会的推論戦略を反映しているのかをテストするための研究を設計してください。

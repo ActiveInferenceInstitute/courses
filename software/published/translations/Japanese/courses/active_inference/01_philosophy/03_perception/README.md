@@ -1,53 +1,53 @@
-# Module 3: Perception — Direct Perception, Inferentialism, and the User-Interface Theory
+# モジュール3：知覚 – 直接知覚、推論主義、およびユーザーインターフェース理論
 
-> **Quick Navigation**: [← Agents](../02_agents/) | [Up](../) | [Cognition →](../04_cognition/)
+> **クイックナビゲーション**: [←エージェント](../02_agents/) | [上へ](../) | [認知 →](../04_cognition/)
 
-## The Philosophy of Active Inference
+## 積極的推論の哲学
 
 ---
 
-## Contents
+## 概要
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Thought Experiment lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の全文 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個のFR) |
+| [lab.md](./lab.md) | 思考実験の実験室活動 |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです。
 
-1. Define **Perception** from a philosophical perspective within Active Inference
-2. Explain the role of **Direct Perception** in the FEP framework
-3. Connect perception to the broader concepts of free energy minimization
-4. Apply philosophical reasoning to analyze real-world examples of perception
+1. 積極的推論の視点から**知覚**を定義する
+2. FEP フレームワークにおける**直接知覚**の役割を説明する
+3. 知覚をより広範な自由エネルギー最小化の概念と関連付ける
+4. 実際の知覚の例を分析するために、哲学的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 関連モジュール
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/03_perception/) | Direct Perception, Inferentialism, and the User-Interface Theory ← **You are here** |
-| [Cognitive Science](../../02_cognitive_science/03_perception/) | Predictive Coding, Sensory Attenuation, and Hallucinations |
-| [Mathematics](../../03_math/03_perception/) | Variational Free Energy, KL Divergence, and Recognition Density |
-| [Computer Science](../../04_computer_science/03_perception/) | A-Matrix and B-Matrix: Likelihood, Transitions, State Estimation |
+| [哲学](../../01_philosophy/03_perception/) | 直接知覚、推論主義、およびユーザーインターフェース理論 ← **現在地** |
+| [認知科学](../../02_cognitive_science/03_perception/) | 予測符号化、感覚減衰、および幻覚 |
+| [数学](../../03_math/03_perception/) | 変化分有限エネルギー、KL 距離、および認識密度 |
+| [コンピュータサイエンス](../../04_computer_science/03_perception/) | A行列とB行列：尤度、遷移、状態推定 |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する主要な引用
 
 ---
 
-[← Agents](../02_agents/) | [Up](../) | [Cognition →](../04_cognition/)
+[←エージェント](../02_agents/) | [上へ](../) | [認知 →](../04_cognition/)

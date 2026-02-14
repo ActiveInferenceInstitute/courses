@@ -1,41 +1,41 @@
-# Study Questions: Planning
+# 勉強問題：計画
 
-1. What is a multi-step policy and how does it differ from the single-step policies used in earlier modules?
+1.  多段階ポリシーとは何か、および以前のモジュールで使用されていた単段階ポリシーとはどのように異なりますか？
 
-2. Write the formula for total EFE of a multi-step policy $\pi = [a_0, a_1, \ldots, a_{T-1}]$.
+2.  多段階ポリシー $\pi = [a_0, a_1, \ldots, a_{T-1}]$ に対して、合計 EFE の公式を記述してください。
 
-3. How does the agent predict future state distributions? Write the recursive formula using the B-matrix.
+3.  エージェントが将来の状態分布をどのように予測しますか？ B行列を使用して再帰的な公式を記述してください。
 
-4. What is Marginal Message Passing (MMP) and why is it needed for deep temporal models?
+4.  マルジナルメッセージパッシング (MMP) とは何か、および深層時間モデルに必要な理由は何ですか？
 
-5. In `run_mmp()`, what does the `beliefs` return value contain? How many belief vectors are returned for a 3-step policy?
+5.  `run_mmp()` では、`beliefs` の戻り値には何が含まれていますか？ 3段階ポリシーの場合、何個の信念ベクトルが返されますか？
 
-6. Explain the computational tradeoff of increasing temporal depth T. How does the number of possible policies scale with T?
+6.  時間的深さ T を増やすことの計算トレードオフを説明してください。 T と共に可能なポリシーの数はどのようにスケーリングされますか？
 
-7. For a 4-action system with T = 3, how many exhaustive policies exist? How could you reduce this number?
+7.  4アクションシステムで T = 3 の場合、存在する完全なポリシーの数はいくつですか？ この数を減らす方法を教えてください。
 
-8. Write code to define multi-step policies for a T-maze agent that can plan 2 steps ahead (first go to cue, then go to arm).
+8.  T=3 のステップで T-maze エージェントを計画できるマルチステップポリシーを定義するコードを記述してください (まず手がかりに進み、次に腕に進みます)。
 
-9. Why does the T-maze require T ≥ 2 for the agent to reliably find the reward? What fails with T = 1?
+9.  T-maze が報酬を確実に見つけるために T ≥ 2 が必要な理由は何ですか？ T = 1 の場合、何が失敗しますか？
 
-10. How would you encode a 3×3 gridworld as a `DiscreteEnvironment`? What shape would the B-tensor have?
+10. 3x3 グリッドワールドを `DiscreteEnvironment` としてエンコードするにはどうすればよいですか。 Bテンソルはどのような形状になりますか？
 
-11. How are obstacles (walls) represented in the B-matrix of a gridworld? What transition does a wall create?
+11. グリッドワールドの B行列における障害物（壁）はどのように表されますか。壁が作成する遷移は何ですか？
 
-12. What does `plot_gridworld()` visualize? What arguments does it accept?
+12. `plot_gridworld()` は何を描画しますか。 どのような引数を受け入れますか？
 
-13. Write the full code for evaluating a multi-step policy's total EFE by unrolling predicted states across all timesteps.
+13. 予測された状態をすべての時間ステップに展開して、マルチステップポリシーの合計 EFE を評価するための完全なコードを記述してください。
 
-14. How does MMP differ from simple forward inference? What additional information does backward message passing provide?
+14. MMP と単純な前進推論との違いは何ですか。 後方メッセージパッシングが提供する追加情報はありますか？
 
-15. In a gridworld with a distant reward (10 steps away), what minimum temporal depth T is needed? What practical problem arises?
+15. 遠い報酬（10ステップ）のあるグリッドワールドの場合、必要な最小の時間的深さ T はどれくらいですか。 どのような実用的な問題が生じますか？
 
-16. How does `plot_simulation_dashboard()` organize its 5 panels? What is shown in each panel?
+16. `plot_simulation_dashboard()` は 5 つのパネルをどのように編成しますか。 各パネルには何が表示されますか？
 
-17. Explain how hierarchical planning could reduce the policy space. What are "abstract policies" in this context?
+17. 階層的計画がポリシー空間を削減する方法を説明してください。 この文脈における「抽象ポリシー」とは何ですか？
 
-18. Compare a T = 1 agent and a T = 5 agent on the same gridworld. What differences in behavior would you expect?
+18. T = 1 エージェントと T = 5 エージェントを同じグリッドワールドで比較してください。 どのような行動の違いを期待しますか？
 
-19. What is the relationship between planning depth T and the exploration–exploitation tradeoff? Does deeper planning favor exploitation?
+19. 計画深度 T と探索-活用トレードオフの関係とは何ですか。 より深い計画は活用を優先しますか？
 
-20. Design a delayed-reward task where a T = 1 agent fails but a T = 3 agent succeeds. Specify the states, observations, actions, C-vector, and the necessary policy structures.
+20. T = 1 エージェントが失敗するものの、T = 3 エージェントが成功する遅延報酬タスクを設計してください。 状態、観測、アクション、Cベクトル、および必要なポリシー構造を指定してください。

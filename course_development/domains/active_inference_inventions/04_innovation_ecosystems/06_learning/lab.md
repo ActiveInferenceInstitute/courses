@@ -1,0 +1,161 @@
+# Lab: Designing Your Learning Engine
+
+## Objective
+
+Design a comprehensive organizational learning system for your invention that processes post-launch prediction errors, captures knowledge, and enables continuous model improvement. You will build customer feedback loops, practice pivot analysis, and design knowledge management processes — all grounded in Active Inference learning principles.
+
+## Materials and Prerequisites
+
+- Your invention concept and launch strategy from Modules 01-05
+- Understanding of Active Inference learning from Section 1
+
+## Part 1: Prediction Error Inventory (10 minutes)
+
+Before you can learn from prediction errors, you must anticipate where they will occur.
+
+**Step 1**: State your invention and list five key predictions your current model makes about post-launch reality.
+
+{fill:textarea}
+
+**Step 2**: For each prediction, assess the likelihood and consequence of error.
+
+| Prediction | Confidence (1-10) | If Wrong, Type of Error (Parameter vs. Structure) | Consequence of Error (Low/Med/High) | How You Would Detect It |
+|-----------|-------------------|--------------------------------------------------|--------------------------------------|------------------------|
+| 1. | | | | |
+| 2. | | | | |
+| 3. | | | | |
+| 4. | | | | |
+| 5. | | | | |
+
+**Step 3**: Which prediction error would be the most informative — i.e., which would teach you the most about your model's accuracy? Why?
+
+{fill:textarea}
+
+## Part 2: Customer Feedback Loop Design (15 minutes)
+
+Design a structured feedback system that generates high-precision evidence for model updating.
+
+**Step 1**: Classify the following feedback sources by precision level for YOUR invention.
+
+| Feedback Source | Precision (High/Med/Low) | Why This Precision Level | Will You Use It? |
+|----------------|-------------------------|------------------------|-----------------|
+| Customer support tickets | | | |
+| Usage/behavioral analytics | | | |
+| Customer satisfaction surveys | | | |
+| Net Promoter Score (NPS) | | | |
+| Feature requests | | | |
+| Social media mentions | | | |
+| Churn/retention data | | | |
+| A/B test results | | | |
+| Customer interviews | | | |
+| Sales conversion data | | | |
+
+**Step 2**: Design your primary feedback loop. How does evidence flow from customer behavior to model updating?
+
+| Loop Stage | Specific Implementation | Frequency | Who Is Responsible |
+|-----------|------------------------|-----------|-------------------|
+| 1. Observe (gather evidence) | | | |
+| 2. Analyze (identify prediction errors) | | | |
+| 3. Interpret (determine error type) | | | |
+| 4. Update (revise the model) | | | |
+| 5. Act (implement changes) | | | |
+| 6. Measure (verify improvement) | | | |
+
+{fill:textarea}
+
+**Step 3**: What is the most important metric you would track? Why does this metric provide the highest-precision evidence about your model's accuracy?
+
+{fill:textarea}
+
+## Part 3: Pivot Analysis Exercise (15 minutes)
+
+Practice the model comparison reasoning that underlies pivot decisions.
+
+**Step 1**: Imagine your invention has been on the market for six months. Construct a realistic scenario in which your primary model has accumulated significant prediction errors.
+
+Scenario description: {fill:textarea}
+
+**Step 2**: In this scenario, describe an alternative model (pivot direction) that the evidence might support.
+
+| Dimension | Current Model | Alternative Model | Evidence Favoring Alternative |
+|-----------|--------------|-------------------|------------------------------|
+| Target customer | | | |
+| Core value proposition | | | |
+| Revenue model | | | |
+| Key activity | | | |
+| Competitive position | | | |
+
+**Step 3**: Evaluate the pivot decision using Bayesian model comparison.
+
+| Factor | Assessment |
+|--------|-----------|
+| Strength of evidence against current model | |
+| Strength of evidence for alternative model | |
+| Switching costs (investment to abandon) | |
+| Opportunity costs (time to rebuild) | |
+| Reversibility (can you pivot back?) | |
+| **Decision: Pivot, iterate, or gather more evidence?** | |
+
+{fill:textarea}
+
+**Step 4**: What is the minimum evidence you would need to see before committing to the pivot? Be specific about the type and quantity of evidence.
+
+{fill:textarea}
+
+## Part 4: Knowledge Management System Design (10 minutes)
+
+**Step 1**: Identify three types of knowledge your organization will generate through innovation.
+
+| Knowledge Type | Example | Tacit or Explicit? | Where It Resides |
+|---------------|---------|-------------------|-----------------|
+| 1. | | | |
+| 2. | | | |
+| 3. | | | |
+
+**Step 2**: Design a knowledge capture process for each type. How will you ensure this knowledge persists even if key team members leave?
+
+| Knowledge Type | Capture Method | Storage Medium | Review Frequency |
+|---------------|---------------|----------------|-----------------|
+| 1. | | | |
+| 2. | | | |
+| 3. | | | |
+
+{fill:textarea}
+
+**Step 3**: Design a post-mortem template for your organization. What questions must every post-mortem answer?
+
+{fill:textarea}
+
+## Part 5: Learning Organization Scorecard (10 minutes)
+
+Assess how well your inventive organization (or team) is structured for continuous learning.
+
+**Step 1**: Rate your organization on each learning organization dimension (1 = not at all, 5 = excellent).
+
+| Dimension | Rating (1-5) | Evidence for Rating | One Action to Improve |
+|-----------|-------------|--------------------|--------------------|
+| Personal mastery (individual learning commitment) | | | |
+| Mental models (explicit, testable assumptions) | | | |
+| Shared vision (aligned organizational model) | | | |
+| Team learning (collaborative inference) | | | |
+| Systems thinking (understanding dynamic relationships) | | | |
+
+**Step 2**: What is your organization's current "learning rate" — how quickly does a prediction error get detected, analyzed, and acted upon? Give a specific example.
+
+{fill:textarea}
+
+**Step 3**: Design one structural change that would increase your organization's learning rate by at least 50%. What would change, and how would you measure the improvement?
+
+{fill:textarea}
+
+## Discussion and Debrief
+
+1. How does distinguishing between parameter updating and model restructuring change your approach to processing negative market feedback?
+
+2. What was the most surprising insight from designing your customer feedback loop? Were there high-precision evidence sources you had not considered?
+
+3. In the pivot analysis exercise, how difficult was it to honestly evaluate the evidence against your current model? What cognitive biases did you notice in yourself?
+
+4. How would you maintain your knowledge management system under the pressure of rapid startup growth? What compromises are acceptable?
+
+5. Compare your learning organization scorecard with a peer's. What structural differences between your organizations explain different learning rates?

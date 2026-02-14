@@ -1,53 +1,53 @@
-# Module 3: Perception — A-Matrix and B-Matrix: Likelihood, Transitions, State Estimation
+# モジュール3：認識 – A行列とB行列：尤度、遷移、状態推定
 
-> **Quick Navigation**: [← Agents](../02_agents/) | [Up](../) | [Cognition →](../04_cognition/)
+> **クイックナビゲーション**: [← エージェント](../02_agents/) | [上へ](../) | [認知 →](../04_cognition/)
 
-## Computational Active Inference
+## 計算活性推論
 
 ---
 
-## Contents
+## 概要
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Python Coding Exercise lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全なコンテンツ |
+| [questions.md](./questions.md) | 20個の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7問のMC + 3問のFR) |
+| [lab.md](./lab.md) | Python コーディング演習ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです：
 
-1. Define **Perception** from a computational perspective within Active Inference
-2. Explain the role of **A-Matrix and B-Matrix: Likelihood** in the FEP framework
-3. Connect perception to the broader concepts of free energy minimization
-4. Apply computational reasoning to analyze real-world examples of perception
+1.  活性推論における計算的な視点から**認識**を定義する
+2.  FEPフレームワークにおける**A行列とB行列：尤度**の役割を説明する
+3.  認識をより広い概念であるフリーエネルギー最小化と関連付ける
+4.  現実世界の認識の例を分析するために計算的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 関連コース
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/03_perception/) | Direct Perception, Inferentialism, and the User-Interface Theory |
-| [Cognitive Science](../../02_cognitive_science/03_perception/) | Predictive Coding, Sensory Attenuation, and Hallucinations |
-| [Mathematics](../../03_math/03_perception/) | Variational Free Energy, KL Divergence, and Recognition Density |
-| [Computer Science](../../04_computer_science/03_perception/) | A-Matrix and B-Matrix: Likelihood, Transitions, State Estimation ← **You are here** |
+| [哲学](../../01_philosophy/03_perception/) | 直接認識、推論主義、ユーザーインターフェース理論 |
+| [認知科学](../../02_cognitive_science/03_perception/) | 予測コーディング、感覚減衰、幻覚 |
+| [数学](../../03_math/03_perception/) | 確率的フリーエネルギー、KL divergence、認識密度 |
+| [コンピュータサイエンス](../../04_computer_science/03_perception/) | A行列とB行列：尤度、遷移、状態推定 ← **現在地** |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Agents](../02_agents/) | [Up](../) | [Cognition →](../04_cognition/)
+[← エージェント](../02_agents/) | [上へ](../) | [認知 →](../04_cognition/)

@@ -1,35 +1,35 @@
-# Module 02: Agents — The Self-Model, Interoception, and Ego Boundaries
+# モジュール02：エージェント—自己モデル、内臓知覚、自己の境界
 
-## Learning Objectives
+## 学習目標
 
-1. Describe how the brain constructs a **self-model** through interoceptive inference — the perception of internal bodily states.
-2. Explain the role of the insular cortex and anterior cingulate cortex in maintaining the agent's sense of self.
-3. Analyze clinical conditions (depersonalization, rubber hand illusion, body integrity disorder) as disruptions of the self-model.
+1.  内臓知覚的推論—体の内部状態の認識を通して、脳が**自己モデル**をどのように構築するか説明する。
+2.  エージェントの自己認識を維持する上で、島皮質と線条体前部が果たす役割を説明する。
+3.  自己モデルの混乱として、解離性疎外感、ゴムの手の幻覚、身体完全性障害といった臨床状態を分析する。
 
-## Introduction
+## 導入
 
-What makes you *you*? Cognitive science reveals that the sense of self is not a given but a construction — an ongoing inference about the boundaries, states, and capacities of your own body. Active Inference formalizes this: the **self-model** is the component of the generative model that represents the agent's own Markov Blanket. This module examines the neural substrates and clinical disruptions of this self-model.
+あなたを「あなた」たらしめるものは何か？認知科学は、自己認識はあらかじめ与えられたものではなく、構築されたものである—自身の体の境界、状態、能力に関する継続的な推論であると示している。 Active Inference はこれを具体化している: **自己モデル**は、エージェント自身のマルコフブランケットを表現する生成モデルの構成要素である。このモジュールでは、この自己モデルの神経基盤と臨床的混乱を検討する。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Interoception as Self-Inference
+### 1. 内臓知覚を自己推論として
 
-**Interoception** — the perception of internal bodily states (heartbeat, breathing, gut sensations, temperature) — is the sensory channel through which the brain maintains its model of the body. Anil Seth (2013) argues that the "self" is fundamentally an interoceptive prediction: the brain's best guess about the causes of its internal sensory signals.
+**内臓知覚**—心拍、呼吸、腸の感覚、体温といった体の内部状態の認識—は、脳が自身の体のモデルを維持するための感覚チャネルである。 アニル・セッス (2013) は、「自己」は本質的に内臓知覚的予測であると主張している—内部感覚信号の原因に関する脳の最良の推測である。
 
-The **insular cortex** (particularly the anterior insula) is the primary cortical area for interoceptive processing. It receives input from the vagus nerve, sympathetic afferents, and chemoreceptors, and integrates these signals into a coherent representation of bodily state. In Active Inference terms, the anterior insula maintains the self-component of the generative model.
+**島皮質**（特に線条体前部）は、内臓知覚処理の主要な皮質領域である。迷走神経、交感性受容体、化学受容体からの入力を受け取り、これらを一貫した身体状態の表現に統合する。 Active Inference の観点から、線条体前部は生成モデルの自己成分を維持する。
 
-### 2. Body Ownership and the Rubber Hand Illusion
+### 2. 身体所有感とゴムの手の幻覚
 
-The **rubber hand illusion** (Botvinick & Cohen, 1998) demonstrates that body ownership is inferential. When a participant sees a rubber hand being stroked while their own hidden hand is stroked simultaneously, the brain integrates the visual and tactile signals and "reassigns" ownership to the rubber hand.
+**ゴムの手の幻覚** (Botvinick & Cohen, 1998) は、身体所有感が推論的であることを示している。参加者が自身の隠れた手が同時に撫でられているのを見ているとき、脳は視覚と触覚信号を統合し、「所有権を再割り当て」してゴムの手に所有権を割り当てる。
 
-In Active Inference terms, the generative model updates its representation of the body boundary (the Markov Blanket) based on the best explanation of the multisensory evidence. The rubber hand is incorporated into the self-model because this reduces overall prediction error across modalities.
+Active Inference の観点から、生成モデルは、マルチモーダル証拠に対する最良の説明に基づいて、自身の体の境界（マルコフブランケット）の表現を更新する。ゴムの手は、この予測誤差を最小限に抑えるために、自己モデルに取り込まれる。
 
-### 3. Clinical Disruptions of the Self-Model
+### 3. 自己モデルの臨床的混乱
 
-* **Depersonalization disorder**: Patients report feeling detached from their own body and mental processes. Active Inference interpretation: low precision on interoceptive prediction errors — the self-model becomes uncertain and attenuated.
-* **Body integrity identity disorder (BIID)**: Patients feel that a healthy limb does not belong to them and may seek amputation. Interpretation: the generative model's body representation excludes the limb, creating persistent prediction error between the model and the actual body.
-* **Autism spectrum**: Some individuals show heightened interoceptive awareness combined with difficulty integrating interoceptive signals into a coherent self-model, contributing to sensory overwhelm and alexithymia (difficulty identifying emotions).
+*   **解離性疎外感障害**: 患者は、自身の身体と精神的プロセスから切り離されていると感じる。Active Inference の解釈: 内臓知覚的予測誤差の低精度—自己モデルは不確実で弱体化する。
+*   **身体完全性同一性障害 (BIID)**: 患者は、健全な肢が自分のものではないと感じ、切断を求めることがある。解釈: 生成モデルの身体表現は肢を除外し、モデルと実際の身体との間で持続的な予測誤差を生み出す。
+*   **自閉スペクトラム**: 一部の個人は、高められた内臓知覚意識と、内臓知覚信号を一貫した自己モデルに統合することの困難さを示し、感覚過負荷とアリシーシア（感情を特定することの困難さ）に貢献する。
 
-## Conclusion
+## 結論
 
-The self is not a homunculus but an inference — a continuously updated model of the agent's own body and boundaries. Understanding the neural and clinical dimensions of this self-model is essential for connecting Active Inference to psychopathology, embodiment, and subjective experience. Module 03 examines how the self-model interfaces with the external world through perception.
+自己はホムンクルスではなく、推論—エージェント自身の身体と境界の継続的に更新されたモデルである。この自己モデルの神経学的および臨床的な側面を理解することは、Active Inference を精神病理学、身体化、主観的経験と結びつけるために不可欠である。モジュール03では、自己モデルが外部の世界とどのように相互作用するか検討する。

@@ -1,53 +1,53 @@
-# Module 8: Planning — Deep Temporal Models: T-Mazes and Gridworlds
+# モジュール8：計画—深層時間モデル：T-マズとグリッドワールド
 
-> **Quick Navigation**: [← Communication](../07_communication/) | [Up](../) | [Course Home →](../)
+> **クイックナビゲーション**: [← コミュニケーション](../07_communication/) | [上へ](../) | [コースホーム →](../)
 
-## Computational Active Inference
+## 計算活性推論
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Python Coding Exercise lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ（7 個のMC + 3 個のFR） |
+| [lab.md](./lab.md) | Python コーディング演習ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは次のことができるようになるはずです。
 
-1. Define **Planning** from a computational perspective within Active Inference
-2. Explain the role of **Deep Temporal Models: T-Mazes and Gridworlds** in the FEP framework
-3. Connect planning to the broader concepts of free energy minimization
-4. Apply computational reasoning to analyze real-world examples of planning
+1. 活性推論における計算的な視点から**計画**を定義する
+2. FEP フレームワークにおける**深層時間モデル：T-マズとグリッドワールド**の役割を説明する
+3. 計画を、フリーエネルギー最小化のより広い概念と関連付ける
+4. 計画の実際の例を分析するために計算的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 関連コース
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/08_planning/) | Teleology, Future-Oriented Behavior, and the Phenomenology of Time |
-| [Cognitive Science](../../02_cognitive_science/08_planning/) | Executive Function and Decision Making Under Uncertainty |
-| [Mathematics](../../03_math/08_planning/) | Recursive Belief Updating, Sophisticated Inference, Tree Search |
-| [Computer Science](../../04_computer_science/08_planning/) | Deep Temporal Models: T-Mazes and Gridworlds ← **You are here** |
+| [哲学](../../01_philosophy/08_planning/) | 目的論、未来志向行動、時間に関する現象学 |
+| [認知科学](../../02_cognitive_science/08_planning/) | 実行機能と不確実性下での意思決定 |
+| [数学](../../03_math/08_planning/) | 帰納的信念更新、高度な推論、木探索 |
+| [コンピュータサイエンス](../../04_computer_science/08_planning/) | 深層時間モデル：T-マズとグリッドワールド ← **現在地** |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する主要な引用
 
 ---
 
-[← Communication](../07_communication/) | [Up](../) | [Course Home →](../)
+[← コミュニケーション](../07_communication/) | [上へ](../) | [コースホーム →](../)

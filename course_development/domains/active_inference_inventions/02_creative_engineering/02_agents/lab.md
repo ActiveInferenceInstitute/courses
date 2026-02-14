@@ -13,7 +13,7 @@ Identify your own inventor archetype by examining your prior beliefs, precision 
 
 ## Part 1: Map Your Generative Model (15 minutes)
 
-Your generative model is everything you believe about how the world works, what needs exist, and what solutions are possible. This exercise makes parts of that model explicit.
+Your generative model is everything you believe about how the world works, what needs exist, and what solutions are possible. Most of this model is implicit — you operate on assumptions you have never explicitly stated. This exercise makes parts of that model visible. When you can see your assumptions, you can evaluate them, update them, and identify the ones that might be wrong. The goal is not to judge your beliefs but to catalog them, because awareness of your own model is the first step toward managing it deliberately. Pay special attention to beliefs you hold with high confidence — these are your strongest priors, and they are both your greatest asset and your most likely blind spot.
 
 **Step 1 (5 min):** Consider your invention idea. List your core beliefs about the problem you are trying to solve. These are your priors — the assumptions you bring to the creative process.
 
@@ -47,6 +47,8 @@ What this pattern reveals:
 
 ## Part 2: Identify Your Archetype (12 minutes)
 
+The four inventor archetypes — Methodical Engineer, Tinkerer, Accidental Discoverer, and Systems Thinker — are not rigid categories but tendencies. Most inventors are blends, with a primary archetype that dominates their default approach and secondary tendencies that emerge in specific situations. The value of identifying your archetype is not to label yourself permanently but to understand your default settings — the assumptions, priorities, and approaches you fall back on when you are not consciously choosing a strategy. Once you know your default, you can deliberately choose to override it when the situation calls for a different approach.
+
 **Step 1 (6 min):** Rate yourself on each dimension below. Be honest — there are no right answers.
 
 | Dimension | Scale | Your Rating |
@@ -77,6 +79,8 @@ How this archetype has shaped my past creative work (give a specific example):
 
 ## Part 3: Identify Your Blind Spots (10 minutes)
 
+Every inventor archetype has characteristic blind spots — regions of the solution space that are systematically invisible because the archetype's generative model does not predict observations from those regions. The Methodical Engineer may miss solutions that require artistic intuition. The Tinkerer may miss solutions that require formal analysis. The Accidental Discoverer may miss solutions that require sustained systematic effort. Identifying your blind spots is uncomfortable but essential — it is the difference between unconscious bias and deliberate modeling. The following exercise asks you to confront what you are most likely to miss.
+
 **Step 1 (5 min):** Every archetype has characteristic blind spots. Based on your archetype, identify what you are likely to miss:
 
 | My Archetype Tendency | What It Causes Me to Miss | A Time This Actually Happened |
@@ -97,6 +101,8 @@ What an inventor with a different archetype would see here:
 {fill:textarea}
 
 ## Part 4: Adopt a Complementary Archetype (15 minutes)
+
+One of the most powerful techniques for expanding your creative capacity is to deliberately adopt a different inventor archetype — to think about your problem through a lens that is not your natural default. This is cognitively demanding because it requires temporarily reducing the precision of your habitual priors and increasing the precision of unfamiliar ones. Think of it as method acting for inventors: you are not pretending to be a different person, but you are deliberately adopting a different set of assumptions, priorities, and approaches to see what they reveal about your problem.
 
 **Step 1 (5 min):** Choose the archetype most different from yours. For the next ten minutes, you will deliberately think about your invention idea from this perspective. Before you begin, describe how this archetype would approach your invention:
 

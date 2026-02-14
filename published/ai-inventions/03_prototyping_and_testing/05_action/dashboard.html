@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Iterative Refinement — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="hero"><h1>Iterative Refinement</h1><p class="subtitle">Section 3: Prototyping and Testing &mdash; Module 05: Action</p><span class="tag">Action-Perception Loop &bull; MVP &bull; Pivot or Persevere</span></div>
+<div class="tabs"><div class="tab active" data-tab="concepts">Concepts</div><div class="tab" data-tab="quiz">Quiz</div><div class="tab" data-tab="checklist">Checklist</div><div class="tab" data-tab="modules">Modules</div></div>
+
+<div class="panel active" id="concepts"><h2 style="font-size:1.1rem;margin-bottom:1rem;">Core Concepts</h2>
+<div class="concept-card" onclick="this.classList.toggle('open')"><h3>1. The Action-Perception Loop</h3><div class="desc">Build (action) -> test (perception) -> update beliefs -> select next change (action). Each turn reduces free energy. Toyota's kaizen implements this at industrial scale. The loop's value comes from frequency, not amplitude: many small fast iterations outperform few large slow ones because each turn corrects errors in the generative model.</div><div class="meter"><div class="fill" style="width:90%"></div></div></div>
+<div class="concept-card" onclick="this.classList.toggle('open')"><h3>2. Minimum Viable Prototype</h3><div class="desc">The simplest prototype that generates enough prediction error to meaningfully update the generative model. Include only what tests the highest-priority hypothesis; exclude everything else. Houston's Dropbox video tested demand without building the technology. The MVP maximizes the ratio of information gain to construction cost.</div><div class="meter"><div class="fill" style="width:85%"></div></div></div>
+<div class="concept-card" onclick="this.classList.toggle('open')"><h3>3. A/B Testing</h3><div class="desc">Controlled comparison between two design alternatives. Vary one factor, keep everything else constant, randomly assign conditions, compare outcomes. Google runs 10,000+ A/B tests annually. For physical prototypes, build both options and test each with different user groups. The key discipline: change only one variable at a time.</div><div class="meter"><div class="fill" style="width:80%"></div></div></div>
+<div class="concept-card" onclick="this.classList.toggle('open')"><h3>4. Pivot or Persevere</h3><div class="desc">Persevere signals: each iteration improves performance, errors are shrinking, remaining problems are calibration issues. Pivot signals: diminishing returns, prediction errors not decreasing, fundamental approach feels wrong. Slack pivoted from a failing game (Glitch) to a communication tool when game engagement showed persistent large prediction errors.</div><div class="meter"><div class="fill" style="width:75%"></div></div></div>
+<div class="concept-card" onclick="this.classList.toggle('open')"><h3>5. Iteration Roadmapping</h3><div class="desc">A planned sequence of prototype iterations with three components: the sequence (hypothesis priority ordering), decision gates (criteria for proceed/iterate/pivot), and resource allocation (time and budget per iteration). Without a roadmap, iteration becomes circular rather than convergent. The Stage-Gate process formalizes this with evidence-based checkpoints.</div><div class="meter"><div class="fill" style="width:70%"></div></div></div>
+</div>
+
+<div class="panel" id="quiz"><div class="quiz-box"><h3 id="q-counter">Question 1 of 7</h3><p id="q-text"></p><div id="q-options"></div><div class="quiz-explain" id="q-explain"></div><div class="quiz-nav"><button class="quiz-btn" onclick="quizNav(-1)">Previous</button><button class="quiz-btn" onclick="quizNav(1)">Next</button></div></div></div>
+
+<div class="panel" id="checklist"><h2 style="font-size:1.1rem;margin-bottom:1rem;">Learning Checklist</h2><div class="checklist" id="cl-items"></div><div class="cl-prog"><div class="fill" id="cl-fill" style="width:0%"></div></div><div class="cl-status" id="cl-status">0 of 5 complete</div></div>
+
+<div class="panel" id="modules"><h2 style="font-size:1.1rem;margin-bottom:1rem;">Section 3: Prototyping &amp; Testing</h2><div class="mod-grid">
+<div class="mod-card"><div class="num">01</div><div class="name">The Prototype as a System</div></div>
+<div class="mod-card"><div class="num">02</div><div class="name">The Testing Agent</div></div>
+<div class="mod-card"><div class="num">03</div><div class="name">Reading the Prototype's Signals</div></div>
+<div class="mod-card"><div class="num">04</div><div class="name">Reasoning About Results</div></div>
+<div class="mod-card current"><div class="num">05</div><div class="name">Iterative Refinement</div></div>
+<div class="mod-card"><div class="num">06</div><div class="name">Learning from Failure and Success</div></div>
+<div class="mod-card"><div class="num">07</div><div class="name">Documenting the Build</div></div>
+<div class="mod-card"><div class="num">08</div><div class="name">Test Planning Under Uncertainty</div></div>
+</div></div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));tab.classList.add('active');document.getElementById(tab.dataset.tab).classList.add('active');});});
+const quizData=[
+{q:"The action-perception loop in prototyping consists of:",opts:["Design, manufacture, sell","Build, test, update beliefs, select next change","Plan, fund, build, patent","Hypothesize, simulate, validate"],ans:1,explain:"Each prototype iteration is one turn: build (act), test (perceive), update the generative model (infer), decide what to change next (select action)."},
+{q:"The minimum viable prototype is:",opts:["The cheapest possible build","The simplest prototype generating meaningful prediction errors for the top hypothesis","The first thing you build","A prototype with no features"],ans:1,explain:"The MVP maximizes information gain per unit cost by including only what's needed to test the highest-priority assumption."},
+{q:"A/B testing resolves design choices by:",opts:["Doubling costs","Comparing two alternatives under controlled conditions to isolate the effect of one variable","Eliminating user feedback","Guaranteeing a winner"],ans:1,explain:"By varying only one factor and comparing outcomes, A/B testing provides empirical evidence for which design choice better reduces free energy."},
+{q:"Diminishing returns in iteration suggest:",opts:["Working harder on the same approach","Considering structural change rather than further parameter tuning","Abandoning the project","Increasing fidelity"],ans:1,explain:"When each iteration produces smaller improvements, the current model structure may have reached its limits, and a pivot or structure revision may be needed."},
+{q:"Iteration roadmaps prevent:",opts:["All failures","Circular, non-convergent tinkering by specifying hypothesis priority and decision gates","Creative thinking","Budget spending"],ans:1,explain:"Without structured decision gates, iteration can become aimless — changing things without clear logic connecting each change to the goal."},
+{q:"SpaceX's rapid iteration philosophy prioritizes:",opts:["Preserving hardware","High loop frequency and information gain even at the cost of hardware destruction","Avoiding risk","Perfect simulation before flight"],ans:1,explain:"Each test flight generates high-value prediction errors. The information gained from a crash can be worth more than the hardware lost."},
+{q:"Slack's pivot from Glitch illustrates:",opts:["That games always fail","Recognizing that the expected free energy of continuing exceeded the expected free energy of switching","That communication tools are always profitable","Abandoning a project due to lack of funding"],ans:1,explain:"The game showed persistent large prediction errors (low engagement) while the communication tool showed strong fit signals, making the pivot rational."}
+];
+let qIdx=0;
+function renderQuiz(){const q=quizData[qIdx];document.getElementById('q-counter').textContent=`Question ${qIdx+1} of ${quizData.length}`;document.getElementById('q-text').textContent=q.q;document.getElementById('q-explain').style.display='none';document.getElementById('q-explain').textContent=q.explain;const c=document.getElementById('q-options');c.innerHTML='';q.opts.forEach((o,i)=>{const d=document.createElement('div');d.className='quiz-opt';d.textContent=String.fromCharCode(65+i)+') '+o;d.addEventListener('click',()=>{c.querySelectorAll('.quiz-opt').forEach(x=>x.classList.remove('correct','wrong'));d.classList.add(i===q.ans?'correct':'wrong');if(i!==q.ans)c.children[q.ans].classList.add('correct');document.getElementById('q-explain').style.display='block';});c.appendChild(d);});}
+function quizNav(dir){qIdx=Math.max(0,Math.min(quizData.length-1,qIdx+dir));renderQuiz();}
+renderQuiz();
+const clItems=["Model the prototype iteration cycle as an action-perception loop","Design a minimum viable prototype for your highest-priority hypothesis","Set up a controlled A/B comparison between design alternatives","Evaluate the pivot-or-persevere decision using evidence-based criteria","Create an iteration roadmap with decision gates and resource allocation"];
+const clKey='s3m05_cl';let clState=JSON.parse(localStorage.getItem(clKey)||'[]');if(clState.length!==clItems.length)clState=clItems.map(()=>false);
+function renderChecklist(){const c=document.getElementById('cl-items');c.innerHTML='';clItems.forEach((item,i)=>{const d=document.createElement('div');d.className='cl-item';const cb=document.createElement('input');cb.type='checkbox';cb.checked=clState[i];cb.addEventListener('change',()=>{clState[i]=cb.checked;localStorage.setItem(clKey,JSON.stringify(clState));updateProg();});const lbl=document.createElement('span');lbl.textContent=item;d.appendChild(cb);d.appendChild(lbl);c.appendChild(d);});updateProg();}
+function updateProg(){const done=clState.filter(Boolean).length;document.getElementById('cl-fill').style.width=(done/clItems.length*100)+'%';document.getElementById('cl-status').textContent=`${done} of ${clItems.length} complete`;}
+renderChecklist();
+</script>
+</body>
+</html>

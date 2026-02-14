@@ -1,25 +1,25 @@
-# Module 2: Agents — Agent Guidelines
+# モジュール 2: エージェント — エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コース AGENTS](../AGENTS.md) | [カリキュラム AGENTS](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: The Self-Model, Interoception, and Ego Boundaries |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Agents) |
-| `lab.md` | File | Experimental Analysis: The Self-Model, Interoception, and Ego Boundaries |
-| `dashboard.html` | File | Interactive dashboard: Agents |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル — モジュールエージェントガイドライン |
+| `module.md` | ファイル | フル講義: 自己モデル、内臓知覚、自我の境界 |
+| `questions.md` | ファイル | 20 の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7 個のMC + 3 個のFR (エージェント) |
+| `lab.md` | ファイル | 実験分析: 自己モデル、内臓知覚、自我の境界 |
+| `dashboard.html` | ファイル | インタラクティブダッシュボード: エージェント |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Cognitive-Behavioral
-- **Topic**: Agents — The Self-Model, Interoception, and Ego Boundaries
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/02_agents/module.md` for parallel modules
+- **視点**: 認知行動療法
+- **トピック**: エージェント — 自己モデル、内臓知覚、自我の境界
+- **記号**: [記号表.md](../../resources/notation_table.md)を参照
+- **用語**: [用語集.md](../../resources/glossary.md)を参照
+- **相互参照**: `../../XX_course/02_agents/module.md` へのリンクで、並行モジュールを参照

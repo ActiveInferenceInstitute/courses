@@ -1,61 +1,61 @@
-# Lab: Case Study Analysis — Planning, Decision-Making, and Their Disorders
+# 実験室：症例研究分析 — 計画、意思決定、およびそれらの障害
 
-## Objective
+## 目的
 
-Analyze clinical and experimental cases illustrating the neural basis of planning, applying Active Inference's policy evaluation framework.
+Active Inference のポリシー評価フレームワークを用いて、計画の神経基盤を示す臨床および実験的な症例を分析する。
 
-## Part 1: Frontal Lobe Syndrome
+## 第1部：前頭葉症候群
 
-**Case**: Patient P.G., 55, suffered a large bilateral prefrontal cortex lesion from a meningioma. Post-surgery, P.G.'s IQ and language are intact, but he cannot organize his daily life. He cannot plan a meal (starting to cook without checking for ingredients), dresses in random order, and shows "utilization behavior" — picking up and using any object placed in front of him (a comb, a toothbrush, a pencil) without purpose.
+**症例**: 患者P.G.(55歳)は、髄膜腫による大形の左右両側の前頭葉損傷を負った。手術後、P.G.のIQと言語は正常だが、日常生活を整理することができない。食事の計画（材料を確認せずに料理を始める）、ランダムな着衣、そして「利用行動」（ブラシ、歯ブラシ、鉛筆など、目の前の物体を目的なく拾い上げて使う）を示す。
 
-- How does loss of PFC impair hierarchical policy evaluation while leaving basic motor control intact?
-- Why does P.G. show utilization behavior? (Hint: without hierarchical policy evaluation, the most immediately available policy is executed.)
-- How does this case illustrate the difference between knowing *how* to perform an action and knowing *when* and *why* to perform it?
-
-{fill:textarea}
-
-## Part 2: Impulsivity and Temporal Discounting
-
-**Case**: A behavioral economics study offers participants the choice between $10 now and $20 in two weeks. Participants with higher trait impulsivity (measured by the Barratt Impulsiveness Scale) consistently choose the immediate $10, even when the two-week delay is trivial relative to their financial needs.
-
-- Interpret temporal discounting in Active Inference terms: how does low precision on long-horizon policies bias selection toward immediate rewards?
-- What does this suggest about the "planning horizon" encoded in the impulsive individual's generative model?
-- How does dopamine modulate this temporal horizon? (Consider the effect of stimulant medication on temporal discounting in ADHD.)
+- PFCの喪失が階層的なポリシー評価をどのように損なうのか？基本的な運動制御は正常に維持されているのはなぜか？
+- P.G.が利用行動を示す理由は何か？（ヒント：階層的なポリシー評価がない場合、最もすぐに利用可能なポリシーが実行される。）
+- この症例が「行動をどのように行うか」を知ることと、「いつ」および「なぜ」行うかを知ることの違いをどのように示しているのか？
 
 {fill:textarea}
 
-## Part 3: Depression and Behavioral Paralysis
+## 第2部：衝動性と時間割引
 
-**Case**: Patient L.K., 42, with major depressive disorder, describes: "I know I should go for a walk, call my friend, apply for the job. But what's the point? Nothing will change. Everything will go wrong." She spends most of her time in bed, not from lack of energy but from a conviction that no action will lead to a positive outcome.
+**症例**: 行動経済学の研究において、参加者は今すぐ10ドルと2週間後に20ドルから選択する。Barratt Impulsiveness Scaleで測定された高い衝動性特性を持つ参加者は、2週間の遅延が自身の経済的ニーズにとってささいなものであるにもかかわらず、即時の10ドルを常に選択する。
 
-- How does Active Inference model depression as high precision on negative outcome predictions across all policies?
-- Why does this produce behavioral inertia? (Hint: if all policies lead to high expected free energy, none is clearly better than inaction.)
-- What does this framework suggest about therapeutic approaches? (Consider interventions that increase precision on positive predictions — behavioral activation, cognitive restructuring.)
-
-{fill:textarea}
-
-## Part 4: Addiction and Policy Narrowing
-
-**Case**: Patient R.S., 38, with opioid use disorder, reports: "I know the drugs are destroying my life. I've lost my job, my family. But when the craving hits, it's like nothing else matters. My whole world shrinks to one thing." R.S. has attempted abstinence multiple times but relapses within 2-3 weeks.
-
-- How does Active Inference model addiction as progressive narrowing of the policy space?
-- What role does dopaminergic sensitization play in increasing precision on drug-seeking policies?
-- How does this framework explain relapse even after months of abstinence? (Hint: the generative model's structure has been reshaped; precision on the drug-seeking policy remains high under certain cues.)
+- Active Inference の観点から、時間割引を解釈せよ。低精度な長期ポリシーが報酬選択にどのように偏りを生じさせるのか？
+- これは、衝動的な個人の生成モデルにエンコードされた「計画のホライゾン」について何を示唆しているのか？
+- ドーパミンがこの時間ホライゾンをどのように調節しているのか？（ADHDにおける刺激剤薬の効果を考慮する。）
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## 第3部：うつ病と行動麻痺
 
-Write a 200-word synthesis explaining how all four cases demonstrate that planning is hierarchical policy evaluation — and that specific disruptions of this hierarchy produce distinct clinical presentations.
+**症例**: 大うつ病の患者L.K.(42歳)は、「私は散歩に行くべきだ、友人に電話するべきだ、求職の申し込みをするべきだということを知っています。しかし、何の意味があるのでしょうか？何も変わりません。すべてが悪化します。」と述べている。彼女はほとんどの時間をベッドで過ごし、エネルギー不足のためではなく、どんな行動も良い結果につながるとは限らないという信念から行動をしないことに起因している。
+
+- Active Inference がうつ病を、すべてのポリシーに対する否定的な結果予測の精度が高い状態としてどのようにモデル化するのか？
+- なぜこれが行動の停滞を生み出すのか？（ヒント：すべてのポリシーが同じ高いフリーエネルギーを期待している場合、どれも他の行動よりも優れているとは限らない。）
+- この枠組みは治療アプローチについて何を示唆しているのか？（肯定的な予測の精度を高める介入（行動的活性化、認知再構成）を考慮する。）
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：依存症とポリシーの狭窄
 
-| Part | Skill Developed | Case Type |
-|------|----------------|-----------|
-| 1 | Neuropsychological reasoning | Frontal lobe syndrome |
-| 2 | Behavioral economics analysis | Impulsivity and temporal discounting |
-| 3 | Clinical reasoning | Depression and planning paralysis |
-| 4 | Addiction analysis | Opioid use disorder and policy narrowing |
-| 5 | Integrative synthesis | Connecting planning disorders to hierarchical inference |
+**症例**:  opioid使用障害の患者R.S.(38歳)は、「薬が私の人生を破壊していることは知っています。仕事を失い、家族を失いました。しかし、欲求が襲いかかるとき、他の何も重要ではありません。私の世界は一瞬にして縮小します。」と報告している。R.S.は複数回断続的な abstinenceを試みているが、2～3週間以内に再発する。
+
+- Active Inference が依存症を、ポリシー空間の漸進的な狭窄としてどのようにモデル化するのか？
+- ドーパミン感受性の増強が、薬物探求ポリシーの精度を高めるのにどのように役立つのか？
+- 複数か月間の abstinenceにもかかわらず再発を説明するために、この枠組みはどのように機能するのか？（ヒント：生成モデルの構造が再塑され、薬物探求ポリシーの精度が特定のトリガー下で依然として高い。）
+
+{fill:textarea}
+
+## 第5部：統合
+
+すべての4つの症例が、計画が階層的なポリシー評価であることを、そしてこの階層の特定の障害が異なる臨床的特徴を生み出すことをどのように示しているかを200語で要約してください。
+
+{fill:textarea}
+
+## 実験室概要
+
+| 部門 | 開発されたスキル | ケースタイプ |
+|---|---|---|
+| 1 | 神経心理学的推論 | 前頭葉症候群 |
+| 2 | 行動経済学分析 | 衝動性と時間割引 |
+| 3 | 臨床的推論 | うつ病と計画麻痺 |
+| 4 | 依存症分析 | オピオイド使用障害とポリシーの狭窄 |
+| 5 | 包括的な統合 | 計画障害と階層的推論の関連付け |

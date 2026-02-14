@@ -1,25 +1,26 @@
-# Module 7: Communication — Agent Guidelines
+# モジュール7：コミュニケーション—エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コースエージェント](../AGENTS.md) | [カリキュラムエージェント](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Multi-Agent Simulations: Agents Observing Agents |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Communication) |
-| `lab.md` | File | Python Coding Exercise: Multi-Agent Simulations: Agents Observing Agents |
-| `dashboard.html` | File | Interactive dashboard: Communication |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル—モジュールエージェントガイドライン |
+| `module.md` | ファイル | フル講義: マルチエージェントシミュレーション: エージェントによるエージェントの観察 |
+| `questions.md` | ファイル | 20 の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7 個のMC + 3 個のFR (コミュニケーション) |
+| `lab.md` | ファイル | Python コーディング演習: マルチエージェントシミュレーション: エージェントによるエージェントの観察 |
+| `dashboard.html` | ファイル | インタラクティブダッシュボード: コミュニケーション |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Computational
-- **Topic**: Communication — Multi-Agent Simulations: Agents Observing Agents
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/07_communication/module.md` for parallel modules
+- **視点**: 計算機上
+- **トピック**: コミュニケーション—マルチエージェントシミュレーション: エージェントによるエージェントの観察
+- **記号**: [記号表.md](../../resources/notation_table.md) にて
+- **用語**: [用語集.md](../../resources/glossary.md) にて
+- **相互参照**: `../../XX_course/07_communication/module.md` へのリンクで、並行モジュールを参照
+

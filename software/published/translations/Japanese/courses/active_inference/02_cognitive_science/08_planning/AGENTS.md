@@ -1,25 +1,26 @@
-# Module 8: Planning — Agent Guidelines
+# モジュール8：計画—エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コースのAGENTS](../AGENTS.md) | [カリキュラムのAGENTS](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Executive Function and Decision Making Under Uncertainty |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Planning) |
-| `lab.md` | File | Experimental Analysis: Executive Function and Decision Making Under Uncertainty |
-| `dashboard.html` | File | Interactive dashboard: Planning |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル—モジュールエージェントガイドライン |
+| `module.md` | ファイル | 完全な講義: 実行機能と不確実性下での意思決定 |
+| `questions.md` | ファイル | 20の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7問のMC + 3問のFR (計画) |
+| `lab.md` | ファイル | 実験分析: 実行機能と不確実性下での意思決定 |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード: 計画 |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Cognitive-Behavioral
-- **Topic**: Planning — Executive Function and Decision Making Under Uncertainty
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/08_planning/module.md` for parallel modules
+- **視点**: 認知行動療法
+- **トピック**: 計画—実行機能と不確実性下での意思決定
+- **記号**: [記号表.md](../../resources/notation_table.md) にて
+- **用語**: [用語集.md](../../resources/glossary.md) にて
+- **相互参照**: `../../XX_course/08_planning/module.md` へのリンクで、並行モジュールを参照
+

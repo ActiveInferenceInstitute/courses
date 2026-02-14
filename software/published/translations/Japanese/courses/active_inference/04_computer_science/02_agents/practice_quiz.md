@@ -1,53 +1,53 @@
-# Practice Quiz: Agents
+# 練習クイズ：エージェント
 
-## Part A: Multiple Choice
+## Part A: 選択肢問題
 
-1. Which matrix in the `GenerativeModel` encodes $P(o \mid s)$?
-A) B-matrix
-B) C-vector
-C) A-matrix
-D) D-vector
+1. `GenerativeModel` 内の行列の中で、$P(o \mid s)$ をエンコードしているものはどれですか？
+    A) B行列
+    B) Cベクトル
+    C) A行列
+    D) Dベクトル
 
-2. What is the correct shape of a B-matrix for a system with 4 states and 3 actions?
-A) `(3, 4, 4)`
-B) `(4, 4, 3)`
-C) `(4, 3)`
-D) `(3, 3, 4)`
+2. 4つの状態と3つの行動を持つシステムにおける B行列の正しい形状は何ですか？
+    A) `(3, 4, 4)`
+    B) `(4, 4, 3)`
+    C) `(4, 3)`
+    D) `(3, 3, 4)`
 
-3. Setting `C = np.zeros(num_obs)` makes the agent:
-A) Unable to act
-B) Purely exploitative
-C) Purely epistemic (information-seeking)
-D) Random
+3. `C = np.zeros(num_obs)` を設定すると、エージェントは：
+    A) 行動することができなくなる
+    B) 純粋に搾取的になる
+    C) 純粋に認識的（情報収集）になる
+    D) ランダム
 
-4. If `model.E = np.array([0.99, 0.01])`, the agent:
-A) Always selects action 0
-B) Has a strong habit prior favoring policy 0
-C) Ignores EFE entirely
-D) Has a strong preference for observation 0
+4. `model.E = np.array([0.99, 0.01])` の場合、エージェントは：
+    A) 常にアクション 0 を選択する
+    B) ポリシー 0 を強く好む先行確率を持っている
+    C) EFE を完全に無視する
+    D) 観察 0 の強い好みを持ちます
 
-5. The precision parameter γ controls:
-A) How noisy observations are
-B) How sharply the agent commits to the best policy
-C) The learning rate for Dirichlet updates
-D) The number of hidden states
+5. 精度パラメータ γ は：
+    A) 観察のノイズを制御する
+    B) エージェントが最良のポリシーにコミットする度合いを制御する
+    C) ディリクレ更新の学習率を制御する
+    D) 隠れた状態の数
 
-6. What line of code creates an agent with 3-step policies `[[0,0,0], [1,1,1]]`?
-A) `ActiveInferenceAgent(model, policies=3)`
-B) `ActiveInferenceAgent(model, policies=[[0,0,0], [1,1,1]])`
-C) `ActiveInferenceAgent(model, num_policies=2)`
-D) `ActiveInferenceAgent(model, depth=3)`
+6. 3ステップのポリシー `[[0,0,0], [1,1,1]]` を持つエージェントを作成するコード行はどれですか？
+    A) `ActiveInferenceAgent(model, policies=3)`
+    B) `ActiveInferenceAgent(model, policies=[[0,0,0], [1,1,1]])`
+    C) `ActiveInferenceAgent(model, num_policies=2)`
+    D) `ActiveInferenceAgent(model, depth=3)`
 
-7. `model.predict_observation(q_s)` computes:
-A) $\mathbf{B} \cdot q(s)$
-B) $\mathbf{A} \cdot q(s)$
-C) $\mathbf{C} \cdot q(s)$
-D) $\mathbf{D} \cdot q(s)$
+7. `model.predict_observation(q_s)` は、次のことを計算します：
+    A) $\mathbf{B} \cdot q(s)$
+    B) $\mathbf{A} \cdot q(s)$
+    C) $\mathbf{C} \cdot q(s)$
+    D) $\mathbf{D} \cdot q(s)$
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Write the complete code to construct a `GenerativeModel` for a 2-state, 2-observation, 1-action system where the A-matrix is the identity and the B-matrix swaps states. Include C and D vectors.
+1. 2つの状態、2つの観察、1つの行動を持つシステムで、A行列がアイデンティティ行列で、B行列が状態を交換する `GenerativeModel` を構築するための完全なコードを記述してください。Cベクトルの内容も含めてください。
 
-2. Explain what `agent.step(obs)` does internally. List the three sub-methods it calls and what each one computes.
+2. `agent.step(obs)` が内部的に何をするかを説明してください。呼び出す3つのサブメソッドとそのそれぞれが計算する内容をリストしてください。
 
-3. An agent has `C = [5, 0, -5]` for observations (food, neutral, predator). Describe in words what behavior this C-vector would produce and explain the mechanism through EFE.
+3. C = [5, 0, -5] が観察（食べ物、中立、捕食者）の C ベクトルであるエージェントを考えてください。この C ベクトルの行動を言葉で記述し、EFE のメカニズムを説明してください。

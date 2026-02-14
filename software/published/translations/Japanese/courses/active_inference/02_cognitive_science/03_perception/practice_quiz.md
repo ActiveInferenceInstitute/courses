@@ -1,51 +1,51 @@
-# Practice Quiz: Perception
+# 認識に関する練習問題
 
-## Part A: Multiple Choice
+## Part A: 選択肢問題
 
-1. In the predictive coding architecture, top-down predictions are sent by:
-A) Superficial pyramidal cells in layers 2/3
-B) Deep pyramidal cells in layers 5/6
-C) Inhibitory interneurons in layer 1
-D) Granular cells in layer 4
+1. 予測コーディングアーキテクチャにおいて、トップダウン予測は以下のいずれによって送られますか？
+   A) 2/3層の浅いピラミッド状細胞
+   B) 5/6層の深いピラミッド状細胞
+   C) 1層の抑制性インターニューロン
+   D) 4層の顆粒状細胞
 
-2. Sensory attenuation refers to:
-A) The gradual loss of hearing with age
-B) Reduced perception of self-generated stimuli due to efference copy-based prediction
-C) The brain's inability to process two sensory modalities simultaneously
-D) A form of amnesia affecting sensory memories
+2. 感覚減衰とは、次のうちどれを指しますか？
+   A) 年齢に伴う聴力の徐々に低下
+   B) エフェレンスコピーに基づく予測による、自律生成された刺激の認識低下
+   C) 脳が同時に2つの感覚モダリティを処理できないこと
+   D) 感覚記憶に影響を与えるアムネジアの一種
 
-3. The inability to tickle yourself is evidence for:
-A) The separation of motor and sensory systems
-B) Active Inference — the brain predicts and cancels expected sensory consequences of its own actions
-C) The superiority of touch over other senses
-D) Social bonding mechanisms
+3. 自分自身をくすぐることをできないことは、次のうちどれを証明していますか？
+   A) 運動系と感覚系の分離
+   B) アクティブ・インファレンス - 脳は自分の行動の予想される感覚的結果を予測およびキャンセルする
+   C) 触覚が他の感覚よりも優れていること
+   D) 社会的絆のメカニズム
 
-4. Hallucinations in the Active Inference framework arise from:
-A) Damage to the retina or cochlea
-B) High-precision top-down predictions that override or substitute for bottom-up sensory evidence
-C) Complete absence of neural activity in sensory cortex
-D) Excessive attention to environmental stimuli
+4. アクティブ・インファレンスフレームワークにおける幻覚は、次のうちどれから生じますか？
+   A) 網膜または蝸牛の損傷
+   B) 下からの感覚的証拠を上書きまたは代替する、高精度なトップダウン予測
+   C) 感覚皮質における神経活動の完全な欠如
+   D) 環境刺激への過剰な注意
 
-5. Mismatch negativity (MMN) is considered a neural signature of:
-A) Motor planning
-B) Prediction error in response to violations of expected auditory patterns
-C) Emotional processing of surprising events
-D) Memory retrieval
+5. マッチングネガティブ性 (MMN) は、次のうちどれを神経学的サインとして捉えていますか？
+   A) 運動計画
+   B) 予想される聴覚パターンからの逸脱に対する予測誤差
+   C) 驚くような出来事に対する感情処理
+   D) 記憶の検索
 
-6. Charles Bonnet syndrome hallucinations occur because:
-A) The patient has a psychiatric disorder
-B) Reduced sensory input (visual loss) allows top-down predictions to dominate without bottom-up constraint
-C) The visual cortex is damaged
-D) The patient is imagining visual experiences intentionally
+6. シャーロッツ・ボネット症候群の幻覚は、次の理由により起こりますか？
+   A) 患者は精神疾患を持っている
+   B) 減少した感覚入力（視覚喪失）により、トップダウン予測が下からの制約なしに支配する
+   C) 視覚皮質が損傷している
+   D) 患者は視覚的な経験を意図的に想像している
 
-7. Failed sensory attenuation in schizophrenia may lead to auditory hallucinations because:
-A) Inner speech is not predicted as self-generated and is therefore experienced as coming from an external source
-B) The auditory cortex is over-developed
-C) The patient has hearing loss
-D) Social isolation reduces the need for inner speech
+7. 統合失調症における失敗した感覚減衰は、聴覚幻覚につながる可能性があるのはなぜですか？
+   A) 内在言語は自律生成されたものとして予測されないため、外部のソースから来ているように経験される
+   B) 聴覚皮質が過剰に発達している
+   C) 患者は聴覚喪失を抱えている
+   D) 社会的孤立が内在言語の必要性を軽減する
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Explain how binocular rivalry (different images presented to each eye producing alternating perception) can be interpreted as competition between top-down predictions. What role does precision play?
-2. Patient hears voices commenting on their actions. They are cognitively intact but convinced the voices are external. Analyze this as failed sensory attenuation: what specific mechanism has broken down?
-3. Predict what would happen to Charles Bonnet syndrome hallucinations if the patient's visual input were artificially increased (e.g., through a high-contrast display). Justify your prediction using Active Inference principles.
+1. 両眼競合（左右の目に異なる画像が表示され、交互に認識される現象）がトップダウン予測との競争としてどのように解釈できるかを説明してください。精度はどのような役割を果たしますか？
+2. 患者が自分の行動についてコメントする声を聞きます。認知的には正常ですが、その声が外部からのものであると信じています。これは失敗した感覚減衰として分析してください。どのような具体的なメカニズムが機能不全になっていますか？
+3. Charles Bonnet 症候群の幻覚が、患者の視覚入力が人工的に増加した場合（たとえば、高コントラストディスプレイを使用した場合）に何が起こると予測しますか。アクティブ・インファレンスの原則を用いて、あなたの予測を正当化してください。

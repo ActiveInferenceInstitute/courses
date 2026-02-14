@@ -1,25 +1,26 @@
-# Module 2: Agents — Agent Guidelines
+# モジュール2：エージェント — エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コース AGENTS](../AGENTS.md) | [カリキュラム AGENTS](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Autopoiesis, Agency, and the Self-Organizing System |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Agents) |
-| `lab.md` | File | Thought Experiment: Autopoiesis, Agency, and the Self-Organizing System |
-| `dashboard.html` | File | Interactive dashboard: Agents |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル — モジュールエージェントガイドライン |
+| `module.md` | ファイル | 完全な講義: 自己組織化システム、エージェンシー、自己組織化 |
+| `questions.md` | ファイル | 20の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7問のMC + 3問のFR (エージェント) |
+| `lab.md` | ファイル | 実験: 自己組織化システム、エージェンシー、自己組織化 |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード: エージェント |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Philosophical
-- **Topic**: Agents — Autopoiesis, Agency, and the Self-Organizing System
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/02_agents/module.md` for parallel modules
+- **視点**: 哲学的な
+- **トピック**: エージェント — 自己組織化システム、エージェンシー、自己組織化
+- **記号**: [notation_table.md](../../resources/notation_table.md) に準拠
+- **用語**: [glossary.md](../../resources/glossary.md) に準拠
+- **相互参照**: `../../XX_course/02_agents/module.md` へのリンク (並行モジュール)
+

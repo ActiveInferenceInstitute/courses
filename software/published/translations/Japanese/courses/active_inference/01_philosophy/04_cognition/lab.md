@@ -1,77 +1,77 @@
-# Lab: Thought Experiment — The Dark Room and the Nature of Cognition
+# 実験室：思考実験 — 暗い部屋と認知の性質
 
-## Objective
+## 目的
 
-Explore the philosophical implications of treating cognition as inference through the lens of the dark room problem, precision dynamics, and the relationship between cognition and consciousness.
+認知を推論と捉えることの哲学的な影響を探求します。暗い部屋問題、精密ダイナミクス、そして認知と意識の関係というレンズを通して。
 
-## Part 1: The Dark Room Challenge
+## 第1部：暗い部屋の挑戦
 
-**Goal**: Engage directly with the most famous objection to Active Inference.
+**目標**: アクティブ・インファーレンスに対する最も有名な反論に直接関与する。
 
-"If an Active Inference agent minimizes surprise, it should seek out the most predictable environment — a dark, silent, empty room — and remain there forever."
+「アクティブ・インファーレンスエージェントが驚きを最小化するならば、最も予測可能な環境—暗く、静かで、空っぽの部屋—を求めるべきであり、そこに永遠に留まるだろう。」
 
-- State this objection in your own words. Why is it considered powerful?
-- Present the standard Active Inference response (prior preferences / C vector).
-- Evaluate: Does the response fully resolve the problem, or does it merely push it back one step (i.e., where do prior preferences come from)?
-
-{fill:textarea}
-
-## Part 2: Precision and the Experience of Attention
-
-**Goal**: Connect the formal concept of precision to the phenomenology of attention.
-
-Perform a brief phenomenological exercise: Focus intently on a single word on this page for 30 seconds, then let your attention relax to the room around you.
-
-- Describe the phenomenological difference between focused and relaxed attention.
-- How does the concept of precision (up-weighting certain prediction errors, down-weighting others) capture this experience?
-- Is precision "the same thing as" attention, or merely an analogy? Defend your answer.
+- この反論を自分の言葉で述べなさい。なぜそれが強力だと考えられているのですか？
+- 標準的なアクティブ・インファーレンスの応答（事前確率/Cベクトル）を提示する。
+- 応答が問題完全に解決するか、それとも問題をステップひとつ後退させるだけなのか評価する（つまり、事前確率の起源はどこにあるのか？）。
 
 {fill:textarea}
 
-## Part 3: Beliefs Without Consciousness
+## 第2部：精密性と注意の経験
 
-**Goal**: Probe the relationship between belief and awareness.
+**目標**: 正確性の概念を形式的なものと注意の現象学的なものに結び付けます。
 
-Consider blindsight — a neurological condition in which patients deny seeing stimuli in their blind field but can nevertheless "guess" their location far above chance.
+簡単な現象学的なエクササイズを実行する：このページの単一の単語に30秒間集中し、その後注意を周囲の部屋にリラックスさせます。
 
-- Does the blindsight patient have a "belief" about the stimulus location in the Active Inference sense (a posterior distribution)?
-- If yes, this is a belief without conscious awareness. What does this imply about the nature of belief?
-- Is it philosophically coherent to attribute beliefs to unconscious systems (thermostats, bacteria)?
-
-{fill:textarea}
-
-## Part 4: The Self as Inference
-
-**Goal**: Apply the Active Inference framework reflexively.
-
-If cognition is inference, then the experience of having a "self" might also be an inference — the brain's best model of its own Markov Blanket.
-
-- What would it mean for the self to be a "belief" rather than a fact?
-- How does this relate to Buddhist accounts of *anattā* (no-self)?
-- Is a self that is "merely" an inference any less real than a self that is a substance?
+- 集中した注意とリラックスした注意の間の現象学的な違いを記述する。
+- 正確性の概念（特定の予測誤差を強調し、他のものを抑制する）がこの経験をどのように捉えているか？
+- 正確性は「注意そのもの」と等しいのか、それとも単なるアナロジーなのか？ あなたの答えを正当化してください。
 
 {fill:textarea}
 
-## Part 5: Synthesis and Position Defense
+## 第3部：意識のない信念
 
-**Goal**: Develop a philosophical position on the nature of cognition.
+**目標**: 信念と意識の関係を探ります。
 
-Write a 200-word statement on one of the following:
+盲視—患者が盲視フィールドの刺激を見ることを否定しながらも、偶然以上の確率で場所を推測できる神経疾患—を検討する。
 
-- "The dark room problem shows that Active Inference is incomplete as a theory of cognition."
-- "Precision is the bridge between the physics of the brain and the phenomenology of consciousness."
-- "If beliefs are probability distributions, there is no hard problem of consciousness — only a hard problem of precision."
-
-Share with a peer and defend against their strongest objection.
+- 盲視患者はアクティブ・インファーレンスの意味での刺激の場所について「信念」を持っているか？
+- もしそうなら、これは意識のない信念です。これは信念の本質について何を意味するのでしょうか？
+- 無意識のシステム（熱センサー、細菌）に信念を属性することは、哲学的に一貫しているのでしょうか？
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：自己を推論として
 
-| Part | Skill Developed | Key Philosophical Move |
-|------|----------------|----------------------|
-| 1 | Objection analysis | Engaging with the dark room problem as a test of theoretical completeness |
-| 2 | Phenomenological reflection | Connecting formal precision to the lived experience of attention |
-| 3 | Conceptual boundary testing | Probing whether beliefs require consciousness |
-| 4 | Reflexive analysis | Applying the inferential framework to the concept of self |
-| 5 | Position defense | Articulating and defending a view on cognition under challenge |
+**目標**: アクティブ・インファーレンス枠組みを反面視的に適用します。
+
+認知が推論であるならば、「自己」を経験することもまた推論である可能性がある—脳が自身のマーコフ・ブランケットの最良のモデル。
+
+- 「自己」が「信念」であるという意味とは何か？
+- これは仏教における*無我*（無自性）の説明とどのように関連しているか？
+- 「単に」推論である「自己」は、物質である「自己」ほど現実がないのでしょうか？
+
+{fill:textarea}
+
+## 第5部：統合と立場を擁護する
+
+**目標**: 認知の性質に関する哲学的な立場を開発する。
+
+次のうち1つについて200語の声明を書く：
+
+- 「暗い部屋の反論は、認知の理論としてアクティブ・インファーレンスが不完全であることを示している。」
+- 「正確性は、脳の物理学と意識の現象学を結ぶ橋である。」
+- 「信念が確率分布であるならば、意識のハード問題は存在しない—正確性のハード問題だけが存在する。」
+
+同僚と共有し、彼らの最も強い反論に対して擁護する。
+
+{fill:textarea}
+
+## 実験室の概要
+
+| 部門 | 開発されたスキル | 主要な哲学的な動き |
+|---|---|---|
+| 1 | 反論分析 | 暗い部屋問題を理論的完全性のテストとして関与する |
+| 2 | 現象学的反映 | 正確性の概念を形式的なものと注意の経験の感覚的なものに結び付ける |
+| 3 | 概念的境界テスト | 信念が意識を必要としないかを探る |
+| 4 | 反射的分析 | 自己という概念を推論的枠組みに適用する |
+| 5 | 立場を擁護する | 課題に直面した際の認知に関する見解を表明し擁護する |

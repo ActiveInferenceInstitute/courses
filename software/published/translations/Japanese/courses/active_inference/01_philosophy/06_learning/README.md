@@ -1,52 +1,52 @@
-# Module 6: Learning — Epistemic Growth, Niche Construction, and the Evolution of Self
+# モジュール 6: 学習 — 認識的成長、ニッチ建設、自己の進化
 
-> **Quick Navigation**: [← Action](../05_action/) | [Up](../) | [Communication →](../07_communication/)
+> **クイックナビゲーション**: [← Action](../05_action/) | [Up](../) | [コミュニケーション →](../07_communication/)
 
-## The Philosophy of Active Inference
+## 積極的推論の哲学
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Thought Experiment lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個の自由記述) |
+| [lab.md](./lab.md) | 思考実験のラボ活動 |
+| [dashboard.html](./dashboard.html) | インタラクティブなダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです。
 
-1. Define **Learning** from a philosophical perspective within Active Inference
-2. Explain the role of **Epistemic Growth** in the FEP framework
-3. Connect learning to the broader concepts of free energy minimization
-4. Apply philosophical reasoning to analyze real-world examples of learning
+1. 積極的推論の視点から**学習**を定義する
+2. FEP フレームワークにおける**認識的成長**の役割を説明する
+3. 学習を、より広い概念である自由エネルギー最小化に結び付ける
+4. 現実世界の学習の例を分析するために、哲学的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 相互コースへのリンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう。
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/06_learning/) | Epistemic Growth, Niche Construction, and the Evolution of Self ← **You are here** |
-| [Cognitive Science](../../02_cognitive_science/06_learning/) | Synaptic Plasticity as Parameter Updating; Dopamine |
-| [Mathematics](../../03_math/06_learning/) | Gradient Descent on VFE, Bayesian Model Reduction |
-| [Computer Science](../../04_computer_science/06_learning/) | Parameter Updating: Learning A and B Matrices from Experience |
+| [Philosophy](../../01_philosophy/06_learning/) | 認識的成長、ニッチ建設、自己の進化 ← **現在地** |
+| [Cognitive Science](../../02_cognitive_science/06_learning/) | シナプティックプラスチック性によるパラメータ更新; ドーパミン |
+| [Mathematics](../../03_math/06_learning/) | VFE 上での勾配降下、ベイズモデル削減 |
+| [Computer Science](../../04_computer_science/06_learning/) | 経験から A および B 行列を学習するパラメータ更新 |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [Notation Table](../../resources/notation_table.md) — シンボル定義
+- [Glossary](../../resources/glossary.md) — 用語定義
+- [References](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 

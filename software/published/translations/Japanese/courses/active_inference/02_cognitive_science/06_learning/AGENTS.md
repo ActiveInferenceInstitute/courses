@@ -1,25 +1,25 @@
-# Module 6: Learning — Agent Guidelines
+# モジュール6：学習—エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コースAGENTS](../AGENTS.md) | [カリキュラムAGENTS](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Synaptic Plasticity as Parameter Updating; Dopamine |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Learning) |
-| `lab.md` | File | Experimental Analysis: Synaptic Plasticity as Parameter Updating; Dopamine |
-| `dashboard.html` | File | Interactive dashboard: Learning |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル—モジュールエージェントガイドライン |
+| `module.md` | ファイル | フルレクチャー: シナプス可塑性をパラメータ更新として; ドーパミン |
+| `questions.md` | ファイル | 20問の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7問のMC + 3問のFR (学習) |
+| `lab.md` | ファイル | 実験的分析: シナプス可塑性をパラメータ更新として; ドーパミン |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード: 学習 |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Cognitive-Behavioral
-- **Topic**: Learning — Synaptic Plasticity as Parameter Updating; Dopamine
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/06_learning/module.md` for parallel modules
+- **視点**: 認知行動療法
+- **トピック**: 学習—シナプス可塑性をパラメータ更新として; ドーパミン
+- **記号**: [記号表.md](../../resources/notation_table.md)を参照
+- **用語**: [用語集.md](../../resources/glossary.md)を参照
+- **クロス参照**: `../../XX_course/06_learning/module.md` へのリンクで、並行モジュールを参照

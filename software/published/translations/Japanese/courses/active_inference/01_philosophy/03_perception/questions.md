@@ -1,22 +1,22 @@
-# Study Questions: Perception
+# 認識に関する質問
 
-1. Distinguish between direct realism, representationalism, and inferentialism as accounts of perception. Which does Active Inference align with?
-2. What did Helmholtz mean by "unconscious inference," and how does this anticipate the predictive processing framework?
-3. Explain the concept of prediction error. What is its philosophical significance for understanding perceptual experience?
-4. How does Merleau-Ponty's account of tool transparency relate to the concept of prediction error in Active Inference?
-5. What is Hoffman's user-interface theory of perception? How does it challenge naive realism?
-6. In what ways does Active Inference agree with and differ from Hoffman's user-interface theory?
-7. How does the pragmatist epistemology of James and Dewey relate to the Active Inference view that generative models need not "mirror" reality?
-8. If perception is inference, what does this imply about the distinction between "seeing" and "believing"?
-9. How does Active Inference explain hallucinations? Is this a strength or weakness of the framework?
-10. What is the role of precision in Active Inference's account of perception? How does it relate to attention?
-11. Can an agent with a false generative model still perceive successfully? What is the philosophical implication?
-12. How does Gibson's ecological psychology challenge the inferentialist account? Can the two be reconciled?
-13. What is the "dark room problem," and what does it reveal about the Active Inference account of perception?
-14. How does perceptual learning (expertise) illustrate the Active Inference framework?
-15. Compare the Kantian notion that the mind structures experience with the Active Inference claim that generative models shape perception.
-16. If we only ever access our own predictions (updated by prediction error), are we trapped in a "veil of predictions"? How does this compare to the classical veil of ideas?
-17. What is the phenomenological difference between perceiving something and imagining it? How does Active Inference account for this difference?
-18. How does the concept of "active perception" (saccades, haptic exploration) relate to the Active Inference framework?
-19. Evaluate the claim: "Perception is controlled hallucination." Is this a helpful or misleading metaphor?
-20. How would a phenomenologist (e.g., Husserl) respond to the claim that perception is Bayesian inference?
+1.  直接認識論、表象論、推論論を認識の説明として区別しなさい。アクティブ・インファーレンスはどの理論と一致するか？
+2.  ヘルムホルツが「無意識的な推論」を意味しているのは何か、そしてこの推論は予測処理の枠組みをどのように予見しているのか説明しなさい。
+3.  予測誤差の概念を説明しなさい。認識体験を理解するための哲学的な意義とは何か？
+4.  メルロー＝ポンティの道具の透明性に関する説明は、アクティブ・インファーレンスの予測誤差の概念とどのように関連しているのか？
+5.  ホフマンの認識のユーザーインターフェース理論とは何か？それは直感的認識論にどのように挑戦しているのか？
+6.  アクティブ・インファーレンスのユーザーインターフェース理論と一致する点と相違する点は何か？
+7.  ジェームズとデューイの経験主義的な認識論は、生成モデルが「現実を鏡に映す必要はない」というアクティブ・インファーレンスの見解とどのように関連しているか？
+8.  認識が推論である場合、それは「見る」と「信じる」の間の違いについて何を意味するのか？
+9.  アクティブ・インファーレンスは幻覚をどのように説明するのか？これは枠組みの強みか弱みか？
+10. アクティブ・インファーレンスの認識の説明における「精度」の役割とは何か？それは注意とどのように関連しているか？
+11. 誤った生成モデルを持つエージェントは、それでも成功して認識することができるか？その哲学的な意味とは何か？
+12. ギブソンの生態心理学は、推論論的な説明にどのように挑戦しているか？両者を調和させることができるか？
+13. 「暗い部屋の問題」とは何か、そしてそれはアクティブ・インファーレンスの認識の説明について何を示しているのか？
+14. 認知学習（専門知識）は、アクティブ・インファーレンスの枠組みをどのように示しているか？
+15. カントの認識における「心は経験を構造化する」という概念を、アクティブ・インファーレンスの生成モデルが認識を形成するという主張と比較しなさい。
+16. 私たちが常に自分の予測（予測誤差によって更新される）にのみアクセスする場合、私たちは「予測のベール」に閉じ込められているのか？これは古典的な「アイデアのベール」と比較してどう違うのか？
+17. あるものを認識することと想像することの間の現象学的な違いとは何か？アクティブ・インファーレンスは、この違いをどのように説明するのか？
+18. 「アクティブな認識」（サッケード、触覚的探索）の概念は、アクティブ・インファーレンスの枠組みとどのように関連しているか？
+19. 以下の主張を評価しなさい：「認識は制御された幻覚である」。これは役立つか誤解を招くメタファーか？
+20. 経験学者（例えば、ヒュッセル）は、認識がベイズ推論であるという主張にどのように答えるだろうか？

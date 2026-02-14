@@ -1,53 +1,53 @@
-# Module 2: Agents — The Agent Class: States, Observations, and Actions in pymdp
+# モジュール 2: エージェント — エージェントクラス：pymdpにおける状態、観測、および行動
 
-> **Quick Navigation**: [← Systems](../01_systems/) | [Up](../) | [Perception →](../03_perception/)
+> **クイックナビゲーション**: [← システム](../01_systems/) | [上](../) | [認識 →](../03_perception/)
 
-## Computational Active Inference
+## 計算活性推論
 
 ---
 
-## Contents
+## 概要
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Python Coding Exercise lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の内容全体 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個のFR) |
+| [lab.md](./lab.md) | Python コーディング演習ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは次を実行できるはずです。
 
-1. Define **Agents** from a computational perspective within Active Inference
-2. Explain the role of **The Agent Class: States** in the FEP framework
-3. Connect agents to the broader concepts of free energy minimization
-4. Apply computational reasoning to analyze real-world examples of agents
+1.  活性推論における計算的な視点から **エージェント** を定義する
+2.  FEP フレームワークにおける **エージェントクラス：状態** の役割を説明する
+3.  エージェントを、より広い概念である自由エネルギー最小化に結びつける
+4.  実際の世界のエージェントの例を分析するために計算的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 関連コース
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう。
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/02_agents/) | Autopoiesis, Agency, and the Self-Organizing System |
-| [Cognitive Science](../../02_cognitive_science/02_agents/) | The Self-Model, Interoception, and Ego Boundaries |
-| [Mathematics](../../03_math/02_agents/) | Stochastic Systems: Random Processes, Differential Equations, and Steady States |
-| [Computer Science](../../04_computer_science/02_agents/) | The Agent Class: States, Observations, and Actions in pymdp ← **You are here** |
+| [哲学](../../01_philosophy/02_agents/) | 自律性、代理性、および自己組織化システム |
+| [認知科学](../../02_cognitive_science/02_agents/) | 自己モデル、内臓、および自我境界 |
+| [数学](../../03_math/02_agents/) | 確率的システム：確率過程、微分方程式、および平衡状態 |
+| [コンピュータサイエンス](../../04_computer_science/02_agents/) | エージェントクラス：状態、観測、および行動（pymdp）← ここにいる |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Systems](../01_systems/) | [Up](../) | [Perception →](../03_perception/)
+[← システム](../01_systems/) | [上](../) | [認識 →](../03_perception/)

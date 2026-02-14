@@ -1,71 +1,71 @@
-# Lab: Case Study Analysis — Neural Self-Organization
+# 実験：神経自己組織化に関する症例分析
 
-## Objective
+## 目的
 
-Analyze clinical and experimental cases that illustrate the brain as a self-organizing system, applying the Active Inference framework to interpret neural data.
+脳を自己組織化システムとして捉え、アクティブ・インファレンスフレームワークを用いて神経データを解釈することを目的とする、臨床および実験的な症例を分析する。
 
-## Part 1: Resting-State fMRI Analysis
+## 第1部：安静時fMRI分析
 
-**Goal**: Interpret resting-state neural data through the generative model lens.
+**目標**: 生成モデルのレンズを通して安静時の神経データを解釈する。
 
-**Case**: A healthy 30-year-old participant undergoes a 10-minute resting-state fMRI scan. Independent component analysis reveals three major networks: the default mode network (DMN), salience network, and central executive network. The DMN shows highest activity during rest; the salience network activates during stimulus detection; the executive network activates during cognitive tasks.
+**症例**: 健康な30歳の被験者が10分間の安静時fMRIスキャンを受ける。独立成分分析により、デフォルトモードネットワーク（DMN）、注意ネットワーク、実行ネットワークの3つの主要なネットワークが明らかになった。DMNは安静時に最も高い活動を示し、注意ネットワークは刺激検出時に活性化し、実行ネットワークは認知タスク時に活性化する。
 
-- Map each network to a proposed component of the brain's generative model (self-model, precision weighting, policy selection).
-- What would Active Inference predict about the *temporal dynamics* of switching between these networks?
-- Design a follow-up experiment that could test this prediction.
-
-{fill:textarea}
-
-## Part 2: Anosognosia After Stroke
-
-**Goal**: Analyze a clinical case of failed model updating.
-
-**Case**: Patient M.R., 67 years old, suffered a right parietal stroke resulting in left hemiplegia (inability to move the left arm). Despite clear evidence of paralysis, M.R. insists her arm is functioning normally. When asked to lift both arms, she lifts only her right arm but reports that both are raised.
-
-- Interpret anosognosia through Active Inference: what generative model component has failed to update?
-- Why might right parietal damage specifically cause this deficit? (Hint: the right hemisphere's role in body schema and precision on self-model prediction errors.)
-- How does this case illustrate the claim that "experience is shaped by the generative model, not just by sensory input"?
+- 各ネットワークを脳の生成モデルの提案された構成要素にマッピングする。
+- これらのネットワーク間の時間的ダイナミクスをアクティブ・インファレンスはどのように予測するか？
+- この予測をテストするためのフォローアップ実験を設計する。
 
 {fill:textarea}
 
-## Part 3: Sensory Deprivation and Hallucination
+## 第2部：脳卒中後の無名症
 
-**Goal**: Explore what happens when the generative model runs without sensory constraint.
+**目標**: モデル更新の失敗を示す臨床症例を分析する。
 
-**Case**: Participants in a sensory deprivation study (Ganzfeld experiment) report visual hallucinations after approximately 20 minutes of uniform visual input. The hallucinations range from simple geometric patterns to complex formed images.
+**症例**: 患者M.R.（67歳）は右頭頂葉脳卒中を患い、左上肢の麻痺（左腕の運動不能）となった。明確な麻痺の証拠にもかかわらず、M.R.は彼女の腕が正常に機能していると主張する。両腕を持ち上げられるように求められたとき、彼女は右腕しか持ち上げず、両腕が持ち上げられたと報告する。
 
-- How does Active Inference explain the emergence of hallucinations under sensory deprivation?
-- What does this tell us about the relationship between "bottom-up" sensory input and "top-down" generative model predictions?
-- What would you predict about the content of hallucinations in participants with different expertise (e.g., musicians vs. visual artists)?
-
-{fill:textarea}
-
-## Part 4: Neural Correlates of Prediction Error
-
-**Goal**: Map the theoretical concept to empirical measurements.
-
-**Case**: An EEG study measures the mismatch negativity (MMN) response — a negative voltage deflection occurring when an unexpected auditory stimulus violates a regular pattern (e.g., a deviant tone in a series of standard tones). The MMN peaks at approximately 150-250 ms after stimulus onset.
-
-- Interpret the MMN as a neural signature of prediction error. What levels of the generative model are involved?
-- Why does the MMN amplitude decrease with repeated deviants (habituation)? How does Active Inference explain this in terms of model updating?
-- The MMN is reduced in schizophrenia. What does this suggest about the generative model in schizophrenia (hint: precision on prediction errors)?
+- アクティブ・インファレンスを通して無名症を解釈する：どの生成モデルの構成要素が更新に失敗したか？
+- なぜ右頭頂葉の損傷が特定の欠陥を引き起こす可能性があるのか？（ヒント：自己モデルの予測誤差に対する右半球の役割。）
+- この症例が「経験は生成モデルによって形作られ、単なる感覚入力によってではない」という主張をどのように示しているかを説明してください。
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## 第3部：感覚遮断と幻覚
 
-**Goal**: Integrate the cases into a unified view of the brain as a self-organizing system.
+**目標**: 生成モデルが感覚的制約なしで実行されるときに何が起こるかを調査する。
 
-Write a 200-word synthesis connecting the four cases above: how do they collectively illustrate the brain as a system that maintains a generative model, generates prediction errors, and updates through inference?
+**症例**: 感覚遮断実験（ガンツェルド実験）に参加した被験者は、約20分間の均一な視覚入力後に視覚的な幻覚を報告した。幻覚は単純な幾何学模様から複雑な形成された画像までさまざまだった。
+
+- アクティブ・インファレンスは、感覚遮断下における幻覚の発生をどのように説明するのか？
+- これは「トップダウン」の感覚入力と「ボトムアップ」の生成モデル予測の間の関係について何を教えてくれるのか？
+- 異なる専門知識（例えば、ミュージシャン対視覚芸術家）の参加者における幻覚の内容についてどのような予測を立てるか？
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：予測誤差の神経基質
 
-| Part | Skill Developed | Case Type |
-|------|----------------|-----------|
-| 1 | Network interpretation | Resting-state fMRI data analysis |
-| 2 | Clinical reasoning | Neurological deficit (anosognosia) |
-| 3 | Experimental prediction | Sensory deprivation and hallucination |
-| 4 | Electrophysiology analysis | Mismatch negativity and prediction error |
-| 5 | Integrative synthesis | Connecting four cases to the systems framework |
+**目標**: 理論的概念を実証測定にマッピングする。
+
+**症例**: EEG研究は、予測可能性を逸脱する聴覚的刺激（例えば、標準的な音列内の外れ子音）に対する負の電圧の変動として現れるミスマッチネガティビティ（MMN）応答を測定する。MMNは刺激発動後約150〜250 msにピークを迎える。
+
+- MMNを予測誤差の神経シグネチャーとして解釈する。生成モデルのどのレベルが関与しているか？
+- MMNの振幅が繰り返し外れ子音によって減少する理由（習得）は何か？アクティブ・インファレンスは、モデル更新の観点からこれをどのように説明するのか？
+- MMNは統合失調症で減少している。これは生成モデルについて何を示唆しているか（ヒント：予測誤差に対する精度）。
+
+{fill:textarea}
+
+## 第5部：統合
+
+**目標**: 4つの症例を統合し、脳を自己組織化システムとして捉える統一的な視点を作成する。
+
+アクティブ・インファレンスフレームワークの中で、脳が生成モデルを維持し、予測誤差を生成し、インファレンスを通じて更新するシステムであることを示す4つの症例をどのように統合するか、200語で要約してください。
+
+{fill:textarea}
+
+## 実験概要
+
+| 部位 | 獲得スキル | 症例タイプ |
+|---|---|---|
+| 1 | ネットワーク解釈 | 安静時fMRIデータ分析 |
+| 2 | 臨床的推論 | 脳卒中後の無名症 |
+| 3 | 実験的予測 | 感覚遮断と幻覚 |
+| 4 | 発生電生理分析 | ミスマッチネガティビティと予測誤差 |
+| 5 | 統合的合成 | 4つの症例をシステムフレームワークに統合 |

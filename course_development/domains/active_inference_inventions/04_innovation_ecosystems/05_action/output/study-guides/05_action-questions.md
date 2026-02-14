@@ -1,0 +1,45 @@
+# Questions — Launching and Scaling
+
+## Analytical Questions
+
+1. Distinguish between the epistemic value and pragmatic value of go-to-market actions. Why should early launch actions typically prioritize epistemic value, and at what point should the balance shift toward pragmatic value?
+
+2. Analyze Dollar Shave Club's viral launch video as an action selection decision. What made this action high-efficiency in Active Inference terms? What prediction errors did it generate in competitors' generative models?
+
+3. Compare Segway's 2001 launch with Apple's typical product launch approach. How did each company manage the relationship between pre-launch expectations and launch-day reality? What does Active Inference predict about the consequences of positive vs. negative prediction errors at launch?
+
+4. Describe the precision-flexibility trade-off in manufacturing scale-up. Why does Tesla's "production hell" illustrate the dangers of scaling before the production generative model is sufficiently validated?
+
+5. How does the Toyota Production System maintain flexibility within precision? Explain how practices like kanban, kaizen, and the andon cord function as Active Inference mechanisms within a manufacturing system.
+
+6. Analyze Zara's fast fashion model as an action system optimized for rapid action-perception cycles. How does this approach compare to the traditional seasonal fashion model in terms of prediction error detection and correction?
+
+7. Explain how price functions as a multi-stakeholder signal in Active Inference. How does the same price simultaneously affect the generative models of customers, investors, competitors, and partners?
+
+8. Compare freemium pricing (Spotify, Slack) with premium pricing (Rolex, Tesla Roadster) as action strategies. What different components of customer free energy does each strategy address? Under what market conditions is each appropriate?
+
+9. Analyze first-mover advantage and fast-follower advantage through Active Inference. What are the epistemic costs and benefits of each strategy? When does the first mover's advantage in shaping customer models outweigh the fast follower's advantage in learning from prediction errors?
+
+10. How does PayPal's niche pioneer strategy (starting with eBay power sellers) illustrate Geoffrey Moore's approach to crossing the chasm? What made this niche the right starting point, and how did dominance in the niche support expansion?
+
+## Applied Questions
+
+11. Design a three-stage launch sequence for your invention, specifying the primary action, target audience, evidence generated, and success criteria for each stage. How does evidence from Stage 1 inform the design of Stage 2?
+
+12. Your invention is ready for production scale-up. Identify the three highest-risk aspects of your manufacturing or delivery process. For each risk, describe the prediction error it represents and the mitigation strategy you would employ.
+
+13. Design a distribution strategy for your invention that evolves across three stages: initial launch, growth, and maturity. For each stage, specify the channel, its advantages and limitations, and the signal it sends to the market.
+
+14. Develop a pricing strategy for your invention using multi-stakeholder analysis. Set a specific price point and pricing model, and explain how this price optimizes free energy reduction across at least three stakeholder types.
+
+15. Your invention faces a choice between first-mover entry and fast-follower entry. A competitor has just announced (but not yet launched) a similar product. Analyze the expected free energy of entering now versus waiting, and defend your choice.
+
+16. You have launched your invention and sales are 40% below your prediction. Diagnose three possible causes for this prediction error, describe the sensing strategy you would use to distinguish between them, and outline the action adjustments each diagnosis would trigger.
+
+17. Design a market entry strategy for your invention in a market with one dominant incumbent. Should you compete directly, find a niche the incumbent neglects, or seek partnership? Analyze the free energy implications of each approach.
+
+18. Your freemium product has high free-tier adoption but low conversion to paid. Analyze this as an action selection problem: what changes to the free/paid boundary, the feature set, or the conversion triggers might increase the rate at which users transition to paid?
+
+19. You are scaling your invention from one geographic market to another with different cultural expectations, regulatory requirements, and competitive dynamics. Design the action sequence for market expansion, identifying which elements of your launch strategy transfer and which must be redesigned.
+
+20. Create a "launch decision tree" — a structured set of if-then action rules for your invention's launch. Define the key decision points, the evidence threshold at each point, and the actions triggered by each outcome. Include at least one "abort" condition that would cause you to halt the launch.

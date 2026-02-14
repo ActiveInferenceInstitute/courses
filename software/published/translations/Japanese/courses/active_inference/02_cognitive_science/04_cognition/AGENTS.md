@@ -1,25 +1,26 @@
-# Module 4: Cognition — Agent Guidelines
+# モジュール4：認知 — エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コース エージェント](../AGENTS.md) | [コース エージェント](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Attention as Precision Weighting and Working Memory |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Cognition) |
-| `lab.md` | File | Experimental Analysis: Attention as Precision Weighting and Working Memory |
-| `dashboard.html` | File | Interactive dashboard: Cognition |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル - モジュールエージェントガイドライン |
+| `module.md` | ファイル | 完全な講義: 注意と精度重み付けとワーキングメモリ |
+| `questions.md` | ファイル | 20 の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ: 7 個のMC + 3 個のFR (認知) |
+| `lab.md` | ファイル | 実験分析: 注意と精度重み付けとワーキングメモリ |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード: 認知 |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Cognitive-Behavioral
-- **Topic**: Cognition — Attention as Precision Weighting and Working Memory
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/04_cognition/module.md` for parallel modules
+- **視点**: 認知行動
+- **トピック**: 認知 — 注意と精度重み付けとワーキングメモリ
+- **記号**: [記号表.md](../../resources/notation_table.md) にて
+- **用語**: [用語集.md](../../resources/glossary.md) にて
+- **相互参照**: `../../XX_course/04_cognition/module.md` へのリンク - 平行モジュール
+

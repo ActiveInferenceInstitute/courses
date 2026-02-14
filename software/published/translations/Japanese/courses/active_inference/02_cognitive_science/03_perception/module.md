@@ -1,42 +1,42 @@
-# Module 03: Perception — Predictive Coding, Sensory Attenuation, and Hallucinations
+# モジュール03: 認識 – 予測符号化、感覚減衰、および幻覚
 
-## Learning Objectives
+## 学習目標
 
-1. Describe the **predictive coding** architecture: how hierarchical cortical layers generate top-down predictions and bottom-up prediction errors.
-2. Explain how sensory attenuation (reduced perception of self-generated stimuli) demonstrates the action-perception duality.
-3. Analyze hallucinations in schizophrenia and other conditions as failures of the precision-weighted prediction error mechanism.
+1.  **予測符号化**のアーキテクチャを記述する：上位からの予測と下位からの予測誤差を生成する階層的な皮質層の仕組み。
+2.  感覚減衰（自己生成された刺激に対する認識の低下）が、知覚と行動の二元性をどのように示しているかを説明する。
+3.  統合失調症などの他の状態における幻覚を、精密重み付けられた予測誤差メカニズムの失敗として分析する。
 
-## Introduction
+## 導入
 
-Rao and Ballard (1999) demonstrated that hierarchical predictive coding in the visual cortex could explain both classical receptive field properties and context-dependent response modulation. Their model established a neural architecture for Active Inference's claim that perception is inference: higher cortical areas send **predictions** down the hierarchy; lower areas send **prediction errors** up. Perception occurs when these prediction errors are minimized.
+RaoとBallard (1999) は、視覚皮質における階層的な予測符号化が、古典的な受容野特性と文脈依存的な応答調節の両方を説明できることを示した。彼らのモデルは、知覚が推論であることを主張するアクティブ・インファーレンスの神経アーキテクチャを確立した。より上位の皮質領域が**予測**を下位の階層に送り、より下位の領域が**予測誤差**を上位に送る。これらの予測誤差が最小化されるときに知覚が起こる。
 
-## Key Concepts
+## 主要な概念
 
-### 1. The Predictive Coding Architecture
+### 1. 予測符号化のアーキテクチャ
 
-The six-layered neocortex implements a message-passing scheme:
+六層構造の海馬皮質は、メッセージ伝達の仕組みを実装している：
 
-- **Deep pyramidal cells** (layers 5/6) send **top-down predictions** to lower cortical areas
-- **Superficial pyramidal cells** (layers 2/3) send **bottom-up prediction errors** to higher areas
-- **Granular layer** (layer 4) receives both streams
+-   **深層ピラミッド細胞**（5/6層）が下位の皮質領域に**上位からの予測**を送信
+-   **表層ピラミッド細胞**（2/3層）が上位の領域に**下位からの予測誤差**を送信
+-   **顆粒層**（4層）が両方の流れを受信する
 
-In V1, this means that the response of a neuron to a visual stimulus depends not only on what is in its receptive field but on whether the stimulus was *predicted*. Expected stimuli produce attenuated responses (the prediction was accurate); unexpected stimuli produce amplified responses (large prediction error).
+V1 では、ニューロンが視覚刺激に反応する際には、受容野にあるものだけでなく、その刺激が**予測されていたか**どうかによっても決まる。予想される刺激は減衰した応答（予測が正確）を示す。予想外の刺激は増幅された応答（大きな予測誤差）を示す。
 
-### 2. Sensory Attenuation
+### 2. 感覚減衰
 
-When you try to tickle yourself, it doesn't work. This is **sensory attenuation** — the brain predicts the sensory consequences of its own actions and attenuates the corresponding prediction errors. The cerebellum sends an **efference copy** of the motor command to sensory cortex, enabling the brain to "cancel out" expected sensory feedback.
+自分をくすぐろうとするとうまくいかない。これは**感覚減衰**であり、脳は自分の行動の結果に対する感覚的な結果を予測し、対応する予測誤差を減衰させる。小脳は運動コマンドの**エフェレンスコピー**を感覚皮質に送信し、脳が予想される感覚的なフィードバックを「打ち消す」ことを可能にする。
 
-This is direct evidence for the Active Inference claim that action and perception share the same inferential machinery. It also explains why psychosis can involve a failure of sensory attenuation — if the brain does not properly predict its own actions, self-generated stimuli (inner speech, for example) may be experienced as externally generated (auditory hallucinations).
+これは、行動と知覚が同じ推論機械を利用することを示すアクティブ・インファーレンスの主張の直接的な証拠である。また、感覚減衰の失敗が精神病につながる理由も説明する。脳が自分の行動を正しく予測しなければ、自己生成された刺激（内言など）が外部で生成されたもの（聴覚幻覚など）として経験される可能性がある。
 
-### 3. Hallucinations as Aberrant Inference
+### 3. 幻覚としての異常な推論
 
-Hallucinations can be understood as the brain's own predictions becoming so strong (high precision) that they override incoming sensory evidence. Powers et al. (2017) showed that individuals prone to hallucinations are also more susceptible to *Pavlovian* hallucination induction — they "hear" a tone that was paired with a visual stimulus, even when the tone is absent. This suggests a general precision imbalance: hallucinatory brains overweight top-down predictions relative to bottom-up sensory evidence.
+幻覚は、脳の自分の予測が非常に強く（高い精度）なり、それらが入力された感覚的な証拠を上回る状態として理解することができる。Powersら (2017) は、幻覚を起こしやすい人が、*パブロフ的* 幻覚誘発に他の人に「ペアリングされた」音を聞き取ることに感度が高いことを示した - 音が存在しないにもかかわらず。これは、一般的な精度不均衡を示唆している。幻覚を起こしやすい脳は、下位からの感覚的な証拠に比べて、上位からの予測を過大評価する。
 
-## Clinical Connections
+## 臨床的関連性
 
-- **Schizophrenia**: Auditory hallucinations may reflect failed sensory attenuation of inner speech, combined with high precision on endogenous predictions.
-- **Charles Bonnet syndrome**: Visual hallucinations in people with visual loss occur because the brain compensates for reduced sensory input by amplifying its own visual predictions.
+-   **統合失調症**: 聴覚幻覚は、内言の感覚減衰の失敗と、エンドジェニックな予測に対する高い精度を反映している可能性がある。
+-   **チャールズ・ボネット症候群**: 視覚障害のある人が視覚幻覚を経験するのは、脳が低下した感覚入力の補償として、自分の視覚的な予測を増幅させるためである。
 
-## Conclusion
+## 結論
 
-Predictive coding provides the neural implementation of Active Inference's central claim: perception is not passive recording but active construction through precision-weighted prediction error minimization. Module 04 examines the cognitive processes that modulate this machinery — attention, neuromodulation, and precision weighting.
+予測符号化は、アクティブ・インファーレンスの中心的な主張の神経的な実装を提供する：知覚は、精密重み付けられた予測誤差の最小化による、単なる受動的な記録ではなく、積極的な構築である。モジュール04では、この機械を調節する認知プロセス（注意、神経伝達物質調節、精度重み付け）について検討する。

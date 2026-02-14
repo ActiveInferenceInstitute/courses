@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Creative Action — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Creative Action</h1>
+  <p class="subtitle">Rapid prototyping, bricolage, and the role of making in inventive cognition</p>
+  <span class="tag">Section 2 &middot; Module 5 &middot; Creative Engineering</span>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('concepts')">Concepts</div>
+  <div class="tab" onclick="showTab('quiz')">Quiz</div>
+  <div class="tab" onclick="showTab('checklist')">Checklist</div>
+  <div class="tab" onclick="showTab('modules')">All Modules</div>
+</div>
+
+<div class="panel active" id="p-concepts">
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Making as Active Inference</h3>
+    <div class="desc">Every prototype serves dual functions: pragmatically changing the world (building the invention) and epistemically generating observations (learning what works). Dyson's 5,127 prototypes were 5,127 questions posed to reality, each answer updating his generative model of cyclonic separation. A prototype that "fails" is an informative observation, not a waste.</div>
+    <div class="meter"><div class="fill" style="width:95%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Rapid Prototyping and Fidelity Matching</h3>
+    <div class="desc">Maximize information gained per unit of time and cost. Match prototype fidelity to the question being asked: paper prototypes for layout, foam models for ergonomics, functional breadboards for electronics. Building too much fidelity wastes resources and introduces confounding observations (users react to finish quality rather than function).</div>
+    <div class="meter"><div class="fill" style="width:90%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Sketch Modeling and Embodied Cognition</h3>
+    <div class="desc">Rough 3D models made from cardboard, foam, and tape engage spatial reasoning, motor planning, and proprioceptive feedback unavailable during mental simulation. Frank Gehry begins every project with crumpled cardboard models whose physical properties co-create the design. Manipulation generates perceptual evidence that imagination cannot.</div>
+    <div class="meter"><div class="fill" style="width:85%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Design Sprints</h3>
+    <div class="desc">Five-day structured process compressing the full perception-action-cognition cycle: Map (define model), Sketch (generate policies), Decide (evaluate expected free energy), Prototype (execute policy), Test (observe and update). Time constraint forces action over analysis, resolving uncertainties in days that would persist for months under conventional development.</div>
+    <div class="meter"><div class="fill" style="width:80%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Bricolage: Invention With What Is at Hand</h3>
+    <div class="desc">Building with available materials rather than acquiring specific materials for a predetermined design. The bricoleur lets material affordances guide the generative model — materials become co-authors. Apollo 13's CO2 scrubber repair (plastic bags, cardboard, tape, a sock) is the most famous bricolage achievement in engineering history.</div>
+    <div class="meter"><div class="fill" style="width:75%"></div></div>
+  </div>
+</div>
+
+<div class="panel" id="p-quiz">
+  <div class="quiz-box">
+    <h3 id="q-title">Question 1 of 7</h3>
+    <div id="q-text"></div>
+    <div id="q-opts"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" onclick="prevQ()">Previous</button>
+      <button class="quiz-btn" onclick="nextQ()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="p-checklist">
+  <h3 style="margin-bottom:.5rem">Learning Objectives</h3>
+  <div class="checklist" id="cl-list"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill" style="width:0%"></div></div>
+  <div class="cl-status" id="cl-status">0 of 5 completed</div>
+</div>
+
+<div class="panel" id="p-modules">
+  <h3 style="margin-bottom:.5rem">Section 2: Creative Engineering</h3>
+  <div class="mod-grid">
+    <div class="mod-card"><div class="num">01</div><div class="name">The Creative System</div></div>
+    <div class="mod-card"><div class="num">02</div><div class="name">The Creative Agent</div></div>
+    <div class="mod-card"><div class="num">03</div><div class="name">Creative Perception</div></div>
+    <div class="mod-card"><div class="num">04</div><div class="name">Inventive Cognition</div></div>
+    <div class="mod-card current"><div class="num">05</div><div class="name">Creative Action</div></div>
+    <div class="mod-card"><div class="num">06</div><div class="name">Learning to Invent</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">The Inventive Pitch</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">Planning the Creative Process</div></div>
+  </div>
+</div>
+
+<script>
+function showTab(id){document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['concepts','quiz','checklist','modules'][i]===id));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p-'+id).classList.add('active')}
+function toggleCard(el){el.classList.toggle('open')}
+
+const quiz=[
+  {q:"Creative action in Active Inference serves which two functions simultaneously?",opts:["Revenue generation and cost reduction","Pragmatic inference (changing the world) and epistemic inference (generating observations)","Team building and skill development","Planning and execution"],ans:1,exp:"Every creative action both changes the world toward the desired state (pragmatic) and generates observations that update the inventor's generative model (epistemic). The epistemic function is especially critical during early invention stages."},
+  {q:"Fidelity matching in prototyping means:",opts:["Using the highest possible fidelity in all prototypes","Matching prototype fidelity to the specific question being tested","Ensuring prototypes match competitor product quality","Making prototypes from final production materials"],ans:1,exp:"Testing pocket fit requires a wooden block, not a circuit board. Testing layout requires paper, not 3D printing. Over-engineering prototype fidelity wastes resources and introduces confounding variables."},
+  {q:"Dyson's 5,127 vacuum prototypes are best understood as:",opts:["Evidence of poor planning and inefficient methodology","5,127 failures followed by a lucky breakthrough","5,127 informative experiments each generating prediction errors that updated the model","An unusually large number compared to typical invention processes"],ans:2,exp:"Each prototype was a question posed to reality about cyclonic separation. Each answer — whether the prototype 'worked' or not — updated Dyson's generative model, guiding the next design iteration."},
+  {q:"Sketch modeling provides advantages over mental simulation because:",opts:["It is cheaper than computer-aided design","Physical manipulation engages embodied cognition — spatial, motor, and proprioceptive feedback unavailable during imagination","It looks more impressive to investors","It can be done by anyone regardless of skill level"],ans:1,exp:"Holding, turning, and miming use of a physical model engages cognitive resources that pure mental visualization cannot access, revealing ergonomic, spatial, and aesthetic issues invisible to imagination."},
+  {q:"The design sprint's five-day time constraint:",opts:["Is an arbitrary limitation that reduces quality","Forces action over analysis, compressing the perception-action-cognition cycle","Should be extended to ten days for better results","Only works for software products, not physical inventions"],ans:1,exp:"Time pressure prevents over-analysis and forces teams to build and test quickly. The constraint makes action mandatory, generating information that analysis alone would never produce."},
+  {q:"The Apollo 13 CO2 scrubber repair exemplifies:",opts:["Standard engineering with proper materials","Bricolage — invention using only materials at hand, with constraints driving creative design","The failure of improvised solutions under pressure","Why spacecraft should carry more spare parts"],ans:1,exp:"The repair used plastic bags, cardboard, tape, and a sock — whatever was available. Material affordances guided the design rather than a predetermined plan, producing a functional solution under extreme constraint."},
+  {q:"A minimum viable prototype (MVP) focuses on:",opts:["Creating the most feature-rich prototype possible","Testing the most critical assumption at the lowest cost","Impressing early investors with production quality","Meeting all regulatory requirements before launch"],ans:1,exp:"The MVP allocates prototyping resources to wherever uncertainty is highest, building the smallest thing that can test the most critical assumption — maximizing epistemic value per unit of effort."}
+];
+
+let qi=0;
+function renderQ(){const q=quiz[qi];document.getElementById('q-title').textContent='Question '+(qi+1)+' of '+quiz.length;document.getElementById('q-text').textContent=q.q;document.getElementById('q-explain').style.display='none';document.getElementById('q-explain').textContent=q.exp;let h='';q.opts.forEach((o,i)=>{h+='<div class="quiz-opt" onclick="pickA('+i+','+q.ans+')">'+String.fromCharCode(65+i)+'. '+o+'</div>'});document.getElementById('q-opts').innerHTML=h}
+function pickA(sel,ans){document.querySelectorAll('.quiz-opt').forEach((o,i)=>{o.classList.remove('correct','wrong');if(i===ans)o.classList.add('correct');else if(i===sel)o.classList.add('wrong')});document.getElementById('q-explain').style.display='block'}
+function nextQ(){qi=Math.min(qi+1,quiz.length-1);renderQ()}
+function prevQ(){qi=Math.max(qi-1,0);renderQ()}
+renderQ();
+
+const objectives=["Explain creative action as simultaneous pragmatic and epistemic inference","Analyze rapid prototyping as maximizing information per unit effort","Describe bricolage as material-affordance-driven inventive strategy","Characterize design sprints as compressed perception-action-cognition cycles","Evaluate the role of embodied cognition in hands-on making"];
+const clList=document.getElementById('cl-list');
+const stored=JSON.parse(localStorage.getItem('cl-s2m5')||'{}');
+objectives.forEach((o,i)=>{const d=document.createElement('div');d.className='cl-item';d.innerHTML='<input type="checkbox" id="cl'+i+'" '+(stored[i]?'checked':'')+' onchange="updateCL()"><label for="cl'+i+'">'+o+'</label>';clList.appendChild(d)});
+function updateCL(){const checks={};let done=0;objectives.forEach((_,i)=>{const c=document.getElementById('cl'+i).checked;checks[i]=c;if(c)done++});localStorage.setItem('cl-s2m5',JSON.stringify(checks));document.getElementById('cl-fill').style.width=(done/objectives.length*100)+'%';document.getElementById('cl-status').textContent=done+' of '+objectives.length+' completed'}
+updateCL();
+</script>
+</body>
+</html>

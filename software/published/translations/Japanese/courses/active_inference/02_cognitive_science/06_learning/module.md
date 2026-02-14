@@ -1,44 +1,44 @@
-# Module 06: Learning — Synaptic Plasticity, Bayesian Model Reduction, and Developmental Change
+# モジュール06：学習 - シ냅ス可塑性、ベイズモデル削減、発達変化
 
-## Learning Objectives
+## 学習目標
 
-1. Explain how synaptic plasticity (LTP/LTD, spike-timing-dependent plasticity) implements the parameter learning of Active Inference.
-2. Describe Bayesian Model Reduction as the brain's mechanism for structure learning — pruning unnecessary model complexity.
-3. Connect these mechanisms to developmental critical periods, sleep consolidation, and the neuroscience of expertise.
+1.  シナプス可塑性（LTP/LTD、スパイクタイミング依存性可塑性）がアクティブインファーレンスのパラメータ学習をどのように実装しているかを説明する。
+2.  脳の構造学習のためのメカニズムであるベイズモデル削減について記述する（不要なモデル複雑さの刈り込み）。
+3.  これらのメカニズムを発達における臨界期、睡眠固持、専門家の神経科学と関連付ける。
 
-## Introduction
+## 導入
 
-The brain must learn from experience — updating its generative model to make better predictions. Active Inference identifies two forms of learning, each with distinct neural implementations: **parameter learning** (updating connection strengths within the existing model architecture) and **structure learning** (reorganizing the architecture itself). This module examines the neural evidence for both.
+脳は経験から学習しなければならない—より良い予測を行うために、生成モデルを更新する必要がある。アクティブインファーレンスは、それぞれ異なる神経実装を持つ2つの学習形態を特定する。**パラメータ学習**（既存のモデルアーキテクチャ内の接続強度の更新）と**構造学習**（アーキテクチャ自体を再構成）である。このモジュールは、両方の神経的証拠を調査する。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Parameter Learning and Synaptic Plasticity
+### 1. パラメータ学習とシナプス可塑性
 
-Parameter learning corresponds to updating the brain's estimate of how environmental variables relate to each other. Neurally, this is implemented through **synaptic plasticity** — changes in the strength of connections between neurons.
+パラメータ学習は、環境変数間の関係を脳が推定する更新に対応する。神経レベルでは、**シナプス可塑性**—ニューロン間の接続強度の変化を通じて実装される—によって実現される。
 
-- **Long-term potentiation (LTP)**: Strengthening of synapses when pre- and post-synaptic neurons fire together (Hebb's rule: "neurons that fire together, wire together").
-- **Long-term depression (LTD)**: Weakening of synapses when activity is uncorrelated.
-- **Spike-timing-dependent plasticity (STDP)**: The direction and magnitude of synaptic change depend on the precise timing of pre- and post-synaptic spikes — a temporal code for prediction error.
+-   **長期増強（LTP）**: 事前ニューロンと後ニューロンが同時に発火するときにシナプスが強化される（ヘブのルール：「同時に発火するニューロンは、同時に接続する」）。
+-   **長期抑圧（LTD）**: 活動が相関がない場合にシナプスが弱化される。
+-   **スパイクタイミング依存性可塑性（STDP）**: 事前ニューロンと後ニューロンのスパイクの正確なタイミングによって、シナプスの変化の方向と大きさ​​が依存する—予測誤差のための時間的コードである。
 
-In Active Inference terms, STDP implements a form of online Bayesian updating: if the pre-synaptic neuron (carrying a prediction) fires just before the post-synaptic neuron (carrying sensory input), the synapse strengthens — the prediction was confirmed. If the timing is reversed, the synapse weakens — the prediction was wrong.
+アクティブインファーレンスの用語では、STDPはオンラインのベイズ更新の一形態を実装する。事前ニューロン（予測を伝達）が、後ニューロン（感覚入力）の発火直前に発火すると、シナプスが強化される—予測が確認された。タイミングが逆の場合、シナプスが弱化される—予測が間違っていた。
 
-### 2. Structure Learning and Bayesian Model Reduction
+### 2. 構造学習とベイズモデル削減
 
-Not all learning involves strengthening existing connections. Sometimes the brain must reorganize its model — adding new components or, more importantly, pruning unnecessary ones. Friston et al. (2017) proposed that **Bayesian Model Reduction (BMR)** — a computationally efficient method for comparing nested models — may be implemented during sleep.
+すべての学習が既存の接続を強化することに関係しているわけではない。脳は、新しいコンポーネントを追加したり、より重要なことに不要なものを刈り込んだりすることさえ必要になることがある。Fristonら（2017）は、ネストされたモデルを比較する計算効率の高い方法である**ベイズモデル削減（BMR）**が睡眠中に実装されている可能性があると提案した。
 
-During NREM sleep, the brain replays waking experiences and analytically evaluates whether simpler model structures (with fewer parameters) can explain the data equally well. If so, the simpler model is adopted. This connects to the phenomenon of **synaptic downscaling** during sleep (Tononi & Cirelli's synaptic homeostasis hypothesis): synapses are globally weakened during sleep, preserving only the strongest (most informative) connections.
+レム睡眠中に、脳は覚醒時の経験を再生し、より単純なモデル構造（パラメータが少ない）がデータを同じようにうまく説明できるかどうかを分析する。そうであれば、より単純なモデルが採用される。これは、TononiとCirelliのシナプスホメオスタジー仮説における睡眠中の**シナプス減衰**の現象と関連している：睡眠中にシナプスは全体的に弱化され、最も強い（最も情報量の多い）接続のみが保持される。
 
-### 3. Developmental Critical Periods and Expertise
+### 3. 発達における臨界期と専門性
 
-**Critical periods** — windows of heightened plasticity in early development (e.g., for language, vision, emotional attachment) — can be understood as periods of high learning rate in the generative model. During critical periods, precision on prediction errors is high, driving rapid model updating. After the critical period closes, precision on existing priors increases, making the model more resistant to change.
+**臨界期**—言語、視覚、感情的な絆など、発達初期における高可塑性の窓—は、生成モデルにおける学習率の高い期間として理解することができる。臨界期中に、予測誤差に対する精度が高く、モデルの迅速な更新を駆動する。臨界期が閉じられた後、既存の事前確率に対する精度が高まり、モデルが変化しにくくなる。
 
-Expertise represents the opposite end of the learning trajectory: a highly refined generative model with deep hierarchical structure, high-precision priors, and automated (habitual) policy selection.
+専門性は、学習軌跡の反対側の端を表す—深層階層構造、高精度な事前確率、および自動化された（習慣的な）ポリシー選択を備えた、洗練された生成モデルである。
 
-## Clinical Connections
+## 臨床的関連
 
-- **Alzheimer's disease**: Progressive loss of synaptic plasticity → inability to update the generative model → reliance on increasingly outdated predictions.
-- **PTSD**: Maladaptive learning — a traumatic experience creates high-precision priors about danger that resist updating despite evidence of safety. Therapeutic approaches (exposure therapy, EMDR) work by reopening plasticity at the relevant prediction level.
+-   **アルツハイマー病**: シナプス可塑性の進行的な喪失 → 生成モデルの更新の不可能性 → 時代遅れの予測への依存。
+-   **PTSD**: 不適切な学習—トラウマ体験は、危険に関する高精度な事前確率を作成し、安全性の証拠にもかかわらず更新を拒否する。暴露療法、EMDRなどの治療アプローチは、予測レベルで可塑性を再開することによって機能する。
 
-## Conclusion
+## 結論
 
-Learning in the brain is precision-weighted model updating, implemented through synaptic plasticity for parameters and through sleep-dependent model reduction for structure. Understanding these mechanisms connects Active Inference to developmental psychology, educational neuroscience, and psychiatric treatment. Module 07 examines how learned models are shared between brains — the neuroscience of communication.
+脳における学習は、パラメータに関してはシナプス可塑性による、構造に関しては睡眠依存的なモデル削減によって行われる精度に基づいたモデル更新である。これらのメカニズムを理解すると、アクティブインファーレンスは発達心理学、教育神経科学、精神疾患の治療と関連付けられる。モジュール07は、学習されたモデルが脳間で共有される神経科学を調査する。

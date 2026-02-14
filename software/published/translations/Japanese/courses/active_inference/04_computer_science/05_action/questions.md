@@ -1,41 +1,41 @@
-# Study Questions: Action
+# 課題問題：行動
 
-1. Write the formula for Expected Free Energy $G(\pi)$ and identify the two component terms.
+1.  Expected Free Energy $G(\pi)$ の数式を書き、その2つの構成要素を特定してください。
 
-2. Explain the difference between risk and ambiguity in EFE. Which drives goal-directed behavior and which drives information-seeking?
+2.  EFE におけるリスクと不確実性の違いを説明してください。どちらが目標指向行動を駆動し、どちらが情報探索を駆動しますか？
 
-3. How does `compute_efe(q_s, A, B, C, action)` compute the predicted next-state distribution $q(s' \mid \pi)$?
+3.  `compute_efe(q_s, A, B, C, action)` 関数が予測された次の状態分布 $q(s' \mid \pi)$ をどのように計算しますか？
 
-4. What happens to EFE when the C-vector is all zeros? Which component vanishes and which remains?
+4.  C ベクトルがすべてゼロの場合、EFE はどうなりますか？ どちらのコンポーネントが消え、どちらが残りますか？
 
-5. Write the policy posterior equation $q(\pi)$. What role does the negative sign in front of γ play?
+5.  ポリシー後件確率 $q(\pi)$ の数式を書き、負の符号の前に γ がある役割は何ですか？
 
-6. Why is softmax used to convert EFE values to policy probabilities instead of simply picking the minimum $G$?
+6.  EFE の値をポリシー確率に変換するために softmax が使用される理由を説明してください。最小の $G$ を単に選択するのではなく、なぜですか？
 
-7. Compute $G(\pi)$ by hand for a 2-state system with $q(s) = [1, 0]$, $A = I$, $B_{a=0} = I$, $C = [1, -1]$. Show both risk and ambiguity components.
+7.  2 つの状態を持つシステムで手動で $G(\pi)$ を計算してください。 $q(s) = [1, 0]$、$A = I$、$B_{a=0} = I$、$C = [1, -1]$ です。リスクと不確実性の両方のコンポーネントを示してください。
 
-8. In `run_policy_inference()`, what does the return value `G_values` contain? What is its shape?
+8.  `run_policy_inference()` で、戻り値 `G_values` に何が含まれていますか？ その形状は何ですか？
 
-9. How does the agent select a specific action from $q(\pi)$? Is it deterministic or stochastic?
+9.  エージェントが $q(\pi)$ から特定の行動を選択する方法は？ それは決定論的ですか、それとも確率論的ですか？
 
-10. Explain why an agent in the T-maze visits the cue location before choosing an arm. Which EFE component is responsible?
+10. T-maze にいるエージェントがヒント位置を訪れる理由を説明してください。どの EFE コンポーネントが責任がありますか？
 
-11. If the A-matrix is the identity (fully observable), what is the ambiguity for every policy? What behavior results?
+11. A 行列が単位行列（完全に観測可能）の場合、すべてのポリシーの不確実性はいくつですか？ どのような行動の結果になりますか？
 
-12. Write code to compute and print the EFE for all 3 actions in a T-maze model, then determine which action has the lowest G.
+12. T-maze のモデルで、すべての 3 つのアクションの EFE を計算して出力するコードを記述し、最も低い $G$ を持つアクションを特定します。
 
-13. How would you modify the C-vector to create an agent that explores without any particular preference? What would its behavior look like?
+13. 探索に特に好みを持ちたくないエージェントを作成するために、C ベクトルをどのように変更しますか？ その行動はどのようなものになりますか？
 
-14. What is `result["selected_action"]` from `run_policy_inference()`? How is it computed from `q(π)`?
+14. `run_policy_inference()` から `result["selected_action"]` は何ですか？ それは $q(π)$ から計算されますか？
 
-15. If γ is very large, the policy with the lowest $G$ gets nearly all the probability mass. What is the computational danger for multi-step policies?
+15. γ が非常に大きい場合、最小の $G$ を持つポリシーにほぼすべての確率質量が集中します。多段階ポリシーの計算上の危険とは何ですか？
 
-16. Describe how multi-step policies are evaluated. If a policy is $[a_0, a_1, a_2]$, how does EFE aggregate across the three steps?
+16. 多段階ポリシーの評価方法を記述してください。ポリシーが $[a_0, a_1, a_2]$ の場合、EFE は3つのステップにわたってどのように集約されますか？
 
-17. Use `plot_policy_values()` to visualize EFE over time. What should the plot look like when the agent has fully located the reward?
+17. `plot_policy_values()` を使用して EFE を時間経過とともに視覚化します。エージェントが報酬を完全に発見したときにプロットはどのようなものになるべきですか？
 
-18. Use `plot_efe_decomposition()` to visualize risk and ambiguity components. When does ambiguity dominate risk in the T-maze?
+18. `plot_efe_decomposition()` を使用してリスクと不確実性のコンポーネントを視覚化します。T-maze で不確実性がリスクを支配するのはいつですか？
 
-19. Compare two agents on the T-maze: one with γ = 1 and one with γ = 16. Which one reaches the reward arm more consistently? Which explores more?
+19. γ = 1 および γ = 16 の 2 つのエージェントを T-maze で比較します。どちらが報酬アームをより一貫して到達しますか？どちらがより探索的ですか？
 
-20. What is the computational complexity of evaluating $G(\pi)$ for $K$ policies, each of length $T$, in a system with $N_s$ states and $N_o$ observations? How does it scale?
+20. $N_s$ 個の状態と $N_o$ 個の観測を持つシステムで、$K$ 個のポリシー、それぞれが $T$ ステップである $G(\pi)$ を評価する際の計算複雑さはいくつですか？ どのようにスケールしますか？

@@ -1,53 +1,53 @@
-# Module 5: Action — Motor Control as Active Inference; Habits vs Goals
+# モジュール5：行動 — 積極的推論としての運動制御；習慣と目標
 
-> **Quick Navigation**: [← Cognition](../04_cognition/) | [Up](../) | [Learning →](../06_learning/)
+> **クイックナビゲーション**: [← 認知](../04_cognition/) | [上へ](../) | [学習へ](../06_learning/)
 
-## Cognitive Behavioral Science & Active Inference
+## 認知行動科学と積極的推論
 
 ---
 
-## Contents
+## 目次
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Experimental Analysis lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7問のMC + 3問のFR) |
+| [lab.md](./lab.md) | 実験分析ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです：
 
-1. Define **Action** from a cognitive-behavioral perspective within Active Inference
-2. Explain the role of **Motor Control as Active Inference; Habits vs Goals** in the FEP framework
-3. Connect action to the broader concepts of free energy minimization
-4. Apply cognitive-behavioral reasoning to analyze real-world examples of action
+1. 積極的推論における認知行動学的な観点から「行動」を定義する
+2. FEPフレームワークにおける「運動制御を積極的推論」、「習慣と目標」の役割を説明する
+3. 行動を、より広い概念であるフリーエネルギー最小化に結び付ける
+4. 現実世界の行動の例を分析するために、認知行動学的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 相互コースへのリンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/05_action/) | Agency as Inference, Affordances, and Active Exploration |
-| [Cognitive Science](../../02_cognitive_science/05_action/) | Motor Control as Active Inference; Habits vs Goals ← **You are here** |
-| [Mathematics](../../03_math/05_action/) | Expected Free Energy (G): Risk and Ambiguity Decomposition |
-| [Computer Science](../../04_computer_science/05_action/) | Policy Selection and Expected Free Energy Calculation |
+| [哲学](../../01_philosophy/05_action/) | 推論としてのエージェンシー、アフォード、積極的探索 |
+| [認知科学](../../02_cognitive_science/05_action/) | 運動制御を積極的推論；習慣と目標 ← **現在地** |
+| [数学](../../03_math/05_action/) | 期待されるフリーエネルギー (G)：リスクと曖昧さの分解 |
+| [コンピュータサイエンス](../../04_computer_science/05_action/) | ポリシー選択と期待されるフリーエネルギーの計算 |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Cognition](../04_cognition/) | [Up](../) | [Learning →](../06_learning/)
+[← 認知](../04_cognition/) | [上へ](../) | [学習へ](../06_learning/)

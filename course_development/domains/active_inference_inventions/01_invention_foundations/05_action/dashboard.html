@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>From Idea to Intervention — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Module 05: From Idea to Intervention</h1>
+  <p class="subtitle">First prototypes, acting on the world, and testing hypotheses through building</p>
+  <span class="tag">Section 1: Invention Foundations</span>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="concepts">Key Concepts</div>
+  <div class="tab" data-tab="quiz">Self-Check Quiz</div>
+  <div class="tab" data-tab="checklist">Study Checklist</div>
+  <div class="tab" data-tab="modules">All Modules</div>
+</div>
+
+<div class="panel active" id="concepts">
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>Action as World-Changing Inference</h3>
+    <div class="desc">Invention is active inference — changing the world to match the inventor's preferred states. Every prototype is a hypothesis expressed in physical form. The prototype is the action, its behavior is the observation, and the comparison between predicted and actual behavior updates the generative model. Building is thinking made physical.</div>
+    <div class="meter"><div class="fill" style="width:20%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>Prototypes as Hypothesis Tests</h3>
+    <div class="desc">Effective prototypes test specific assumptions. The minimum viable prototype (MVP) is the simplest construction that tests the riskiest assumption. The Wright Brothers' wind tunnel tested aerodynamic data for pennies. Types: proof of concept, user experience, feasibility, and aesthetic prototypes — each resolves different uncertainties.</div>
+    <div class="meter"><div class="fill" style="width:20%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>The Perception-Action Loop in Building</h3>
+    <div class="desc">Building creates a tight loop with materials: act, observe response, update model, act again. This operates at seconds (tool adjustment), days (prototype testing), and months (design iteration). Rapid prototyping tools compress the loop, and each iteration should test something new to generate genuine prediction errors.</div>
+    <div class="meter"><div class="fill" style="width:20%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>Acting Under Uncertainty</h3>
+    <div class="desc">Build when mental simulation reaches its limits. Expected free energy balances epistemic value (learning) against pragmatic value (achieving goals). Early prototypes prioritize epistemic value; later ones shift to pragmatic. Experienced inventors build sooner and simpler because they know where their knowledge runs out.</div>
+    <div class="meter"><div class="fill" style="width:20%"></div></div>
+  </div>
+  <div class="concept-card" onclick="this.classList.toggle('open')">
+    <h3>Failure as Informative Action</h3>
+    <div class="desc">A prototype that fails tells you exactly where your model was wrong. Edison's 10,000 filament experiments were 10,000 data points. Dyson's 5,127 iterations were systematic uncertainty reduction. Design prototypes so that failure is specific and interpretable — ambiguous failure wastes resources, precise failure generates learning.</div>
+    <div class="meter"><div class="fill" style="width:20%"></div></div>
+  </div>
+</div>
+
+<div class="panel" id="quiz">
+  <div class="quiz-box">
+    <h3 id="q-counter">Question 1 of 5</h3>
+    <p id="q-text"></p>
+    <div id="q-opts"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" id="q-prev" onclick="navQ(-1)">Previous</button>
+      <button class="quiz-btn" id="q-next" onclick="navQ(1)">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="checklist">
+  <div class="checklist" id="cl-list"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill"></div></div>
+  <div class="cl-status" id="cl-status">0 / 8 complete</div>
+</div>
+
+<div class="panel" id="modules">
+  <div class="mod-grid">
+    <div class="mod-card"><div class="num">01</div><div class="name">The Invention as a Living System</div></div>
+    <div class="mod-card"><div class="num">02</div><div class="name">The Inventor as an Adaptive Agent</div></div>
+    <div class="mod-card"><div class="num">03</div><div class="name">Seeing What Others Miss</div></div>
+    <div class="mod-card"><div class="num">04</div><div class="name">Thinking Like an Inventor</div></div>
+    <div class="mod-card current"><div class="num">05</div><div class="name">From Idea to Intervention</div></div>
+    <div class="mod-card"><div class="num">06</div><div class="name">Learning from Every Attempt</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">Sharing the Vision</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">The Invention Roadmap</div></div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');document.getElementById(t.dataset.tab).classList.add('active');
+}));
+
+const quiz=[
+  {q:"A prototype in Active Inference is best understood as:",opts:["A finished product","A hypothesis in physical form that tests the generative model","A decorative mockup","An exact miniature replica"],ans:1,exp:"Every prototype embodies a prediction: 'My model predicts that if I build this, it will produce this effect.' Testing the prototype against reality generates prediction errors that update the model."},
+  {q:"Why did the Wright Brothers build a wind tunnel before a full aircraft?",opts:["They enjoyed building small models","It was a minimum viable prototype testing their most critical assumption (aerodynamic data accuracy) at minimal cost","They did not have enough wood for a full aircraft","Their competitors told them to"],ans:1,exp:"The wind tunnel cost pennies but revealed that published lift data was wrong by ~50%. This MVP resolved their riskiest assumption before they committed expensive resources to a full-scale aircraft."},
+  {q:"Expected free energy in prototyping balances:",opts:["Speed and quality","Epistemic value (learning) and pragmatic value (goal achievement)","Material cost and labor cost","Team size and timeline"],ans:1,exp:"Expected free energy minimization guides action selection by balancing the information gained (epistemic value) against the progress toward preferred states (pragmatic value). Early prototypes should emphasize learning."},
+  {q:"When a prototype fails, the Active Inference response is:",opts:["Abandon the project","Identify the specific prediction error, update the generative model, and design the next iteration","Blame the materials","Build the exact same prototype again"],ans:1,exp:"Failure generates specific prediction errors — data about where the generative model was wrong. This information drives targeted model updates and guides the design of more effective next iterations."},
+  {q:"An inventor should start building when:",opts:["They have a perfect design","Their mental simulation reaches its limits and further thinking cannot reduce uncertainty","They have unlimited budget","Someone tells them to"],ans:1,exp:"The right time to build is when counterfactual reasoning in the mental model can no longer reliably predict outcomes. At that point, only physical action can resolve the remaining uncertainty."}
+];
+let qi=0;
+function showQ(){const q=quiz[qi];document.getElementById('q-counter').textContent=`Question ${qi+1} of ${quiz.length}`;document.getElementById('q-text').textContent=q.q;document.getElementById('q-explain').style.display='none';const od=document.getElementById('q-opts');od.innerHTML='';q.opts.forEach((o,i)=>{const b=document.createElement('div');b.className='quiz-opt';b.textContent=o;b.addEventListener('click',()=>{od.querySelectorAll('.quiz-opt').forEach(x=>{x.classList.remove('correct','wrong');x.style.pointerEvents='none'});b.classList.add(i===q.ans?'correct':'wrong');if(i!==q.ans)od.children[q.ans].classList.add('correct');const e=document.getElementById('q-explain');e.textContent=q.exp;e.style.display='block';});od.appendChild(b);});document.getElementById('q-prev').disabled=qi===0;document.getElementById('q-next').disabled=qi===quiz.length-1;}
+function navQ(d){qi=Math.max(0,Math.min(quiz.length-1,qi+d));showQ()}showQ();
+
+const checks=["Explain prototyping as hypothesis testing in Active Inference terms","Identify your invention's riskiest assumption","Design a minimum viable prototype for that assumption","Describe the perception-action loop during a building process","Distinguish epistemic from pragmatic prototyping","Analyze a prototype failure as informative prediction error","Plan a multi-iteration testing trajectory","Determine when to transition from learning to demonstrating"];
+const cl=document.getElementById('cl-list');
+checks.forEach((c,i)=>{const d=document.createElement('div');d.className='cl-item';d.innerHTML=`<input type="checkbox" id="ck${i}" onchange="updateCL()"><label for="ck${i}">${c}</label>`;cl.appendChild(d);});
+function updateCL(){const n=document.querySelectorAll('.cl-item input:checked').length;document.getElementById('cl-fill').style.width=`${n/checks.length*100}%`;document.getElementById('cl-status').textContent=`${n} / ${checks.length} complete`;}
+</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Prototyping and Testing — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2.5rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.8rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:1rem;max-width:600px;margin:.5rem auto}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.section-desc{max-width:800px;margin:2rem auto;padding:0 1rem;color:var(--muted);font-size:.9rem;line-height:1.8}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;max-width:900px;margin:2rem auto;padding:0 1rem}
+.mod-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;transition:.2s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+.mod-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 20px rgba(16,185,129,.1)}
+.mod-card .num{color:var(--accent);font-weight:700;font-size:1.1rem;margin-bottom:.3rem}
+.mod-card .name{font-size:1rem;font-weight:600;margin-bottom:.4rem}
+.mod-card .desc{color:var(--muted);font-size:.82rem;line-height:1.5}
+.mod-card .topics{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.6rem}
+.mod-card .topic{padding:.15rem .5rem;border-radius:999px;font-size:.7rem;background:var(--accent-glow);color:var(--accent);border:1px solid transparent}
+.progress-section{max-width:900px;margin:2rem auto;padding:0 1rem}
+.progress-section h2{font-size:1.1rem;margin-bottom:1rem}
+.prog-bar{height:8px;background:var(--border);border-radius:4px;margin-bottom:.5rem}
+.prog-bar .fill{height:100%;background:var(--accent);border-radius:4px;transition:.3s}
+.prog-status{color:var(--muted);font-size:.85rem}
+.footer{text-align:center;padding:2rem 1rem;border-top:1px solid var(--border);margin-top:2rem;color:var(--dim);font-size:.8rem}
+@media(max-width:600px){.hero h1{font-size:1.4rem}.mod-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Section 3: Prototyping and Testing</h1>
+  <p class="subtitle">Building, testing, and iterating &mdash; physical and digital prototypes, feedback loops, and learning from failure</p>
+  <span class="tag">Active Inference for Inventions</span>
+</div>
+
+<p class="section-desc">
+  Every invention begins as a mental model. Prototyping makes that model physical, testable, and accountable to reality.
+  This section applies Active Inference to the full cycle of building prototypes, testing them against the world,
+  interpreting what the results mean, iterating based on evidence, and planning what to test next. Eight modules
+  follow the Active Inference spine from systems through planning, each addressing a distinct aspect of the
+  prototyping and testing process.
+</p>
+
+<div class="mod-grid">
+  <div class="mod-card" onclick="location.href='01_systems/dashboard.html'">
+    <div class="num">Module 01</div>
+    <div class="name">The Prototype as a System</div>
+    <div class="desc">Prototypes as physical generative models. Markov blankets determine what to include and exclude. Fidelity levels as model resolution.</div>
+    <div class="topics"><span class="topic">Markov Blankets</span><span class="topic">Fidelity</span><span class="topic">Modularity</span></div>
+  </div>
+  <div class="mod-card" onclick="location.href='02_agents/dashboard.html'">
+    <div class="num">Module 02</div>
+    <div class="name">The Testing Agent</div>
+    <div class="desc">The inventor shifts from creator to evaluator. User testing as distributed sensing. Adversarial testing for maximum learning.</div>
+    <div class="topics"><span class="topic">Creator Bias</span><span class="topic">Beta Testers</span><span class="topic">Red Teams</span></div>
+  </div>
+  <div class="mod-card" onclick="location.href='03_perception/dashboard.html'">
+    <div class="num">Module 03</div>
+    <div class="name">Reading the Prototype's Signals</div>
+    <div class="desc">Signal taxonomy: quantitative, qualitative, behavioral, failure. Instrumentation extends perception. Failure as the most informative signal.</div>
+    <div class="topics"><span class="topic">Signal Types</span><span class="topic">Failure Analysis</span><span class="topic">Instrumentation</span></div>
+  </div>
+  <div class="mod-card" onclick="location.href='04_cognition/dashboard.html'">
+    <div class="num">Module 04</div>
+    <div class="name">Reasoning About Results</div>
+    <div class="desc">Bayesian updating from test data. Distinguishing signal from noise. Cognitive biases and structured reasoning protocols.</div>
+    <div class="topics"><span class="topic">Bayesian Updating</span><span class="topic">Bias Mitigation</span><span class="topic">Pre-registration</span></div>
+  </div>
+  <div class="mod-card" onclick="location.href='05_action/dashboard.html'">
+    <div class="num">Module 05</div>
+    <div class="name">Iterative Refinement</div>
+    <div class="desc">The action-perception loop in design. Minimum viable prototypes. A/B testing. The pivot-or-persevere decision.</div>
+    <div class="topics"><span class="topic">MVP</span><span class="topic">A/B Testing</span><span class="topic">Pivot vs. Persevere</span></div>
+  </div>
+  <div class="mod-card" onclick="location.href='06_learning/dashboard.html'">
+    <div class="num">Module 06</div>
+    <div class="name">Learning from Failure and Success</div>
+    <div class="desc">Post-mortem analysis. Failure mode cataloging. Parameter vs. structure learning. Transferring lessons across projects.</div>
+    <div class="topics"><span class="topic">Post-Mortems</span><span class="topic">FMEA</span><span class="topic">Transfer Learning</span></div>
+  </div>
+  <div class="mod-card" onclick="location.href='07_communication/dashboard.html'">
+    <div class="num">Module 07</div>
+    <div class="name">Documenting the Build</div>
+    <div class="desc">Lab notebooks as inference logs. Version control for physical objects. Design decision records. Communicating uncertainty.</div>
+    <div class="topics"><span class="topic">Lab Notebooks</span><span class="topic">Version Control</span><span class="topic">Decision Records</span></div>
+  </div>
+  <div class="mod-card" onclick="location.href='08_planning/dashboard.html'">
+    <div class="num">Module 08</div>
+    <div class="name">Test Planning Under Uncertainty</div>
+    <div class="desc">Expected free energy for test prioritization. Test protocol design. Resource allocation. Regulatory testing strategy.</div>
+    <div class="topics"><span class="topic">EFE Priority</span><span class="topic">Test Protocols</span><span class="topic">Resource Planning</span></div>
+  </div>
+</div>
+
+<div class="progress-section">
+  <h2>Section Progress</h2>
+  <div class="prog-bar"><div class="fill" id="section-fill" style="width:0%"></div></div>
+  <div class="prog-status" id="section-status">0 of 8 modules started</div>
+</div>
+
+<div class="footer">
+  Active Inference for Inventions &mdash; Active Inference Institute
+</div>
+
+<script>
+// Aggregate progress from all module checklists
+const moduleKeys = ['s3m01_cl','s3m02_cl','s3m03_cl','s3m04_cl','s3m05_cl','s3m06_cl','s3m07_cl','s3m08_cl'];
+let totalItems = 0;
+let completedItems = 0;
+let modulesStarted = 0;
+
+moduleKeys.forEach(key => {
+  const data = JSON.parse(localStorage.getItem(key) || '[]');
+  if (data.length > 0) {
+    totalItems += data.length;
+    const done = data.filter(Boolean).length;
+    completedItems += done;
+    if (done > 0) modulesStarted++;
+  } else {
+    totalItems += 5; // default 5 items per module
+  }
+});
+
+const pct = totalItems > 0 ? Math.round(completedItems / totalItems * 100) : 0;
+document.getElementById('section-fill').style.width = pct + '%';
+document.getElementById('section-status').textContent = `${modulesStarted} of 8 modules started \u2022 ${completedItems} of ${totalItems} checklist items complete (${pct}%)`;
+</script>
+</body>
+</html>

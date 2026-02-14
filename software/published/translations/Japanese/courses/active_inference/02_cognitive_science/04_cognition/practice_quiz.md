@@ -1,51 +1,51 @@
-# Practice Quiz: Cognition
+# 認知練習クイズ
 
-## Part A: Multiple Choice
+## Part A: 選択肢問題
 
-1. Precision in Active Inference is mathematically defined as:
-A) The mean of a probability distribution
-B) The inverse variance (1/σ²) — a measure of confidence or certainty
-C) The entropy of a distribution
-D) The log-likelihood ratio
+1. アクティブ・インファレンスにおける精密さ（Precision）は、数学的にどのように定義されるか：
+A) 確率分布の平均
+B) 分散の逆 (1/σ²) — 確信または確実性の尺度
+C) 分布の熵
+D) 対数尤度比
 
-2. Neurally, precision is proposed to be implemented by:
-A) The firing rate of inhibitory interneurons
-B) The synaptic gain of superficial pyramidal cells carrying prediction errors
-C) The myelination thickness of axons
-D) The density of dendritic spines
+2. 神経レベルで精密さは、主に次のことで実装されると考えられている：
+A) 抑制性インターニューロンの放火率
+B) 予測誤差を運搬する浅いピラミッド状細胞のシナプスゲイン
+C) 軸索のミエリン厚
+D) 分枝突起の密度
 
-3. Acetylcholine primarily modulates:
-A) Precision on top-down predictions
-B) Precision on bottom-up (sensory) prediction errors
-C) Motor neuron firing rates
-D) Sleep-wake transitions
+3. アセチルコリンは主に以下を調節する：
+A) トップダウン予測における精密さ
+B) ボトムアップ（感覚）予測誤差における精密さ
+C) モーターニューロンの放火率
+D) 睡眠-覚醒遷移
 
-4. The ADHD phenotype in Active Inference may reflect:
-A) Excessive sensory precision leading to constant distraction
-B) Low tonic dopamine → difficulty sustaining precision on task-relevant prediction errors
-C) Damage to the prefrontal cortex
-D) An excess of acetylcholine
+4. アクティブ・インファレンスにおけるADHDの表現型は、以下を反映する可能性がある：
+A) 過剰な感覚精密さによる絶え間ない注意散漫
+B) 低いトニックドーパミン → タスク関連の予測誤差に対する精密さの維持の困難さ
+C) 前頭前皮質の損傷
+D) アセチルコリンの過剰
 
-5. Lawson et al.'s (2014) account of autism proposes:
-A) Low sensory precision leading to reduced perception
-B) High precision on sensory prediction errors, reducing the influence of top-down contextual priors
-C) Normal precision with impaired motor control
-D) An emotional deficit unrelated to perception
+5. Lawson et al. (2014) の自閉症に関する説明は、以下を提案する：
+A) 低い感覚精密さによる感知の低下
+B) 感覚予測誤差に対する高い精密さ、トップダウンの文脈的先入観の影響を軽減
+C) 通常の精密さ、運動制御の障害
+D) 感知とは無関係な感情的欠如
 
-6. Anxiety in the Active Inference framework is characterized by:
-A) No prediction errors at all — the anxious person predicts perfectly
-B) Excessive precision on threat-related prediction errors, biasing the generative model toward danger detection
-C) Absence of interoceptive awareness
-D) Overactivity exclusively in the amygdala
+6. アクティブ・インファレンスの枠組みにおける不安は、以下の特徴で特徴づけられる：
+A) 予測誤差が一切ない — 不安な人は完璧に予測する
+B) 脅威に関連する予測誤差に対する過剰な精密さ、生成モデルを危険検出に向ける
+C) 内臓認識の欠如
+D) 線条体でのみ過剰な活動
 
-7. The neuromodulator most associated with coding environmental volatility (how changeable the world is) is:
-A) Dopamine
-B) Serotonin
-C) Noradrenaline
-D) Acetylcholine
+7. 環境の変動性（世界の可変性）をコーディングする最も関連性の高い神経伝達物質は：
+A) ドーパミン
+B) セロトニン
+C) ノルアドレナリン
+D) アセチルコリン
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Explain the "cocktail party effect" (attending to one voice in a noisy room) in Active Inference terms. Which neuromodulatory system is most likely involved?
-2. Patient with autism reports extreme sensitivity to fluorescent lighting but excels at detecting visual anomalies in industrial quality control. Analyze both the challenge and the strength using the precision framework.
-3. An SSRI (selective serotonin reuptake inhibitor) reduces anxiety symptoms within 4-6 weeks. Propose a mechanism of action in Active Inference terms: how might increased serotonin availability reduce the excessive precision on threat-related prediction errors?
+1.  「カクテルパーティー効果」（騒音の中で１つの声に注意を向ける）をアクティブ・インファレンスの用語で説明してください。最も関与している可能性のある神経伝達物質システムは何ですか？
+2.  自閉症患者が蛍光灯に対する極端な感受性を報告し、工業品質管理における視覚的異常の検出で優れているということを分析してください。精密性の枠組みを用いて、この課題と強みを分析してください。
+3.  SSRI（選択的セロトニン再取り込み阻害薬）が4〜6週間で不安症状を軽減する。アクティブ・インファレンスの用語で、セロトニンレベルの増加が、脅威に関連する予測誤差に対する過剰な精密さをどのように軽減する可能性があるのかを提案してください。

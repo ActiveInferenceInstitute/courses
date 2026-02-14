@@ -1,40 +1,40 @@
-# Module 07: Communication — Neural Resonance, Mirror Systems, and Social Cognition
+# モジュール 07: コミュニケーション — 神経共鳴、ミラーシステム、および社会認知
 
-## Learning Objectives
+## 学習目標
 
-1. Describe how the **mirror neuron system** supports action understanding and social inference through motor simulation.
-2. Explain neural resonance and interpersonal synchrony as the neural basis of coupled Active Inference between agents.
-3. Analyze the neural underpinnings of Theory of Mind, including the temporo-parietal junction and medial prefrontal cortex.
+1.  **ミラーニューロンシステム** が、運動シミュレーションを通じて、行動の理解と社会的推論をどのようにサポートするかを記述する。
+2.  エージェント間の結合されたアクティブ推論の神経的基盤である、神経共鳴と対人同期を説明する。
+3.  前頭極側連合野と側頭前頭皮質を含む、心の理論の神経的基盤を分析する。
 
-## Introduction
+## 導入
 
-Communication requires that isolated brains — each behind its own skull — achieve sufficient shared understanding to coordinate behavior. How does this happen neurally? This module examines three interacting systems: the **mirror neuron system** (which maps observed actions onto the observer's own motor repertoire), the **mentalizing network** (which represents other agents' beliefs and intentions), and the phenomenon of **interpersonal neural synchrony** (where interacting brains entrain to each other).
+コミュニケーションは、それぞれの頭蓋骨の裏にある、孤立した脳が十分な共有理解を達成し、行動を調整するために必要である。これは神経レベルでどのように起こるのか？このモジュールでは、以下の3つの相互作用するシステムを検討する：**ミラーニューロンシステム** (観察された行動を観察者の自身の運動レパートリーにマッピングする)、**心のモデル化ネットワーク** (他のエージェントの信念と意図を表現する)、および**対人神経同期** (相互作用する脳が互いに同期するように調整される現象)。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Mirror Neurons and Motor Simulation
+### 1. ミラーニューロンと運動シミュレーション
 
-Mirror neurons, discovered by Rizzolatti et al. (1996) in premotor cortex of macaques, fire both when an animal performs an action and when it observes the same action performed by another. In Active Inference terms, mirror neurons implement **motor simulation** — the observer generates the same proprioceptive predictions as the actor, allowing the observer's generative model to "predict" the actor's intentions by simulating them internally.
+ミラーニューロンは、リッツローッティら（1996）によって、マカクの前提運動皮質で発見された、動物が行動を実行するときと、別の動物が同じ行動を実行するときの両方に発火するニューロンである。アクティブ推論の用語では、ミラーニューロンは**運動シミュレーション**を実装する - 観察者は、俳優のプロプリオセプティブ予測を生成し、観察者の生成モデルが、内部でシミュレーションすることにより、俳優の意図を「予測」できるようにする。
 
-In humans, the mirror neuron system (inferior frontal gyrus, inferior parietal lobule) provides the sensorimotor basis for understanding others' actions without explicit propositional reasoning.
+人間の場合、ミラーニューロンシステム（下垂前頭溝、下垂部小葉）は、明示的なプロポシショナル推論なしに、他者の行動を理解するための感覚運動的基盤を提供する。
 
-### 2. Interpersonal Neural Synchrony
+### 2. 対人神経同期
 
-Hyperscanning studies (simultaneous recording of brain activity from multiple interacting individuals) reveal that interacting brains show **neural synchrony** — correlated oscillatory activity, particularly in the alpha and gamma bands. Hasson et al. (2012) demonstrated speaker-listener neural coupling: the listener's brain activity patterns converge with the speaker's, with a temporal lag corresponding to comprehension. Remarkably, successful communication correlated with tighter coupling, while miscomprehension correlated with decoupling.
+ハイパースキャン研究（複数の相互作用する個人からの脳活動を同時に記録）は、相互作用する脳が**神経同期**を示すことを明らかにする - 特にアルファ波とガンマ波帯における相関する振幅活動である。ハッソンら（2012）は、話者と聞き手の神経カップリングを実証した：聞き手の脳活動パターンが話者のパターンと一致し、理解に対応する時間遅延がある。驚くべきことに、成功したコミュニケーションはより強いカップリングと相関し、誤解はカップリングの低下と相関した。
 
-In Active Inference terms, interpersonal synchrony is the neural signature of **generalized synchrony** — the two agents' generative models aligning through reciprocal prediction error exchange.
+アクティブ推論の用語では、対人神経同期は**汎化された同期**の神経学的シグネチャであり、2つのエージェントの生成モデルが相互予測誤差の交換を通じて一致することを示す。
 
-### 3. The Mentalizing Network
+### 3. 心のモデル化ネットワーク
 
-Theory of Mind — the capacity to attribute beliefs and intentions to others — depends on a distinct neural network: the **temporo-parietal junction (TPJ)**, **medial prefrontal cortex (mPFC)**, **posterior superior temporal sulcus (pSTS)**, and **temporal poles**. Saxe and Kanwisher (2003) showed that the TPJ is selectively activated when participants reason about others' beliefs, not simply about physical events.
+心の理論—他者の信念と意図を属性する能力—は、以下の神経ネットワークに依存する：**前頭極側連合野 (TPJ)**、**側頭前頭皮質 (mPFC)**、**後上極側頭葉 (pSTS)**、および**側頭葉の極**。サクセとカニウィッシャー（2003）は、TPJ が他者の信念について推論する際に選択的に活性化されることを示した。物理的なイベントについて推論する場合には活性化されない。
 
-In Active Inference terms, the mentalizing network implements the hierarchical component of the generative model that represents *other agents as inference systems* — modeling not just what another person does but what they believe, desire, and intend.
+アクティブ推論の用語では、心のモデル化ネットワークは、*他のエージェントを推論システムとして表現する* 生成モデルの階層的コンポーネントを実装する。つまり、他者が何をしているのかだけでなく、彼らが何を信じ、何を望み、何を意図しているのかをモデル化する。
 
-## Clinical Connections
+## 臨床的関連性
 
-* **Autism and social communication**: Some accounts propose reduced spontaneous mirror activity or reduced mentalizing precision, leading to difficulties in automatic social inference (though compensatory explicit reasoning may develop).
-* **Schizophrenia and paranoia**: Overactive mentalizing (higher-order ToM) may lead to aberrant attribution of intentions to others — e.g., perceiving neutral actions as threatening or conspiratorial.
+*   **自閉症と社会的コミュニケーション**: 一部の説明では、ミラー活動の低下または心のモデル化の精度低下が、自動的な社会的推論の困難につながる可能性があり、補償的な明示的な推論が発達することが示唆されている。
+*   **精神病と妄想**: 高次心の理論（より上位の心の理論）の過剰な活動は、他のエージェントへの意図の異常な属性につながる可能性があり、例えば、中立的な行動を脅迫的または陰謀的であると認識する。
 
-## Conclusion
+## 結論
 
-Social communication is built on a neural infrastructure that implements coupled inference between brains — from the low-level motor resonance of the mirror system to the high-level belief modeling of the mentalizing network. Module 08 examines the temporal dimension of social and individual cognition — planning, decision-making, and the prefrontal cortex.
+社会的コミュニケーションは、脳間の結合された推論を実装する神経インフラストラクチャによって構築されている - ミラーシステムの低レベルの運動共鳴から、心のモデル化ネットワークの高レベルの信念モデル化まで。モジュール 08 は、社会的および個人の認知における時間的な次元を検討する - 計画、意思決定、および前頭皮質について。

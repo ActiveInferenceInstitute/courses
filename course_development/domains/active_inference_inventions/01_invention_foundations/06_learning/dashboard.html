@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Learning from Every Attempt — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>Module 06: Learning from Every Attempt</h1>
+  <p class="subtitle">Model updating from prototypes — parameter learning, structure learning, and building a learning protocol</p>
+  <span class="tag">Section 1: Invention Foundations</span>
+</div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="concepts">Key Concepts</div>
+  <div class="tab" data-tab="quiz">Self-Check Quiz</div>
+  <div class="tab" data-tab="checklist">Study Checklist</div>
+  <div class="tab" data-tab="modules">All Modules</div>
+</div>
+<div class="panel active" id="concepts">
+  <div class="concept-card" onclick="this.classList.toggle('open')"><h3>Prediction Error as the Engine of Learning</h3><div class="desc">Learning is driven by the gap between prediction and observation. A failed prototype that reveals specific model inaccuracies is more informative than a success that confirms what was already believed. The discipline is treating every deviation as data, not disappointment.</div><div class="meter"><div class="fill" style="width:20%"></div></div></div>
+  <div class="concept-card" onclick="this.classList.toggle('open')"><h3>Parameter Learning</h3><div class="desc">Adjusting specific values within a correct model structure. Edison testing filament materials, WD-40 refining 40 formulations, a baker adjusting oven temperature. Characterized by incremental convergence toward optimal values. Risk: converging on a local optimum when a different structure might be better.</div><div class="meter"><div class="fill" style="width:20%"></div></div></div>
+  <div class="concept-card" onclick="this.classList.toggle('open')"><h3>Structure Learning</h3><div class="desc">Changing the model's causal architecture when prediction errors resist parameter adjustment. Dyson shifting from bags to cyclones, Netflix from DVDs to streaming, sail to steam propulsion. More difficult and disruptive than parameter learning, but the source of breakthrough inventions.</div><div class="meter"><div class="fill" style="width:20%"></div></div></div>
+  <div class="concept-card" onclick="this.classList.toggle('open')"><h3>The Learning Trajectory</h3><div class="desc">Inventions follow a trajectory: early structure learning (discarding wrong approaches), followed by parameter optimization within the chosen structure, converging toward diminishing returns. Recognizing where you are on this trajectory helps allocate resources between exploration and optimization.</div><div class="meter"><div class="fill" style="width:20%"></div></div></div>
+  <div class="concept-card" onclick="this.classList.toggle('open')"><h3>Building a Learning Protocol</h3><div class="desc">Systematic documentation: record predictions before testing, observe carefully during testing, analyze prediction errors after testing, update the model, and plan the next iteration. This mirrors the scientific method adapted for invention and enables cumulative, team-wide learning.</div><div class="meter"><div class="fill" style="width:20%"></div></div></div>
+</div>
+<div class="panel" id="quiz"><div class="quiz-box"><h3 id="q-counter">Question 1 of 5</h3><p id="q-text"></p><div id="q-opts"></div><div class="quiz-explain" id="q-explain"></div><div class="quiz-nav"><button class="quiz-btn" id="q-prev" onclick="navQ(-1)">Previous</button><button class="quiz-btn" id="q-next" onclick="navQ(1)">Next</button></div></div></div>
+<div class="panel" id="checklist"><div class="checklist" id="cl-list"></div><div class="cl-prog"><div class="fill" id="cl-fill"></div></div><div class="cl-status" id="cl-status">0 / 8 complete</div></div>
+<div class="panel" id="modules"><div class="mod-grid">
+  <div class="mod-card"><div class="num">01</div><div class="name">The Invention as a Living System</div></div>
+  <div class="mod-card"><div class="num">02</div><div class="name">The Inventor as an Adaptive Agent</div></div>
+  <div class="mod-card"><div class="num">03</div><div class="name">Seeing What Others Miss</div></div>
+  <div class="mod-card"><div class="num">04</div><div class="name">Thinking Like an Inventor</div></div>
+  <div class="mod-card"><div class="num">05</div><div class="name">From Idea to Intervention</div></div>
+  <div class="mod-card current"><div class="num">06</div><div class="name">Learning from Every Attempt</div></div>
+  <div class="mod-card"><div class="num">07</div><div class="name">Sharing the Vision</div></div>
+  <div class="mod-card"><div class="num">08</div><div class="name">The Invention Roadmap</div></div>
+</div></div>
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));t.classList.add('active');document.getElementById(t.dataset.tab).classList.add('active');}));
+const quiz=[
+  {q:"A prototype that fails unexpectedly is:",opts:["A waste of time and resources","More informative than success because it reveals specific model inaccuracies","Always less valuable than a successful prototype","Proof the inventor is on the wrong track"],ans:1,exp:"Unexpected failure generates large prediction errors that pinpoint exactly where the generative model is wrong, providing targeted information for model improvement."},
+  {q:"Parameter learning in invention involves:",opts:["Changing the fundamental design approach","Adjusting specific values within an established model (e.g., material thickness, temperature, concentration)","Abandoning the current project","Learning new programming languages"],ans:1,exp:"Parameter learning refines values within a correct model structure. Edison testing different filament materials is parameter learning — the model (heated filament in vacuum produces light) stayed the same; the material parameter changed."},
+  {q:"Structure learning is triggered by:",opts:["Small, random prediction errors","Persistent, systematic errors that resist parameter adjustment","A desire for novelty","Running out of budget"],ans:1,exp:"When no parameter adjustment can resolve systematic prediction errors, the model's causal structure itself must change. This is structure learning — a more fundamental update than parameter tuning."},
+  {q:"WD-40 is named for 'Water Displacement, 40th formula' because:",opts:["It took 40 years to develop","The chemist refined the formulation 40 times through systematic parameter learning","40 is a lucky number in chemistry","It contains 40 chemical ingredients"],ans:1,exp:"Norm Larsen conducted 40 parameter learning experiments within the same model structure (petroleum-based water-displacing compound), adjusting concentrations and additives until the 40th formulation succeeded."},
+  {q:"A learning protocol for invention should include:",opts:["Only recording successful experiments","Pre-test predictions, careful observations, prediction error analysis, model updates, and next-action planning","Avoiding documentation to stay creative","Only recording final results"],ans:1,exp:"Systematic documentation of predictions before testing and errors after testing transforms the messy inventive process into disciplined, cumulative learning. Without pre-recorded predictions, you cannot identify genuine prediction errors."}
+];
+let qi=0;
+function showQ(){const q=quiz[qi];document.getElementById('q-counter').textContent=`Question ${qi+1} of ${quiz.length}`;document.getElementById('q-text').textContent=q.q;document.getElementById('q-explain').style.display='none';const od=document.getElementById('q-opts');od.innerHTML='';q.opts.forEach((o,i)=>{const b=document.createElement('div');b.className='quiz-opt';b.textContent=o;b.addEventListener('click',()=>{od.querySelectorAll('.quiz-opt').forEach(x=>{x.classList.remove('correct','wrong');x.style.pointerEvents='none'});b.classList.add(i===q.ans?'correct':'wrong');if(i!==q.ans)od.children[q.ans].classList.add('correct');const e=document.getElementById('q-explain');e.textContent=q.exp;e.style.display='block';});od.appendChild(b);});document.getElementById('q-prev').disabled=qi===0;document.getElementById('q-next').disabled=qi===quiz.length-1;}
+function navQ(d){qi=Math.max(0,Math.min(quiz.length-1,qi+d));showQ()}showQ();
+const checks=["Explain prediction error as the engine of learning with an example","Distinguish parameter learning from structure learning in invention","Identify when parameter optimization signals a local optimum","Analyze a real invention's learning trajectory (parameter and structure phases)","Build a learning protocol with pre-test predictions and post-test analysis","Document a complete learning cycle for your invention","Recognize when persistent errors require structure change vs. parameter refinement","Design high-information experiments that generate useful prediction errors"];
+const cl=document.getElementById('cl-list');checks.forEach((c,i)=>{const d=document.createElement('div');d.className='cl-item';d.innerHTML=`<input type="checkbox" id="ck${i}" onchange="updateCL()"><label for="ck${i}">${c}</label>`;cl.appendChild(d);});
+function updateCL(){const n=document.querySelectorAll('.cl-item input:checked').length;document.getElementById('cl-fill').style.width=`${n/checks.length*100}%`;document.getElementById('cl-status').textContent=`${n} / ${checks.length} complete`;}
+</script>
+</body>
+</html>

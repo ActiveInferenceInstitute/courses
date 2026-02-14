@@ -1,40 +1,40 @@
-# Module 03: Perception — State Estimation via Variational Inference
+# モジュール 03: 認識 – バリアンス推論による状態推定
 
-## Learning Objectives
+## 学習目標
 
-1. Implement belief updating using the A-matrix likelihood and fixed-point iteration.
-2. Use `run_state_inference()` to infer hidden states from observations.
-3. Visualize posterior beliefs and convergence diagnostics.
+1. A行列の尤度と固定点反復を用いて、信念更新を実装する。
+2. `run_state_inference()` を使用して、観測から隠れた状態を推論する。
+3. 事後信念と収束診断を可視化する。
 
-## Introduction
+## 導入
 
-Perception in Active Inference is the process of updating the agent's beliefs about hidden states given a new observation. This is not passive pattern matching — it is an active _inference_ process that minimizes Variational Free Energy (VFE) by finding the posterior distribution $q(s)$ that best reconciles the observation with the agent's prior beliefs.
+アクティブインファレンスの認識とは、新しい観測に基づいてエージェントが隠れた状態に関する信念を更新するプロセスです。これはパッシブなパターンマッチングではありません。これは、ベアリングフリーエネルギー (VFE) を最小化することにより、事後分布 $q(s)$ を見つけるアクティブな _推論_ プロセスです。この分布は、観測とエージェントの先験的な信念を最もよく一致させます。
 
-## Key Concepts
+## 主要な概念
 
-### 1. The Inference Problem
+### 1. 推論問題
 
-Given:
+与えられた：
 
-- Prior beliefs: $q(s)$ (initially $D$, or the previous posterior)
-- New observation: $o_t$ (an integer index)
-- Likelihood model: $\mathbf{A}$ where $A[o, s] = P(o \mid s)$
+- 先験的な信念：$q(s)$ (初期値は $D$、または前の事後分布)
+- 新しい観測：$o_t$ (整数インデックス)
+- 尤度モデル：$\mathbf{A}$、ここで $A[o, s] = P(o \mid s)$
 
-Find the posterior $q(s \mid o_t)$ that minimizes VFE:
+事後 $q(s \mid o_t)$ を最小化する：
 
 $$F = D_{KL}[q(s) \| p(s)] - \mathbb{E}_{q(s)}[\ln P(o_t \mid s)]$$
 
-### 2. Fixed-Point Iteration
+### 2. 固定点反復
 
-The `run_state_inference()` function solves this via iterative message passing:
+`run_state_inference()` 関数は、この問題を反復メッセージパッシングによって解決します：
 
 $$q(s) \propto P(o_t \mid s) \cdot q_{\text{prior}}(s)$$
 
-At each iteration:
+各反復において：
 
-1. Compute the log-posterior: $\ln q(s) = \ln A[o_t, :] + \ln q_{\text{prior}}(s)$
-2. Normalize via softmax: $q(s) = \sigma(\ln q(s))$
-3. Check convergence: $\delta = \| q^{(k)} - q^{(k-1)} \|$
+1. 対対事後ロガーを計算する：$\ln q(s) = \ln A[o_t, :] + \ln q_{\text{prior}}(s)$
+2. ソフトマックスで正規化する：$q(s) = \sigma(\ln q(s))$
+3. 収束を確認する：$\delta = \| q^{(k)} - q^{(k-1)} \|$
 
 ```python
 from active_inference.math import run_state_inference
@@ -53,9 +53,9 @@ print(result["num_iters"])     # iterations used
 print(result["delta_history"]) # convergence trace
 ```
 
-### 3. How the A-Matrix Shapes Perception
+### 3. A行列が認識をどのように形作るか
 
-The A-matrix determines how informative each observation is:
+A行列は、各観測がどれだけ情報を持っているかを示す：
 
 | A-matrix structure | Perceptual effect |
 |---|---|
@@ -74,9 +74,9 @@ A_noisy = np.array([[0.55, 0.45],
                      [0.45, 0.55]])
 ```
 
-### 4. Agent-Level Inference
+### 4. エージェントレベルの推論
 
-The `ActiveInferenceAgent.infer_states(obs)` method wraps `run_state_inference()`:
+`ActiveInferenceAgent.infer_states(obs)` メソッドは、`run_state_inference()` をラップします：
 
 ```python
 from active_inference.agent import ActiveInferenceAgent
@@ -87,11 +87,11 @@ print(agent.q_s)              # posterior
 print(agent.history["vfe"])   # VFE logged after each inference
 ```
 
-After inference, `agent.q_s` holds the updated posterior and VFE is appended to the history.
+推論後、`agent.q_s` は更新された事後分布と VFE を保持します。VFE は履歴に追加されます。
 
-### 5. The Log-Likelihood Vector
+### 5. 対対尤度ベクトルの
 
-`model.log_likelihood(obs)` returns the vector $\ln A[o, :]$ — the log-evidence that each state could have produced the observation:
+`model.log_likelihood(obs)` は、$\ln A[o, :]$ を返す対対尤度ベクトル — 各状態が観測を生成する可能性の対対証拠です：
 
 ```python
 ll = model.log_likelihood(0)   # shape: (num_states,)
@@ -99,13 +99,13 @@ ll = model.log_likelihood(0)   # shape: (num_states,)
 # ll ≈ [-0.105, -2.303]  (state 0 is much more likely to produce obs 0)
 ```
 
-### 6. Prediction Errors
+### 6. 予測誤差
 
-After updating beliefs, the agent can compute prediction errors:
+信念が更新された後、エージェントは予測誤差を計算できます：
 
 $$\varepsilon = \mathbf{e}_o - \mathbf{A} \cdot q(s)$$
 
-where $\mathbf{e}_o$ is a one-hot vector for the actual observation:
+ここで、$\mathbf{e}_o$ は実際の観測に対応する1hotベクトルです：
 
 ```python
 agent.infer_states(0)
@@ -113,9 +113,9 @@ pe = agent.prediction_error(0)    # shape: (num_obs,)
 print(pe.sum())                    # ≈ 0 (prediction errors sum to zero)
 ```
 
-### 7. Convergence Diagnostics
+### 7. 収束診断
 
-Use `plot_convergence()` to visualize how quickly inference settles:
+`plot_convergence()` を使用して、推論がどれだけ早く収束するかを可視化します：
 
 ```python
 from active_inference.visualization import plot_convergence
@@ -124,12 +124,12 @@ result = run_state_inference(prior=model.D, observation=0, A=model.A)
 plot_convergence(result["delta_history"], threshold=1e-8)
 ```
 
-## Applications
+## 応用
 
-- **Ambiguous stimuli**: With a noisy A-matrix, a single observation may not resolve the state — the agent needs multiple observations to gain confidence (like viewing a blurry image).
-- **Bayesian surprise**: The magnitude of the belief shift after inference measures how surprising the observation was.
-- **Prior-observation conflict**: When the prior strongly favors one state but the observation favors another, the posterior is a compromise weighted by the relative strengths.
+- **曖昧な刺激**: ノイズのある A 行列の場合、単一の観測が状態を解決できない—エージェントは、確信を得るために複数の観測を必要とします（ぼやけた画像を見るのと同様）。
+- **ベイズの驚き**: 推論後に信念がどれだけシフトするかは、観測がどれだけ驚くかを表します。
+- **先験的-観測の対立**: 先験的な信念が 1 つの状態を強く好むが、観測が別の状態を好む場合、事後分布は、相対的な強さに重み付けされた妥協です。
 
-## Conclusion
+## 結論
 
-Perception reduces to variational inference over hidden states. The A-matrix, prior beliefs, and observation jointly determine the posterior through iterated message passing. Module 04 extends this by introducing preferences (C), priors (D), and habits (E) as constraints on the agent's internal model.
+認識は、バリアンス推論に還元されます。A行列、先験的な信念、観測は、反復メッセージパッシングによって事後分布を決定します。モジュール 04 は、優先順位 (C)、先験的な信念 (D)、習慣 (E) を内部モデルの制約として導入することで、この枠組みを拡張します。

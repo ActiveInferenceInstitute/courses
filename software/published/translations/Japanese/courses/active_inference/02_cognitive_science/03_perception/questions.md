@@ -1,22 +1,22 @@
-# Study Questions: Perception
+# 認識に関する質問
 
-1. Describe the predictive coding architecture. How do deep pyramidal cells and superficial pyramidal cells implement predictions and prediction errors?
-2. How did Rao and Ballard (1999) demonstrate predictive coding in the visual cortex?
-3. What is sensory attenuation? Why can't you tickle yourself?
-4. How does the cerebellum contribute to sensory attenuation through efference copies?
-5. Explain how failed sensory attenuation could lead to auditory hallucinations in schizophrenia.
-6. What did Powers et al. (2017) demonstrate about hallucination-prone individuals and Pavlovian conditioning?
-7. How does Active Inference explain visual hallucinations in Charles Bonnet syndrome?
-8. What is the role of precision in distinguishing between normal perception and hallucination?
-9. How do attention and precision relate to the gain control of prediction error signals?
-10. Compare "bottom-up" and "top-down" processing in the predictive coding hierarchy. Why is "bottom-up" a misleading term?
-11. How does mismatch negativity (MMN) in auditory cortex provide evidence for predictive coding?
-12. What is the "Bayesian brain hypothesis"? How does predictive coding provide a neural implementation?
-13. How does the concept of "explaining away" (suppression of prediction error by accurate predictions) work in visual perception?
-14. What experimental evidence supports the claim that V1 neurons respond to prediction errors, not raw sensory input?
-15. How does binocular rivalry (competition between different images presented to each eye) relate to predictive coding?
-16. What is the role of NMDA receptors in implementing prediction error signaling at the cortical level?
-17. How does Active Inference's account of perception differ from the "feature detector" model (Hubel & Wiesel)?
-18. Compare top-down hallucination (overweighting predictions) with bottom-up hyperesthesia (overweighting sensory input). Give a clinical example of each.
-19. How might psychedelic drugs (which increase neural entropy) alter the predictive coding hierarchy?
-20. Design an experiment that could test whether visual hallucinations in Charles Bonnet syndrome are suppressed by increasing bottom-up sensory input (e.g., brighter lighting, more visual texture).
+1.  予測コーディングアーキテクチャについて説明してください。深層ピラミッド細胞と表皮ピラミッド細胞が予測と予測誤差をどのように実装するのですか？
+2.  RaoとBallard (1999)は、視覚皮質における予測コーディングをどのように示しましたか？
+3.  感覚減衰とは何ですか？なぜ、自分自身をからかうことはできませんか？
+4.  小脳は、エフェレンスコピーを通して感覚減衰にどのように貢献しますか？
+5.  感覚減衰が失敗した場合に、統合失調症における聴覚幻聴につながる可能性について説明してください。
+6.  Powersら (2017)は、幻覚を起こしやすい個人とパブロフ的条件付けについてどのようなことを示しましたか？
+7.  アクティブインファーレンスは、チャールズ・ボネット症候群における視覚的幻覚をどのように説明しますか？
+8.  正常な認識と幻覚を区別するために、精度はどのような役割を果たしますか？
+9.  予測誤差信号のゲイン制御と、注意と精度はどのように関連していますか？
+10. 予測コーディングの階層における「トップダウン」と「ボトムアップ」処理を比較してください。「ボトムアップ」という用語はなぜ誤解を招くのでしょうか？
+11. 聴覚皮質におけるミスマッチネガティブ性 (MMN) が、予測コーディングの証拠を提供する方法は何ですか？
+12. 「ベイズ脳仮説」とは何ですか？予測コーディングが神経回路実装を提供する方法は何ですか？
+13. 正確な予測によって予測誤差が抑制される「説明による抑制」という概念は、視覚認識においてどのように機能しますか？
+14. V1ニューロンが、生の感覚入力ではなく、予測誤差に反応するという主張を支持する実験的証拠は何ですか？
+15. バイノーラルリバリ（両眼に異なる画像が表示され競争する現象）は、予測コーディングとどのように関連していますか？
+16. NMDA受容体の役割は、皮質レベルで予測誤差シグナルを実装することですか？
+17. アクティブインファーレンスの説明は、Hubel & Wiesel の「特徴検出器モデル」とはどのように異なりますか？
+18. トップダウンの幻覚（予測の過大化）と、ボトムアップの過敏性（感覚入力の過大化）を比較してください。それぞれの臨床例を挙げてください。
+19. 神経系のエン troピー（ニューロンの乱雑さ）が増加する幻覚性薬物が、予測コーディングの階層にどのように影響を与える可能性がありますか？
+20. チャールズ・ボネット症候群における視覚的幻覚が、より強いボトムアップ感覚入力（例えば、明るい照明、より多くの視覚的テクスチャ）によって抑制されるかどうかをテストするための実験を設計してください。

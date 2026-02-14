@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Learning to Invent — Active Inference for Inventions</title>
+<style>
+:root{--accent:#10b981;--accent-glow:#10b98122;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--green:#22c55e;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh}
+.hero{text-align:center;padding:2rem 1rem;border-bottom:1px solid var(--border)}.hero h1{font-size:1.6rem;margin-bottom:.5rem}.hero .subtitle{color:var(--muted);font-size:.95rem}.hero .tag{display:inline-block;margin-top:.5rem;padding:.2rem .7rem;border-radius:999px;font-size:.75rem;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}.tab{padding:.7rem 1.2rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-size:.85rem;transition:.2s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-color:var(--accent)}
+.panel{display:none;padding:1.5rem 1rem;max-width:900px;margin:auto}.panel.active{display:block}
+.concept-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:.8rem;cursor:pointer;transition:.2s}.concept-card:hover{border-color:var(--accent)}.concept-card h3{font-size:.95rem;margin-bottom:.3rem}.concept-card .desc{color:var(--muted);font-size:.85rem;display:none}.concept-card.open .desc{display:block}.concept-card .meter{height:4px;background:var(--border);border-radius:2px;margin-top:.5rem}.concept-card .meter .fill{height:100%;background:var(--accent);border-radius:2px}
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-top:1rem}.quiz-box h3{margin-bottom:1rem}.quiz-opt{display:block;padding:.6rem .8rem;margin:.4rem 0;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;transition:.2s}.quiz-opt:hover{border-color:var(--accent)}.quiz-opt.correct{border-color:var(--green);background:#22c55e18}.quiz-opt.wrong{border-color:var(--red);background:#ef444418}.quiz-nav{display:flex;justify-content:space-between;margin-top:1rem}.quiz-btn{padding:.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer}.quiz-btn:hover{border-color:var(--accent)}.quiz-explain{margin-top:.8rem;padding:.8rem;background:#10b98112;border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.85rem;display:none}
+.checklist{margin-top:1rem}.cl-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem}.cl-item input{accent-color:var(--accent)}.cl-prog{margin-top:1rem;height:6px;background:var(--border);border-radius:3px}.cl-prog .fill{height:100%;background:var(--accent);border-radius:3px;transition:.3s}.cl-status{color:var(--muted);font-size:.8rem;margin-top:.4rem}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin-top:1rem}.mod-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-size:.85rem;transition:.2s}.mod-card:hover{border-color:var(--accent)}.mod-card.current{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}.mod-card .num{color:var(--accent);font-weight:600}.mod-card .name{margin-top:.2rem}
+@media(max-width:600px){.hero h1{font-size:1.3rem}.tabs{gap:0}.tab{padding:.6rem .8rem;font-size:.8rem}.mod-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Learning to Invent</h1>
+  <p class="subtitle">Deliberate practice, patent mining, and biomimicry</p>
+  <span class="tag">Section 2 &middot; Module 6 &middot; Creative Engineering</span>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('concepts')">Concepts</div>
+  <div class="tab" onclick="showTab('quiz')">Quiz</div>
+  <div class="tab" onclick="showTab('checklist')">Checklist</div>
+  <div class="tab" onclick="showTab('modules')">All Modules</div>
+</div>
+
+<div class="panel active" id="p-concepts">
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Three Modes of Inventive Learning</h3>
+    <div class="desc">Parameter learning refines accuracy within your existing model (calibrating cost estimates). Structure learning changes the model itself (realizing user behavior is driven by social norms, not individual choice). Policy learning expands your action repertoire (learning to solder, code, or interview). Effective inventive learning combines all three.</div>
+    <div class="meter"><div class="fill" style="width:95%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Deliberate Practice for Invention</h3>
+    <div class="desc">Systematic, effortful improvement targeting specific weaknesses with feedback. Edison maintained daily experiment quotas and detailed notebooks. Effective inventive practice includes problem-framing exercises, analogical reasoning training, prototyping drills, and failure analysis. Target weaknesses, not strengths — comfort is the enemy of growth.</div>
+    <div class="meter"><div class="fill" style="width:90%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Patent Database Mining</h3>
+    <div class="desc">The global patent database (100M+ documents) is a training set for inventive thinking. Each patent documents the prior model (Background), the prediction error (Problem), and the updated model (Solution). Reading patents through this lens extracts structural principles of inventive thinking that transfer across domains.</div>
+    <div class="meter"><div class="fill" style="width:85%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>Biomimicry: Nature's Generative Models</h3>
+    <div class="desc">3.8 billion years of natural selection have refined biological solutions to engineering challenges. Termite mounds inform building ventilation (Eastgate Centre: 90% energy savings). Kingfisher beaks inform bullet train noses. Key principle: transfer functional relationships, not surface morphology. Understand the physics, not just the shape.</div>
+    <div class="meter"><div class="fill" style="width:80%"></div></div>
+  </div>
+  <div class="concept-card" onclick="toggleCard(this)">
+    <h3>The Learning Spiral</h3>
+    <div class="desc">Inventive learning spirals through perception (notice), cognition (reason), action (build), and learning (update model). Each cycle raises capability because learning changes subsequent perception. All four phases are necessary — skipping action means reading without building; skipping cognition means building without reasoning. The spiral flattens without deliberate management.</div>
+    <div class="meter"><div class="fill" style="width:75%"></div></div>
+  </div>
+</div>
+
+<div class="panel" id="p-quiz">
+  <div class="quiz-box">
+    <h3 id="q-title">Question 1 of 7</h3>
+    <div id="q-text"></div>
+    <div id="q-opts"></div>
+    <div class="quiz-explain" id="q-explain"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" onclick="prevQ()">Previous</button>
+      <button class="quiz-btn" onclick="nextQ()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="p-checklist">
+  <h3 style="margin-bottom:.5rem">Learning Objectives</h3>
+  <div class="checklist" id="cl-list"></div>
+  <div class="cl-prog"><div class="fill" id="cl-fill" style="width:0%"></div></div>
+  <div class="cl-status" id="cl-status">0 of 5 completed</div>
+</div>
+
+<div class="panel" id="p-modules">
+  <h3 style="margin-bottom:.5rem">Section 2: Creative Engineering</h3>
+  <div class="mod-grid">
+    <div class="mod-card"><div class="num">01</div><div class="name">The Creative System</div></div>
+    <div class="mod-card"><div class="num">02</div><div class="name">The Creative Agent</div></div>
+    <div class="mod-card"><div class="num">03</div><div class="name">Creative Perception</div></div>
+    <div class="mod-card"><div class="num">04</div><div class="name">Inventive Cognition</div></div>
+    <div class="mod-card"><div class="num">05</div><div class="name">Creative Action</div></div>
+    <div class="mod-card current"><div class="num">06</div><div class="name">Learning to Invent</div></div>
+    <div class="mod-card"><div class="num">07</div><div class="name">The Inventive Pitch</div></div>
+    <div class="mod-card"><div class="num">08</div><div class="name">Planning the Creative Process</div></div>
+  </div>
+</div>
+
+<script>
+function showTab(id){document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['concepts','quiz','checklist','modules'][i]===id));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p-'+id).classList.add('active')}
+function toggleCard(el){el.classList.toggle('open')}
+
+const quiz=[
+  {q:"Parameter learning for inventors involves:",opts:["Building entirely new mental frameworks","Adjusting values within an existing model to improve accuracy","Acquiring new physical skills","Abandoning the current approach entirely"],ans:1,exp:"Parameter learning refines the model you already have — calibrating estimates, improving precision, strengthening existing skills. It improves accuracy without changing the model's fundamental structure."},
+  {q:"Structure learning differs from parameter learning because it:",opts:["Is easier and requires less effort","Only applies to academic research","Changes the model itself — adding variables, discovering new causal relationships","Is only needed for radical innovations, not incremental improvements"],ans:2,exp:"Structure learning reorganizes how the inventor understands the problem — discovering that a thermal problem is actually a fluid dynamics problem, or that user behavior is socially driven rather than individually rational."},
+  {q:"Deliberate practice for invention specifically targets:",opts:["Skills the inventor already enjoys and performs well","Weaknesses in the inventor's generative model, with systematic feedback","Random skills to maintain general competence","Only theoretical knowledge, not practical skills"],ans:1,exp:"The core principle of deliberate practice is targeting weaknesses, not strengths. Comfort in practice indicates that you are not pushing your model's boundaries — and therefore not learning."},
+  {q:"Reading a patent's 'Background of the Invention' section reveals:",opts:["The updated generative model of the inventor","The prior model — the assumptions and knowledge that existed before the invention","The experimental validation procedures","The commercial potential of the invention"],ans:1,exp:"The Background section describes the state of the art before the invention — the generative model that existing solutions were based on. This reveals the assumptions the inventor would go on to challenge."},
+  {q:"Biomimicry is most effective when it transfers:",opts:["The exact shape of biological organisms","Functional principles — the underlying structural relationships, not surface forms","Only ideas from insects and plants","Complete ecosystems without adaptation"],ans:1,exp:"Copying a bird wing's shape often fails; understanding the aerodynamic principle it exploits transfers robustly. Functional transfer maps to Active Inference's distinction between structural relationships and surface features."},
+  {q:"The Eastgate Centre in Harare achieved 90% energy savings by:",opts:["Using cutting-edge HVAC technology","Applying termite mound ventilation principles — passive convection, thermal mass, chimney effects","Installing the largest solar panel array in Africa","Being located in a naturally cool climate"],ans:1,exp:"Architect Mick Pearce studied termite mound thermodynamics and translated the structural principles (not the morphology) into architectural specifications: thick walls for thermal mass, central chimneys for convection."},
+  {q:"The learning spiral flattens (stops producing growth) when:",opts:["The inventor reaches expert level","The inventor stops deliberately managing which phase they are in, defaulting to comfortable repetition","External resources are insufficient","The problem domain has been fully explored"],ans:1,exp:"Without deliberate attention to cycling through all four phases (perception, cognition, action, learning), inventors tend to repeat comfortable activities — producing parameter learning without the structure learning that drives growth."}
+];
+
+let qi=0;
+function renderQ(){const q=quiz[qi];document.getElementById('q-title').textContent='Question '+(qi+1)+' of '+quiz.length;document.getElementById('q-text').textContent=q.q;document.getElementById('q-explain').style.display='none';document.getElementById('q-explain').textContent=q.exp;let h='';q.opts.forEach((o,i)=>{h+='<div class="quiz-opt" onclick="pickA('+i+','+q.ans+')">'+String.fromCharCode(65+i)+'. '+o+'</div>'});document.getElementById('q-opts').innerHTML=h}
+function pickA(sel,ans){document.querySelectorAll('.quiz-opt').forEach((o,i)=>{o.classList.remove('correct','wrong');if(i===ans)o.classList.add('correct');else if(i===sel)o.classList.add('wrong')});document.getElementById('q-explain').style.display='block'}
+function nextQ(){qi=Math.min(qi+1,quiz.length-1);renderQ()}
+function prevQ(){qi=Math.max(qi-1,0);renderQ()}
+renderQ();
+
+const objectives=["Distinguish parameter, structure, and policy learning in inventive skill development","Design deliberate practice targeting specific inventive weaknesses","Extract inventive principles from patent databases using Active Inference","Analyze biomimicry as learning from nature's generative models","Develop a personal learning plan across perception, cognition, and action"];
+const clList=document.getElementById('cl-list');
+const stored=JSON.parse(localStorage.getItem('cl-s2m6')||'{}');
+objectives.forEach((o,i)=>{const d=document.createElement('div');d.className='cl-item';d.innerHTML='<input type="checkbox" id="cl'+i+'" '+(stored[i]?'checked':'')+' onchange="updateCL()"><label for="cl'+i+'">'+o+'</label>';clList.appendChild(d)});
+function updateCL(){const checks={};let done=0;objectives.forEach((_,i)=>{const c=document.getElementById('cl'+i).checked;checks[i]=c;if(c)done++});localStorage.setItem('cl-s2m6',JSON.stringify(checks));document.getElementById('cl-fill').style.width=(done/objectives.length*100)+'%';document.getElementById('cl-status').textContent=done+' of '+objectives.length+' completed'}
+updateCL();
+</script>
+</body>
+</html>

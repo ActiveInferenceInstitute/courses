@@ -1,22 +1,22 @@
-# Study Questions: Communication
+# コミュニケーションに関する質問
 
-1. What are mirror neurons? How did Rizzolatti et al. (1996) discover them?
-2. How does Active Inference interpret mirror neuron activity as motor simulation and prediction?
-3. What is interpersonal neural synchrony, and how is it measured (hyperscanning)?
-4. Describe Hasson et al.'s (2012) speaker-listener coupling study. What correlated with successful communication?
-5. How does Active Inference's concept of "generalized synchrony" map onto interpersonal neural coupling?
-6. What brain regions comprise the mentalizing network (Theory of Mind network)? What does each contribute?
-7. How does the temporo-parietal junction (TPJ) contribute to reasoning about others' beliefs?
-8. Compare the mirror neuron system (motor simulation) with the mentalizing network (belief attribution). Are they complementary or competing accounts?
-9. How does Active Inference explain the development of Theory of Mind in children (typically around age 4)?
-10. What is the "shared manifold hypothesis" (Gallese) and how does it relate to Active Inference's account of communication?
-11. How might reduced mirror neuron activity contribute to social communication difficulties in autism?
-12. What critical evidence challenges the mirror neuron theory of social cognition?
-13. How does Active Inference explain the difference between sarcasm detection (requiring ToM) and literal comprehension?
-14. What role does prosody (tone of voice) play in social inference from an Active Inference perspective?
-15. How does the concept of "joint attention" (Tomasello) relate to coupled inference between caregiver and infant?
-16. Explain how paranoid ideation in schizophrenia might result from overactive mentalizing (excessive ToM).
-17. How does language comprehension involve prediction at multiple levels (phoneme, word, sentence, discourse)?
-18. What does the neural synchrony literature suggest about the role of rhythm and timing in communication?
-19. How does social media communication differ from face-to-face interaction in terms of the available channels for neural coupling?
-20. Design a hyperscanning study that could test whether increased speaker-listener neural coupling predicts persuasion effectiveness.
+1.  ミラーニューロンとは何ですか？ リッツォラッティら (1996) がそれらをどのように発見しましたか？
+2.  アクティブインファーレンスは、ミラーニューロンの活動を運動シミュレーションと予測としてどのように解釈しますか？
+3.  対人ニューラルシンクロニシティとは何ですか？ そして、それはどのように測定されますか (ハイパースキャニング)?
+4.  ハッソンら (2012) の話者-聞き手結合の研究を説明してください。 成功したコミュニケーションと相関するものは何ですか？
+5.  アクティブインファーレンスの「汎化されたシンクロニシティ」の概念は、対人ニューラル結合とどのように対応していますか？
+6.  認知理論ネットワーク（心の理論ネットワーク）を構成する脳領域は何ですか？ それぞれは何に貢献していますか？
+7.  時間-体性接合部 (TPJ) は、他者の信念について推論する際にどのように貢献していますか？
+8.  ミラーニューロンシステム（運動シミュレーション）と認知理論ネットワーク（信念付与）を比較してください。 それらは補完的な説明か、競合する説明ですか？
+9.  アクティブインファーレンスは、子供における心の理論の発達をどのように説明しますか (通常、4歳頃)?
+10. 「共有多次元仮説」（ガレッセ）とは何ですか？ そして、それはアクティブインファーレンスのコミュニケーションの説明とどのように関連していますか？
+11. 孤独症における社会的なコミュニケーションの困難に、ミラーニューロンの活動の低下がどのように貢献する可能性がありますか？
+12. 社会認知のミラーニューロン理論を批判する重要な証拠は何ですか？
+13. アクティブインファーレンスは、皮肉検出（心の理論が必要）と字義的な理解の間の違いをどのように説明しますか？
+14. アクティブインファーレンスからの視点から、音程（声のトーン）は社会的な推論においてどのような役割を果たしますか？
+15. 「共同注意」（トマセロ）の概念は、ケア giver と乳児の間で結合された推論とどのように関連していますか？
+16. 統合失調症における妄想的な思考は、過剰な心の理論（過剰な心の理論）からどのように生じる可能性がありますか？
+17. 言語理解は、音素、単語、文、議論のレベルで、複数のレベルで予測を伴いますか？
+18. ニューラルシンクロニシティの文献は、コミュニケーションにおけるリズムとタイミングの役割について何を示唆していますか？
+19. 社交メディアのコミュニケーションは、脳結合のための利用可能なチャネルの点で、対面での相互作用とどのように異なりますか？
+20. 話者-聞き手のニューラル結合の増加が説得効果を予測することをテストできるハイパースキャニング研究を設計してください。

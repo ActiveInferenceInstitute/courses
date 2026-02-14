@@ -1,64 +1,64 @@
-# Cognitive Behavioral Science & Active Inference — Agent Guidelines
+# 認知行動科学と能動的推論 — エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Syllabus](./syllabus.md) | [Curriculum AGENTS](../AGENTS.md) | [Resources](../resources/)
+> **クイックナビゲーション**: [README](./README.md) | [シラバス](./syllabus.md) | [コースエージェント](../AGENTS.md) | [リソース](../resources/)
 
-## Overview
+## 概要
 
-Agents working on this course (Cognitive Science) should approach all content from a **cognitive-behavioral** perspective while maintaining consistency with the curriculum-wide notation, terminology, and format standards.
+このコース（認知科学）に取り組むエージェントは、**認知行動**の観点からすべてのコンテンツにアプローチし、コース全体の記号、用語、および形式基準と一貫性を保つ必要があります。
 
 ---
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Course overview and navigation |
-| `AGENTS.md` | File | This file — course-specific agent guidelines |
-| `syllabus.md` | File | Full course syllabus with schedule and assessment |
-| `01_systems/` | Directory | Module 1: Systems — Neural Assemblies, Cortical Organization, and Self-Environment Distinction |
-| `02_agents/` | Directory | Module 2: Agents — The Self-Model, Interoception, and Ego Boundaries |
-| `03_perception/` | Directory | Module 3: Perception — Predictive Coding, Sensory Attenuation, and Hallucinations |
-| `04_cognition/` | Directory | Module 4: Cognition — Precision Weighting, Neuromodulation, and Attention |
-| `05_action/` | Directory | Module 5: Action — Motor Control as Active Inference; Habits vs Goals |
-| `06_learning/` | Directory | Module 6: Learning — Synaptic Plasticity, Dopamine, and Sleep Consolidation |
-| `07_communication/` | Directory | Module 7: Communication — Mirror Neurons, Mentalizing, and Social Cognition |
-| `08_planning/` | Directory | Module 8: Planning — Prefrontal Cortex, Default Mode Network, and Executive Function |
+| `README.md` | ファイル | コース概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル — コース固有のエージェントガイドライン |
+| `syllabus.md` | ファイル | スケジュールと評価を含む完全なコースシラバス |
+| `01_systems/` | ディレクトリ | モジュール 1: システム — 神経集合、皮質組織、および自己-環境の区別 |
+| `02_agents/` | ディレクトリ | モジュール 2: エージェント — 自己モデル、内因受容、および自我の境界 |
+| `03_perception/` | ディレクトリ | モジュール 3: 認識 — 予測コーディング、感覚減衰、および幻覚 |
+| `04_cognition/` | ディレクトリ | モジュール 4: 認知 — 精密重み付け、神経調節、および注意 |
+| `05_action/` | ディレクトリ | モジュール 5: 行動 — モーター制御を能動的推論として; 習慣と目標 |
+| `06_learning/` | ディレクトリ | モジュール 6: 学習 — シナプティック可塑性、ドーパミン、および睡眠の固化 |
+| `07_communication/` | ディレクトリ | モジュール 7: コミュニケーション — ミラーニューロン、メンタルイング、および社会認知 |
+| `08_planning/` | ディレクトリ | モジュール 8: 計画 — 前頭前皮質、デフォルトモードネットワーク、および実行機能 |
 
 ---
 
-## Course-Specific Conventions
+## コース固有の慣例
 
-- **Perspective**: All content should be framed from a **cognitive-behavioral** perspective.
-- **Lab Type**: Labs use **Case Study Analysis** format — clinical case interpretation, experimental data analysis, and neural correlate mapping.
-- **Notation**: Use notation from [resources/notation_table.md](../resources/notation_table.md).
-- **Terminology**: Use terms from [resources/glossary.md](../resources/glossary.md).
-- **References**: Cite from [resources/references.md](../resources/references.md).
-
----
-
-## Content Generation Standards
-
-- All content uses **real methods** — no mocks, stubs, or placeholder implementations.
-- Module content should be **modular, functional, and documented**.
-- Questions must be **20 per module**, formatted as a simple numbered list.
-- All 20 questions must reflect the **cognitive-behavioral** perspective of this course.
-- Quizzes must have **Part A: 7 multiple choice** + **Part B: 3 free response**.
-- Labs must have **structured parts** with learning goals and `{fill:textarea}` fields.
-- Lab summary tables must have **complete, untruncated** skill descriptions.
-- Dashboards must be **interactive HTML5** with working JavaScript.
-- Cross-references to parallel modules in other courses should use relative paths.
+- **視点**: すべてのコンテンツは、**認知行動**の視点から提示する必要があります。
+- **ラボタイプ**: ラボでは**症例分析**形式を使用します — 臨床症例の解釈、実験データの分析、および神経相関マッピング。
+- **記号**: [リソース/記号表.md](../resources/notation_table.md) から記号を使用してください。
+- **用語**: [リソース/用語集.md](../resources/glossary.md) から用語を使用してください。
+- **参考文献**: [リソース/参考文献.md](../resources/references.md) から引用してください。
 
 ---
 
-## Quality Checklist
+## コンテンツ生成基準
 
-Before considering any module complete in this course:
+- すべてのコンテンツは**実用的な手法**を使用します — モック、スタブ、またはプレースホルダー実装は使用しません。
+- モジュールコンテンツは**モジュール化されたもの、関数的なもの、およびドキュメント化されたもの**である必要があります。
+- 質問はモジュールごとに**20問**とし、単なる番号付きリストでフォーマットしてください。
+- すべての20問は、このコースの**認知行動**の視点に反映されている必要があります。
+- クイズには、**Part A: 7つの多肢選択肢** + **Part B: 3つの自由記述**を含める必要があります。
+- ラボには、**構造化されたパート**、学習目標、および `{fill:textarea}` フィールドを含む必要があります。
+- ラボの要約テーブルには、**完全でトリミングされていない**スキル記述が含まれている必要があります。
+- ダッシュボードは**インタラクティブなHTML5**で、動作するJavaScriptを使用する必要があります。
+- 他のコースの並行モジュールへのクロス参照には、相対パスを使用してください。
 
-- [ ] Content reflects the **cognitive-behavioral** perspective (not generic)
-- [ ] All 7 files are present and substantive
-- [ ] No placeholder brackets `[...]` remain
-- [ ] Notation matches `resources/notation_table.md`
-- [ ] Terms match `resources/glossary.md`
-- [ ] Lab summary table is complete (not truncated)
-- [ ] Quiz questions are answerable from the module lecture
-- [ ] Cross-references use correct relative paths
+---
+
+## 品質チェックリスト
+
+このコースでモジュールを完了する前に検討する内容：
+
+- [ ] コンテンツは**認知行動**の視点（汎用的ではない）を反映していること
+- [ ] すべての7ファイルが存在し、内容が充実していること
+- [ ] プレースホルダーの角かっこ `[...]` が存在しないこと
+- [ ] 記号が `resources/notation_table.md` と一致していること
+- [ ] 用語が `resources/glossary.md` と一致していること
+- [ ] ラボの要約テーブルが完全（トリミングされていない）であること
+- [ ] クイズの質問はモジュールの講義から答えられること
+- [ ] クロス参照が正しい相対パスを使用していること

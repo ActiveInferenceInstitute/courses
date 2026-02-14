@@ -1,42 +1,42 @@
-# Module 03: Perception — Direct Perception, Inferentialism, and the User-Interface Theory
+# モジュール 03: 認識 – 直接認識、推論主義、およびユーザーインターフェース理論
 
-## Learning Objectives
+## 学習目標
 
-1. Compare direct realist, representationalist, and inferentialist accounts of perception and explain how Active Inference adjudicates between them.
-2. Articulate the philosophical significance of treating perception as inference rather than passive reception.
-3. Evaluate the claim that the brain is a "prediction machine" against phenomenological and ecological alternatives.
+1. 直接実在論、表象論、推論主義の認識に関する説明を比較し、アクティブ・インファーレンスがそれらをどのように裁定するかを説明する。
+2. 認識を推論とみなすことの哲学的な意義を明確にする。
+3. 脳を「予測機械」であるという主張を、現象学的および生態学的代替案に対して評価する。
 
-## Introduction
+## 導入
 
-Perception seems immediate — you open your eyes and the world is simply *there*. But philosophy reveals that this seeming immediacy conceals deep puzzles. How does physical stimulation of nerve endings become the rich, meaningful experience of seeing a sunset or hearing a symphony? Is perception a window onto reality, a construction of the brain, or something else entirely?
+認識は即座のものに見える — 目を開くと、世界が単に「そこに」あるだけだ。しかし、哲学はこのような即座性の背後に深い謎が隠されていることを示している。神経終末の物理的な刺激が、夕焼けや交響曲を「見る」あるいは「聞く」という豊かな意味のある経験にどのようになるのか？ 認識は現実への窓、脳の構築物、それとも全く異なるものなのか？
 
-Active Inference offers a distinctive answer: perception is **inference**. The brain does not passively receive sensory data; it actively predicts what that data should be, and perception is the process of updating those predictions in light of what actually arrives. This module traces the philosophical implications of this "predictive processing" view.
+アクティブ・インファーレンスは、この問題に対する独自の答えを提供する：認識は**推論**である。脳は感覚データにパッシブに受信するのではなく、そのデータが何であるかを積極的に予測し、認識はそれらの予測を実際に到着した内容に基づいて更新するプロセスである。このモジュールは、この「予測処理」の視点の哲学的な意味合いを追跡する。
 
-## Key Concepts
+## 主要な概念
 
-### 1. The Philosophical Problem of Perception
+### 1. 認識の哲学的な問題
 
-The history of philosophy is haunted by the question of perceptual access. **Direct realism** (Gibson, 1979) holds that we perceive the environment as it is — no internal representations required. **Representationalism** (Locke, Descartes) holds that we perceive only internal representations, raising the specter of skepticism. **Inferentialism** (Helmholtz, Active Inference) holds that perception is unconscious inference — the brain constructs its best guess about the causes of sensory stimulation.
+哲学の歴史は、認識へのアクセスという問題に悩まされている。**直接実在論**（ギブソン、1979年）は、私たちが環境を「そうありのままに」認識することであると主張する。内部表現は必要としない。**表象論**（ロック、デカルト）は、私たちが内部の表象しか認識しないことを主張し、懐疑主義の幽霊を引き起こす。**推論主義**（ヘルムホルツ、アクティブ・インファーレンス）は、認識が無意識の推論であると主張する。脳が感覚刺激の原因について最良の推測を構築する。
 
-Active Inference is firmly inferentialist: the agent possesses a **generative model** P(o, s) that specifies the expected relationship between hidden states of the world (s) and observations (o). Perception amounts to inverting this model — computing P(s | o) — to infer what is out there.
+アクティブ・インファーレンスは、間違いなく推論主義者である：エージェントは、隠れた状態（s）と観察（o）の間の予想される関係を特定する**生成モデル**P(o, s)を備えている。認識は、このモデルを逆転させ、P(s | o)を計算することに相当する。つまり、そこにあるものを推論することである。
 
-### 2. Prediction Error and the Phenomenology of Surprise
+### 2. 予測誤差と驚きの現象学
 
-When the generative model's predictions match incoming sensory data, perception proceeds smoothly and transparently. When they do not, a **prediction error** occurs — the discrepancy between expected and actual observations. This prediction error is the driving force of perceptual updating.
+生成モデルの予測が入力感覚データと一致する場合、認識はスムーズかつ透明に進む。一致しない場合、**予測誤差**が発生する — 予想されるものと実際に到着したものとの間の乖離。この予測誤差が認識の更新の推進力となる。
 
-Phenomenologically, prediction error corresponds to disruption, surprise, or salience. Merleau-Ponty described how a tool that one is using fluently becomes "transparent" — one sees *through* the hammer to the nail. But when the hammer breaks, it suddenly becomes conspicuous. Active Inference formalizes this: transparency is the absence of prediction error; breakdown is its presence.
+現象学的には、予測誤差は中断、驚き、または注目に対応する。メルロー＝ポンティは、巧みに使用しているツールが「透明になる」様子を記述した。つまり、ハンマーを通して釘を見る。しかし、ハンマーが壊れると、突然目立つようになる。アクティブ・インファーレンスは、これを形式化する：透明性は予測誤差の不在であり、故障はそれらの存在である。
 
-### 3. Hoffman's User-Interface Theory and Active Inference
+### 3. ホフマンのユーザーインターフェース理論とアクティブ・インファーレンス
 
-Donald Hoffman (2019) argues that perception is not a window onto reality but a **user interface** — a species-specific set of icons that evolved for fitness, not truth. We see a desktop with files, not the voltage patterns in the hardware.
+ドナルド・ホフマン（2019年）は、認識が現実への窓ではないが、**ユーザーインターフェース**であると主張する — 種特有のアイコンであり、フィットネスのためではなく真実のために進化してきた。私たちは、ハードウェアの電圧パターンではなく、ファイルのあるデスクトップを見る。
 
-Active Inference offers a nuanced version of this claim. The generative model is not a mirror of reality but a *sufficient* model for action — one that minimizes free energy given the organism's needs and niche. Whether this model "matches" reality is philosophically secondary; what matters is that it supports successful action. This connects to pragmatist epistemology (James, Dewey): truth is what works.
+アクティブ・インファーレンスは、この主張の微妙なバージョンを提供する。生成モデルは、現実の鏡ではなく、行動をサポートするための**十分な**モデルである — 生物のニーズとニッチを最小化する。このモデルが現実と「一致するかどうか」は、哲学的に次点であり、成功した行動をサポートすることに重要である。これは、ジェームズやデューイなどの経験主義の認識論に繋がる。真実は、それが機能することである。
 
-## Applications
+## 応用
 
-* **Hallucinations**: If perception is inference, hallucinations are not "errors" but the predictive machinery running without sufficient sensory constraint — predictions dominating the evidence.
-* **Perceptual Learning**: Experts see things novices cannot — the radiologist sees the tumor, the birder sees the species. In Active Inference, expertise is a refined generative model with higher-precision predictions.
+* **幻覚**: 認識が推論である場合、幻覚は「エラー」ではなく、十分な感覚的制約がない場合に実行される予測機構である — 予測が証拠を支配する。
+* **認識学習**: 専門家は、初心者が見ることができないものを見る — 放射線科医は腫瘍を見、バードウォッチャーは種を見ます。アクティブ・インファーレンスでは、専門知識は、より高精度な予測を備えた洗練された生成モデルです。
 
-## Conclusion
+## 結論
 
-Perception, far from being passive reception, is the brain's most basic form of inference. This insight connects Active Inference to a long philosophical tradition and raises profound questions about the relationship between appearance and reality. Module 04 turns to the cognitive processes that shape how this inference is conducted.
+認識は、パッシブな受信ではなく、脳の最も基本的な推論の形である。この洞察は、アクティブ・インファーレンスを、長い哲学の伝統と結びつけ、出現と現実の関係について深遠な疑問を提起する。モジュール 04 は、この推論がどのように実行されるかについての認知プロセスに焦点を当てる。

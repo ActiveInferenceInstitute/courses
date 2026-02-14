@@ -1,0 +1,109 @@
+# Module 06: Learning from Failure and Success — Updating the Inventor's Generative Model
+
+## Executive Summary
+
+Every prototype test generates learning opportunities — but learning is not automatic. This module examines how inventors extract durable knowledge from testing outcomes, using Active Inference's distinction between **parameter learning** (tuning values within an existing model) and **structure learning** (changing the model's causal architecture). The module covers systematic post-mortem analysis, failure mode cataloging, the transfer of lessons across projects, and the critical difference between learning from what went wrong and learning from what went right. An inventor who merely iterates without consolidating learning is doomed to repeat mistakes; one who learns systematically builds a generative model that grows more powerful with every project.
+
+## Learning Objectives
+
+1. Distinguish between parameter learning and structure learning in the context of prototype testing, identifying when each type of update is appropriate.
+2. Conduct a structured post-mortem analysis of a testing outcome that extracts actionable lessons and prevents attribution errors.
+3. Catalog failure modes systematically, creating a knowledge base that transfers across projects and prevents repeated mistakes.
+4. Analyze successful outcomes with the same rigor as failures, identifying the causal factors behind success rather than attributing it to luck or general competence.
+5. Design a personal learning system that consolidates testing lessons into durable updates to your generative model of invention.
+
+## Key Concepts
+
+### 1. Parameter Learning vs. Structure Learning
+
+Active Inference distinguishes two fundamental types of learning. **Parameter learning** updates the values of variables within a fixed model structure. The model's causal graph remains the same — the same nodes, the same edges — but the numerical values (means, variances, weights) are refined based on new data. **Structure learning** changes the model itself — adding new variables, removing irrelevant ones, creating new causal relationships, or eliminating spurious ones.
+
+For inventors, this distinction maps directly onto the prototyping experience. Parameter learning occurs when testing reveals that a specific dimension, material property, or timing value needs adjustment. The inventor's understanding of how the system works does not change — only the specific numbers. The spring constant needs to be 4.2 N/m instead of 5.0 N/m. The resistor should be 220 ohms instead of 330 ohms. The button should be 15mm in diameter instead of 12mm.
+
+Structure learning occurs when testing reveals that the inventor's causal model is missing something — a variable, a relationship, or an entire subsystem that was not previously considered. This is a deeper and more transformative type of learning. When the Tacoma Narrows Bridge engineers learned about aeroelastic flutter, they did not just update a parameter — they added an entirely new phenomenon (fluid-structure interaction) to their model of bridge dynamics. When Alexander Fleming recognized the significance of the clear zone around the mold colony, he did not just update a parameter — he discovered a new causal relationship (mold produces substance that kills bacteria) that became the foundation of antibiotic medicine.
+
+The practical challenge is that structure learning is both more valuable and more difficult than parameter learning. It requires the inventor to recognize that their model is not just miscalibrated but structurally incomplete — and then to figure out what is missing. This is why structured post-mortem analysis is essential: it provides the reflective space needed to distinguish "I had the right idea but the wrong numbers" from "I was thinking about this the wrong way entirely."
+
+### 2. Post-Mortem Analysis: Extracting Lessons Systematically
+
+A post-mortem analysis is a structured review conducted after a testing event (whether the outcome was positive, negative, or ambiguous) to extract lessons. The term comes from medicine (examining a body to determine the cause of death), and the principle is the same: understand what happened and why, so that the knowledge can be applied in the future.
+
+An effective post-mortem follows a specific structure. First, **establish the facts**: what actually happened, in raw observational terms, without interpretation. Second, **compare to predictions**: what did the generative model predict would happen? Where were the prediction errors? Third, **attribute causes**: for each significant prediction error, what caused the discrepancy? Was it a parameter error (wrong value), a structure error (missing variable), or an external factor (the test conditions were not what we assumed)? Fourth, **extract lessons**: what specific updates should be made to the generative model? Fifth, **verify independence**: are the lessons specific to this prototype, or do they transfer to other projects?
+
+The U.S. Army's After Action Review (AAR) process, adopted by many organizations, exemplifies this approach. After every operation, units answer four questions: What was supposed to happen? What actually happened? Why was there a difference? What can we learn? This simple framework, applied consistently, has been credited with transforming organizational learning in the military.
+
+The most common failure in post-mortem analysis is **premature attribution** — jumping to a causal explanation before fully establishing the facts. An inventor who immediately says "the adhesive failed because it was too thin" has already committed to an explanation that may or may not be correct. A disciplined post-mortem would first catalog all the evidence, then generate multiple competing explanations, and only then evaluate which explanation best fits the data (echoing the Analysis of Competing Hypotheses from Module 04).
+
+### 3. Failure Mode Cataloging
+
+Individual failures are valuable; a catalog of failures is transformative. A failure mode catalog is a systematic record of all the ways a prototype (or class of prototypes) has failed, organized by type, severity, context, and root cause. Over time, this catalog becomes a knowledge base that prevents the inventor from repeating mistakes and enables them to anticipate failure modes in new designs.
+
+The most developed failure mode cataloging system in engineering is **FMEA (Failure Mode and Effects Analysis)**, which originated in the U.S. military in the 1940s and was adopted by the automotive and aerospace industries. FMEA systematically identifies every component that could fail, every way it could fail, the effect of each failure on the system, the likelihood of each failure, and the detectability of each failure. The result is a prioritized list of failure risks that guides both design improvement and testing focus.
+
+For individual inventors, a simplified failure catalog might include: the date and prototype version, the failure description (what happened), the failure mode (how it failed — material fatigue, user error, design flaw, environmental stress), the root cause (why it failed), the severity (how bad was it), and the lesson (what was learned). Over multiple projects, patterns emerge: "I consistently underestimate the force users apply to handles" or "my electronics designs are vulnerable to moisture ingress."
+
+Henry Petroski, the engineer and historian, has documented how many of the greatest engineering achievements were built on systematic learning from failures. The Forth Bridge (1890), one of the longest-spanning bridges of its era, was designed by engineers who had studied the Tay Bridge collapse (1879) in detail. Their failure catalog — what caused the Tay Bridge to fall — became the design specification for the Forth Bridge — what must be done differently to prevent collapse.
+
+### 4. Learning from Success: The Undervalued Analysis
+
+Inventors naturally analyze failures — the surprise is too loud to ignore. But success is often left unexamined. The prototype worked, the test passed, and the team moves on to the next challenge. This is a systematic learning error, because success also carries information: why did it work? What were the causal factors that produced the positive outcome? Were they the factors the inventor intended, or was the success partly due to luck, uncontrolled variables, or factors not in the model?
+
+Learning from success requires the same disciplined analysis as learning from failure. What did the generative model predict? What happened? Why was the prediction correct (if it was)? Were there any aspects of the success that the model did not predict — unexpected bonuses, surprising performance in areas that were not the focus of the test?
+
+A famous example of inadequate success analysis is the development of Post-it Notes by 3M. Spencer Silver developed a pressure-sensitive adhesive in 1968 that was too weak for its intended application. This was classified as a failure. Years later, Art Fry recognized that the "failed" adhesive was perfect for a bookmarking application — it stuck but could be removed without residue. The success of Post-it Notes came from re-analyzing a "failure" through a different model structure. If 3M had conducted a thorough success analysis of the adhesive's properties (it sticks, it releases, it does not damage surfaces), the application might have been discovered much sooner.
+
+In Active Inference terms, success analysis is the systematic identification of which model parameters and structures were confirmed by the outcome. This confirmation narrows the posterior distribution — it increases confidence in those aspects of the model. But it also reveals which aspects of the model were not tested by the success (the model might be right for the wrong reasons), which guides future testing priorities.
+
+### 5. Transferring Lessons Across Projects
+
+The highest form of learning is **transfer** — applying lessons learned in one context to a different context. In Active Inference, transfer learning occurs when the generative model is abstracted to a level where its predictions apply beyond the specific situation in which it was learned.
+
+An inventor who learns that "3D-printed ABS plastic becomes brittle below -10C" has learned a specific fact. One who learns that "material properties can change dramatically at temperature extremes, and I should always test at the boundaries of the intended operating range" has learned a transferable principle. The specific fact helps with ABS plastic. The transferable principle helps with every material and every project.
+
+The key to transfer is **abstraction** — identifying the general principle behind the specific lesson. The five-level abstraction ladder is useful here: (1) the specific observation ("this prototype broke at -10C"), (2) the proximate cause ("ABS becomes brittle below -10C"), (3) the general mechanism ("polymer glass transition temperature affects mechanical properties"), (4) the design principle ("test materials at environmental extremes"), (5) the meta-principle ("always test at the boundaries of your operating assumptions, not just in the center").
+
+Cross-project transfer is one of the most valuable capabilities an inventor can develop, because it transforms each project's failures and successes into assets for all future projects. This is why experienced inventors are more efficient than novices — not because they make fewer mistakes initially, but because they bring a richer generative model, populated with lessons from prior projects, to each new challenge.
+
+## Applications
+
+### Case Study 1: Toyota's Andon Cord — Systematic Learning from Production Failures
+
+Toyota's manufacturing system includes the "andon cord" — a cord or button that any worker can pull to stop the entire production line when they notice a quality problem. This is a formal mechanism for converting failure observations into learning events. When the line stops, a team immediately investigates the cause, identifies the root problem (not just the symptom), implements a countermeasure, and documents the lesson.
+
+The brilliance of the andon system is that it treats every failure as a learning opportunity, not as a disruption. In Active Inference terms, each andon event generates a high-value prediction error (the product did not meet the model's quality prediction) and triggers an immediate post-mortem that produces both parameter updates (adjust the machine settings) and structure updates (redesign the process to prevent this class of failure).
+
+Over decades, Toyota's cumulative learning from millions of andon events has produced one of the most reliable manufacturing systems in the world. The individual events are small, but the systematic extraction and transfer of lessons across time and across production lines creates compound learning that no amount of top-down design could replicate.
+
+### Case Study 2: WD-40 — The Name Tells the Story
+
+WD-40, the ubiquitous water-displacing spray, gets its name from the fact that it was the 40th formulation attempted by chemist Norm Larsen in 1953. The first 39 attempts were "failures" — formulations that did not achieve the desired water-displacement properties for protecting Atlas missile nosecones from corrosion.
+
+But these were not 39 random failures. Each formulation was a hypothesis about which chemical combination would produce the desired properties. Each test produced data about what worked and what did not. Larsen's failure catalog — 39 documented formulations with their performance characteristics — was a systematic narrowing of the chemical design space. By formulation 40, the prior distribution on viable chemical combinations had been narrowed to a small region of the space by the accumulated prediction errors from the previous 39 attempts.
+
+The WD-40 story illustrates that the learning value of "failure" depends entirely on whether the lessons are captured and used. Thirty-nine undocumented failures would have been wasted effort. Thirty-nine documented failures, each informing the next formulation, constituted a systematic convergence on the correct solution. The difference is learning discipline.
+
+## Cross-References
+
+- **Module 03 (Reading the Prototype's Signals)**: Learning begins with perception — you can only learn from signals you have accurately perceived.
+- **Module 04 (Reasoning About Results)**: Reasoning determines what lessons to extract; biased reasoning produces biased learning.
+- **Module 05 (Iterative Refinement)**: Each iteration generates learning; this module consolidates and systematizes that learning.
+- **Module 07 (Documenting the Build)**: Documentation is the medium through which learning is preserved and transferred.
+
+## Summary Table
+
+| Concept | Definition | Learning Application |
+|---------|-----------|---------------------|
+| Parameter Learning | Updating values within a fixed model structure | Tuning dimensions, material properties, timing values based on test data |
+| Structure Learning | Changing the model's causal architecture | Adding missing variables, discovering new causal relationships, removing incorrect assumptions |
+| Post-Mortem Analysis | Structured review extracting lessons from testing outcomes | Establish facts, compare to predictions, attribute causes, extract transferable lessons |
+| Failure Mode Catalog | Systematic record of failure types, causes, and lessons | Prevents repeated mistakes, enables anticipation of failure modes in new designs |
+| Success Analysis | Examining why positive outcomes occurred, not just celebrating them | Confirms model parameters, reveals untested assumptions, guides future testing priorities |
+| Transfer Learning | Abstracting lessons to apply across different projects | Transforms project-specific observations into general design principles |
+
+## References
+
+1. Friston, K. J., Lin, M., Frith, C. D., Pezzulo, G., Hobson, J. A., & Ondobaka, S. (2017). Active inference, curiosity and insight. *Neural Computation*, 29(10), 2633-2683.
+2. Petroski, H. (1985). *To Engineer Is Human: The Role of Failure in Successful Design*. St. Martin's Press.
+3. Stamatis, D. H. (2003). *Failure Mode and Effect Analysis: FMEA from Theory to Execution* (2nd ed.). ASQ Quality Press.
+4. Senge, P. M. (2006). *The Fifth Discipline: The Art and Practice of the Learning Organization* (Rev. ed.). Currency/Doubleday.
+5. Liker, J. K. (2004). *The Toyota Way: 14 Management Principles*. McGraw-Hill Education.

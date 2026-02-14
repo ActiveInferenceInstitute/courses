@@ -1,42 +1,42 @@
-# Module 07: Communication — Intersubjectivity, Theory of Mind, and Shared Inference
+# モジュール 07: コミュニケーション — インターサブジェクト性、心の理論、共有推論
 
-## Learning Objectives
+## 学習目標
 
-1. Explain how Active Inference models communication as **generalized synchrony** between coupled inference systems.
-2. Analyze the philosophical problem of other minds and how Active Inference provides a formal framework for intersubjectivity.
-3. Evaluate how language, social norms, and cultural practices function as shared generative models.
+1.  アクティブ・インファーレンスモデルが、結合された推論システム間の**汎化された同期**を通してコミュニケーションをどのように捉えるかを説明する。
+2.  アクティブ・インファーレンスが、インターサブジェクト性に対する形式的な枠組みを提供するという、他者の意識に関する哲学的な問題を分析する。
+3.  言語、社会規範、文化的な慣習が、共有された生成モデルとして機能する方法を評価する。
 
-## Introduction
+## 導入
 
-Communication is the bridge between individual minds. How do isolated inferential systems — each trapped behind its own Markov Blanket — manage to share meaning, coordinate action, and build shared understanding? This is one of the oldest problems in philosophy, from Wittgenstein's private language argument to Husserl's fifth *Cartesian Meditation*.
+コミュニケーションは、個々の意識を結びつける架け橋である。単一の推論システム—それぞれが自身のマルコフ・ブランケットの裏側で閉じ込められている—が、意味を共有し、行動を調整し、共有理解を構築するにはどうすればよいのか？ これは、ヴィトゲンシュタインの私的言語の議論から、フッサール第五次 *カルテシアン冥想* まで、哲学における最も古い問題の一つである。
 
-Active Inference offers a distinctive answer: **communication is generalized synchrony** — two or more agents whose generative models become coupled through shared observations and actions, causing their internal states to converge. When I speak and you understand, our generative models have temporarily synchronized.
+アクティブ・インファーレンスは、特徴的な答えを提供する：**コミュニケーションは汎化された同期**—共通の観察と行動を通して生成モデルが結合された、2人以上のエージェント—内部状態が収束するようにする。私が話すとあなたが理解すると、私たちの生成モデルは一時的に同期している。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Generalized Synchrony and Coupled Inference
+### 1. 汎化された同期と結合された推論
 
-When two Active Inference agents interact, each becomes part of the other's environment. Your actions become my observations, and my actions become yours. Over time, this mutual coupling can cause the agents' internal states to **synchronize** — they come to carry similar information about the shared world.
+2人のアクティブ・インファーレンスエージェントが相互作用すると、それぞれのエージェントは相手の環境の一部となる。あなたの行動は私の観察となり、私の行動はあなたの行動となる。このような相互結合により、エージェントの内部状態が**同期**—共通の世界について類似した情報を運搬するようになる—することが、時間とともに起こる可能性がある。
 
-Friston and Frith (2015) formalize this through the concept of **generalized synchrony**: two dynamical systems are generalized-synchronized when there exists a continuous mapping between their state spaces. In communication, this mapping is the shared generative model — the common framework that allows my words to update your beliefs in the way I intend.
+fristonとfrith（2015）は、この概念を**汎化された同期**を通して正式化する：2つの動的システムが汎化された同期状態にあるとは、その状態空間間の連続的なマッピングが存在する場合である。コミュニケーションにおいては、このマッピングは共有された生成モデル—私が意図したように、あなたの信念を更新することを可能にする共通の枠組み—である。
 
-### 2. Theory of Mind as Hierarchical Inference
+### 2. 心の理論としての階層的推論
 
-**Theory of Mind (ToM)** — the capacity to attribute mental states (beliefs, desires, intentions) to others — is recast in Active Inference as hierarchical inference. I model you as an Active Inference agent with your own generative model. My model of you includes a representation of your model of the world. This recursive embedding — "I believe that you believe that I believe..." — is what makes communication so powerful and so fragile.
+**心の理論 (ToM)**—他者の精神状態（信念、欲求、意図）を属性する能力—は、アクティブ・インファーレンスにおいて階層的推論として再構築される。私は、あなたを自身の生成モデルを持つアクティブ・インファーレンスエージェントとしてモデル化する。私のあなたに対するモデルには、あなた自身の世界に対するモデルの表現が含まれる。この再帰的な埋め込み—「私はあなたがあなたが私が信じていることを信じていると信じている...」—が、コミュニケーションを非常に強力かつ脆弱にするものとなっている。
 
-This connects to Husserl's concept of **Einfühlung** (empathy): understanding another person requires constructing a model of their perspective, not just observing their behavior. It also relates to Levinas's ethics of the face: the encounter with another mind imposes an ethical demand precisely because the other is an autonomous inference system with its own vulnerability.
+これは、フッサールの**Einfühlung**（共感）という概念とつながっている：他者の理解には、単に彼らの行動を観察するだけでなく、彼らの視点をモデル化する必要がある。また、levinasの顔の倫理とも関連している：他者の意識との遭遇は、他者が自律的な推論システムであり、脆弱性を持っているため、倫理的な要求を課す。
 
-### 3. Language as Shared Generative Model
+### 3. 言語としての共有された生成モデル
 
-Language, from an Active Inference perspective, is humanity's most powerful technology for constructing and transmitting shared generative models. Words are not mere labels for objects but **cues that activate specific patterns in the listener's generative model**. Grammar is the structure of the shared model; metaphor is the creative extension of model structure to new domains.
+言語は、アクティブ・インファーレンスから見ると、共有された生成モデルを構築および伝達するための人類の最も強力な技術である。言葉は単なる物体に対するラベルではなく、リスナーの生成モデル内の特定のパターンを**活性化させる手がかり**である。文法は共有モデルの構造であり、メタファーはモデル構造の創造的な拡張であり、新しいドメインへの適用を意味する。
 
-Wittgenstein's insight that "the limits of my language are the limits of my world" takes on precise meaning: the generative model that language provides determines what predictions the agent can form and therefore what aspects of reality it can engage with.
+ウィトゲンシュタインの「私の言語の限界は私の世界の限界である」という洞察は、正確な意味を持つ：言語が提供する生成モデルは、エージェントが形成できる予測を決定し、したがって、それに関与できる現実の側面を決定する。
 
-## Applications
+## 応用
 
-* **Miscommunication**: Communication fails when the sender's and receiver's generative models diverge — they assign different meanings to the same signals. Active Inference predicts that miscommunication increases with model divergence and decreases with shared context.
-* **Cultural Evolution**: Cultural practices (rituals, institutions, norms) function as long-duration mechanisms for maintaining shared generative models across generations.
+*   **誤解**: 送信者と受信者の生成モデルが異なると、コミュニケーションが失敗する—同じ信号に対して異なる意味を割り当てる。アクティブ・インファーレンスは、モデルの乖離と共有コンテキストの増加が誤解を増大させ、減少させることを予測する。
+*   **文化進化**: 文化的な慣習（儀式、制度、規範）は、世代を超えて共有された生成モデルを維持するための長期的なメカニズムとして機能する。
 
-## Conclusion
+## 結論
 
-Communication is the most complex form of inference: it involves not only modeling the world but modeling other minds modeling the world. Active Inference shows how isolated inference systems can bridge the gulf between them through coupled dynamics and shared generative models. Module 08 examines the temporal dimension of inference — how agents plan for the future.
+コミュニケーションは、最も複雑な推論の形である：それは、世界をモデル化するだけでなく、他の意識をモデル化することを含む。アクティブ・インファーレンスは、結合されたダイナミクスと共有された生成モデルを通して、これらの孤立した推論システムが間のギャップを埋める方法を示す。モジュール 08 は、推論の時間的な次元を検討する。

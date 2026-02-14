@@ -1,61 +1,61 @@
-# Lab: Case Study Analysis — Precision and Its Disorders
+# 実験室：症例分析—精度とその障害
 
-## Objective
+## 目的
 
-Analyze clinical cases involving aberrant precision weighting, applying the Active Inference framework to interpret attentional and cognitive disorders.
+逸脱した精度重み付けを含む臨床症例を分析し、能動的推論の枠組みを用いて注意と認知障害の解釈を行います。
 
-## Part 1: ADHD and Sustained Attention
+## 第1部：ADHDと持続的注意
 
-**Case**: Patient T.J., 12, diagnosed with ADHD-Combined type. In the classroom, T.J. shifts attention every few minutes — from the teacher to the window to a classmate's pencil to his own shoelaces. He performs well on novel, stimulating tasks but cannot sustain focus on routine work. Methylphenidate (Ritalin) improves his sustained attention significantly.
+**症例:** 患者T.J.、12歳、ADHD-複合型と診断。教室では、T.J.は数分ごとに注意をシフトさせます—先生から窓、クラスメイトの鉛筆、自分の靴紐などへと。彼は新しい、刺激的なタスクではうまくこなしますが、ルーチンワークに対する集中力を維持することができません。メチルフェニデート（リタリン）は彼の持続的な注意を大幅に改善します。
 
-- Interpret ADHD in Active Inference terms: what precision imbalance explains the difficulty sustaining attention on routine tasks?
-- Why does novelty *help* T.J. focus? (Hint: novel stimuli generate high prediction error, which temporarily captures precision allocation.)
-- How does methylphenidate (a dopamine/norepinephrine reuptake inhibitor) address the precision deficit?
-
-{fill:textarea}
-
-## Part 2: Autism and Sensory Precision
-
-**Case**: Patient A.R., 22, diagnosed with autism spectrum condition. She reports extreme sensitivity to fluorescent lighting (which she describes as "constant flickering that others don't notice"), difficulty filtering background noise in conversations, and a remarkable ability to detect subtle visual patterns (she works as a quality inspector in a manufacturing plant).
-
-- Apply Lawson et al.'s (2014) high-precision hypothesis: how does elevated sensory precision explain both A.R.'s sensory sensitivities and her pattern-detection strengths?
-- Why might high sensory precision lead to difficulty integrating contextual information (top-down priors)?
-- How does this framework avoid pathologizing autism by recognizing that high precision is a different cognitive profile, not simply a deficit?
+- ADHDを能動的推論の用語で解釈する：ルーチンタスクに対する集中力を維持できないことの原因となる精度不均衡とは？
+- なぜ新規性がT.J.の集中を助けるのか？（ヒント：新規刺激は高い予測誤差を生成し、一時的に精度配分を捕捉します。）
+- メチルフェニデート（ドーパミン/ノルアドレナリン再取り込み阻害薬）は精度不足に対処するには？
 
 {fill:textarea}
 
-## Part 3: Generalized Anxiety Disorder
+## 第2部：自閉症と感覚的な精度
 
-**Case**: Patient M.N., 35, with generalized anxiety disorder. She reports constant worry about health, finances, and relationships. She describes an inability to "turn off" the scanning for potential threats. Physical symptoms include muscle tension, rapid heartbeat, and difficulty sleeping.
+**症例:** 患者A.R.、22歳、自閉スペクトラム症と診断。彼女は蛍光照明に対する極端な感受性（「他の人が気づかない不規則な点滅」と説明）を報告し、会話中の背景音のフィルタリングの困難さ、そして微妙な視覚的パターンを検出する驚くべき能力（製造プラントの品質検査員として働いている）を報告しています。
 
-- Interpret chronic anxiety as excessive precision on threat-related prediction errors. What does this mean for M.N.'s generative model?
-- How do the physical symptoms (muscle tension, rapid heartbeat) relate to Active Inference? (Hint: the body is acting to "confirm" the threat prediction through autonomic activation.)
-- What therapeutic approach does this framework suggest? (Consider interventions that down-regulate precision on threat prediction errors — e.g., cognitive restructuring, interoceptive exposure.)
-
-{fill:textarea}
-
-## Part 4: Pharmacological Precision Modulation
-
-**Case**: A double-blind study administers donepezil (acetylcholinesterase inhibitor, increasing ACh) to healthy participants. Results show improved performance on a visual discrimination task (detecting faint gratings embedded in noise) but impaired performance on a contextual integration task (identifying the Kanizsa triangle from partial contours).
-
-- Interpret these results in Active Inference terms: how does increased ACh (bottom-up precision) improve discrimination but impair context-dependent perception?
-- What does this tell us about the trade-off between sensory precision and prior influence?
-- Predict the results you would expect with a dopamine agonist instead of a cholinergic agonist.
+- Lawson et al. (2014) の高精度仮説を適用する：A.R.の感覚過敏さとパターン検出の強さの両方を、高精度がどのように説明するのか？
+- 高い感覚的精度がコンテクスト情報（トップダウンの事前知識）の統合を困難にする可能性がある理由は何ですか？
+- この枠組みは、高精度が単なる欠陥ではなく、異なる認知プロファイルであることを認識することで、自閉症を病理化することなく回避する方法を示していますか？
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## 第3部：広汎性不安障害
 
-Write a 200-word synthesis explaining how these four cases collectively demonstrate that cognition is mediated by precision — and that many cognitive and psychiatric conditions can be understood as specific patterns of precision dysregulation.
+**症例:** 患者M.N.、35歳、広汎性不安障害。彼女は健康、財務、人間関係について常に心配しています。潜在的な脅威を「オフ」にすることができないと説明しています。身体症状には筋肉の緊張、心拍数の増加、不眠が含まれます。
+
+- 慢性的な不安を、脅威に関連する予測誤差に対する過剰な精度として解釈する：M.N.の生成モデルには、これはどう影響しますか？
+- 身体症状（筋肉の緊張、心拍数の増加）は能動的推論とどのように関連していますか？（ヒント：身体はオートノミック活性化を通じて脅威予測を「確認」しようとしています。）
+- この枠組みはどのような治療アプローチを提案しますか？（脅威予測誤差に対する精度を調節する介入（例：認知再構成、内因性曝露）を考慮してください。）
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：薬理学的精度モジュール
 
-| Part | Skill Developed | Case Type |
-|------|----------------|-----------|
-| 1 | Clinical reasoning | ADHD and dopaminergic precision |
-| 2 | Strength-based analysis | Autism and sensory precision |
-| 3 | Therapeutic reasoning | Anxiety and threat precision |
-| 4 | Pharmacological analysis | Drug effects on precision dynamics |
-| 5 | Integrative synthesis | Connecting precision disorders to a unified framework |
+**症例:** 健康な参加者に対して、ドネペジル（アセチルコリンエステラーゼ阻害薬、ACh増加）を投与する二重盲検試験が行われます。結果として、かすかなノイズに埋め込まれたグラティングを検出する視覚的識別タスクのパフォーマンスが向上しましたが、部分的な輪郭からのカンイザ三角形を識別する文脈統合タスクのパフォーマンスが低下しました。
+
+- これらの結果を能動的推論の用語で解釈する：ACh（下向きの精度）の増加が、識別能力をどのように改善し、文脈依存的な知覚をどのように妨げるのか？
+- これは、感覚的精度と事前知識の影響との間のトレードオフについて何を私たちに教えていますか？
+- ドーパミンアゴニストではなく、コリン作動薬アゴニストを使用した場合に期待される結果を予測してください。
+
+{fill:textarea}
+
+## 第5部：統合
+
+これらの4つの症例が、認知が精度によって媒介され、多くの認知および精神医学的状態が、特定の精度調節パターンとして理解できることを示す方法を200語で要約してください。
+
+{fill:textarea}
+
+## 実験室のまとめ
+
+| 項目 | 開発されたスキル | ケースタイプ |
+|---|---|---|
+| 1 | 臨床的推論 | ADHDとドーパミン性精度 |
+| 2 | 強みベースの分析 | 自閉症と感覚的精度 |
+| 3 | 治療的推論 | 不安と脅威精度 |
+| 4 | 薬理学的分析 | 薬の効果と精度ダイナミクス |
+| 5 | 包括的な統合 | 精度障害を統一的な枠組みに結びつける |

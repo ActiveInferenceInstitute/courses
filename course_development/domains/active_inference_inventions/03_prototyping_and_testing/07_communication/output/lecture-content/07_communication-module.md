@@ -1,0 +1,107 @@
+# Module 07: Documenting the Build — Communication as Shared Generative Models
+
+## Executive Summary
+
+An undocumented invention exists only in the inventor's head — and heads are unreliable, biased, and mortal. This module treats documentation as the creation of **shared generative models**: external representations of the inventor's knowledge that enable other agents (collaborators, manufacturers, patent examiners, future-you) to reconstruct the inventor's understanding. The module covers lab notebooks as inference logs, version control for physical objects, the documentation of design decisions (not just outcomes), technical specifications as formalized generative models, and the communication of uncertainty alongside certainty. Documentation is not a bureaucratic obligation but a core practice of Active Inference — it externalizes the generative model so it can be inspected, critiqued, and improved by others.
+
+## Learning Objectives
+
+1. Characterize documentation as the creation of external generative models that enable other agents to reconstruct the inventor's understanding and reasoning.
+2. Maintain a lab notebook or design journal that records observations, hypotheses, decisions, and rationale with sufficient fidelity for reconstruction by another agent.
+3. Implement version control practices for physical prototypes that track changes, preserve decision context, and enable rollback.
+4. Write technical specifications that communicate not only the design but the reasoning and uncertainty behind it.
+5. Design communication artifacts (reports, presentations, patent descriptions) that align the generative models of diverse audiences.
+
+## Key Concepts
+
+### 1. Documentation as External Generative Model
+
+In Active Inference, a generative model is an internal representation that encodes beliefs about the causal structure of the world. When an inventor documents their work, they are creating an **external** generative model — a representation that exists outside any single mind and can be accessed, interpreted, and updated by other agents.
+
+The quality of documentation is measured by a simple criterion: could another competent agent, reading only the documentation, reconstruct the inventor's generative model well enough to continue the work? If the answer is yes, the documentation is sufficient. If the answer is no — if critical knowledge exists only in the inventor's head — then the project is vulnerable to what engineers call "bus factor" risk (what happens if the key person is hit by a bus?).
+
+Good documentation does not merely record what was done; it records **why** it was done. The decision rationale — the inventor's reasoning, the alternatives considered, the evidence weighed, the uncertainties acknowledged — is the most valuable content in any document, because it enables the reader to build the same generative model that the inventor used to make decisions. A drawing that shows a spring with k=4.2 N/m is useful. A drawing annotated with "k=4.2 N/m, chosen based on test data from iterations v3-v7; original hypothesis was k=5.0 but testing showed excessive user fatigue at that stiffness" is transformative — it communicates the model, not just the current parameter value.
+
+The oldest and most important example of documentation as external generative model is Leonardo da Vinci's notebooks. Leonardo's notebooks contain not just drawings of inventions but detailed annotations explaining his reasoning, his observations from nature, his mechanical principles, and his uncertainties. Five centuries later, engineers can reconstruct his generative models and understand not just what he designed but how he thought. This is the gold standard for inventor documentation.
+
+### 2. The Lab Notebook as Inference Log
+
+A lab notebook is more than a diary — it is an **inference log** that records the inventor's Active Inference process: hypotheses formed, predictions made, tests conducted, observations recorded, beliefs updated, and decisions taken. Each entry captures one or more turns of the action-perception loop, creating a time-stamped record of the inventor's evolving generative model.
+
+Effective lab notebook practice follows specific conventions developed over centuries of scientific and engineering practice. **Date every entry.** Time-stamping establishes the temporal sequence of discoveries and decisions, which is critical for patent claims, dispute resolution, and understanding your own reasoning later. **Record in real time.** Writing up results hours or days later introduces memory distortion and post-hoc rationalization. **Separate observation from interpretation.** Use the left page for raw data and the right page for analysis (or use clearly marked sections). **Never erase — correct with single line-throughs.** Erased content is lost content; crossed-out content is preserved content that was later revised, which is itself informative. **Record failures with the same care as successes.** A failure that is documented teaches; a failure that is not documented is merely suffered.
+
+The legal importance of lab notebooks cannot be overstated. In patent disputes, the lab notebook is often the primary evidence for establishing the date of invention, the sequence of inventive steps, and the originality of the contribution. The U.S. patent system historically relied on "first to invent" priority (now "first to file"), but in both regimes, a well-maintained lab notebook strengthens the inventor's position.
+
+For modern digital projects, the lab notebook may take the form of a digital journal, a wiki, a version-controlled README, or a structured database. The medium matters less than the practice: systematic, contemporaneous, honest recording of the inference process.
+
+### 3. Version Control for Physical Objects
+
+Software engineers take version control for granted — every change to code is tracked, attributed, time-stamped, and reversible through tools like Git. Physical prototypes lack this infrastructure, but the principles apply equally. An inventor who makes changes to a physical prototype without recording what changed, why, and what the previous version looked like is working without version control — and they will inevitably lose information.
+
+Physical version control practices include: **photography** (photograph every prototype version from standard angles before making changes), **change logs** (maintain a written record of every modification, with date, description, and rationale), **preservation of previous versions** (when possible, keep the old version rather than modifying it in place — this enables direct comparison), and **labeling** (mark every prototype with its version number, date, and key distinguishing parameters).
+
+The practice of keeping "witness samples" in materials science is an example of physical version control. When testing a new material formulation, the lab retains samples from every batch. If a later batch performs differently, the witness samples enable direct comparison to determine what changed. Without witness samples, the investigation must rely on records alone — and records are always less complete than the physical reality.
+
+For prototypes that cannot be preserved (too large, too expensive, or actively consumed by testing), photography and dimensional records serve as the closest equivalent to version snapshots. 3D scanning technology has made this increasingly practical — a full 3D scan of a prototype captures its complete geometry in a format that can be archived, compared, and even reprinted.
+
+### 4. Documenting Design Decisions
+
+The most common documentation gap is the absence of decision rationale. Engineers and inventors routinely document what they built and how they built it, but rarely document **why they chose this option over alternatives**. The result is documentation that describes the artifact but not the generative model that produced it.
+
+A design decision document should include: the **decision** (what was chosen), the **alternatives** (what else was considered), the **criteria** (what factors were weighted in the decision), the **evidence** (what data supported the decision), the **uncertainties** (what was not known at the time), and the **reversibility** (how hard would it be to change this decision later).
+
+This practice is called **Architecture Decision Records (ADRs)** in software engineering, where it has become standard practice for complex systems. Each ADR is a short document (typically one page) that captures a single significant decision with its context, rationale, and consequences. The collection of ADRs forms a narrative of the system's evolution — not just what it is, but how it got that way.
+
+For inventors, the ADR pattern translates directly. "We chose aluminum over steel for the housing because: (1) weight was the primary constraint, (2) the stress analysis showed aluminum was sufficient for expected loads (with 2x safety margin), (3) the cost difference was acceptable, (4) uncertainty remains about corrosion in marine environments (flagged for future testing)." This record enables any future engineer to understand, question, and if necessary reverse the decision with full knowledge of the original context.
+
+### 5. Communicating Uncertainty
+
+One of the most challenging aspects of technical documentation is communicating **what you do not know** alongside what you do know. Standard technical specifications present designs as definitive — dimensions are exact, materials are specified, performance is guaranteed. But during prototyping, virtually every specification carries uncertainty: the dimension might be right, the material might be right, the performance is estimated.
+
+Active Inference provides a natural framework for uncertainty communication: every belief has a **precision** (confidence level), and responsible documentation should report both the belief and its precision. "The battery lasts 8 hours" is less honest than "The battery lasts 8 +/- 1.5 hours based on 5 tests, with wider variance expected at extreme temperatures (not yet tested)."
+
+Uncertainty communication is particularly important when the documentation will be used by agents with different expertise levels. A fellow engineer reading "corrosion resistance not tested in salt spray conditions" understands the implication immediately. A business partner reading the same note might not realize its significance. Effective documentation adapts the level of uncertainty communication to the audience's generative model.
+
+The IPCC (Intergovernmental Panel on Climate Change) developed a standardized uncertainty language for its reports: "virtually certain" (>99% probability), "very likely" (>90%), "likely" (>66%), "about as likely as not" (33-66%), "unlikely" (<33%). Inventors can adopt a simpler version: "tested and confirmed," "estimated with some confidence," "assumed but untested," "highly uncertain." This vocabulary transforms implicit uncertainty into explicit, communicable knowledge.
+
+## Applications
+
+### Case Study 1: The Wright Brothers' Notebooks — Documentation as Competitive Advantage
+
+The Wright brothers maintained meticulous documentation throughout their aviation research. Their notebooks contain not just wing designs and performance data but detailed reasoning about why they chose specific airfoil shapes, how they interpreted wind tunnel data, and where they disagreed with published aerodynamic tables. When Samuel Langley (their primary competitor, with far more funding and institutional support) failed to achieve powered flight, the difference was not resources but the quality of the generative model — and the Wrights' model was better because they documented and critically examined every step of their reasoning.
+
+Their documentation practice also proved legally critical. When patent disputes arose (particularly with Glenn Curtiss), the Wright brothers' notebooks provided dated, detailed evidence of their inventive process. The notebooks established not just what they had invented but when they had invented it and how their understanding had evolved. This documentation discipline converted their intellectual work into legally defensible intellectual property.
+
+### Case Study 2: Open Source Hardware — Documentation as Shared Generative Model at Scale
+
+The Open Source Hardware Association (OSHWA) certification requires that hardware designs be documented thoroughly enough for another person to reproduce the artifact. This is the external generative model criterion taken to its logical extreme: the documentation must be sufficient for a stranger, with no access to the inventor, to build the thing.
+
+Successful open source hardware projects like the Arduino microcontroller platform, the Prusa 3D printer, and the Open Source Ecology tractor demonstrate that comprehensive documentation transforms a single inventor's knowledge into a global generative model. The Prusa 3D printer's documentation includes not just the design files but assembly guides, troubleshooting decision trees, modification guides, and version histories — a complete external representation of the design team's understanding that has enabled hundreds of thousands of independent builds worldwide.
+
+The Active Inference lesson: documentation that captures the generative model (including reasoning and uncertainty) is exponentially more valuable than documentation that captures only the design. The Arduino documentation does not just say "use a 16 MHz crystal oscillator" — it explains that the frequency is chosen for compatibility with the bootloader timing, that other frequencies can work with modified firmware, and that clock drift at temperature extremes may affect serial communication. This is a shared generative model, not just a parts list.
+
+## Cross-References
+
+- **Module 03 (Reading the Prototype's Signals)**: Signals must be documented accurately to preserve their information content for future analysis.
+- **Module 04 (Reasoning About Results)**: Decision rationale documentation captures the reasoning process analyzed in Module 04.
+- **Module 06 (Learning from Failure and Success)**: Post-mortem lessons must be documented to achieve the transfer learning goals of Module 06.
+- **Module 08 (Test Planning Under Uncertainty)**: Test plans must be documented as pre-registration artifacts to prevent post-hoc rationalization.
+
+## Summary Table
+
+| Concept | Definition | Documentation Application |
+|---------|-----------|--------------------------|
+| External Generative Model | A representation outside any single mind that encodes causal beliefs | Documentation enables another agent to reconstruct the inventor's understanding |
+| Inference Log | Time-stamped record of hypotheses, tests, observations, and belief updates | Lab notebook captures the Active Inference process in real time |
+| Version Control | Systematic tracking of changes, preserving context and enabling comparison | Photography, change logs, labeling, and preservation of prior prototype versions |
+| Design Decision Records | Documentation of what was chosen, what alternatives existed, and why | Captures rationale, evidence, uncertainty, and reversibility of each decision |
+| Uncertainty Communication | Reporting both beliefs and their confidence levels | "Tested and confirmed" vs. "assumed but untested" language |
+| Audience-Adapted Communication | Adjusting documentation detail and framing for different readers' generative models | Technical specs for engineers, summaries for business partners, narratives for patent examiners |
+
+## References
+
+1. Kanare, H. M. (2005). *Writing the Laboratory Notebook*. American Chemical Society.
+2. Naughton, M. (2004). *ADR: Architecture Decision Records*. ThoughtWorks Technology Radar.
+3. Kemp, M. (2004). *Leonardo da Vinci: The Marvellous Works of Nature and Man*. Oxford University Press.
+4. Open Source Hardware Association. (2024). *OSHWA Certification Requirements*. Retrieved from https://www.oshwa.org/
+5. Parr, T., Pezzulo, G., & Friston, K. J. (2022). *Active Inference: The Free Energy Principle in Mind, Brain, and Behavior*. MIT Press.

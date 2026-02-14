@@ -1,22 +1,22 @@
-# Study Questions: Cognition
+# 認知に関する質問
 
-1. What does Active Inference mean by "beliefs are probability distributions"? How does this differ from the folk-psychological concept of belief?
-2. Compare Fodor's "language of thought" hypothesis with the Active Inference account of belief. What are the key differences?
-3. In what sense are beliefs "physical states" in Active Inference? Does this commit the framework to physicalism?
-4. Explain the role of precision in Active Inference. How does it relate to the philosophical concept of attention?
-5. How does Active Inference account for selective attention? Give an example.
-6. What is the "dark room problem"? Why is it considered a challenge to Active Inference?
-7. How do prior preferences (the C vector) resolve the dark room problem? What philosophical assumptions does this resolution require?
-8. Compare the Active Inference resolution of the dark room problem with Aristotle's concept of *eudaimonia* (flourishing).
-9. How might aberrant precision underlie anxiety? Sketch the Active Inference account and compare it with a cognitive-behavioral account.
-10. What is the "hard problem of consciousness" (Chalmers), and does Active Inference address it?
-11. Can inference occur without consciousness? What are the philosophical implications of unconscious inference?
-12. How does the phenomenology of "flow states" (Csikszentmihalyi) relate to precision dynamics in Active Inference?
-13. If beliefs are updated continuously, is there a stable "self" that holds beliefs? Or is the self itself a belief?
-14. How does the concept of precision relate to the philosophical notion of certainty (Descartes, Wittgenstein)?
-15. What is the relationship between cognition and metacognition in Active Inference? Can an agent have beliefs about its own beliefs?
-16. How does Active Inference handle the distinction between intuitive and reflective cognition (Kahneman's System 1 vs System 2)?
-17. Evaluate the claim: "Cognition is just perception at a higher level of abstraction."
-18. How does the extended cognition hypothesis interact with the Active Inference account of beliefs as physical states?
-19. Can Active Inference explain creativity? If cognition is inference, where does novelty come from?
-20. Construct an argument for or against the claim: "Active Inference shows that the mind-body problem is dissolved, not solved."
+1.  Active Inferenceが「信念は確率分布である」と意味することを説明してください。これは俗説心理学における信念の概念とどのように異なりますか？
+2.  Fodorの「思考言語」仮説を、Active Inferenceにおける信念の説明と比較してください。主な違いは何ですか？
+3.  Active Inferenceにおける信念は「物理的状態」というどのような意味合いを持っていますか？この枠組みは物理主義にコミットするのでしょうか？
+4.  Active Inferenceにおける精度（precision）の役割を説明してください。これは哲学における注意（attention）の概念とどのように関連していますか？
+5.  Active Inferenceは選択的注意（selective attention）をどのように説明しますか？例を挙げてください。
+6.  「暗い部屋のパラドックス」とは何ですか？なぜActive Inferenceにとって課題と見なされるのですか？
+7.  事前好み（Cベクトル）は暗い部屋のパラドックスをどのように解決しますか？この解決にはどのような哲学的な前提が必要ですか？
+8.  Active Inferenceによる暗い部屋のパラドックスの解決を、アリストテレスの *eudaimonia*（繁栄）の概念と比較してください。
+9.  精度が逸脱（aberrant）している場合、それが不安の根底にある可能性がありますか？Active Inferenceの説明を概説し、認知行動療法的な説明と比較してください。
+10. Chalmersの「意識のハード問題」とは何ですか？Active Inferenceはそれを解決しますか？
+11. 推論は意識なしに発生できますか？無意識的な推論の哲学的な意味合いは何ですか？
+12. 「フロー状態」（Csikszentmihalyi）の現象学は、Active Inferenceにおける精度ダイナミクスとどのように関連していますか？
+13. 信念が継続的に更新される場合、信念を保持する安定した「自己」は存在しますか？それとも自己自体が信念ですか？
+14. 精度という概念は、笛やヴィトゲンシュタインの哲学における「確実性」の概念とどのように関連していますか？
+15. Active Inferenceにおける認知とメタ認知（metacognition）の関係とは何ですか？エージェントは自身の信念について信念を持つことができますか？
+16. Active Inferenceは、 KahnemanのSystem 1とSystem 2による直感的認知と反映的認知（reflective cognition）の区別をどのように扱いますか？
+17. 以下の主張を評価してください：「認知は単に注意のより抽象的なレベルでの認識である。」
+18. 拡張された認知仮説は、Active Inferenceにおける信念が物理的状態であるという説明とどのように相互作用しますか？
+19. Active Inferenceは創造性を説明できますか？認知が推論である場合、新規性がどこから生まれますか？
+20. 以下の主張について、賛成または反対の議論を構築してください：「Active Inferenceは、心身問題が解決されたことを示しているのではなく、単に解決されていないことを示している。」

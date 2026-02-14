@@ -1,35 +1,35 @@
-# Module 05: Action — Motor Control, Active Sensing, and Embodied Cognition
+# モジュール 05: 行動 — 運動制御、能動的感覚、身体化された認知
 
-## Learning Objectives
+## 学習目標
 
-1. Explain how motor control in Active Inference is implemented through **proprioceptive predictions** and spinal reflex arcs.
-2. Describe active sensing (saccades, haptic exploration) as epistemic action driven by expected ambiguity resolution.
-3. Analyze apraxia, Parkinson's disease, and functional motor disorders as disruptions of the prediction-based motor system.
+1.  能動的推論における運動制御が、**固有受容体予測**と脊髄反射弧を通してどのように実装されているかを説明する。
+2.  期待される曖昧性解消を駆動する、サッケード（眼球運動）や触覚探索といった能動的感覚を、認識行動として記述する。
+3.  予測に基づく運動システムからの逸脱として、失行症、パーキンソン病、機能性運動障害を分析する。
 
-## Introduction
+## 導入
 
-Motor control has been traditionally modeled as a feedforward process: the motor cortex computes a desired trajectory, sends commands down the corticospinal tract, and the muscles execute. Active Inference overturns this: **movement arises from proprioceptive predictions**. The motor cortex sends a prediction of the expected proprioceptive (body position) state to the spinal cord. Spinal reflex arcs then generate movement to *fulfill* this prediction — canceling the prediction error between the predicted and actual body position.
+運動制御は、従来、前向型プロセスとしてモデルされてきた：運動皮質は望ましい軌跡を計算し、皮質脊髄路を通して命令を送信し、筋肉が実行する。能動的推論はこれを覆す：**運動は固有受容体予測から生まれる**。運動皮質は、予想される固有受容体（身体の位置）の状態に関する予測を脊髄に送信する。脊髄反射弧は、この予測を**実現するために**運動を生成し、予測誤差を解消する（予測された身体位置と実際の身体位置との間の）。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Proprioceptive Predictions and Spinal Reflexes
+### 1. 固有受容体予測と脊髄反射
 
-In the Active Inference account (Adams et al., 2013), motor commands are not explicit commands to muscles but **precision-weighted proprioceptive predictions**. The motor cortex predicts that the arm *is* in a particular position; the spinal cord detects a discrepancy between this prediction and the actual proprioceptive feedback; and the classical stretch reflex acts to eliminate this discrepancy by moving the arm to the predicted position.
+能動的推論の記述（Adams et al., 2013）において、運動命令は筋肉への直接的な命令ではなく、**重み付けされた固有受容体予測**である。運動皮質は腕が「ある位置にある」と予測し、脊髄は、この予測と実際の固有受容体フィードバックとの間の差異を検出し、古典的なストレッチ反射は、この差異を解消するために腕を予測された位置に移動させる。
 
-This reinterprets the role of the spinal reflex: it is not a primitive, automatic response but the final stage of a hierarchical inference process. The motor cortex sets the prediction; the spinal cord resolves the prediction error.
+このことは、脊髄反射の役割を再解釈する：それは原始的で自動的な応答ではなく、階層的な推論プロセスの最終段階である。運動皮質が予測を設定し、脊髄が予測誤差を解消する。
 
-### 2. Active Sensing and Epistemic Action
+### 2. 能動的感覚と認識行動
 
-Not all actions serve pragmatic goals (reaching for a cup). Some actions serve **epistemic** goals — they generate sensory data to reduce uncertainty. Saccadic eye movements are a paradigm case: the eyes move to fixate on locations of high uncertainty, sampling information to refine the generative model. Friston et al. (2012) showed that saccadic patterns in natural scene viewing can be predicted from the Expected Free Energy framework — the eyes move to locations that maximally reduce expected ambiguity.
+すべての行動が実用的目標を達成するために行われるわけではない（カップを取るためなど）。一部の行動は、**認識**的な目標を達成するために行われ、感覚データを生成して不確実性を低減する。サッケード眼球運動は典型的な例であり、目は高い不確実性のある場所に視線を固定し、生成モデルを改善するための情報をサンプリングする。Friston et al. (2012) は、期待自由エネルギー枠組みから、自然な風景の視覚におけるサッケードパターンを予測できることを示した。つまり、目は期待される曖昧さを最大化するように移動する場所へ移動する。
 
-Similarly, haptic exploration (running fingers over a surface) generates tactile prediction errors that refine the brain's model of the object's shape, texture, and material properties.
+同様に、触覚探索（表面に指をなぞる）は、予測誤差を生成し、脳がオブジェクトの形状、質感、材料特性のモデルを改善する。
 
-### 3. Clinical Motor Disorders
+### 3. 臨床的運動障害
 
-* **Parkinson's disease**: Loss of dopaminergic neurons in the substantia nigra reduces precision on motor predictions → the brain cannot commit confidently to any single motor plan → bradykinesia (slowness), rigidity, and tremor.
-* **Functional motor disorder**: Motor symptoms (paralysis, tremor) with no identifiable neurological cause. Active Inference explains this as aberrant precision on a prior belief about inability — the brain strongly "predicts" that the limb cannot move, and this prediction overrides motor predictions.
-* **Apraxia**: Impaired ability to perform skilled movements despite intact motor strength. Interpreted as loss of the hierarchical motor model — the high-level "recipe" for complex actions has been damaged, even though the low-level reflex machinery is intact.
+*   **パーキンソン病**: 脳深部にあるドーパミン作動性ニューロンの喪失は、固有受容体予測の精度を低下させる→脳は単一の運動計画に自信を持ってコミットすることができず、便秘症（動作の遅さ）、硬直、振戦を引き起こす。
+*   **機能性運動障害**: 確定的な神経学的原因がない運動症状（麻痺、振戦）。能動的推論はこれを、不可能な信念に対する過剰な精度（予測）として説明する：脳は強力に「この肢は動かない」と予測し、この予測が運動予測を上回る。
+*   **失行症**: 運動強度は正常だが、熟練した運動を実行できない状態。高レベルの「複雑な動作のためのレシピ」が損傷したことを意味し、低レベルの反射機構は正常である。
 
-## Conclusion
+## 結論
 
-Motor control in Active Inference is inference embodied: the brain predicts, the body enacts, and the world responds. This framework unifies voluntary action, reflexes, active sensing, and motor pathology under a single principle. Module 06 examines how this motor-perceptual system changes with experience — the neuroscience of learning.
+能動的推論における運動制御は、身体化された推論である：脳は予測し、体は実行し、世界が応答する。この枠組みは、自発的な行動、反射、能動的感覚、運動病理学を単一の原理の下で統合する。モジュール 06 では、この運動-知覚システムが経験とともにどのように変化するか、つまり学習の神経科学が検討される。

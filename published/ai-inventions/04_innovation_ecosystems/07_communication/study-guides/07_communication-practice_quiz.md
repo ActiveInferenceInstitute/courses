@@ -1,0 +1,60 @@
+# Practice Quiz — Innovation Communication
+
+## Part A: Multiple Choice
+
+1. Marketing functions in Active Inference primarily as:
+
+A) Persuading customers to buy products they do not need
+B) Transmitting a generative model from the inventor to potential adopters so they can make better predictions
+C) Creating brand awareness through repetition
+D) Gathering market research data from potential customers
+
+2. A brand functions as a compressed generative model because:
+
+A) Brands are registered trademarks with legal protection
+B) Encountering a brand instantly activates predictions about quality, values, and experience, reducing the free energy of purchasing decisions
+C) Brands are designed by professional graphic designers
+D) Brands increase the price customers are willing to pay
+
+3. Why does brand consistency matter from an Active Inference perspective?
+
+A) Consistency is required by advertising regulations
+B) Each interaction must reinforce the same predictive model; inconsistency generates prediction errors that damage the brand
+C) Consistent brands are cheaper to maintain
+D) Customers prefer brands that do not change
+
+4. Warren Buffett's investor letters are effective because:
+
+A) They are written by a famous person
+B) They explicitly share his generative model, acknowledge prediction errors, and provide calibrated uncertainty — enabling investors to update their own models
+C) They are longer than typical corporate communications
+D) They avoid discussing negative outcomes
+
+5. Open source development reduces adoption free energy by:
+
+A) Making software free of charge
+B) Enabling adopters to directly inspect the model (source code) rather than relying on vendor claims
+C) Eliminating the need for documentation
+D) Automatically ensuring high software quality
+
+6. Steve Jobs' refusal to support Flash on iOS was a form of:
+
+A) Technical incompetence
+B) Strategic standards communication — advocating for the HTML5 shared generative model over Flash's proprietary model
+C) Cost reduction
+D) Partnership with Adobe's competitors
+
+7. Content marketing (HubSpot, Salesforce) works as innovation communication because:
+
+A) It generates more clicks than traditional advertising
+B) It gradually constructs a shared generative model of the problem space within which the company's product is the natural solution
+C) It is cheaper than paid advertising
+D) It satisfies search engine optimization requirements
+
+## Part B: Short Answer and Analysis
+
+8. Tesla does not use traditional advertising. Analyze how Tesla's communication strategy — relying on product experience, earned media, and executive social media presence — functions as generative model transmission. What are the advantages and risks of this approach compared to traditional advertising?
+
+9. You are launching a healthcare device that requires both FDA approval and consumer adoption. Design a communication strategy that addresses three audiences simultaneously: (a) regulators (who need evidence of safety and efficacy), (b) healthcare providers (who need evidence of clinical value), and (c) patients (who need evidence of improved quality of life). How do you maintain message consistency while adapting precision and evidence type for each audience?
+
+10. Wikipedia demonstrates how radical transparency in communication can build trust. Analyze Wikipedia's editorial model as an Active Inference communication system: how do edits function as model updates, how do Talk pages function as model comparison forums, and how does the citation requirement ensure update precision? What can inventors learn from this model about communicating their inventions?

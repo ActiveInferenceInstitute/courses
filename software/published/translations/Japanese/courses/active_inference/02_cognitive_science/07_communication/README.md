@@ -1,53 +1,53 @@
-# Module 7: Communication — Theory of Mind, Social Cognition, and Autism
+# モジュール7：コミュニケーション - 心的理論、社会認知、および自閉症
 
-> **Quick Navigation**: [← Learning](../06_learning/) | [Up](../) | [Planning →](../08_planning/)
+> **クイックナビゲーション**: [← 学習](../06_learning/) | [上へ](../) | [計画 →](../08_planning/)
 
-## Cognitive Behavioral Science & Active Inference
+## 認知行動科学と能動的推論
 
 ---
 
-## Contents
+## 内容
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Experimental Analysis lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20個の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ（7問のMC + 3問のFR） |
+| [lab.md](./lab.md) | 実験的分析の実験室活動 |
+| [dashboard.html](./dashboard.html) | インタラクティブなダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです：
 
-1. Define **Communication** from a cognitive-behavioral perspective within Active Inference
-2. Explain the role of **Theory of Mind** in the FEP framework
-3. Connect communication to the broader concepts of free energy minimization
-4. Apply cognitive-behavioral reasoning to analyze real-world examples of communication
+1. 能動的推論における認知行動学的な視点から **コミュニケーション** を定義する
+2. FEPフレームワークにおける **心的理論** の役割を説明する
+3. コミュニケーションをフリーエネルギー最小化のより広範な概念に結び付ける
+4. コミュニケーションの実際の事例を分析するために認知行動学的な推論を適用する
 
 ---
 
-## Cross-Course Links
+## 異分野リンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| 科目 | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/07_communication/) | Intersubjectivity, Social Kinds, and Alignment |
-| [Cognitive Science](../../02_cognitive_science/07_communication/) | Theory of Mind, Social Cognition, and Autism ← **You are here** |
-| [Mathematics](../../03_math/07_communication/) | Generalized Synchrony, Mutual Information, Coupled Systems |
-| [Computer Science](../../04_computer_science/07_communication/) | Multi-Agent Simulations: Agents Observing Agents |
+| [哲学](../../01_philosophy/07_communication/) | 相互主観性、社会的な存在、および整合性 |
+| [認知科学](../../02_cognitive_science/07_communication/) | 心的理論、社会認知、および自閉症 ← **ここ** |
+| [数学](../../03_math/07_communication/) | 一般化された同期、相互情報、共役系 |
+| [コンピュータサイエンス](../../04_computer_science/07_communication/) | エージェント観察エージェントによるマルチエージェントシミュレーション |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) - 記号の定義
+- [用語集](../../resources/glossary.md) - 用語の定義
+- [参考文献](../../resources/references.md) - このモジュールに関する重要な引用
 
 ---
 
-[← Learning](../06_learning/) | [Up](../) | [Planning →](../08_planning/)
+[← 学習](../06_learning/) | [上へ](../) | [計画 →](../08_planning/)

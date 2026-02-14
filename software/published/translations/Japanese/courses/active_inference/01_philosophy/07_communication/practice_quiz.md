@@ -1,51 +1,51 @@
-# Practice Quiz: Communication
+# 練習クイズ：コミュニケーション
 
-## Part A: Multiple Choice
+## Part A: 複数選択問題
 
-1. Generalized synchrony in Active Inference refers to:
-A) Two agents performing the same action at the same time
-B) A continuous mapping between the state spaces of coupled dynamical systems
-C) The exact duplication of one agent's generative model in another
-D) Temporal synchronization of neural oscillations
+1. Active Inference における一般的な同期とは、次のうちどれを指すか：
+   A) 2つのエージェントが同じタイミングで同じ行動を実行すること
+   B) 結合された動的システムのステート空間間の連続的なマッピング
+   C) 別のエージェントの生成モデルの正確な複製
+   D) 神経活動の振幅の時間同期
 
-2. Theory of Mind (ToM) is modeled in Active Inference as:
-A) A separate cognitive module dedicated to social reasoning
-B) Hierarchical inference — the agent's model includes a model of the other agent's model
-C) Mirror neuron activation during social interaction
-D) An innate, unlearned capacity present from birth
+2. Active Inference において、理論的知能 (ToM) はどのようにモデル化されるか：
+   A) 社会的推論に特化した別の認知モジュール
+   B) 階層的な推論 - エージェントのモデルには、別のエージェントのモデルを含む
+   C) 社会的相互作用中のミラーニューロンの活性化
+   D) 生まれつき、学習されていない能力
 
-3. According to the Active Inference framework, language primarily functions as:
-A) A set of labels arbitrarily mapped to objects in the world
-B) Cues that activate specific patterns in the listener's generative model
-C) A purely social convention with no cognitive function
-D) A barrier to direct perception of reality
+3. Active Inference の枠組みによると、言語は主にどのような機能を持つ：
+   A) 世界のオブジェクトに任意にマッピングされたラベルのセット
+   B) リスナーの生成モデル内の特定のパターンを活性化する手がかり
+   C) 認知機能のない純粋な社会的慣習
+   D) 現実の直接的な認識の障壁
 
-4. Miscommunication arises in the Active Inference framework when:
-A) The channel between agents is physically disrupted
-B) The sender's and receiver's generative models diverge in how they interpret signals
-C) One agent has a larger vocabulary than the other
-D) The communication occurs in writing rather than speech
+4. Active Inference の枠組みにおいて、誤解が生じるのは、次のうちどれか：
+   A) エージェント間のチャネルが物理的に中断された場合
+   B) 送信者と受信者の生成モデルが、信号の解釈において異なっている場合
+   C) 1つのエージェントが、もう1つのエージェントよりも大きな語彙を持っている場合
+   D) 記述形式ではなく、口頭形式でコミュニケーションが行われた場合
 
-5. Husserl's concept of *Einfühlung* (empathy) relates to Active Inference's view that:
-A) Understanding another person requires simulating their emotional states
-B) Understanding requires constructing a model of the other's perspective, not just observing behavior
-C) Empathy is impossible because Markov Blankets prevent access to internal states
-D) Emotions are irrelevant to communication
+5. Husserl の概念である *Einfühlung* (共感) は、Active Inference の見方と関連している：
+   A) 他の人を理解するには、その人の感情状態をシミュレーションする必要がある
+   B) 理解するには、他者の視点をモデル化するだけでなく、行動を観察する
+   C) 共感は、マルコフ・ブランケットが内部状態へのアクセスを妨げるため不可能である
+   D) 感情はコミュニケーションにおいて無関係である
 
-6. Cultural practices (rituals, institutions) function within Active Inference as:
-A) Obstacles to individual learning
-B) Long-duration mechanisms for maintaining shared generative models across generations
-C) Purely symbolic activities with no functional role in inference
-D) Evidence that Active Inference applies only to individuals, not groups
+6. 文化的な慣習（儀式、制度）は、Active Inference の中でどのように機能するか：
+   A) 個人の学習の障害
+   B) 世代を超えて共有された生成モデルを維持するための長期間のメカニズム
+   C) 機能のない純粋な象徴的な活動
+   D) Active Inference が個人にのみ適用されることを示す証拠
 
-7. Deception in the Active Inference framework requires:
-A) The ability to produce sounds
-B) Modeling the target's generative model to predict how a false signal will be interpreted
-C) Complete knowledge of the target's internal states
-D) The deceiver to believe the false information themselves
+7. Active Inference の枠組みにおける欺瞞には、次のうちどれが必要か：
+   A) 音を出す能力
+   B) 偽の信号がどのように解釈されるかを予測するために、対象者の生成モデルをモデル化すること
+   C) 対象者の内部状態に関する完全な知識
+   D) 欺瞞者を偽の情報が信じられるようにさせること
 
-## Part B: Short Answer
+## Part B: 記述問題
 
-1. Explain the Wittgensteinian insight that "the limits of my language are the limits of my world" in Active Inference terms. How does language shape the generative model?
-2. Two musicians improvising together gradually develop an intuitive sense of each other's playing. Describe this process as coupled Active Inference: what synchronizes, and how?
-3. Construct an argument for or against the claim: "All communication is inherently incomplete because Markov Blankets prevent direct access to another agent's internal states."
+1. ウィトゲンシュタインの洞察「私の言語の限界が私の世界の限界である」を Active Inference の観点から説明してください。言語は生成モデルの形成にどのように影響しますか？
+2. 2人のミュージシャンが一緒に即興演奏をしながら、徐々に相手の演奏に対する直感的な感覚を開発していきます。このプロセスを結合された Active Inference として記述してください。何が同期し、どのようにしますか？
+3. 次の主張について、賛成または反対の議論を構築してください。「すべてのコミュニケーションは、マルコフ・ブランケットが別のエージェントの内部状態への直接的なアクセスを妨げるため、本質的に不完全である」

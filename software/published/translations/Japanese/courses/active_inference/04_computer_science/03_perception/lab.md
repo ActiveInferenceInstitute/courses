@@ -1,42 +1,42 @@
-# Lab 03: State Estimation and Belief Updating
+# Lab 03: State Estimationと信念更新
 
-## Objective
+## 目的
 
-Implement and visualize belief updating using the A-matrix likelihood, compare inference with different observation noise levels, and analyze convergence behavior.
+A-行列の尤度を使用して信念更新を実装および可視化し、異なる観測ノイズレベルでの推論を比較し、収束挙動を分析します。
 
-## Prerequisites
+## 前提条件
 
-- Completed Labs 01–02
-- Understanding of Bayesian inference and VFE
-- Access to the `active_inference` library
+- Lab 01–02 の完了
+- ベイジアン推論と VFE の理解
+- `active_inference` ライブラリへのアクセス
 
-## Part 1: Basic State Inference
+## 部門 1: 基本の状態推論
 
-**Goal**: Run state inference on a simple 2-state system and examine the posterior.
+**目標**: 簡単な 2 状態システムで状態推論を実行し、事後分布を調べます。
 
-1. Create a `GenerativeModel` with a clear A-matrix ($A = [[0.9, 0.1], [0.1, 0.9]]$).
-2. Run `run_state_inference()` with a uniform prior and observation $o = 0$.
-3. Print the posterior, number of iterations, and whether convergence was achieved.
+1. 明確な A-行列 ($A = [[0.9, 0.1], [0.1, 0.9]]$) を持つ `GenerativeModel` を作成します。
+2. 一様な事前分布と観測 $o = 0$ で `run_state_inference()` を実行します。
+3. 事後分布、イテレーション数、および収束が達成されたかどうかを出力します。
 
 ```python
 import numpy as np
 from active_inference.agent import GenerativeModel
 from active_inference.math import run_state_inference
 
-# TODO: Create model and run state inference
-# TODO: Print result["q_s"], result["converged"], result["num_iters"]
+# TODO: モデルを作成し、状態推論を実行する
+# TODO: result["q_s"], result["converged"], result["num_iters"] を出力する
 ```
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 2: Sequential Observation Updates
+## 部門 2: 順序付き観測更新
 
-**Goal**: Update beliefs across multiple observations.
+**目標**: 複数の観測に対して信念を更新します。
 
-1. Start with a uniform prior $q(s) = [0.5, 0.5]$.
-2. Process the observation sequence $[0, 0, 1, 0, 1, 1]$.
-3. After each observation, use the posterior as the new prior.
-4. Record and plot the belief trajectory using `plot_beliefs()`.
+1. 一様な事前分布 $q(s) = [0.5, 0.5]$ で開始します。
+2. 観測シーケンス $[0, 0, 1, 0, 1, 1]$ を処理します。
+3. 各観測の後に、事後分布を新しい事前分布として使用します。
+4. `plot_beliefs()` を使用して信念軌跡を記録し、プロットします。
 
 ```python
 from active_inference.visualization import plot_beliefs
@@ -52,25 +52,25 @@ plot_beliefs(beliefs_history, state_labels=["s0", "s1"],
              save_path="output/lab03_beliefs.png")
 ```
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 3: Noise Comparison
+## 部門 3: ノイズ比較
 
-**Goal**: Compare inference under different A-matrix noise levels.
+**目標**: 異なる A-行列ノイズレベルでの推論を比較します。
 
-1. Define three A-matrices: clear ($0.95/0.05$), moderate ($0.75/0.25$), noisy ($0.55/0.45$).
-2. For each, run inference on the same observation sequence $[0, 0, 0, 0, 0]$.
-3. Plot the posterior $q(s_0)$ after each observation for all three noise levels on the same graph.
+1. 明瞭な ($0.95/0.05$）、中程度 ($0.75/0.25$）、ノイズ ($0.55/0.45$）の 3 つの A-行列を定義します。
+2. 各行列に対して、同じ観測シーケンス $[0, 0, 0, 0, 0]$ で推論を実行します。
+3. すべてのノイズレベルで、各観測後の事後分布 $q(s_0)$ を同じグラフにプロットします。
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 4: Convergence Analysis
+## 部門 4: 収束分析
 
-**Goal**: Visualize and analyze inference convergence.
+**目標**: 推論の収束を視覚化および分析します。
 
-1. Run `run_state_inference()` with a tight threshold ($10^{-12}$) and 50 max iterations.
-2. Plot the convergence curve using `plot_convergence()`.
-3. Repeat with the noisy A-matrix and compare convergence speed.
+1. 厳密な閾値 ($10^{-12}$) と最大 50 イテレーションで `run_state_inference()` を実行します。
+2. `plot_convergence()` を使用して収束曲線を描画します。
+3. ノイズのある A-行列を使用して繰り返すこと、および収束速度を比較します。
 
 ```python
 from active_inference.visualization import plot_convergence
@@ -83,32 +83,32 @@ plot_convergence(result["delta_history"], threshold=1e-12,
                  save_path="output/lab03_convergence.png")
 ```
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Part 5: Prediction Errors in a Live Agent
+## 部門 5: ライブエージェントでの予測誤差
 
-**Goal**: Run an agent and examine prediction errors.
+**目標**: エージェントを実行し、予測誤差を調べます。
 
-1. Create an `ActiveInferenceAgent` and a `DiscreteEnvironment`.
-2. Run 20 steps of the perception-action loop.
-3. At each step, compute `agent.prediction_error(obs)` and store it.
-4. Visualize with `plot_prediction_errors()`.
+1. `ActiveInferenceAgent` と `DiscreteEnvironment` を作成します。
+2. 20 ステップの知覚-行動ループを実行します。
+3. 各ステップで、`agent.prediction_error(obs)` を計算し、保存します。
+4. `plot_prediction_errors()` を使用して可視化します。
 
 ```python
 from active_inference.visualization import plot_prediction_errors
 
-# TODO: Run loop, collect observations and predicted observations
-# TODO: Call plot_prediction_errors()
+# TODO: ループを実行し、観測と予測された観測を収集する
+# TODO: plot_prediction_errors() を呼び出す
 ```
 
-**Response**: {fill:textarea}
+**応答**: {fill:textarea}
 
-## Summary
+## 概要
 
-| Skill | Library Component | Status |
+| スキル | ライブラリコンポーネント | ステータス |
 |-------|------------------|--------|
-| Run standalone state inference | `run_state_inference()` | |
-| Update beliefs across sequential observations | Prior chaining | |
-| Compare inference under different noise levels | Varying A-matrix | |
-| Visualize convergence diagnostics | `plot_convergence()` | |
-| Compute and plot prediction errors | `agent.prediction_error()`, `plot_prediction_errors()` | |
+| 単独のステート推論を実行する | `run_state_inference()` | |
+| 順序付き観測の信念を更新する | 事前チェーン | |
+| 異なるノイズレベルでの推論を比較する | 変調された A-行列 | |
+| 収束診断を視覚化する | `plot_convergence()` | |
+| 予測誤差を計算し、プロットする | `agent.prediction_error()`、`plot_prediction_errors()` | |

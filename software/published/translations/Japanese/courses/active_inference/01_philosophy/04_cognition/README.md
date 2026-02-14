@@ -1,53 +1,53 @@
-# Module 4: Cognition — Beliefs as Physical States, the Embodied Mind, and Predictive Processing
+# モジュール4：認知 — 信念は物理的状態、身体化された心、予測処理
 
-> **Quick Navigation**: [← Perception](../03_perception/) | [Up](../) | [Action →](../05_action/)
+> **クイックナビゲーション**: [← 認識](../03_perception/) | [上へ](../) | [行動へ](../05_action/)
 
-## The Philosophy of Active Inference
+## 積極的推論の哲学
 
 ---
 
-## Contents
+## 概要
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Thought Experiment lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20 個の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個の自由記述) |
+| [lab.md](./lab.md) | 思考実験に基づくラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブなダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了すると、あなたは以下のことができるようになるはずです：
 
-1. Define **Cognition** from a philosophical perspective within Active Inference
-2. Explain the role of **Beliefs as Physical States** in the FEP framework
-3. Connect cognition to the broader concepts of free energy minimization
-4. Apply philosophical reasoning to analyze real-world examples of cognition
+1. 積極的推論の視点から「認知」を哲学的に定義する
+2. FEP フレームワークにおける「信念は物理的状態」の役割を説明する
+3. 自由エネルギー最小化というより広範な概念と認知を結びつける
+4. 現実世界の認知の例を分析するために、哲学的な論理を適用する
 
 ---
 
-## Cross-Course Links
+## 関連コースへのリンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/04_cognition/) | Beliefs as Physical States, the Embodied Mind, and Predictive Processing ← **You are here** |
-| [Cognitive Science](../../02_cognitive_science/04_cognition/) | Attention as Precision Weighting and Working Memory |
-| [Mathematics](../../03_math/04_cognition/) | Precision Matrices, Hierarchical Gaussian Filters, Message Passing |
-| [Computer Science](../../04_computer_science/04_cognition/) | C, D, E Matrices: Configuring Precision and Attention |
+| [哲学](../../01_philosophy/04_cognition/) | 信念は物理的状態、身体化された心、予測処理 ← **現在地** |
+| [認知科学](../../02_cognitive_science/04_cognition/) | 注意は精密重み付けとワーキングメモリ |
+| [数学](../../03_math/04_cognition/) | 精密行列、階層的ガウスフィルタ、メッセージパッシング |
+| [コンピュータサイエンス](../../04_computer_science/04_cognition/) | C, D, E行列: 精密性と注意の構成 |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Perception](../03_perception/) | [Up](../) | [Action →](../05_action/)
+[← 認識](../03_perception/) | [上へ](../) | [行動へ](../05_action/)

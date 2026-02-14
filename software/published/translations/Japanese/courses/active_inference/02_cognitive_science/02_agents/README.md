@@ -1,53 +1,53 @@
-# Module 2: Agents — The Self-Model, Interoception, and Ego Boundaries
+# モジュール2：エージェント — 自己モデル、内臓知覚、自我の境界
 
-> **Quick Navigation**: [← Systems](../01_systems/) | [Up](../) | [Perception →](../03_perception/)
+> **クイックナビゲーション**: [← システム](../01_systems/) | [上へ](../) | [認識 →](../03_perception/)
 
-## Cognitive Behavioral Science & Active Inference
+## 認知行動科学と能動的推論
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Experimental Analysis lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の全文 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個のMC + 3 個の自由記述) |
+| [lab.md](./lab.md) | 実験分析ラボアクティビティ |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです：
 
-1. Define **Agents** from a cognitive-behavioral perspective within Active Inference
-2. Explain the role of **The Self-Model** in the FEP framework
-3. Connect agents to the broader concepts of free energy minimization
-4. Apply cognitive-behavioral reasoning to analyze real-world examples of agents
+1. 能動的推論における認知行動科学的な視点から **エージェント** を定義する。
+2. FEP フレームワークにおける **自己モデル** の役割を説明する。
+3. エージェントを、自由エネルギー最小化のより広範な概念と関連付ける。
+4. 実際の事例を分析するために、認知行動科学的な推論を適用する。
 
 ---
 
-## Cross-Course Links
+## 関連モジュール
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/02_agents/) | Autopoiesis, Agency, and the Self-Organizing System |
-| [Cognitive Science](../../02_cognitive_science/02_agents/) | The Self-Model, Interoception, and Ego Boundaries ← **You are here** |
-| [Mathematics](../../03_math/02_agents/) | Stochastic Systems: Random Processes, Differential Equations, and Steady States |
-| [Computer Science](../../04_computer_science/02_agents/) | The Agent Class: States, Observations, and Actions in pymdp |
+| [哲学](../../01_philosophy/02_agents/) | 自律性、代理人、自己組織化システム |
+| [認知科学](../../02_cognitive_science/02_agents/) | 自己モデル、内臓知覚、自我の境界 ← **現在地** |
+| [数学](../../03_math/02_agents/) | 確率的システム：確率過程、微分方程式、および平衡状態 |
+| [コンピュータサイエンス](../../04_computer_science/02_agents/) | エージェントクラス：pymdp における状態、観測、および行動 |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) — 記号の定義
+- [用語集](../../resources/glossary.md) — 用語の定義
+- [参考文献](../../resources/references.md) — このモジュールに関する重要な引用
 
 ---
 
-[← Systems](../01_systems/) | [Up](../) | [Perception →](../03_perception/)
+[← システム](../01_systems/) | [上へ](../) | [認識 →](../03_perception/)

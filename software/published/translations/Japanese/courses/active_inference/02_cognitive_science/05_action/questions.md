@@ -1,22 +1,22 @@
-# Study Questions: Action
+# 課題：行動
 
-1. How does Active Inference reinterpret motor commands as proprioceptive predictions rather than explicit commands to muscles?
-2. Explain the role of the spinal reflex arc in the Active Inference account of motor control.
-3. How does this framework reinterpret the stretch reflex — is it a primitive response or the final stage of hierarchical inference?
-4. What are saccadic eye movements, and how does Expected Free Energy explain their patterns?
-5. Distinguish epistemic action from pragmatic action. Give three examples of each.
-6. How does haptic exploration (touching and feeling objects) serve as epistemic action?
-7. Explain how loss of dopaminergic neurons in Parkinson's disease leads to bradykinesia through reduced motor precision.
-8. What is a functional motor disorder, and how does Active Inference explain symptoms with no identifiable neurological cause?
-9. How does the concept of a "prior belief about inability" create real motor paralysis in functional disorders?
-10. What is apraxia, and how does it illustrate the hierarchical nature of the motor model?
-11. Compare the Active Inference account of motor control with the classical optimal control theory (Todorov & Jordan, 2002).
-12. How does the cerebellum contribute to motor prediction and prediction error computation?
-13. What role does the basal ganglia play in precision-weighting motor policies?
-14. How does Active Inference explain the phenomenon of motor imagery (imagining an action without performing it)?
-15. What is the ideomotor principle (James, 1890), and how does Active Inference formalize it?
-16. How does Active Inference account for the speed-accuracy trade-off in motor control?
-17. What is the role of the supplementary motor area (SMA) in sequential action planning?
-18. How does mirror neuron activity relate to motor prediction — observing another's actions as "predicting" their motor trajectory?
-19. Explain how deep brain stimulation for Parkinson's disease might work through precision modulation.
-20. Design an experiment to test whether saccadic eye movements to a naturalistic scene follow the Expected Free Energy predictions.
+1.  Active Inference が、運動命令を固有感覚予測として、筋肉への明示的な命令ではなく、どのように解釈するのか説明してください。
+2.  Active Inference の運動制御の説明における脊髄反射弧の役割を説明してください。
+3.  この枠組みがストレッチ反射をどのように解釈するのか説明してください。それは原始的な反応か、階層的推論の最終段階か。
+4.  サカリック眼運動とは何か、そして Expected Free Energy がそのパターンをどのように説明するのか説明してください。
+5.  認識的な行動と実践的な行動を区別してください。それぞれの例を3つ挙げてください。
+6.  触覚探索（物体に触れて感じる）が認識的な行動としてどのように機能するのか説明してください。
+7.  パーキンソン病におけるドーパミンニューロンの喪失が、運動精度の低下を通じて緩慢症（bradykinesia）を引き起こす仕組みを説明してください。
+8.  機能性運動障害とは何か、そして Active Inference が、特定できない神経学的原因がない症状をどのように説明するのか説明してください。
+9.  「能力に関する事前信念」という概念が、機能性障害において現実の運動麻痺を生み出す仕組みを説明してください。
+10. アプラキシアとは何か、そしてそれは運動モデルの階層的な性質をどのように示しているのか説明してください。
+11. Active Inference の運動制御の説明を、古典的な最適制御理論（Todorov & Jordan, 2002）と比較してください。
+12. 小脳が運動予測と予測誤差計算にどのように貢献するのか説明してください。
+13. 辺縁基は、精密化された運動ポリシーにおける役割は何ですか。
+14. Active Inference が、運動イメージング（行動を実行せずに想像する）という現象をどのように説明するのか説明してください。
+15. James (1890) のアイデオモーター原理とは何か、そして Active Inference がそれをどのように形式化するのか説明してください。
+16. Active Inference が、運動制御における速度と精度トレードオフをどのように説明するのか説明してください。
+17. 補遺性運動野（SMA）は、順序付けられた行動計画においてどのような役割を果たしますか。
+18. ミラーニューロンの活動が運動予測とどのように関連しているのか説明してください。他者の行動を「彼らの運動軌跡を予測する」と観察することが、運動予測につながる仕組み。
+19. パーキンソン病に対する深部脳刺激が、精密な調整を通じてどのように機能するか説明してください。
+20. サカリック眼運動が、Expected Free Energy の予測に従って自然なシーンに移動するかどうかをテストするための実験を設計してください。

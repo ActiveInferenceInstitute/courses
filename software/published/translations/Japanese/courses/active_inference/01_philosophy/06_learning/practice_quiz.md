@@ -1,51 +1,51 @@
-# Practice Quiz: Learning
+# 練習クイズ：学習
 
-## Part A: Multiple Choice
+## 部門 A：多肢選択式
 
-1. In Active Inference, parameter learning refers to:
-A) Adding new variables to the generative model
-B) Updating concentration parameters (e.g., Dirichlet priors) based on experience
-C) Discarding the generative model and starting from scratch
-D) Learning the laws of physics through formal education
+1. Active Inference におけるパラメータ学習とは、次のうちどれを指すか：
+    A) 生成モデルに新しい変数を追加すること
+    B) 経験に基づいて濃度パラメータ（例：Dirichlet 前提）を更新すること
+    C) 生成モデルを廃棄し、ゼロから再構築すること
+    D) 正式な教育を通して物理法則を学習すること
 
-2. Structure learning (Bayesian Model Reduction) involves:
-A) Refining predictions within an existing model structure
-B) Analytically comparing nested models and selecting the one with best evidence
-C) Building physical structures in the environment
-D) Learning only when explicitly told to by a teacher
+2. Bayesian モデル削減（ベイズモデル削減）における構造学習とは、次のうちどれを指すか：
+    A) 既存のモデル構造の中で予測を改善すること
+    B) 埋め込みモデルを解析的に比較し、最も強力な証拠を持つモデルを選択すること
+    C) 環境に物理的な構造を構築すること
+    D) 教師が明示的に指示しない限り学習しないこと
 
-3. Niche construction in the context of Active Inference refers to:
-A) Building a nest or shelter for physical protection
-B) The agent acting on its environment to make it more predictable, reducing future surprise
-C) The environment changing the agent's preferences
-D) A purely biological process irrelevant to philosophy
+3. Active Inference の文脈におけるニッチ構築とは、次のうちどれを指すか：
+    A) 物理的な保護のために巣やシェルを建設すること
+    B) エージェントが環境に影響を与え、将来の驚きを軽減するために環境を予測可能にすること
+    C) 環境がエージェントの好みを変化させること
+    D) 哲学とは無関係な純粋な生物学的プロセス
 
-4. The concept of *Bildung* in German philosophy refers to:
-A) Construction of buildings and physical infrastructure
-B) Self-formation through education — becoming a different kind of person through learning
-C) Memorization of cultural facts
-D) Biological maturation of the nervous system
+4. ドイツ哲学における *Bildung* の概念とは、次のうちどれを指すか：
+    A) 建物や物理的なインフラストラクチャの構築
+    B) 教育を通して自己形成すること - 学習を通して異なる種類の人間になること
+    C) 文化的な事実の暗記
+    D) 神経系の生物学的成熟
 
-5. The "complexity" term in Bayesian model evidence:
-A) Favors the most complex model available
-B) Penalizes unnecessary complexity, implementing a formal version of Occam's Razor
-C) Measures the computational cost of running the model
-D) Is irrelevant to learning
+5. Bayesian モデル証拠における「複雑さ」という用語とは、次のうちどれを指すか：
+    A) 利用可能な最も複雑なモデルを好む
+    B) 不要な複雑さを罰し、Occam の剃刀の形式的なバージョンを実装する
+    C) モデルの実行に必要な計算コストを測定する
+    D) 学習とは無関係
 
-6. If learning transforms the generative model, and the agent *is* its generative model, then:
-A) Learning changes the agent's identity, not just its knowledge
-B) Learning is impossible because the agent cannot change itself
-C) The agent must be separate from its model
-D) Personal identity is determined at birth and cannot change
+6. 学習が生成モデルを変換し、エージェントがその生成モデル *である* 場合、次のうちどれが正しいか：
+    A) 学習はエージェントのアイデンティティを変更し、単に知識を拡張するだけである
+    B) 学習はエージェントが自分自身を変えることができないため不可能である
+    C) エージェントはモデルから分離されている必要がある
+    D) 個人のアイデンティティは出生時に決定され、変更することはできない
 
-7. Kuhn's concept of a "paradigm shift" is most closely analogous to:
-A) Parameter learning — refining existing beliefs
-B) Structure learning — changing the model's architecture to better explain evidence
-C) Forgetting — losing previously acquired knowledge
-D) Perception — seeing something for the first time
+7. クーンの「パラダイムシフト」の概念は、次のうちどれに最も類似しているか：
+    A) パラメータ学習 - 既存の信念を改善すること
+    B) 構造学習 - 証拠をより良く説明するためにモデルのアーキテクチャを変更すること
+    C) 忘却 - 以前獲得した知識を失うこと
+    D) 認識 - 何かを初めて見ること
 
-## Part B: Short Answer
+## 部門 B：短い回答
 
-1. Explain how Bayesian Model Reduction (BMR) implements a formal version of Occam's Razor. Why might simpler models be preferred even when more complex models fit the data better?
-2. A child who has never seen snow experiences it for the first time. Describe this experience using the Active Inference framework: is this parameter learning, structure learning, or both? What happens to the child's generative model?
-3. Construct an argument for or against the claim: "If I am my generative model and learning changes my model, then the person I was before a transformative experience no longer exists."
+1. Bayesian モデル削減 (BMR) が Occam の剃刀の形式的なバージョンをどのように実装するかを説明してください。より複雑なモデルがデータに適合するにもかかわらず、より単純なモデルが好まれる理由は何か？
+2. 雪を見たことがない子供が初めて雪を体験する状況を説明してください。Active Inference フレームワークを用いてこの経験を記述してください。これはパラメータ学習、構造学習、またはその両方ですか？子供の生成モデルはどうなりますか？
+3. 「私は私の生成モデルである場合、学習が私のモデルを変更する場合、経験を変革する以前の私が存在しなくなる」という主張について、賛成または反対の議論を構築してください。

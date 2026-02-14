@@ -1,78 +1,70 @@
-# Lab 05: Policy Selection and the T-Maze
+# Lab 05: ポリシー選択とT-迷路
 
-## Objective
+## 目的
 
-Compute EFE, decompose it into risk and ambiguity, select policies, and analyze T-maze exploration–exploitation behavior.
+EFEを計算し、リスクと不確実性に分解し、ポリシーを選択し、T-迷路の探索–利用行動を分析する。
 
-## Prerequisites
+## 前提条件
 
-- Completed Labs 01–04
-- Understanding of EFE formula and softmax function
+- Lab 01–04 を完了する
+- EFEの公式とソフトマックス関数についての理解
 
-## Part 1: Computing EFE for Individual Actions
+## Part 1: 個別行動に対するEFEの計算
 
-**Goal**: Compute and compare EFE values for each action in a 2-state system.
+**目標**: 2状態システムにおける各行動について、EFEの値の計算と比較を行う。
 
-1. Create a `GenerativeModel` with `A = [[0.9, 0.1], [0.1, 0.9]]`, identity B for action 0, swap B for action 1, `C = [2, -2]`, uniform D.
-2. Set $q(s) = [0.8, 0.2]$.
-3. Compute `compute_efe()` and `compute_efe_components()` for both actions.
-4. Print a table of risk, ambiguity, and total G for each action.
+1. `GenerativeModel` を `A = [[0.9, 0.1], [0.1, 0.9]]`、行動0に対してアイデンティティB、行動1に対してスワップB、`C = [2, -2]`、一様分布Dで作成する。
+2. $q(s) = [0.8, 0.2]$ を設定する。
+3. 両方の行動について `compute_efe()` と `compute_efe_components()` を計算する。
+4. 各行動のリスク、不確実性、および合計Gの表を印刷する。
 
 ```python
 from active_inference.math import compute_efe, compute_efe_components
 
-# TODO: Compute and compare EFE for action 0 vs action 1
+# TODO: 行動0と行動1の間のEFEの計算と比較を行う
 ```
 
-**Response**: {fill:textarea}
+## Part 2: 異なる精度でのポリシー推論
 
-## Part 2: Policy Inference with Varying Precision
+**目標**: γ値に対して `run_policy_inference()` を実行し、ポリシー後の確率の変更を観察する。
 
-**Goal**: Run `run_policy_inference()` across γ values and observe policy posterior changes.
+1. Part 1 のモデルを使用する。ポリシー `[[0], [1]]` を作成する。
+2. γ ∈ {0.1, 0.5, 1, 2, 4, 8, 16} に対してポリシー推論を実行する。
+3. 各γについて $q(\pi)$ を記録する。
+4. `plot_precision_sweep()` を使用して結果をプロットする。
 
-1. Use the model from Part 1. Create policies `[[0], [1]]`.
-2. Run policy inference for γ ∈ {0.1, 0.5, 1, 2, 4, 8, 16}.
-3. Record $q(\pi)$ for each γ.
-4. Plot results using `plot_precision_sweep()`.
+## Part 3: T-迷路シミュレーション
 
-**Response**: {fill:textarea}
+**目標**: フルなT-迷路エージェント–環境ループを構築して実行する。
 
-## Part 3: T-Maze Simulation
+1. モジュール02からT-迷路モデル（4状態、3観察、3行動）を設定する。
+2. 関連する`DiscreteEnvironment`と`ActiveInferenceAgent`を作成する。
+3. 8ステップ実行する。状態、観察、行動、およびEFE値を記録する。
+4. エージェントは選択肢を選ぶ前にヒント位置を訪問したか？
 
-**Goal**: Build and run a full T-maze agent-environment loop.
+## Part 4: 時間経過に伴うEFE分解
 
-1. Set up the T-maze model (4 states, 3 obs, 3 actions) from Module 02.
-2. Create the corresponding `DiscreteEnvironment` and `ActiveInferenceAgent`.
-3. Run 8 steps. Record states, observations, actions, and EFE values.
-4. Did the agent visit the cue location before choosing an arm?
+**目標**: シミュレーション中、リスクと不確実性を追跡する。
 
-**Response**: {fill:textarea}
+1. T-迷路ループの各ステップで、選択された行動について `compute_efe_components()` を計算する。
+2. リスクと不確実性の値を保存する。
+3. `plot_efe_decomposition()` を使用してプロットする。
+4. 不確実性が優勢（情報探索フェーズ）とリスクが優勢（目標達成フェーズ）であるタイミングを特定する。
 
-## Part 4: EFE Decomposition Over Time
+## Part 5: 分析質問
 
-**Goal**: Track risk and ambiguity across the simulation.
-
-1. At each step of the T-maze loop, compute `compute_efe_components()` for the selected action.
-2. Store risk and ambiguity values.
-3. Plot with `plot_efe_decomposition()`.
-4. Identify when ambiguity dominates (information-seeking phase) and when risk dominates (goal-seeking phase).
-
-**Response**: {fill:textarea}
-
-## Part 5: Analysis Questions
-
-1. In the 2-state system, which action had lower G? Does this match your intuition given the C-vector?
-2. At what γ value did the T-maze agent become reliably goal-directed?
-3. Did the agent's EFE decomposition show an ambiguity-driven phase followed by a risk-driven phase?
+1. 2状態システムにおいて、どの行動が低いG値を持っていたか？これはCベクトルから得られる直感と一致するか？
+2. T-迷路エージェントが確実に目標指向になるγ値は何か？
+3. エージェントのEFE分解は、不確実性主導フェーズとリスク主導フェーズを示すか？
 
 **Response**: {fill:textarea}
 
 ## Summary
 
-| Skill | Library Component | Status |
+| スキル | ライブラリコンポーネント | ステータス |
 |-------|------------------|--------|
-| Compute EFE and its components | `compute_efe()`, `compute_efe_components()` | |
-| Run policy inference | `run_policy_inference()` | |
-| Visualize EFE decomposition | `plot_efe_decomposition()` | |
-| Build and run a T-maze simulation | T-maze model + agent-env loop | |
-| Analyze exploration vs exploitation | Risk vs ambiguity over time | |
+| EFEとコンポーネントを計算 | `compute_efe()`, `compute_efe_components()` | |
+| ポリシー推論を実行 | `run_policy_inference()` | |
+| EFE分解を可視化 | `plot_efe_decomposition()` | |
+| T-迷路シミュレーションを構築して実行 | T-迷路モデル + エージェント-環境ループ | |
+| 探索と利用を分析 | リスクと不確実性の時間経過における変化 | |

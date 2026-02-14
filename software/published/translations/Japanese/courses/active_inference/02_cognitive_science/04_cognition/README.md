@@ -1,53 +1,53 @@
-# Module 4: Cognition — Attention as Precision Weighting and Working Memory
+# モジュール4：認知 – 注意における精密化重みとワーキングメモリ
 
-> **Quick Navigation**: [← Perception](../03_perception/) | [Up](../) | [Action →](../05_action/)
+> **クイックナビゲーション**: [← 認識](../03_perception/) | [上へ](../) | [行動へ →](../05_action/)
 
-## Cognitive Behavioral Science & Active Inference
+## 認知行動科学と能動的推論
 
 ---
 
-## Contents
+## 構成
 
-| File | Description |
+| ファイル | 説明 |
 |------|-------------|
-| [module.md](./module.md) | Full lecture content |
-| [questions.md](./questions.md) | 20 study questions |
-| [practice_quiz.md](./practice_quiz.md) | Quiz (7 MC + 3 FR) |
-| [lab.md](./lab.md) | Experimental Analysis lab activity |
-| [dashboard.html](./dashboard.html) | Interactive dashboard |
+| [module.md](./module.md) | 講義の完全な内容 |
+| [questions.md](./questions.md) | 20 の学習問題 |
+| [practice_quiz.md](./practice_quiz.md) | クイズ (7 個の多肢選択問題 + 3 個の自由記述問題) |
+| [lab.md](./lab.md) | 実験分析ラボ活動 |
+| [dashboard.html](./dashboard.html) | インタラクティブダッシュボード |
 
 ---
 
-## Learning Objectives
+## 学習目標
 
-By the end of this module, you should be able to:
+このモジュールを完了するまでに、あなたは以下のことができるようになるはずです：
 
-1. Define **Cognition** from a cognitive-behavioral perspective within Active Inference
-2. Explain the role of **Attention as Precision Weighting and Working Memory** in the FEP framework
-3. Connect cognition to the broader concepts of free energy minimization
-4. Apply cognitive-behavioral reasoning to analyze real-world examples of cognition
+1. 能動的推論における認知行動科学の観点から**認知**を定義する。
+2. FEP フレームワークにおける**注意を精密化重みとワーキングメモリとして**の役割を説明する。
+3. 自由エネルギー最小化というより広範な概念と認知を結びつける。
+4. 認知の分析に応用できる認知行動科学的な推論を行う。
 
 ---
 
-## Cross-Course Links
+## 関連コースへのリンク
 
-See this topic from other perspectives:
+このトピックを他の視点から見てみましょう：
 
-| Course | Focus |
+| コース | 焦点 |
 |--------|-------|
-| [Philosophy](../../01_philosophy/04_cognition/) | Beliefs as Physical States, the Embodied Mind, and Predictive Processing |
-| [Cognitive Science](../../02_cognitive_science/04_cognition/) | Attention as Precision Weighting and Working Memory ← **You are here** |
-| [Mathematics](../../03_math/04_cognition/) | Precision Matrices, Hierarchical Gaussian Filters, Message Passing |
-| [Computer Science](../../04_computer_science/04_cognition/) | C, D, E Matrices: Configuring Precision and Attention |
+| [哲学](../../01_philosophy/04_cognition/) | 物理的な状態としての信念、身体化された心、予測処理 |
+| [認知科学](../../02_cognitive_science/04_cognition/) | 注意を精密化重みとワーキングメモリとして – **ここ** |
+| [数学](../../03_math/04_cognition/) | 精密化行列、階層的ガウスフィルタ、メッセージ伝播 |
+| [コンピュータサイエンス](../../04_computer_science/04_cognition/) | C, D, E 行列: 精密化と注意の設定 |
 
 ---
 
-## Resources
+## リソース
 
-- [Notation Table](../../resources/notation_table.md) — Symbol definitions
-- [Glossary](../../resources/glossary.md) — Term definitions
-- [References](../../resources/references.md) — Key citations for this module
+- [記号表](../../resources/notation_table.md) – 記号の定義
+- [用語集](../../resources/glossary.md) – 用語の定義
+- [参考文献](../../resources/references.md) – このモジュールに関する主要な引用
 
 ---
 
-[← Perception](../03_perception/) | [Up](../) | [Action →](../05_action/)
+[← 認識](../03_perception/) | [上へ](../) | [行動へ →](../05_action/)

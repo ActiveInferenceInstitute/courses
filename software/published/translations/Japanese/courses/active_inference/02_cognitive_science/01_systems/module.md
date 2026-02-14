@@ -1,40 +1,40 @@
-# Module 01: Systems — Neural Assemblies, Cortical Organization, and Self-Environment Distinction
+# モジュール01：システム – 神経集合、皮質組織、そして自己と環境の区別
 
-## Learning Objectives
+## 学習目標
 
-1. Describe how the brain implements the system/environment distinction through neural organization, from cortical columns to large-scale networks.
-2. Explain how the Markov Blanket framework maps onto the brain-body-environment loop, with sensory cortex and motor cortex as the blanket states.
-3. Analyze empirical evidence (fMRI resting-state networks, lesion studies) for the brain as a self-organizing system.
+1. 皮質列から大規模ネットワークまでの神経組織を通して、脳がシステム/環境の区別をどのように実現しているかを記述する。
+2. マルコフブランケットの枠組みが、感覚皮質と運動皮質を「ブランケット状態」とする脳-身体-環境のループにどのように対応するかを説明する。
+3. 自己組織化システムとしての脳を検証する、fMRI休息状態ネットワークや損傷研究などの経験的証拠を分析する。
 
-## Introduction
+## 導入
 
-The brain is the most complex system we know — approximately 86 billion neurons organized into hierarchical assemblies, from individual synapses to cortical columns to large-scale networks. How does this biological system implement the Active Inference framework introduced philosophically in Course 1? This module bridges the gap between abstract theory and neural reality.
+脳は私たちが知っている最も複雑なシステムであり、約860億ものニューロンが階層的な集合体として組織されています。これは、個々のシナプスから皮質列、大規模ネットワークまで及ぶものです。コース1で哲学的に導入されたアクティブ・インファレンス（Active Inference）の枠組みを、この生物学的システムはどのように実現しているのでしょうか？このモジュールは、抽象的な理論と神経現実の間のギャップを埋めます。
 
-## Key Concepts
+## 主要な概念
 
-### 1. Cortical Columns as Functional Units
+### 1. 皮質列としての機能単位
 
-The neocortex is organized into **cortical columns** — vertical assemblies of approximately 100 neurons that share functional properties. Vernon Mountcastle (1957) discovered that neurons within a column respond to the same sensory features. In Active Inference terms, each column can be understood as a local inference engine, maintaining predictions about a specific feature of the environment and generating prediction errors when those predictions are violated.
+ねおこてるは**皮質列**という垂直方向の集合体として組織されています。これは約100個のニューロンからなるもので、共通の機能的特性を共有しています。 Vernon Mountcastle（1957年）は、列内のニューロンが同じ感覚的特徴に反応することを発見しました。アクティブ・インファレンスの用語で言えば、各列は特定の環境の特徴に関する予測を維持し、その予測が違反された場合に予測誤差を生成する、ローカルな推論エンジンと理解できます。
 
-The hierarchical organization of the cortex — from primary sensory areas (V1, A1, S1) to higher association areas (prefrontal cortex, temporal pole) — corresponds to the hierarchical depth of the generative model. Lower levels predict raw sensory features; higher levels predict abstract, temporally extended patterns.
+皮質の階層的な組織—主要な感覚領域（V1、A1、S1）からより高次の関連領域（前頭皮質、時間極）まで—は、生成モデルの階層的な深さに対応しています。より低いレベルは生の感覚的特徴を予測し、より高いレベルは時間的に拡張されたパターンを予測します。
 
-### 2. The Brain-Body-Environment Loop
+### 2. 脳-身体-環境のループ
 
-The Markov Blanket of the brain is not the skull but the sensory and motor surfaces of the body. **Sensory neurons** (retina, cochlea, mechanoreceptors) constitute the sensory blanket states — they mediate the influence of the external world on internal (neural) states. **Motor neurons** (alpha motor neurons, autonomic effectors) constitute the active blanket states — they mediate the brain's influence on the external world.
+脳のマルコフブランケットは、頭蓋骨ではなく、身体の感覚および運動表面です。**感覚ニューロン**（網膜、蝸牛、機械受容体）は感覚ブランケットの状態を構成し、外部の世界からの内部（神経）状態への影響を媒介します。**運動ニューロン**（α運動ニューロン、自律効果器）はアクティブなブランケットの状態を構成し、脳からの外部世界への影響を媒介します。
 
-This embodied loop — world → sensory → brain → motor → world — is the physical implementation of the perception-action cycle central to Active Inference. Friston (2005) showed that resting-state fMRI activity in the default mode network reflects the brain's ongoing generative model — the "priors" that the brain maintains even in the absence of external stimulation.
+この体性ループ—世界→感覚→脳→運動→世界—は、アクティブ・インファレンスの中心にある知覚-行動サイクルを物理的に実装しています。Friston（2005年）は、デフォルトモードネットワークにおける休息状態fMRI活動が、脳が外部刺激がない場合でも維持する「事前分布」—つまり、脳の継続的な生成モデルを反映していることを示しました。
 
-### 3. Self-Organization and Resting-State Networks
+### 3. 自己組織化と休息状態ネットワーク
 
-Resting-state fMRI studies have identified several large-scale networks that spontaneously organize even when the subject is not performing any task. The **default mode network (DMN)**, **salience network**, and **central executive network** can be understood as components of the brain's generative model operating at different hierarchical levels and timescales.
+休息状態fMRI研究は、被験者が何らかのタスクを実行していない場合でも自発的に組織化される、いくつかの大規模なネットワークを特定しています。**デフォルトモードネットワーク（DMN）**、**強調ネットワーク**、**中央実行ネットワーク**は、異なる階層レベルと時間スケールで動作する生成モデルのコンポーネントとして理解できます。
 
-The DMN, active during rest and self-referential thought, may encode the agent's model of itself — the "self" as a prediction about one's own persistence. The salience network, anchored by the anterior insula and dorsal anterior cingulate cortex, may implement **precision weighting** — determining which prediction errors are amplified and which are suppressed.
+DMNは休息中や自己参照的な思考中に活動し、エージェントの自己モデル—つまり、自己の持続性に関する予測—をエンコードする可能性があります。強調ネットワークは、前頭葉島皮質および背外側線条体皮質によって支えられており、**精密重み付け**を実装する可能性があります—つまり、どの予測誤差を強調し、どの予測誤差を抑制するかを決定します。
 
-## Clinical Connections
+## 臨床的関連性
 
-* **Anosognosia** (unawareness of deficit after stroke) may result from a failure to update the generative model's self-component — the brain continues to predict normal function despite neurological damage.
-* **Depersonalization** may reflect low precision on self-model predictions — the agent's "belief" in its own existence becomes uncertain.
+* **無名症**（脳卒中の後で障害に対する無自覚）は、生成モデルの自己コンポーネントの更新失敗—つまり、脳が神経学的損傷にもかかわらず、正常な機能を予測し続ける—の結果である可能性があります。
+* **脱本人感**は、自己モデルの予測に対する精密度が低いこと—つまり、エージェントの自身の存在に対する「信念」が不確かになること—を反映する可能性があります。
 
-## Conclusion
+## 結論
 
-The brain implements the Active Inference framework through hierarchical neural assemblies, with the sensory and motor surfaces of the body forming the Markov Blanket that mediates all interchange with the environment. Understanding this neural architecture is essential for connecting theory to empirical evidence, clinical conditions, and experimental paradigms explored throughout this course.
+脳は、身体の感覚および運動表面が環境とのすべてのやり取りを媒介するマルコフブランケットを形成する、階層的な神経集合体を通して、アクティブ・インファレンスの枠組みを実装します。この神経アーキテクチャを理解することは、理論を経験的証拠、臨床的状態、およびこのコース全体で探求されている実験パラメーターと結びつけるために不可欠です。

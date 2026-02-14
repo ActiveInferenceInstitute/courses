@@ -1,61 +1,61 @@
-# Lab: Case Study Analysis — Perceptual Inference Gone Wrong
+# 実験室：症例分析 - 認識的推論の失敗
 
-## Objective
+## 目的
 
-Analyze clinical and experimental cases where the predictive coding mechanism produces aberrant perceptual experiences, applying Active Inference to interpret each.
+アクティブ・インファーレンスを適用して、予測コーディングメカニズムが逸脱した認識体験を引き起こす臨床および実験的な症例を分析します。
 
-## Part 1: Self-Tickle and Sensory Attenuation
+## 第1部：自己 tickle と感覚減衰
 
-**Case**: Blakemore et al. (1998) showed that self-generated tactile stimuli are rated as less intense and less ticklish than externally generated identical stimuli. However, patients with schizophrenia rate self-generated and externally generated touch as equally ticklish.
+**症例**: Blakemoreら (1998) は、自己生成された触覚刺激が外部生成された同一の刺激よりも、より弱い刺激で、より ticklish ではないと評価されることを示しました。ただし、統合失調症の患者は、自己生成された触覚刺激と外部生成された触覚刺激を同等の ticklish と評価します。
 
-- Explain the normal sensory attenuation mechanism in Active Inference terms (efference copy → predicted sensory consequence → attenuated prediction error).
-- Why might schizophrenia disrupt this mechanism? What has happened to the precision of self-generated predictions?
-- What does this reveal about the relationship between agency and perception?
-
-{fill:textarea}
-
-## Part 2: Auditory Hallucinations in Schizophrenia
-
-**Case**: Patient K.L., 28, with paranoid schizophrenia, reports hearing a voice commenting on her actions: "She's getting up now. She's going to the kitchen." The voice feels external—as if coming from behind her left shoulder. Brain imaging shows increased activity in her auditory cortex during hallucination episodes.
-
-- Interpret this case in Active Inference terms. What is the brain generating, and why is it experienced as external?
-- How does failed sensory attenuation of inner speech relate to this experience?
-- What intervention might reduce hallucination intensity by addressing the precision imbalance?
+- アクティブ・インファーレンスの用語で、通常の感覚減衰メカニズムを説明してください (efference copy → 予測された感覚の結果 → 減衰した予測誤差)。
+- なぜ統合失調症がこのメカニズムを妨害するのでしょうか？ 自己生成された予測の精度はどこへ行ったのでしょうか？
+- このことは、主体性と認識の関係について何を示しているのでしょうか？
 
 {fill:textarea}
 
-## Part 3: Charles Bonnet Syndrome
+## 第2部：統合失調症における聴覚幻聴
 
-**Case**: Patient E.W., 82, with advanced macular degeneration, reports vivid visual hallucinations: detailed faces, flowers, and patterns of brickwork. She is cognitively intact and understands the hallucinations are not real, but they are perceptually vivid.
+**症例**: パニック障害を持つ28歳の患者K.L.は、彼女の行動についてコメントする声を聞くと、「彼女は今立ち上がっている。彼女はキッチンにいく」と報告します。その声は外部からのものだと感じられ、彼女の左肩の後ろから聞こえるようです。脳画像検査では、幻覚発作中に聴覚皮質で活動が増加していることがわかります。
 
-- How does Active Inference explain hallucinations arising from sensory *loss* (deafferentation)?
-- What is the role of precision on top-down predictions when bottom-up sensory input is severely reduced?
-- Compare this with hallucinations in schizophrenia: both involve high-precision predictions, but the underlying cause differs. Explain.
-
-{fill:textarea}
-
-## Part 4: Predictive Coding in the Lab
-
-**Case**: In an EEG experiment, participants hear a sequence of tones: "beep-beep-beep-beep-BOOP." The mismatch negativity (MMN) response to the "BOOP" is measured. The MMN is larger when the deviant is more unexpected (e.g., after longer standard sequences) and smaller after repeated exposure to deviants.
-
-- Interpret the MMN as a prediction error signal. What level of the generative model is involved?
-- Why does the MMN habituate with repeated deviants? How does the model update?
-- What would Active Inference predict about the MMN in patients with chronic schizophrenia?
+- アクティブ・インファーレンスの用語でこの症例を解釈してください。脳はどのようなものを生成し、なぜそれが外部からのものとして経験されるのでしょうか？
+- 内部言語の感覚減衰が失敗すると、それがこの経験とどのように関連しているのでしょうか？
+- 精度不均衡に対処することで、幻覚の強度を軽減するための介入は何になるでしょうか？
 
 {fill:textarea}
 
-## Part 5: Synthesis
+## 第3部：チャールズ・ボネット症候群
 
-Write a 200-word synthesis connecting these four cases to the central claim: perception is precision-weighted prediction error minimization, and clinical perceptual phenomena arise from specific disturbances in this machinery.
+**症例**: 進行した網膜変性症を患う82歳の患者E.W.は、鮮明な視覚的な幻覚を報告しています。詳細な顔、花、レンガの模様などです。認知機能は正常で、幻覚は現実ではないことを理解していますが、感覚的には非常に鮮明です。
+
+- アクティブ・インファーレンスは、感覚 *喪失* (脱神経化) から生じる幻覚をどのように説明するのでしょうか？
+- 下部からの感覚入力が著しく減少した場合、精度が予測の役割は何になるでしょうか？
+- 統合失調症における幻覚との比較：どちらも高精度な予測を伴いますが、根本的な原因は異なります。説明してください。
 
 {fill:textarea}
 
-## Lab Summary
+## 第4部：実験室における予測コーディング
 
-| Part | Skill Developed | Case Type |
-|------|----------------|-----------|
-| 1 | Mechanism analysis | Self-tickle and sensory attenuation |
-| 2 | Clinical reasoning | Auditory hallucinations in schizophrenia |
-| 3 | Comparative analysis | Charles Bonnet syndrome (deafferentation hallucinations) |
-| 4 | EEG interpretation | Mismatch negativity and prediction error |
-| 5 | Integrative synthesis | Connecting perceptual cases to predictive coding |
+**症例**: EEG実験において、参加者は「beep-beep-beep-beep-BOOP」という音のシーケンスを聞きます。 “BOOP” に対するミスマッチネガティビティ (MMN) 反応が測定されます。 逸脱がより予想外であるほど (例: より長い標準シーケンスの後) MMN は大きくなり、逸脱に対する繰り返し暴露後には小さくなります。
+
+- MMN を予測誤差シグナルとして解釈してください。生成モデルのどのレベルが関与していますか？
+- 逸脱に対する繰り返し暴露で MMN が慣れ合うのはなぜですか？ モデルはどのように更新されますか？
+- 統合失調症の慢性患者の場合、アクティブ・インファーレンスは MMN について何と予測するでしょうか？
+
+{fill:textarea}
+
+## 第5部：合成
+
+これらの4つの症例を、認識は精度に基づいた予測誤差最小化であるという中心的な主張と結びつけて、臨床の認識的現象は、この機械の特定の障害から生じるということを記述してください。 (200語)
+
+{fill:textarea}
+
+## 実験室概要
+
+| 部位 | 開発されたスキル | 症例の種類 |
+|---|---|---|
+| 1 | メカニズム分析 | 自己 tickle と感覚減衰 |
+| 2 | 臨床的推論 | 統合失調症における聴覚幻聴 |
+| 3 | 比較分析 | チャールズ・ボネット症候群 (脱神経化幻覚) |
+| 4 | EEG解釈 | ミスマッチネガティビティと予測誤差 |
+| 5 | 統合的合成 | 認識的症例を予測コーディングに結びつける |

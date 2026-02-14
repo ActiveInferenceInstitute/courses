@@ -1,25 +1,26 @@
-# Module 4: Cognition — Agent Guidelines
+# モジュール4：認知 — エージェントガイドライン
 
-> **Quick Navigation**: [README](./README.md) | [Course AGENTS](../AGENTS.md) | [Curriculum AGENTS](../../AGENTS.md)
+> **クイックナビゲーション**: [README](./README.md) | [コースエージェント](../AGENTS.md) | [カリキュラムエージェント](../../AGENTS.md)
 
-## Directory Contents
+## ディレクトリの内容
 
-| Path | Type | Description |
+| パス | タイプ | 説明 |
 |------|------|-------------|
-| `README.md` | File | Module overview and navigation |
-| `AGENTS.md` | File | This file — module agent guidelines |
-| `module.md` | File | Full lecture: Beliefs as Physical States, the Embodied Mind, and Predictive Processing |
-| `questions.md` | File | 20 study questions |
-| `practice_quiz.md` | File | Quiz: 7 MC + 3 FR (Cognition) |
-| `lab.md` | File | Thought Experiment: Beliefs as Physical States, the Embodied Mind, and Predictive Processing |
-| `dashboard.html` | File | Interactive dashboard: Cognition |
+| `README.md` | ファイル | モジュールの概要とナビゲーション |
+| `AGENTS.md` | ファイル | このファイル—モジュールエージェントガイドライン |
+| `module.md` | ファイル | 完全な講義：信念と物理的状態、身体化された心、予測処理 |
+| `questions.md` | ファイル | 20個の学習問題 |
+| `practice_quiz.md` | ファイル | クイズ：7問のMC + 3問のFR (認知) |
+| `lab.md` | ファイル | 思考実験：信念と物理的状態、身体化された心、予測処理 |
+| `dashboard.html` | ファイル | インタラクティブなダッシュボード：認知 |
 
 ---
 
-## Content Conventions
+## コンテンツの規則
 
-- **Perspective**: Philosophical
-- **Topic**: Cognition — Beliefs as Physical States, the Embodied Mind, and Predictive Processing
-- **Notation**: Per [notation_table.md](../../resources/notation_table.md)
-- **Terminology**: Per [glossary.md](../../resources/glossary.md)
-- **Cross-references**: Link to `../../XX_course/04_cognition/module.md` for parallel modules
+- **視点**: 哲学的な
+- **トピック**: 認知 — 信念と物理的状態、身体化された心、予測処理
+- **記号**: [記号表.md](../../resources/notation_table.md) に準拠
+- **用語**: [用語集.md](../../resources/glossary.md) に準拠
+- **相互参照**: `../../XX_course/04_cognition/module.md` へのリンクで、並行モジュールを参照
+

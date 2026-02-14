@@ -140,6 +140,34 @@ If you had to argue that your prototype should be abandoned based on the test da
 
 ---
 
+## Part 6: Build Your Reasoning Protocol (5 minutes)
+
+**Goal**: Design a personal reasoning protocol you will use for all future test data interpretation.
+
+Based on what you learned in this lab, create a checklist you will follow every time you evaluate test results:
+
+My Reasoning Protocol:
+
+Step 1: Before looking at data, write down my predictions and confidence levels: {fill:textarea}
+
+Step 2: Assess evidence quality (repeatability, consistency, magnitude): {fill:textarea}
+
+Step 3: Perform Bayesian update with proportional change: {fill:textarea}
+
+Step 4: Generate at least two alternative explanations for the results: {fill:textarea}
+
+Step 5: Check for biases (confirmation, anchoring, motivated reasoning, base rate neglect): {fill:textarea}
+
+Step 6: Compare my interpretation with at least one other person: {fill:textarea}
+
+Step 7: Document the reasoning process in my lab notebook: {fill:textarea}
+
+Will you actually follow this protocol? What is the most likely reason you might skip steps, and how will you guard against that?
+
+{fill:textarea}
+
+---
+
 ## Discussion and Debrief
 
 1. **Prior transparency**: Was it difficult to quantify your beliefs before looking at test data? Why is this exercise valuable even though the numbers are rough estimates?
