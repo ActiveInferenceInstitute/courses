@@ -2,29 +2,157 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>lab</title>
+    <title>tmppsvt0p8a</title>
 </head>
 <body>
-<h1>Lab: Exploring Communication</h1>
+<h1>Lab: The Whispering Gallery -- How We Synchronize Our Models</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Communication</strong>.</p>
+<p>Explore how <strong>communication</strong> works as a process of synchronizing internal models between agents, and investigate why miscommunication happens when models diverge.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Communication.</li>
+<li>Completed modules on Systems through Learning</li>
+<li>Read the module on Model Synchronization</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Telephone Game Analysis</h2>
+<p><strong>Goal</strong>: Experience how generative models drift when signals pass between multiple agents.</p>
+<p>Play the telephone game (also called "broken telephone") with at least 4 people:</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Hs.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Communication.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Communication (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>Person 1 whispers a detailed sentence to Person 2.</li>
+<li>Each person whispers what they heard to the next person.</li>
+<li>The last person says the sentence aloud.</li>
 </ol>
-<h2>Discussion Requirements</h2>
-<ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Communication.</li>
-</ul>
+<p>Record the original and final sentences:</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Original message</td>
+<td></td>
+</tr>
+<tr>
+<td>Person 2 heard</td>
+<td></td>
+</tr>
+<tr>
+<td>Person 3 heard</td>
+<td></td>
+</tr>
+<tr>
+<td>Person 4 heard</td>
+<td></td>
+</tr>
+<tr>
+<td>Final message</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Analysis:
+1. Where did the biggest distortion occur?
+2. Why did each person's generative model "fill in" different details?
+3. How does this relate to the Active Inference idea that perception is prediction?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Text Message Misunderstanding Lab</h2>
+<p><strong>Goal</strong>: Analyze how communication channels affect model synchronization.</p>
+<p>Collect (or create) three examples of text messages that were misunderstood. For each:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Message 1</th>
+<th>Message 2</th>
+<th>Message 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What the sender meant</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>What the receiver interpreted</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>What information was missing? (tone, facial expression, context)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>How was it resolved?</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Why is face-to-face communication better for model synchronization than texting?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Empathy as Prediction</h2>
+<p><strong>Goal</strong>: Practice using your generative model of another person's internal states.</p>
+<p>Watch a short video clip (a movie scene, a news interview, or a conversation between friends) with the sound off. Based only on visual cues:</p>
+<ol>
+<li>What emotions do you think each person is feeling? Why?</li>
+<li>What internal states are you inferring (latent states you cannot observe directly)?</li>
+<li>Now watch with sound. How accurate were your predictions?</li>
+<li>What does this tell you about empathy as a form of social inference?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Shared Narrative Exercise</h2>
+<p><strong>Goal</strong>: Build a shared generative model with a partner.</p>
+<p>With a partner, take turns adding one sentence to a collaborative story. Each person must build on what the other said while staying consistent. After 10 sentences:</p>
+<ol>
+<li>Did you develop a shared model of the story's world?</li>
+<li>Where did your models of the story diverge?</li>
+<li>How did you resolve disagreements about where the story was going?</li>
+<li>How is this like real-world communication, where two people must align their models?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Your Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model Synchronization</td>
+<td>Aligning internal models between two or more agents</td>
+<td></td>
+</tr>
+<tr>
+<td>Social Inference</td>
+<td>Predicting another person's internal states from observable behavior</td>
+<td></td>
+</tr>
+<tr>
+<td>Shared Narrative</td>
+<td>A jointly maintained generative model of a situation</td>
+<td></td>
+</tr>
+<tr>
+<td>Communication Channel</td>
+<td>The medium through which signals are transmitted (voice, text, gesture)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 </body>
 </html>

@@ -1,51 +1,95 @@
-# Practice Quiz: Agents
+# Practice Quiz: Agents in Robotic Systems
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Agents** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. In Active Inference, what fundamentally makes a robot an agent?
+A) Having expensive hardware components
+B) Being connected to the internet
+C) Selecting actions to minimize expected free energy through both perception and action
+D) Following pre-programmed instructions without deviation
 
-2. In Robotics, Agents is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+**Answer: C** -- An Active Inference agent is any system that minimizes variational free energy through both updating beliefs (perception) and changing the world (action). Even a simple PID controller exhibits rudimentary agency by acting to eliminate setpoint error.
 
-3. Which mathematical quantity is most central to Agents?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+2. Which agent architecture maps sensor readings directly to motor commands through fixed rules with no temporal reasoning?
+A) Deliberative architecture
+B) Reactive architecture (e.g., Brooks' subsumption architecture)
+C) Hybrid three-layer architecture
+D) Active Inference architecture
 
-4. How does Agents relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+**Answer: B** -- Reactive architectures like the subsumption architecture layer simple stimulus-response behaviors without maintaining explicit world models. In Active Inference terms, they have very shallow generative models that predict only immediate sensory consequences.
 
-5. A failure in Agents would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+3. How does the depth of a robot's generative model relate to its level of autonomy?
+A) Deeper models always reduce autonomy
+B) Model depth has no relationship to autonomy
+C) A deeper generative model enables richer agency -- longer-horizon planning, better adaptation, and more sophisticated decision-making
+D) Only shallow models are useful in robotics
 
-6. Which scale is most relevant for analyzing Agents in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+**Answer: C** -- A thermostat with a single-variable model has minimal agency. A mobile robot with kinematic, dynamic, and task-level models has substantially deeper agency, enabling it to plan multi-step actions and adapt to novel situations.
 
-7. Agents connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+4. What is morphological computation in the context of robotic agents?
+A) Computing the robot's physical dimensions
+B) The robot's physical body design performing part of the computation that would otherwise need software
+C) Calculating the weight of robot components
+D) A type of cloud computing for robots
 
-## Part B: Short Answer
+**Answer: B** -- A compliant, underactuated gripper passively conforms to irregular object shapes without explicit computation of contact points. The mechanical compliance embodies a generative model of grasping, offloading computation to the physical structure.
 
-1.  Explain how **Agents** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Agents failing in a Robotics scenario.
-3.  How would you model Agents using a POMDP (Partially Observable Markov Decision Process)?
+5. In the ROS2 Nav2 stack, which component serves as the high-level deliberative agent?
+A) The motor driver
+B) The lidar sensor driver
+C) The behavior tree executive
+D) The wheel encoder
+
+**Answer: C** -- The behavior tree executive selects navigation strategies (follow path, recovery behaviors, waiting). It operates at the highest temporal scale, reasoning about which behavioral policies will achieve the navigation goal.
+
+6. A da Vinci surgical robot is best classified at what autonomy level?
+A) Fully autonomous -- it performs surgery independently
+B) Minimal autonomy -- the surgeon's generative model drives action selection, and the robot executes commanded motions
+C) Moderate autonomy -- it navigates the operating room by itself
+D) No agency at all -- it is just a passive tool
+
+**Answer: B** -- In teleoperated systems like the da Vinci, the human operator's brain provides the generative model for action selection. The robot faithfully executes the surgeon's commands but does not select its own actions toward goals.
+
+7. The three-layer hybrid architecture (reactive, executive, deliberative) corresponds in Active Inference to:
+A) Three completely independent robots
+B) Three different temporal scales of the generative model -- milliseconds, seconds, and minutes to hours
+C) Three separate free energy functions that never interact
+D) Three different robot manufacturers
+
+**Answer: B** -- The reactive layer handles immediate dynamics, the executive manages behavioral sequences over seconds, and the deliberative planner reasons about task-level goals over minutes to hours. Each layer optimizes its portion of the generative model at the appropriate timescale.
+
+8. A robot gripper with compliant, underactuated fingers demonstrates agency because:
+A) It has the most expensive sensors
+B) Its physical compliance implicitly "expects" objects of varying shapes and "acts" to conform to them
+C) It requires no power source
+D) It cannot interact with the environment
+
+**Answer: B** -- The compliant gripper's morphology embodies a generative model: it implicitly predicts that objects will have varying shapes and uses passive dynamics to minimize the "surprise" of contact geometry without explicit computation.
+
+9. What distinguishes a deliberative agent from a reactive agent in robotics?
+A) Deliberative agents are always slower and less useful
+B) Deliberative agents maintain explicit world models and simulate consequences of action sequences many steps ahead
+C) Reactive agents have deeper generative models
+D) There is no meaningful distinction
+
+**Answer: B** -- Deliberative agents use search or optimization over explicit world models (e.g., PDDL-based task planners, A* search on costmaps) to evaluate multi-step action sequences. Their advantage is complex problem-solving; their limitation is computational cost and brittleness.
+
+10. In Active Inference, the "preference model" of a robotic agent encodes:
+A) The robot's color preferences for objects
+B) Prior beliefs about the agent's preferred future sensory states -- its objectives and constraints
+C) The operator's personal tastes
+D) Factory aesthetic guidelines
+
+**Answer: B** -- A manipulator "prefers" states where the end-effector is at the target pose. A mobile robot "prefers" states at the goal location without collisions. Actions are selected to make these preferred observations come true.
+
+## Part B: Short Answer and Design Prompts
+
+1. Compare the agency of a simple line-following robot to that of a Boston Dynamics Spot quadruped navigating an unstructured construction site. What differences in generative model depth account for their different levels of autonomy?
+
+2. Design a hybrid agent architecture for a fruit-picking robot in an orchard. Specify the reactive layer (immediate motor control), executive layer (behavioral sequences), and deliberative layer (task planning). How do these map to different timescales of the generative model?
+
+3. Explain how morphological computation reduces the computational burden in a soft robotic arm designed for underwater manipulation. What aspects of the generative model are "offloaded" to the physical structure?
+
+4. A semi-autonomous warehouse robot handles navigation independently but asks a human supervisor to confirm decisions about which packages to pick. Using Active Inference terminology, explain which parts of the generative model are governed by the robot and which by the human.
+
+5. How would you measure the "depth of agency" in a robotic system? Propose specific metrics based on the temporal depth, state-space coverage, and adaptability of the robot's generative model.

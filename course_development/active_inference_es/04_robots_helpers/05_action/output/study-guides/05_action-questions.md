@@ -11,30 +11,30 @@
 9. Can a robot tie shoelaces? (It's very hard for them!).
 10. If a robot is stuck in mud, what can it do? (Use sensors to ask for help).
 
-11. Develop a question that connects Action to a real-world problem in Es.
+11. Develop a question that connects Action to a real-world problem in Elementary School.
 
-12. Develop a question that connects Action to a real-world problem in Es.
+12. Develop a question that connects Action to a real-world problem in Elementary School.
 
-13. Develop a question that connects Action to a real-world problem in Es.
+13. Develop a question that connects Action to a real-world problem in Elementary School.
 
-14. Develop a question that connects Action to a real-world problem in Es.
+14. Develop a question that connects Action to a real-world problem in Elementary School.
 
-15. Develop a question that connects Action to a real-world problem in Es.
+15. Develop a question that connects Action to a real-world problem in Elementary School.
 
-16. Develop a question that connects Action to a real-world problem in Es.
+16. Develop a question that connects Action to a real-world problem in Elementary School.
 
-17. Develop a question that connects Action to a real-world problem in Es.
+17. Develop a question that connects Action to a real-world problem in Elementary School.
 
-18. Develop a question that connects Action to a real-world problem in Es.
+18. Develop a question that connects Action to a real-world problem in Elementary School.
 
-19. Develop a question that connects Action to a real-world problem in Es.
+19. Develop a question that connects Action to a real-world problem in Elementary School.
 
-20. Develop a question that connects Action to a real-world problem in Es.
+20. Develop a question that connects Action to a real-world problem in Elementary School.
 
-21. Develop a question that connects Action to a real-world problem in Es.
+21. Develop a question that connects Action to a real-world problem in Elementary School.
 
-22. Develop a question that connects Action to a real-world problem in Es.
+22. Develop a question that connects Action to a real-world problem in Elementary School.
 
-23. Develop a question that connects Action to a real-world problem in Es.
+23. Develop a question that connects Action to a real-world problem in Elementary School.
 
-24. Develop a question that connects Action to a real-world problem in Es.
+24. Develop a question that connects Action to a real-world problem in Elementary School.

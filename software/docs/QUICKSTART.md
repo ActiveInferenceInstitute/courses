@@ -76,7 +76,7 @@ All commands are run from the `software/` directory using `uv run`.
 - `ai-philosophy`, `ai-cognitive-science`, `ai-math`, `ai-computer-science`
 - `active-inference` (The consolidated core)
 - `ai-es`, `ai-family`, `ai-ms`, `ai-hs`, `ai-101`, `ai-401`
-- `ai-embodied`, `ai-organizations`, `ai-robotics`
+- `ai-embodied`, `ai-organizations`, `ai-robotics`, `ai-crochet`, `ai-inventions`, `ai-metallurgy`
 
 ---
 
@@ -87,4 +87,4 @@ All commands are run from the `software/` directory using `uv run`.
 - **[Content Authoring](CONTENT_AUTHORING.md)**: Learn how to write course modules.
 
 ---
-*Last Updated: 2026-02-14*
+*Last Updated: 2026-02-15*

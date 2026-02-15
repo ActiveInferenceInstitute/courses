@@ -1,23 +1,114 @@
-# Lab: Exploring Systems
+# Lab: Body Systems -- Your Internal Network
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Systems**.
+> **Learning Goal:** Investigate the major body systems as interconnected prediction machines, map their boundaries and feedback loops, and discover how homeostasis keeps you alive.
 
-## Prerequisites
+This is an **investigation lab** designed for middle school students (Grades 6-8).
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Systems.
+---
 
-## Steps
+## Materials Needed
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Ms.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Systems.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Systems (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+- Large poster paper or body outline printout
+- Colored markers (at least 5 colors)
+- Thermometer (optional)
+- Stopwatch or timer
+- Lab journal or notebook
 
-## Discussion Requirements
+---
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Systems.
+## Part 1: Body System Inventory (10 min)
+
+Your body is not one system -- it is a system of systems. Each body system has a boundary, inputs, outputs, and feedback loops.
+
+**With your group, list as many body systems as you can. For each one, identify what it does and what its boundary is.**
+
+| Body System | What it does | Boundary (where does this system start and end?) | One feedback loop |
+|-------------|-------------|--------------------------------------------------|-------------------|
+| Nervous system | | | |
+| Digestive system | | | |
+| Circulatory system | | | |
+| Respiratory system | | | |
+| Immune system | | | |
+| Musculoskeletal system | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 2: Homeostasis Investigation (15 min)
+
+**Homeostasis** is your body's way of keeping things stable -- like a thermostat for your whole body. Let's test it.
+
+**Experiment:** Do 30 jumping jacks, then sit still. Record your observations every 30 seconds.
+
+| Time After Exercise | Heart Rate (beats/15 sec x 4) | Breathing Rate (breaths/15 sec x 4) | How You Feel |
+|--------------------|-------------------------------|-------------------------------------|-------------|
+| 0 sec (right after) | | | |
+| 30 sec | | | |
+| 60 sec | | | |
+| 90 sec | | | |
+| 120 sec | | | |
+| 150 sec | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: System Connections Map (10 min)
+
+On your poster paper, draw arrows between body systems to show how they depend on each other. Use different colors for different types of connections:
+
+- **Red** = blood/nutrient flow
+- **Blue** = nerve signals
+- **Green** = chemical messengers (hormones)
+- **Black** = physical support
+
+| Connection | From System | To System | What is exchanged? |
+|-----------|-------------|-----------|-------------------|
+| 1 | | | |
+| 2 | | | |
+| 3 | | | |
+| 4 | | | |
+| 5 | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Prediction Challenge (5 min)
+
+Your body systems are constantly making predictions. The nervous system predicts what sensory input is coming. The immune system predicts which cells are invaders. The digestive system predicts when food is arriving.
+
+| System | What does it predict? | What happens when the prediction is wrong? |
+|--------|----------------------|-------------------------------------------|
+| Nervous system | | |
+| Immune system | | |
+| Digestive system | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Reflection Table
+
+| Question | Your Answer |
+|----------|-------------|
+| What is homeostasis? | |
+| How are body systems like the systems you studied in Real Life Skills? | |
+| What is a feedback loop in the body? Give an example. | |
+| How do body systems make predictions? | |
+| How does Active Inference relate to your body? | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+

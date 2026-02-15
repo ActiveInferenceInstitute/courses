@@ -784,7 +784,7 @@ body.dark-mode .question-container:hover {
 <li>Apply specific constraints of Robotics to the formal definition of Agents.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Agents</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>This module explores <strong>Agents</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between Systems and Perception.</p>
 <h2>Key Concepts</h2>
 <h3>1. Agents as a Markov Blanket Boundary</h3>
 <p>How does Agents define the boundary between the agent and the environment?</p>
@@ -794,29 +794,10 @@ body.dark-mode .question-container:hover {
 <p>How does the process of Agents drive the perception-action loop?</p>
 <h2>Applications</h2>
 <p>In Robotics, we see Agents manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
+*   <strong>Specific Example 1</strong>: A PID-controlled robotic joint can be recast as a minimal Active Inference agent: the setpoint defines the agent's prior preference (desired joint angle), the encoder provides sensory states, the motor torque provides active states, and the PID gains implicitly encode the precision weighting of prediction errors -- the proportional gain weights the current position error, the integral gain weights accumulated error, and the derivative gain weights the rate of change, making classical PID control a special case of free energy minimization under a linear-Gaussian generative model.
+*   <strong>Specific Example 2</strong>: A Model Predictive Control (MPC) agent on an autonomous ground vehicle defines its agency through a receding-horizon optimization that embodies the Active Inference perception-action loop: at each 50 ms control cycle, the vehicle's Kalman filter estimates the current state (perception), the MPC solver evaluates candidate control sequences over a 2-second prediction horizon against a cost function encoding lane-keeping and obstacle avoidance preferences (planning/action), and the first control input is applied, with the entire process repeating to close the loop.</p>
 <h2>Conclusion</h2>
-<p>Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<p>Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,26 +807,123 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Agents</h1>
+<div><h1>Lab: Estimator-Controller Agent Design</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Agents</strong>.</p>
+<p>Design an integrated estimator-controller agent using the separation principle and compare it with Active Inference's unified perception-action framework. You will implement a Luenberger observer paired with LQR control, then redesign the system as an Active Inference agent.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Agents.</li>
+<li>Completion of the corresponding module.md lecture material</li>
+<li>Familiarity with Active Inference concepts (generative models, free energy, prediction errors)</li>
+<li>Basic pseudocode and diagram skills</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Mathematical Formulation</h2>
+<p>Formulate the agents problem mathematically:</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Robotics.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Agents.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Agents (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>Define the state-space representation relevant to this module.</li>
+<li>Specify the cost function or objective for classical approaches.</li>
+<li>Specify the free energy functional for the Active Inference formulation.</li>
+<li>Under what assumptions do these formulations yield equivalent solutions?</li>
 </ol>
-<h2>Discussion Requirements</h2>
+<p>{fill:textarea}</p>
+<h2>Part 2: Algorithm Implementation</h2>
+<p>Design the algorithm in pseudocode:</p>
+<ol>
+<li>Write the classical agents algorithm step-by-step.</li>
+<li>Write the Active Inference equivalent step-by-step.</li>
+<li>Identify shared computational steps (e.g., matrix inversions, prediction steps).</li>
+<li>Where do the algorithms diverge? What does Active Inference add?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Robotic Application</h2>
+<p>Apply both algorithms to a concrete robotic scenario:</p>
+<ol>
+<li>Define a specific robot (e.g., 2-DOF arm, mobile robot, quadrotor).</li>
+<li>Specify numerical parameters (masses, inertias, sensor noise).</li>
+<li>Trace through 5 timesteps of each algorithm.</li>
+<li>Compare the resulting state estimates, control actions, or plans.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Performance Comparison</h2>
+<p>Compare the approaches systematically:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Classical Approach</th>
+<th>Active Inference Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Computational cost</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Robustness to noise</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Adaptability</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Theoretical guarantees</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Ease of tuning</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Classical Robotics</th>
+<th>Active Inference</th>
+<th>Your Design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core mechanism</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Uncertainty handling</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Adaptation</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Key advantage</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
 <ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Agents.</li>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press.</li>
+<li>Pio-Lopez, L., Nizard, A., Friston, K., &amp; Pezzulo, G. (2016). Active Inference and robot control. <em>Journal of the Royal Society Interface</em>, 13(122).</li>
 </ul></div>
 </div></section>
 

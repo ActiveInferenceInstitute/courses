@@ -8,7 +8,7 @@ B) To minimize variational free energy
 C) To increase entropy
 D) To eliminate the Markov Blanket
 
-2. In Ms, Systems is best described as:
+2. In Middle School, Systems is best described as:
 A) A static property
 B) A dynamic process
 C) An external state
@@ -47,5 +47,5 @@ D) None of the above
 ## Part B: Short Answer
 
 1.  Explain how **Systems** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Systems failing in a Ms scenario.
+2.  Provide a concrete example of Systems failing in a Middle School scenario.
 3.  How would you model Systems using a POMDP (Partially Observable Markov Decision Process)?

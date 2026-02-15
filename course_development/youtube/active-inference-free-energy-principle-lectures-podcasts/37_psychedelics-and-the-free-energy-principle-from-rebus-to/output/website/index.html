@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>37_Psychedelics And The Free Energy Principle From Rebus To - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>37_Psychedelics And The Free Energy Principle From Rebus To</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>37_Psychedelics And The Free Energy Principle From Rebus To</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Psychedelics and the Free Energy Principle: From REBUS to Indra's Net</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=45tG1oVigVo">YouTube</a>
+<strong>Playlist</strong>: Active Inference &amp; Free Energy Principle ~ Lectures, Podcasts, Discussions
+<strong>Duration</strong>: 1:08:21 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello everybody so today we're going to talk about the free energy principle and how it relates to psychedelics which is a very very exciting topic there's a lot of excitement i think in the academic community about this topic i've got to say i'm going to present three completely new ideas uh well two of them have been kind of like talked about in various qri uh articles as well as videos uh there's one completely new one but uh in either case uh these ideas um you know like is they're not being talked about in the academic literature we intend to to publish them and run simulations but for in the meantime it's just like very exciting kind of like these new perspectives on how psychedelics and the free energy previous people relate to each other and as you know kind of the north star of this conversation we will have the basically the goal of explaining indra's net in terms of the free energy principle which i think it's actually possible so so let's get to it so first the quality of the day is indra's net so you know it is said in in various uh yeah eastern israel philosophies that uh you know indra is very powerful god basically has this net uh hanging on kind of like the ceiling and you know one of the palaces in the in the realms of the gods and uh you know each of the nodes of the net is a you know multi-dimensional gem at this beautiful beautiful gem and the net is infinite it's completely infinite and what happens is that each of those gems will contain a reflection a tiny reflection of every other gem and then within the reflection and of every other gem you will find an even tinier reflection of every other gem and so on at infinitum you know i mean of course if this was physically realized it would be a limit you know because you know uh photons are quantized ultimately right so there's not going to be like infinite resolution when you observe it and and you try to find kind of the world in in a grain of sand so to speak um but uh but yeah it's a very interesting and powerful metaphor and um you know it's used methodologically to kind of like talk about the interdependence of everything on everything else uh kind of in buddhism and and even hinduism and um and that's a powerful kind of like vision i like a like imagine you know if you assume that that's the case that you know like everything in the world actually stands in kind of an indra where internet relationship to everything else and everything implies each other like even like a piece of trash or like a piece of i don't know this foam i don't know it was a random thing that uh came in in a package of essential oils like this is interdependent with absolutely everything else uh and more so you know this is the final product of its backwards light cone which you know contains such a huge amount of uh you know every like the cosmic background radiation and well everything is interpret interdependent with everything else now that's kind of a mind-blowing idea um but what's the what's the use of it and you know recently uh there's kind of this um uh fascinating dharma teacher uh rob burbia i've been uh consuming a lot of his lectures he has this book called seeing that freeze and one of the things that he talks about is how in a sense you can interpret inside practice uh as opposed to for example like concentration practice or morality practice you know just inside practicing in the buddhist meditation as basically ways of seeing the world that reduce suffering that diminish the dukkha the the the unpleasant qualities of experience uh so for example like being hyper hyper aware or like being in the moment or perceiving things as like empty of inherent existence when you apply those ways of seeing to even like you know unpleasant low-level body sensations for a number of people in a number of circumstances it can have a great reduction in their suffering now it doesn't always work and it's really interesting to see like way why does it work and under what circumstances does it work but uh as kind of like as a general frame i really like it it's very very pragmatic it's kind of like oh these deep quote-unquote esoteric views of the world you know interdependence and uh you know dependent origination and uh emptiness and all of that stuff um ultimately you know they're not necessarily uh useful because they're fundamentally true maybe you know as buddha might say like it's unknowable ultimately but internalizing those ways of seeing the world and your experience lessens the suffering allows you to kind of like drop a lot of baggage that carries around and causes dissonances internally and kind of like cleans your experience and i think a powerful experiences of indra's web well it actually depends on how you interpret them because there's also kind of a spiritual materialism um risk of it like if you experience like a mind blowing like meditation or lsd state of you know everything reflecting everything else and you think like oh my gosh i'm enlightened like i'm one with everything like kind of like now maybe you have even more baggage because you kind of have like this self-conception uh that arose out of that but there's also you know kind of the flip side which is like maybe actually understanding the dependence of everything with everything else allows you to lessen the amount of fabrications that you uh essentially engage with especially mindless fabrications because in a sense you you recognize their empty essence and they're co-arising with everything else and in a sense you can treat them by modifying the conditions gonna give rise to them anyway so uh interest web not only is it a mind-blowing experience it's also potentially like very pragmatically useful in that it might lessen your suffering to some extent uh now importantly too i think it is very valuable to study as an experience itself and uh you know like different experiences have like different degrees of like how much they are like indra's net um now because you know at qri we essentially assume indirect realism about perception uh basically yeah when you're having like an experience of indra's web i don't think you're literally you know contacting the rest of the cosmos and seeing how everything reflects everything else i think what's going on is you're instantiating a state of consciousness that essentially has this fascinating property that every part of that state of consciousness in some tricky but non-trivial and very real sense is actually reflecting every other part of the experience and that is what i will explain with the free energy principle so exciting isn't it i should also remark that uh because of the symmetry theory valence i mean most of the intro interest net kind of experiences tend to be pretty fractal and like highly detailed but above all very constant and very symmetrical so they tend to be extremely blissful so again a lot of people may experience interest net and uh kind of like be fascinated by it but not recognizing where the valence comes from you know they may think that the valence comes from literally becoming embedded into the fabric of reality but you know that's kind of a tyranny of the intentional object it's kind of like in a sense it's like reading too much into the intentional content of the experience so i would say rather what i would kind of advise you to do is to pay attention to the way in which those patterns are either consonant or dissonant with one another and the claim is that you know blissful indras net experiences for the most part will basically be hyper harmonious there's going to be hyper harmony they're going to be minimizing dissonance in a in a very very deep way so so that's the the quality of the day uh highly recommended uh you can get it with meditation it's very common on dmt as we'll talk about uh and it may be freeing in some some deep sense that i think is very valuable um okay so now let's get on to the topic of the day which is uh the free energy principle more concretely and uh there's a couple things to say you know i mean first of all like carl friesen's free energy principle and predictive coding as you know paradigm which are slightly different things and the free energy principle can derive the predictive coding and maybe not the other way around but they're very interrelated and they're part of the lineages of qri so basically we have now ten lineages uh that basically we draw a lot of inspiration and theoretical frameworks from uh lenses that we use to understand the world and we also have our own lenses for example neural annealing and the symmetry theory of valence and a bunch of other stuff like the tyranny of intentional object and so on um which are ours i mean we've been developing them for the last i don't know seven years or so uh it's been a big effort and uh hopefully we will actually be able to you know present all of that in a very formal fashion all of those developments with their predictions and testing those predictions and so on but yeah i mean current doesn't exist in a vacuum it very very much exists in the context that these other lineages generate and a very important lineage they're all very important so [Laughter] one of those lineages is a free energy principle um so it's very important for qri i i would also mention that um uh you know quentin freirecks uh you know the the the lead engineer at qri uh actually presented about nero annealing to carl friesen and his lab and uh you know we got a lot of really interesting feedback mostly extremely positive feedback uh very encouraging and basically they were suggesting that we publish a particular version of what we're working on and um so that is you know in the works and uh i'm very excited about that okay so let's get into the actual content of it okay so the free energy principle is one of those kind of like really high level cool ideas that in a sense as you munch on it you start to see it everywhere and i would compare it with like a couple other kind of things in that kind of category or like very high level interpretations of reality that everything kind of like like gives you a completely new lens on reality one of them for example is uh evolution you know this idea that whenever you have um reproduction with selection and variation you will have basically the the ingredients for evolution now that is a fascinating you know clever idea kind of like synthesizing evolution to just those three principles and when you have those three principles you will start seeing evolution everywhere you know not only biological evolution but like all over the place you know in in uh consequences game of life in you know fundamental particles in it will show up everywhere um but you can maybe even distill it further you know you can say like well that's maybe a special case of something more deep so what could be that that that thing that is uh kind of like even deeper well maybe it is the survival of the stable and the survival of the stable is kind of this meta principle rather like from it you can essentially derive you know the three principles of evolution and it's kind of like a deeper deeper truth you know that like yes sure there's like biological organisms and all that but you know if a rock is really stable you know it will be here it will be around like it if it has like mechanisms to continue to exist you know that's what exists what exists is what is good at being stable in some in some way you know something could be very variable it could be a dynamic system but maybe construed as the state space of the entire system that is a very stable construct you know and i would say that yeah biological organisms are like that they're very dynamic but in some sense they do carry some stable kind of a metadata and and that is what is actually you know is immortal you know our genes are immortal over the generations even if the individual isn't you know and in that sense survival of the stable is kind of a meta principle i would also say you know you know bayesian epistemology is like maybe one of these like pretty pretty high level concepts that allows you to reinterpret so many things that like for example like once you understand that hey the brain is receiving information from its environment in a time series fashion i mean there's massive parallelism but there's also time you know we're embedded in time so the information that we get is that happens over time it's time series and whenever you have kind of like that data structure and you're trying to minimize you know prediction errors it follows from math that you're going to be doing bayesian inference and there's no way around it i mean that's just a hard constraint and it doesn't matter if the brain is made of like neurons or you know it's made of like honey and and bees or you know if it's made of the population of china or whatnot like if it's making accurate predictions about time series data structures it is going to be you know making bayesian inference you know that's that's just a super hard constraint now bayesian inference is something that leaves at the computational level you still need to dig deeper into the algorithmic and that implementation level as i've talked about in other videos go to the digital uh digital sentience video for a deep discussion about this but yeah in a sense computational level uh doesn't really tell you the full story but it is a constraint you know it's kind of a boundary condition upon which everything else has to be fit and for sure you know nervous systems do bayesian inference period you know that's that's a hard constraint they have to be otherwise they wouldn't actually be able to make accurate predictions now the free energy some could even think kind of brings together all of these high level paradigms maybe into like an even bigger higher level paradigm which is which is crazy and uh you know at qri we have a lot of respect in general for thinkers who are what mike calls one true ontologists you know who who kind of like take one principle or one set of ideas and and try to basically apply it to all of reality and and see how far that goes and okay maybe it doesn't apply to all reality but in the process of trying to apply it everywhere you discover a lot of things and you may be able to massively compress a lot of you know crazy highly detailed information reality with just one one principle and the free energy principle may do that uh so briefly stated and i'll go into like more detail essentially it says that any dynamic system that is actually capable of surviving is actually able to sustain itself must be able to in a sense minimize the entropy is receiving from its environment right so uh you have like a a little cat and uh if it's kind of a just always going towards you know the absolutely most chaotic environments possible uh you know it's going to die you know like it's going to go to the oven or it's going to i don't know bad images but uh the point is that like if you're like maximizing chaos that chaos is going to eat you yeah so basically it's going to shake you apart uh so systems that actually do survive that actually are stable as i was talking about a skin is like this generator for the you know theory of evolution are basically those that are able to minimize the amount of entropy um unexpected entropy that the environment basically imposes on on them and from that through a chain of inferences you can arrive at the implication the dynamic systems that survive in the universe have to on some level have an internal model or representation of their environment such that they can anticipate what is going to happen to them given the particular input that they are receiving and basically avoid states of very high entropy as a consequence so um it's kind of crazy right like the the thing is like this may apply to a lot of like systems that are you know counterintuitive like you know one thing is uh is the brain we're like okay we kind of intuitively intuitively understand that yes we do have kind of an inner model of the of the environment uh but this may also apply to other things like you know like a a wheel uh on on water or or like a tornado or like other other dynamic systems like that you know convection currents and things like that that like implicitly you know maybe not explicitly i'm not being that saying that convention currents actually contain kind of like a a picture of their environment inside them but implicitly they must be doing some some level of computational processing that is in a sense uh making them maximally adapted to their environment and uh now there's like kind of various schools within you know the free energy principle literature of like okay are are the the the representations uh explicit or implicit and like maybe that depends on the particular system that we're talking about and you know i think most people would generally agree that like at least the brain is making explicit representations so it's not you know we're not just convection currents like there's uh something more explicitly computational going on but at the same time it must be satisfying kind of this principle that if it's going to survive it has to actually be able to predict this environment now the the the actual term um uh a free energy is an information theoretic construct uh so it's not a physical construct it's an information theoretical construct that bounce evidence for a model of data so here's the thing like if you have complete information about the world and uh the inner latent states basically the the latent parameters that give rise give us rise to what's happening in the world um you could in a sense like compute how surprising a particular set of input and in that sense like we would actually be talking about the surprise minimization principle as opposed to the free energy principle so why are we talking about the free energy principle instead and what is this free energy well it's an information theoretical construct it's not free it's not energy in the physical sense although as i'll mention in a moment there might be an isomorphism in some circumstances but uh free energy appears basically in machine learning and statistics you know i have like this book for example of uh deep learning and uh you know in page 625 you have this definition of variational free energy uh which is essentially um the point is yeah i think like here is the variational free energy and essentially the the point is that um this provides an upper bound to how surprising the stimuli is given your generative model of the world i know these are these are a lot of words and uh you know to do justice to this uh topic it would take many hours and actually a detailed presentation with uh definitions and all the math in there but uh what you have to know right now is that you know the like the variational free energy is an upper bound on the true surprise that uh that a particular stimuli is generating um and surprise here means that basically the model says that these are very unlikely events so there's information very construct like the negative of the log surprise basically provides kind of this uh total surprisal of the stimuli and that is what you should be minimizing you don't have access to that it's intractable so instead what you can do is try to minimize free energy which is an upper bound that is tractable and is computable and is essentially something that yeah in machine learning is used routinely uh to to basically uh optimize uh inferential learning in probabilistic graphical models again apologies for all of the all of the jargon uh but you have to what you have to get is that uh this is a clever and tractable way of minimizing how surprising the stimuli are from the environment um uh there's a couple of things to mention here is like okay if somebody might claim that uh if you're minimizing surprise why don't you just go to a dark room that's kind of the kodako dark room uh interpretation well uh yeah because you know if you're in a dark room everything is infinitely predictable you know like you know exactly what you're going to be getting uh and that in principle should you know make you feel great because you're minimizing the prediction errors that you're getting well not quite because actually the model that we have of the world is dynamic and the things that are expected in that are sequences of events um so actually there's no kind of like you know local maxima that is kind of like oh you know this homogeneous perfectly you know symmetrical state is like you know maximally expected you know because your model actually goes against it it actually says no like that would be very unexpected you know you don't expect to wake up in the morning and just see nothing and have no sense or input that's an incredibly surprising state right so actually going into dark room and becoming super thirsty and not eating and so on that's a drastically increases your surprise and your free energy so actually in a sense like minimizing free energy it does entail kind of like doing a lot of very very simple quotidian like normal everyday things that in a sense restrict the range of states that you find in because and that's an important implication too uh you're trying to minimize the entropy uh density of uh of states that you can you can inhabit internally because that in a sense uh will maximize your chances of continuing to exist existing definitely and um and uh yeah i mean as a consequence yes if you all of a sudden sort of find yourself in a dark room maybe on a low level you could think that's you know very surprised very uh there's no prediction errors because it's constant at the same time you will be making the inference that you're probably in huge danger so in that sense yes actually it doesn't minimize free energy the other fascinating thing about this is um active inference that in a sense there's two ways in which you can minimize the a you can change your model you know you're getting something very very surprising in order to minimize the free energy that that is generating you can change your model such that what you're experiencing now becomes less surprising and that's one way um but we also require uh basically a balance between the accuracy and the complexity of the model because you shouldn't over feed so basically there's only so far you uh basically a free energy minimizing will be willing to in a sense adjust its model to the immediate uh immediate information because it's also taking into account all of the previous information and like you know that that shouldn't be discarded if it's actually an embodied entity is gonna survive you know new information could be garbage so like you really can't update too heavily on it and uh also that gives you know brings us to the topic of uh the precision on the high level priors of the model which is that yes i mean like um very surprising things may not actually uh be warrant deeply updating the model precisely because you have way too much evidence in the past that like yeah most likely maybe the input that you're getting is like spurious or something and you can maybe as a constant you know spin up an additional model that is about like okay what is the probability that data is noisy or faulty and like then you start to model under what circumstances data becomes faulty and that becomes the way in which you minimize free energy not just instantly updating your model and the other thing though is that it will be the other way of minimizing free energy is to actually act on the world such that you actually make the inputs later on more expected so that's kind of like yeah basically you're like close to a hot stub or like you know i don't know like a a very very chaotic bar where there's like about to enough a bar fight is about to to be to break and like there's a bunch of drunk people it's very chaotic you know one that's just going to generate a ton of you know free energy for you uh for you to minimize it with something you can do is kind of like start walking and getting out of the bar and you will be outside it's gonna be a way more predictable environment so there you go you know like action onwards you know that can also be a method to to reduce the free energy and so in the end what you get with this theory is kind of this beautiful interpretation of you know dynamic systems that survive including humans that they will be kind of like in a in a balanced way uh modifying their internal models and also acting on the world so that there's fewer prediction errors and that as a consequence you know what we are doing right now is kind of uh doing that implicitly on some level you know uh another thing to mention is this concept of the markov blanket which is basically in probabilistic graphical models um you should look that up if you're curious uh basically you can define this notion of a barrier between an inside and an outside which is basically um for a given set of nodes you can look at all of the nodes that in a sense if you wear to to kind of like uh uh uh fix them they would in a sense like lock in the information that their internal nodes can get from their environment in a way it's kind of like the market blocket is the outer shell of a particular set of probabilistic graphical models nodes and and in that sense they generate an inside and an outside and what the free energy principle will entail is that whenever you have a markov blanket and you know those are the and it's modeling a dynamic system it will be the case that the free energy principle will apply for that markov blanket and you know in actual something like you know bayesian predictive coding models where you have a hierarchy of um kind of like models that go from a very low kind of like sensory data to like very high level kind of like notions of the self and so on that in a sense there's going to be this kind of quasi-concentric shells configuration where each of the kind of layers is going to try to predict and anticipate and modify the one right underneath and in a sense the process of model building and world building of creating the the world simulation that you inhabit in this is what arises out of the kind of like tug tug of war or competition between all of these various shells trying to predict each other and the the end result of that is a hierarchical model that in a sense encodes information about the world in a more and more refined way and uh a more and more abstract way as you go go in now of course there's a huge debate on like whether a model like that actually fits what happened you know what's going on in the brain of course there's like some degree to which you can model um uh the layers of the cortex for example in kind of like this hierarchical way you know for v and then like v1 v2 and so on at the same time the brain is like really interconnected you know and there's like connections between layer one and layer five and and it's kind of like very very mixed up in a sense so uh identifying the mark of blankets of the neural networks of the brain is not as easy uh as kind of like just dividing into layers uh there's more complication to it and also you know down the line you know at qri we actually you know believe that consciousness is a holistic field behavior um uh rather is a is a utilizes holistic field behavior and that's the reason why it was selected by natural selection and recruited by natural selection for computation so actually consciousness might be inherently extremely interconnected by its very nature and so within a moment of experience there may actually not be like an easy or even conceivably possible way of generating markov blankets so that might be kind of a something that you know runs deep against some of the core assumptions of the free energy principle at the same time i do think that it is quite possible um to uh make approximate markov blankets within your your world simulation and that alone you know allows us to basically use the free energy principle as a lens we will recognize that it's an imperfect lens because these are partly kind of imperfect markup blankets there's leakage of information between the inside and outside but uh it's gonna be good it can be still being insightful okay so that's that that's uh the free energy principle so now let's go to apply it to psychedelics and i mean the ver first thing i'll mention is uh rebus which is reduced the beliefs under uh psychedelics uh a paper by robin carhart harris and carl freestone and uh and it's fascinating basically what they argue is that um the net effect of psychedelics in your world model is weakening the precision of the high level priors uh meaning that like these very high level priors very kind of like central uh you know innermost layers of the mark of blankets that those in a sense become uh less strong they don't impose on all of the other layers as much they're kind of like weaker they're reduced and uh and as such it allows bottom-up information to propagate across the hierarchy and give rise to bigger belief updates so that's that's a very very big fascinating idea and then they justify it based on neurophysiology in particular they they you know examine the hypotheses that deep pyramidal neurons are encoding these very high level priors and that the first d2a receptor um basically uh is a way in which these neurons can be sensitized and because they basically can receive a stimulation from like lower layers of the hierarchy um when they are sensitized that as an implication gives rise to basically a more straightforward information propagation between the lower layers and the higher layers and well there's a bunch of speculation also on like okay maybe the way the the priors are implemented are through basically uh patterns of synchrony in those like top layer neurons and that you know this kind of sensitization and and bottom-up information propagation gives rise to basically the the desynchronization of them so you get a kind of like rather than a coherent story kind of a imparting you a synchronized top level prior it's kind of like competing you know maybe patterns of synchrony uh they're kind of like all of them trying to kind of like make sense of the world and make sense of each other and uh it's kind of like an anarchy i mean the robin carhart harris talks about it as the anarchic brain that now you have kind of all of these different yeah basically clusters and components of the model that are in a sense yeah giving rise to bottom-up updates on the belief network and these you know in terms of aesthetics of science this is pretty cool uh uh there's this fascinating book uh by paul feyerabend i don't know how to pronounce his name but um uh it's called against method and he's talking about yeah basically this uh uh the idyllic picture of the scientific method as a recipe that you just follow that yeah that doesn't work and a really good quip that comes from that book is this idea facts dictate theory as much as theory dictates facts or maybe put the other way for a stronger effect you know theory dictates what facts are as much as the facts dictate what theory is so in a sense like this is why like paradigms take such a long time to advance in science you know because like uh whenever a paradigm explains a lot of information which usually yeah i mean good scientific paradigms will do that and you bring up you know a new study or something that like provides counter evidence uh to it like a strong strong counter evidence to it the typical response is to basically reinterpret those facts in order for them to fit the theory rather than like re-examine the theory which is a much bigger enterprise to do and plus there's some vested interest in academia and so on which i'm not gonna get into that but yeah i mean basically um uh facts dictate theory as much as the theory dictates facts and um and in a sense with rebus the really cool thing right is like you can imagine that happening in your own brain that you are um interpreting the world through your narrow lenses and maybe you know by the age of 30 those narrow lenses are pretty crystallized and like if they're bad models of the world like uh it might be good to in a sense gonna revise them and allow you know low level prediction errors to actually propagate all the way upwards so that you update your model and that's kind of like the the ideal use in therapy of psychedelics given that particular reading on what psychedelics do which is in a sense you allow people to kind of get unstuck prevent the default mode network or whatever you know story we might want to tell here uh from just imposing its high level priors with very high precision everywhere and instead be open to actually update it's uh it's prior is based on new information even if it's information you have stored inside so like in the rebus paper they also talk about like it's not only kind of prediction errors from the environment it's also kind of like sensitizing to like oscillations in the limbic system you know so like emotions that maybe you you didn't want to face like all of a sudden um things that were like off about certain situations and so on and you were in denial about because your high level priors made it difficult for you to perceive them all of a sudden like become readable they they propagate in the network and like you know presumably that could have like a lot of like therapeutic benefits in a lot of circumstances now ribose is cool and i think it explains a lot but i actually think it's uh very narrow in in in in a sense it's it's it's not going into the actually super crazy insane stuff that does happen on psychedelics i mean like hyperbolic geometry of dmt experiences type stuff you know like world sheet bending and and 3d hyperbolic spaces and um uh hyperbolic resonant modes and you know space groups appearing in your in your visual field like there's a lot of stuff that like reduced you know beliefs under psychedelics they don't touch you know that's not like what they're trying to explain you know but maybe if we pay attention to those you know crazy aspects of psychedelics maybe we can still apply the free energy principle and get some good insights which is what i'm about to do i'll i'll mention i guess about rebus a a couple final things which is that um there's also this kind of fun commentary and great paper by uh adam saffron uh called the sibus which is like strengths uh beliefs under psychedelics and basically yeah he makes the the point that like actually a lot of things that happen on psychedelics are more kind of towards the strengthening of beliefs as opposed to weakening of beliefs and like a lot of you know like side effects of psychedelics is like believing weird stuff so what's going on there and like he kind of like talks about like you know maybe yes psychologies do weaken kind of this uh or in a sense sensitize you know top uh to prediction errors but also they may strengthen like medium level priors and that might give rise to kind of like particular hallucinations and expectations about the input that okay like maybe um uh you know the deep dream of paradigm that like this is something that kind of looks like a dog all of a sudden congeals into a dog so that kind of feels like you're imposing your high level model into the world right so it's the rebus story doesn't make sense of everything really uh but it also doesn't seem very parsimonious to say like rebus and then also cebus but like so like the way like there's kind of these competing forces and maybe the story is pretty complicated um i would also point to people to kind of anil seth's lab and and the work of michael sharpener uh scharther uh i don't know how to pronounce his surname apologies uh but yeah they're doing like fascinating work and basically creating biologically plausible neural network architectures and then kind of disrupting them and using generative models that come from and they get essentially crazy things like kind of a generalized and more biologically plausible version of deep dream uh and i think that's fascinating research and it's great uh and again you know the literature is still waiting for kind of a grand unification that makes sense of rebus and cebus and you know these like predictive coding paradigms and and so on but you know like for a theory to be adequate it actually uh you know there's this criteria of evidential uh um uh adequacy meaning that not only do you need to explain you know the deep dream effects on psychedelics and you know the updates of beliefs that you experience you also need to explain machine elves you also need to explain like tracer phenomenology and enhance the valence and the crazy harmony that happens in some of those states and the annealing effects and and the dissolution of the self into the rest of the cosmos and resonance between there's a ton to explain i mean it's very similar to how like some theories of consciousness uh for example claim to have an answer you know to consciousness and yet if you read into them you recognize that they're not even addressing the real problem of consciousness which is you know any scientific theory of consciousness must be able to explain a the existence of consciousness b the causal properties of consciousness why was it recruited by natural selection you know see the binding problem how is it possible that we experience unified moments of experience even though neurons are spatially distributed you know and and see it must be able to explain the full range of qualia patterns what is the periodic table of possible qualia values and patterns and the way in which they can be interrelated with one another what patterns can be bound with one another all of that all of that you need to explain all of that and as far as i can tell well rebus definitely doesn't go that far the free energy principle if you have a certain mind and in particular if you're very dismissive of like qualia or something like that i think you can kind of squint really hard and kind of you know get a glimpse of the free energy principle as a theory if you squint really hard the free energy principle looks like a theory of i would claim no it's a theory of dynamic systems it's not addressing consciousness directly but given that a conscious system is a you will be seeing a lot of free energy principal um uh effects happen in a conscious i hope that that difference makes sense it's uh very tricky what i just said so i'm not saying you can explain consciousness with the free energy principle you can't you know free energy principle is not a theory of consciousness but because consciousness is a complex you will be able to find free energy appear in it all over the place okay so it's kind of like flipping it you know 180 degrees in a sense while still highly valuing the free it's just very important to note it's not a theory of consciousness okay i'm repeating myself let's get into the three super cool new applications of the free energy to consciousness excuse me one second first of all the free energy principle is a computational theory it's you know it's dealing with probabilistic graphical models it's something very natural in machine learning it's not a theory of physics although it's trying to connect those principles with physics um what we're doing at qri is actually getting an implementation level account of what the brain is doing and based on that implementation inferring what kind of algorithms can exist and in that sense you know the computational level account that i was describing uh you know patient brain and so on those are hard constraints on the computational side we're exploring the implementation level and they will meet in the middle which is like given the implementation what algorithms are possible and likely and given the computational side basically what algorithms are necessary with that it's kind of you know forward chaining and back chaining and hopefully we get a good insight in the middle so i'll explain that in a second so we model a moment of experience as a resonance network and again this is not a full theory of consciousness as i explained but it does address in particular the binding problem at least at a functional level that when you have a resonance network um where basically each of the nodes is a a metronome it could be a more than one dimension metronome so basically it could be for example like a a square that has like various vibrational modes and in that way uh basically resonance uh can be transitive in the sense of like locking the system into a coherent but the frequencies of resonance don't need to be transitive between the nodes so like if node a is in resonance with b and b's in c a and c don't need to be in resonance with one another they're only in a sense implicitly influencing each other by their influence on c on b but on their own in a sense they are not intrinsically in resonance with one another so there's kind of yeah this fascinating aspect of the non-transitivity of this uh resonance of the frequencies of resonance and what we're claiming is that what the brain is fundamentally doing is trying to minimize dissonance now from that i would claim we can derive the free energy principle uh as kind of an implication of this implementation and again it's not that the free energy principle is you know fundamentally explaining that you know how consciousness is working here rather is that this particular implementation naturally gives rise to a free energy uh reading and and and uh this is as follows so essentially um in this system uh the layers of the system basically when they are in dissonance with one another that will encode a prediction error that in a sense to make an accurate prediction entails that one layer can essentially synchronize with the components of the layer below and that when that doesn't happen and in a sense a layer is kind of like propagating information that the addition the further higher layer is not predicting that like that will generate an out of phase interaction and that would be an instance of dissonance okay so that's one one component and second there might be an inherent complexity cost when you have a very complex model in that complex models tend to give rise to dissonance because there's a lot of interrelationships so in a sense in the balance you know of trying to minimize dissonance that gives rise to a balance between model complexity and prediction errors and of course like the the the weight on either it could be a kind of something programmable like maybe by genetics or like the the particular particular details of the resonance network but the point is that some of those configurations will be very adaptive because they will hit precisely that balance of in a sense minimizing the the range of internal possible states and minimizing that entropy while at the same time minimizing the entropy that you know comes from the environment because it's making correct predictions and of course this would happen also recursively in each of the layers uh each of the concentric shells of the markov blanket so to speak and uh the the fascinating thing here is we can in a sense interpret something like annealing neural annealing the the paradigm we've talked about mike johnson has an article about it as a way of getting out of a local minima of dissonance that you're kind of like stuck in a given configuration well with neural annealing essentially you inject a ton of energy into the system and the systems in that elevated higher energy state basically the barrier for uh exploring different states goes down in a sense it's kind of like weakens the constraints and it allows us to basically uh as it cools down to settle in a much less dissonant configuration and as a consequence that process might give rise to actually just generally better predictions about the environment it doesn't necessarily you know not always because it could anneal something that is just too simple you know like maybe with the wrong dose in the wrong sentence setting it may anneal something that is just way too simple and for example something like 5m or dmt may just generate like such levels of hyper coherence global hyper coherence all the information gets lost and basically super symmetrical state basically you anneal to a model of the world where the expected thing is actually kind of the dark room is basically this infinite void and of course the infinite void the first time you experienced it incredibly surprising but the more you experience the infinite void the more natural it feels the more kind of ground bait you know basement reality type of experience but you can you can read it as essentially like an annealing process that is updating your bottle of the world such that like now minimizing free energy requires you to take into account the existence of the void right anyway that's that's a cool cool lens here uh whereas you know in kind of the ribose annealing and they talk about annealing a simulated annealing has much more to do with things such as like message passing and uh um and belief propagation uh as kind of like algorithms in probabilistic that in a sense when you weaken the constraints there you can get an annealing effect and as you strengthen the constraints again uh you may end up actually with a more accurate model now uh in a in a recent talk uh the oxford uh psychedelic society uh i basically hypothesized and this also comes from uh some conversations with uh uh enrique bogorquez uh uh a volunteer at qri that yeah basically there might be a very deep duality here between actually what is happening in the resonance network and what is happening in the belief network and that for example uh when you experience information you don't like it literally feels dissonant like literally cognitive dissonance would be actual physical dissonance going on in the brain and we're actually interested at qri to test this and we think it's feasible to actually to actually you know publish a paper about like cognitive dissonance is physiological dissonance um yeah and uh and also you know like resisting information uh kind of has this embodied you know component that you're kind of like in a sense like preventing the information from propagating and for example practices of equanimity where you like learn to relax deeply and just embrace whatever happens in a sense what you're doing there it's uh you're also because of the duality you're allowing information to propagate you're not being in denial so to speak so yeah patterns of ten even muscular tension would basically have implications in how you're dealing with information in the belief network so anyway this is a super rich super rich connection here so that's number one of the free energy principle and psychedelics qri themed connections the the second one is well this comes yeah basically uh it's kind of a synthesis of uh mike's uh symmetry theory of homostatic regulation and the hyperbolic geometry of dmt experiences so uh i'll explain first yeah basically uh mike hypothesizes that in a sense like very symmetrical you know harmonics in the nervous system are kind of signals of health because that in a sense allows you to do very quick diagnosis in a sense whenever there is symmetry breaking that usually will suggest or indicate there is damage and you may not be able to kind of like sequentially examine every aspect you know every part of your body and compare it with an inner template like that might be computationally intractable but detecting deviations from symmetry might be very straightforward in sort of kind of like a four-year analysis uh uh decomposition like you take the you know how harmonious the the the fourier analysis version the fourier analysis is and that will tell you basically how symmetrical the state is uh how much is deviating from its homeostasis and so that's a super deep idea and in a sense it's kind of like algorithmic level account that can be hooked up to the free energy principle and makes a lot of sense um and then there's also in the in the i talked about how dmt energizes literally energizes your experience and basically the way in which energy and here are talking about physical energy of course with kind of like panzerkist uh background assumption that actually you know fields of physics or fields of qualia which you don't need to buy into for this to make sense you could also talk about total energy as maybe kind of average neural activity or like intensity of electric potential or something like but yeah basically um what happens is that on dmt you have higher energy experiences and this manifests as very very bright colors or very curved world sheet basically the depth map of your experience can become very very very curved it could also be felt in the form of super intense high-energy resonance or for example uh even even something a very loud sound and basically on dmt what will be happening is that the energy is going to be chaotically transitioning from one modality to another and sometimes it may concentrate i mean like there are reports of people saying like yeah and then all of a sudden the energy concentrated in my visual field and i experienced the most intense blue i could possibly experience ever and like okay yeah that's one solution one high energy configuration for the most part most of the aspects of a dmt experience is going to be kind of a the energy distributed across a bunch of modalities um and and in addition i talked about kind of bayesian energy sinks you can look it up you know 2016 article where i said that basically what you recognize lowers the energy so basically you have like this chaotic kind of like crazy patterns and then you know excited world sheet and then you kind of like see the corner of a table and that kind of like becomes a nucleation factor nucleation point that basically propagates the shape of the table and it condenses and is in a sense kind of a um yeah there's kind of condensation of this excited world sheet into a semantically meaningful shape and and as a result the things that actually survive in a dmt state are in a sense the things that are the highest likelihood the things that i mean given how crazy that is is like what could possibly make make this sense and uh and yes i mean that will be importing a lot of stuff like narrative information from previous trips what you have read online like you know alan watts and terence mckenna all of that will be kind of these like high-level priors that will give rise to condensations of the world and of course that is a large extent why i think there's a lot of a ton of confirmation bias on on dmt because essentially what you have learned and what you what you can recognize will condensate as a world but you know it's a fabrication i would claim it's a fabrication you're you're kind of subliminally choosing it because you can also condensate something different but uh but it's sometimes difficult to resist because like this and plus there's kind of a uh a momentum like they have like a momentum of their own like interpretations on dmt kind of gather energy and they're very difficult to stop once they get started which is yeah why i think it's very important to basically develop a very very very good aesthetic very high level philosophical aesthetic such that basically the the things that you recognize in the world are actually beautiful things and uh you know cooperate cooperate equilibria between the sub-agents of your experience but uh uh to to kind of like synthesize you know bayesian energy sinks with a symmetry theory of homostatic regulation essentially very similar to a soap bubble the other thing that essentially condenses the energy of the world sheet symmetrical configurations so basically in a super bubble um basically any configuration besides this perfectly spherical one in a sense has potential energy and if it has potential energy that immediately translates into kinetic energy makes the ball essentially kind of like bounce bounce off and because it's bouncing off it's interfacing with the gases around it and radiating its energy so in a sense a soap bubble radiates its energy until it reaches its local minima of energy which in this case is actually the global medium of energy for that particular shape which is perfect symmetrical spherical configuration likewise on dmt the shapes that you experience will be local minima of energy because they will be radiating energy to the environment and yeah i mean this has to do with the holistic field behavior and the fact that literally the phenomenal objects in your experience uh actually kind of radiate uh waves of energy and that that's a topic for another topic i don't mean waves of energy from you know outside kind of reaching at you it's all in your world model like there's a a kind of a internally in your own experience your world simulation there's waves of energy that the objects radiate and there's a lot of super deep stuff about that but on dmt objects will do that they will radiate their energy and so they will condense into their lowest energy configurations with for for the most part will bring up elements of symmetry and that said the typical dmt experience is going to be a hybrid of the two is essentially going to be something that simultaneously has a lot of symmetries and it has recognizable semantic content because like that just happened to be the way in which energy physical energy was being minimized but you see like this is so deep and so awesome because with these we have a direct way of linking the free energy principle which is a computational level account with physical energy minimization as an algorithm in order to minimize prediction errors while also having good model complexity and this is at the implementation level so we're starting to get at kind of like a big picture that has answers to all of the levels of analysis of mars levels of analysis and i i don't know it makes me very happy it's basically the aim of qri is to have a full stack theory of consciousness basically all of the levels of analysis and also you know a neuroscience philosophy of mind and neurotechnology and uh and i think like yeah this kind of deep connections is is the way forward okay so and i promised you that i would explain indra's net with the free energy principle on on psychedelics and meditation so that's what i will conclude this video with uh so bear with me so you've got to remember uh in in previous videos i've talked about how uh dmt one way you can model it is as competing patterns of coherence and in a sense uh this gives rise to an evolutionary uh process where like uh do you know like our place like reddit this is freddie.com place was basically these like one million by one million canvas where yeah people were able to put a a pixel every i don't know 10 minutes or uh so like obviously you needed to collaborate with others in order to actually paint the the whole thing and the dynamics that emerged was were really cool right it's like oh like some people were like in the low entropy let's make everything black so let's make everything white kind of a camp and others were like no let's make a pikachu let's make the the flag of uh australia you know whatever it may be uh but the point is that yeah there's kind of like this competition uh of like patterns and like basically they're stronger one goes the the more it can signal the more visible it becomes the more people it can attract so basically there's kind of this like the reach gets richer type of dynamics as well uh and then therefore kind of like a power law distribution of like how popular different patterns are well the same on dmt essentially one frame uh with which to analyze dmt is that this competing patterns of coherence is kind of like filling up your experience by basically the contents of your subconscious what your subconscious can recognize and it's what it finds like emotionally salient and also kind of like mixing in like the affordances of like highly symmetrical configurations being like energy minimizing configurations so yeah in a sense like the crazy stuff you see on dmt are basically the balance between like the forces of the competing clusters of coherence and sometimes a cluster of coherence can win i mean it can be like really savvy at basically minimizing its free energy and uh and when he does that you know sometimes you may have kind of like an alien contact experience so where the whole trip is kind of like you're standing right next to like a lady or you know a a mantis or something and it's uh scolding you for something you did or it's praising you or telling you you're going to be the king of the universe or whatever it may be but basically it's like telling you a story that is very captivating and being captivating and being consistent with what you know is one of the things that this you know quasi-entity you know emergent you know phenomena that happens on tmd that's how they they get you you know that's how they they attract your attention they basically uh build the things that simplify your model of the world or make things make sense um and that is like very alluring you know there's like this feeling of super intelligence and yes a dmt state is in some sense uh super intelligence in in some sense because it is finding at an extremely fast pace connections that you weren't able to find before and and uh that could be computationally very meaningful at the same time because of the chaotic nature of the state and the coherence across the layers of the hierarchy there's a lot of forced belief updates so unfortunately when you do experience kind of these dmt beings they kind of like force you to update your beliefs towards them being like real outside of your existence and you can like once you understand everything i've talked to you about you you will be able to notice this that basically the way in which that manifests is as literal dissonance that like if you rebel against the updates that uh dnt machine elf is uh giving you um that will feel difficult it will be like resisting and that resistance will lead to dissonance it's going to be unpleasant which is why i think it's so important to from the very beginning of the dmt experience always hold the you know upmost most elevated aesthetic that you have such that the evolutionary selection pressures for the patterns give rise to kind of cooperate cooperate equilibria and when that happens that gonna give rise to indra's net and what is interest net here okay so we're coming to a close everything everything is kind of like munching together in order to get to this core insight i'm about to deliver to you which is that the competing clusters of in order for them to be good at surviving they must be able to model their and also they must be as simple as they can be so that there's not uh basically chaotic elements within them that will destabilize them and you know shake themselves apart so to speak so now imagine that like the entire field of experience is kind of like following these principles following this gradient and that they are more or less similar and consonant with each other so when you have those conditions and you can maximize the probability of those conditions by you know taking dmt in a really good state of mind and holding a really good aesthetic in place what will happen is that each of the competing clusters of coherence will generate a model of their environment such that when they receive kind of the waves of energy so to speak that they can match them with internal waves of energy simultaneously that will reinforce the specific pattern that they are and as a consequence and because in a sense like fractality and cell similarity is also one way of like minimizing complexity what can literally happen is that you will have these groups competing patterns of coherence that each of them literally contains a tiny reflection but every other one uh scaled downwards so that like basically kind of like corresponds to the appropriate scale and within each of them you will have a smaller one now it's not going to go infinitely there's no space plus you know the frequencies are not infinite freq you know the frequency has a a maximum value so like the the bands of the waves of energy as they they radiate and so they they cannot be like infinitely thin so there's not infinite complexity but there can be several layers of like mutual modeling and uh because the simplest configuration is going to be essentially when all of the competing clusters of coherence are identical when you have the conditions set up right basically the gradient moves towards literally every cluster of coherence being a sort of fractal reflection of every other cluster of coherence and that way they can predict each other perfectly and they don't they don't lose their shape they minimize energy they make perfect predictions they're a completely stable state and it's high valence because it's all consonant and that's interest net so hopefully hopefully you got some of that if not i'm sure we'll talk about this another time and um i'm sure you can re-watch the video a later stage maybe after taking dmt and experiencing these and you know you'll see what i mean uh but anyway i just i was just very excited to share all of these so uh i think like to to conclude you this is the sort of conversation that i really think um you know there really should be a place in the world for it to exist and i think qri has a really good chance of being that place we're basically uh constructing the infrastructure and yeah basically we're going to make hires later this year so and we're aiming for yeah basically super smart people uh very value aligned and uh you know if all of this interests you if you have the mathematical background and uh you have like strong technical skills and uh you love philosophy yes i mean please read all of our stuff you know maybe in six months uh we might hire you i've gotta be honest though there's gonna be a very high bar but i don't know in six months maybe you can get there either way though um this is a a big movement and a and a larger community so whether you know you're working directly on these projects or not you can you can tag along and write blog posts make videos and yes essentially make consciousness research super cool uh that's that's the goal and uh and reduce suffering massively as so with that thank you so much infinite please and i'll talk to you another time take care have a wonderful wonderful time</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

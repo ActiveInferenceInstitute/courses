@@ -776,47 +776,98 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lecture_content">
-<div><h1>Module 02: Agents in Robotics</h1>
+<div><h1>Biological Agency: From Bacteria to Octopus Arms</h1>
+<h2>Executive Summary</h2>
+<p>Biological organisms exhibit agency at every scale — from the chemotactic behavior of E. coli to the tool use of primates. In Active Inference, biological agency is the capacity to minimize free energy through evolved generative models, where the model is encoded not just in neural circuits but in the entire body plan, developmental program, and behavioral repertoire of the organism. This module examines how different levels of biological agency — from reflexive to deliberative — inspire corresponding levels of robotic agency, and how the principle of minimal agency (achieving goals with the simplest possible generative model) provides a powerful design heuristic for bio-inspired robots.</p>
 <h2>Learning Objectives</h2>
 <ol>
-<li>Define <strong>Agents</strong> within the context of Robotics.</li>
-<li>Analyze how Agents interacts with other components of the Active Inference framework.</li>
-<li>Apply specific constraints of Robotics to the formal definition of Agents.</li>
+<li>Identify levels of biological agency from bacterial chemotaxis to primate deliberative planning and map each to the Active Inference framework.</li>
+<li>Analyze how evolved morphology encodes generative model priors that enable agency without complex computation.</li>
+<li>Evaluate the design principle of minimal agency — achieving task goals with the simplest generative model that suffices.</li>
+<li>Compare centralized versus distributed biological agency and their implications for robotic architecture.</li>
+<li>Apply biological agency principles to the design of robotic agents with appropriate autonomy levels.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Agents</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>In the previous module on Systems, we examined how biological organisms maintain coherent boundaries. But maintaining boundaries is passive — it is the biological equivalent of a robot sitting still and keeping its joints within limits. Agency begins when the organism actively selects behaviors to achieve goals: moving toward food, away from predators, toward mates, and into favorable environments. In the next module on Perception, we will examine the sensory mechanisms that support biological agency; here, we focus on the agent itself — the decision-making architecture at the core of biological behavior.</p>
 <h2>Key Concepts</h2>
-<h3>1. Agents as a Markov Blanket Boundary</h3>
-<p>How does Agents define the boundary between the agent and the environment?</p>
-<h3>2. Generative Models of Agents</h3>
-<p>What parameters involved in Agents must be optimized to minimize variational free energy?</p>
-<h3>3. Active Inference Dynamics</h3>
-<p>How does the process of Agents drive the perception-action loop?</p>
+<h3>1. Bacterial Agency: The Minimal Agent</h3>
+<p>E. coli is arguably the simplest biological agent. Its Markov blanket consists of chemoreceptors (sensory states that detect chemical gradients) and flagellar motors (active states that propel the cell). Its internal state is minimal: a single molecular signaling pathway (the CheA-CheY phosphorelay) that compares current chemical concentration to recent history. If conditions are improving (concentration increasing), the cell continues swimming straight. If conditions are worsening, the cell tumbles randomly to change direction.</p>
+<p>This "biased random walk" is the simplest possible Active Inference agent. The generative model is implicit: the cell "expects" improving chemical conditions (this is its preference prior). When this expectation is violated (prediction error: conditions are worsening), the cell acts (tumbles) to change its sensory input. There is no explicit world model, no planning, no memory beyond a few seconds. Yet this minimal agency is sufficient to navigate chemical gradients and find food sources — the task the organism needs to accomplish.</p>
+<p>For roboticists, E. coli demonstrates that effective agency does not require complex computation. A simple sensor, a binary action (continue or change direction), and a short-term comparison mechanism constitute a complete Active Inference agent for gradient-following tasks. This principle scales to robotic applications: a line-following robot, a phototropic solar tracker, or a chemical-gradient-following environmental monitor can achieve useful behavior with minimal generative models.</p>
+<h3>2. Insect Agency: Reactive Sophistication</h3>
+<p>Insects demonstrate that complex, adaptive behavior can emerge from relatively small nervous systems (100,000 to 1 million neurons) through the combination of specialized sensory organs, hard-wired neural circuits, and morphological computation.</p>
+<p>The cockroach escape response illustrates reactive biological agency at its most impressive. When the cercal organs (wind-sensing hairs on the abdomen) detect an approaching predator, a cascade of giant interneurons triggers a turn-and-run response within 50 milliseconds. The direction of the turn is computed from the pattern of wind stimulation — a rapid, hard-wired mapping from sensory input to motor output. No deliberation, no world model, no planning. The generative model is encoded entirely in the neural wiring: the cockroach "expects" danger from the direction of maximal wind stimulation and acts to move in the opposite direction.</p>
+<p>But insect agency goes beyond mere reflexes. Honeybees learn to associate flower colors with nectar rewards, navigate complex routes between food sources and the hive, and communicate food locations through the waggle dance. Desert ants (Cataglyphis) perform path integration — maintaining an estimate of their displacement from the nest through integration of stride length and compass direction — enabling them to return home along a direct path after a winding foraging trip. These capabilities represent deeper generative models: the bee's model of color-reward associations, the ant's model of its own displacement in space.</p>
+<h3>3. Cephalopod Agency: Distributed Intelligence</h3>
+<p>The octopus presents a radical model of biological agency: a centralized brain that sets high-level goals, with most motor control distributed across eight semi-autonomous arms. Each arm contains approximately 40 million neurons — more than the central brain — and can perform complex movements (reaching, grasping, exploring) even when severed from the body.</p>
+<p>This distributed agency arises because each arm maintains its own local generative model. The arm's sensory states (suckers that can taste and feel, proprioceptors that sense arm posture) feed into local neural circuits that generate reaching, wrapping, and grasping movements. The central brain does not specify joint angles or muscle activations — it provides high-level commands like "reach toward that object" or "bring food to the mouth," and the arm's local intelligence handles the details.</p>
+<p>For robotics, the octopus demonstrates that hyper-redundant systems (those with far more degrees of freedom than needed for any single task) are best controlled through distributed agency rather than centralized computation. A soft robotic arm inspired by the octopus uses local sensing and actuation at each segment, with higher-level commands specifying only the target configuration. This architecture is a direct implementation of hierarchical Active Inference: the central level maintains a coarse generative model of arm endpoints, while the local level maintains detailed generative models of segment dynamics.</p>
+<h3>4. Evolved Generative Models and Morphological Priors</h3>
+<p>Biological agents do not learn their generative models from scratch. Evolution provides rich prior models encoded in body morphology, neural wiring, and developmental programs. A newborn foal can walk within hours because its musculoskeletal system and spinal locomotion circuits embody a generative model of quadrupedal locomotion that was optimized over millions of years of equine evolution.</p>
+<p>These evolved priors are a form of model structure that dramatically reduces the learning burden on individual organisms. The foal does not need to discover that legs should move in a diagonal sequence — this pattern is built into its CPG architecture. It only needs to calibrate the model parameters to its specific body (learning the precise timing and amplitude that matches its own limb lengths and masses).</p>
+<p>For bio-inspired robots, this principle suggests designing hardware and control architectures that embody appropriate priors for the target task domain. A legged robot whose mechanical design (leg compliance, joint ranges, mass distribution) is optimized for locomotion will need less online learning than one whose morphology is generic. The hardware itself is part of the generative model — it constrains and channels behavior toward functional patterns without requiring computation.</p>
+<h3>5. Minimal Agency as a Design Principle</h3>
+<p>The biological world demonstrates that evolution tends toward the simplest generative model that is sufficient for the organism's ecological niche. Bacteria thrive with molecular signaling cascades. Insects succeed with small, specialized neural circuits. Only animals facing complex, variable social and physical environments (primates, corvids, cetaceans) invest in large brains with flexible, deep generative models.</p>
+<p>This "minimal agency" principle is directly applicable to robotic design. A robotic vacuum cleaner does not need a deep generative model with spatial memory and task planning — a simple coverage algorithm with bump sensors (E. coli-level agency) is sufficient. A warehouse logistics robot needs spatial navigation and obstacle avoidance but not social cognition — insect-level agency suffices. A surgical assistant robot needs precise perception, manipulation, and coordination with a human surgeon — requiring deeper agency. Matching the generative model complexity to the task requirements avoids both the waste of over-engineering and the failure of under-engineering.</p>
+<h2>Active Inference Connection</h2>
+<p>Biological agency is Active Inference in its original domain. The Free Energy Principle was developed specifically to explain how biological organisms maintain themselves and adapt to their environments. Every biological agent — from bacteria to primates — can be understood as minimizing variational free energy through the interaction of its evolved generative model with sensory evidence from its environment. The diversity of biological agency (reactive, deliberative, distributed, centralized) reflects the diversity of generative model architectures that evolution has discovered. Bio-inspired robotics imports these architectures, benefiting from the billions of years of optimization that biology has already performed.</p>
 <h2>Applications</h2>
-<p>In Robotics, we see Agents manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
-<h2>Conclusion</h2>
-<p>Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<h3>Case Study 1: Ant-Colony-Inspired Foraging Robots</h3>
+<p>A swarm of 20 small mobile robots implements ant-colony-inspired foraging using pheromone-like communication. Each robot operates as a minimal agent — similar in complexity to an individual ant. Its generative model consists of: a preference for locations with "food" markers, a tendency to follow virtual pheromone gradients (implemented through shared wireless messages), and a simple state machine (searching, carrying, returning). No individual robot has a map of the environment or knowledge of other robots' locations. Yet the swarm collectively discovers food sources, establishes efficient transport routes, and adapts when food sources are depleted or new ones appear. This emergent collective intelligence arises from the same principles as ant colony optimization: each agent's minimal Active Inference (follow gradients, deposit pheromones, return to base) produces globally intelligent behavior through stigmergic communication. The system demonstrates that swarm-level goals can be achieved without swarm-level planning — minimal individual agency plus communication is sufficient.</p>
+<h3>Case Study 2: Octopus-Arm-Inspired Soft Manipulator</h3>
+<p>A soft robotic arm inspired by the octopus consists of six silicone segments, each containing three pneumatic actuators and an embedded flex sensor. Each segment operates as a semi-autonomous agent: its local controller receives a desired curvature from the central planner and uses the flex sensor feedback to adjust pneumatic pressures. The central controller specifies only the endpoint target, and the distributed segment controllers coordinate to find a feasible arm configuration — an approach directly inspired by the octopus's distributed neural architecture. When the arm encounters an unexpected obstacle, the local segments comply and route around it without the central controller needing to compute the new trajectory. This distributed agency enables the soft arm to manipulate objects in cluttered, uncertain environments where a rigid, centrally controlled arm would jam or require extensive replanning. The biological insight that agency can be distributed across the body, not concentrated in a central processor, is the key design principle.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 1 (Systems)</strong>: The biological system boundaries within which agency operates</li>
+<li><strong>Module 3 (Perception)</strong>: The sensory capabilities that inform biological decision-making</li>
+<li><strong>Module 5 (Action)</strong>: The motor systems through which biological agents act on the world</li>
+<li><strong>Module 8 (Planning)</strong>: How biological agents evaluate future action sequences</li>
+</ul>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Bio-Inspired Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minimal Agency</td>
+<td>Simplest generative model sufficient for the task</td>
+<td>Gradient-following robot with binary direction change</td>
+</tr>
+<tr>
+<td>Reactive Agency</td>
+<td>Hard-wired sensor-to-motor mappings</td>
+<td>Cockroach-inspired escape response in a fast mobile robot</td>
+</tr>
+<tr>
+<td>Distributed Agency</td>
+<td>Motor control distributed across body segments</td>
+<td>Octopus-arm-inspired soft manipulator with segment-level controllers</td>
+</tr>
+<tr>
+<td>Evolved Priors</td>
+<td>Generative model structure encoded in morphology and neural wiring</td>
+<td>Legged robot with CPG-matched leg mechanics</td>
+</tr>
+<tr>
+<td>Swarm Agency</td>
+<td>Collective intelligence from minimal individual agents</td>
+<td>Ant-colony-inspired multi-robot foraging</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Friston, K. (2010). The free-energy principle: A unified brain theory? <em>Nature Reviews Neuroscience</em>, 11(2), 127-138.</li>
+<li>Webb, B. (2020). Bio-inspired robots. In <em>Springer Handbook of Robotics</em>. Springer.</li>
+<li>Zullo, L., et al. (2009). Nonsomatotopic organization of the higher motor centers in octopus. <em>Current Biology</em>, 19(19), 1632-1636.</li>
+<li>Dorigo, M., &amp; Stutzle, T. (2004). <em>Ant Colony Optimization</em>. MIT Press.</li>
+<li>Hochner, B. (2012). An embodied view of octopus neurobiology. <em>Current Biology</em>, 22(20), R887-R892.</li>
+</ol></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,26 +877,127 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Agents</h1>
+<div><h1>Lab: Biological Agency and Embodied Robot Design</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Agents</strong>.</p>
+<p>Investigate how biological agents achieve autonomy through embodied cognition and morphological computation. You will analyze animal behavior as Active Inference, design a robot that exploits body-environment coupling, and compare biological and artificial agency.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Agents.</li>
+<li>Completion of the corresponding module.md lecture material</li>
+<li>Familiarity with Active Inference concepts (generative models, free energy, prediction errors)</li>
+<li>Basic pseudocode and diagram skills</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Animal Behavior as Active Inference</h2>
+<p>Select an animal behavior (e.g., prey capture in frogs, web building in spiders, nest construction in termites) and analyze it as Active Inference:</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Robotics.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Agents.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Agents (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>What is the animal's generative model of its environment during this behavior?</li>
+<li>What prior preferences drive the behavior (desired sensory outcomes)?</li>
+<li>How do prediction errors guide the behavior in real time?</li>
+<li>Where does morphological computation reduce the cognitive load?</li>
 </ol>
-<h2>Discussion Requirements</h2>
+<p>{fill:textarea}</p>
+<h2>Part 2: Soft Robotics and Embodiment</h2>
+<p>Design a soft robotic gripper inspired by biological grasping mechanisms:</p>
+<ol>
+<li>Compare a rigid parallel-jaw gripper with a compliant, bio-inspired gripper (e.g., inspired by elephant trunk, octopus tentacle, or human hand).</li>
+<li>How does material compliance serve as morphological computation, reducing the generative model's complexity?</li>
+<li>What sensing modalities does the bio-inspired gripper need (tactile, proprioceptive, force)?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Umwelt Analysis</h2>
+<p>The umwelt is an organism's subjective sensory world. Analyze umwelts for robotic design:</p>
+<ol>
+<li>Describe the umwelt of a bat (echolocation), a pit viper (infrared sensing), and a star-nosed mole (touch).</li>
+<li>For each, how does the umwelt constrain the organism's generative model?</li>
+<li>Design a robot with an unconventional umwelt (e.g., primarily magnetic or vibrational sensing). How does this shape its agency?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Agency Comparison Table</h2>
+<p>Compare biological and robotic agency:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Biological Agent</th>
+<th>Current Robots</th>
+<th>Bio-Inspired AI Robot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Self-repair</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Metabolism/energy</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Morphological adaptation</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Generative model depth</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Autonomy duration</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Classical Robotics</th>
+<th>Active Inference</th>
+<th>Your Design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core mechanism</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Uncertainty handling</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Adaptation</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Key advantage</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
 <ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Agents.</li>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press.</li>
+<li>Pio-Lopez, L., Nizard, A., Friston, K., &amp; Pezzulo, G. (2016). Active Inference and robot control. <em>Journal of the Royal Society Interface</em>, 13(122).</li>
 </ul></div>
 </div></section>
 

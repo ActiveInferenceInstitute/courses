@@ -2,13 +2,14 @@
 
 ## Goal
 
-Help a paper agent find its goal!
+Help a paper agent find its way to a yummy treat at the end of a maze!
 
 ## What You Need
 
-* Paper
-* Pencils
-* A small toy or button (this is your Agent)
+* Paper (big piece is best!)
+* Pencils or markers
+* A small toy, button, or coin (this is your Agent)
+* Crayons to decorate
 
 ## Steps
 
@@ -16,37 +17,49 @@ Help a paper agent find its goal!
 
 Draw a simple maze on your paper.
 
-* Draw a **Start** circle.
-* Draw a **Goal** star (put a drawing of a yummy snack or a treasure there!).
-* Draw walls (lines) that the agent can't walk through.
+* Draw a big **Start** circle on one side. Write "START" inside it.
+* Draw a **Goal** star on the other side. Draw something yummy there (a cookie, a strawberry, a pizza slice!).
+* Draw walls (thick lines) that the agent cannot walk through.
+* Make sure there is at least one path from Start to Goal!
 
-### 2. Be the Agent
+### 2. Name Your Agent
 
-Put your toy on the Start circle.
-You are the Agent. Your Goal is to get to the Star.
+Give your toy a name and a goal.
+(Example: "This is Nibbles the Mouse. Her goal is to reach the cheese!")
 
-### 3. Make Choices
+### 3. Be the Agent
 
-Move your toy.
+Put your toy on the Start circle. You are now the Agent's brain!
+Move your toy slowly along the paths.
 
-* "Oh no! A wall!" -> Make a choice to turn left or right.
-* "Path is clear!" -> Action: Go forward!
+* "Oh no! A wall!" -> Think: "Should I turn left or right?"
+* "The path is clear!" -> Action: Move forward!
+* "A dead end!" -> Surprise! Turn around and try a different way.
 
-### 4. Reaching the Goal
+### 4. Reach the Goal
 
-When you reach the Star, cheer! "I made it!"
+When your toy reaches the star, cheer! "Nibbles made it to the cheese!"
+Count how many turns you had to make.
+
+### 5. Try Again
+
+Can you find a shorter path? Move your agent again and see if there is a faster way!
 
 ## My Agent Story
 
 *
 <div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
 *
-What happened when your agent hit a wall? Did it give up or try a new way?
+My agent's name is: ___
+My agent's goal was: ___
+I had to make ___ turns.
+The hardest part was: ___
 
 ## What We Learned
 
 | Question | My Answer |
 | :--- | :--- |
-| **Did I get the treat?** | |
-| **Was the goal hard?** | |
-| **Did I change my plan?** | |
+| **Did my agent reach the goal?** | |
+| **How many wrong turns did I make?** | |
+| **Did I find a shorter path the second time?** | |
+| **What did my agent do when it hit a wall?** | |

@@ -2,7 +2,7 @@
 
 > **Navigation**: [← Docs Index](README.md) | [Quick Start](QUICKSTART.md) | [Configuration](CONFIGURATION.md)
 
-Complete reference for all **23 CLI scripts** in `software/scripts/`.
+Complete reference for all **22 CLI scripts** in `software/scripts/`.
 
 **Note**: All commands must be run from `software/` using `uv run`.
 
@@ -149,5 +149,25 @@ uv run python scripts/translate_course.py active-inference es
 
 Translates YouTube transcripts.
 
+### `translate_published.py`
+
+Translates pre-published course outputs into target languages. Works on the `published/` directory structure.
+
+```bash
+uv run python -m scripts.translate_published --lang es
+```
+
 ---
-*Last Updated: 2026-02-14*
+
+## Utilities
+
+### `summarize_courses.py`
+
+Generates LLM-powered summaries of course content.
+
+```bash
+uv run python scripts/summarize_courses.py --course ai-philosophy
+```
+
+---
+*Last Updated: 2026-02-15*

@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Agents**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Agents**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between Systems and Perception.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Agents drive the perception-action loop?
 ## Applications
 
 In Robotics, we see Agents manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A fully autonomous delivery drone (such as a Wing or Zipline platform) operates as an Active Inference agent whose Markov blanket encompasses GPS/INS sensors and optical flow cameras (sensory states) and rotor speed commands plus payload release mechanisms (active states); the drone's onboard generative model encodes flight dynamics, weather predictions, and delivery zone geometry, and it autonomously navigates, avoids obstacles, and executes precision payload drops by continuously minimizing expected free energy without any human teleoperation.
+*   **Specific Example 2**: In a multi-agent autonomous warehouse (such as Amazon Robotics), each Kiva-style mobile robot functions as an independent Active Inference agent that maintains beliefs about its own position, neighboring robots' predicted trajectories, and shelf inventory states; the agent's Markov blanket separates its local decision-making from the global warehouse state, and emergent coordination arises because each agent's generative model includes predictions of other agents' likely actions, enabling collision-free navigation through shared aisles without centralized traffic control.
 
 ## Conclusion
 
 Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

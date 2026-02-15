@@ -1,23 +1,87 @@
-# Lab: Exploring Communication
+# Lab: Nerve Signals -- How Your Body Sends Messages
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Communication**.
+> **Learning Goal:** Investigate how the nervous system communicates within the body using electrical and chemical signals, and discover how hormones provide a second communication channel.
 
-## Prerequisites
+This is an **investigation lab** designed for middle school students (Grades 6-8).
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Communication.
+---
 
-## Steps
+## Materials Needed
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Ms.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Communication.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Communication (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+- Dominoes or a line of students for chain reaction demonstration
+- Stopwatch
+- Paper and markers
+- Lab journal or notebook
 
-## Discussion Requirements
+---
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Communication.
+## Part 1: Signal Speed Race (15 min)
+
+Your nervous system sends signals at incredible speeds. Let's test how fast signals travel through your body using a group chain reaction.
+
+**Activity:** Stand in a circle holding hands. One person squeezes the hand of the person next to them. That person squeezes the next person's hand, and so on around the circle. Time how long one signal takes to travel the whole circle.
+
+| Trial | Time for full circle (seconds) | Number of people | Speed (people per second) |
+|-------|-------------------------------|-----------------|--------------------------|
+| 1 | | | |
+| 2 | | | |
+| 3 | | | |
+
+Now compare: real nerve signals travel at 1-120 meters per second depending on the type of nerve.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 2: Two Communication Systems (10 min)
+
+Your body has TWO main communication systems: the **nervous system** (fast, electrical, precise) and the **endocrine system** (slower, chemical, widespread).
+
+| Feature | Nervous System | Endocrine System |
+|---------|---------------|-----------------|
+| Speed | Fast (milliseconds) | Slow (seconds to hours) |
+| Signal type | Electrical impulses | Hormones in blood |
+| Target | Specific muscles/organs | Many organs at once |
+| Duration | Brief | Long-lasting |
+| Example | Pulling hand off hot stove | Growth spurts during puberty |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: Communication Breakdown -- What Goes Wrong (10 min)
+
+Sometimes body communication fails. Discuss what happens when signals go wrong.
+
+| Condition | What goes wrong with communication? | Prediction error in the body |
+|-----------|-------------------------------------|------------------------------|
+| Numbness (sat on your leg too long) | | |
+| Allergic reaction | | |
+| Adrenaline rush (before a test or game) | | |
+| Phantom limb pain | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Reflection Table
+
+| Question | Your Answer |
+|----------|-------------|
+| How do nerve signals travel through the body? | |
+| What is the difference between nervous and endocrine communication? | |
+| Why does the body need two communication systems? | |
+| What happens when body communication breaks down? | |
+| How does Active Inference explain body communication? | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+

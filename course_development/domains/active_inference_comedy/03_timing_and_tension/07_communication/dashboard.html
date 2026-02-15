@@ -1,510 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard: Communication — Timing And Tension</title>
     <style>
         :root {
-            --a: #38bdf8;
-            --ag: #38bdf822;
+            --accent: #38bdf8;
+            --accent-glow: #38bdf822;
             --bg: #0f172a;
-            --c: #1e293b;
-            --bd: #334155;
-            --t: #e2e8f0;
-            --m: #94a3b8;
-            --d: #64748b;
-            --g: #22c55e;
-            --r: #ef4444
+            --card: #1e293b;
+            --border: #334155;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --dim: #64748b;
+            --green: #22c55e;
+            --red: #ef4444;
         }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box
-        }
+        /* Hero */
+        .hero { background:linear-gradient(135deg, #6366f1, #a855f7); padding:48px 24px 36px; text-align:center; }
+        .hero h1 { font-size:2rem; color:#fff; margin-bottom:8px; }
+        .hero .sub { font-size:1.1rem; color:rgba(255,255,255,.85); margin-bottom:12px; }
+        .hero .tag { display:inline-block; background:rgba(255,255,255,.2); color:#fff; padding:4px 14px; border-radius:20px; font-size:.8rem; backdrop-filter:blur(4px); }
 
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--t);
-            line-height: 1.6
-        }
+        /* Nav */
+        .nav { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; padding:14px 24px; background:#1a2332; border-bottom:1px solid var(--border); }
+        .nav a { color:var(--muted); text-decoration:none; font-size:.85rem; padding:6px 14px; border:1px solid var(--border); border-radius:8px; transition:all .2s; }
+        .nav a:hover,.nav a.active { color:var(--accent); border-color:var(--accent); background:var(--accent-glow); }
 
-        .hero {
-            background: linear-gradient(135deg, #ec4899, #f43f5e);
-            padding: 48px 24px 36px;
-            text-align: center
-        }
+        .content { max-width:1100px; margin:0 auto; padding:24px; }
+        .stitle { color:var(--accent); font-size:1.25rem; margin:32px 0 16px; padding-bottom:8px; border-bottom:2px solid var(--border); }
+        .stitle:first-child { margin-top:0; }
 
-        .hero h1 {
-            font-size: 2rem;
-            color: #fff;
-            margin-bottom: 8px
-        }
+        /* Cards */
+        .cgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+        .concept-card { background:var(--card); padding:20px; border-radius:12px; border:1px solid var(--border); cursor:pointer; transition:transform .2s,border-color .2s; }
+        .concept-card:hover { transform:translateY(-2px); border-color:var(--accent); }
+        .concept-card h3 { display:flex; justify-content:space-between; align-items:center; font-size:1rem; margin-bottom:8px; }
+        .concept-card h3 .toggle { font-size:1.2rem; color:var(--dim); transition:transform .3s; }
+        .concept-card.open h3 .toggle { transform:rotate(45deg); }
+        .concept-card .brief { color:var(--muted); font-size:.9rem; }
+        .concept-card .detail { display:none; color:var(--muted); font-size:.85rem; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); line-height:1.7; }
+        .concept-card.open .detail { display:block; }
+        .meter { background:var(--border); border-radius:8px; height:6px; overflow:hidden; margin-top:14px; }
+        .meter-fill { height:100%; border-radius:8px; background:linear-gradient(90deg,var(--accent),#38bdf888); transition:width 1s ease; }
+        .meter-label { color:var(--dim); font-size:.7rem; margin-top:4px; }
 
-        .hero .sub {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, .85)
-        }
+        /* Quiz */
+        .quiz-box { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .qprog { color:var(--dim); font-size:.85rem; margin-bottom:12px; }
+        .qq { font-size:1rem; margin-bottom:16px; font-weight:500; }
+        .qbtn { background:rgba(255,255,255,.03); color:var(--text); border:1px solid var(--border); padding:12px 16px; border-radius:10px; cursor:pointer; display:block; width:100%; text-align:left; margin:6px 0; transition:all .2s; font-size:.9rem; }
+        .qbtn:hover:not(:disabled) { background:rgba(255,255,255,.08); border-color:var(--accent); }
+        .qbtn.correct { background:#166534; border-color:var(--green); color:#bbf7d0; }
+        .qbtn.wrong { background:#7f1d1d; border-color:var(--red); color:#fecaca; }
+        .qbtn:disabled { cursor:default; opacity:.85; }
+        .qexp { margin-top:12px; padding:12px; border-radius:10px; font-size:.9rem; display:none; animation:fadeIn .3s; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+        .qnav { display:flex; gap:8px; margin-top:16px; }
+        .qnav button { background:rgba(255,255,255,.05); color:var(--text); border:1px solid var(--border); padding:8px 18px; border-radius:8px; cursor:pointer; transition:all .2s; font-size:.85rem; }
+        .qnav button:hover:not(:disabled) { border-color:var(--accent); color:var(--accent); }
+        .qnav button:disabled { opacity:.3; cursor:default; }
+        #score-box { display:none; margin-top:16px; padding:20px; background:rgba(0,0,0,.2); border-radius:12px; text-align:center; animation:fadeIn .5s; }
 
-        .hero .tag {
-            display: inline-block;
-            background: rgba(255, 255, 255, .2);
-            color: #fff;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: .8rem
-        }
+        /* Checklist */
+        .cklist { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .cklist label { display:flex; align-items:flex-start; gap:10px; padding:8px 0; color:var(--muted); font-size:.9rem; cursor:pointer; transition:color .2s; }
+        .cklist label:hover { color:var(--text); }
+        .cklist input[type=checkbox] { margin-top:3px; accent-color:var(--accent); width:18px; height:18px; flex-shrink:0; }
+        .cklist .done { color:var(--accent); text-decoration:line-through; opacity:.7; }
+        .pbar { background:var(--border); border-radius:8px; height:8px; overflow:hidden; margin-top:16px; }
+        .pfill { height:100%; border-radius:8px; background:var(--accent); transition:width .5s ease; width:0; }
+        .ptxt { color:var(--dim); font-size:.8rem; margin-top:6px; }
 
-        .nav {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            flex-wrap: wrap;
-            padding: 14px 24px;
-            background: #1a2332;
-            border-bottom: 1px solid var(--bd)
-        }
+        /* Module nav */
+        .mnav { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .mgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
+        .module-link { display:block; padding:14px; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:var(--muted); text-decoration:none; font-size:.85rem; transition:all .2s; }
+        .module-link:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
+        .module-link.current { border-color:var(--accent); background:var(--accent-glow); }
+        .module-link strong { display:block; color:var(--text); margin-bottom:2px; font-size:.9rem; }
+        .module-link.current strong { color:var(--accent); }
 
-        .nav a {
-            color: var(--m);
-            text-decoration: none;
-            font-size: .85rem;
-            padding: 6px 14px;
-            border: 1px solid var(--bd);
-            border-radius: 8px;
-            transition: all .2s
-        }
-
-        .nav a:hover,
-        .nav a.active {
-            color: var(--a);
-            border-color: var(--a);
-            background: var(--ag)
-        }
-
-        .ct {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 24px
-        }
-
-        .st {
-            color: var(--a);
-            font-size: 1.25rem;
-            margin: 32px 0 16px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--bd)
-        }
-
-        .st:first-child {
-            margin-top: 0
-        }
-
-        .cg {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 16px
-        }
-
-        .cc {
-            background: var(--c);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--bd);
-            cursor: pointer;
-            transition: transform .2s, border-color .2s
-        }
-
-        .cc:hover {
-            transform: translateY(-2px);
-            border-color: var(--a)
-        }
-
-        .cc h3 {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1rem;
-            margin-bottom: 8px
-        }
-
-        .cc h3 .tg {
-            font-size: 1.2rem;
-            color: var(--d);
-            transition: transform .3s
-        }
-
-        .cc.open h3 .tg {
-            transform: rotate(45deg)
-        }
-
-        .cc .b {
-            color: var(--m);
-            font-size: .9rem
-        }
-
-        .cc .dt {
-            display: none;
-            color: var(--m);
-            font-size: .85rem;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid var(--bd);
-            line-height: 1.7
-        }
-
-        .cc.open .dt {
-            display: block
-        }
-
-        .mt {
-            background: var(--bd);
-            border-radius: 8px;
-            height: 6px;
-            overflow: hidden;
-            margin-top: 14px
-        }
-
-        .mf {
-            height: 100%;
-            border-radius: 8px;
-            background: linear-gradient(90deg, var(--a), #38bdf888);
-            transition: width 1s
-        }
-
-        .ml {
-            color: var(--d);
-            font-size: .7rem;
-            margin-top: 4px
-        }
-
-        .qb {
-            background: var(--c);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--bd)
-        }
-
-        .qp {
-            color: var(--d);
-            font-size: .85rem;
-            margin-bottom: 12px
-        }
-
-        .qq {
-            font-size: 1rem;
-            margin-bottom: 16px;
-            font-weight: 500
-        }
-
-        .qo {
-            background: rgba(255, 255, 255, .03);
-            color: var(--t);
-            border: 1px solid var(--bd);
-            padding: 12px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: block;
-            width: 100%;
-            text-align: left;
-            margin: 6px 0;
-            font-size: .9rem
-        }
-
-        .qo:hover:not(:disabled) {
-            background: rgba(255, 255, 255, .08);
-            border-color: var(--a)
-        }
-
-        .qo.correct {
-            background: #166534;
-            border-color: var(--g);
-            color: #bbf7d0
-        }
-
-        .qo.wrong {
-            background: #7f1d1d;
-            border-color: var(--r);
-            color: #fecaca
-        }
-
-        .qo:disabled {
-            cursor: default;
-            opacity: .85
-        }
-
-        @keyframes fi {
-            from {
-                opacity: 0
-            }
-
-            to {
-                opacity: 1
-            }
-        }
-
-        .qn {
-            display: flex;
-            gap: 8px;
-            margin-top: 16px
-        }
-
-        .qn button {
-            background: rgba(255, 255, 255, .05);
-            color: var(--t);
-            border: 1px solid var(--bd);
-            padding: 8px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: .85rem
-        }
-
-        .qn button:disabled {
-            opacity: .3
-        }
-
-        #sb {
-            display: none;
-            margin-top: 16px;
-            padding: 20px;
-            background: rgba(0, 0, 0, .2);
-            border-radius: 12px;
-            text-align: center
-        }
-
-        .ck {
-            background: var(--c);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--bd)
-        }
-
-        .ck label {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 8px 0;
-            color: var(--m);
-            font-size: .9rem;
-            cursor: pointer
-        }
-
-        .ck input[type=checkbox] {
-            margin-top: 3px;
-            accent-color: var(--a);
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0
-        }
-
-        .ck .done {
-            color: var(--a);
-            text-decoration: line-through;
-            opacity: .7
-        }
-
-        .pb {
-            background: var(--bd);
-            border-radius: 8px;
-            height: 8px;
-            overflow: hidden;
-            margin-top: 16px
-        }
-
-        .pf {
-            height: 100%;
-            border-radius: 8px;
-            background: var(--a);
-            transition: width .5s;
-            width: 0
-        }
-
-        .pt {
-            color: var(--d);
-            font-size: .8rem;
-            margin-top: 6px
-        }
-
-        .mn {
-            background: var(--c);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--bd)
-        }
-
-        .mg {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 10px
-        }
-
-        .lk {
-            display: block;
-            padding: 14px;
-            background: var(--bg);
-            border: 1px solid var(--bd);
-            border-radius: 10px;
-            color: var(--m);
-            text-decoration: none;
-            font-size: .85rem;
-            transition: all .2s
-        }
-
-        .lk:hover {
-            border-color: var(--a);
-            color: var(--a)
-        }
-
-        .lk.cur {
-            border-color: var(--a);
-            background: var(--ag)
-        }
-
-        .lk strong {
-            display: block;
-            color: var(--t);
-            margin-bottom: 2px;
-            font-size: .9rem
-        }
-
-        .lk.cur strong {
-            color: var(--a)
-        }
-
-        footer {
-            margin-top: 48px;
-            padding: 24px;
-            text-align: center;
-            color: var(--d);
-            font-size: .8rem;
-            border-top: 1px solid var(--bd)
-        }
-
-        @media(max-width:600px) {
-            .hero h1 {
-                font-size: 1.5rem
-            }
-
-            .cg,
-            .mg {
-                grid-template-columns: 1fr
-            }
-
-            .ct {
-                padding: 16px
-            }
-        }
+        footer { margin-top:48px; padding:24px; text-align:center; color:var(--dim); font-size:.8rem; border-top:1px solid var(--border); }
+        @media(max-width:600px) { .hero h1{font-size:1.5rem;} .cgrid,.mgrid{grid-template-columns:1fr;} .content{padding:16px;} }
     </style>
 </head>
-
 <body>
     <div class="hero">
-        <h1>Module 07: Communication — Rhythmic Communication</h1>
-        <p class="sub">Temporal Signals in Performance</p><span class="tag">Active Inference Comedy — Timing And
-            Tension</span>
+        <h1>Module 07: Communication in Timing &amp; Tension</h1>
+        <p class="sub">Applications</p>
+        <span class="tag">Active Inference Comedy — Timing And Tension</span>
     </div>
-    <nav class="nav"><a href="module.md">Lecture</a><a href="questions.md">Questions</a><a
-            href="practice_quiz.md">Quiz</a><a href="lab.md">Lab</a><a class="active" href="#">Dashboard</a></nav>
-    <div class="ct">
-        <h2 class="st">Key Concepts</h2>
-        <div class="cg">
-            <div class="cc">
-                <h3>Temporal Signaling <span class="tg">+</span></h3>
-                <p class="b">Performers communicate timing information through prosody, pauses, and rhythm changes.
-                    These temporal signals tell the audience: 'get ready,' 'here it comes,' or 'wait for it.'</p>
-                <div class="dt">
-                    <p>Temporal signals modulate the audience's precision — signaling when to increase attention for
-                        maximum impact.</p>
-                </div>
-                <div class="mt">
-                    <div class="mf" style="width:95%"></div>
-                </div>
-                <p class="ml">Centrality</p>
-            </div>
-            <div class="cc">
-                <h3>Rhythmic Entrainment <span class="tg">+</span></h3>
-                <p class="b">Communication in comedy creates mutual entrainment — performer and audience lock into
-                    shared rhythmic patterns. This synchronization enables precise communication of timing across the
-                    blanket.</p>
-                <div class="dt">
-                    <p>Entrainment is temporal communication: shared rhythm reduces uncertainty about when signals will
-                        arrive.</p>
-                </div>
-                <div class="mt">
-                    <div class="mf" style="width:85%"></div>
-                </div>
-                <p class="ml">Centrality</p>
-            </div>
-            <div class="cc">
-                <h3>Breaking Rhythm as Message <span class="tg">+</span></h3>
-                <p class="b">Intentionally breaking an established rhythm communicates: 'something unexpected is
-                    coming.' The rhythm break IS the message — it's temporal communication that requires no words.</p>
-                <div class="dt">
-                    <p>Rhythm breaks are the temporal equivalent of a plot twist — communicated through timing alone.
-                    </p>
-                </div>
-                <div class="mt">
-                    <div class="mf" style="width:80%"></div>
-                </div>
-                <p class="ml">Centrality</p>
-            </div>
+
+    <nav class="nav">
+        <a href="module.md">Lecture</a>
+        <a href="questions.md">Questions</a>
+        <a href="practice_quiz.md">Quiz</a>
+        <a href="lab.md">Lab</a>
+        <a class="active" href="#">Dashboard</a>
+    </nav>
+
+    <div class="content">
+        <h2 class="stitle">Key Concepts</h2>
+        <div class="cgrid">
+<div class="concept-card"><h3>Generative model <span class="toggle">+</span></h3><p class="brief">The agent&#x27;s internal model of how communication works in comedy — what patterns to expect, what signals to attend to, and what actions to take.</p><div class="detail"><p>Explore how Generative model connects to the other concepts in this module through the lecture and lab materials.</p></div><div class="meter"><div class="meter-fill" style="width:95%"></div></div><p class="meter-label">Centrality to module</p></div>
+<div class="concept-card"><h3>Prediction error <span class="toggle">+</span></h3><p class="brief">The mismatch between expected and observed communication dynamics — the signal that drives updating and adaptation.</p><div class="detail"><p>Explore how Prediction error connects to the other concepts in this module through the lecture and lab materials.</p></div><div class="meter"><div class="meter-fill" style="width:85%"></div></div><p class="meter-label">Centrality to module</p></div>
+<div class="concept-card"><h3>Precision weighting <span class="toggle">+</span></h3><p class="brief">The confidence assigned to predictions about communication — higher precision means stronger expectations and larger prediction errors when they fail.</p><div class="detail"><p>This module examines rhythm as communication: how temporal patterns carry information, how comedians use pacing to modulate the audience&#x27;s precision, and how the rhythm of comedy relates to the rhythms of music and language.</p></div><div class="meter"><div class="meter-fill" style="width:75%"></div></div><p class="meter-label">Centrality to module</p></div>
+<div class="concept-card"><h3>Expected free energy <span class="toggle">+</span></h3><p class="brief">The anticipated surprise and information gain associated with future actions related to communication.</p><div class="detail"><p>Explore how Expected free energy connects to the other concepts in this module through the lecture and lab materials.</p></div><div class="meter"><div class="meter-fill" style="width:65%"></div></div><p class="meter-label">Centrality to module</p></div>
         </div>
-        <h2 class="st">Self-Assessment Quiz</h2>
-        <div class="qb">
-            <div class="qp" id="qp">Question 1 of 5</div>
+
+        <h2 class="stitle">Self-Assessment Quiz</h2>
+        <div class="quiz-box">
+            <div class="qprog" id="qprog">Question 1 of 6</div>
             <div id="qc"></div>
-            <div class="qn"><button id="pb" onclick="prevQ()" disabled>&larr; Prev</button><button id="nb"
-                    onclick="nextQ()">Next &rarr;</button></div>
-            <div id="sb"></div>
-        </div>
-        <h2 class="st">Learning Objectives</h2>
-        <div class="ck" id="ck">
-            <label><input type="checkbox"> Understand rhythmic communication in comedy.</label>
-            <label><input type="checkbox"> Analyze temporal signaling and audience entrainment.</label>
-            <label><input type="checkbox"> Apply rhythm-breaking as a deliberate communication tool.</label>
-            <div class="pb">
-                <div class="pf" id="pf"></div>
+            <div class="qnav">
+                <button id="pbtn" onclick="prevQ()" disabled>&larr; Previous</button>
+                <button id="nbtn" onclick="nextQ()">Next &rarr;</button>
             </div>
-            <p class="pt" id="ptt">0 of 3 complete</p>
+            <div id="score-box"></div>
         </div>
-        <h2 class="st">Module Navigation</h2>
-        <div class="mn">
-            <div class="mg">
-                <a class="lk" href="../01_systems/dashboard.html"><strong>01: Systems</strong>Temporal Systems</a>
-                <a class="lk" href="../02_agents/dashboard.html"><strong>02: Agents</strong>Timer & Timed</a>
-                <a class="lk" href="../03_perception/dashboard.html"><strong>03: Perception</strong>Precision
-                    Windows</a>
-                <a class="lk" href="../04_cognition/dashboard.html"><strong>04: Cognition</strong>Anticipation &
-                    Beat</a>
-                <a class="lk" href="../05_action/dashboard.html"><strong>05: Action</strong>Punchline Physics</a>
-                <a class="lk" href="../06_learning/dashboard.html"><strong>06: Learning</strong>Novice to Expert</a>
-                <a class="lk cur" href="#"><strong>07: Communication</strong>Rhythmic Communication</a>
-                <a class="lk" href="../08_planning/dashboard.html"><strong>08: Planning</strong>Temporal
-                    Architecture</a>
+
+        <h2 class="stitle">Learning Objectives</h2>
+        <div class="cklist" id="cklist">
+<label><input type="checkbox"> Understand rhythmic communication in comedy through the lens of Active Inference.</label>
+<label><input type="checkbox"> Apply precision dynamics and temporal control to analyze comedy mechanics in &#x27;Who\&#x27;s on First?&#x27;</label>
+<label><input type="checkbox"> Connect communication theory to practical comedy craft from the Timing &amp; Tension perspective.</label>
+            <div class="pbar"><div class="pfill" id="pfill"></div></div>
+            <p class="ptxt" id="ptxt">0 of 3 complete</p>
+        </div>
+
+        <h2 class="stitle">Module Navigation</h2>
+        <div class="mnav">
+            <div class="mgrid">
+<a class="module-link" href="../01_systems/dashboard.html"><strong>Module 01: Systems</strong>Module 01: Systems in Timing &amp; Tension</a>
+<a class="module-link" href="../02_agents/dashboard.html"><strong>Module 02: Agents</strong>Module 02: Agents in Timing &amp; Tension</a>
+<a class="module-link" href="../03_perception/dashboard.html"><strong>Module 03: Perception</strong>Module 03: Perception in Timing &amp; Tension</a>
+<a class="module-link" href="../04_cognition/dashboard.html"><strong>Module 04: Cognition</strong>Module 04: Cognition in Timing &amp; Tension</a>
+<a class="module-link" href="../05_action/dashboard.html"><strong>Module 05: Action</strong>Module 05: Action in Timing &amp; Tension</a>
+<a class="module-link" href="../06_learning/dashboard.html"><strong>Module 06: Learning</strong>Module 06: Learning in Timing &amp; Tension</a>
+<a class="module-link current" href="#"><strong>Module 07: Communication</strong>Module 07: Communication in Timing &amp; Tension</a>
+<a class="module-link" href="../08_planning/dashboard.html"><strong>Module 08: Planning</strong>Module 08: Planning in Timing &amp; Tension</a>
             </div>
         </div>
     </div>
-    <footer>Active Inference Institute — Timing And Tension — Module 07</footer>
+
+    <footer>Active Inference Institute &mdash; Active Inference Comedy — Timing And Tension — Module 07: Communication</footer>
+
     <script>
-        document.querySelectorAll('.cc').forEach(function (c) { c.addEventListener('click', function () { c.classList.toggle('open'); }); });
-        var Q = [{ "q": "Temporal signaling in comedy includes:", "o": ["Only hand gestures", "Prosody, pauses, and rhythm changes that tell the audience 'get ready'", "Only verbal cues", "Only written instructions"], "c": 1, "e": "Temporal signals through prosody, pauses, and rhythm modulate the audience's precision for optimal impact." }, { "q": "Rhythmic entrainment means:", "o": ["Playing music during comedy", "Performer and audience locking into shared rhythmic patterns", "Training the audience before the show", "Using a metronome"], "c": 1, "e": "Mutual entrainment reduces temporal uncertainty — both performer and audience know when signals will arrive." }, { "q": "Breaking an established rhythm communicates:", "o": ["That the performer made a mistake", "'Something unexpected is coming' — the break itself IS the message", "Nothing meaningful", "That the show is ending"], "c": 1, "e": "Rhythm breaks are temporal communication — they signal impending surprise without any words needed." }, { "q": "Temporal signals modulate:", "o": ["Only the volume", "The audience's precision — signaling when to increase attention", "The room temperature", "The lighting"], "c": 1, "e": "Temporal signals tell the audience when to increase precision (attention) for maximum impact." }, { "q": "This module's primary goal:", "o": ["Learning Morse code", "Understanding rhythmic communication in comedy", "Studying radio waves", "Learning sign language"], "c": 1, "e": "Examines how rhythm, pauses, and temporal patterns function as communication channels in comedy." }];
-        var ci = 0, ans = new Array(Q.length).fill(null), sc = 0;
-        function renderQ() { var q = Q[ci], done = ans[ci] !== null; var h = '<p class="qq"><strong>Q' + (ci + 1) + '.</strong> ' + q.q + '</p>'; q.o.forEach(function (o, i) { var cl = 'qo'; if (done) { if (i === q.c) cl += ' correct'; else if (i === ans[ci]) cl += ' wrong'; } h += '<button class="' + cl + '" onclick="pickA(' + i + ')" ' + (done ? 'disabled' : '') + '>' + String.fromCharCode(65 + i) + ') ' + o + '</button>'; }); if (done) { var ok = ans[ci] === q.c; h += '<div style="margin-top:12px;padding:12px;border-radius:10px;font-size:.9rem;background:' + (ok ? '#166534' : '#7f1d1d') + ';animation:fi .3s">' + (ok ? 'Correct! ' : 'Incorrect. ') + q.e + '</div>'; } document.getElementById('qc').innerHTML = h; document.getElementById('qp').textContent = 'Question ' + (ci + 1) + ' of ' + Q.length; document.getElementById('pb').disabled = ci === 0; document.getElementById('nb').textContent = ci === Q.length - 1 ? 'See Score' : 'Next \u2192'; }
-        function pickA(i) { if (ans[ci] !== null) return; ans[ci] = i; if (i === Q[ci].c) sc++; renderQ(); }
-        function nextQ() { if (ci < Q.length - 1) { ci++; renderQ(); } else { var p = Math.round(sc / Q.length * 100); var d = document.getElementById('sb'); d.style.display = 'block'; d.innerHTML = '<h3 style="color:' + (p >= 60 ? 'var(--g)' : 'var(--r)') + '">' + sc + '/' + Q.length + ' (' + p + '%)</h3><p style="color:var(--m);margin-top:8px">' + (p >= 80 ? 'Excellent!' : p >= 60 ? 'Good.' : 'Review the module.') + '</p>'; } }
-        function prevQ() { if (ci > 0) { ci--; renderQ(); } }
-        var SK = 'ai_comedy_tt_07', QK = SK + '_q';
-        function initCL() { var s = JSON.parse(localStorage.getItem(SK) || '[]'); var b = document.querySelectorAll('#ck input[type=checkbox]'); b.forEach(function (cb, i) { if (s[i]) cb.checked = true; if (cb.checked) cb.parentElement.classList.add('done'); cb.addEventListener('change', function () { cb.parentElement.classList.toggle('done', cb.checked); saveCL(); updP(); }); }); updP(); }
-        function saveCL() { var b = document.querySelectorAll('#ck input[type=checkbox]'); localStorage.setItem(SK, JSON.stringify(Array.from(b).map(function (c) { return c.checked; }))); }
-        function updP() { var b = document.querySelectorAll('#ck input[type=checkbox]'); var n = b.length, d = Array.from(b).filter(function (c) { return c.checked; }).length; document.getElementById('pf').style.width = (n ? d / n * 100 : 0) + '%'; document.getElementById('ptt').textContent = d + ' of ' + n + ' complete'; }
-        function saveQz() { localStorage.setItem(QK, JSON.stringify({ ci: ci, ans: ans, sc: sc })); }
-        function loadQz() { try { var d = JSON.parse(localStorage.getItem(QK)); if (d && d.ans && d.ans.length === Q.length) { ci = d.ci || 0; ans = d.ans; sc = d.sc || 0; } } catch (e) { } }
-        var _o = pickA; pickA = function (i) { _o(i); saveQz(); };
-        document.addEventListener('DOMContentLoaded', function () { document.querySelectorAll('.mf').forEach(function (f) { var w = f.style.width; f.style.width = '0%'; setTimeout(function () { f.style.width = w; }, 200); }); loadQz(); renderQ(); initCL(); });
+    /* Concept cards */
+    document.querySelectorAll('.concept-card').forEach(function(c){
+        c.addEventListener('click',function(){c.classList.toggle('open');});
+    });
+
+    /* Quiz engine */
+    var Q=[{"q": "Which of the following best describes \"Generative model\"?", "opts": ["The confidence assigned to predictions about communication — higher precision means stronger expectations and larger prediction errors when they fail.", "The anticipated surprise and information gain associated with future actions related to communication.", "The agent's internal model of how communication works in comedy — what patterns to expect, what signals to attend to, and what actions to take.", "The mismatch between expected and observed communication dynamics — the signal that drives updating and adaptation."], "correct": 2, "explain": "Generative model: The agent's internal model of how communication works in comedy — what patterns to expect, what signals to attend to, and what actions to take."}, {"q": "Which of the following best describes \"Prediction error\"?", "opts": ["The anticipated surprise and information gain associated with future actions related to communication.", "The agent's internal model of how communication works in comedy — what patterns to expect, what signals to attend to, and what actions to take.", "The confidence assigned to predictions about communication — higher precision means stronger expectations and larger prediction errors when they fail.", "The mismatch between expected and observed communication dynamics — the signal that drives updating and adaptation."], "correct": 3, "explain": "Prediction error: The mismatch between expected and observed communication dynamics — the signal that drives updating and adaptation."}, {"q": "Which of the following best describes \"Precision weighting\"?", "opts": ["The confidence assigned to predictions about communication — higher precision means stronger expectations and larger prediction errors when they fail.", "The anticipated surprise and information gain associated with future actions related to communication.", "The mismatch between expected and observed communication dynamics — the signal that drives updating and adaptation.", "The agent's internal model of how communication works in comedy — what patterns to expect, what signals to attend to, and what actions to take."], "correct": 0, "explain": "Precision weighting: The confidence assigned to predictions about communication — higher precision means stronger expectations and larger prediction errors when they fail."}, {"q": "Which of the following best describes \"Expected free energy\"?", "opts": ["The agent's internal model of how communication works in comedy — what patterns to expect, what signals to attend to, and what actions to take.", "The anticipated surprise and information gain associated with future actions related to communication.", "The mismatch between expected and observed communication dynamics — the signal that drives updating and adaptation.", "The confidence assigned to predictions about communication — higher precision means stronger expectations and larger prediction errors when they fail."], "correct": 1, "explain": "Expected free energy: The anticipated surprise and information gain associated with future actions related to communication."}, {"q": "A primary learning goal of this module is to:", "opts": ["Memorize all definitions without applying them to real situations.", "Skip foundational concepts and focus only on advanced material.", "Review content from a completely different subject area.", "Understand rhythmic communication in comedy through the lens of Active Inference."], "correct": 3, "explain": "This module focuses on: Understand rhythmic communication in comedy through the lens of Active Inference."}, {"q": "By the end of this module you should also be able to:", "opts": ["Connect communication theory to practical comedy craft from the Timing & Tension perspective.", "Repeat previous module content without new application.", "Complete unrelated worksheets for extra credit.", "Watch videos without taking notes or reflecting."], "correct": 0, "explain": "Another key goal: Connect communication theory to practical comedy craft from the Timing & Tension perspective."}];
+    var ci=0,ans=new Array(Q.length).fill(null),sc=0;
+
+    function renderQ(){
+        var q=Q[ci],done=ans[ci]!==null;
+        var h='<p class="qq"><strong>Q'+(ci+1)+'.</strong> '+q.q+'</p>';
+        q.opts.forEach(function(o,i){
+            var c='qbtn';
+            if(done){if(i===q.correct)c+=' correct';else if(i===ans[ci])c+=' wrong';}
+            h+='<button class="'+c+'" onclick="pickA('+i+')" '+(done?'disabled':'')+'>'+String.fromCharCode(65+i)+') '+o+'</button>';
+        });
+        if(done){
+            var ok=ans[ci]===q.correct;
+            h+='<div class="qexp" style="display:block;background:'+(ok?'#166534':'#7f1d1d')+';">'+(ok?'Correct! ':'Incorrect. ')+q.explain+'</div>';
+        }
+        document.getElementById('qc').innerHTML=h;
+        document.getElementById('qprog').textContent='Question '+(ci+1)+' of '+Q.length;
+        document.getElementById('pbtn').disabled=ci===0;
+        document.getElementById('nbtn').textContent=ci===Q.length-1?'See Score':'Next \u2192';
+    }
+
+    function pickA(i){
+        if(ans[ci]!==null)return;
+        ans[ci]=i;
+        if(i===Q[ci].correct)sc++;
+        renderQ();
+    }
+
+    function nextQ(){
+        if(ci<Q.length-1){ci++;renderQ();}
+        else{
+            var pct=Math.round(sc/Q.length*100);
+            var d=document.getElementById('score-box');
+            d.style.display='block';
+            d.innerHTML='<h3 style="color:'+(pct>=60?'var(--green)':'var(--red)')+'">'+sc+'/'+Q.length+' ('+pct+'%)</h3><p style="color:var(--muted);margin-top:8px">'+(pct>=80?'Excellent understanding of the material!':pct>=60?'Good foundation. Review the concepts you missed.':'Consider re-reading the module before moving on.')+'</p>';
+        }
+    }
+
+    function prevQ(){if(ci>0){ci--;renderQ();}}
+
+    /* Checklist with localStorage */
+    var SK='ai_active_inference_comedy_timing_and_tension_07_communication';
+    var QK=SK+'_quiz';
+    function initCL(){
+        var saved=JSON.parse(localStorage.getItem(SK)||'[]');
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        boxes.forEach(function(cb,i){
+            if(saved[i])cb.checked=true;
+            if(cb.checked)cb.parentElement.classList.add('done');
+            cb.addEventListener('change',function(){
+                cb.parentElement.classList.toggle('done',cb.checked);
+                saveCL();updProg();
+            });
+        });
+        updProg();
+    }
+    function saveCL(){
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        localStorage.setItem(SK,JSON.stringify(Array.from(boxes).map(function(c){return c.checked;})));
+    }
+    function updProg(){
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        var n=boxes.length,done=Array.from(boxes).filter(function(c){return c.checked;}).length;
+        document.getElementById('pfill').style.width=(n?done/n*100:0)+'%';
+        document.getElementById('ptxt').textContent=done+' of '+n+' complete';
+    }
+
+    /* Quiz persistence */
+    function saveQuiz(){
+        localStorage.setItem(QK,JSON.stringify({ci:ci,ans:ans,sc:sc}));
+    }
+    function loadQuiz(){
+        try{
+            var d=JSON.parse(localStorage.getItem(QK));
+            if(d&&d.ans&&d.ans.length===Q.length){
+                ci=d.ci||0;ans=d.ans;sc=d.sc||0;
+            }
+        }catch(e){}
+    }
+    /* Patch pickA to persist */
+    var _origPickA=pickA;
+    pickA=function(i){_origPickA(i);saveQuiz();};
+
+    /* Init */
+    document.addEventListener('DOMContentLoaded',function(){
+        document.querySelectorAll('.meter-fill').forEach(function(f){
+            var w=f.style.width;f.style.width='0%';
+            setTimeout(function(){f.style.width=w;},200);
+        });
+        loadQuiz();
+        renderQ();
+        initCL();
+    });
     </script>
 </body>
-
 </html>

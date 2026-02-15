@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard: Cognition — Loop And Lattice</title>
+    <style>
+        :root {
+            --a: #38bdf8;
+            --ag: #38bdf822;
+            --bg: #0f172a;
+            --c: #1e293b;
+            --bd: #334155;
+            --t: #e2e8f0;
+            --m: #94a3b8;
+            --d: #64748b;
+            --g: #22c55e;
+            --r: #ef4444
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--t);
+            line-height: 1.6
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            padding: 48px 24px 36px;
+            text-align: center
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 8px
+        }
+
+        .hero .sub {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, .85)
+        }
+
+        .hero .tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, .2);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: .8rem
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            padding: 14px 24px;
+            background: #1a2332;
+            border-bottom: 1px solid var(--bd)
+        }
+
+        .nav a {
+            color: var(--m);
+            text-decoration: none;
+            font-size: .85rem;
+            padding: 6px 14px;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            transition: all .2s
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: var(--a);
+            border-color: var(--a);
+            background: var(--ag)
+        }
+
+        .ct {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px
+        }
+
+        .st {
+            color: var(--a);
+            font-size: 1.25rem;
+            margin: 32px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--bd)
+        }
+
+        .st:first-child {
+            margin-top: 0
+        }
+
+        .cg {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px
+        }
+
+        .cc {
+            background: var(--c);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--bd);
+            cursor: pointer;
+            transition: transform .2s, border-color .2s
+        }
+
+        .cc:hover {
+            transform: translateY(-2px);
+            border-color: var(--a)
+        }
+
+        .cc h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+            margin-bottom: 8px
+        }
+
+        .cc h3 .tg {
+            font-size: 1.2rem;
+            color: var(--d);
+            transition: transform .3s
+        }
+
+        .cc.open h3 .tg {
+            transform: rotate(45deg)
+        }
+
+        .cc .b {
+            color: var(--m);
+            font-size: .9rem
+        }
+
+        .cc .dt {
+            display: none;
+            color: var(--m);
+            font-size: .85rem;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--bd);
+            line-height: 1.7
+        }
+
+        .cc.open .dt {
+            display: block
+        }
+
+        .mt {
+            background: var(--bd);
+            border-radius: 8px;
+            height: 6px;
+            overflow: hidden;
+            margin-top: 14px
+        }
+
+        .mf {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, var(--a), #38bdf888);
+            transition: width 1s
+        }
+
+        .ml {
+            color: var(--d);
+            font-size: .7rem;
+            margin-top: 4px
+        }
+
+        .qb {
+            background: var(--c);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--bd)
+        }
+
+        .qp {
+            color: var(--d);
+            font-size: .85rem;
+            margin-bottom: 12px
+        }
+
+        .qo {
+            background: rgba(255, 255, 255, .03);
+            color: var(--t);
+            border: 1px solid var(--bd);
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin: 6px 0;
+            font-size: .9rem;
+            transition: all .2s
+        }
+
+        .qo:hover:not(:disabled) {
+            background: rgba(255, 255, 255, .08);
+            border-color: var(--a)
+        }
+
+        .qo.correct {
+            background: #166534;
+            border-color: var(--g);
+            color: #bbf7d0
+        }
+
+        .qo.wrong {
+            background: #7f1d1d;
+            border-color: var(--r);
+            color: #fecaca
+        }
+
+        .qo:disabled {
+            cursor: default;
+            opacity: .85
+        }
+
+        @keyframes fi {
+            from {
+                opacity: 0;
+                transform: translateY(4px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .qn {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px
+        }
+
+        .qn button {
+            background: rgba(255, 255, 255, .05);
+            color: var(--t);
+            border: 1px solid var(--bd);
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: .85rem;
+            transition: all .2s
+        }
+
+        .qn button:hover:not(:disabled) {
+            border-color: var(--a);
+            color: var(--a)
+        }
+
+        .qn button:disabled {
+            opacity: .3;
+            cursor: default
+        }
+
+        #sb {
+            display: none;
+            margin-top: 16px;
+            padding: 20px;
+            background: rgba(0, 0, 0, .2);
+            border-radius: 12px;
+            text-align: center;
+            animation: fi .5s
+        }
+
+        .ck {
+            background: var(--c);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--bd)
+        }
+
+        .ck label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            color: var(--m);
+            font-size: .9rem;
+            cursor: pointer;
+            transition: color .2s
+        }
+
+        .ck label:hover {
+            color: var(--t)
+        }
+
+        .ck input[type=checkbox] {
+            margin-top: 3px;
+            accent-color: var(--a);
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0
+        }
+
+        .ck .done {
+            color: var(--a);
+            text-decoration: line-through;
+            opacity: .7
+        }
+
+        .pb {
+            background: var(--bd);
+            border-radius: 8px;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 16px
+        }
+
+        .pf {
+            height: 100%;
+            border-radius: 8px;
+            background: var(--a);
+            transition: width .5s;
+            width: 0
+        }
+
+        .pt {
+            color: var(--d);
+            font-size: .8rem;
+            margin-top: 6px
+        }
+
+        .mn {
+            background: var(--c);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--bd)
+        }
+
+        .mg {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 10px
+        }
+
+        .lk {
+            display: block;
+            padding: 14px;
+            background: var(--bg);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            color: var(--m);
+            text-decoration: none;
+            font-size: .85rem;
+            transition: all .2s
+        }
+
+        .lk:hover {
+            border-color: var(--a);
+            color: var(--a);
+            transform: translateY(-1px)
+        }
+
+        .lk.cur {
+            border-color: var(--a);
+            background: var(--ag)
+        }
+
+        .lk strong {
+            display: block;
+            color: var(--t);
+            margin-bottom: 2px;
+            font-size: .9rem
+        }
+
+        .lk.cur strong {
+            color: var(--a)
+        }
+
+        footer {
+            margin-top: 48px;
+            padding: 24px;
+            text-align: center;
+            color: var(--d);
+            font-size: .8rem;
+            border-top: 1px solid var(--bd)
+        }
+
+        @media(max-width:600px) {
+            .hero h1 {
+                font-size: 1.5rem
+            }
+
+            .cg,
+            .mg {
+                grid-template-columns: 1fr
+            }
+
+            .ct {
+                padding: 16px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero">
+        <h1>Module 04: Hidden Layers in Hook and Mind</h1>
+        <p class="sub">Deep Representations in Fabric</p><span class="tag">Active Inference Crochet — Loop And
+            Lattice</span>
+    </div>
+    <nav class="nav"><a href="module.md">Lecture</a><a href="questions.md">Questions</a><a
+            href="practice_quiz.md">Quiz</a><a href="lab.md">Lab</a><a class="active" href="#">Dashboard</a></nav>
+    <div class="ct">
+        <h2 class="st">Key Concepts</h2>
+        <div class="cg">
+            <div class="cc">
+                <h3>Crochet Rows as Hidden Layers <span class="tg">+</span></h3>
+                <p class="b">Each row of crochet functions as a hidden layer — transforming input from the row below
+                    into new representations. Foundation chains are input layers; the finished edge is the output layer.
+                </p>
+                <div class="dt">
+                    <p>Just as neural network hidden layers transform raw data through successive computations, each row
+                        of crochet transforms the structural state of the fabric. The depth of the project (number of
+                        rows) determines the richness and complexity of the emergent structure, paralleling how deep
+                        networks learn richer representations than shallow ones.</p>
+                </div>
+                <div class="mt">
+                    <div class="mf" style="width:95%"></div>
+                </div>
+                <p class="ml">Centrality: Core structural parallel</p>
+            </div>
+            <div class="cc">
+                <h3>Emergent Hidden Representations <span class="tg">+</span></h3>
+                <p class="b">Complex stitch patterns (shells, cables, granny squares) are hidden representations —
+                    emergent features that cannot be reduced to individual component stitches.</p>
+                <div class="dt">
+                    <p>A shell stitch (five double crochets fanned from one base) creates an emergent feature no single
+                        stitch produces. Similarly, cables emerge across multiple rows. These mirror how features in
+                        trained neural networks (edges, textures, objects) emerge from the interaction of many
+                        individual neurons across layers, not from any single unit.</p>
+                </div>
+                <div class="mt">
+                    <div class="mf" style="width:90%"></div>
+                </div>
+                <p class="ml">Centrality: Key analogy bridge</p>
+            </div>
+            <div class="cc">
+                <h3>Deep Generative Model of Projects <span class="tg">+</span></h3>
+                <p class="b">The crocheter holds a deep generative model spanning from finished-object vision down to
+                    current-stitch mechanics — predictions flow top-down through multiple hierarchical levels.</p>
+                <div class="dt">
+                    <p>The crocheter simultaneously maintains representations at stitch level, row level, section level,
+                        project level, and design level. Top-down predictions ("this should be a hat") constrain
+                        lower-level operations, while bottom-up evidence (the feel of each stitch) updates the model.
+                        Beginners have shallow models; experts have deep ones that enable improvisation.</p>
+                </div>
+                <div class="mt">
+                    <div class="mf" style="width:85%"></div>
+                </div>
+                <p class="ml">Centrality: Active Inference integration</p>
+            </div>
+        </div>
+
+        <h2 class="st">Self-Assessment Quiz</h2>
+        <div class="qb">
+            <div class="qp" id="qp">Question 1 of 5</div>
+            <div id="qc"></div>
+            <div class="qn"><button id="pb" onclick="prevQ()" disabled>&larr; Previous</button><button id="nb"
+                    onclick="nextQ()">Next &rarr;</button></div>
+            <div id="sb"></div>
+        </div>
+
+        <h2 class="st">Learning Objectives</h2>
+        <div class="ck" id="ck">
+            <label><input type="checkbox"> Explain how crochet rows function as layers in a structure analogous to a
+                neural network — with foundation chains as input layers, stitch rows as hidden layers, and the finished
+                edge as the output layer.</label>
+            <label><input type="checkbox"> Describe how complex stitch patterns create hidden representations in fabric:
+                emergent textures that cannot be reduced to their individual component stitches.</label>
+            <label><input type="checkbox"> Map the crocheter's multi-level mental model of a project onto a deep
+                generative model in Active Inference, where top-down predictions flow from "finished object" down to
+                "this specific stitch."</label>
+            <div class="pb">
+                <div class="pf" id="pf"></div>
+            </div>
+            <p class="pt" id="ptt">0 of 3 complete</p>
+        </div>
+
+        <h2 class="st">Module Navigation</h2>
+        <div class="mn">
+            <div class="mg">
+                <a class="lk" href="../01_systems/dashboard.html"><strong>Module 01: Systems</strong>Topology of
+                    Crocheted Fabric</a>
+                <a class="lk" href="../02_agents/dashboard.html"><strong>Module 02: Agents</strong>The Crocheter as
+                    Neural Architect</a>
+                <a class="lk" href="../03_perception/dashboard.html"><strong>Module 03: Perception</strong>Reading
+                    Curvature in Fabric</a>
+                <a class="lk cur" href="#"><strong>Module 04: Cognition</strong>Hidden Layers in Hook and Mind</a>
+                <a class="lk" href="../05_action/dashboard.html"><strong>Module 05: Action</strong>Shaping the
+                    Manifold</a>
+                <a class="lk" href="../06_learning/dashboard.html"><strong>Module 06: Learning</strong>Training the
+                    Network of Hands</a>
+                <a class="lk" href="../07_communication/dashboard.html"><strong>Module 07: Communication</strong>Signals
+                    Through the Mesh</a>
+                <a class="lk" href="../08_planning/dashboard.html"><strong>Module 08: Planning</strong>Designing
+                    Architectures in Yarn</a>
+            </div>
+        </div>
+    </div>
+    <footer>Active Inference Institute &mdash; Active Inference Crochet — Loop And Lattice — Module 04: Cognition
+    </footer>
+    <script>
+        document.querySelectorAll('.cc').forEach(function (c) { c.addEventListener('click', function () { c.classList.toggle('open'); }); });
+        var Q = [
+            { "q": "In the neural network analogy, what does the foundation chain correspond to?", "o": ["The output layer", "A hidden layer", "The input layer", "The activation function"], "c": 2, "e": "The foundation chain is the starting row upon which all subsequent layers build — it receives the 'raw input' and provides the base for transformation, just like the input layer of a neural network." },
+            { "q": "What makes a shell stitch an example of a 'hidden representation'?", "o": ["It is invisible once the project is finished", "It emerges from the arrangement of simple stitches — five double crochets fanning from one base — creating a feature no single stitch produces", "It can only be detected with special tools", "It is the simplest possible stitch pattern"], "c": 1, "e": "A shell is an emergent feature: the fan shape arises from the combination of individually ordinary double crochets worked into the same stitch. This parallels how features in neural networks emerge from the interaction of many simple neurons." },
+            { "q": "Why can experienced crocheters improvise without a written pattern?", "o": ["They have memorized every possible pattern", "Their deep generative model generates strong predictions at every level — from stitch mechanics to finished-object vision", "They have faster hands than beginners", "Improvisation requires no skill or planning"], "c": 1, "e": "Experienced crocheters have a deep generative model — a rich, multi-level internal representation that generates predictions about what each stitch, row, section, and the entire project should look and feel like. This depth of model enables confident improvisation." },
+            { "q": "What happens cognitively when a crocheter 'frogs' (unravels) several rows?", "o": ["Nothing — the crocheter simply continues from where they stopped", "Only the physical fabric is affected, not the mental model", "The crocheter deletes hidden layers and their associated representations, requiring mental model rewinding", "Frogging always improves the final product"], "c": 2, "e": "Frogging is analogous to deleting hidden layers: the emergent textures and shaping encoded in those rows vanish, and the crocheter must mentally rewind their position in the hierarchical generative model." },
+            { "q": "How does the 'depth' of a crochet project parallel neural network depth?", "o": ["Deeper projects use more expensive yarn", "More rows create richer emergent structures, just as more hidden layers enable more complex learned representations", "Depth only refers to physical thickness, not structural complexity", "Shallow projects are always preferred"], "c": 1, "e": "Just as deep neural networks (many hidden layers) can learn more intricate, hierarchical representations than shallow ones, crochet projects with many rows and varied stitch patterns produce richer emergent textures and structures than simple, few-row projects." }
+        ];
+        var ci = 0, ans = new Array(Q.length).fill(null), sc = 0;
+        function renderQ() { var q = Q[ci], dn = ans[ci] !== null; var h = '<p style="font-size:1rem;margin-bottom:16px;font-weight:500"><strong>Q' + (ci + 1) + '.</strong> ' + q.q + '</p>'; q.o.forEach(function (o, i) { var cl = 'qo'; if (dn) { if (i === q.c) cl += ' correct'; else if (i === ans[ci]) cl += ' wrong'; } h += '<button class="' + cl + '" onclick="pickA(' + i + ')" ' + (dn ? 'disabled' : '') + '>' + String.fromCharCode(65 + i) + ') ' + o + '</button>'; }); if (dn) { var ok = ans[ci] === q.c; h += '<div style="margin-top:12px;padding:12px;border-radius:10px;font-size:.9rem;display:block;background:' + (ok ? '#166534' : '#7f1d1d') + ';animation:fi .3s">' + (ok ? 'Correct! ' : 'Incorrect. ') + q.e + '</div>'; } document.getElementById('qc').innerHTML = h; document.getElementById('qp').textContent = 'Question ' + (ci + 1) + ' of ' + Q.length; document.getElementById('pb').disabled = ci === 0; document.getElementById('nb').textContent = ci === Q.length - 1 ? 'See Score' : 'Next \u2192'; }
+        function pickA(i) { if (ans[ci] !== null) return; ans[ci] = i; if (i === Q[ci].c) sc++; renderQ(); saveQuiz(); }
+        function nextQ() { if (ci < Q.length - 1) { ci++; renderQ(); } else { var p = Math.round(sc / Q.length * 100); var d = document.getElementById('sb'); d.style.display = 'block'; d.innerHTML = '<h3 style="color:' + (p >= 60 ? 'var(--g)' : 'var(--r)') + '">' + sc + '/' + Q.length + ' (' + p + '%)</h3><p style="color:var(--m);margin-top:8px">' + (p >= 80 ? 'Excellent understanding!' : p >= 60 ? 'Good foundation — review missed concepts.' : 'Consider re-reading the module.') + '</p>'; } }
+        function prevQ() { if (ci > 0) { ci--; renderQ(); } }
+        var SK = 'ai_crochet_ll_04_cognition', QK = SK + '_quiz';
+        function initCL() { var s = JSON.parse(localStorage.getItem(SK) || '[]'); var b = document.querySelectorAll('#ck input[type=checkbox]'); b.forEach(function (cb, i) { if (s[i]) cb.checked = true; if (cb.checked) cb.parentElement.classList.add('done'); cb.addEventListener('change', function () { cb.parentElement.classList.toggle('done', cb.checked); saveCL(); updProg(); }); }); updProg(); }
+        function saveCL() { localStorage.setItem(SK, JSON.stringify(Array.from(document.querySelectorAll('#ck input[type=checkbox]')).map(function (c) { return c.checked; }))); }
+        function updProg() { var b = document.querySelectorAll('#ck input[type=checkbox]'); var n = b.length, done = Array.from(b).filter(function (c) { return c.checked; }).length; document.getElementById('pf').style.width = (n ? done / n * 100 : 0) + '%'; document.getElementById('ptt').textContent = done + ' of ' + n + ' complete'; }
+        function saveQuiz() { localStorage.setItem(QK, JSON.stringify({ ci: ci, ans: ans, sc: sc })); }
+        document.addEventListener('DOMContentLoaded', function () { document.querySelectorAll('.mf').forEach(function (f) { var w = f.style.width; f.style.width = '0%'; setTimeout(function () { f.style.width = w; }, 200); }); try { var d = JSON.parse(localStorage.getItem(QK)); if (d && d.ans && d.ans.length === Q.length) { ci = d.ci || 0; ans = d.ans; sc = d.sc || 0; } } catch (e) { } renderQ(); initCL(); });
+    </script>
+</body>
+
+</html>

@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Perception**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Perception**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between Agents and Cognition.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Perception drive the perception-action loop?
 ## Applications
 
 In Robotics, we see Perception manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: An Extended Kalman Filter (EKF) on a mobile robot fuses wheel odometry (high-rate, drifting) with GPS measurements (low-rate, absolute but noisy) by treating each sensor as a likelihood function in Bayes' rule -- the EKF's prediction step propagates the prior belief forward using the dynamics model, and each sensor update step multiplies in the corresponding likelihood, with the Kalman gain automatically implementing the precision-weighted prediction error update that Active Inference prescribes for perceptual inference.
+*   **Specific Example 2**: A stereo-visual-inertial odometry system (such as OKVIS or VINS-Mono) running on a drone implements perception as nonlinear factor graph optimization, where IMU preintegration factors serve as the dynamics model and reprojected visual feature observations serve as measurement factors; the system inverts its generative model (camera projection plus rigid body dynamics) to infer the drone's 6-DOF pose trajectory, with marginalization of old states keeping the inference problem tractable for real-time operation at 20 Hz.
 
 ## Conclusion
 
 Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

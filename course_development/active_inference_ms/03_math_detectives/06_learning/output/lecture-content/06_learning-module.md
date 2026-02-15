@@ -1,52 +1,62 @@
-# Module 06: Learning in Ms
+# Module 6: Learning — Updating What You Know
 
 ## Learning Objectives
 
-1.  Define **Learning** within the context of Ms.
-2.  Analyze how Learning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Ms to the formal definition of Learning.
+1. Understand **Bayesian thinking** — the idea that you should update your beliefs in proportion to the strength of new evidence.
+2. Learn why **strong evidence** should change your mind a lot and **weak evidence** should change it only a little.
+3. Apply the update process to mathematical learning: when you get something wrong, use the error to build a better model.
 
 ## Introduction
 
-This module explores **Learning**. In the **Ms** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Imagine you're pretty sure your friend likes basketball. Say you're 80% confident. Then you find out they signed up for the basketball team. That's strong evidence — your confidence jumps to 95%. But what if you just saw them wearing a basketball shirt? That's weaker evidence — lots of people wear sports shirts without playing. Your confidence might go from 80% to 85%.
+
+This process — starting with a belief, encountering evidence, and updating your belief based on how strong that evidence is — is called **Bayesian thinking**. It's named after Thomas Bayes, an 18th-century mathematician, but it's actually just a formal version of something your brain does naturally.
+
+The difference is that your brain sometimes updates too much (panicking over one piece of bad evidence) or too little (ignoring clear evidence that contradicts what you believe). Learning to update *in proportion to the evidence* is the mathematical skill that separates good thinkers from reactive ones.
 
 ## Key Concepts
 
-### 1. Learning as a Markov Blanket Boundary
-How does Learning define the boundary between the agent and the environment?
+### 1. Prior Beliefs + New Evidence = Updated Belief
 
-### 2. Generative Models of Learning
-What parameters involved in Learning must be optimized to minimize variational free energy?
+In Bayesian thinking, every belief starts as a **prior** — what you believed before seeing new evidence. When new evidence arrives, you combine it with your prior to get a **posterior** — your updated belief.
 
-### 3. Active Inference Dynamics
-How does the process of Learning drive the perception-action loop?
+Here's a simple example. You think there's a 50% chance it'll rain tomorrow (your prior). Then you check the weather and see dark clouds rolling in (new evidence). Dark clouds are strong evidence for rain, so you update your belief to maybe 80% (your posterior).
 
-## Applications
+But what if you checked and the sky was partly cloudy? That's weaker evidence. Maybe you update from 50% to 60%. The strength of your update matches the strength of the evidence. This is the key principle: **strong evidence = big update; weak evidence = small update**.
 
-In Ms, we see Learning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+In math class, this plays out every time you learn a new concept. You start with your existing understanding (prior). You encounter a problem that challenges that understanding (evidence). You update your model. The bigger the challenge to your existing understanding, the bigger the update needed.
 
-## Conclusion
+### 2. Don't Overreact, Don't Underreact
 
-Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+People make two common mistakes with updating:
 
-<!-- Content padding to ensure file size requirements -->
+**Overreacting**: You fail one math test and conclude "I'm terrible at math forever." One test is one data point. It might mean you didn't study enough, the test was unusually hard, or you were having a bad day. A single bad result shouldn't completely overwrite months of evidence about your abilities.
 
-<!-- Content padding to ensure file size requirements -->
+**Underreacting**: You consistently get the same type of problem wrong on every single test, but you keep studying the same way because "it usually works." When the evidence is strong and consistent (you ALWAYS get fractions wrong), ignoring it doesn't make it go away. You need to update your approach.
 
-<!-- Content padding to ensure file size requirements -->
+The Bayesian middle ground: one bad test shifts your confidence a little. Five bad tests in a row shifts it a lot. Consistent evidence across many data points deserves a stronger update than a single surprising event.
 
-<!-- Content padding to ensure file size requirements -->
+This applies to everything: if your friend is late once, don't assume they're unreliable. If they're late every single time you make plans, it's time to update your model.
 
-<!-- Content padding to ensure file size requirements -->
+### 3. Updating in Math: Using Errors Productively
 
-<!-- Content padding to ensure file size requirements -->
+Every math mistake is an opportunity for a Bayesian update. The key is to analyze the error, not just correct it.
 
-<!-- Content padding to ensure file size requirements -->
+When you get a problem wrong, ask three questions:
+1. **What did I predict?** (What did I think the answer or approach would be?)
+2. **What actually happened?** (What was the correct answer or method?)
+3. **What's the gap?** (Where exactly did my model break down?)
 
-<!-- Content padding to ensure file size requirements -->
+Was it a calculation error (your model was right but you executed it wrong)? A conceptual error (your model was actually wrong)? A reading error (you solved the wrong problem)? Each type of error requires a different update.
 
-<!-- Content padding to ensure file size requirements -->
+Calculation errors need practice. Conceptual errors need a model revision — you need to actually change how you understand the topic. Reading errors need more careful attention to the problem statement.
 
-<!-- Content padding to ensure file size requirements -->
+Students who analyze their errors this way improve much faster than students who just mark them wrong and move on. The error analysis IS the learning.
+
+## Try It!
+
+**Bayesian Error Analysis.** After your next graded math assignment or test, don't just look at the score. For every problem you got wrong, write down: (1) What you predicted the answer would be, (2) What the correct answer was, (3) What type of error you made (calculation, conceptual, or reading), and (4) What update you need to make (practice more, relearn the concept, or read more carefully). Track your error types across multiple assignments. You'll probably find that one type dominates — and that's where to focus your learning energy.
+
+## Summary
+
+**Bayesian thinking** means updating your beliefs in proportion to the strength of new evidence. Don't **overreact** to a single data point or **underreact** to consistent patterns. In math learning, every error is evidence that helps you improve — but only if you **analyze the type of error** and make the right kind of update. Strong thinkers are not people who are always right; they're people who update well when they're wrong. Next up: **Communication** — making data and mathematical reasoning understandable to others.

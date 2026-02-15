@@ -43,7 +43,7 @@ Map your chosen system onto the Active Inference framework in the context of sys
 
 ### 2B: Systems Dynamics
 
-Describe how systems operates in your system:
+Describe how systems-level organization operates in your selected phase diagram:
 
 - What is the driving force (free energy gradient)?
 - What is the timescale?
@@ -57,7 +57,7 @@ Describe how systems operates in your system:
 
 ## Part 3: Quantitative Exercise (20 min)
 
-Perform a simple calculation or simulation related to systems in your system:
+Perform a simple calculation or simulation related to thermodynamic phases in your selected phase diagram:
 
 - If computational: use Python with PyCalphad, NumPy, or similar
 - If analytical: use thermodynamic relations (Gibbs energy, diffusion equation, nucleation barrier)
@@ -70,7 +70,7 @@ Perform a simple calculation or simulation related to systems in your system:
 
 ## Part 4: Reflection (10 min)
 
-1. How did the Active Inference framework change your understanding of systems in this system?
+1. How did the Active Inference framework change your understanding of phase equilibria in this thermodynamic system?
 2. What prediction error exists between the equilibrium model and the real behavior of your system?
 3. How could you reduce this prediction error through better characterization or modeling?
 

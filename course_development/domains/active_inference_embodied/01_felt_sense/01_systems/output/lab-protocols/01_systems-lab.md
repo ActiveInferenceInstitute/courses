@@ -1,23 +1,77 @@
-# Lab: Exploring Systems
+# Lab: Feeling the Boundary of Your Skin
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Systems**.
+Experience the body as a living system with a boundary through somatic exercises that explore the felt difference between inside and outside, self and world. This lab introduces the Markov blanket as the skin -- your first-person encounter with the concept of a system boundary.
 
 ## Prerequisites
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Systems.
+- A quiet, comfortable space where you can sit or stand undisturbed for 25 minutes
+- Optional: a partner for Part 4
+- No prior knowledge required -- only willingness to attend to sensation
 
-## Steps
+## Part 1: The Skin Envelope (5 minutes)
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Embodied.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Systems.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Systems (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+Stand or sit with your eyes closed. Bring your attention to the surface of your body. Begin at the crown of your head and slowly scan downward -- forehead, cheeks, neck, shoulders, arms, torso, hips, legs, feet.
 
-## Discussion Requirements
+At each area, notice: Where does "me" end and "not-me" begin? The skin is your boundary. In Active Inference, this is the Markov blanket -- the surface where internal states meet external states.
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Systems.
+Notice places where the boundary feels sharp (fingertips, lips) and places where it feels vague (the back, areas under clothing).
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(Describe three places where your boundary felt most vivid and three where it felt most diffuse. What made the difference?)
+
+## Part 2: Inside and Outside (5 minutes)
+
+Keep your eyes closed. Now alternate your attention:
+
+1. **Inside**: For 30 seconds, attend only to what you feel inside -- heartbeat, breath, warmth, tension, the weight of organs.
+2. **Outside**: For 30 seconds, attend only to what reaches you from outside -- sounds, air temperature, the pressure of the chair.
+3. Repeat the alternation three times, making the switches faster each time.
+
+In Active Inference terms, you are shifting between interoception (sensing internal states) and exteroception (sensing external states). The boundary between these two streams of information is what makes you a system.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(What happened when you switched quickly between inside and outside? Was the boundary between them clear or blurry?)
+
+## Part 3: Perturbing the Boundary (7 minutes)
+
+Now explore what happens when the boundary is disrupted or extended:
+
+1. **Cold contact**: Place something cool (a glass of water, a metal object) against your forearm. Notice how the boundary of your skin becomes intensely vivid at the point of contact. This is prediction error -- the body did not expect this temperature.
+2. **Tool extension**: Pick up a pen or stick and tap the table surface. Notice: after a few taps, do you feel the table through the tip of the tool? Your body boundary has extended. In 4E cognition terms, the tool has become part of your extended system.
+3. **Clothing awareness**: Shift your attention to where clothing touches your skin. You had probably stopped noticing this. The body had predicted it and cancelled the signal. Now that you attend, the boundary comes alive again.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(For each exercise, describe what you felt. Where did your boundary expand, sharpen, or shift?)
+
+## Part 4: Two Systems Meeting (5 minutes)
+
+If you have a partner: Stand or sit facing each other at arm's length. Both close your eyes. Slowly extend your hands toward each other until your fingertips are close but not touching. Notice: Can you feel the other person's presence before contact? What happens at the moment of touch? Two Markov blankets have met.
+
+If alone: Bring your own two palms close together without touching. Notice the space between them. Can you feel warmth, tingling, or pressure? Slowly bring them together. Notice the moment of contact.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(Describe what you sensed in the space between -- before, during, and after contact.)
+
+## Part 5: Reflection
+
+Return to stillness. Take three breaths. Consider what you have experienced.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(How did this lab change your understanding of what a "system" is? What did you learn about boundaries that you could not learn from a textbook?)
+
+## Reflection Table
+
+| Aspect of Systems | What I Felt | Active Inference Connection |
+| --- | --- | --- |
+| Boundary (skin) | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Markov blanket separating internal from external states |
+| Inside (interoception) | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Internal states of the generative model |
+| Outside (exteroception) | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | External states and sensory observations |
+| Boundary disruption | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Prediction error at the system boundary |
+| Boundary extension | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Extended cognition and tool use |

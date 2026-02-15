@@ -1,51 +1,95 @@
-# Practice Quiz: Agents
+# Practice Quiz: Agents -- You as a Prediction Machine
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Agents** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. In Active Inference, an **agent** is any system that:
+A) Follows instructions from an authority
+B) Maintains a generative model and acts to minimize free energy
+C) Has a physical body with legs and arms
+D) Maximizes reward at all costs
 
-2. In Hs, Agents is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+**Answer: B.** Agency is defined by having a boundary, a generative model, and the capacity to act on predictions.
 
-3. Which mathematical quantity is most central to Agents?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+2. Your sense of personal identity functions as a **generative model** because it:
+A) Is a fixed list of personality traits stored in your brain
+B) Generates predictions about who you are, what you value, and how you will behave
+C) Was assigned to you by your parents
+D) Never changes after childhood
 
-4. How does Agents relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+**Answer: B.** Identity is an ongoing process of prediction and self-model maintenance, not a static list.
 
-5. A failure in Agents would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+3. When you fail a math test despite believing "I am good at math," the resulting discomfort is best explained as:
+A) Bad luck
+B) Prediction error between your self-model and sensory evidence
+C) A sign you should give up math forever
+D) Proof that self-models are useless
 
-6. Which scale is most relevant for analyzing Agents in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+**Answer: B.** The discrepancy between your self-prediction and reality creates free energy that must be resolved.
 
-7. Agents connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+4. A student who chooses classes based on genuine curiosity rather than peer pressure has **higher agency** because:
+A) They are more popular
+B) Their actions are driven by their own generative model rather than external forces
+C) They always get better grades
+D) They ignore all social information
+
+**Answer: B.** Agency is the degree to which your own internal model, rather than outside pressure, drives behavior.
+
+5. Adolescence involves intense self-model revision, which feels uncomfortable because:
+A) Teenagers are inherently moody
+B) The old child self-model no longer fits, and the new adult model is not yet stable, causing high prediction error
+C) Schools make adolescence harder than it needs to be
+D) Hormones eliminate all generative models
+
+**Answer: B.** Active Inference predicts that fundamental model revision is cognitively expensive and produces sustained prediction error.
+
+6. You act differently around your parents, friends, and teachers. Active Inference explains this as:
+A) Being fake or hypocritical
+B) Having one generative model with context-dependent predictions for different social settings
+C) Evidence of multiple personalities
+D) A failure of your self-model
+
+**Answer: B.** A sophisticated agent generates different appropriate predictions for different environments.
+
+7. Cognitive dissonance -- feeling uncomfortable when your actions contradict your beliefs -- is an example of:
+A) Free energy being maximized
+B) Prediction error between your self-model and your observed behavior
+C) A Markov Blanket collapsing
+D) Random noise in the brain
+
+**Answer: B.** When you act contrary to your self-predictions, the discrepancy generates discomfort that demands resolution.
+
+8. Writing a college application essay is difficult because it requires you to:
+A) Memorize facts about the college
+B) Make your normally implicit self-model explicit, inspecting predictions that usually run below awareness
+C) Lie about your achievements
+D) Copy someone else's identity
+
+**Answer: B.** Articulating your generative self-model forces conscious inspection of predictions that normally operate automatically.
+
+9. Social media can be identity-destabilizing because:
+A) It wastes time
+B) Likes and comments dramatically increase the rate of prediction error feedback about your self-model
+C) Algorithms delete your real personality
+D) It replaces your Markov Blanket with a digital one
+
+**Answer: B.** The rapid feedback loop between your online persona and others' reactions accelerates self-model updating.
+
+10. If identity is a generative model rather than a fixed essence, then personal growth means:
+A) Your atoms are being replaced
+B) Your generative self-model is being updated through accumulated prediction errors and revised predictions
+C) You are becoming a completely different person with no continuity
+D) Growth is impossible because models cannot change
+
+**Answer: B.** Growth is the ongoing process of revising your self-model in response to new evidence about who you are.
 
 ## Part B: Short Answer
 
-1.  Explain how **Agents** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Agents failing in a Hs scenario.
-3.  How would you model Agents using a POMDP (Partially Observable Markov Decision Process)?
+1. Describe a time when you discovered something about yourself that surprised you. What prediction did your self-model get wrong, and how did you update it?
+
+2. How does the Active Inference view of identity explain why some people have an "identity crisis" during high school? What is happening to their generative model?
+
+3. Give an example of resolving cognitive dissonance by dismissing evidence rather than updating your self-model. Why might this strategy backfire in the long run?
+
+4. How much of your sense of identity comes from your own generative model versus the expectations others project onto you? Where do you draw the line?
+
+5. If a friend says "you have changed," describe what is happening in Active Inference terms. Whose generative model is out of date -- yours or theirs?

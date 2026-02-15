@@ -53,6 +53,12 @@ python publish.py --dry-run
 
 Defined in `software/src/batch_processing/config.py`. Maps course IDs (e.g., `ai-philosophy`) to structural metadata: paths, glob patterns, content file lists. All module discovery flows through this registry — no hardcoded paths.
 
+### Script Count
+
+- 22 CLI scripts in `scripts/`
+- 21 modules in `src/`
+- 67 test files in `tests/`
+
 ### Module layering
 
 Software modules in `software/src/` follow strict dependency layers:
@@ -86,5 +92,5 @@ Source markdown in `course_development/` is rendered through the pipeline to `pu
 
 - **Active Inference Core**: `ai-philosophy`, `ai-cognitive-science`, `ai-math`, `ai-computer-science`
 - **Level-Adapted**: `ai-es` (elementary), `ai-family`, `ai-ms` (middle school), `ai-hs` (high school), `ai-101` (college intro), `ai-401` (advanced PhD)
-- **Domain**: `ai-embodied`, `ai-organizations`, `ai-robotics`
+- **Domain**: `ai-embodied`, `ai-organizations`, `ai-robotics`, `ai-crochet`, `ai-inventions`, `ai-metallurgy` — Domain-specific
 - **Archive**: `youtube` (transcript archive, ~2600 videos)

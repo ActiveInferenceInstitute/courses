@@ -2,29 +2,121 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>lab</title>
+    <title>tmpnkgl1zqs</title>
 </head>
 <body>
-<h1>Lab: Exploring Communication</h1>
+<h1>Lab: Information Theory -- Bits, Entropy, and Shared Knowledge</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Communication</strong>.</p>
+<p>Practice computing <strong>information content</strong>, <strong>entropy</strong>, and <strong>mutual information</strong> -- the mathematical tools that quantify how much communication reduces an agent's uncertainty. In Active Inference, surprisal and entropy are central to the free energy calculation.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Communication.</li>
+<li>Completed Math Foundations: Learning module (prediction error, model updating)</li>
+<li>Comfort with logarithms (base 2) and probability</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Information Content (Surprisal)</h2>
+<p><strong>Goal</strong>: Compute how much information a single message carries.</p>
+<p>The information content of an event with probability p is: I = -log2(p) bits.</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Hs.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Communication.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Communication (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>A fair coin lands heads: I = -log2(0.5) = ? bits.</li>
+<li>A fair die lands on 6: I = -log2(1/6) = ? bits.</li>
+<li>"School is cancelled" (P = 0.01): I = ? bits.</li>
+<li>"The sun rose today" (P = 0.99): I = ? bits.</li>
+<li>Which event carries more information? Why does rare = more informative?</li>
+<li>In Active Inference, this quantity is called <strong>surprisal</strong> -- it measures how unexpected an observation is under the generative model.</li>
 </ol>
-<h2>Discussion Requirements</h2>
-<ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Communication.</li>
-</ul>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Entropy</h2>
+<p><strong>Goal</strong>: Compute the average information content of a probability distribution.</p>
+<p>Entropy: H(X) = -sum(p_i * log2(p_i)) -- the expected surprisal.</p>
+<p>Distribution A (fair coin): P(H) = 0.5, P(T) = 0.5.
+Distribution B (biased coin): P(H) = 0.9, P(T) = 0.1.</p>
+<ol>
+<li>H(A) = -(0.5 * log2(0.5) + 0.5 * log2(0.5)) = ? bits.</li>
+<li>H(B) = -(0.9 * log2(0.9) + 0.1 * log2(0.1)) = ? bits.</li>
+<li>Which distribution has higher entropy? Why?</li>
+<li>A certain outcome (P = 1) has H = 0 bits. A maximally uncertain distribution (all outcomes equally likely) has maximum entropy. Why does this make sense?</li>
+<li>In Active Inference, minimizing free energy involves reducing the entropy of beliefs about hidden states.</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: KL Divergence</h2>
+<p><strong>Goal</strong>: Measure the "distance" between two probability distributions.</p>
+<p>KL(P || Q) = sum(p_i * log2(p_i / q_i)) -- how much P differs from Q.</p>
+<p>Let P = {0.7, 0.2, 0.1} (your beliefs about tomorrow: sunny, cloudy, rainy).
+Let Q = {0.4, 0.3, 0.3} (the weather forecast).</p>
+<ol>
+<li>KL(P || Q) = 0.7<em>log2(0.7/0.4) + 0.2</em>log2(0.2/0.3) + 0.1*log2(0.1/0.3) = ?</li>
+<li>Is KL divergence symmetric? Compute KL(Q || P) and compare.</li>
+<li>KL divergence is always &gt;= 0. When does it equal 0?</li>
+<li>In Active Inference, variational free energy includes a KL divergence between the agent's approximate beliefs and the true posterior -- the agent acts to minimize this gap.</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Mutual Information</h2>
+<p><strong>Goal</strong>: Quantify how much knowing one variable tells you about another.</p>
+<p>Consider weather (X) and umbrella-carrying (Y):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Umbrella</th>
+<th>No umbrella</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rainy</td>
+<td>0.35</td>
+<td>0.05</td>
+</tr>
+<tr>
+<td>Sunny</td>
+<td>0.10</td>
+<td>0.50</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Compute H(X) -- the entropy of the weather marginal.</li>
+<li>Compute H(X | Y = umbrella) -- the entropy of weather given you see an umbrella.</li>
+<li>Does knowing about the umbrella reduce your uncertainty about weather?</li>
+<li>Mutual information I(X;Y) = H(X) - H(X|Y). This measures how much one variable <strong>communicates</strong> about the other.</li>
+<li>In Active Inference, agents seek observations with high mutual information -- they look where they expect to learn the most.</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Math Concept</th>
+<th>Symbol</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Information content / surprisal</td>
+<td>I = -log2(p)</td>
+<td>Bits of information in a single event</td>
+</tr>
+<tr>
+<td>Entropy</td>
+<td>H(X) = -sum(p_i * log2(p_i))</td>
+<td>Average information content of a distribution</td>
+</tr>
+<tr>
+<td>KL divergence</td>
+<td>KL(P || Q)</td>
+<td>How much distribution P differs from Q</td>
+</tr>
+<tr>
+<td>Mutual information</td>
+<td>I(X;Y) = H(X) - H(X|Y)</td>
+<td>How much knowing Y reduces uncertainty about X</td>
+</tr>
+</tbody>
+</table>
 </body>
 </html>

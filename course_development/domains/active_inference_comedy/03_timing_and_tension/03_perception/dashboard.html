@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,521 +15,241 @@
             --muted: #94a3b8;
             --dim: #64748b;
             --green: #22c55e;
-            --red: #ef4444
+            --red: #ef4444;
         }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box
-        }
+        /* Hero */
+        .hero { background:linear-gradient(135deg, #6366f1, #a855f7); padding:48px 24px 36px; text-align:center; }
+        .hero h1 { font-size:2rem; color:#fff; margin-bottom:8px; }
+        .hero .sub { font-size:1.1rem; color:rgba(255,255,255,.85); margin-bottom:12px; }
+        .hero .tag { display:inline-block; background:rgba(255,255,255,.2); color:#fff; padding:4px 14px; border-radius:20px; font-size:.8rem; backdrop-filter:blur(4px); }
 
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6
-        }
+        /* Nav */
+        .nav { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; padding:14px 24px; background:#1a2332; border-bottom:1px solid var(--border); }
+        .nav a { color:var(--muted); text-decoration:none; font-size:.85rem; padding:6px 14px; border:1px solid var(--border); border-radius:8px; transition:all .2s; }
+        .nav a:hover,.nav a.active { color:var(--accent); border-color:var(--accent); background:var(--accent-glow); }
 
-        .hero {
-            background: linear-gradient(135deg, #ec4899, #f43f5e);
-            padding: 48px 24px 36px;
-            text-align: center
-        }
+        .content { max-width:1100px; margin:0 auto; padding:24px; }
+        .stitle { color:var(--accent); font-size:1.25rem; margin:32px 0 16px; padding-bottom:8px; border-bottom:2px solid var(--border); }
+        .stitle:first-child { margin-top:0; }
 
-        .hero h1 {
-            font-size: 2rem;
-            color: #fff;
-            margin-bottom: 8px
-        }
+        /* Cards */
+        .cgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+        .concept-card { background:var(--card); padding:20px; border-radius:12px; border:1px solid var(--border); cursor:pointer; transition:transform .2s,border-color .2s; }
+        .concept-card:hover { transform:translateY(-2px); border-color:var(--accent); }
+        .concept-card h3 { display:flex; justify-content:space-between; align-items:center; font-size:1rem; margin-bottom:8px; }
+        .concept-card h3 .toggle { font-size:1.2rem; color:var(--dim); transition:transform .3s; }
+        .concept-card.open h3 .toggle { transform:rotate(45deg); }
+        .concept-card .brief { color:var(--muted); font-size:.9rem; }
+        .concept-card .detail { display:none; color:var(--muted); font-size:.85rem; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); line-height:1.7; }
+        .concept-card.open .detail { display:block; }
+        .meter { background:var(--border); border-radius:8px; height:6px; overflow:hidden; margin-top:14px; }
+        .meter-fill { height:100%; border-radius:8px; background:linear-gradient(90deg,var(--accent),#38bdf888); transition:width 1s ease; }
+        .meter-label { color:var(--dim); font-size:.7rem; margin-top:4px; }
 
-        .hero .sub {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, .85);
-            margin-bottom: 12px
-        }
+        /* Quiz */
+        .quiz-box { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .qprog { color:var(--dim); font-size:.85rem; margin-bottom:12px; }
+        .qq { font-size:1rem; margin-bottom:16px; font-weight:500; }
+        .qbtn { background:rgba(255,255,255,.03); color:var(--text); border:1px solid var(--border); padding:12px 16px; border-radius:10px; cursor:pointer; display:block; width:100%; text-align:left; margin:6px 0; transition:all .2s; font-size:.9rem; }
+        .qbtn:hover:not(:disabled) { background:rgba(255,255,255,.08); border-color:var(--accent); }
+        .qbtn.correct { background:#166534; border-color:var(--green); color:#bbf7d0; }
+        .qbtn.wrong { background:#7f1d1d; border-color:var(--red); color:#fecaca; }
+        .qbtn:disabled { cursor:default; opacity:.85; }
+        .qexp { margin-top:12px; padding:12px; border-radius:10px; font-size:.9rem; display:none; animation:fadeIn .3s; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+        .qnav { display:flex; gap:8px; margin-top:16px; }
+        .qnav button { background:rgba(255,255,255,.05); color:var(--text); border:1px solid var(--border); padding:8px 18px; border-radius:8px; cursor:pointer; transition:all .2s; font-size:.85rem; }
+        .qnav button:hover:not(:disabled) { border-color:var(--accent); color:var(--accent); }
+        .qnav button:disabled { opacity:.3; cursor:default; }
+        #score-box { display:none; margin-top:16px; padding:20px; background:rgba(0,0,0,.2); border-radius:12px; text-align:center; animation:fadeIn .5s; }
 
-        .hero .tag {
-            display: inline-block;
-            background: rgba(255, 255, 255, .2);
-            color: #fff;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: .8rem
-        }
+        /* Checklist */
+        .cklist { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .cklist label { display:flex; align-items:flex-start; gap:10px; padding:8px 0; color:var(--muted); font-size:.9rem; cursor:pointer; transition:color .2s; }
+        .cklist label:hover { color:var(--text); }
+        .cklist input[type=checkbox] { margin-top:3px; accent-color:var(--accent); width:18px; height:18px; flex-shrink:0; }
+        .cklist .done { color:var(--accent); text-decoration:line-through; opacity:.7; }
+        .pbar { background:var(--border); border-radius:8px; height:8px; overflow:hidden; margin-top:16px; }
+        .pfill { height:100%; border-radius:8px; background:var(--accent); transition:width .5s ease; width:0; }
+        .ptxt { color:var(--dim); font-size:.8rem; margin-top:6px; }
 
-        .nav {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            flex-wrap: wrap;
-            padding: 14px 24px;
-            background: #1a2332;
-            border-bottom: 1px solid var(--border)
-        }
+        /* Module nav */
+        .mnav { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .mgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
+        .module-link { display:block; padding:14px; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:var(--muted); text-decoration:none; font-size:.85rem; transition:all .2s; }
+        .module-link:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
+        .module-link.current { border-color:var(--accent); background:var(--accent-glow); }
+        .module-link strong { display:block; color:var(--text); margin-bottom:2px; font-size:.9rem; }
+        .module-link.current strong { color:var(--accent); }
 
-        .nav a {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: .85rem;
-            padding: 6px 14px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            transition: all .2s
-        }
-
-        .nav a:hover,
-        .nav a.active {
-            color: var(--accent);
-            border-color: var(--accent);
-            background: var(--accent-glow)
-        }
-
-        .content {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 24px
-        }
-
-        .stitle {
-            color: var(--accent);
-            font-size: 1.25rem;
-            margin: 32px 0 16px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--border)
-        }
-
-        .stitle:first-child {
-            margin-top: 0
-        }
-
-        .cgrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 16px
-        }
-
-        .concept-card {
-            background: var(--card);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: transform .2s, border-color .2s
-        }
-
-        .concept-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent)
-        }
-
-        .concept-card h3 {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1rem;
-            margin-bottom: 8px
-        }
-
-        .concept-card h3 .toggle {
-            font-size: 1.2rem;
-            color: var(--dim);
-            transition: transform .3s
-        }
-
-        .concept-card.open h3 .toggle {
-            transform: rotate(45deg)
-        }
-
-        .concept-card .brief {
-            color: var(--muted);
-            font-size: .9rem
-        }
-
-        .concept-card .detail {
-            display: none;
-            color: var(--muted);
-            font-size: .85rem;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
-            line-height: 1.7
-        }
-
-        .concept-card.open .detail {
-            display: block
-        }
-
-        .meter {
-            background: var(--border);
-            border-radius: 8px;
-            height: 6px;
-            overflow: hidden;
-            margin-top: 14px
-        }
-
-        .meter-fill {
-            height: 100%;
-            border-radius: 8px;
-            background: linear-gradient(90deg, var(--accent), #38bdf888);
-            transition: width 1s ease
-        }
-
-        .meter-label {
-            color: var(--dim);
-            font-size: .7rem;
-            margin-top: 4px
-        }
-
-        .quiz-box {
-            background: var(--card);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border)
-        }
-
-        .qprog {
-            color: var(--dim);
-            font-size: .85rem;
-            margin-bottom: 12px
-        }
-
-        .qq {
-            font-size: 1rem;
-            margin-bottom: 16px;
-            font-weight: 500
-        }
-
-        .qbtn {
-            background: rgba(255, 255, 255, .03);
-            color: var(--text);
-            border: 1px solid var(--border);
-            padding: 12px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: block;
-            width: 100%;
-            text-align: left;
-            margin: 6px 0;
-            transition: all .2s;
-            font-size: .9rem
-        }
-
-        .qbtn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, .08);
-            border-color: var(--accent)
-        }
-
-        .qbtn.correct {
-            background: #166534;
-            border-color: var(--green);
-            color: #bbf7d0
-        }
-
-        .qbtn.wrong {
-            background: #7f1d1d;
-            border-color: var(--red);
-            color: #fecaca
-        }
-
-        .qbtn:disabled {
-            cursor: default;
-            opacity: .85
-        }
-
-        .qexp {
-            margin-top: 12px;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: .9rem;
-            display: none;
-            animation: fadeIn .3s
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(4px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0)
-            }
-        }
-
-        .qnav {
-            display: flex;
-            gap: 8px;
-            margin-top: 16px
-        }
-
-        .qnav button {
-            background: rgba(255, 255, 255, .05);
-            color: var(--text);
-            border: 1px solid var(--border);
-            padding: 8px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all .2s;
-            font-size: .85rem
-        }
-
-        .qnav button:hover:not(:disabled) {
-            border-color: var(--accent);
-            color: var(--accent)
-        }
-
-        .qnav button:disabled {
-            opacity: .3;
-            cursor: default
-        }
-
-        #score-box {
-            display: none;
-            margin-top: 16px;
-            padding: 20px;
-            background: rgba(0, 0, 0, .2);
-            border-radius: 12px;
-            text-align: center;
-            animation: fadeIn .5s
-        }
-
-        .cklist {
-            background: var(--card);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border)
-        }
-
-        .cklist label {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 8px 0;
-            color: var(--muted);
-            font-size: .9rem;
-            cursor: pointer;
-            transition: color .2s
-        }
-
-        .cklist label:hover {
-            color: var(--text)
-        }
-
-        .cklist input[type=checkbox] {
-            margin-top: 3px;
-            accent-color: var(--accent);
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0
-        }
-
-        .cklist .done {
-            color: var(--accent);
-            text-decoration: line-through;
-            opacity: .7
-        }
-
-        .pbar {
-            background: var(--border);
-            border-radius: 8px;
-            height: 8px;
-            overflow: hidden;
-            margin-top: 16px
-        }
-
-        .pfill {
-            height: 100%;
-            border-radius: 8px;
-            background: var(--accent);
-            transition: width .5s ease;
-            width: 0
-        }
-
-        .ptxt {
-            color: var(--dim);
-            font-size: .8rem;
-            margin-top: 6px
-        }
-
-        .mnav {
-            background: var(--card);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border)
-        }
-
-        .mgrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 10px
-        }
-
-        .module-link {
-            display: block;
-            padding: 14px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--muted);
-            text-decoration: none;
-            font-size: .85rem;
-            transition: all .2s
-        }
-
-        .module-link:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-1px)
-        }
-
-        .module-link.current {
-            border-color: var(--accent);
-            background: var(--accent-glow)
-        }
-
-        .module-link strong {
-            display: block;
-            color: var(--text);
-            margin-bottom: 2px;
-            font-size: .9rem
-        }
-
-        .module-link.current strong {
-            color: var(--accent)
-        }
-
-        footer {
-            margin-top: 48px;
-            padding: 24px;
-            text-align: center;
-            color: var(--dim);
-            font-size: .8rem;
-            border-top: 1px solid var(--border)
-        }
-
-        @media(max-width:600px) {
-            .hero h1 {
-                font-size: 1.5rem
-            }
-
-            .cgrid,
-            .mgrid {
-                grid-template-columns: 1fr
-            }
-
-            .content {
-                padding: 16px
-            }
-        }
+        footer { margin-top:48px; padding:24px; text-align:center; color:var(--dim); font-size:.8rem; border-top:1px solid var(--border); }
+        @media(max-width:600px) { .hero h1{font-size:1.5rem;} .cgrid,.mgrid{grid-template-columns:1fr;} .content{padding:16px;} }
     </style>
 </head>
-
 <body>
     <div class="hero">
-        <h1>Module 03: Perception — Precision Windows</h1>
-        <p class="sub">When the Audience Listens Hardest</p><span class="tag">Active Inference Comedy — Timing And
-            Tension</span>
+        <h1>Module 03: Perception in Timing &amp; Tension</h1>
+        <p class="sub">Applications</p>
+        <span class="tag">Active Inference Comedy — Timing And Tension</span>
     </div>
-    <nav class="nav"><a href="module.md">Lecture</a><a href="questions.md">Questions</a><a
-            href="practice_quiz.md">Quiz</a><a href="lab.md">Lab</a><a class="active" href="#">Dashboard</a></nav>
+
+    <nav class="nav">
+        <a href="module.md">Lecture</a>
+        <a href="questions.md">Questions</a>
+        <a href="practice_quiz.md">Quiz</a>
+        <a href="lab.md">Lab</a>
+        <a class="active" href="#">Dashboard</a>
+    </nav>
+
     <div class="content">
         <h2 class="stitle">Key Concepts</h2>
         <div class="cgrid">
-            <div class="concept-card">
-                <h3>Precision Windows <span class="toggle">+</span></h3>
-                <p class="brief">The audience's attention fluctuates — precision on incoming signals waxes and wanes.
-                    Setups crank precision UP; tag lines arrive when precision is maximal. The comedian learns to feel
-                    these windows.</p>
-                <div class="detail">
-                    <p>Precision windows are the temporal sweet spots where audience attention is maximally focused and
-                        ready for surprise.</p>
-                </div>
-                <div class="meter">
-                    <div class="meter-fill" style="width:95%"></div>
-                </div>
-                <p class="meter-label">Centrality</p>
-            </div>
-            <div class="concept-card">
-                <h3>Temporal Prediction Error <span class="toggle">+</span></h3>
-                <p class="brief">Arriving too early or too late modulates the prediction error. Early punchlines feel
-                    rushed; late punchlines feel forced. The optimal moment generates maximum prediction error within an
-                    open precision window.</p>
-                <div class="detail">
-                    <p>Timing isn't just about WHAT you say — it's about WHEN the audience is most receptive to being
-                        surprised.</p>
-                </div>
-                <div class="meter">
-                    <div class="meter-fill" style="width:90%"></div>
-                </div>
-                <p class="meter-label">Centrality</p>
-            </div>
-            <div class="concept-card">
-                <h3>Attention Gradient Perception <span class="toggle">+</span></h3>
-                <p class="brief">The performer perceives the audience's attention gradient — sensing when engagement
-                    peaks and when it wanes. This perceptual skill enables real-time adjustment of temporal delivery.
-                </p>
-                <div class="detail">
-                    <p>Expert comedians 'feel' the audience leaning in (high precision) or drifting (low precision) and
-                        adjust timing accordingly.</p>
-                </div>
-                <div class="meter">
-                    <div class="meter-fill" style="width:75%"></div>
-                </div>
-                <p class="meter-label">Centrality</p>
-            </div>
+<div class="concept-card"><h3>Generative model <span class="toggle">+</span></h3><p class="brief">The agent&#x27;s internal model of how perception works in comedy — what patterns to expect, what signals to attend to, and what actions to take.</p><div class="detail"><p>Explore how Generative model connects to the other concepts in this module through the lecture and lab materials.</p></div><div class="meter"><div class="meter-fill" style="width:95%"></div></div><p class="meter-label">Centrality to module</p></div>
+<div class="concept-card"><h3>Prediction error <span class="toggle">+</span></h3><p class="brief">The mismatch between expected and observed perception dynamics — the signal that drives updating and adaptation.</p><div class="detail"><p>Explore how Prediction error connects to the other concepts in this module through the lecture and lab materials.</p></div><div class="meter"><div class="meter-fill" style="width:85%"></div></div><p class="meter-label">Centrality to module</p></div>
+<div class="concept-card"><h3>Precision weighting <span class="toggle">+</span></h3><p class="brief">The confidence assigned to predictions about perception — higher precision means stronger expectations and larger prediction errors when they fail.</p><div class="detail"><p>Precision windows in comedic timing are the perceptual foundation of the art.</p></div><div class="meter"><div class="meter-fill" style="width:75%"></div></div><p class="meter-label">Centrality to module</p></div>
+<div class="concept-card"><h3>Expected free energy <span class="toggle">+</span></h3><p class="brief">The anticipated surprise and information gain associated with future actions related to perception.</p><div class="detail"><p>Explore how Expected free energy connects to the other concepts in this module through the lecture and lab materials.</p></div><div class="meter"><div class="meter-fill" style="width:65%"></div></div><p class="meter-label">Centrality to module</p></div>
         </div>
+
         <h2 class="stitle">Self-Assessment Quiz</h2>
         <div class="quiz-box">
-            <div class="qprog" id="qprog">Question 1 of 5</div>
+            <div class="qprog" id="qprog">Question 1 of 6</div>
             <div id="qc"></div>
-            <div class="qnav"><button id="pbtn" onclick="prevQ()" disabled>&larr; Previous</button><button id="nbtn"
-                    onclick="nextQ()">Next &rarr;</button></div>
+            <div class="qnav">
+                <button id="pbtn" onclick="prevQ()" disabled>&larr; Previous</button>
+                <button id="nbtn" onclick="nextQ()">Next &rarr;</button>
+            </div>
             <div id="score-box"></div>
         </div>
+
         <h2 class="stitle">Learning Objectives</h2>
         <div class="cklist" id="cklist">
-            <label><input type="checkbox"> Understand precision windows in comedic timing.</label>
-            <label><input type="checkbox"> Explain how temporal prediction error relates to punchline delivery.</label>
-            <label><input type="checkbox"> Perceive audience attention gradients for real-time timing
-                adjustment.</label>
-            <div class="pbar">
-                <div class="pfill" id="pfill"></div>
-            </div>
+<label><input type="checkbox"> Understand precision windows in comedic timing through the lens of Active Inference.</label>
+<label><input type="checkbox"> Apply precision dynamics and temporal control to analyze comedy mechanics in &#x27;Who\&#x27;s on First?&#x27;</label>
+<label><input type="checkbox"> Connect perception theory to practical comedy craft from the Timing &amp; Tension perspective.</label>
+            <div class="pbar"><div class="pfill" id="pfill"></div></div>
             <p class="ptxt" id="ptxt">0 of 3 complete</p>
         </div>
+
         <h2 class="stitle">Module Navigation</h2>
         <div class="mnav">
             <div class="mgrid">
-                <a class="module-link" href="../01_systems/dashboard.html"><strong>01: Systems</strong>Temporal
-                    Systems</a>
-                <a class="module-link" href="../02_agents/dashboard.html"><strong>02: Agents</strong>Timer & Timed</a>
-                <a class="module-link current" href="#"><strong>03: Perception</strong>Precision Windows</a>
-                <a class="module-link" href="../04_cognition/dashboard.html"><strong>04: Cognition</strong>Anticipation
-                    & Beat</a>
-                <a class="module-link" href="../05_action/dashboard.html"><strong>05: Action</strong>Punchline
-                    Physics</a>
-                <a class="module-link" href="../06_learning/dashboard.html"><strong>06: Learning</strong>Novice to
-                    Expert</a>
-                <a class="module-link" href="../07_communication/dashboard.html"><strong>07:
-                        Communication</strong>Rhythmic Communication</a>
-                <a class="module-link" href="../08_planning/dashboard.html"><strong>08: Planning</strong>Temporal
-                    Architecture</a>
+<a class="module-link" href="../01_systems/dashboard.html"><strong>Module 01: Systems</strong>Module 01: Systems in Timing &amp; Tension</a>
+<a class="module-link" href="../02_agents/dashboard.html"><strong>Module 02: Agents</strong>Module 02: Agents in Timing &amp; Tension</a>
+<a class="module-link current" href="#"><strong>Module 03: Perception</strong>Module 03: Perception in Timing &amp; Tension</a>
+<a class="module-link" href="../04_cognition/dashboard.html"><strong>Module 04: Cognition</strong>Module 04: Cognition in Timing &amp; Tension</a>
+<a class="module-link" href="../05_action/dashboard.html"><strong>Module 05: Action</strong>Module 05: Action in Timing &amp; Tension</a>
+<a class="module-link" href="../06_learning/dashboard.html"><strong>Module 06: Learning</strong>Module 06: Learning in Timing &amp; Tension</a>
+<a class="module-link" href="../07_communication/dashboard.html"><strong>Module 07: Communication</strong>Module 07: Communication in Timing &amp; Tension</a>
+<a class="module-link" href="../08_planning/dashboard.html"><strong>Module 08: Planning</strong>Module 08: Planning in Timing &amp; Tension</a>
             </div>
         </div>
     </div>
-    <footer>Active Inference Institute &mdash; Timing And Tension — Module 03: Perception</footer>
+
+    <footer>Active Inference Institute &mdash; Active Inference Comedy — Timing And Tension — Module 03: Perception</footer>
+
     <script>
-        document.querySelectorAll('.concept-card').forEach(function (c) { c.addEventListener('click', function () { c.classList.toggle('open'); }); });
-        var Q = [{ "q": "Precision windows are:", "opts": ["Exact times printed on a schedule", "Temporal sweet spots where audience attention is maximally focused and ready for surprise", "Windows in the comedy venue", "Predetermined pauses in the script"], "correct": 1, "explain": "Precision windows are moments of peak audience attention — setups crank precision up, creating optimal moments for surprise." }, { "q": "Arriving too early with a punchline feels:", "opts": ["Professional and sharp", "Rushed — the precision window hasn't fully opened", "Relaxed", "Irrelevant to the effect"], "correct": 1, "explain": "Early punchlines arrive before the audience's prediction is fully formed — the precision window isn't open, so the prediction error is suboptimal." }, { "q": "The audience's precision on incoming signals:", "opts": ["Is constant throughout performance", "Fluctuates — waxing during setups and waning between jokes", "Only increases", "Only decreases"], "correct": 1, "explain": "Attention and precision fluctuate naturally — expert comedians learn to time their delivery to match these fluctuations." }, { "q": "An expert comedian 'feels' the audience because:", "opts": ["They have supernatural abilities", "They perceive attention gradients — sensing when engagement peaks and wanes", "They memorize audience reactions", "They rely solely on the script"], "correct": 1, "explain": "Perceiving attention gradients is a learned perceptual skill that enables real-time timing adjustments." }, { "q": "The primary learning goal of this module is:", "opts": ["Understanding the design of window frames", "Understanding precision windows in comedic timing", "Learning to read watches", "Studying window acoustics"], "correct": 1, "explain": "This module examines how precision windows — moments of peak audience attention — determine optimal timing for comedy delivery." }];
-        var ci = 0, ans = new Array(Q.length).fill(null), sc = 0;
-        function renderQ() { var q = Q[ci], done = ans[ci] !== null; var h = '<p class="qq"><strong>Q' + (ci + 1) + '.</strong> ' + q.q + '</p>'; q.opts.forEach(function (o, i) { var c = 'qbtn'; if (done) { if (i === q.correct) c += ' correct'; else if (i === ans[ci]) c += ' wrong'; } h += '<button class="' + c + '" onclick="pickA(' + i + ')" ' + (done ? 'disabled' : '') + '>' + String.fromCharCode(65 + i) + ') ' + o + '</button>'; }); if (done) { var ok = ans[ci] === q.correct; h += '<div class="qexp" style="display:block;background:' + (ok ? '#166534' : '#7f1d1d') + ';">' + (ok ? 'Correct! ' : 'Incorrect. ') + q.explain + '</div>'; } document.getElementById('qc').innerHTML = h; document.getElementById('qprog').textContent = 'Question ' + (ci + 1) + ' of ' + Q.length; document.getElementById('pbtn').disabled = ci === 0; document.getElementById('nbtn').textContent = ci === Q.length - 1 ? 'See Score' : 'Next \u2192'; }
-        function pickA(i) { if (ans[ci] !== null) return; ans[ci] = i; if (i === Q[ci].correct) sc++; renderQ(); }
-        function nextQ() { if (ci < Q.length - 1) { ci++; renderQ(); } else { var pct = Math.round(sc / Q.length * 100); var d = document.getElementById('score-box'); d.style.display = 'block'; d.innerHTML = '<h3 style="color:' + (pct >= 60 ? 'var(--green)' : 'var(--red)') + '">' + sc + '/' + Q.length + ' (' + pct + '%)</h3><p style="color:var(--muted);margin-top:8px">' + (pct >= 80 ? 'Excellent!' : pct >= 60 ? 'Good foundation.' : 'Review the module.') + '</p>'; } }
-        function prevQ() { if (ci > 0) { ci--; renderQ(); } }
-        var SK = 'ai_comedy_timing_tension_03', QK = SK + '_quiz'; function initCL() { var saved = JSON.parse(localStorage.getItem(SK) || '[]'); var boxes = document.querySelectorAll('#cklist input[type=checkbox]'); boxes.forEach(function (cb, i) { if (saved[i]) cb.checked = true; if (cb.checked) cb.parentElement.classList.add('done'); cb.addEventListener('change', function () { cb.parentElement.classList.toggle('done', cb.checked); saveCL(); updProg(); }); }); updProg(); } function saveCL() { var boxes = document.querySelectorAll('#cklist input[type=checkbox]'); localStorage.setItem(SK, JSON.stringify(Array.from(boxes).map(function (c) { return c.checked; }))); } function updProg() { var boxes = document.querySelectorAll('#cklist input[type=checkbox]'); var n = boxes.length, done = Array.from(boxes).filter(function (c) { return c.checked; }).length; document.getElementById('pfill').style.width = (n ? done / n * 100 : 0) + '%'; document.getElementById('ptxt').textContent = done + ' of ' + n + ' complete'; } function saveQuiz() { localStorage.setItem(QK, JSON.stringify({ ci: ci, ans: ans, sc: sc })); } function loadQuiz() { try { var d = JSON.parse(localStorage.getItem(QK)); if (d && d.ans && d.ans.length === Q.length) { ci = d.ci || 0; ans = d.ans; sc = d.sc || 0; } } catch (e) { } } var _origPickA = pickA; pickA = function (i) { _origPickA(i); saveQuiz(); }; document.addEventListener('DOMContentLoaded', function () { document.querySelectorAll('.meter-fill').forEach(function (f) { var w = f.style.width; f.style.width = '0%'; setTimeout(function () { f.style.width = w; }, 200); }); loadQuiz(); renderQ(); initCL(); });
+    /* Concept cards */
+    document.querySelectorAll('.concept-card').forEach(function(c){
+        c.addEventListener('click',function(){c.classList.toggle('open');});
+    });
+
+    /* Quiz engine */
+    var Q=[{"q": "Which of the following best describes \"Generative model\"?", "opts": ["The agent's internal model of how perception works in comedy — what patterns to expect, what signals to attend to, and what actions to take.", "The confidence assigned to predictions about perception — higher precision means stronger expectations and larger prediction errors when they fail.", "The anticipated surprise and information gain associated with future actions related to perception.", "The mismatch between expected and observed perception dynamics — the signal that drives updating and adaptation."], "correct": 0, "explain": "Generative model: The agent's internal model of how perception works in comedy — what patterns to expect, what signals to attend to, and what actions to take."}, {"q": "Which of the following best describes \"Prediction error\"?", "opts": ["The mismatch between expected and observed perception dynamics — the signal that drives updating and adaptation.", "The anticipated surprise and information gain associated with future actions related to perception.", "The agent's internal model of how perception works in comedy — what patterns to expect, what signals to attend to, and what actions to take.", "The confidence assigned to predictions about perception — higher precision means stronger expectations and larger prediction errors when they fail."], "correct": 0, "explain": "Prediction error: The mismatch between expected and observed perception dynamics — the signal that drives updating and adaptation."}, {"q": "Which of the following best describes \"Precision weighting\"?", "opts": ["The mismatch between expected and observed perception dynamics — the signal that drives updating and adaptation.", "The anticipated surprise and information gain associated with future actions related to perception.", "The confidence assigned to predictions about perception — higher precision means stronger expectations and larger prediction errors when they fail.", "The agent's internal model of how perception works in comedy — what patterns to expect, what signals to attend to, and what actions to take."], "correct": 2, "explain": "Precision weighting: The confidence assigned to predictions about perception — higher precision means stronger expectations and larger prediction errors when they fail."}, {"q": "Which of the following best describes \"Expected free energy\"?", "opts": ["The agent's internal model of how perception works in comedy — what patterns to expect, what signals to attend to, and what actions to take.", "The mismatch between expected and observed perception dynamics — the signal that drives updating and adaptation.", "The confidence assigned to predictions about perception — higher precision means stronger expectations and larger prediction errors when they fail.", "The anticipated surprise and information gain associated with future actions related to perception."], "correct": 3, "explain": "Expected free energy: The anticipated surprise and information gain associated with future actions related to perception."}, {"q": "A primary learning goal of this module is to:", "opts": ["Understand precision windows in comedic timing through the lens of Active Inference.", "Skip foundational concepts and focus only on advanced material.", "Review content from a completely different subject area.", "Memorize all definitions without applying them to real situations."], "correct": 0, "explain": "This module focuses on: Understand precision windows in comedic timing through the lens of Active Inference."}, {"q": "By the end of this module you should also be able to:", "opts": ["Connect perception theory to practical comedy craft from the Timing & Tension perspective.", "Complete unrelated worksheets for extra credit.", "Repeat previous module content without new application.", "Watch videos without taking notes or reflecting."], "correct": 0, "explain": "Another key goal: Connect perception theory to practical comedy craft from the Timing & Tension perspective."}];
+    var ci=0,ans=new Array(Q.length).fill(null),sc=0;
+
+    function renderQ(){
+        var q=Q[ci],done=ans[ci]!==null;
+        var h='<p class="qq"><strong>Q'+(ci+1)+'.</strong> '+q.q+'</p>';
+        q.opts.forEach(function(o,i){
+            var c='qbtn';
+            if(done){if(i===q.correct)c+=' correct';else if(i===ans[ci])c+=' wrong';}
+            h+='<button class="'+c+'" onclick="pickA('+i+')" '+(done?'disabled':'')+'>'+String.fromCharCode(65+i)+') '+o+'</button>';
+        });
+        if(done){
+            var ok=ans[ci]===q.correct;
+            h+='<div class="qexp" style="display:block;background:'+(ok?'#166534':'#7f1d1d')+';">'+(ok?'Correct! ':'Incorrect. ')+q.explain+'</div>';
+        }
+        document.getElementById('qc').innerHTML=h;
+        document.getElementById('qprog').textContent='Question '+(ci+1)+' of '+Q.length;
+        document.getElementById('pbtn').disabled=ci===0;
+        document.getElementById('nbtn').textContent=ci===Q.length-1?'See Score':'Next \u2192';
+    }
+
+    function pickA(i){
+        if(ans[ci]!==null)return;
+        ans[ci]=i;
+        if(i===Q[ci].correct)sc++;
+        renderQ();
+    }
+
+    function nextQ(){
+        if(ci<Q.length-1){ci++;renderQ();}
+        else{
+            var pct=Math.round(sc/Q.length*100);
+            var d=document.getElementById('score-box');
+            d.style.display='block';
+            d.innerHTML='<h3 style="color:'+(pct>=60?'var(--green)':'var(--red)')+'">'+sc+'/'+Q.length+' ('+pct+'%)</h3><p style="color:var(--muted);margin-top:8px">'+(pct>=80?'Excellent understanding of the material!':pct>=60?'Good foundation. Review the concepts you missed.':'Consider re-reading the module before moving on.')+'</p>';
+        }
+    }
+
+    function prevQ(){if(ci>0){ci--;renderQ();}}
+
+    /* Checklist with localStorage */
+    var SK='ai_active_inference_comedy_timing_and_tension_03_perception';
+    var QK=SK+'_quiz';
+    function initCL(){
+        var saved=JSON.parse(localStorage.getItem(SK)||'[]');
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        boxes.forEach(function(cb,i){
+            if(saved[i])cb.checked=true;
+            if(cb.checked)cb.parentElement.classList.add('done');
+            cb.addEventListener('change',function(){
+                cb.parentElement.classList.toggle('done',cb.checked);
+                saveCL();updProg();
+            });
+        });
+        updProg();
+    }
+    function saveCL(){
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        localStorage.setItem(SK,JSON.stringify(Array.from(boxes).map(function(c){return c.checked;})));
+    }
+    function updProg(){
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        var n=boxes.length,done=Array.from(boxes).filter(function(c){return c.checked;}).length;
+        document.getElementById('pfill').style.width=(n?done/n*100:0)+'%';
+        document.getElementById('ptxt').textContent=done+' of '+n+' complete';
+    }
+
+    /* Quiz persistence */
+    function saveQuiz(){
+        localStorage.setItem(QK,JSON.stringify({ci:ci,ans:ans,sc:sc}));
+    }
+    function loadQuiz(){
+        try{
+            var d=JSON.parse(localStorage.getItem(QK));
+            if(d&&d.ans&&d.ans.length===Q.length){
+                ci=d.ci||0;ans=d.ans;sc=d.sc||0;
+            }
+        }catch(e){}
+    }
+    /* Patch pickA to persist */
+    var _origPickA=pickA;
+    pickA=function(i){_origPickA(i);saveQuiz();};
+
+    /* Init */
+    document.addEventListener('DOMContentLoaded',function(){
+        document.querySelectorAll('.meter-fill').forEach(function(f){
+            var w=f.style.width;f.style.width='0%';
+            setTimeout(function(){f.style.width=w;},200);
+        });
+        loadQuiz();
+        renderQ();
+        initCL();
+    });
     </script>
 </body>
-
 </html>

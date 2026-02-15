@@ -1,23 +1,81 @@
-Lab: Exploring Learning
+Lab: Updating Estimates -- Learning from Data
 
 Objective
 
-Design and simulate a simple agent that demonstrates the principles of Learning.
+Practice parameter updating -- mathematically adjusting a model's estimates as new data arrives. In Active Inference, learning means updating the parameters of the generative model to better predict future observations.
 
 Prerequisites
 
-   Basic understanding of Python or a relevant simulation tool.
-   Familiarity with the formal definition of Learning.
+Completed Math Foundations: Action module (expected value, optimization)
+Comfort with averages and basic algebra
 
-Steps
+Part 1: Running Average as Learning
 
-Define the Environment: Create a simple grid world or state space relevant to Hs.
-Define the Agent: Specify the agent's generative model, focusing on Learning.
-Simulation: Run the agent for 100 timesteps.
-Perturbation: Introduce a specific challenge to Learning (e.g., increased noise, occlusion).
-Analysis: Plot the Free Energy over time. Does the agent successfully adapt?
+Goal: See how the average updates incrementally as each new data point arrives.
 
-Discussion Requirements
+A student takes quizzes each week. Scores: 70, 80, 75, 90, 85.
 
-   Attach your code or simulation logs.
-   Explain the specific mechanism used to implement Learning.
+After quiz 1, the estimate of their "true ability" = 70.
+After quiz 2, estimate = (70 + 80) / 2 = ?
+After quiz 3, estimate = ?
+Continue through all 5 quizzes.
+Plot the running average over time. How does it stabilize?
+The running average is a simple learning rule: the model's parameter (estimated ability) updates with each new observation.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 2: Weighted Updates -- Learning Rate
+
+Goal: Explore how a learning rate controls the speed of updating.
+
+Instead of a simple average, use the update rule: newestimate = oldestimate + alpha  (observation - oldestimate), where alpha is the learning rate.
+
+Start with estimate = 70. Use the same quiz scores: 70, 80, 75, 90, 85.
+
+With alpha = 0.5: After quiz 2 (score 80), newestimate = 70 + 0.5  (80 - 70) = ?
+Continue updating with alpha = 0.5 for all 5 quizzes.
+Now repeat with alpha = 0.1 for all 5 quizzes.
+Compare the two sequences. Which learning rate adapts faster? Which is more stable?
+In Active Inference, the learning rate relates to precision -- how much weight the agent gives new data vs. existing beliefs.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 3: Curve Fitting as Learning
+
+Goal: Fit a line to data and see learning as minimizing prediction error.
+
+Data points: (1, 3), (2, 5), (3, 6), (4, 9), (5, 10).
+
+Plot these points on graph paper.
+Draw a line that looks like a good fit. Record your estimated slope (m) and intercept (b).
+For your line y = mx + b, compute the prediction at each x value.
+Compute the prediction error at each point: (actual y) - (predicted y).
+Compute the sum of squared errors: sum of (error)^2.
+A better-fitting line has lower total squared error. In Active Inference, learning minimizes prediction error -- the gap between what the model predicts and what actually happens.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 4: Overfitting vs. Generalization
+
+Goal: Understand why simpler models can be better than complex ones.
+
+Using the same 5 data points:
+
+A straight line (y = mx + b) has 2 parameters. It fits reasonably but not perfectly.
+A curve passing through all 5 points exactly has 5 parameters. It has zero training error.
+Imagine a 6th data point at x = 6. Which model would you trust more to predict it? Why?
+The straight line generalizes better despite having higher training error.
+In Active Inference, free energy = prediction error + complexity. The complexity term penalizes overly complex models, favoring simpler generative models that generalize.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Summary Table
+
+| Math Concept | Symbol | Definition |
+|-------------|--------|-----------|
+| Running average | xbar = sum(xi) / n | Simple estimate updated with each data point |
+| Learning rate | alpha | Controls how much each new observation shifts the estimate |
+| Prediction error | y - yhat | Difference between actual and predicted values |
+| Sum of squared errors | sum((yi - yhati)^2) | Total prediction error across all data points |
+| Overfitting | -- | Model memorizes training data but fails on new data |
+| Generalization | -- | Model performs well on unseen data |

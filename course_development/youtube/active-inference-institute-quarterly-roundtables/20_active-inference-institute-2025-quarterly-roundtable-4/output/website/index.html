@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20_Active Inference Institute 2025 Quarterly Roundtable 4 - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>20_Active Inference Institute 2025 Quarterly Roundtable 4</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>20_Active Inference Institute 2025 Quarterly Roundtable 4</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Active Inference Institute ~ 2025 Quarterly Roundtable #4</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=09FfbL1YYOI">YouTube</a>
+<strong>Playlist</strong>: Active Inference Institute ~ Quarterly Roundtables
+<strong>Duration</strong>: 24:15 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>All right. Hello, welcome. It is December 19th, 2025. We are at the Active Inference Institute quarterly roundtable number four in 2025. It's Daniel and Alexandra and we are going to jump right in to this quarterly round table. We're going to begin with a sort of fresh take overview, a welcome starting from zero. Go into some institute updates, project updates, then look towards 26. Look in the live chat, see what people have written and looking forward to it. Okay, welcome. Welcome to the active inference institute. Consider this your pre-flight onboarding manual before we take flight into the open skies of the free energy principle and beyond. The title of each of these pages is a URL that you can visit and explore. This is a manual curation and overview presented in late 2025. First about the ecosystem at the institute. Our mission is to promote the accessibility, applicability, and rigor of active inference. We exist in constellation and interaction. We welcome all to observe at a distance through publicly available materials to engage directly through projects, discord, different programs such as the internship and fellowship and to get involved behind the scenes in supporting all of this as supporter, adviser, partner, director, etc. We recognize the broader cosmos of our ecosystem, the active inference learners, researchers, practitioners, organizations, and companies who are co-creating the present and future of our field. Participation means you are the chaotic input to us and possibly us to you. In this symbiotic relationship, all parties may either change their minds and change the world. Our strategy, our approach is radically informed by active inference itself. We embrace open-ended explor exploration as a fundamental driving force. We cultivate a culture of curiosity and continuous learning. Through engaging in endeavors across multiple scales, be it person, project, institute or ecosystem, we enrich our understanding and contribute to our niche. We see our actions in light of minimizing free energy. Much like the equation 2.6 six in the 2022 textbook consisting of pragmatic and epistemic value. In doing so, we carve a path that is both useful and informative in completing technical, operational, and even administrative tasks. All right, about activities. There are a variety of weekly meetings and activities hosted at the institute and also a bunch of stuff ongoing asynchronously. Some synchronous events may be your style or your time zone and there are ample opportunities to explore projects on your own time as well. Admission is free and open to all educational backgrounds. We invite you to participate, connect with others, co-create, learn, and apply active inference together. We invite our ecosystem to join us in setting out their expectations in planned actions via the preparation form. We provide a place for you to inform the community about your ongoing and upcoming projects. If desired, we can call out to publicize your project and attract collaborators. Every journey begins with preparation, even dreams that don't leave the base camp. And in turn, we take measurements to follow up on our questions and predictions. We take actions to get new observations. Submitting a measurement is the main way that participants in our ecosystem share updates from their work for getting visibility, feedback and collaboration. Measurements are curated into our monthly newsletter and also presented on in the quarterly roundts. Through this prepare measure cycle, we engage in active inference and co-learn by doing. In conclusion, you can reference these stable links uh throughout the year and continue to engage with the institute. To reduce your uncertainty further, you can email our blanketactiveinference.institute email. Here's some more stable links that you can always enter into and they'll go to the most updated version of whatever that may be. Some special stable links and topics that will come up today are the 2025 which was the living entry point for this year's activity and we'll be looking towards 2026. So big picture and what we're excited for people's live ideas and questions on and also their emails and other ways of communicating it is what's next. So where have we been? Where are we going? And that brings us to first some updates at the institute scale. So again taking a little bit of a fresh look at some topics that can otherwise be implicit. We have a annual cycle or rhythm at the institute and it goes something like this. In January we start activities and we start a new cohort of all of the formal positions. So that's the board of directors, scientific advisory board and officers and weekly activities begin. Broadly those projects are of two different types either projects that are open- source hosted from the institute long-term stewarded directions like educational program development ontology audiovisisual production live streams and podcasts the journal and knowledge engineering symposiums the fellows all of these programs that are held by the institute as people turn over and then we provide add visibility, scaffolding and growing in different kinds of support for ecosystem projects which are facilitated by institute affiliated researchers as well as beyond. that starts the year and somewhere around the middle of the year we have a summer break intermission and then we largely at the end of the year between the symposium in around November through the end of the year have a winterish break. So January around the dial and using the year as a convenient uh circle that we prepare and measure in this quantum active inference process. We'll take a moment to appreciate this beautiful generated art uh with a unique rhythm of repeating months. Yes. As as very characteristic so close yet so far. And one one example of that a snapshot was the zenotto snapshot of our living document which where many of the stable links will take you and I'll put that in the live chat as well and that is kind of a prepare and measurement annually as we engage in this multiscale ecoorganizational active inference process of assessing directions looking back upon how we did on them reality ating updating along the way. So that's a little bit about our organizational rhythms and now we'll go into some of the specific updates from the year on each of these institute scale programs. So first in November just a couple weeks ago we had the fifth applied active inference symposium and it was a great time for those who were there. It was the most numbers of presenters that we've had, the most number of hours of content, registrations, uh getting into the more qualitative, some of the best pre-symposium design, publishing, graphic design, the first sponsors financially that we've had for the symposium, and the most engaged and diverse contributions from the co-organizer team. So I think to have a takeaway from this kaleidoscope of 3 days of active inference and little glimpses into the work and research and applications of just a subset of the people working in the field. There's a lot of fractal space for zooming in for lower variance events and resources like a given domain or sector or language or background or etc. Each of these people could have been a center of gravity for a more focused area around their talk. And also that's kind of what generative AI is helping us explore. But in terms of events online and in person, those are the coming together of the attention, not just the describing that you could be in that semantic neighborhood. It highlights this emerging opportunity and need for higher level opinionation or holding or scaffolding of different lanes or zones of research and work like theory, tool development, different domains of active inference and what kinds of spaces and ways for that to all be working in this open science setting that we're in. So there's a GitHub repo, there's a short link that'll take you to see all of the Applied Active Inference Symposium programs over the year. And in terms of ways that you can pick it up from here, it is definitely not too early to start organizing for next year. It is all the more relaxed and chill. Everyone's welcome to join on this co-organizing team. any time zone or or background or way to look at what happened and give your input on how you want to make it better next time. We also have a lot of the input from the public and also the non-public shared information on what participants were interested in, what they'd find helpful and so on. So get in contact with symposium in the subject if you want to get involved on that coorganizing team. And thanks again to the presenters, the sponsors, and the co-organizers. The research fellow roster slightly grew this year. The research fellows are individuals affiliated with the institute. We aim to support and accelerate their work, development, and initiatives. So, previously in the year, Shagger joined as a research fellow. And in this quarter, we're happy to announce that we have two new research fellows, Hongju and Sheila McCrine. So, you can find from this link more about all of the work of these research fellows and their directions and the program has been going for almost 2 years now. So, it's cool to see this incremental growth of all of these awesome research agendas. For those who are interested in this area or this program, consider applying to be a research fellow. We review those applications on a rolling basis and we'll be considering other kinds of fellows like education application uh as it might be in the future. Another option is to join the scientific advisory board to help review and guide these applications and provide mentorship. You can provide targeted donations to the projects of the fellows if they've set that up. And there's a bunch of other ways that someone could contribute their feedback to individual fellows in collaboration and support or at the program level with the institute. And one other highlight to call out, Anna Pereira at the website actin cycle. Her book navigating uncertainty, simple active inference and free energy principles for everyday life has come out this year with a forward from Carl Fristen. So for those who are looking for something readable, explorable, sharable in that sort of a genre, definitely check it out. All right. Partnerships are structured relationships between the institute and other organizations who are looking to make meaningful, visible, custom, impactful contributions to the active inference open source ecosystem. We have three current partners and some in different stages of development and that's first principles first, Newman games and lazy dynamics. So if you are a organization or an advocate or uh connector or network weaver and you want to explore or facilitate a partnership with the institute and other groups on some adjacency or area of alignment definitely get in touch. And this is going to be one of our priorities to version and evolve what we can do and how we set up these partnerships. Okay. Scientific advisory board. This is a informal guidance board and in 2025 was composed by these individuals. So, we'd like to thank over this past quarter and the year all of the roles that SAB members played in their strategic guidance, program development, symposium participation, and most recently providing great reviews for research fellows. If you're interested in providing some scientific insight and being a part of swimming upstream and seeing how you can get involved in different ways, definitely consider applying for the scientific advisory board for next year. The applications are open till the end of the year. So, SAB short link and you'll learn more about these people and about ways that you can apply for next year. And applications are open till December 31st. So you still have time if you're listening to this live right now. Okay. Officers and board of directors are the the formal tactics and strategy and governance of the institute. Alexandra and myself are the officers and we will be continuing on in our positions next year. We'd also like to specially thank the 2025 board which was John Clippinger, Blue Knight, Alex Vatkin, Daniel Freriedman, Mike Smith, and Vladimir Bowen. And we will be providing some information on 2026's board in the coming weeks. So, thanks again to the board. And cool. Lastly, on this institute scale, support of the institute is essential as we build towards a more impactful and sustainable organization. We're a 501c3 nonprofit and you can go to this donate.active.institute link to provide a PayPal donation. You could support through other financial affordances like Substack, YouTube, or you can get involved and help us explore other ways to connect and and make our work more robust and available. Okay, going into a few updates in the education area. edactive. First recapping a bit from the middle of the year, the survival and flourishing fund fund awarded a $270,000 grant to the institute to support work on the AI capabilities and alignment consensus project AICP. This is a big team project where Adam Saffron is the creator, principal investigator, and organizing editor. So check out the AICACP short link to learn more, especially if you're interested in this AI capabilities and alignment topic on the textbook group. The textbook group around the 2022 active inference textbook has been in continuous operation from May 2022, shortly after the book was published on through basically the end of this year. So during this year, cohort 8 completed the book and cohort 9 worked through the first half. Special thanks to Andrew Basha for very skilled and caring facilitation and awesome to see first- timers and returning textbook group people. always interesting discussions and also a good time in the grand scale of things to look towards the textbook groups to come which will be next around this book coming out in March 2026 fundamentals of active inference principles algorithms and applications of the free energy principle for engineers by Sanjie Nam Jooshi so it will be a great textbook group follow the textbook hyphen group short link to register at any time for what we have going on and get your attention allocation ready for the epistemic value of this book to come which is very eagerly awaited and we worked with Sanjieve with a group here in the beta and the versioning of this textbook so it's going to be a great work okay the theoretical neurobiology group TNB B is been hosted at the institute during this year. It is the research discussion and presentation feedback group for Carl Fristen. And there are a bunch of ways that you can engage with this unique and highquality work which is you can go to the TNB short link or find theoretical neurobiology on YouTube where many of the presentations are available shortly after they are carried out and also you can join in and join these meetings actually and it's an awesome opportunity to step in and to get involved and see what it's like real time, ask questions, be a part of the research itself, connect with Fristan at all. There's also going to be some opportunities coming up in the year with adding and checking metadata to integrate the records of the TNB from the years to be integrated with our journal and knowledge infrastructure. So if you're interested in that kind of curation, it is a great way to improve the indexibility of this work. And in production news overall, we did about 72 videos this year overall. And for the coming year, if you have skills or interest in audiovisisual, whether creating new materials, organizing, panel discussions, presentations, any kind of genre, definitely reach out and we can explore how we can include that, make it happen on the YouTube channel in the year to come. All right, some brief research updates. The RX Infur project continued to learn and meet and work with this developing package and ecosystem around RX infer.jl which is now in version 4.6.6 at least in checking recently and thanks to Frasier Patterson for facilitating the meetings in this last interval. So check out the package, learn the topics, learn the background, see the hashtagengineering channel, and there's also a separate discord for RX infer itself. And we look forward to people using this and other frameworks to develop all kinds of different works. Okay, getting to some of the ecosystem projects. Just surfacing a couple of the measurements that were submitted over the last few days and at any time go to measure.active inference. Institute and your updates could also be featured in this way. Okay. Interns Harshel Shaw and Satyaki Mitra reported on their hierarchical active inference system for autonomous drone navigation. You can read the full update here. Intern Ben Scogorn reports, "I started publishing my learnings from this year in a structured way on this website. The focus was on understanding different inference methods and models. Research fellow Jean Francois Clattier reports after presenting at the annual applied active inference symposium, I am back to implementing the presented design. I'm currently coding in multi-threaded prologue the phases a dynam dynamic cognition actor goes through for each time frame of its existence and there's a discord channel with JF discussing this work all the time and research fellow John Boy along with Glenn Repella and Tim Lloyd from the Cognar ecosystem project report back on developments related to a white paper Um so now we look to 2026 uh and consider what here would be of epistemic and pragmatic value for you and what else should we consider and co-explore in the coming chapter. So here's our usual closing slide and here we'll leave it for just a minute on this visualization. a couple of the ways that we're looking about what areas to focus on in the coming year and looking forward to with the BOD and the SAB exploring this a lot more in the coming weeks. So, we'll just review the slides silently flipping back through for our visual colleagues. Meanwhile, write in the chat if you have a comment or a question and then we'll either explore it or close it here. Okay, feel free to continue the discussion in the Discord or comment section, email, however. And thank you all for an awesome year. Till the next one.</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

@@ -2,29 +2,122 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>lab</title>
+    <title>tmpd6z24lhj</title>
 </head>
 <body>
-<h1>Lab: Exploring Systems</h1>
+<h1>Lab: Robotic Systems Architecture and Markov Blankets</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Systems</strong>.</p>
+<p>Analyze a robotic system by identifying its Markov blanket boundaries and mapping the sensor-actuator architecture to Active Inference components. You will decompose a mobile robot into internal states, sensory states, active states, and external states, then evaluate how this decomposition informs system design.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Systems.</li>
+<li>Familiarity with basic robot architectures (sensors, actuators, controllers)</li>
+<li>Understanding of the Markov blanket formalism (internal, external, sensory, active states)</li>
+<li>Basic block diagram or pseudocode skills</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: System Boundary Identification</h2>
+<p>Consider a differential-drive mobile robot equipped with LIDAR, wheel encoders, an IMU, and two DC motors.</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Robotics.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Systems.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Systems (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>Draw or describe a block diagram that partitions the robot into Active Inference state types:</li>
+<li><strong>Internal states</strong>: onboard computation, belief states, generative model parameters</li>
+<li><strong>Sensory states</strong>: LIDAR range measurements, encoder ticks, IMU readings</li>
+<li><strong>Active states</strong>: motor voltage commands, LED indicators</li>
+<li>
+<p><strong>External states</strong>: obstacles, floor surface, ambient lighting</p>
+</li>
+<li>
+<p>For each sensory channel, specify the observation likelihood model p(o|s) in plain language. For example: "LIDAR returns a range measurement corrupted by Gaussian noise with variance proportional to distance."</p>
+</li>
 </ol>
-<h2>Discussion Requirements</h2>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Generative Model Specification</h2>
+<p>Design a simplified generative model for the robot's position estimation:</p>
+<ol>
+<li>Define the hidden state vector (e.g., x, y, theta).</li>
+<li>Write the state transition model as a difference equation: x_{t+1} = f(x_t, u_t) + w_t.</li>
+<li>Write the observation model for at least two sensor modalities: z_t = h(x_t) + v_t.</li>
+<li>Specify reasonable noise covariance matrices Q (process) and R (observation).</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Sensor Fusion via Free Energy Minimization</h2>
+<p>Compare two approaches to fusing LIDAR and encoder data:</p>
+<ol>
+<li><strong>Classical approach</strong>: Describe how an Extended Kalman Filter would fuse these measurements.</li>
+<li><strong>Active Inference approach</strong>: Describe how variational free energy minimization over the generative model achieves the same fusion, emphasizing the role of precision weighting.</li>
+<li>Under what conditions would the Active Inference approach weight LIDAR more heavily than encoders? When would it do the opposite?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Architecture Trade-offs</h2>
+<p>Evaluate the following design decisions through the lens of Active Inference:</p>
+<ol>
+<li>Adding a camera to the sensor suite: How does this change the generative model complexity? What is the trade-off between model accuracy and computational cost (model complexity term in free energy)?</li>
+<li>Replacing DC motors with stepper motors: How does increased actuator precision affect the active states and the expected free energy of actions?</li>
+<li>Moving computation from an onboard microcontroller to a cloud server: How does communication latency affect the temporal depth of the generative model?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Pseudocode Design</h2>
+<p>Write pseudocode for a single perception-action cycle of your robot system:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">active_inference_step</span><span class="p">(</span>belief, observation, model<span class="p">):</span>
+<span class="w">    </span>#<span class="w"> </span><span class="n">Step</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w"> </span><span class="n">Prediction</span><span class="w"> </span><span class="nb">error</span>
+<span class="w">    </span>#<span class="w"> </span><span class="n">Step</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span><span class="w"> </span><span class="n">Belief</span><span class="w"> </span><span class="nb">update</span><span class="w"> </span><span class="p">(</span><span class="n">perception</span><span class="p">)</span>
+<span class="w">    </span>#<span class="w"> </span><span class="n">Step</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span><span class="w"> </span><span class="n">Action</span><span class="w"> </span><span class="n">selection</span><span class="w"> </span><span class="p">(</span><span class="n">minimize</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="n">energy</span><span class="p">)</span>
+<span class="w">    </span>#<span class="w"> </span><span class="n">Step</span><span class="w"> </span><span class="mi">4</span><span class="p">:</span><span class="w"> </span><span class="nb">Execute</span><span class="w"> </span><span class="n">action</span>
+<span class="w">    </span>#<span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">updated</span><span class="w"> </span><span class="n">belief</span>
+</code></pre></div>
+
+<p>Fill in each step with operations specific to your differential-drive robot scenario.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Classical Robotics Term</th>
+<th>Active Inference Term</th>
+<th>Your Robot Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sensors</td>
+<td>Observation model</td>
+<td>Likelihood mapping</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Actuators</td>
+<td>Control input</td>
+<td>Active states</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Controller</td>
+<td>State estimator + planner</td>
+<td>Free energy minimization</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>World model</td>
+<td>Dynamics model</td>
+<td>Generative model</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Noise handling</td>
+<td>Kalman gain</td>
+<td>Precision weighting</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
 <ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Systems.</li>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press, Chapters 2-3.</li>
 </ul>
 </body>
 </html>

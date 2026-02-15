@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,545 +15,238 @@
             --muted: #94a3b8;
             --dim: #64748b;
             --green: #22c55e;
-            --red: #ef4444
+            --red: #ef4444;
         }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box
-        }
+        /* Hero */
+        .hero { background:linear-gradient(135deg, #6366f1, #a855f7); padding:48px 24px 36px; text-align:center; }
+        .hero h1 { font-size:2rem; color:#fff; margin-bottom:8px; }
+        .hero .sub { font-size:1.1rem; color:rgba(255,255,255,.85); margin-bottom:12px; }
+        .hero .tag { display:inline-block; background:rgba(255,255,255,.2); color:#fff; padding:4px 14px; border-radius:20px; font-size:.8rem; backdrop-filter:blur(4px); }
 
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6
-        }
+        /* Nav */
+        .nav { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; padding:14px 24px; background:#1a2332; border-bottom:1px solid var(--border); }
+        .nav a { color:var(--muted); text-decoration:none; font-size:.85rem; padding:6px 14px; border:1px solid var(--border); border-radius:8px; transition:all .2s; }
+        .nav a:hover,.nav a.active { color:var(--accent); border-color:var(--accent); background:var(--accent-glow); }
 
-        .hero {
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            padding: 48px 24px 36px;
-            text-align: center
-        }
+        .content { max-width:1100px; margin:0 auto; padding:24px; }
+        .stitle { color:var(--accent); font-size:1.25rem; margin:32px 0 16px; padding-bottom:8px; border-bottom:2px solid var(--border); }
+        .stitle:first-child { margin-top:0; }
 
-        .hero h1 {
-            font-size: 2rem;
-            color: #fff;
-            margin-bottom: 8px
-        }
+        /* Cards */
+        .cgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+        .concept-card { background:var(--card); padding:20px; border-radius:12px; border:1px solid var(--border); cursor:pointer; transition:transform .2s,border-color .2s; }
+        .concept-card:hover { transform:translateY(-2px); border-color:var(--accent); }
+        .concept-card h3 { display:flex; justify-content:space-between; align-items:center; font-size:1rem; margin-bottom:8px; }
+        .concept-card h3 .toggle { font-size:1.2rem; color:var(--dim); transition:transform .3s; }
+        .concept-card.open h3 .toggle { transform:rotate(45deg); }
+        .concept-card .brief { color:var(--muted); font-size:.9rem; }
+        .concept-card .detail { display:none; color:var(--muted); font-size:.85rem; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); line-height:1.7; }
+        .concept-card.open .detail { display:block; }
+        .meter { background:var(--border); border-radius:8px; height:6px; overflow:hidden; margin-top:14px; }
+        .meter-fill { height:100%; border-radius:8px; background:linear-gradient(90deg,var(--accent),#38bdf888); transition:width 1s ease; }
+        .meter-label { color:var(--dim); font-size:.7rem; margin-top:4px; }
 
-        .hero .sub {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, .85);
-            margin-bottom: 12px
-        }
+        /* Quiz */
+        .quiz-box { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .qprog { color:var(--dim); font-size:.85rem; margin-bottom:12px; }
+        .qq { font-size:1rem; margin-bottom:16px; font-weight:500; }
+        .qbtn { background:rgba(255,255,255,.03); color:var(--text); border:1px solid var(--border); padding:12px 16px; border-radius:10px; cursor:pointer; display:block; width:100%; text-align:left; margin:6px 0; transition:all .2s; font-size:.9rem; }
+        .qbtn:hover:not(:disabled) { background:rgba(255,255,255,.08); border-color:var(--accent); }
+        .qbtn.correct { background:#166534; border-color:var(--green); color:#bbf7d0; }
+        .qbtn.wrong { background:#7f1d1d; border-color:var(--red); color:#fecaca; }
+        .qbtn:disabled { cursor:default; opacity:.85; }
+        .qexp { margin-top:12px; padding:12px; border-radius:10px; font-size:.9rem; display:none; animation:fadeIn .3s; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+        .qnav { display:flex; gap:8px; margin-top:16px; }
+        .qnav button { background:rgba(255,255,255,.05); color:var(--text); border:1px solid var(--border); padding:8px 18px; border-radius:8px; cursor:pointer; transition:all .2s; font-size:.85rem; }
+        .qnav button:hover:not(:disabled) { border-color:var(--accent); color:var(--accent); }
+        .qnav button:disabled { opacity:.3; cursor:default; }
+        #score-box { display:none; margin-top:16px; padding:20px; background:rgba(0,0,0,.2); border-radius:12px; text-align:center; animation:fadeIn .5s; }
 
-        .hero .tag {
-            display: inline-block;
-            background: rgba(255, 255, 255, .2);
-            color: #fff;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: .8rem;
-            backdrop-filter: blur(4px)
-        }
+        /* Checklist */
+        .cklist { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .cklist label { display:flex; align-items:flex-start; gap:10px; padding:8px 0; color:var(--muted); font-size:.9rem; cursor:pointer; transition:color .2s; }
+        .cklist label:hover { color:var(--text); }
+        .cklist input[type=checkbox] { margin-top:3px; accent-color:var(--accent); width:18px; height:18px; flex-shrink:0; }
+        .cklist .done { color:var(--accent); text-decoration:line-through; opacity:.7; }
+        .pbar { background:var(--border); border-radius:8px; height:8px; overflow:hidden; margin-top:16px; }
+        .pfill { height:100%; border-radius:8px; background:var(--accent); transition:width .5s ease; width:0; }
+        .ptxt { color:var(--dim); font-size:.8rem; margin-top:6px; }
 
-        .nav {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            flex-wrap: wrap;
-            padding: 14px 24px;
-            background: #1a2332;
-            border-bottom: 1px solid var(--border)
-        }
+        /* Module nav */
+        .mnav { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
+        .mgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
+        .module-link { display:block; padding:14px; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:var(--muted); text-decoration:none; font-size:.85rem; transition:all .2s; }
+        .module-link:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
+        .module-link.current { border-color:var(--accent); background:var(--accent-glow); }
+        .module-link strong { display:block; color:var(--text); margin-bottom:2px; font-size:.9rem; }
+        .module-link.current strong { color:var(--accent); }
 
-        .nav a {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: .85rem;
-            padding: 6px 14px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            transition: all .2s
-        }
-
-        .nav a:hover,
-        .nav a.active {
-            color: var(--accent);
-            border-color: var(--accent);
-            background: var(--accent-glow)
-        }
-
-        .content {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 24px
-        }
-
-        .stitle {
-            color: var(--accent);
-            font-size: 1.25rem;
-            margin: 32px 0 16px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--border)
-        }
-
-        .stitle:first-child {
-            margin-top: 0
-        }
-
-        .cgrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 16px
-        }
-
-        .concept-card {
-            background: var(--card);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: transform .2s, border-color .2s
-        }
-
-        .concept-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent)
-        }
-
-        .concept-card h3 {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1rem;
-            margin-bottom: 8px
-        }
-
-        .concept-card h3 .toggle {
-            font-size: 1.2rem;
-            color: var(--dim);
-            transition: transform .3s
-        }
-
-        .concept-card.open h3 .toggle {
-            transform: rotate(45deg)
-        }
-
-        .concept-card .brief {
-            color: var(--muted);
-            font-size: .9rem
-        }
-
-        .concept-card .detail {
-            display: none;
-            color: var(--muted);
-            font-size: .85rem;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
-            line-height: 1.7
-        }
-
-        .concept-card.open .detail {
-            display: block
-        }
-
-        .meter {
-            background: var(--border);
-            border-radius: 8px;
-            height: 6px;
-            overflow: hidden;
-            margin-top: 14px
-        }
-
-        .meter-fill {
-            height: 100%;
-            border-radius: 8px;
-            background: linear-gradient(90deg, var(--accent), #38bdf888);
-            transition: width 1s ease
-        }
-
-        .meter-label {
-            color: var(--dim);
-            font-size: .7rem;
-            margin-top: 4px
-        }
-
-        .quiz-box {
-            background: var(--card);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border)
-        }
-
-        .qprog {
-            color: var(--dim);
-            font-size: .85rem;
-            margin-bottom: 12px
-        }
-
-        .qq {
-            font-size: 1rem;
-            margin-bottom: 16px;
-            font-weight: 500
-        }
-
-        .qbtn {
-            background: rgba(255, 255, 255, .03);
-            color: var(--text);
-            border: 1px solid var(--border);
-            padding: 12px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: block;
-            width: 100%;
-            text-align: left;
-            margin: 6px 0;
-            transition: all .2s;
-            font-size: .9rem
-        }
-
-        .qbtn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, .08);
-            border-color: var(--accent)
-        }
-
-        .qbtn.correct {
-            background: #166534;
-            border-color: var(--green);
-            color: #bbf7d0
-        }
-
-        .qbtn.wrong {
-            background: #7f1d1d;
-            border-color: var(--red);
-            color: #fecaca
-        }
-
-        .qbtn:disabled {
-            cursor: default;
-            opacity: .85
-        }
-
-        .qexp {
-            margin-top: 12px;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: .9rem;
-            display: none;
-            animation: fadeIn .3s
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(4px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0)
-            }
-        }
-
-        .qnav {
-            display: flex;
-            gap: 8px;
-            margin-top: 16px
-        }
-
-        .qnav button {
-            background: rgba(255, 255, 255, .05);
-            color: var(--text);
-            border: 1px solid var(--border);
-            padding: 8px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all .2s;
-            font-size: .85rem
-        }
-
-        .qnav button:hover:not(:disabled) {
-            border-color: var(--accent);
-            color: var(--accent)
-        }
-
-        .qnav button:disabled {
-            opacity: .3;
-            cursor: default
-        }
-
-        #score-box {
-            display: none;
-            margin-top: 16px;
-            padding: 20px;
-            background: rgba(0, 0, 0, .2);
-            border-radius: 12px;
-            text-align: center;
-            animation: fadeIn .5s
-        }
-
-        .cklist {
-            background: var(--card);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border)
-        }
-
-        .cklist label {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 8px 0;
-            color: var(--muted);
-            font-size: .9rem;
-            cursor: pointer;
-            transition: color .2s
-        }
-
-        .cklist label:hover {
-            color: var(--text)
-        }
-
-        .cklist input[type=checkbox] {
-            margin-top: 3px;
-            accent-color: var(--accent);
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0
-        }
-
-        .cklist .done {
-            color: var(--accent);
-            text-decoration: line-through;
-            opacity: .7
-        }
-
-        .pbar {
-            background: var(--border);
-            border-radius: 8px;
-            height: 8px;
-            overflow: hidden;
-            margin-top: 16px
-        }
-
-        .pfill {
-            height: 100%;
-            border-radius: 8px;
-            background: var(--accent);
-            transition: width .5s ease;
-            width: 0
-        }
-
-        .ptxt {
-            color: var(--dim);
-            font-size: .8rem;
-            margin-top: 6px
-        }
-
-        .mnav {
-            background: var(--card);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border)
-        }
-
-        .mgrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 10px
-        }
-
-        .module-link {
-            display: block;
-            padding: 14px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--muted);
-            text-decoration: none;
-            font-size: .85rem;
-            transition: all .2s
-        }
-
-        .module-link:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-1px)
-        }
-
-        .module-link.current {
-            border-color: var(--accent);
-            background: var(--accent-glow)
-        }
-
-        .module-link strong {
-            display: block;
-            color: var(--text);
-            margin-bottom: 2px;
-            font-size: .9rem
-        }
-
-        .module-link.current strong {
-            color: var(--accent)
-        }
-
-        footer {
-            margin-top: 48px;
-            padding: 24px;
-            text-align: center;
-            color: var(--dim);
-            font-size: .8rem;
-            border-top: 1px solid var(--border)
-        }
-
-        @media(max-width:600px) {
-            .hero h1 {
-                font-size: 1.5rem
-            }
-
-            .cgrid,
-            .mgrid {
-                grid-template-columns: 1fr
-            }
-
-            .content {
-                padding: 16px
-            }
-        }
+        footer { margin-top:48px; padding:24px; text-align:center; color:var(--dim); font-size:.8rem; border-top:1px solid var(--border); }
+        @media(max-width:600px) { .hero h1{font-size:1.5rem;} .cgrid,.mgrid{grid-template-columns:1fr;} .content{padding:16px;} }
     </style>
 </head>
-
 <body>
     <div class="hero">
-        <h1>Module 02: Agents — The Performer's Archetypes</h1>
-        <p class="sub">Straight Man & Comic as Functional Roles</p>
+        <h1>Module 02: Agents in Straight &amp; Setup</h1>
+        <p class="sub">Applications</p>
         <span class="tag">Active Inference Comedy — Straight And Setup</span>
     </div>
-    <nav class="nav"><a href="module.md">Lecture</a><a href="questions.md">Questions</a><a
-            href="practice_quiz.md">Quiz</a><a href="lab.md">Lab</a><a class="active" href="#">Dashboard</a></nav>
+
+    <nav class="nav">
+        <a href="module.md">Lecture</a>
+        <a href="questions.md">Questions</a>
+        <a href="practice_quiz.md">Quiz</a>
+        <a href="lab.md">Lab</a>
+        <a class="active" href="#">Dashboard</a>
+    </nav>
+
     <div class="content">
         <h2 class="stitle">Key Concepts</h2>
         <div class="cgrid">
-            <div class="concept-card">
-                <h3>The Straight Man's Discipline <span class="toggle">+</span></h3>
-                <p class="brief">Holding the model with iron certainty while the world goes mad. Abbott maintains
-                    sky-high precision on his priors, suppressing every natural tendency to accommodate or clarify. This
-                    is cognitive discipline of a high order.</p>
-                <div class="detail">
-                    <p>The straight man's role is defined by sustained precision maintenance against social pressure to
-                        adapt — many actors describe it as harder than the comic's role.</p>
-                </div>
-                <div class="meter">
-                    <div class="meter-fill" style="width:95%"></div>
-                </div>
-                <p class="meter-label">Centrality to module</p>
-            </div>
-            <div class="concept-card">
-                <h3>The Comic's Rapid Inference <span class="toggle">+</span></h3>
-                <p class="brief">Costello runs a volatile, rapidly-updating generative model while simultaneously
-                    performing its output (confusion, frustration, bewilderment) with precise timing. The chaos is
-                    controlled chaos.</p>
-                <div class="detail">
-                    <p>The comic must rapidly generate plausible interpretations, express genuine confusion, escalate
-                        emotionally, and respond to audience reactions — all in real time.</p>
-                </div>
-                <div class="meter">
-                    <div class="meter-fill" style="width:90%"></div>
-                </div>
-                <p class="meter-label">Centrality to module</p>
-            </div>
-            <div class="concept-card">
-                <h3>The Coupled Agent System <span class="toggle">+</span></h3>
-                <p class="brief">Abbott and Costello share a meta-model invisible to the audience. Their coupling is
-                    maintained through micro-signals: timing adjustments, eye contact, breath coordination — a private
-                    communication channel.</p>
-                <div class="detail">
-                    <p>Both performers know the names, the structure, and where the laughs should come. This shared
-                        knowledge operates behind the Markov blanket of character.</p>
-                </div>
-                <div class="meter">
-                    <div class="meter-fill" style="width:85%"></div>
-                </div>
-                <p class="meter-label">Centrality to module</p>
-            </div>
-            <div class="concept-card">
-                <h3>Solo Performers as Internal Duos <span class="toggle">+</span></h3>
-                <p class="brief">A solo stand-up comedian embodies both roles — narrating as the straight man, acting
-                    out as the comic. The switch between roles is a switch between precision profiles.</p>
-                <div class="detail">
-                    <p>The audience tracks both archetypes within a single performer, creating a dynamic internal
-                        dialogue.</p>
-                </div>
-                <div class="meter">
-                    <div class="meter-fill" style="width:65%"></div>
-                </div>
-                <p class="meter-label">Centrality to module</p>
-            </div>
+<p style="color:#94a3b8">No key concepts defined for this module.</p>
         </div>
+
         <h2 class="stitle">Self-Assessment Quiz</h2>
         <div class="quiz-box">
-            <div class="qprog" id="qprog">Question 1 of 7</div>
+            <div class="qprog" id="qprog">Question 1 of 2</div>
             <div id="qc"></div>
-            <div class="qnav"><button id="pbtn" onclick="prevQ()" disabled>&larr; Previous</button><button id="nbtn"
-                    onclick="nextQ()">Next &rarr;</button></div>
+            <div class="qnav">
+                <button id="pbtn" onclick="prevQ()" disabled>&larr; Previous</button>
+                <button id="nbtn" onclick="nextQ()">Next &rarr;</button>
+            </div>
             <div id="score-box"></div>
         </div>
+
         <h2 class="stitle">Learning Objectives</h2>
         <div class="cklist" id="cklist">
-            <label><input type="checkbox"> Understand the straight man and the comic as agent archetypes from the
-                performer's perspective.</label>
-            <label><input type="checkbox"> Apply Active Inference concepts to the lived experience of comedy
-                performance.</label>
-            <label><input type="checkbox"> Connect agents theory to practical performance craft.</label>
-            <div class="pbar">
-                <div class="pfill" id="pfill"></div>
-            </div>
+<label><input type="checkbox"> Understand the straight man and the comic as agent archetypes from the performer&#x27;s perspective.</label>
+<label><input type="checkbox"> Apply Active Inference concepts to the lived experience of comedy performance.</label>
+<label><input type="checkbox"> Connect agents theory to practical performance craft.</label>
+            <div class="pbar"><div class="pfill" id="pfill"></div></div>
             <p class="ptxt" id="ptxt">0 of 3 complete</p>
         </div>
+
         <h2 class="stitle">Module Navigation</h2>
         <div class="mnav">
             <div class="mgrid">
-                <a class="module-link" href="../01_systems/dashboard.html"><strong>Module 01: Systems</strong>Inside the
-                    Performance</a>
-                <a class="module-link current" href="#"><strong>Module 02: Agents</strong>Straight Man & Comic
-                    Archetypes</a>
-                <a class="module-link" href="../03_perception/dashboard.html"><strong>Module 03:
-                        Perception</strong>Reading the Room</a>
-                <a class="module-link" href="../04_cognition/dashboard.html"><strong>Module 04: Cognition</strong>The
-                    Dual-Track Mind</a>
-                <a class="module-link" href="../05_action/dashboard.html"><strong>Module 05: Action</strong>Embodied
-                    Delivery</a>
-                <a class="module-link" href="../06_learning/dashboard.html"><strong>Module 06: Learning</strong>Building
-                    Through Rehearsal</a>
-                <a class="module-link" href="../07_communication/dashboard.html"><strong>Module 07:
-                        Communication</strong>The Multi-Channel Toolkit</a>
-                <a class="module-link" href="../08_planning/dashboard.html"><strong>Module 08: Planning</strong>Building
-                    a Set</a>
+<a class="module-link" href="../01_systems/dashboard.html"><strong>Module 01: Systems</strong>Module 01: Systems in Straight &amp; Setup</a>
+<a class="module-link current" href="#"><strong>Module 02: Agents</strong>Module 02: Agents in Straight &amp; Setup</a>
+<a class="module-link" href="../03_perception/dashboard.html"><strong>Module 03: Perception</strong>Module 03: Perception in Straight &amp; Setup</a>
+<a class="module-link" href="../04_cognition/dashboard.html"><strong>Module 04: Cognition</strong>Module 04: Cognition in Straight &amp; Setup</a>
+<a class="module-link" href="../05_action/dashboard.html"><strong>Module 05: Action</strong>Module 05: Action in Straight &amp; Setup</a>
+<a class="module-link" href="../06_learning/dashboard.html"><strong>Module 06: Learning</strong>Module 06: Learning in Straight &amp; Setup</a>
+<a class="module-link" href="../07_communication/dashboard.html"><strong>Module 07: Communication</strong>Module 07: Communication in Straight &amp; Setup</a>
+<a class="module-link" href="../08_planning/dashboard.html"><strong>Module 08: Planning</strong>Module 08: Planning in Straight &amp; Setup</a>
             </div>
         </div>
     </div>
+
     <footer>Active Inference Institute &mdash; Active Inference Comedy — Straight And Setup — Module 02: Agents</footer>
+
     <script>
-        document.querySelectorAll('.concept-card').forEach(function (c) { c.addEventListener('click', function () { c.classList.toggle('open'); }); });
-        var Q = [{ "q": "The straight man's defining cognitive feature is:", "opts": ["Confusion and rapid model updating", "Sustained high precision on priors, resisting accommodation", "Ignoring the audience entirely", "Memorizing more lines than the comic"], "correct": 1, "explain": "The straight man maintains sky-high precision on his priors, suppressing every natural tendency to accommodate the other speaker's confusion." }, { "q": "The comic's 'apparent confusion' is best described as:", "opts": ["Genuine inability to understand", "Controlled computation — running a volatile model while performing its output", "A lack of rehearsal", "An accident the audience misinterprets"], "correct": 1, "explain": "The comic runs a volatile, rapidly-updating generative model while simultaneously performing confusion with precise timing." }, { "q": "The shared 'meta-model' between performers:", "opts": ["Is visible to the audience through dialogue", "Operates behind the Markov blanket of character, invisible to audience", "Is unnecessary if well-rehearsed", "Only exists in improvisation"], "correct": 1, "explain": "Both performers share knowledge of the routine's structure that operates behind the character's Markov blanket — the audience cannot see it but can feel its effects." }, { "q": "Micro-signals between performers cross:", "opts": ["The performer-audience blanket", "A private inter-performer blanket invisible to the audience", "No boundary at all", "The venue's Markov blanket"], "correct": 1, "explain": "Micro-signals (timing adjustments, eye contact, breath coordination) cross a private blanket between performers that the audience cannot see." }, { "q": "A solo comedian switching between narrator and character is:", "opts": ["Performing two shows simultaneously", "Embodying both archetypes — switching between precision profiles", "Breaking the fourth wall", "Using a teleprompter"], "correct": 1, "explain": "Solo comedians embody both the straight man and comic archetypes, switching between precision profiles within a single performance." }, { "q": "'Corpsing' occurs when:", "opts": ["The audience stops laughing", "The performer's meta-model breaches the character's Markov blanket", "The straight man becomes the comic", "The routine reaches its planned conclusion"], "correct": 1, "explain": "Corpsing is a meta-model breach — the performer's genuine amusement leaks through the character's boundary, revealing the hidden dual-track structure." }, { "q": "A primary learning goal of this module is to:", "opts": ["Understand the straight man and comic as agent archetypes from the performer's perspective", "Memorize Abbott and Costello's biography", "Learn to write scripts", "Study audience demographics"], "correct": 0, "explain": "This module examines the straight man and comic as functional agent roles defined by precision profiles, action policies, and coupling dynamics." }];
-        var ci = 0, ans = new Array(Q.length).fill(null), sc = 0;
-        function renderQ() { var q = Q[ci], done = ans[ci] !== null; var h = '<p class="qq"><strong>Q' + (ci + 1) + '.</strong> ' + q.q + '</p>'; q.opts.forEach(function (o, i) { var c = 'qbtn'; if (done) { if (i === q.correct) c += ' correct'; else if (i === ans[ci]) c += ' wrong'; } h += '<button class="' + c + '" onclick="pickA(' + i + ')" ' + (done ? 'disabled' : '') + '>' + String.fromCharCode(65 + i) + ') ' + o + '</button>'; }); if (done) { var ok = ans[ci] === q.correct; h += '<div class="qexp" style="display:block;background:' + (ok ? '#166534' : '#7f1d1d') + ';">' + (ok ? 'Correct! ' : 'Incorrect. ') + q.explain + '</div>'; } document.getElementById('qc').innerHTML = h; document.getElementById('qprog').textContent = 'Question ' + (ci + 1) + ' of ' + Q.length; document.getElementById('pbtn').disabled = ci === 0; document.getElementById('nbtn').textContent = ci === Q.length - 1 ? 'See Score' : 'Next \u2192'; }
-        function pickA(i) { if (ans[ci] !== null) return; ans[ci] = i; if (i === Q[ci].correct) sc++; renderQ(); }
-        function nextQ() { if (ci < Q.length - 1) { ci++; renderQ(); } else { var pct = Math.round(sc / Q.length * 100); var d = document.getElementById('score-box'); d.style.display = 'block'; d.innerHTML = '<h3 style="color:' + (pct >= 60 ? 'var(--green)' : 'var(--red)') + '">' + sc + '/' + Q.length + ' (' + pct + '%)</h3><p style="color:var(--muted);margin-top:8px">' + (pct >= 80 ? 'Excellent understanding!' : pct >= 60 ? 'Good foundation. Review missed concepts.' : 'Consider re-reading the module.') + '</p>'; } }
-        function prevQ() { if (ci > 0) { ci--; renderQ(); } }
-        var SK = 'ai_comedy_straight_setup_02_agents', QK = SK + '_quiz';
-        function initCL() { var saved = JSON.parse(localStorage.getItem(SK) || '[]'); var boxes = document.querySelectorAll('#cklist input[type=checkbox]'); boxes.forEach(function (cb, i) { if (saved[i]) cb.checked = true; if (cb.checked) cb.parentElement.classList.add('done'); cb.addEventListener('change', function () { cb.parentElement.classList.toggle('done', cb.checked); saveCL(); updProg(); }); }); updProg(); }
-        function saveCL() { var boxes = document.querySelectorAll('#cklist input[type=checkbox]'); localStorage.setItem(SK, JSON.stringify(Array.from(boxes).map(function (c) { return c.checked; }))); }
-        function updProg() { var boxes = document.querySelectorAll('#cklist input[type=checkbox]'); var n = boxes.length, done = Array.from(boxes).filter(function (c) { return c.checked; }).length; document.getElementById('pfill').style.width = (n ? done / n * 100 : 0) + '%'; document.getElementById('ptxt').textContent = done + ' of ' + n + ' complete'; }
-        function saveQuiz() { localStorage.setItem(QK, JSON.stringify({ ci: ci, ans: ans, sc: sc })); }
-        function loadQuiz() { try { var d = JSON.parse(localStorage.getItem(QK)); if (d && d.ans && d.ans.length === Q.length) { ci = d.ci || 0; ans = d.ans; sc = d.sc || 0; } } catch (e) { } }
-        var _origPickA = pickA; pickA = function (i) { _origPickA(i); saveQuiz(); };
-        document.addEventListener('DOMContentLoaded', function () { document.querySelectorAll('.meter-fill').forEach(function (f) { var w = f.style.width; f.style.width = '0%'; setTimeout(function () { f.style.width = w; }, 200); }); loadQuiz(); renderQ(); initCL(); });
+    /* Concept cards */
+    document.querySelectorAll('.concept-card').forEach(function(c){
+        c.addEventListener('click',function(){c.classList.toggle('open');});
+    });
+
+    /* Quiz engine */
+    var Q=[{"q": "A primary learning goal of this module is to:", "opts": ["Review content from a completely different subject area.", "Understand the straight man and the comic as agent archetypes from the performer's perspective.", "Skip foundational concepts and focus only on advanced material.", "Memorize all definitions without applying them to real situations."], "correct": 1, "explain": "This module focuses on: Understand the straight man and the comic as agent archetypes from the performer's perspective."}, {"q": "By the end of this module you should also be able to:", "opts": ["Watch videos without taking notes or reflecting.", "Connect agents theory to practical performance craft.", "Repeat previous module content without new application.", "Complete unrelated worksheets for extra credit."], "correct": 1, "explain": "Another key goal: Connect agents theory to practical performance craft."}];
+    var ci=0,ans=new Array(Q.length).fill(null),sc=0;
+
+    function renderQ(){
+        var q=Q[ci],done=ans[ci]!==null;
+        var h='<p class="qq"><strong>Q'+(ci+1)+'.</strong> '+q.q+'</p>';
+        q.opts.forEach(function(o,i){
+            var c='qbtn';
+            if(done){if(i===q.correct)c+=' correct';else if(i===ans[ci])c+=' wrong';}
+            h+='<button class="'+c+'" onclick="pickA('+i+')" '+(done?'disabled':'')+'>'+String.fromCharCode(65+i)+') '+o+'</button>';
+        });
+        if(done){
+            var ok=ans[ci]===q.correct;
+            h+='<div class="qexp" style="display:block;background:'+(ok?'#166534':'#7f1d1d')+';">'+(ok?'Correct! ':'Incorrect. ')+q.explain+'</div>';
+        }
+        document.getElementById('qc').innerHTML=h;
+        document.getElementById('qprog').textContent='Question '+(ci+1)+' of '+Q.length;
+        document.getElementById('pbtn').disabled=ci===0;
+        document.getElementById('nbtn').textContent=ci===Q.length-1?'See Score':'Next \u2192';
+    }
+
+    function pickA(i){
+        if(ans[ci]!==null)return;
+        ans[ci]=i;
+        if(i===Q[ci].correct)sc++;
+        renderQ();
+    }
+
+    function nextQ(){
+        if(ci<Q.length-1){ci++;renderQ();}
+        else{
+            var pct=Math.round(sc/Q.length*100);
+            var d=document.getElementById('score-box');
+            d.style.display='block';
+            d.innerHTML='<h3 style="color:'+(pct>=60?'var(--green)':'var(--red)')+'">'+sc+'/'+Q.length+' ('+pct+'%)</h3><p style="color:var(--muted);margin-top:8px">'+(pct>=80?'Excellent understanding of the material!':pct>=60?'Good foundation. Review the concepts you missed.':'Consider re-reading the module before moving on.')+'</p>';
+        }
+    }
+
+    function prevQ(){if(ci>0){ci--;renderQ();}}
+
+    /* Checklist with localStorage */
+    var SK='ai_active_inference_comedy_straight_and_setup_02_agents';
+    var QK=SK+'_quiz';
+    function initCL(){
+        var saved=JSON.parse(localStorage.getItem(SK)||'[]');
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        boxes.forEach(function(cb,i){
+            if(saved[i])cb.checked=true;
+            if(cb.checked)cb.parentElement.classList.add('done');
+            cb.addEventListener('change',function(){
+                cb.parentElement.classList.toggle('done',cb.checked);
+                saveCL();updProg();
+            });
+        });
+        updProg();
+    }
+    function saveCL(){
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        localStorage.setItem(SK,JSON.stringify(Array.from(boxes).map(function(c){return c.checked;})));
+    }
+    function updProg(){
+        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
+        var n=boxes.length,done=Array.from(boxes).filter(function(c){return c.checked;}).length;
+        document.getElementById('pfill').style.width=(n?done/n*100:0)+'%';
+        document.getElementById('ptxt').textContent=done+' of '+n+' complete';
+    }
+
+    /* Quiz persistence */
+    function saveQuiz(){
+        localStorage.setItem(QK,JSON.stringify({ci:ci,ans:ans,sc:sc}));
+    }
+    function loadQuiz(){
+        try{
+            var d=JSON.parse(localStorage.getItem(QK));
+            if(d&&d.ans&&d.ans.length===Q.length){
+                ci=d.ci||0;ans=d.ans;sc=d.sc||0;
+            }
+        }catch(e){}
+    }
+    /* Patch pickA to persist */
+    var _origPickA=pickA;
+    pickA=function(i){_origPickA(i);saveQuiz();};
+
+    /* Init */
+    document.addEventListener('DOMContentLoaded',function(){
+        document.querySelectorAll('.meter-fill').forEach(function(f){
+            var w=f.style.width;f.style.width='0%';
+            setTimeout(function(){f.style.width=w;},200);
+        });
+        loadQuiz();
+        renderQ();
+        initCL();
+    });
     </script>
 </body>
-
 </html>

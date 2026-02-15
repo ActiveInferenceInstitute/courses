@@ -1,23 +1,58 @@
-# Lab: Exploring Cognition
+# Lab: The Body Thinks Too
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Cognition**.
+Explore embodied cognition through mindfulness practice that reveals how bodily states shape thinking, decision-making, and understanding through the lens of breath, heartbeat, embodied being.
 
 ## Prerequisites
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Cognition.
+- A quiet, comfortable space for 25 minutes
+- Willingness to engage in mindfulness practice
+- No prior experience required
 
-## Steps
+## Part 1: Arriving (5 minutes)
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Embodied.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Cognition.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Cognition (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+Sit comfortably and close your eyes. Take three slow breaths, letting each exhale be longer than the inhale. Bring your attention to the natural rhythm of your breathing without trying to change it.
 
-## Discussion Requirements
+Notice: you are thinking right now. But where is the thinking happening? Is it only in your head? Scan your body for signs of cognitive activity -- tension in the forehead, a feeling in the gut, the hands wanting to gesture.
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Cognition.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(Where in your body do you notice thinking happening? What is the bodily quality of your current thoughts?)
+
+## Part 2: Somatic Markers (7 minutes)
+
+Think of a decision you are facing. Through breath, heartbeat, embodied being, bring one option to mind and scan your body. Notice the felt response -- openness or constriction, warmth or coolness, ease or tension. Now bring the other option to mind. What shifts?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(Describe the bodily responses to each option. Did your body have a preference before your mind decided?)
+
+## Part 3: Posture and Thought (7 minutes)
+
+Explore how the body's position shapes cognition. Try thinking in a slumped posture versus an upright one versus while moving. Through breath, heartbeat, embodied being, notice how each configuration changes the quality of your thinking.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(How did posture and movement affect your thinking? What does this reveal about the body's role in cognition?)
+
+## Part 4: Reflection (5 minutes)
+
+Through breath, heartbeat, embodied being, reflect on the relationship between body and mind.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(How does this lab change your understanding of where thinking happens? How is embodied cognition different from brain-only cognition?)
+
+## Reflection Table
+
+| Dimension | What I Noticed | Active Inference Connection |
+| --- | --- | --- |
+| Initial awareness | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Baseline generative model state |
+| Embodied exploration | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Prediction error through direct experience |
+| Breath, heartbeat, embodied being lens | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Course-specific perspective on cognition |
+| Integration | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Updated understanding through bodily knowing |
+
+## Discussion
+
+Consider how breath, heartbeat, embodied being reveals aspects of cognition that other perspectives might miss. In Active Inference, every perspective changes the precision weighting of different signals, revealing different dimensions of the same underlying process of free energy minimization.

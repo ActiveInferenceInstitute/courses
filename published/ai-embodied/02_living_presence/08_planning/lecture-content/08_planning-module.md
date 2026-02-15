@@ -1,52 +1,61 @@
-# Module 08: Planning in Embodied
+# Module 08: Planning — Embodied Anticipation and the Wisdom of Presence
 
 ## Learning Objectives
 
-1.  Define **Planning** within the context of Embodied.
-2.  Analyze how Planning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Embodied to the formal definition of Planning.
+1. Define **planning** as the generative model's capacity to simulate future states and select policies, understood through the embodied lens of somatic anticipation and contemplative foresight.
+2. Explain how **expected free energy** provides the formal basis for planning in active inference, and how this maps onto the felt sense of readiness, intention, and embodied foresight.
+3. Analyze the tension between **future-oriented planning** and **present-moment awareness**, showing how contemplative practice resolves this tension through embodied anticipatory wisdom.
+4. Apply the concept of **allostatic planning** to understand how the body's predictive regulation of its own physiological states constitutes a deep, pre-cognitive form of planning.
 
 ## Introduction
 
-This module explores **Planning**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+During a meditation retreat, the teacher invites you to set an intention for the day. Not through conceptual goal-setting — no list of tasks, no strategic analysis — but by sitting quietly and feeling what the body wants to move toward. You try "gentle curiosity" and feel a warm opening in your chest. You try "effortful striving" and notice a clenching in your jaw and a tightening across your shoulders. The body has already planned — it has simulated future states and rendered its evaluations as felt qualities. The chest-warmth says yes; the jaw-clench says no. This is planning through living presence: the generative model's counterfactual simulations experienced not as abstract deliberation but as somatic wisdom.
+
+Planning poses a distinctive challenge for an embodied, presence-centered approach. If living presence is about anchoring attention in the current moment, how can we plan without abandoning the present for the future? The enactive tradition resolves this apparent paradox by showing that planning is itself a present-moment activity — an embodied, imaginative engagement with possible futures that is felt in the body right now. Evan Thompson (2007) emphasizes that imagination is not the negation of perception but its extension: the same sensorimotor dynamics that generate perceptual experience also generate the anticipatory simulations that constitute planning. Active inference formalizes this insight through the concept of **expected free energy** — the anticipated surprise associated with future courses of action, evaluated in the present and registered in the body.
 
 ## Key Concepts
 
-### 1. Planning as a Markov Blanket Boundary
-How does Planning define the boundary between the agent and the environment?
+### 1. Expected Free Energy and Somatic Evaluation
 
-### 2. Generative Models of Planning
-What parameters involved in Planning must be optimized to minimize variational free energy?
+In active inference, planning is formalized as the selection of **policies** (sequences of actions) that minimize **expected free energy** — the anticipated divergence between predicted and preferred future states. This is not a cold calculation but an embodied evaluation. When the generative model simulates a possible future, it generates predictions about the bodily states that future would entail. A plan that leads toward homeostatic stability produces predicted states of ease, warmth, and openness; a plan that leads toward threat produces predicted states of tension, constriction, and arousal. These somatic predictions are the felt basis of planning — the body's way of evaluating futures it has not yet experienced.
 
-### 3. Active Inference Dynamics
-How does the process of Planning drive the perception-action loop?
+Antonio Damasio's somatic marker hypothesis aligns precisely with this account: the body marks future scenarios with feeling states that guide decision-making before conscious deliberation is complete. The meditator who feels a warm opening when contemplating "gentle curiosity" is experiencing her generative model's somatic evaluation of that policy's expected free energy.
 
-## Applications
+### 2. Allostatic Planning and Physiological Foresight
 
-In Embodied, we see Planning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+The body plans at levels far beneath conscious awareness. **Allostasis** — the anticipatory regulation of physiological set-points — is a form of embodied planning that operates continuously and automatically. The body predicts the metabolic demands of the afternoon and adjusts hunger signals accordingly. It anticipates the cold of nightfall and initiates vasoconstriction before the temperature drops. It prepares the immune system for seasonal pathogen exposures before infection occurs.
 
-## Conclusion
+Karl Friston and colleagues have formalized allostasis as the minimization of expected free energy at the autonomic level: the generative model does not merely react to physiological deviations but proactively adjusts regulatory parameters to prevent deviations from occurring. This deep, pre-cognitive planning is the biological foundation of all higher-order anticipatory behavior. Mindful attention to allostatic signals — the subtle shifts in hunger, fatigue, temperature sensitivity, and arousal that signal the body's anticipatory adjustments — reveals a layer of embodied planning that operates continuously beneath the threshold of ordinary awareness.
 
-Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 3. Imagination as Embodied Simulation
 
-<!-- Content padding to ensure file size requirements -->
+Planning requires imagination — the capacity to mentally simulate scenarios that are not currently present. From an enactive perspective, imagination is not a disembodied faculty but an extension of the same sensorimotor processes that generate perceptual experience. When you imagine walking through a familiar room, your motor cortex activates in patterns similar to actual walking; when you imagine tasting a lemon, your salivary glands respond. These are not mere metaphors — they are the generative model running its sensorimotor predictions in offline mode, testing possible futures through the body's own simulation machinery.
 
-<!-- Content padding to ensure file size requirements -->
+Mindful planning harnesses this embodied simulation by maintaining present-moment awareness during the imaginative process. Rather than being swept away by the imagined scenario (rumination, worry), the practitioner remains grounded in current bodily experience while allowing the generative model to simulate future possibilities. The result is a form of planning that is both forward-looking and present-centered: the body explores possible futures while remaining anchored in the somatic reality of now.
 
-<!-- Content padding to ensure file size requirements -->
+### 4. Temporal Depth and the Planning Horizon
 
-<!-- Content padding to ensure file size requirements -->
+The generative model's planning capacity depends on its **temporal depth** — how far into the future it can reliably simulate. Shallow temporal depth produces reactive, stimulus-bound behavior; deep temporal depth enables strategic, goal-directed planning. In active inference, temporal depth corresponds to the number of hierarchical levels in the generative model's temporal structure, with deeper levels encoding longer-timescale predictions.
 
-<!-- Content padding to ensure file size requirements -->
+Contemplative practice may influence temporal depth in paradoxical ways. By deepening present-moment awareness, practice seems to narrow the temporal horizon — yet experienced meditators often report enhanced clarity about long-term priorities and life direction. This paradox resolves when we recognize that present-moment awareness does not eliminate temporal depth but purifies it — stripping away anxious elaboration and ruminative distortion to reveal the generative model's clearest predictions about what truly matters over extended timescales.
 
-<!-- Content padding to ensure file size requirements -->
+## Active Inference Connection
 
-<!-- Content padding to ensure file size requirements -->
+Planning in the context of living presence demonstrates that active inference is fundamentally a theory of anticipation — not mere prediction of what will happen, but evaluation of what could happen and selection of actions that bring about preferred futures. Expected free energy provides the formal quantity that links present-moment evaluation to future-oriented action selection. The embodied practitioner discovers that planning need not be a departure from presence but can be its deepest expression: the body's wisdom, cultivated through sustained mindful attention, rendering its most refined evaluations of how to move through time.
 
-<!-- Content padding to ensure file size requirements -->
+## Experiential Applications
 
-<!-- Content padding to ensure file size requirements -->
+* **Practice — Somatic Intention Setting**: Before beginning your day, sit quietly for five minutes and bring to mind three possible intentions for the day ahead. For each intention, notice its somatic signature — where does it register in the body? What is its felt quality (expansive, constricting, warm, heavy, light, buzzing)? Let the body's response guide your choice, trusting the generative model's somatic evaluation of which policy minimizes expected free energy. Notice how this differs from conceptual goal-setting: the body's wisdom often points in directions the thinking mind would not have chosen.
 
-<!-- Content padding to ensure file size requirements -->
+* **Case Study — Anticipatory Anxiety and Maladaptive Planning**: Individuals with generalized anxiety disorder (GAD) exhibit excessive planning — chronic worry that cycles through catastrophic future scenarios without resolution. In active inference terms, GAD involves a generative model that generates high-precision predictions of negative outcomes, producing elevated expected free energy across all considered policies. The body registers this as chronic tension, restlessness, and autonomic hyperarousal. Mindfulness-based interventions for GAD work by recalibrating the precision landscape — reducing the excessive confidence assigned to catastrophic predictions and increasing precision on present-moment sensory evidence, thereby grounding the planning process in the body's actual current state rather than its imagined future distress.
+
+## Cross-References
+
+* **Module 07 (Communication)**: Planning in social contexts draws on the communicative alignment established through shared presence.
+* **Module 01 (Systems)**: The allostatic planning discussed here extends the systemic self-regulation introduced in Module 01 into the temporal domain.
+* **Unit 01 (Felt Sense)**: The somatic markers that guide planning are grounded in the interoceptive awareness cultivated through felt sense practices.
+* **Unit 03 (Intuitive Knowing)**: The intuitive evaluation of future scenarios — "gut feelings" about plans — represents the convergence of planning and embodied intuition.
+
+## Summary
+
+Planning in the context of living presence is the generative model's anticipatory wisdom made somatically explicit. Through expected free energy minimization, the embodied organism evaluates possible futures by simulating their bodily consequences and selecting the policies that promise the greatest alignment between predicted and preferred states. Allostatic planning operates continuously beneath awareness, while imaginative simulation extends this capacity into the realm of conscious foresight. Contemplative practice resolves the apparent tension between planning and presence by revealing that the deepest planning arises not from anxious deliberation but from the body's own accumulated wisdom — somatic evaluations cultivated through sustained mindful attention. To plan with presence is to trust the generative model's embodied intelligence, letting the body's felt response guide the selection of policies that serve not only immediate needs but long-term flourishing.

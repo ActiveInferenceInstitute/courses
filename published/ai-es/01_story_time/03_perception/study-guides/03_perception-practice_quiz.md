@@ -8,11 +8,15 @@
     C) Only seeing
     D) Being invisible
 
+    **Answer: A!** Great job! Perception means using all your senses to notice what is happening around you.
+
 2. Which sense helps you hear a bell?
     A) Eyes
     B) Nose
     C) Ears
     D) Tongue
+
+    **Answer: C!** That's right! Your ears pick up sounds like bells, music, and people talking.
 
 3. Which sense helps you know if ice cream is sweet?
     A) Hearing
@@ -20,11 +24,15 @@
     C) Tasting
     D) Seeing
 
+    **Answer: C!** Yum! Your tongue has taste buds that tell your brain "This is sweet!"
+
 4. Oliver the Owl heard a "Snap!" What did he do?
     A) He flew away
     B) He looked with his eyes
     C) He went back to sleep
     D) He danced
+
+    **Answer: B!** Good thinking! After hearing the sound, Oliver used his eyes to look and find out what made it.
 
 5. Your brain uses senses to make a:
     A) Sandwich
@@ -32,11 +40,15 @@
     C) Noise
     D) Mess
 
+    **Answer: B!** Exactly! Your brain puts all the clues from your senses together and makes a guess about what is happening.
+
 6. If you touch a cactus, what does your skin tell you?
     A) It is soft
     B) It is prickly! Stop!
     C) It is tasty
     D) It is loud
+
+    **Answer: B!** Ouch! Your skin tells your brain "That is prickly!" so you know to stop touching it.
 
 7. Can our senses sometimes trick us?
     A) Yes, like seeing a shadow monster
@@ -44,8 +56,36 @@
     C) Only on Mondays
     D) Senses are magic
 
+    **Answer: A!** That's right! Sometimes our brain makes a wrong guess, like thinking a shadow is a monster when it is really just a coat.
+
+8. How many main senses do we have?
+    A) Two
+    B) Five
+    C) One hundred
+    D) Zero
+
+    **Answer: B!** Nice work! We have five main senses: seeing, hearing, smelling, touching, and tasting.
+
+9. What did Oliver the Owl smell that helped him figure out it was just a bear?
+    A) Pizza
+    B) Blueberries
+    C) Stinky socks
+    D) Flowers
+
+    **Answer: B!** That's right! Oliver smelled something sweet like blueberries, which helped him realize it was a bear eating a snack, not a monster.
+
+10. If you close your eyes and plug your ears, what happens?
+    A) You can still see everything perfectly
+    B) It is hard to know what is happening around you
+    C) You turn invisible
+    D) You become a superhero
+
+    **Answer: B!** Exactly! Without your senses bringing in information, it is really hard to tell what is going on around you.
+
 ## Part B: Tell Us What You Think
 
 1. Imagine you are walking in a dark room. Which sense helps you not bump into things?
 2. What is the best thing to smell?
 3. Draw a face and circle the parts that help you perceive (Eyes, Ears, Nose, Mouth).
+4. Oliver used three senses to figure out it was a bear (hearing, seeing, smelling). Can you think of a time you used more than one sense at the same time?
+5. If you could give Oliver the Owl one extra sense (like tasting the air or feeling vibrations in the ground), which would you pick and why?

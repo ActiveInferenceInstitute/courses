@@ -784,7 +784,7 @@ body.dark-mode .question-container:hover {
 <li>Apply specific constraints of Robotics to the formal definition of Communication.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Communication</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>This module explores <strong>Communication</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between Learning and Planning.</p>
 <h2>Key Concepts</h2>
 <h3>1. Communication as a Markov Blanket Boundary</h3>
 <p>How does Communication define the boundary between the agent and the environment?</p>
@@ -794,29 +794,10 @@ body.dark-mode .question-container:hover {
 <p>How does the process of Communication drive the perception-action loop?</p>
 <h2>Applications</h2>
 <p>In Robotics, we see Communication manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
+*   <strong>Specific Example 1</strong>: A firefly-inspired swarm of aerial robots communicates through synchronized LED flashing patterns, where each robot's generative model predicts the timing and frequency of its neighbors' flashes; phase coupling between oscillators drives the swarm toward synchronization (minimizing collective prediction error), enabling emergent coordination for search-and-rescue operations where RF communication is unreliable -- the robots converge on a shared flashing frequency that signals "area cleared" or "target found" without any centralized message broker.
+*   <strong>Specific Example 2</strong>: A bee-waggle-dance-inspired communication protocol allows a foraging robot that has discovered a resource to transmit location information to teammates through a structured motor display (a specific movement pattern encoding distance and direction), which observing robots decode using their own generative models of the dance-to-location mapping; this bio-inspired stigmergic communication reduces bandwidth requirements by orders of magnitude compared to transmitting raw sensor data, while remaining robust to individual robot failures.</p>
 <h2>Conclusion</h2>
-<p>Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<p>Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,26 +807,128 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Communication</h1>
+<div><h1>Lab: Swarm Communication and Collective Behavior</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Communication</strong>.</p>
+<p>Design multi-robot communication systems inspired by biological swarm intelligence. You will analyze how biological collectives (ant colonies, bee swarms, fish schools) coordinate without centralized control and design robotic swarm behaviors that exploit stigmergic communication and Active Inference principles.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Communication.</li>
+<li>Completion of the corresponding module.md lecture material</li>
+<li>Familiarity with Active Inference concepts (generative models, free energy, prediction errors)</li>
+<li>Basic pseudocode and diagram skills</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Ant Colony Optimization</h2>
+<p>Analyze ant foraging as distributed Active Inference:</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Robotics.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Communication.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Communication (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>How do pheromone trails implement stigmergic communication (indirect coordination through environment modification)?</li>
+<li>Model pheromone deposition as an action that modifies the environment's generative model for other ants.</li>
+<li>Design a robotic pheromone system using virtual markers (e.g., shared map annotations) for warehouse robots.</li>
+<li>How does pheromone evaporation implement forgetting / precision decay?</li>
 </ol>
-<h2>Discussion Requirements</h2>
+<p>{fill:textarea}</p>
+<h2>Part 2: Honeybee Waggle Dance</h2>
+<p>The honeybee waggle dance communicates food source location. Design a robotic equivalent:</p>
+<ol>
+<li>What information does the waggle dance encode (direction, distance, quality)?</li>
+<li>How is this a form of belief sharing that aligns generative models across the hive?</li>
+<li>Design a communication protocol where robots share location-quality estimates for task sites.</li>
+<li>How does the dance's imprecision (noisy communication) affect collective decision-making?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Fish Schooling and Flocking</h2>
+<p>Design a flocking controller inspired by fish schooling:</p>
+<ol>
+<li>Implement the three classic rules: separation, alignment, cohesion.</li>
+<li>Frame each rule as minimizing prediction errors relative to social prior preferences.</li>
+<li>How does each individual's generative model of its neighbors enable collective behavior without global coordination?</li>
+<li>Design a robot swarm that exhibits emergent obstacle avoidance through local interaction rules only.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Bio-Inspired Communication Comparison</h2>
+<p>Compare biological and robotic communication strategies:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Ant Pheromones</th>
+<th>Bee Dance</th>
+<th>Fish Schooling</th>
+<th>Robotic Swarm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Communication channel</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Information bandwidth</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Robustness to failure</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Classical Robotics</th>
+<th>Active Inference</th>
+<th>Your Design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core mechanism</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Uncertainty handling</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Adaptation</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Key advantage</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
 <ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Communication.</li>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press.</li>
+<li>Pio-Lopez, L., Nizard, A., Friston, K., &amp; Pezzulo, G. (2016). Active Inference and robot control. <em>Journal of the Royal Society Interface</em>, 13(122).</li>
 </ul></div>
 </div></section>
 

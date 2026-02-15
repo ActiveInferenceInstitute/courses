@@ -2,29 +2,244 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>lab</title>
+    <title>tmpzjcecw08</title>
 </head>
 <body>
-<h1>Lab: Exploring Action</h1>
+<h1>Lab: Actions Speak Louder -- The Explore vs. Exploit Challenge</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Action</strong>.</p>
-<h2>Prerequisites</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Investigate how you choose between exploring new options and sticking with what works, and discover how actions reduce uncertainty.</p>
+</blockquote>
+<p>This is a <strong>group challenge</strong> designed for middle school students (Grades 6-8).</p>
+<hr />
+<h2>Materials Needed</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Action.</li>
+<li>4 paper bags or cups (labeled A, B, C, D)</li>
+<li>Colored tokens or candies (different values in each bag)</li>
+<li>Score sheet and pencil</li>
+<li>Lab journal or notebook</li>
 </ul>
-<h2>Steps</h2>
-<ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Ms.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Action.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Action (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
-</ol>
-<h2>Discussion Requirements</h2>
-<ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Action.</li>
-</ul>
+<hr />
+<h2>Part 1: The Mystery Bag Game (15 min)</h2>
+<p>Your teacher has set up 4 bags. Each bag contains tokens worth different point values, but you do not know which bag is best. You get 10 turns total. Each turn, you pick ONE bag and draw a token.</p>
+<p><strong>The dilemma:</strong> Do you keep picking from a bag that gave good results (exploit), or try a new bag to see if it is better (explore)?</p>
+<table>
+<thead>
+<tr>
+<th>Turn</th>
+<th>Bag Chosen (A/B/C/D)</th>
+<th>Points Earned</th>
+<th>Why did you choose this bag?</th>
+<th>Explore or Exploit?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<hr />
+<h2>Part 2: Action as Uncertainty Reduction (10 min)</h2>
+<p>In Active Inference, actions do not just get you rewards -- they also <strong>reduce uncertainty</strong>. Sometimes the best action is one that gives you information, even if it does not pay off right away.</p>
+<p>Think about these real-life scenarios. For each one, decide: is the best action to explore (get information) or exploit (use what you already know)?</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Explore or Exploit?</th>
+<th>Why?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>You have a big test tomorrow and know one study method that works OK</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>You are choosing a new elective and have never tried art or coding</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Your usual route to school is blocked by construction</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>You found a great YouTube channel for homework help</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>You are at a new restaurant with a huge menu</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<hr />
+<h2>Part 3: Action Sequence Challenge (10 min)</h2>
+<p>Most real actions are not one-time choices -- they are sequences (policies). Map out an action sequence for one of these goals:</p>
+<p><strong>Choose one:</strong>
+- Getting a better grade on your next math test
+- Making a new friend this month
+- Learning a new skill (instrument, sport, cooking)</p>
+<table>
+<thead>
+<tr>
+<th>Step #</th>
+<th>Action</th>
+<th>What information does this give you?</th>
+<th>What uncertainty does it reduce?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<hr />
+<h2>Part 4: Reflection Table</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Your Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is the difference between exploring and exploiting?</td>
+<td></td>
+</tr>
+<tr>
+<td>Why do actions reduce uncertainty?</td>
+<td></td>
+</tr>
+<tr>
+<td>What is a policy (action sequence)?</td>
+<td></td>
+</tr>
+<tr>
+<td>When in your life do you explore too little?</td>
+<td></td>
+</tr>
+<tr>
+<td>How does Active Inference explain why we take actions?</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
 </body>
 </html>

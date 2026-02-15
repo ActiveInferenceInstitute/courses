@@ -5,46 +5,105 @@
     <title>module</title>
 </head>
 <body>
-<h1>Module 04: Cognition in Robotics</h1>
+<h1>Robotic Cognition: Maintaining and Updating the Generative Model</h1>
+<h2>Executive Summary</h2>
+<p>Cognition in robotics is the computational process by which a robot maintains, updates, and reasons with its generative model of the world. While perception converts raw sensor data into beliefs about the current state, cognition integrates these beliefs over time, resolves conflicts between different information sources, maintains representations of entities not currently visible, and supports the deliberative reasoning needed for complex tasks. This module examines how onboard computing architectures — CPUs, GPUs, FPGAs — support the real-time inference demands of robotic cognition, how belief propagation on factor graphs implements variational free energy minimization, and how the structure of the generative model determines what a robot can and cannot reason about.</p>
 <h2>Learning Objectives</h2>
 <ol>
-<li>Define <strong>Cognition</strong> within the context of Robotics.</li>
-<li>Analyze how Cognition interacts with other components of the Active Inference framework.</li>
-<li>Apply specific constraints of Robotics to the formal definition of Cognition.</li>
+<li>Define robotic cognition as the maintenance and updating of generative models over time, beyond immediate perceptual processing.</li>
+<li>Analyze how factor graph representations support belief propagation and variational inference in robotic systems.</li>
+<li>Evaluate the computational constraints that onboard hardware imposes on cognitive processing in real-time robotic applications.</li>
+<li>Explain how robots maintain beliefs about occluded objects, hidden states, and multi-step task progress.</li>
+<li>Connect robotic cognition to the free energy minimization framework and identify how model complexity affects cognitive load.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Cognition</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>Perception, covered in the previous module, gives a robot beliefs about the present moment — what is visible now, what the sensors report now. Cognition goes further. It maintains beliefs about things that are no longer visible (the object that was behind the robot ten seconds ago), things that are never directly observable (the mass of an object inferred from its resistance to pushing), and abstract task states (whether step three of an assembly procedure has been completed). Cognition is the internal process that gives a robot memory, inference, and the capacity for sustained reasoning. In the next module on Action, we will see how these cognitive states drive motor commands; here, we focus on the computational engine itself.</p>
 <h2>Key Concepts</h2>
-<h3>1. Cognition as a Markov Blanket Boundary</h3>
-<p>How does Cognition define the boundary between the agent and the environment?</p>
-<h3>2. Generative Models of Cognition</h3>
-<p>What parameters involved in Cognition must be optimized to minimize variational free energy?</p>
-<h3>3. Active Inference Dynamics</h3>
-<p>How does the process of Cognition drive the perception-action loop?</p>
+<h3>1. The Generative Model as Cognitive Architecture</h3>
+<p>A robot's cognition is structured by its generative model — the probabilistic model that relates hidden states of the world to sensory observations through dynamics and observation equations. The structure of this model determines what the robot can reason about.</p>
+<p>A minimal generative model might consist of a single state variable (the robot's position) evolving according to a linear dynamics model and observed through a single sensor. Cognition in this case reduces to Kalman filtering: propagating the state estimate forward in time and correcting it with each new observation. The computational cost is negligible, and the cognitive capacity is correspondingly limited — the robot knows where it is, but nothing else.</p>
+<p>A rich generative model might include the robot's full 6-DOF pose, the positions of dozens of objects in the workspace, the kinematic state of a human collaborator, and the progress through a multi-step assembly task. Each of these variables interacts with others through dynamics (objects do not move unless pushed; the human's hands constrain what assembly steps are possible) and generates observations through sensor models (each object has a visual appearance and lidar signature; the human generates detectable motion). Cognition over this rich model is computationally demanding and requires sophisticated inference algorithms, but enables the robot to reason about complex, multi-entity scenarios.</p>
+<p>The choice of generative model structure is a fundamental design decision in robotics. Too simple a model leaves the robot cognitively impoverished — unable to reason about important aspects of its task. Too complex a model exceeds the robot's computational budget, causing inference to lag behind real time and rendering the robot effectively paralyzed.</p>
+<h3>2. Factor Graphs and Belief Propagation</h3>
+<p>Factor graphs are a mathematical framework widely used in robotics to represent generative models and perform inference. A factor graph is a bipartite graph containing variable nodes (representing hidden states) and factor nodes (representing probabilistic relationships between variables). Inference on the factor graph — computing posterior beliefs about all variables given observed data — implements the free energy minimization that Active Inference prescribes.</p>
+<p>In robotic SLAM (Simultaneous Localization and Mapping), the factor graph contains variable nodes for each robot pose along a trajectory and each landmark position in the map. Factor nodes connect consecutive poses (dynamics constraints from odometry), connect poses to landmarks (observation constraints from lidar or cameras), and potentially connect non-consecutive poses (loop closure constraints). Inference proceeds by minimizing the sum of squared prediction errors across all factors — equivalent to minimizing variational free energy under Gaussian assumptions.</p>
+<p>Libraries like GTSAM (Georgia Tech Smoothing and Mapping) and Ceres Solver implement efficient optimization algorithms (Gauss-Newton, Levenberg-Marquardt) for these factor graph problems. The incremental Bayes tree (iSAM2) algorithm enables online operation by efficiently updating the solution as new factors arrive, without re-solving the entire graph from scratch. This incremental updating is the computational implementation of continuous belief updating in Active Inference — the robot's cognitive state is perpetually revised as new information arrives.</p>
+<h3>3. Computational Substrates for Real-Time Cognition</h3>
+<p>Robotic cognition must operate in real time — beliefs must be updated fast enough to support the perception-action loop. The computational hardware available onboard the robot sets hard limits on what cognitive processes are feasible.</p>
+<p><strong>CPUs</strong> (Central Processing Units) provide flexible, general-purpose computation. Modern robotic platforms typically use ARM-based processors (NVIDIA Jetson series) or x86 systems (Intel NUC). CPUs handle sequential processing well and are suitable for factor graph optimization, behavior tree execution, and task planning. However, they struggle with massively parallel operations like dense image processing or point cloud operations.</p>
+<p><strong>GPUs</strong> (Graphics Processing Units) provide massively parallel computation. An NVIDIA Jetson AGX Orin provides 275 TOPS (trillion operations per second) for neural network inference, enabling real-time object detection, semantic segmentation, and depth estimation from camera data. GPUs are essential for vision-based cognition in modern robots, processing the high-dimensional observations that cameras generate.</p>
+<p><strong>FPGAs</strong> (Field-Programmable Gate Arrays) provide deterministic, low-latency computation for safety-critical functions. Joint-level controllers on industrial manipulators often run on FPGAs to guarantee microsecond-level response times. From a cognitive architecture perspective, FPGAs handle the lowest-level, fastest cognitive loops — the reflexive responses that must execute with guaranteed timing.</p>
+<p>The distribution of cognitive processing across these substrates mirrors the hierarchical structure of the generative model. FPGAs handle joint-level dynamics (microsecond timescale), CPUs handle mid-level planning and state estimation (millisecond to second timescale), and GPUs handle perceptual processing of high-dimensional data (frame-rate timescale). This hardware hierarchy maps directly to the temporal hierarchy of Active Inference's generative model.</p>
+<h3>4. Maintaining Beliefs About Hidden States</h3>
+<p>A distinctive feature of cognition, as opposed to mere perception, is the ability to maintain beliefs about states that are not currently observed. This requires the generative model to include dynamics that propagate beliefs forward in time even in the absence of new observations.</p>
+<p>When a mobile robot navigates behind a wall and can no longer see a previously detected object, its cognitive system must maintain a belief about the object's location. If the object is stationary, the belief simply persists with gradually increasing uncertainty (the robot becomes less sure about the exact position as time passes without observation). If the object might be moving — a human walking through the workspace — the dynamics model propagates the belief along predicted trajectories, with uncertainty growing faster due to motion uncertainty.</p>
+<p>This capability is essential for manipulation tasks in cluttered environments. When a UR5 reaches into a bin to grasp a part, its gripper often occludes the camera's view of the target. The robot must maintain its belief about the part's position and orientation from the last clear observation, propagating through the dynamics of its own arm motion (which is precisely known from encoders) and any expected part motion (which may be zero for a part resting on a surface, or nonzero if the part might shift due to the gripper's approach).</p>
+<h3>5. Cognitive Load and Model Complexity</h3>
+<p>The computational cost of maintaining and updating the generative model — the cognitive load — scales with the complexity of the model. This creates a fundamental engineering trade-off: richer models enable more sophisticated reasoning but require more computation and introduce longer inference latencies.</p>
+<p>In Active Inference terms, this trade-off is captured by the complexity term in the variational free energy. A model with many parameters can fit the sensory data more accurately (low accuracy term), but the complexity penalty increases. This is not merely an abstract concern in robotics — it manifests as concrete computational budget constraints. A robot that spends too long computing an optimal plan will miss its action deadline and stall. A robot that maintains overly detailed beliefs about irrelevant objects wastes memory and processing cycles.</p>
+<p>Practical robotic cognition therefore involves attention mechanisms — selectively allocating computational resources to the most relevant parts of the generative model. A manipulation robot should devote most of its cognitive budget to estimating the pose of the object it is about to grasp, not to tracking dust particles in the air. A mobile robot entering a narrow doorway should focus cognitive resources on precise localization relative to the door frame, not on refining its estimate of distant wall positions.</p>
+<h2>Active Inference Connection</h2>
+<p>Cognition in Active Inference is the continuous process of variational inference — updating the approximate posterior distribution over hidden states to minimize variational free energy. In robotics, this maps to state estimation algorithms (Kalman filters, factor graph optimizers, particle filters) that maintain and update beliefs about the robot's own state and the state of its environment. The generative model's structure — what variables it includes, how they interact, and over what temporal horizon — determines the robot's cognitive capabilities. The free energy objective naturally trades off model accuracy against complexity, providing a principled mechanism for managing cognitive load in resource-constrained embedded systems.</p>
 <h2>Applications</h2>
-<p>In Robotics, we see Cognition manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
-<h2>Conclusion</h2>
-<p>Understanding Cognition allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+<h3>Case Study 1: Factor Graph SLAM on an Autonomous Ground Vehicle</h3>
+<p>An autonomous ground vehicle equipped with a Velodyne VLP-16 lidar and wheel encoders implements cognition through incremental factor graph optimization using GTSAM. As the vehicle drives, it constructs a growing factor graph: each new pose estimate becomes a variable node, connected to the previous pose by an odometry factor and to detected landmarks by lidar observation factors. When the vehicle revisits a previously mapped area, a loop closure detector identifies the correspondence and adds a constraint between the current pose and the earlier pose. The iSAM2 algorithm incrementally updates the entire graph, correcting accumulated drift. The cognitive state — the robot's belief about its entire trajectory and the map — is continuously revised as new information arrives. This incremental factor graph optimization is a direct implementation of variational free energy minimization over a temporal generative model, with the Bayes tree structure enabling the efficient, incremental updates that real-time cognition demands.</p>
+<h3>Case Study 2: Task-State Estimation in Collaborative Assembly</h3>
+<p>A UR5 equipped with a wrist camera collaborates with a human operator to assemble an electronic device. The robot's cognitive system maintains a generative model of the assembly task: a partially observable Markov decision process (POMDP) with states representing assembly progress (which screws have been inserted, which connectors have been attached). The observation model predicts what the camera should see at each assembly stage. As the human performs their steps, the robot's cognitive system infers the current task state from visual observations — detecting, for example, that three of four screws are now inserted. This belief is updated even when the human's hands partially occlude the workspace, using the dynamics model (screws, once inserted, stay inserted) to maintain confident beliefs about completed steps. When uncertainty about the current state is high, the robot can take epistemic actions — repositioning its camera for a clearer view — before committing to its next assembly contribution.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 3 (Perception)</strong>: Provides the sensory inputs that cognition integrates and reasons about</li>
+<li><strong>Module 5 (Action)</strong>: Receives the cognitive outputs — beliefs and decisions — that drive motor commands</li>
+<li><strong>Module 6 (Learning)</strong>: Updates the generative model's structure and parameters, improving cognitive accuracy over time</li>
+<li><strong>Module 8 (Planning)</strong>: Uses the generative model for temporal reasoning and action sequence evaluation</li>
+</ul>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generative Model</td>
+<td>Probabilistic model relating hidden states to observations</td>
+<td>SLAM graph relating poses, landmarks, and sensor measurements</td>
+</tr>
+<tr>
+<td>Factor Graph</td>
+<td>Bipartite graph representing variables and their probabilistic relationships</td>
+<td>iSAM2 graph for incremental SLAM</td>
+</tr>
+<tr>
+<td>Belief Propagation</td>
+<td>Message-passing algorithm for inference on factor graphs</td>
+<td>Gauss-Newton optimization on a pose graph</td>
+</tr>
+<tr>
+<td>Hidden State Maintenance</td>
+<td>Tracking variables not currently observed</td>
+<td>Remembering occluded object positions during manipulation</td>
+</tr>
+<tr>
+<td>Cognitive Load</td>
+<td>Computational cost of maintaining and updating the generative model</td>
+<td>Processing time for factor graph optimization vs. action deadline</td>
+</tr>
+<tr>
+<td>Attention</td>
+<td>Selective allocation of cognitive resources to relevant model components</td>
+<td>Focusing pose estimation on objects near the grasp target</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Kaess, M., Johannsson, H., Roberts, R., Ila, V., Leonard, J. J., &amp; Dellaert, F. (2012). iSAM2: Incremental smoothing and mapping using the Bayes tree. <em>International Journal of Robotics Research</em>, 31(2), 216-235.</li>
+<li>Dellaert, F., &amp; Kaess, M. (2017). Factor graphs for robot perception. <em>Foundations and Trends in Robotics</em>, 6(1-2), 1-139.</li>
+<li>Da Costa, L., et al. (2020). Active inference on discrete state-spaces: A synthesis. <em>Journal of Mathematical Psychology</em>, 99, 102447.</li>
+</ol>
 </body>
 </html>

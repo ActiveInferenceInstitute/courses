@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15_Actinf Textbook Group Cohort 3 Meeting 17 Chapter 7 Part 2 - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>15_Actinf Textbook Group Cohort 3 Meeting 17 Chapter 7 Part 2</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>15_Actinf Textbook Group Cohort 3 Meeting 17 Chapter 7 Part 2</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf Textbook Group ~ Cohort 3 ~ Meeting 17 (Chapter 7, part 2)</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=Q5G-5FgTCFQ">YouTube</a>
+<strong>Playlist</strong>: Active Inference Textbook Group ~ Cohort 3
+<strong>Duration</strong>: 58:39 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hi thanks everyone it's Fourth of July 2023 and we're in our second discussion on chapter seven so we'll head back over there does anyone want to type a question or add any reflection or thought or just question or area they want to look at today okay well I I could say something right there yeah please um so I last time I joined was four weeks ago and I was saying about um well I was advocating having python code for um as as examples I I went away and just coded up the bits at the very beginning of chapter seven um of the notes or the musical notes which was sort of transferring well converting the text into python with his comments it it didn't really get me well it it showed the reasons why the matrices contain the numbers that they did it didn't really say much more than that but then I've I've just discovered appendix C in the book um and in a way that goes through uh something similar uh although it doesn't explain the matrices the precise numbers in each matrices in uh quite so explicit way uh and then in later on in chapter seven there's the uh the maze example and again that these are all filling in with the application but then it's it's throwing it's just formatting the data to the point where it can then be given to um an spm-12 function yeah so mdp there without so I would like to see what's inside there and then be able to graph for example various metrics like uh equations things like Mutual information um novelty uh all of to to help get an intuitive feel um I think appendix C says about so being able to play around with the numbers get an intuitive understanding but I I want to see more than just laying around with the the matrices the inputs so yeah so it's just an update on on where I am really thank you yeah appendix C is very sparse and it doesn't um I mean I they would have done well potentially to have just simply provided the reproducibility code for each figure without interspersing it with plain text because then it's kind of this reverse engineering process but but what you said is absolutely um right on which is the entire pomdp the entire figure 4.3 discrete time model it's all the letters that we talk about a b c d and then e which is just given the letter V here and then the true starting condition and then then you just let it run now here's the SPM mdp vbx variational base um X I'm sure exactly what the x is but I I've heard that this is sort of a like not inscrutable but it's not simple to to translate this function just straightforwardly to python which is one reason why um like many people do can continue using the um the Matlab variant because this contains a lot of like accelerated methods that are uh and it contains like a lot of extra bells and whistles to generate the figures and so that makes it quite easy but in general it speaks to exactly what chapter six highlights which is that octave inference modeling is about representing the agent in the environment and then the methods for for letting the agent come to its own Solutions are straightforward rather than needing to do a secondary and at some computational scale yes um further techniques are needed but to a first approximation the work of understanding a system of Interest is in exactly specifying the dimensionality of the matrices same as in pi mdp in model stream 7. but yeah how was it I mean what did you see the matrices any differently or think about the the models any differently no what I what I carried up it was was really just what to to get an idea of how things might be coded up and this wasn't to have something that was certainly not anything that was simulation efficient it was something very clumsy so for example what you're showing there with the B Matrix it would be explaining why why the 97s are there um in those particular places so starting off with a what an all zeros Matrix or maybe you know ones in this case and uh and it was it's normalized there but um so so that you can you're then describe in The Matrix B directly in terms of the the application you don't need the separate bits of text just just to explain what there is there so I think I think that was helpful what would be helpful as part of the wider uh if if that was taken to completion and possibly the team A's one could be taken further um and would have been more useful yeah but but yeah it's it's for me it's it's getting inside those those functions to see what's see what's going on because I don't have any any real feel so yes I'd like to be able to see what his his free energy changing as as various things happen and it's comprised of these different factors or it can be interpreted in this different way so that you can then play around with the numbers say to put it into a position where there is is novelty and you can see the the uh the aspects the term of free energy that's described as novelty and see the effect on that so I think that would give me of a much better feeling rather than you know this [Music] the SPM 12 is is just a black box solution yeah cool and if and if you want to we can post on the textbook group repo so maybe we can then use it and you know chapter seven eventually have every single example potentially even in multiple languages but sorted like according to the numbering of the textbook so at the end of code two I I that was I put some comments of you know I'd be interested in setting or be involved in a group that was basically Doom I've I've said uh well to to unpick um pi mdp and someone made a comment of well you could just code up equations um that are in the book and maybe maybe that's the right approach because I've I've looked into SPM 12 and the data structures in there are just horrendously complicated really um so trying to get into that would be you know would be very difficult um but maybe just building up from the equations in the book would be a would be manageable thank you anyone else want to bring up anything or ask anything or we can look at the questions okay not I don't remember exactly which ones we may have addressed um last time but um okay okay that's What's Happening Here logged in under a difference okay those are the thumbs up then you had to be there okay what do the rows columns and numbers mean in equation 7.2 to check your understanding could you design another B Matrix that could be used in the music example or another so the simple answer is each cell represents the probability of moving from a row to a column and these are the notes one two three four with this one over a hundred so that summing across you get um one um this musician it has a 97 percent accuracy um correctness in in moving forward through this song and uh as we look towards what kinds of like questions and variants would help us deepen understanding what would it look like to be more accurate well there'd be a 98 or what would it look like if the third note to the fourth note was really hard or what would it look like if there was five notes um write a 12 tone composition using 12 notes but anyone else want to have any comments or thoughts on this pretty straightforward in the caption of figure seven two it says lower left negative free energy gradients I.E prediction errors Through Time first issue it's empty that may have been fixed in in some subsequent like not a full reprinting but that may have been fixed but it's empty there what are similarities or differences between prediction error and free energy gradients are they the same thing what's the difference between free energy and free energy gradients what is a gradients here I'm going to look to actually this question which we looked at earlier so this question from chapter two asked um prediction error surprise and variational free energy they're related to each other but it's sometimes confusing and to to kind of look at this again the best fitting model with the most model evidence is going to have the lowest prediction error the lowest lowest surprise and the lowest variational free energy but there are subtle differences prediction error is a simple differential between prediction and observation so if the prediction is 10 and the observations 11 the prediction error is positive one it's a it's in the units of whatever the observations are about temperature surprises in information theoretic quantity every single um data point observation is on a distribution is associated with some non-zero surprise value but it can be minimized and it's minimized when the prediction error is lowest and variational free energy is described in equation 2.5 so it's not exactly the same as surprise but it's a bound on surprise that's kind of the whole point and its lowest when all of these things are kind of in unison and then Ali also highlighted that surprise is what is calculated in exact Bayesian inference where model evidence is maximized via surprise minimization however where exact Bayesian inference is intractable then we utilize approximate and there's two ways that you could go about doing that one approach would be a sampling based approach but that would be enormously computationally costly in certain settings and you wouldn't really know when you've reached the right time to stop sampling but variational inference allows you to approximate Bayesian inference by bounding the surprise with a free energy and that's the evidence lower bound and it gets to the last piece of the question which is what is a gradient so a gradient is a rate of change it could be um on a two-dimensional um surface the rate of change like just a ruler at the angle of the rate of change of that local point you could have a gradient in one dimension you could have um different dimensionalities of gradients but basically they're the local rate of change around some point and so it's like if you have beliefs about um the temperature in the 10 and then the observation comes in and it's 11. so that's associated with some prediction error some surprise and some free energy gradient and then the gradient should steer you towards updating your prediction from 10 upwards under the full attention setting you would go from 10 all the way to 11. under a no attention setting you wouldn't move at all but you'd want to move from 10 towards 11 that's the gradient or the flow going towards 11 whereas you wouldn't want to go uphill towards like nine thank you Ali cool let's replace this in the figure I'll do it later okay any other thoughts on on this a little bit unclear with the dark lines because they're all Crossing and everything like that but the kind of moral of the story is when something happens there's a transient um adjustment of the model but also as we we've discussed um like we're in discrete time so it's it's not immediately clear why there's interpolated continuous values okay maybe this is speaking to this so figure seven two and seven seven have these curves where belief updating is happening faster and the text alludes to some sort of simulation machine yeah I believe that is the um the stock machinery of the SPM package but I'm not exactly sure yes it does include like when we just like when we looked at the um the SPM vbx it has a section on um dopamine and I think that that is being displayed in in continuous time interpolated but I'm not exactly sure why that happens and I think it would be more clear given our discrete time setting to just show a point Associated at each time step does anyone have like any other like thought on this what is factorization in Factor graphs in the brain and conceptually what is anyone's thought on this okay let's look at what others have for it so factorization is when variables operate uh statistically independently from one another so you can have the joint distribution of let's just say A and B here but we're not talking um just only about the A and the B Matrix but actually it turns out that those are factorizable um but here it's just being used generically and so it allows you to um break down the statistical joint estimation of a comma B into a times B so for example if you're rolling a die and flipping a coin you can talk about the The Joint probability of all 12 options of heads or tails and one through six but also you can approach that by saying well there's a one-half probability of heads and a 1 6 of getting a three so you're able to calculate the joint distribution via separating out the coin flip from the die because they don't influence each other whereas if they did influence each other then it wouldn't be factorizable um neurologically one of the most common places where people discuss factorization is with the what and the where stream in the brain and the idea here is like an object's identity should be factorizable from its for example location in the visual field or size visually because you want to be able to separate out what something is and where it is and people have identified these these two streams of visual information flow that reflect the the um the what and the where so I'll bring this in but the what in the where are these two um of honey bizarre these two streams of visual input some people have have kind of like it's one of those things where it's like the structure of the inference architecture recapitulates the structure of the problem because again we would expect Vision to have um that kind of factorization between what an object is and where it is and um here someone has added an example about um fruits and berries different properties but they're all kind of related to ripeness Ollie also in terms of category Theory factorization means that I mean every function can be written as a kind of composite function of a search active function and an injective function so you know the word the factorization system for a given category consists of two um two sets of or two um two sets of morphisms uh so one of which um have the ability to to contain all the isomorphisms of the given category and also there are closed under the composite function so uh in a in this sense factorization system can give rise to the concepts some other Concepts in category Theory such as and also an important uh property of factorization system is each factorization is itself a functorial so uh two I mean they can be regarded as two morphisms that can be mapped into each other by commuting arrows or morphisms uh so uh yeah it's one of the important Concepts in category Theory as it gives rise to some other Concepts such as equivalency and orthogonality and so on cool thank you one other point and the reason why Factor graphs and factorizations are even being discussed is um the connections in the Bayesian graph reflect which variables have influence on each other so for example o of T minus 1 is only influenced by in the state of T minus one so it's like um through the a matrix um and similarly and so it's not the case that all variables have an edge to each other first off that would cause connections like through time which would violate the markovian property which says that the only way that the past can influence the future is through the present so that's a massively simplifying assumption if you think about a time series with a hundred time steps if you enable every time step to e to be possibly connected to every other time step you're going to end up with calculated out but however many hundreds and hundreds of edges whereas if you abide by the markovian property which is at least a defensible statistical approximation if not even more valid than that the markovian property in time simplifies out how many edges you have to fit but also there are sparseness about like Pi doesn't reach down to influence observations and so that first off captures something important and structural about the problem we're trying to solve we don't want to even open the door to a opportunity for policy to just be like changing our observations with a thumb on the scale nor do we want policy to Simply intervene directly in a hidden state but rather with the B Matrix we have policy intervening in how hidden States change their time so the sparseness um relative to the all by all edges that could exist the sparseness helps embody the statistical and causal nature of the problem and it's massively computationally simplifying so that's why factorization comes into play related factorization and the recipe of chapter six why are there two a matrices so let's just clarify which example so this is probably about the maze yeah so this is about the maze on page 131. okay okay didn't see it there are two modalities that represent extra receptive sensory data pertaining to where so that's just the location of the um uh rat in the maze and also there's a what modality that is like am I tasting something delicious or or not and so just like the what in the way or in the brain there are two matrices and they have different shapes because the location the where a matrix Maps locations to um location cues to location hidden states true locations which is here on noiseless mapping and the second modality maps location to whether there is no no tasty Q or aversive Q at these two locations so when when the mouse is in the center Junction or down on the bottom we're in this dashed line row and then in this example the right side has the black circle and the left side has the white circle any other thoughts or comments on this this I think this little little test question don't know if we left this for ourselves or someone else's dropping test questions for us walk through the Section from 131 to 135 explain all the rows columns subscripts and values we just described a 1 and A2 matrices columns are in the A1 Matrix these are queues of what and then in the A2 Matrix these are what is application so where and what this is the same except now the black is on the left instead of on the right and so we see that reflected with here we have a one and a 98 on the right and a one on the bottom here the one has moved up a row and the 98 is on the left B2 is not influenced by policy one stays at one and one stays at one so it's kind of like a Matrix having the diagonal the identity Matrix for a is kind of like the trivial noiseless perception observations just map one to one to Hidden States and similarly um a b Matrix with an identity diagonal is kind of like trivial action because if you're in this state you stay there 100 of time and if you're in that state you stay there 100 of the time but that's B2 they're just getting that out of the way they're basically saying whatever you do you're not changing the structure of the problem in terms of the the um location of the food and and not saying um that the rat has no control over the context however they are going to focus in on the the four slices of the B Matrix so the B Matrix is inner is intermediating hidden States and how they change through time so the hidden State s is about the true location that the rat is in so there's four locations and the B Matrix is going to describe the the transitions in location under the four different action policies and so there are certain states that you can't uh well this is um four matrices that the rat can choose they allow for a move from any states except for the left and right arm to any other state however the right and the left arms are absorbing States the rat must stay so here we have the absorbing state um here's one if you're on the left you stay on the left and if you're on the right you stay on the right and then hear whether you're here or here you transition to going to the right so I guess it can jump from here to there sees the preference vector the um C1 is for for again the location and this just kind of pushes it off the starting location so it does something and then here in the C2 is the preference for over the context observations like the preferring the tasty food not the reversive and then just note that because these are in like natural log kind of or they're an e to the exponentiation um a six means that the attractive um is more is e to the sixth more rewarding or you know more preferable D is the prior it has a perfect true belief about its starting location and regarding the context it has a 50 50 uncertainty about the equal probability of the um which context it's in but this is a good question and I just ask um so there we've we have the two matrices the one and two so going back to what we were saying earlier if you were going to feed that into SPM 12. would you then multiply those A1 and A2 together a sort of a chronica matrix to get some something that was something like maybe 16 by 15 there a big Matrix and what we're what we're saying is in this application you are able to uh you know the what on the where are separable um but to use use spm12 you would you'd have to multiply these together sort of a chronic product or um I think we'd have to look but my understanding is that the S true location um and the and the true like that that the true awareness would be multiplied by this a matrix to give the where observation and then the true context would get multiplied by this which is uninformative about which context it's in if you're in the bottom right here and so this is a true context would be emitted through A2 to the um context observation however there's there's many situations um speaking a little more generally where you can hack it into a huge single Matrix like you could imagine there's four locations or like just speaking of the um you could have five locations with null reward five with the black and five with the white and the 15 across or you know 15 row Matrix where every combination of location and context is a unique one yeah but that defeats the whole point of yeah the science realization usually more simple yeah yeah except there may be some interesting settings where very very large sparse matrices may have some um special computational representations that actually might make that efficient but not in this scale how can we read equations such as 7.8 okay this is a little bit of a general com um that might be better fit for the uh math learning group so I'll just throw it over there and now to 7.8 we don't have the natural language description human written however let us go to the AI see how it does okay 7.8 latex Coda AI columns okay this is a um pretty straightforward reading the epistemic value I of Pi is being calculated um based upon the posterior predictive entropy and the expected ambiguity not very helpful explanation this one is why would a high school student be interested in it they may not be interested think higher of high school students here's a column asking about where it might be important and here's defining the variables so not super helpful for exactly what we're looking for but you know it gives a it gives a look but but to return to the um question of reading it anyone want to just pick a line and and read how they see it okay I won't go over beat them um the epistemic values and we're just looking at the epistemic aspect of the equation two six expected free energy H is an entropy so it's describing how blurry or peaked a distribution is and this is about the observation distribution Through Time tilde conditioned on action so if our action is associated with very blurry observations then it's going to be a high entropy whereas if the observation entropy is is very low then those observations have have um lower entropy so if um yeah if if we're getting like a a broad spectrum of observations from policy that would have higher epistemic value whereas like if there if you know that every time you um open this book it's like this it's gonna give you the same 100 time steps the same data then it's not as informative and here is an entropy about essentially the a matrix because it's discussing the relationship between the observations conditioned upon hidden States also being conditioned upon the policy but this kind of goes without saying about the conditioning of over policy because basically everything is going to be conditioned upon a policy because the epistemic value is something that's computed on a per policy basis Mutual information which uh Neil alluded to earlier it's a very interesting quantity especially because like it's it's an equivalence we have q of s given Pi on both sides so this part is like kind of not um changing for a given policy and here we have P if observations given hidden States it's like the a matrix relationship to the variational posterior on observations given policies so again everything's conditioned on policy so it's kind of like POS difference or Divergence with Q of o so if um s is it if the O's are the same and S doesn't change anything then the Divergence is low if you can imagine if s tilde like added nothing conditioning on ass added nothing now conditioning on the true temperature the sequence of thermometer observations was the same then knowing the true temperature didn't help you at all so the mutual information would be um low whereas if knowing the hidden States were to provide information then P of O conditioned on S would differ from Q of o I I I'm not 100 confident on any of these readings I'm just kind of just saying them and this last one is um again after you kind of ignore the pies here it's Q of s q of s condition on so if the observations are meaningless then this term is zero whereas if the observations do matter conditioning on o does matter then there is a positive Information Gain and I'm not exactly sure what this little supplement is adding other than describing the factorization relationship it's saying the variational distribution of hidden States Through Time condition on policy and so kind of like our inference about true temperature depending on what we do and the observations from the thermometer is defined as equal sign with a triangle and here's essentially a factorization probably derivable from the Bayesian theorem and the sparsity of the generative model POS is like the a matrix Q of s given Pi is basically the B Matrix and then this is um the downstairs bit which was seen up here Ali foreign yeah well if I may give a kind of a more informal reading of this equation so uh here uh well this equation basically means that uh both I mean extrinsic and epistemic value uh work together to somehow increase uh the um the likelihood of our preferred outcomes uh with by minimizing the uncertainty so for example that the extrinsic value depends on the posterior predictive entropy as in as shown in the first slide and which is which can only be informative if the agent can be certain about a current state or its current state so it means that epistemic uncertainty should first be resolved before uh I mean any kind of action or any kind of utility uh that will come into play and also at the same time if the agent confident enough in its current estate it shouldn't uh somehow undertake uh or or perform in a kind of epistemic actions that would seek to pursue a kind of successful plan so and especially this is related to the Explorer Explorer exploitation exploration dilemma so briefly uh as also we talked about in the previous session uh well minimizing free energy corresponds directly to approximate by choosing the least surprising outcomes so if the if the agents could somehow model their environments they need to have posterior beliefs about the amount of the control they have upon the state transitions producing those outcomes in other words we need to somehow take into consideration the posterior beliefs about those control states which by turn relies on prior beliefs about to those controlled outcomes um yeah I mean by using this kind of principled way of resolving the uncertainties or in other words resolving the uh the prior uncertainties based on the control states that can minimize the expected free energy we can somehow achieve a theory that's that can provide a formal definition for that epistemic value or the value of the information we can gain from the situation and also um it it somehow focuses uh the the importance of the purposeful behavior that also that also relies on the generative models that generate those uh or consider those future outcomes so this is basically the formulation that includes or unifies uh some of the uh perspectives or pre-established perspectives such as the KL control theory and many other previously established perspectives and approaches so uh in case anyone wants to further explore the derivation of epistemic value and the implications of it I highly recommend one of the earlier papers by friston at all namely active inference and epistemic value from 2015. oh awesome thanks it's 10 2015. great I'll I'll add it in here a lot of uh oh we know pragmatic value unlike reward maximization our active inference concept of pragmatic value is the alignment between preferences and so that does the kind of Kernel work of preference satisfaction and homeostasis and then epistemic value depending on the um sophistication of the the generative model and what other features it contains like learning and nested structure attention and so on epistemic value does a ton of work and that's exactly what we point to as what is missing in for example reward learning two huge issues first off it works well when you know what the reward function is but discovering it is an issue and even when you do and if you do Discover it or uh a proxy or heuristic or however you want to think about it all you've really done is just coerced a shoehorned different components of epistemic value into the currency of pragmatic reward so with equation 2.6 and expected free energy we get to delineate epistemic and pragmatic value and then the the the challenge of parameterizing these models is to balance them for example if the preference Vector of the mat of the maze was six six one billionths and negative then maybe it's not as big of a deal in comparison to the epistemic value and in contrast where the preference is is you know 100 million versus negative 100 million you see more overall pragmatically oriented behavior so expectation pursuing aversion um repulsing interesting chapter learning more technical details some equations that we haven't always um gone through but I I again I hope we for all of these equations that we end up with natural language and pseudo code and code representations um more examples that are just sort of briefly touched upon massive topics like structure learning just being essentially alluded to and hierarchically nested models in this case a discrete time and a discrete time model you can tell because of the -1 t t plus one little figure 4.3 fractional figure 4.3 and then another kind of um discrete State space discrete time but here nested model it's kind of like a a 3-4 song like one two three two two three with this nested time scale that's seven next week we um turn to eight continuous time I think that we've um hopefully surfaced a lot of opportunities for improvements of the um questions and discourse code equations explanations and so on because seven definitely is uh moving lightly through multiple examples and results and topics and and so I think there could be a lot of good work with us um sweeping our Trail and adding questions that we wish would have been asked or would have been added to uh connect the dots and then chapter 8 is going to head into the continuous time setting and close on Hybrid models which have continuous and discrete time components before chapter 9 goes into the model a database modeling and chapter 10 concludes it so thanks everyone great times looking forward to uh yes see you at the uh but the alternative or whatever time next week on Lucky 7-Eleven okay that's great thank you farewell bye</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,23 +1,75 @@
-Lab: Exploring Agents
+Lab: Random Variables and Probability Distributions
 
 Objective
 
-Design and simulate a simple agent that demonstrates the principles of Agents.
+Learn to represent an agent's beliefs and preferences using probability distributions, and practice computing basic probabilities that underpin the Active Inference framework.
 
 Prerequisites
 
-   Basic understanding of Python or a relevant simulation tool.
-   Familiarity with the formal definition of Agents.
+Completed Math Foundations: Systems module
+Basic arithmetic with fractions and decimals
 
-Steps
+Part 1: Discrete Probability Distributions
 
-Define the Environment: Create a simple grid world or state space relevant to Hs.
-Define the Agent: Specify the agent's generative model, focusing on Agents.
-Simulation: Run the agent for 100 timesteps.
-Perturbation: Introduce a specific challenge to Agents (e.g., increased noise, occlusion).
-Analysis: Plot the Free Energy over time. Does the agent successfully adapt?
+Goal: Build and analyze probability distributions over agent states.
 
-Discussion Requirements
+A student agent has beliefs about tomorrow's weather. Define a random variable X = {sunny, cloudy, rainy} with probabilities:
 
-   Attach your code or simulation logs.
-   Explain the specific mechanism used to implement Agents.
+Assign probabilities: P(sunny) = 0.5, P(cloudy) = 0.3, P(rainy) = 0.2.
+Verify they sum to 1.
+What is the most likely state (the mode)?
+Draw a bar chart of this distribution.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 2: Joint and Marginal Probabilities
+
+Goal: Work with two random variables simultaneously.
+
+Let X = weather = {sunny, rainy} and Y = mood = {happy, sad}. The joint distribution is:
+
+| | happy | sad |
+|--|-------|-----|
+| sunny | 0.4 | 0.1 |
+| rainy | 0.1 | 0.4 |
+
+Compute P(sunny) and P(rainy) by summing rows.
+Compute P(happy) and P(sad) by summing columns.
+Are X and Y independent? Check: P(sunny, happy) = P(sunny)  P(happy)?
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 3: Expected Value
+
+Goal: Compute expected values as a measure of what an agent "expects."
+
+A game pays $10 if you roll a 6 on a fair die, $0 otherwise.
+
+P(win) = ? , P(lose) = ?
+E[payout] = P(win)  $10 + P(lose)  $0 = ?
+Would you pay $2 to play? Why?
+How does expected value connect to policy evaluation in Active Inference?
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 4: Preferred Distributions
+
+Goal: Represent agent preferences as a probability distribution.
+
+Define a preferred distribution P(grade) = {A: 0.7, B: 0.2, C: 0.1} and actual P(grade) = {A: 0.3, B: 0.4, C: 0.3}.
+
+Where are the biggest mismatches?
+What actions could reduce the gap between P and P?
+In Active Inference, this gap is related to free energy. The agent acts to make P closer to P.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Summary Table
+
+| Math Concept | Symbol | Definition |
+|-------------|--------|-----------|
+| Random variable | X | Variable whose value is determined by chance |
+| Probability distribution | P(X) | Assigns probabilities summing to 1 |
+| Joint distribution | P(X, Y) | Probability over two variables |
+| Expected value | E[X] | Probability-weighted average |
+| Preferred distribution | P*(X) | Target distribution the agent acts to achieve |

@@ -1,52 +1,56 @@
-# Module 07: Communication in Hs
+# Module 07: Communication -- Biological Signaling from Neurons to Hormones
 
 ## Learning Objectives
 
-1.  Define **Communication** within the context of Hs.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Hs to the formal definition of Communication.
+1. Describe **neural signaling** (fast, specific, electrical/chemical) and **hormonal signaling** (slow, broad, chemical) as complementary biological communication systems.
+2. Explain how biological communication serves the function of **aligning generative models** across different organs and systems within the body.
+3. Analyze the **gut-brain axis** as a bidirectional communication channel that connects digestive, immune, and neural inference.
+4. Evaluate how disruptions in biological communication -- from neurotransmitter imbalances to hormonal disruption -- relate to health and mental health conditions.
 
 ## Introduction
 
-This module explores **Communication**. In the **Hs** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Your body is a society of trillions of cells, each running its own inference processes. For this society to function, its members must communicate -- sharing information about threats, coordinating responses, and aligning their individual models into a coherent whole. This communication happens through multiple systems operating at different speeds and scales.
+
+Neurons fire electrical signals that cross synapses in milliseconds, enabling rapid, precise communication. Hormones travel through the bloodstream over seconds to hours, broadcasting information to every cell with the right receptors. Immune cells release cytokines that recruit neighboring cells to a site of infection. Even gut bacteria communicate with the brain through molecular signals. Active Inference reveals that all of these systems serve the same fundamental purpose: **aligning generative models** across the body's many agents to enable coordinated free energy minimization.
 
 ## Key Concepts
 
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
+### 1. Neural Communication: Fast and Precise
 
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
+The nervous system communicates through **action potentials** -- electrical signals that travel along axons and are converted to chemical signals (neurotransmitters) at synapses. This system is fast (milliseconds), specific (one neuron to one or a few targets), and information-rich. In Active Inference terms, neural communication transmits **prediction errors** up the hierarchy and **predictions** down the hierarchy. The neurotransmitters released at a synapse encode the magnitude and precision of these signals. Different neurotransmitters carry different types of information: glutamate is the primary excitatory signal, GABA the primary inhibitory signal, and dopamine encodes prediction errors about reward.
 
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
+### 2. Hormonal Communication: Slow and Broad
+
+The **endocrine system** communicates through hormones released into the bloodstream. This communication is slower (minutes to hours), broader (hormones reach every cell), and more sustained. Cortisol (the stress hormone) broadcasts a "threat detected" signal to the entire body. Insulin broadcasts "blood glucose is rising." Melatonin broadcasts "it is time to sleep." In Active Inference terms, hormones update the generative models of distant organs, aligning the entire body to a shared prediction about the organism's current state and needs.
+
+### 3. The Gut-Brain Axis
+
+One of the most fascinating biological communication channels is the **gut-brain axis** -- a bidirectional signaling pathway between the gastrointestinal tract and the brain. The gut contains its own nervous system (the enteric nervous system, sometimes called the "second brain") with over 100 million neurons. Gut bacteria produce neurotransmitters and metabolites that influence brain function. The vagus nerve carries signals in both directions. This communication channel means that your digestive state, your immune state, and your mental state are all linked through continuous model-alignment processes. The expression "gut feeling" turns out to have a biological basis.
+
+### 4. Immune Communication: Chemical Messaging
+
+Immune cells communicate through **cytokines** -- small signaling proteins that serve as messages between immune agents. Pro-inflammatory cytokines signal "threat here, recruit more defenders." Anti-inflammatory cytokines signal "threat contained, stand down." When a local infection triggers a systemic immune response (fever, fatigue, appetite loss), cytokines are broadcasting a prediction update to the entire organism: "we are fighting an infection, reallocate resources accordingly." The "sick feeling" you experience during an illness is your brain's response to these immune signals -- it updates its model of the body's state and adjusts behavior (rest, reduced appetite) to support the immune response.
+
+### 5. When Communication Goes Wrong
+
+Many health conditions can be understood as failures of biological communication. **Depression** involves disrupted serotonin and norepinephrine signaling, impairing the brain's ability to accurately communicate prediction errors. **Autoimmune diseases** involve miscommunication in the immune system, where signals incorrectly identify the body's own cells as threats. **Hormonal imbalances** during puberty can produce mood swings and emotional instability as the body's communication systems recalibrate to new levels. In each case, the fundamental problem is misaligned generative models caused by noisy or inaccurate communication.
+
+## Active Inference Connection
+
+Biological communication serves the same function at the organism level as communication between people (Unit 01, Module 07): it aligns generative models. Within the body, the "agents" are cells, tissues, and organs, and the "communication" is neural, hormonal, and chemical signaling. The free energy principle predicts that these communication systems exist *because* without them, the body's many subsystems could not coordinate their individual inference processes into a coherent whole. Communication reduces the total free energy of the organism by enabling collective, aligned action rather than independent, potentially conflicting responses.
 
 ## Applications
 
-In Hs, we see Communication manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+* **Case Study 1 -- Antidepressants and Signal Restoration**: Selective serotonin reuptake inhibitors (SSRIs), the most common antidepressants, work by increasing the availability of serotonin at synapses. In Active Inference terms, this increases the precision of certain prediction error signals that were previously too weak to drive model updating. Depression can be understood as a state where the brain's communication channels are so impaired that the generative model becomes stuck -- unable to process evidence that things could be different. SSRIs do not directly change the model; they restore the communication infrastructure that enables the model to update itself.
 
-## Conclusion
+* **Case Study 2 -- Puberty as a Communication System Recalibration**: During puberty, the endocrine system undergoes a massive recalibration. New hormones (estrogen, testosterone) broadcast new signals to cells throughout the body. The brain must update its model to account for these changed signals, which is why puberty involves not just physical changes but emotional instability, shifts in social motivation, and altered risk perception. The mood swings of puberty are not irrationality -- they are the brain processing massive communication disruptions as its hormonal signaling system undergoes fundamental restructuring.
 
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+## Discussion Questions
 
-<!-- Content padding to ensure file size requirements -->
+1. If the gut-brain axis means that your digestive health affects your mental health, what implications does this have for the relationship between diet and mood? How might Active Inference explain why you feel differently after eating different foods?
+2. Why might it take several weeks for antidepressants to show their full effect? What does this suggest about the timescale of model updating in the brain?
+3. How is the body's use of hormones for communication similar to social media's use of broadcast messaging? What are the advantages and limitations of each?
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+Biological communication -- through neurons, hormones, cytokines, and the gut-brain axis -- serves to align generative models across the body's many subsystems. Neural communication is fast and precise; hormonal communication is slow and broad; immune communication coordinates defense responses. Disruptions in these communication channels are associated with conditions from depression to autoimmune disease. Understanding biological communication through Active Inference provides a unified framework for why the body's many systems must be in constant conversation, and what happens when that conversation breaks down. In Module 08, we conclude with **planning** -- how the body anticipates future needs through allostasis, circadian rhythms, and developmental programming.

@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Communication**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Communication**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between Learning and Planning.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Communication drive the perception-action loop?
 ## Applications
 
 In Robotics, we see Communication manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A fleet of autonomous vehicles at an intersection communicates via V2V (vehicle-to-vehicle) DSRC messages, sharing planned trajectories and confidence estimates; each vehicle treats incoming V2V messages as additional observations in its generative model of the intersection, increasing the precision of its beliefs about other vehicles' future positions and enabling cooperative maneuvers (such as interleaved crossing without traffic signals) that would be impossible with perception-only autonomy due to occlusion and limited sensor range.
+*   **Specific Example 2**: A team of autonomous exploration drones in a GPS-denied underground mine communicates via an ad-hoc mesh network with intermittent connectivity; each drone transmits compressed map updates (occupancy grid differences rather than full maps) when communication links are available, and the receiving drones incorporate these updates as evidence in their own SLAM systems -- the communication protocol prioritizes transmitting information with the highest expected free energy reduction (frontier regions and loop closures) over redundant observations of already-mapped areas.
 
 ## Conclusion
 
 Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08_Actinf Textbook Group Cohort 1 Meeting 8 Chapter 4 Pt 1 - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>08_Actinf Textbook Group Cohort 1 Meeting 8 Chapter 4 Pt 1</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>08_Actinf Textbook Group Cohort 1 Meeting 8 Chapter 4 Pt 1</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf Textbook Group ~ Cohort 1 ~ Meeting 8 (Chapter 4 pt. 1)</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=08iZGLAqI8E">YouTube</a>
+<strong>Playlist</strong>: ActInf Textbook Group ~ Cohort 1
+<strong>Duration</strong>: 1:00:45 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello everyone it's june 23 2022 and we are in week eight of the textbook group cohort one we're starting chapter and we'll be continuing the chapter 4 next week we're more than halfway done with the time and with the chapters that we're going through in the first half of the book so let's go to chapter four and just raise your hand and gather or write in the chat if you have anything that you want to address so the i'm going first to the math overviews page where i've written some overviews for the previous chapters of varying levels of completeness but this is very important as we set off into chapter 4. so on page 64. this chapter is more technical than chapters one through three appealing to linear algebra differentiation and a taylor series expansion those readers interested in the details may turn to the appendices appendages those who do not want to delve into the theoretical underpinnings may skip this chapter so keep that in mind as we continue on and it can be an area of discussion and learning and such but let's approach these themes and formalisms with the authors forewarning that this is something we can look for more detail in the appendixes as well as skip this chapter even if we might disagree of course okay any other overall comments on chapter four just for whomever read it even a part of it what was there overall perspective on chapter four what was it trying to do what approach did they take yeah ali and then anyone else i think if we take uh the materials in chapters one two through three as uh the foundational materials on which uh the active inference theory uh is supposed to build uh well this chapter four is uh one of the first steps uh toward uh building the actual uh theory and uh i mean going beyond just the basics of foundational materials so using the tool the tools and foundations uh established in previous chapters we are now uh perhaps ready to tackle the problem of actually constructing the generative models in uh two different in two different situations as discrete time models and as continuous one awesome thanks yes in the chapters page we can recall back to chapter 1 that just laid out the structure of the book chapter 2 provided the low road to active inference which began with bayesian inference and talked about a few other prerequisite or preliminary themes including introducing variational and expected free energy as imperatives in the sense that they're able to be bounding surprise chapter three introduced the high road to active inference which was starting not from the mechanistic kind of nucleus of the bayes equation but rather from the imperative for survival and persistence also introducing in a first pass the markov blanket concept and partitioning chapter four is indeed when we start to get into many details that were not covered in earlier sections it's gonna first begin by bringing us closer to this connection between bayesian inference and the free energy evaluation and then the central idea of a generative model is discussed that is going to be described in discrete time specifically using the pomdp formalism partially observable markov decision process and then as well as in continuous time then there's going to be some very interesting figures and formalisms and discussions on what generative models underlie predictive coding and motor reflexes which is moving us towards chapter five which is going to have some empirical work mainly cited out and some discussion on the plausible neurobiologies that can be implementing or modeled as implementing or modeled with the kinds of generative models of which have been prepared for in chapters two and three motivated in chapters two and three really and then described in their essence in chapter four also just a reminder that in the math group activities but we're all in the math group we're all in this learning journey together we've been striving to make the natural language descriptions for equations that would be extremely extremely helpful every annotation that people can make is helpful people shouldn't feel abashed or ashamed to make any kind of contribution it can always be re-ordered or edited by others but this is how we're going to create those like natural language descriptions of equations and ask questions about them even just copying and pasting what does this mean what does this mean they're all helpful contributions because this is very technical it's not immediately apparent how for example these copious equations in chapter 4 relate to some of the broader discussions from the earlier chapters but look at that if anyone has more questions to add they can do that or if they want to upvote questions feel free to do that it's motivating for other people when they see that their questions are like being improved or other people are paying attention to their questions so that's always something free and helpful that people can engage in um are beliefs policy or state if the person who asked it is here they can feel free to address it because it's a very short partially formed question i also wasn't sure whether this was using the cad cad ontology which uses policy and state in a slightly different way but beliefs in a general sense coming from the bayesian ontology are referring to any distributional expression bayesian beliefs those are states policies in the actin phontology which you can just mouse over and find out it's a sequence of actions and policies are constructed or enumerated by the affordances the e vector that the generative model has over a given time horizon so if it's able to go left to right over two time steps all the policies are left left left right right right right left um does anyone else just want to add anything else to this short otherwise it's a fine clarifying in the discussion of active inference in pomdps the authors write to update beliefs about policies we find the posterior that minimizes the free energy does the posterior at time t become a prior at time t plus one what does anyone think i guess it depends on the specific posterior and prior because that can mean multiple things but in the context of figure 4.3 i'd say it does because we are updating our prior which becomes at the end of a time step becomes the posterior probability which then is fed back as the prior thanks totally agree with that uh there needs to be an initiating prior d which is shown with a three here in the discrete time and that is like the initial prior prior and posterior are referring to what incoming data so after the data at point one comes in the updated posterior is now playing the functional role of the prior for the next data point coming in okay then here's sort of a related well we've addressed this question in the narrow sense but it would be very helpful to look through the order in which different topics are addressed in chapter four because these are um some questions that are invoking things that are much later we don't assume that people have um [Music] high or low comprehension of this chapter yet but many of these questions it's really important that we understand like why we're bringing them up so let's just walk through very quickly the chapter to see why they're bringing up things in a different order in terms of looking at the figures in formalism 4.1 is returning to bayes uh i think this is a really nice representation here's the joint distribution of x and y the hidden states and the observables and it's like it gets split up into y condition.x and x so this is like the probability the joint distribution of the coin flip and the die is the distribution of the coin flip conditioned upon the die and the die itself so it's just separating out a joint distribution and that's the heart of bayes theorem this is a key move to move an integration problem a sum in the discrete case or an integration problem in the continuous case into an optimization problem which permits incremental solutions of improving quality unlike an which you might just be tallying up numbers and not necessarily moving closer to knowing when you're done with that integral they introduced jensen's uh inequality which is the log of the average is always greater or equal to the average of a log and that's true for any shape that has this kind of a curve anything where there's a decreasing curve and here's where that gets applied above we had taking this joint distribution multi multiplying it by an arbitrary distribution divided by itself so that's one whatever q is later q will play a more specific role here the expectation is inside the log here the expectation is over the log the one that we'd really want would be like the joint distribution would be like the expectation of the joint distribution divided by some function q jensen's inequality allows us to make this uh instead of an equal sign make it a greater than an equal sign and then pull the expectation out and utilize that as the negative free energy which is going to be bounding us on this one that we would truly want but going about it by using this nice feature of the natural log base theorem in the logarithmic form anyone can totally raise their hand and add details allows rearrangement into this form which is already recalling the free energy that we saw from variational free energy from from equation 2.5 more details to be filled in and that's why we want to be annotating these equations and so on generative models is the name of this to calculate free energy we need three things data variational distribution family and a generative model which at minimum is composing of the prior and likelihood they're going to be describing two different kinds of generative models this is a really nice and intuitive graphic for those who might have different familiarity with statistical representations the circles are random variables and the squares are probability distributions describing relationships these are some bayes graphs that are simpler and less action-involved than canonical octave representation where pi is policy and so uh yayakaburo um three is the b matrix yes it is there's like three these threes are the b matrix but this is the d letter i i agree though sorry which one is the d letter the first three yeah because they're playing similar roles but they're a little bit i mean or what do you think about that yeah i guess i mean i was thinking about it as this being just one snapshot of like an infinite um factor graph so i mean just the fact that it's um assigned the p of s tau plus one given s tau and pi uh i i understand what you mean by um by saying that it's kind of like it plays the role um yeah i'm not i'm not entirely sure though look we'll come back to this because there's actually a few other interesting notes so this is kind of the simplest uh of the graphs that they describe this is like one variable influencing another variable this is like two factors z and x influencing y two is like a little factory that outputs y conditioned upon the state of x and z knowing this notation and how to read these directed graphs relatively essential for interpreting more complex graphs that involve actions and so on here's x as like a upstream hidden cause that influences two downstream variables that don't influence each other and here is like a hierarchical model where v influences x and x influences y does anyone have like thoughts or questions about this this is a graphical probabilistic model the variables are stochastic or they're statistical random variables and it's a graph it's consisting of nodes and edges 4.3 is going to introduce these two basic forms of the generative model dynamic through time used in active in the factor graph form does anyone want to describe what they see in this figure the top is in the discrete time case s is the hidden state temperature of the room o are the observations the thermometer readings the two is the relationship between the temperature in the room and the readings of the thermometer three is how the temperature is changing through time and then it is just like jakob said it's kind of like here we can think of this as being like a little bit of a snippet from this infinite sequence of temperatures through time in practice there has to be an initiating prior pi are policies policies are sequences of actions sequences of affordances that are concatenated over some time horizon that's what we're evaluating like expected free energy on represent causal impact in the world and we can look at this graph which is why this is an important prerequisite to understand because the way in which policies influence the worlds isn't like by taking the temperature and like just changing it to a different value it's changing three which is how the temperature changes through time any thoughts on the discrete time yes mike so as represented in this figure the policy is not changing over time is that correct the set of policies in this figure is not changing it's not that it can't this is just only showing two steps of some policy being applied yeah just the way it is in this figure so if if we were to maybe extend this figure with two more of the the bottom section we could also extend policy and have that changing over time and feeding into that yes and that's actually one of the amazing and interesting things about this graphical representation is we can say okay well let's carry out this s to five more time steps and then let's have pi one implemented here and then let's have a do pi two here and it's kind of like if you can draw it you can do it and that's very important work from devry's and fristen and par from around five years ago was demonstrating that if the bayes graph can be drawn that there's a forney factor graph and where there's the 40 factor graph there's a attractable variational message passing approximation i don't know exactly what the guide rails are for like are there graphs that can't be amenable to message passing and etc but just at a first pass four graphs that look like this they can be drawn and more variables can be added and so on so it's kind of like a visual code for probabilistic graphical models so maybe that's a fun exercise is like to think about causal inference in our day like the temperature in my room is being influenced by like whether the air conditioner is running in the other room and the temperature outside which one of these scenarios does it model onto and just kind of taking scenarios that are familiar to us and then separating them in terms of how are the hidden states changing through time what are the observations what policies influence how hidden states change their time this is going to be an interesting different view on the bottom here with the continuous time model does anyone want to describe the continuous time variant also one interesting piece here is in the live streams that we just did over the last few weeks 46 they make it clear distinguishing between dai decision active inference and mai motor active inference and beyond just modeling cognitive decision making versus motor reflex arcs they also highlight how the dai is a discrete type model that's using the pomdp while the motor models tended to use they're laying out also kind of generalizing to show the similarities between these two different variants and we can use the notation concordance table to like highlight some of those parallels this is where the taylor series approximation comes in and the generalized coordinates of motion though they can also be applied to the discrete we have we have um x x prime and x double prime the prime notation indicates temporal derivatives and second derivatives if anyone has a thought on that feel free because this is not doing time series prediction in the same way that the pomdp is the pomdp in the memory of the program there's a value at the previous state the current state and the next state and however many other states in the time horizon way that a continuous time taylor series approximation is dealing with reduction of uncertainty about future data is quite different than the way that these discrete time models are doing so what's happening here the the value of the function at now is being estimated or provided then the first derivative is calculated so here three has the same structure but whereas this is the hidden state at the next time point conditioned upon the hidden state at this time point and the policy here's the derivative of x conditioned upon x and the policy v v also has a slightly different interpretation because it's not sequence of events either and analogously for the second derivative and the higher derivatives so they're still emitting observations but these are not observations at future time points in the same way and that is visualized in this box 4.2 so here is x of t at time t so this is like the way that the time series is going to go x of t is just this value here you know 5. the first term being added in the taylor series expansion is the first derivative rate of change at that x zero that's giving you a better approximation then the second derivative adds this quadratic feature and so taylor series converge closer and closer moving further and further away from the target points as they include higher and higher derivatives but there isn't there isn't an explicit calculation in the taylor series of like let's just say this is like you know one two three time steps it's not like well what is gonna happen at three time steps from the taylor series could then be plugged in with three to calculate that however this is not um calculating x x prime x double prime at t equals it's calculating it for x sub zero and then using this expansion to achieve reduction of uncertainty of more and more distal points so that's quite interesting and it's again it's an extremely different way of doing time series prediction in the continuous time framework than this kind of explicit consideration of past present future state values okay any other thoughts on 4.3 because this is one of the most key figures the things we can explore and ask ali uh about this figure on page 69 it says the relationship between a state and its temporal derivative here depends on slowly varying causes uh nu uh uh i just want to to make sure uh does this mean this slowly varying causes uh here is used uh to account for the fluctuations or it some different meaning yes slowly varying causes are influencing the causal unfolding of states in this discrete formalization in the continuous time setting the very the cause slowly varying causes more slowly than these changes play a similar role to policies above so these are these causes intervene in how the derivatives are calculated uh no i mean uh here in the discrete time uh well obviously uh we have uh we can say stable policies uh that doesn't uh that don't change through time but uh in the continuous time uh well i don't know at least that was my understanding that uh the policies can slightly change uh but the change can be some somewhat somehow negligible and uh well that's because of the the additional uh term uh for fluctuations in the equations uh and uh they don't necessarily uh affect uh the main the main the components of the equations one could set it up so that the policies are ineffectual so that the state changes through time with their own endogenous dynamics not influenced by policy or one could imagine a situation where the states don't change it all through time and their changes are entirely driven by policy and i think analogously there could be a setting in which the derivative of x is hardly influenced by these v or v might entirely describe the derivatives of x but i'm not sure if just at this level of generality we can allocate importance to kind of the endogenous dynamics or like sort of the policy independent changes just the way that those states are changing or analogously but that's a great question um lyle and then mike yeah this might be just slightly off topic but the tools if you if you're using a multi-mode simulation tool it can handle both in some sense it's going to try and solve both continuous formulations and discrete time formulations so one they would typically call agent based and the other would be ode-based or something like that just the way that they do that is a little bit of sleight of hand because of course they're not solving the equations per se they're estimating the solutions and they always if you have that then if you have a slowly changing set of parameters like you might model with the discrete case then you you know you've got a uh an event q and those events are however far apart they need to be then to estimate the continuous form they simply set that delta t delta t goes to zero in some says never goes in the software exactly to zero but then you you compress that delta t down to very small time slices and then you have estimated your continuous form and so by by doing that you can really have a pretty comprehensive way to represent both cases in the same modeling environment so great point um numerical approximations to continuous processes can be done through breaking them down into discrete processes and then making sure that as your delta t is getting smaller and smaller that you're getting a convergent estimator the approach that's taken analytically is to use a taylor series approximation mike and so in thinking about how we should build the mental model of the taylor series approximation or incorporate that in our model um that's one example of how you might capture the time series structure and you could potentially substitute in other approaches to maybe capture finer detail or discrete events that might occur on the series like what uh like uh lois decomposition or something like that where you're taking apart components of the time series things like trend seasonality um discrete events yes i think the analytical comparisons would be um tight or loose but kalman filter generalized bayesian filtering splines uh time series decomposition these are all in the category or like in the genre of this ollie uh by the way thanks uh for the clarification that was really helpful uh uh well uh to ask my question uh more explicitly uh on page 78 uh equation 4.15 we have some additional omega terms which are defined as stochastic fluctuations my question was that is the term slightly varying somehow related to these stochastic fluctuations or not yes i believe that the slowly varying is in relationship to it being included with the flow component rather than with the um at that time scale stochastic more thermal like vibration and that was explored in like live stream 45 with free energy principle made simpler but not too simple with this idea of the length of n and how physics and mechanics are predicated upon the separation into flow-like actions at a given scale and then stochastic non-flow aligned and the path of least action is when the the the limit of the the stochastic term going to zero but let's let's come there um yeah as people can see even though it's like we could totally read this like 20 times and it still is like why is the next word there why is the next equation there but okay they're introducing these two types of generative models that have like kind of tantalizing isomorphisms but also very interesting differences they're going to first focus on the the partially observable markov decision formalism is used someone asked like why is the categorical notation used it just allows it it makes it easy to look at a matrix and to interpret the matrix as like a confusion matrix not just a matrix that is confusing like they can be but one that has to do with like a coin flip so categorical outcomes the uh three nodes are the transition function here in the categorical context between different states that's this b and here's where we see the d the prior over the initial state and b and together these account for the three nodes in figure 4.3 they play a functionally similar role here's where they get distinguished selecting between models of behavior and that was another question which maybe we could get to um requires selection amongst these categorically discrete plans the softmax normalizes and ensures that the probability over those policies is normalized so that they can be understood as a probability distribution okay a categorical probability here's the expected free energy that we've seen before more on expected free energy specifically on how this kl divergence term which as we talked about last week was about how the preferred states are realized active inference uses f and g they're related but they play different roles vfe f is the primary quantity minimized over that was interesting to read because efe is what is minimized prospectively whereas here the claim is that variational free energy is what is minimized over time in relationship to generative model again more more could be explored there they're going to focus on a rearrangement of equation 2.6 here with the ambiguity and risk being juxtaposed with the informational value information gain infomax and pragmatic value they then move into the linear algebraic form where the bolds i don't know if bold is used in the same way in this appendix as it is in these equations does anyone know about what bold means here it could mean the vector ali yes i also think uh bold the most probably means vector matrix it it gets pretty subtle though sometimes because there's times where there's italics bold and neutral being used uh very closely um it's like it's when they're used closely it can be confusing and then when they're used not closely it's hard to juxtapose expected free energy rewriting within the linear algebraic form softmax bringing back the logs variational inference rests upon factorization that's related to the sparsity of the bayes graph moritz hey uh so just going to 410 again um i was wondering what's the use of the categorical distribution here because like maybe i miss it but it's not really explained in the text what what they use it for like there's one sentence saying like oh yeah uh the fifth line shows that the prior belief about observation is a categorical distribution like what is it for what does it do i i i've never seen it before i don't know if it has to be categorical i like a preference distribution could be a continuous function but here it's simpler perhaps to show it as a categorical like there's two outcomes having the food and not having the food so then that's a categorical distribution of preferences and of observations so they're just modeling a situation where there's categorical that are being preferred as opposed to like a preference over some continuous does that address it they're just modeling a situation where there's a cont where there's a categorical difference with observations and with preferences just because like mathematically it's easier now to to start with that or like yeah i think didactically it's a lot clearer because you can see like a two by two matrix did i observe the food or not did i get the food or not instead of like a distribution of temperature preference and a distribution of observations i'd expect that the formalism will work out the same in the sense that you're still minimizing your surprisal and you're still performing distribution matching but also this is like a distribution matching in a categorical context that has an interpretation of almost like false positive and false negative all right okay i will go with it thank you for the explanation yeah it's a it's a good question and i mean it the the matrices help connect to the linear algebra and the matlab and also just to like sort of match or no match like in 46 the example had to do with like wanting ice cream and then they observed ice cream or not pmdp and also like where does this eta we'll we'll come back to the another time but just to kind of get through it all the first pass um more details on a pomdp s and v auxiliary variable i don't think this is the v because we're in the pomdp setting so it's just an auxiliary variable used as sort of a analytical convenience that concludes their discussion of the model into continuous time but first they describe again markov blankets and take kind of a second pass the blankets are the causes of x upstream which are parents and the children and the parents of the children the kind of co-influencers of course there's more to say but that's what the um pearl definition is how that gets mapped to sense and action states and what influences what what's in the blanket on the blanket etc those are model specific and then here are two common message passing schemes that are used for approximate inference unless the base graph is fully connected there is a markov partitioning here this is pretty funny nb no te penne good note good note to note the slightly non-standard use of the expectation operator perhaps by overloading it with a massive subscript but it's unclear what exactly they meant there showing alignment between these two different schemes but there's definitely citations to go into more into detail on like belief propagation and message passing inactive and then we see several of these personally i think it's slightly challenging to understand whether this is being used illustratively or whether these specific topologies are as directly interpretable as these topologies are but here we see kind of if you uh blur your eyes here's policy at the top here's the observations here's time minus one here's s minus t minus one t and t plus one so we can see some resonances with 4.3 but now we're in the continuous time motor active inference from 46 is justifying the use of continuous time based upon the um continuous unrolling aspect of sensory input and motor output they're going to start in a different place than they did with the po mdp in this case we have much more of a physics grounding again check out live stream number 45 to see about the langven and how this is connected but this is a much more physics based in terms of like a flow operator and a stochastic term at a given time scale the um term assumed to have a normal distribution and that kind of relates like what mike said about de-trending like one can think of this stochastic as being what happens when you've de-trended all of the signal that's non-gaussian out you're left with like the residuals which have a gaussian nature precision is capital pi and that's the inverse of the fluctuation and so that's they're going to connect that to the common filtering here we return again to the generalized coordinates motion coming from this taylor series approximation route so if somebody said i have 10 numbers and we need to predict 10 years in the future the discrete time way would be like well let's try to predict it at each of those 10 years and that those will be your 10 numbers the generalized coordinates of motions approach which we explored the most in livestream number 26 with decosta at all in bayesian mechanics the 10 numbers could be like the value today and the derivative today the second derivative and the third and the fourth and the fifth up however many that's the generalized coordinates of motion so it's like a snapshot of the process and all of its higher derivatives and so the generalized coordinates of motion are very similar to taylor series approximations in how they represent centered at a certain point x naught how one expects as movement happens away from that x naught reducing surprise and so here is like x with a um dot on top is the change in x and then this is like the derivative of the change in x and so on here the tilde notation is used for the so we see this equation which was just for one value where you are on the freeway you know and then this is the generalized coordinates of motion the free energy is written down for with precision the closest that we came to exploring it was in 43 on predictive coding there's some more details on gaussian the relationship between like gaussian uh processes also i think lyle brought up this um like sort of mode and multi-mode simulations this is modeling a single mode not that it can't model a bimodal this is where the laplace approximation comes into play this is potentially even unnecessarily complex but it's there and the laplace approximation is fitting um a quadratic that tracks the mode so like the the highest point on the distribution and then it fits a parabola around that is more details on the hierarchical and the kind of multi-time scale nature that's implied ultimately by the lengthen there's uh it'd be good to juxtapose figure four six and four four to see how they're similar and different but here we see message passing happening on the generalized predictive coding architecture and that was like explored a lot more not with this exact figure but this was explored more from like an analytical and empirical perspective in 43. there's an abrupt ending but the following chapters are going to appeal to the formalisms and apply them so any thoughts or ideas on chapter four as we close out and hopefully next week we can have um a lot of questions and things like that even basic questions it's like if the if you read it and you understood it then it'd be awesome to contribute a that would explore someone else's understanding or prompt towards how you thought about it in a way that made sense for you and if you don't understand it then just ask the question ali and then anyone else i just wanted to briefly mention an additional point related to the question about the reason behind using the categorical distribution on page 74 it says uh belief about the observations is the categorical distribution whose sufficient statistics are given in the c vector i think here sufficient statistics is the key term uh to understand the reason behind using categorical distributions because uh for sufficient insufficient statistics we don't necessarily use the exact the exact modeling or distributions instead we use a substituted statistics that is simple enough to calculate and also close enough to the uh to the actual data so i think that can help in understanding the reason behind that decision good point this is definitely a a technical note but um is it fair to say that like the mean and the variance are sufficient statistics for a gaussian distribution uh yes i think so so like that's one of the perhaps proximate mechanisms by which the laplace approximation and variational inference more generally are able to deal with arbitrary true distributions by fitting a family of distributions that have um tractable optimization structure and a vastly reduced set of sufficient statistics if you had even just a simple bimodal distribution while there would be like the location of the two peaks the relative heights of the two peaks the skewedness and all the you can have many many parameters needed to describe it in contrast the laplace approximation only requires the location of the mode and the variance estimate where that's adequate it's simple and fast where it's inadequate you'll at least know because you'll continue to be surprised at new observations coming in okay any final comments on this chapter four part one definitely a challenging though interesting and it really is at the heart of active and as we hopefully explored a little bit today it includes like basic intuition pumps some rosetta stone like representations and many many equations which i hope we can unpack so could someone explain it in simple words it's what we've been asking for every single equation and it's something that everyone can contribute to all right well looking forward to people's edits over the coming week and editions we'll come back in one week for part two on four</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

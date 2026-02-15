@@ -2,29 +2,134 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>lab</title>
+    <title>tmpqfiwk04l</title>
 </head>
 <body>
-<h1>Lab: Exploring Cognition</h1>
+<h1>Lab: Bayes' Theorem -- Updating Beliefs with Evidence</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Cognition</strong>.</p>
+<p>Apply <strong>Bayes' theorem</strong> to update beliefs when new evidence arrives. This is the core mathematical operation of cognition in Active Inference: combining what you already believe (prior) with what you observe (likelihood) to form a new belief (posterior).</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Cognition.</li>
+<li>Completed Math Foundations: Perception module (conditional probability, likelihood)</li>
+<li>Comfort with fraction multiplication and division</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Bayes' Theorem by Counting</h2>
+<p><strong>Goal</strong>: Derive Bayes' theorem from a concrete counting scenario.</p>
+<p>A class of 100 students: 30 study regularly, 70 do not. Of those who study, 90% pass the exam. Of those who do not study, 40% pass.</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Hs.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Cognition.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Cognition (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>Fill in the table:</li>
 </ol>
-<h2>Discussion Requirements</h2>
-<ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Cognition.</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Pass</th>
+<th>Fail</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Study</td>
+<td>?</td>
+<td>?</td>
+<td>30</td>
+</tr>
+<tr>
+<td>No Study</td>
+<td>?</td>
+<td>?</td>
+<td>70</td>
+</tr>
+<tr>
+<td>Total</td>
+<td>?</td>
+<td>?</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>P(Study | Pass) = (students who study AND pass) / (total who pass) = ?</li>
+<li>Now compute the same answer using Bayes' formula: P(Study | Pass) = P(Pass | Study) * P(Study) / P(Pass) = ?</li>
+<li>Verify both methods give the same answer.</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Bayes' Theorem Formula</h2>
+<p><strong>Goal</strong>: Practice the formula P(H|D) = P(D|H) * P(H) / P(D).</p>
+<p>A disease affects 1 in 1000 people. A test is 99% accurate (detects disease when present) and has a 5% false positive rate.</p>
+<ol>
+<li>P(disease) = 0.001, P(no disease) = 0.999</li>
+<li>P(positive | disease) = 0.99</li>
+<li>P(positive | no disease) = 0.05</li>
+<li>P(positive) = P(pos|disease)<em>P(disease) + P(pos|no disease)</em>P(no disease) = ?</li>
+<li>P(disease | positive) = P(pos|disease)*P(disease) / P(positive) = ?</li>
+<li>Were you surprised by how low P(disease | positive) is? Why does this happen?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Sequential Updating</h2>
+<p><strong>Goal</strong>: Apply Bayes' theorem multiple times as new evidence arrives.</p>
+<p>You think a coin might be fair (P(heads) = 0.5) or biased (P(heads) = 0.8). Your prior: P(fair) = 0.7, P(biased) = 0.3.</p>
+<ol>
+<li>You flip and get heads. Compute P(fair | heads) using Bayes' theorem.</li>
+<li>Now use your answer from step 1 as the new prior. You flip again and get heads. Compute P(fair | heads, heads).</li>
+<li>One more flip: tails. Compute the new posterior.</li>
+<li>How did your belief shift across three updates? In Active Inference, this sequential updating IS cognition.</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Prior Strength</h2>
+<p><strong>Goal</strong>: Explore how strong vs. weak priors affect belief updating.</p>
+<p>Use the same coin scenario, but compare two agents:
+- Agent A (strong prior): P(fair) = 0.95
+- Agent B (weak prior): P(fair) = 0.50</p>
+<p>Both observe 3 heads in a row.</p>
+<ol>
+<li>Compute P(fair | 3 heads) for Agent A.</li>
+<li>Compute P(fair | 3 heads) for Agent B.</li>
+<li>Which agent shifts their belief more? Why?</li>
+<li>In Active Inference, prior strength relates to <strong>precision</strong> -- how confident the agent is in its existing model.</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Math Concept</th>
+<th>Symbol</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bayes' theorem</td>
+<td>P(H|D) = P(D|H)*P(H)/P(D)</td>
+<td>Updates prior belief with evidence</td>
+</tr>
+<tr>
+<td>Prior</td>
+<td>P(H)</td>
+<td>Belief before observing data</td>
+</tr>
+<tr>
+<td>Posterior</td>
+<td>P(H|D)</td>
+<td>Belief after observing data</td>
+</tr>
+<tr>
+<td>Evidence / marginal likelihood</td>
+<td>P(D)</td>
+<td>Total probability of the data</td>
+</tr>
+<tr>
+<td>Sequential updating</td>
+<td>Prior -&gt; Posterior -&gt; new Prior</td>
+<td>Repeated application of Bayes' rule</td>
+</tr>
+</tbody>
+</table>
 </body>
 </html>

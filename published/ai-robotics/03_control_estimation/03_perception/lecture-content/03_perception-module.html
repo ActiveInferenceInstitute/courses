@@ -13,7 +13,7 @@
 <li>Apply specific constraints of Robotics to the formal definition of Perception.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Perception</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>This module explores <strong>Perception</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between Agents and Cognition.</p>
 <h2>Key Concepts</h2>
 <h3>1. Perception as a Markov Blanket Boundary</h3>
 <p>How does Perception define the boundary between the agent and the environment?</p>
@@ -23,28 +23,9 @@
 <p>How does the process of Perception drive the perception-action loop?</p>
 <h2>Applications</h2>
 <p>In Robotics, we see Perception manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
+*   <strong>Specific Example 1</strong>: An Extended Kalman Filter (EKF) on a mobile robot fuses wheel odometry (high-rate, drifting) with GPS measurements (low-rate, absolute but noisy) by treating each sensor as a likelihood function in Bayes' rule -- the EKF's prediction step propagates the prior belief forward using the dynamics model, and each sensor update step multiplies in the corresponding likelihood, with the Kalman gain automatically implementing the precision-weighted prediction error update that Active Inference prescribes for perceptual inference.
+*   <strong>Specific Example 2</strong>: A stereo-visual-inertial odometry system (such as OKVIS or VINS-Mono) running on a drone implements perception as nonlinear factor graph optimization, where IMU preintegration factors serve as the dynamics model and reprojected visual feature observations serve as measurement factors; the system inverts its generative model (camera projection plus rigid body dynamics) to infer the drone's 6-DOF pose trajectory, with marginalization of old states keeping the inference problem tractable for real-time operation at 20 Hz.</p>
 <h2>Conclusion</h2>
 <p>Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
 </body>
 </html>

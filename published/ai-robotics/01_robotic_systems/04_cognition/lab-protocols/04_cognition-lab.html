@@ -2,29 +2,168 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>lab</title>
+    <title>tmps5b6ppyf</title>
 </head>
 <body>
-<h1>Lab: Exploring Cognition</h1>
+<h1>Lab: Probabilistic World Models for Robots</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Cognition</strong>.</p>
+<p>Design and analyze a probabilistic world model for a mobile robot performing simultaneous localization and mapping (SLAM). You will specify a generative model that captures the robot's beliefs about its environment, implement a factor graph representation, and compare world model architectures in terms of their free energy properties.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Cognition.</li>
+<li>Understanding of Bayesian state estimation from Module 03</li>
+<li>Familiarity with occupancy grids or landmark-based maps</li>
+<li>Basic graph theory concepts (nodes, edges, factors)</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Generative World Model Design</h2>
+<p>Design a generative model for a robot exploring an unknown office environment:</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Robotics.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Cognition.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Cognition (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li><strong>State variables</strong>: Define the hidden states the robot must infer:</li>
+<li>Robot pose trajectory: {x_0, x_1, ..., x_T}</li>
+<li>Landmark positions: {l_1, l_2, ..., l_N}</li>
+<li>
+<p>Object categories: {c_1, c_2, ..., c_N} (e.g., door, chair, person)</p>
+</li>
+<li>
+<p><strong>Generative process</strong>: Specify the factored joint distribution:</p>
+</li>
+<li>p(x_t | x_{t-1}, u_t): motion model conditioned on control input</li>
+<li>p(z_t | x_t, l_j): observation model for landmark j</li>
+<li>p(l_j): prior over landmark positions</li>
+<li>
+<p>p(c_j): prior over object categories</p>
+</li>
+<li>
+<p>How does this generative model enable the robot to simultaneously reason about "where am I?" and "what is around me?"</p>
+</li>
 </ol>
-<h2>Discussion Requirements</h2>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Factor Graph Representation</h2>
+<p>Represent the SLAM generative model as a factor graph:</p>
+<ol>
+<li>Draw or describe the factor graph with variable nodes (poses, landmarks) and factor nodes (motion model, observation model, priors).</li>
+<li>Identify which message-passing algorithm could perform approximate inference on this graph (e.g., belief propagation, Gaussian elimination).</li>
+<li>How does adding a loop closure observation (re-observing a known landmark) change the factor graph structure? What computational implications does this have?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Hierarchical World Models</h2>
+<p>Robots operate at multiple spatial and temporal scales. Design a two-level hierarchical world model:</p>
+<ol>
+<li><strong>Lower level</strong>: Metric map -- precise positions and geometries (occupancy grid or landmark map).</li>
+<li><strong>Upper level</strong>: Topological map -- rooms, corridors, and connectivity (graph of places).</li>
+</ol>
+<p>For each level:
+- What are the hidden states?
+- What is the timescale of updates?
+- How do predictions flow between levels (top-down priors, bottom-up evidence)?</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: World Model Comparison</h2>
+<p>Compare three world model architectures for the same robot task (navigating from room A to room B):</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Occupancy Grid</th>
+<th>Landmark SLAM</th>
+<th>Active Inference World Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>State representation</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Uncertainty handling</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Computational cost</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Adaptability</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Model complexity term</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+<p>Discuss how the free energy objective naturally balances model accuracy against model complexity (Occam's principle).</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Cognitive Map Update Pseudocode</h2>
+<p>Write pseudocode for updating the robot's world model upon entering a new room:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">update_world_model</span><span class="p">(</span>belief, observation, world_model<span class="p">):</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">1.</span><span class="w"> </span><span class="n">Predict</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">observations</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">world</span><span class="w"> </span><span class="n">model</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">2.</span><span class="w"> </span><span class="n">Compute</span><span class="w"> </span><span class="n">prediction</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="p">(</span><span class="nb">what</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">surprising</span>?<span class="p">)</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">3.</span><span class="w"> </span><span class="n">Determine</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">existing</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="n">explains</span><span class="w"> </span><span class="n">observations</span><span class="w"> </span><span class="p">(</span><span class="n">low</span><span class="w"> </span><span class="n">FE</span><span class="p">)</span>
+<span class="w">    </span>#<span class="w">    </span><span class="n">or</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="n">structure</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">change</span><span class="w"> </span><span class="p">(</span><span class="n">new</span><span class="w"> </span><span class="n">room</span><span class="p">,</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">objects</span><span class="p">)</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">4.</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="n">structure</span><span class="w"> </span><span class="n">change</span><span class="w"> </span><span class="n">needed</span><span class="p">:</span>
+<span class="w">    </span>#<span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="n">Add</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">landmark</span><span class="w"> </span><span class="n">nodes</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="nb">factor</span><span class="w"> </span><span class="nb">graph</span>
+<span class="w">    </span>#<span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="n">Initialize</span><span class="w"> </span><span class="n">priors</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">objects</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">5.</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">inference</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="nb">update</span><span class="w"> </span><span class="nb">all</span><span class="w"> </span><span class="n">beliefs</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">updated_world_model</span><span class="p">,</span><span class="w"> </span><span class="n">updated_belief</span>
+</code></pre></div>
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>World Model Component</th>
+<th>Robotics Concept</th>
+<th>Active Inference Concept</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Map</td>
+<td>Occupancy grid / landmark set</td>
+<td>Generative model structure</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Localization</td>
+<td>Pose estimate</td>
+<td>Posterior belief over robot state</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Object recognition</td>
+<td>Classification</td>
+<td>Model comparison / Bayesian model selection</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Novelty detection</td>
+<td>Anomaly detection</td>
+<td>High free energy (model surprise)</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
 <ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Cognition.</li>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Thrun, S., Burgard, W., &amp; Fox, D. (2005). <em>Probabilistic Robotics</em>. MIT Press, Chapters 10-13.</li>
+<li>Kaelbling, L. P., Littman, M. L., &amp; Cassandra, A. R. (1998). Planning and acting in partially observable stochastic domains. <em>Artificial Intelligence</em>, 101(1-2), 99-134.</li>
 </ul>
 </body>
 </html>

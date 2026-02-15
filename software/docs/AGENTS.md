@@ -33,9 +33,9 @@ Standards and processes for maintaining documentation in the Active Inference In
 
 | File | Purpose | Audience |
 |------|---------|----------|
-| [CLI_REFERENCE.md](CLI_REFERENCE.md) | Complete reference for all 21 scripts | Users/Developers |
-| [COURSE_CATALOG.md](COURSE_CATALOG.md) | Full catalog of all 14+ courses | Everyone |
-| [TESTING.md](TESTING.md) | Test suite guide (65+ test files) | Developers |
+| [CLI_REFERENCE.md](CLI_REFERENCE.md) | Complete reference for all 22 scripts | Users/Developers |
+| [COURSE_CATALOG.md](COURSE_CATALOG.md) | Full catalog of all 17 courses | Everyone |
+| [TESTING.md](TESTING.md) | Test suite guide (67 test files) | Developers |
 | [AGENTS.md](AGENTS.md) | Documentation standards (this file) | Contributors |
 
 **Subsystems:**
@@ -270,4 +270,4 @@ uv run pytest tests/ --cov=src --cov-report=html
 
 ---
 
-*Last Updated: 2026-02-14*
+*Last Updated: 2026-02-15*

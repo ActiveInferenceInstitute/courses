@@ -776,47 +776,103 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lecture_content">
-<div><h1>Module 06: Learning in Robotics</h1>
+<div><h1>Robotic Learning: Updating Generative Models Through Experience</h1>
+<h2>Executive Summary</h2>
+<p>Learning in robotics is the process by which a robot improves its generative model through interaction with the world. In Active Inference, learning corresponds to updating the parameters and structure of the generative model to reduce long-term prediction error — making the robot's internal model a better approximation of the true dynamics of its body and environment. This module examines how robots learn dynamics models from manipulation experience, adapt perception models to new visual conditions, and tune control policies through trial and error. Unlike offline machine learning, robotic learning must contend with real-time constraints, physical safety requirements, and the cost of acquiring data through actual physical interaction.</p>
 <h2>Learning Objectives</h2>
 <ol>
-<li>Define <strong>Learning</strong> within the context of Robotics.</li>
-<li>Analyze how Learning interacts with other components of the Active Inference framework.</li>
-<li>Apply specific constraints of Robotics to the formal definition of Learning.</li>
+<li>Define robotic learning as parameter and structure updates to the generative model driven by accumulated prediction errors.</li>
+<li>Distinguish between parameter learning (adjusting existing model weights) and structure learning (changing the model architecture).</li>
+<li>Analyze the accuracy-complexity trade-off in robotic model learning and its relationship to variational free energy.</li>
+<li>Evaluate the challenges unique to robotic learning: sample efficiency, safety constraints, and sim-to-real transfer.</li>
+<li>Connect robotic learning paradigms (supervised, reinforcement, self-supervised) to Active Inference's free energy minimization.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Learning</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>The previous module on Action examined how robots translate beliefs into physical forces. But what happens when those actions produce unexpected outcomes — when the object slips from the gripper, when the mobile base skids on a wet floor, when the visual detector misidentifies a part? These prediction errors are not just problems to be corrected in the moment; they are learning signals that can improve the robot's generative model for future interactions. In the next module on Communication, we will see how learned knowledge can be shared between robots; here, we focus on the individual robot's learning process.</p>
 <h2>Key Concepts</h2>
-<h3>1. Learning as a Markov Blanket Boundary</h3>
-<p>How does Learning define the boundary between the agent and the environment?</p>
-<h3>2. Generative Models of Learning</h3>
-<p>What parameters involved in Learning must be optimized to minimize variational free energy?</p>
-<h3>3. Active Inference Dynamics</h3>
-<p>How does the process of Learning drive the perception-action loop?</p>
+<h3>1. Learning as Free Energy Minimization Over Long Timescales</h3>
+<p>In Active Inference, perception updates beliefs about hidden states on a fast timescale (milliseconds to seconds), while learning updates the parameters of the generative model on a slower timescale (minutes to hours to days). Both processes minimize variational free energy, but at different levels of the model hierarchy.</p>
+<p>When a UR5 manipulator repeatedly fails to grasp objects at the expected location, the immediate perceptual response is to update the belief about the object's current position. But if the offset is systematic — the camera is slightly miscalibrated — then perceptual correction alone is insufficient. The robot needs to learn a new value for the camera extrinsic calibration parameter, adjusting the generative model so that future predictions from camera observations are more accurate. This parameter update is learning: it changes the model itself, not just the current state estimate.</p>
+<p>The variational free energy framework provides a natural objective for learning. Parameters should be updated to reduce the average prediction error across many observations, subject to a complexity penalty that prevents overfitting. A dynamics model with too many parameters might perfectly fit the training data (low accuracy term) but fail on novel situations because it has memorized noise (high complexity term). The free energy objective balances these, guiding the robot toward models that are accurate and parsimonious.</p>
+<h3>2. Parameter Learning in Dynamics Models</h3>
+<p>Dynamics models — predicting how the world evolves given the robot's actions — are central to robotic control and planning. Learning the parameters of these models from experience is one of the most important forms of robotic learning.</p>
+<p>For a manipulator, the dynamics model includes the mass, inertia, and friction parameters of each link and joint. Classical system identification estimates these from carefully designed excitation trajectories. But in Active Inference, learning can be continuous: every motion the robot makes generates prediction errors between expected and actual joint torques, and these errors can be used to incrementally refine the dynamics parameters through gradient descent on the variational free energy.</p>
+<p>For a mobile robot, the dynamics model includes wheel radius, track width, and surface friction coefficients. These parameters change over time — tires wear, floors are waxed, payloads change. An Active Inference robot continuously monitors its prediction errors (the difference between commanded and actual velocities) and updates its dynamics parameters accordingly. If the robot suddenly finds itself slipping on a wet floor, the increased prediction errors drive rapid updates to the friction parameter, which in turn causes the controller to command more conservative velocities.</p>
+<h3>3. Learning Perception Models</h3>
+<p>The observation model — predicting what sensory data the robot should receive given the world state — also requires learning and adaptation.</p>
+<p>A visual object detector trained in one lighting condition may fail when deployed in another. Active Inference frames this as increased prediction error at the observation level: the model predicts one pattern of pixel intensities, but the actual image is systematically different. Learning reduces this error by updating the observation model parameters. Fine-tuning a neural network object detector on images from the deployment environment is parameter learning in the observation model. Training a new detector from scratch for a novel object class is structure learning — adding new states and observation mappings to the generative model.</p>
+<p>Self-supervised learning is particularly natural for robotic perception. A robot that grasps objects learns to associate visual features with grasp success and failure. An object that looks graspable (low prediction error on the observation model) but consistently slips from the gripper (high prediction error on the action outcome model) generates a learning signal that updates the visual model to better predict grasp affordances. This learning loop — act, observe outcome, update model — is exactly the perception-action-learning cycle that Active Inference prescribes.</p>
+<h3>4. Sim-to-Real Transfer and Domain Adaptation</h3>
+<p>One of the major challenges in robotic learning is data efficiency. Physical robot interactions are slow, expensive, and potentially damaging. Simulation offers unlimited, safe, fast data generation — but simulated environments inevitably differ from reality. Sim-to-real transfer addresses this gap.</p>
+<p>In Active Inference terms, sim-to-real transfer is a model adaptation problem. The generative model learned in simulation has systematic prediction errors when applied to the real world — the simulated physics does not perfectly match real physics, the rendered images do not match real camera images. The robot must learn to correct these discrepancies, either by fine-tuning the entire model on real-world data or by learning a "residual" model that captures the sim-to-real gap.</p>
+<p>Domain randomization — systematically varying simulation parameters (friction, lighting, camera noise) during training — forces the learned model to be robust across a range of conditions. In Active Inference terms, this is learning a model with appropriate complexity: rather than overfitting to one specific simulation, the model captures the invariant structure that transfers to reality. The residual prediction errors that remain after sim-to-real transfer drive continued learning in the real environment, progressively closing the gap between the model and reality.</p>
+<h3>5. Safety Constraints on Robotic Learning</h3>
+<p>Unlike learning in virtual environments, robotic learning in the physical world carries real risks. A robot that explores aggressively to learn its dynamics model might collide with objects, damage itself, or injure nearby humans. Safety constraints are essential in robotic learning.</p>
+<p>Active Inference provides a natural framework for safe exploration through the expected free energy objective. The expected free energy includes a risk term — the probability of visiting states that are far from the agent's preferred (safe) states. This risk term penalizes exploratory actions that might lead to dangerous configurations (joint limits, excessive contact forces, proximity to humans) while still allowing the epistemic term to drive learning-oriented exploration in safe regions of the state space.</p>
+<p>In practice, this manifests as constrained exploration strategies. A manipulator learning its payload capacity might explore with small, gradually increasing loads rather than immediately attempting the maximum load. A mobile robot learning to navigate a new environment might first explore open areas before venturing into narrow corridors. These cautious exploration patterns emerge from the expected free energy objective when the preference model encodes appropriate safety margins.</p>
+<h2>Active Inference Connection</h2>
+<p>Learning in Active Inference is the slow minimization of variational free energy with respect to model parameters, as opposed to the fast minimization with respect to hidden states (perception) and actions (control). This three-timescale optimization — fast perception, medium-speed action, slow learning — mirrors the hierarchy of adaptation in robotic systems. Critically, Active Inference provides a unified objective for all three timescales, eliminating the need for separate loss functions for perception, control, and learning. The same prediction error that drives perceptual updates and action corrections also drives model learning, ensuring that the robot's generative model improves wherever its predictions are most inaccurate.</p>
 <h2>Applications</h2>
-<p>In Robotics, we see Learning manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
-<h2>Conclusion</h2>
-<p>Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<h3>Case Study 1: Online Dynamics Learning for UR5 Manipulation</h3>
+<p>A UR5 manipulator tasked with handling objects of unknown mass demonstrates online dynamics learning. The robot's generative model initially assumes the end-effector is unloaded. When the robot grasps a 2 kg object, the actual joint torques required to execute a trajectory differ significantly from the predicted torques — the prediction error spikes. The learning algorithm (recursive least squares on the dynamics parameters) incrementally updates the estimated payload mass, center of gravity, and inertia tensor over the next several motion cycles. Within five repetitions, the prediction error returns to baseline, and the robot's motions become smooth and accurate for the new payload. When the robot releases the object and grasps a different one, the learning process repeats, adapting to the new payload parameters. This continuous adaptation is parameter learning under the Active Inference framework — the same prediction errors that drive joint-level control also drive model parameter updates on a slower timescale.</p>
+<h3>Case Study 2: Visual Model Adaptation for Mobile Robot Navigation</h3>
+<p>A Clearpath Jackal robot trained to navigate using visual features in a well-lit laboratory is deployed in a dimly lit warehouse. The visual odometry system, which tracks feature points across camera frames, initially fails — prediction errors spike because the observation model (trained on bright, high-contrast images) cannot accurately predict the dark, low-contrast warehouse images. A self-supervised adaptation procedure runs overnight: the robot drives slowly through the warehouse, collecting paired data from its camera (high prediction error) and its lidar (low prediction error, since lidar is unaffected by lighting). Using the lidar-derived motion estimates as ground truth, the visual model's parameters are updated to handle the new lighting conditions. After adaptation, visual odometry prediction errors drop to acceptable levels, and the robot can navigate using vision alone. This is observation model learning driven by cross-modal prediction error — the lidar provides a reliable reference signal that enables the visual model to learn.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 3 (Perception)</strong>: The perceptual prediction errors that serve as learning signals</li>
+<li><strong>Module 5 (Action)</strong>: The action outcomes that generate experience data for learning</li>
+<li><strong>Module 4 (Cognition)</strong>: How learned model improvements enhance cognitive capabilities</li>
+<li><strong>Module 8 (Planning)</strong>: How more accurate learned models enable better planning</li>
+</ul>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parameter Learning</td>
+<td>Updating model weights to reduce prediction error</td>
+<td>Estimating payload mass from joint torque errors</td>
+</tr>
+<tr>
+<td>Structure Learning</td>
+<td>Changing the model architecture to represent new entities or relationships</td>
+<td>Adding a new object class to a visual detector</td>
+</tr>
+<tr>
+<td>Accuracy-Complexity Trade-off</td>
+<td>Balancing model fit against model simplicity</td>
+<td>Domain randomization preventing simulation overfitting</td>
+</tr>
+<tr>
+<td>Sim-to-Real Transfer</td>
+<td>Adapting a simulation-trained model to the real world</td>
+<td>Fine-tuning a grasp policy on a physical UR5 after training in simulation</td>
+</tr>
+<tr>
+<td>Safe Exploration</td>
+<td>Learning through experience while respecting physical safety constraints</td>
+<td>Gradually increasing payload exploration within torque limits</td>
+</tr>
+<tr>
+<td>Self-Supervised Learning</td>
+<td>Learning from prediction errors between different sensory modalities</td>
+<td>Using lidar to supervise visual odometry adaptation</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Nguyen-Tuong, D., &amp; Peters, J. (2011). Model learning for robot control: A survey. <em>Cognitive Processing</em>, 12(4), 319-340.</li>
+<li>Tobin, J., et al. (2017). Domain randomization for transferring deep neural networks from simulation to the real world. <em>IROS</em>.</li>
+<li>Brunke, L., et al. (2022). Safe learning in robotics: From learning-based control to safe reinforcement learning. <em>Annual Review of Control, Robotics, and Autonomous Systems</em>, 5, 411-444.</li>
+</ol></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,26 +882,154 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Learning</h1>
+<div><h1>Lab: Adaptive Robotics and Online Learning</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Learning</strong>.</p>
+<p>Design and analyze learning mechanisms for a robot that must adapt its generative model parameters online. You will compare fixed-model controllers with adaptive controllers, explore sim-to-real transfer challenges, and design a learning architecture that updates model parameters while maintaining stable control.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Learning.</li>
+<li>Understanding of generative models and free energy from Modules 03-05</li>
+<li>Familiarity with parameter estimation concepts</li>
+<li>Basic understanding of gradient-based optimization</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Parameter Learning Scenario</h2>
+<p>A robot arm has learned its dynamics model in simulation but is now deployed on physical hardware where:
+- Joint friction coefficients differ by 20-40% from simulation
+- Link masses have manufacturing tolerances of +/- 5%
+- Motor torque constants vary due to temperature</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Robotics.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Learning.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Learning (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>Identify which generative model parameters need to be updated for sim-to-real transfer.</li>
+<li>For each parameter, specify: what observations would reveal the mismatch? What prediction errors would signal that learning is needed?</li>
+<li>How does the free energy signal (high free energy = poor model fit) serve as a natural learning trigger?</li>
 </ol>
-<h2>Discussion Requirements</h2>
+<p>{fill:textarea}</p>
+<h2>Part 2: Online Parameter Adaptation</h2>
+<p>Design an online learning algorithm that updates the robot's dynamics model during operation:</p>
+<ol>
+<li><strong>Learning rule</strong>: Define the parameter update as gradient descent on free energy:</li>
+<li>theta_{t+1} = theta_t - eta * dF/dtheta</li>
+<li>
+<p>Where theta includes friction coefficients, mass parameters, and motor constants</p>
+</li>
+<li>
+<p><strong>Learning rate selection</strong>: What determines the optimal learning rate? How does precision (confidence in current parameters) affect the learning rate?</p>
+</li>
+<li><strong>Stability constraint</strong>: How do you ensure that parameter updates do not destabilize the controller? Describe at least two safeguards.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Sim-to-Real Transfer Analysis</h2>
+<p>Compare three approaches to sim-to-real transfer:</p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Description</th>
+<th>Advantages</th>
+<th>Limitations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Domain randomization</td>
+<td>Train with varied simulation parameters</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>System identification</td>
+<td>Measure physical parameters directly</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Active Inference adaptation</td>
+<td>Online free energy minimization</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<p>For each approach, describe how it handles a specific sim-to-real gap: the simulated floor has friction coefficient 0.8, but the real floor has coefficient 0.4.</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Hierarchical Learning</h2>
+<p>Robots must learn at multiple timescales. Design a hierarchical learning architecture:</p>
+<ol>
+<li><strong>Fast adaptation</strong> (milliseconds): Precision updates -- adjusting confidence in sensor readings based on recent reliability.</li>
+<li><strong>Medium adaptation</strong> (seconds-minutes): Parameter updates -- adjusting dynamics model parameters (friction, mass, motor constants).</li>
+<li><strong>Slow adaptation</strong> (hours-days): Structure learning -- changing the model architecture itself (adding new state variables, changing model topology).</li>
+</ol>
+<p>For each timescale, specify: what is being learned, what drives the learning, and what are the risks of learning too fast or too slow.</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Lifelong Learning Architecture</h2>
+<p>Design a pseudocode architecture for a robot that learns continuously throughout its operational lifetime:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">lifelong_learning_loop</span><span class="p">():</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">operational</span><span class="p">:</span>
+<span class="w">        </span>#<span class="w"> </span><span class="mf">1.</span><span class="w"> </span><span class="n">Perceive</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">act</span><span class="w"> </span><span class="p">(</span><span class="n">standard</span><span class="w"> </span><span class="n">AIF</span><span class="w"> </span><span class="n">loop</span><span class="p">)</span>
+<span class="w">        </span><span class="n">observation</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sense</span><span class="p">()</span>
+<span class="w">        </span><span class="n">belief</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">update_belief</span><span class="p">(</span><span class="n">observation</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">)</span>
+<span class="w">        </span><span class="n">action</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">select_action</span><span class="p">(</span><span class="n">belief</span><span class="p">,</span><span class="w"> </span><span class="nb">preferences</span><span class="p">)</span>
+<span class="w">        </span><span class="n">execute</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="mf">2.</span><span class="w"> </span><span class="n">Monitor</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="n">energy</span><span class="w"> </span><span class="p">(</span><span class="n">learning</span><span class="w"> </span><span class="n">signal</span><span class="p">)</span>
+<span class="w">        </span><span class="n">F</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">compute_free_energy</span><span class="p">(</span><span class="n">belief</span><span class="p">,</span><span class="w"> </span><span class="n">observation</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="mf">3.</span><span class="w"> </span><span class="n">Fast</span><span class="w"> </span><span class="n">adaptation</span><span class="p">:</span><span class="w"> </span><span class="nb">update</span><span class="w"> </span><span class="n">precisions</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold_fast</span><span class="p">:</span>
+<span class="w">            </span><span class="n">update_precisions</span><span class="p">(</span><span class="n">observation_history</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="mf">4.</span><span class="w"> </span><span class="n">Medium</span><span class="w"> </span><span class="n">adaptation</span><span class="p">:</span><span class="w"> </span><span class="nb">update</span><span class="w"> </span><span class="n">parameters</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold_medium</span><span class="w"> </span><span class="n">over</span><span class="w"> </span><span class="n">window</span><span class="p">:</span>
+<span class="w">            </span><span class="n">update_parameters</span><span class="p">(</span><span class="n">gradient_F</span><span class="p">,</span><span class="w"> </span><span class="n">learning_rate</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="mf">5.</span><span class="w"> </span><span class="n">Slow</span><span class="w"> </span><span class="n">adaptation</span><span class="p">:</span><span class="w"> </span><span class="n">consider</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="n">structure</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold_slow</span><span class="w"> </span><span class="n">over</span><span class="w"> </span><span class="n">long_window</span><span class="p">:</span>
+<span class="w">            </span><span class="n">propose_model_revision</span><span class="p">()</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="mf">6.</span><span class="w"> </span><span class="n">Consolidation</span><span class="p">:</span><span class="w"> </span><span class="n">periodic</span><span class="w"> </span><span class="n">review</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">time_for_consolidation</span><span class="p">:</span>
+<span class="w">            </span><span class="n">consolidate_learned_parameters</span><span class="p">()</span>
+</code></pre></div>
+
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Learning Type</th>
+<th>Timescale</th>
+<th>What Changes</th>
+<th>Free Energy Signal</th>
+<th>Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Precision updating</td>
+<td>Milliseconds</td>
+<td>Sensor confidence</td>
+<td>Prediction error variance</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Parameter learning</td>
+<td>Seconds-minutes</td>
+<td>Model parameters</td>
+<td>Persistent prediction errors</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Structure learning</td>
+<td>Hours-days</td>
+<td>Model architecture</td>
+<td>Irreducible free energy</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
 <ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Learning.</li>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Nguyen, S. M., &amp; Oudeyer, P. Y. (2013). Active choice of teachers, learning strategies and goals for a socially guided intrinsic motivation learner. <em>Paladyn</em>, 3(3), 136-146.</li>
+<li>Tobin, J., et al. (2017). Domain randomization for transferring deep neural networks from simulation to the real world. <em>IEEE IROS</em>.</li>
 </ul></div>
 </div></section>
 
@@ -856,64 +1040,105 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-practice_quiz">
-<div><h1>Practice Quiz: Learning</h1>
+<div><h1>Practice Quiz: Learning in Robotic Systems</h1>
 <h2>Part A: Multiple Choice</h2>
 <ol>
-<li>
-<p>What is the primary role of <strong>Learning</strong> in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket</p>
-</li>
-<li>
-<p>In Robotics, Learning is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable</p>
-</li>
-<li>
-<p>Which mathematical quantity is most central to Learning?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision</p>
-</li>
-<li>
-<p>How does Learning relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment</p>
-</li>
-<li>
-<p>A failure in Learning would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy</p>
-</li>
-<li>
-<p>Which scale is most relevant for analyzing Learning in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above</p>
-</li>
-<li>
-<p>Learning connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above</p>
-</li>
+<li>In Active Inference, learning in a robotic system is best described as:
+A) Downloading new software updates from the manufacturer
+B) Updating the parameters of the generative model to reduce long-term prediction error -- changing the model itself, not just beliefs about current states
+C) Memorizing a fixed set of sensor readings
+D) Increasing the robot's processing speed</li>
 </ol>
-<h2>Part B: Short Answer</h2>
+<p><strong>Answer: B</strong> -- Learning is distinct from perception (which updates beliefs about hidden states) in that it updates the parameters of the generative model itself. After learning, the robot has a structurally different model that makes better predictions about its body and environment.</p>
 <ol>
-<li>Explain how <strong>Learning</strong> facilitates the minimization of prediction error.</li>
-<li>Provide a concrete example of Learning failing in a Robotics scenario.</li>
-<li>How would you model Learning using a POMDP (Partially Observable Markov Decision Process)?</li>
+<li>A robot arm learns the mass of a new tool attached to its end-effector by observing the torques needed during several movements. This is an example of:
+A) Perceptual inference (state estimation)
+B) Parameter learning -- updating the robot's body model (proprioceptive generative model) based on accumulated prediction errors
+C) Planning
+D) Communication</li>
+</ol>
+<p><strong>Answer: B</strong> -- The robot starts with an inaccurate mass parameter in its dynamics model. Repeated movements produce systematic prediction errors (predicted torques differ from required torques). Over multiple trials, the mass parameter is updated to minimize these errors -- this is parameter learning.</p>
+<ol>
+<li>The exploration-exploitation dilemma in robot learning is resolved in Active Inference by:
+A) Always exploring and never exploiting
+B) Always exploiting and never exploring
+C) The expected free energy objective, which automatically balances epistemic value (information gain from exploration) with pragmatic value (task achievement from exploitation)
+D) Flipping a coin to decide</li>
+</ol>
+<p><strong>Answer: C</strong> -- Expected free energy decomposes into epistemic and pragmatic terms. When model uncertainty is high, the epistemic term drives exploration. As the model improves, the pragmatic term dominates, shifting behavior toward task exploitation. This transition is automatic and principled.</p>
+<ol>
+<li>Sim-to-real transfer in robot learning involves:
+A) Moving a robot from one room to another
+B) Training a generative model in simulation and deploying it on a physical robot, where the real world reveals model inaccuracies through prediction errors
+C) Simulating that the robot has already learned
+D) Transferring the robot's battery to a simulator</li>
+</ol>
+<p><strong>Answer: B</strong> -- Models trained in simulation often have systematic prediction errors when deployed on real hardware due to the reality gap (unmodeled friction, sensor noise, dynamic effects). Active Inference provides a natural framework for adapting the simulated model through real-world prediction error minimization.</p>
+<ol>
+<li>What distinguishes structure learning from parameter learning in robotics?
+A) There is no distinction
+B) Parameter learning adjusts existing model weights, while structure learning changes the topology of the generative model -- adding new variables, states, or causal relationships
+C) Structure learning is only relevant for buildings, not robots
+D) Parameter learning requires more data than structure learning</li>
+</ol>
+<p><strong>Answer: B</strong> -- Parameter learning tunes existing model parameters (e.g., link masses, friction coefficients). Structure learning changes the model architecture itself -- for example, a robot discovering that an object in its workspace is articulated (has a joint) rather than rigid, requiring a new state variable in the generative model.</p>
+<ol>
+<li>A mobile robot learns a navigation policy through repeated trials in a warehouse. After learning, what has changed in its Active Inference model?
+A) Only the robot's hardware
+B) The habit strengths (policy priors) in the generative model -- frequently successful policies acquire higher prior probability, making them more likely to be selected in similar future situations
+C) The warehouse layout itself
+D) The robot's serial number</li>
+</ol>
+<p><strong>Answer: B</strong> -- Through experience, the robot's prior beliefs about which policies are effective become more accurate. Policies that consistently led to low free energy acquire stronger priors, enabling faster and more reliable action selection in familiar contexts.</p>
+<ol>
+<li>Curiosity-driven learning in a robot exploring a novel environment is explained by Active Inference as:
+A) Random motion with no purpose
+B) Seeking states with high expected information gain -- moving to locations where the robot's generative model is most uncertain, thereby maximally reducing model uncertainty per action
+C) Avoiding all novel stimuli
+D) Learning only from human demonstrations</li>
+</ol>
+<p><strong>Answer: B</strong> -- The epistemic component of expected free energy drives the robot toward states where its model is most uncertain. Observing these states provides maximum information gain, efficiently improving the generative model across the state space.</p>
+<ol>
+<li>A robot learning to grasp objects of different shapes adapts its grasp strategy over time. In terms of the generative model, what is being updated?
+A) Only the robot's color sensors
+B) The mapping between observed object features (visual shape, estimated size) and the grasp parameters (finger positions, approach angle, grip force) that minimize expected free energy
+C) The robot's serial communication protocol
+D) The ambient room temperature model</li>
+</ol>
+<p><strong>Answer: B</strong> -- The robot learns a generative model that relates visual object features to the proprioceptive and tactile outcomes of different grasp strategies. Over trials, the model parameters are refined so that the robot can predict which grasp approach will succeed for each object category.</p>
+<ol>
+<li>Why is learning rate (the speed of parameter updates) important in robotic Active Inference?
+A) It only affects the robot's travel speed
+B) Too fast and the model overfits to noise or recent experiences; too slow and the model fails to adapt to genuine changes -- the learning rate governs the balance between stability and plasticity
+C) Learning rate is irrelevant in Active Inference
+D) Higher learning rates always produce better results</li>
+</ol>
+<p><strong>Answer: B</strong> -- This is the stability-plasticity dilemma. In Active Inference, the learning rate corresponds to the relative precision assigned to new observations versus existing model parameters. High precision on new data yields fast but potentially unstable learning; low precision yields slow but robust learning.</p>
+<ol>
+<li>Domain randomization in simulation-based robot training is analogous to which Active Inference concept?
+A) Minimizing the complexity term of free energy -- the robot learns a model that is robust to parameter variation, implicitly encoding broad prior distributions over environmental conditions
+B) Maximizing surprise
+C) Eliminating all model parameters
+D) Training on a single, perfectly accurate simulation</li>
+</ol>
+<p><strong>Answer: A</strong> -- Domain randomization exposes the learner to many variations of physics parameters, textures, and dynamics. The resulting model encodes broad priors, reducing complexity and improving generalization -- mirroring how free energy minimization penalizes overly specific models.</p>
+<h2>Part B: Short Answer and Design Prompts</h2>
+<ol>
+<li>
+<p>Design a learning curriculum for a robot arm that must learn to manipulate five different tool types (screwdriver, wrench, pliers, hammer, paintbrush). How would you structure the learning progression using Active Inference principles? What would the generative model learn at each stage?</p>
+</li>
+<li>
+<p>A quadruped robot is deployed in a new environment with terrain types it has never encountered (e.g., ice, deep sand). Describe how Active Inference drives the robot to learn appropriate gait parameters for each terrain. What prediction errors drive the learning, and what parameters are updated?</p>
+</li>
+<li>
+<p>Explain the difference between a robot that has learned to navigate a specific building and a robot that has learned to navigate buildings in general. How does the structure of the generative model differ, and what kind of learning produced each?</p>
+</li>
+<li>
+<p>How could a team of robots share learned generative model parameters so that one robot's experience benefits others? Describe an Active Inference framework for multi-robot collaborative learning in a warehouse setting.</p>
+</li>
+<li>
+<p>A robot's learned manipulation model suddenly produces high prediction errors after a mechanical component degrades (e.g., a joint develops increased friction). Describe how the robot would detect this change, distinguish it from environmental change, and adapt its model.</p>
+</li>
 </ol></div>
 </div></section>
 

@@ -1,51 +1,95 @@
-# Practice Quiz: Communication
+# Practice Quiz: Communication — How Brains Connect
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Communication** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. Communication in active inference is the process of:
+A) Copying your thoughts directly into someone else's brain
+B) Trying to share your mental model by encoding thoughts into signals that the other person decodes
+C) Saying words and hoping for the best
+D) Always agreeing with everyone
 
-2. In Ms, Communication is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+**Answer: B** — You encode your ideas into signals (words, tone, emoji), and the receiver decodes them using their own models.
 
-3. Which mathematical quantity is most central to Communication?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+2. Why does the word "fine" cause miscommunication between you and your parent?
+A) "Fine" isn't a real word
+B) Your mental model of "fine" is different from your parent's mental model of "fine"
+C) Parents never listen
+D) You're always lying
 
-4. How does Communication relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+**Answer: B** — The same word gets decoded differently because each person's model assigns it a different meaning.
 
-5. A failure in Communication would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+3. Text messaging makes miscommunication worse because:
+A) Phones are unreliable
+B) Texts strip away tone, facial expressions, and body language, forcing your brain to fill gaps with predictions
+C) Nobody knows how to type
+D) Texts are always sarcastic
 
-6. Which scale is most relevant for analyzing Communication in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+**Answer: B** — Without nonverbal cues, your brain has to guess the sender's intent — and those guesses depend on your own mood.
 
-7. Communication connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+4. If you're feeling insecure and someone texts "lol sure," you'll probably read it as:
+A) Friendly and casual
+B) Sarcastic or dismissive, because your mood shapes your prediction
+C) A love letter
+D) A grocery list
+
+**Answer: B** — Your current emotional state shapes the predictions your brain makes about ambiguous messages.
+
+5. Sarcasm almost never works in text because:
+A) Nobody is funny over text
+B) Sarcasm relies on tone of voice, which text doesn't have, so the receiver's brain can't tell you're joking
+C) Sarcasm is wrong
+D) Autocorrect fixes sarcasm
+
+**Answer: B** — Without tone cues, the receiver's brain has no way to predict that you meant the opposite of what you typed.
+
+6. A good communicator thinks about:
+A) Only what they want to say
+B) How their message will be received based on the other person's model
+C) Speaking as fast as possible
+D) Using the most complicated words
+
+**Answer: B** — Effective communication means minimizing the gap between what you mean and what the listener predicts you mean.
+
+7. "Check understanding" means:
+A) Quiz the other person
+B) Ask questions like "Does that make sense?" to make sure your message landed correctly
+C) Assume you were perfectly clear
+D) Repeat yourself ten times
+
+**Answer: B** — Checking understanding reduces the prediction gap between sender and receiver.
+
+8. When you get a text that makes you feel a strong emotion, the best first step is to:
+A) Immediately fire back an angry response
+B) Pause and ask "Am I reacting to what they said, or to what my brain predicted they meant?"
+C) Block the person
+D) Screenshot it and share with everyone
+
+**Answer: B** — Separating the actual message from your brain's prediction helps you respond to reality, not assumption.
+
+9. Important conversations should happen in person when possible because:
+A) In-person is cheaper
+B) Face-to-face gives your brain more data (tone, face, body language) for accurate predictions
+C) Texting is illegal
+D) People can't lie in person
+
+**Answer: B** — More data means more accurate predictions about what the person actually means.
+
+10. Writing code comments for your future self is like communication because:
+A) Code is a language
+B) You're reducing the prediction error the future reader will experience by aligning their mental model with yours
+C) Computers read comments
+D) Comments make code run faster
+
+**Answer: B** — Comments help the next reader predict what your code does without having to reverse-engineer it.
 
 ## Part B: Short Answer
 
-1.  Explain how **Communication** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Communication failing in a Ms scenario.
-3.  How would you model Communication using a POMDP (Partially Observable Markov Decision Process)?
+1. Find a text conversation where something got misunderstood. What did the sender mean? What did the receiver's brain predict? Where was the gap?
+
+2. Explain why the same emoji can mean completely different things to different people. How does this relate to different mental models?
+
+3. Describe a situation where choosing the wrong medium (text instead of in-person, or vice versa) made a conversation go wrong. What would have worked better?
+
+4. How could you use the strategy of "consider their model" before having a difficult conversation with a friend? What would you think about first?
+
+5. Give an example of a time when being a better receiver (pausing before reacting) could have changed how a conversation went for you.

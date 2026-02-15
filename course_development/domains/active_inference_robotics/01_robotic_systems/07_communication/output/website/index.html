@@ -776,47 +776,106 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lecture_content">
-<div><h1>Module 07: Communication in Robotics</h1>
+<div><h1>Robotic Communication: Extending the Markov Blanket Through Information Exchange</h1>
+<h2>Executive Summary</h2>
+<p>Communication extends a robot's effective Markov blanket beyond its physical sensors and actuators. Through communication, a robot can access information gathered by other robots, receive instructions from human operators, and share its own beliefs and intentions with collaborators. In Active Inference, communication is understood as the alignment of generative models between agents — when two robots communicate successfully, their internal models of the shared environment become more consistent, reducing collective free energy. This module examines the communication architectures used in robotic systems, from ROS2 middleware to human-robot interaction interfaces, and analyzes how these information channels shape the robot's capacity for coordinated action and collective intelligence.</p>
 <h2>Learning Objectives</h2>
 <ol>
-<li>Define <strong>Communication</strong> within the context of Robotics.</li>
-<li>Analyze how Communication interacts with other components of the Active Inference framework.</li>
-<li>Apply specific constraints of Robotics to the formal definition of Communication.</li>
+<li>Define robotic communication as the exchange of information that aligns generative models between agents or between a robot and a human operator.</li>
+<li>Analyze ROS2 middleware architectures (topics, services, actions) as formalized communication channels with defined bandwidth and reliability.</li>
+<li>Evaluate how communication extends the effective Markov blanket of a robotic system beyond its physical sensors.</li>
+<li>Identify the challenges of human-robot communication, including shared mental models, intent inference, and feedback modalities.</li>
+<li>Connect robotic communication to the Active Inference framework through the lens of collective free energy minimization.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Communication</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>The previous module on Learning addressed how individual robots improve their generative models through experience. But robots rarely operate in isolation. Industrial manipulators communicate with programmable logic controllers and manufacturing execution systems. Mobile robots communicate with fleet management servers and human supervisors. Collaborative robots communicate with human partners through speech, gestures, and shared displays. In the next module on Planning, we will see how communicated information supports long-horizon decision making; here, we focus on the communication mechanisms themselves and their role in extending the robot's cognitive reach.</p>
 <h2>Key Concepts</h2>
-<h3>1. Communication as a Markov Blanket Boundary</h3>
-<p>How does Communication define the boundary between the agent and the environment?</p>
-<h3>2. Generative Models of Communication</h3>
-<p>What parameters involved in Communication must be optimized to minimize variational free energy?</p>
-<h3>3. Active Inference Dynamics</h3>
-<p>How does the process of Communication drive the perception-action loop?</p>
+<h3>1. Communication as Generative Model Alignment</h3>
+<p>In Active Inference, communication between agents serves to align their generative models — to bring their beliefs about the shared world into closer agreement. When a mobile robot transmits its position estimate to a fleet management server, both the robot and the server update their models to reflect the shared information, reducing the divergence between their respective beliefs. When a human operator points at an object and says "pick that up," the human's generative model (which includes the intent and the object identity) is partially transmitted to the robot through the pointing gesture and speech, enabling the robot to update its own model to include the task goal.</p>
+<p>This perspective reveals that communication is never a simple data transfer. It is a process of inference: the receiver must interpret the message through its own generative model, extracting meaning from the signal. The effectiveness of communication depends on the degree to which the sender's and receiver's generative models share common structure. A ROS2 message of type geometry_msgs/PoseStamped communicates effectively between nodes that share the same coordinate frame conventions and message format. A human gesture communicates effectively only if the robot has a model of human gestures and their meanings.</p>
+<p>Failed communication — dropped messages, misunderstood gestures, ambiguous instructions — corresponds to increased free energy: the receiver's model cannot account for the received signal, generating prediction errors that indicate a breakdown in the communication channel or a mismatch between sender and receiver models.</p>
+<h3>2. ROS2 Middleware as a Communication Architecture</h3>
+<p>The Robot Operating System 2 (ROS2) provides a standardized communication architecture for robotic systems. Its three primary communication patterns — topics, services, and actions — implement different information exchange paradigms.</p>
+<p><strong>Topics</strong> implement publish-subscribe communication. A node publishes messages to a named topic, and any node that subscribes to that topic receives the messages asynchronously. This pattern is used for continuous data streams: sensor data (sensor_msgs/LaserScan for lidar, sensor_msgs/Image for cameras), state estimates (nav_msgs/Odometry), and control commands (geometry_msgs/Twist). In Active Inference terms, topic subscriptions are sensory states of a node's Markov blanket — they carry information inward — while topic publications are active states — they transmit information outward to influence other nodes.</p>
+<p><strong>Services</strong> implement synchronous request-response communication. A client node sends a request and blocks until the server node returns a response. This pattern is used for discrete queries: requesting a map update, querying the status of a subsystem, or commanding a mode change. Services correspond to deliberate, transactional information exchanges rather than continuous streams.</p>
+<p><strong>Actions</strong> implement long-running asynchronous tasks with feedback. A client sends a goal to an action server, which executes the goal over time and provides periodic feedback and a final result. The ROS2 Navigation2 stack uses actions for path following — the behavior tree sends a navigation goal, and the controller server provides continuous feedback on progress. Actions implement the temporal extension of Active Inference's action selection: a goal is set (preferred future state), execution proceeds with monitoring (ongoing prediction error checking), and the result is reported (final state assessment).</p>
+<p>The DDS (Data Distribution Service) layer beneath ROS2 provides quality-of-service (QoS) configuration: message reliability, delivery deadline, history depth, and durability. These QoS settings define the information-theoretic properties of each communication channel — its bandwidth, latency, and reliability — which in turn constrain what kind of free energy minimization is possible across the channel.</p>
+<h3>3. Human-Robot Communication</h3>
+<p>Communication between robots and humans presents unique challenges because human and robot generative models differ fundamentally in structure, complexity, and representation.</p>
+<p><strong>Speech-based communication</strong> leverages natural language — the richest and most flexible human communication modality. A voice command like "move the red block to the left of the blue cylinder" requires the robot to parse natural language, ground referring expressions ("the red block") in its perceptual model, interpret spatial relations ("to the left of"), and generate a motor plan. Each step involves inference under the robot's generative model, and failures at any step result in communication breakdown.</p>
+<p><strong>Gesture-based communication</strong> includes pointing, demonstrating, and guiding. A human operator physically guiding a UR5 arm through a desired trajectory (kinesthetic teaching) is a direct physical communication channel — the human's intended trajectory is transmitted through force and position signals at the robot's joints. The robot's generative model must interpret these signals as demonstrations of desired behavior rather than as disturbances to be resisted. This requires switching the robot's control mode from stiff position control to compliant gravity compensation — in Active Inference terms, reducing the precision of proprioceptive position predictions so that external forces (the human's guidance) can dominate.</p>
+<p><strong>Visual feedback displays</strong> communicate the robot's internal state to humans. Status lights, dashboard interfaces, and augmented reality overlays help humans understand what the robot believes, intends, and is about to do. This outward communication from robot to human helps align the human's generative model of the robot with the robot's actual internal state, reducing the human's uncertainty and enabling more effective collaboration.</p>
+<h3>4. Communication Bandwidth and Information Bottlenecks</h3>
+<p>Every communication channel has finite bandwidth — a maximum rate at which information can be transmitted reliably. These bandwidth limits create information bottlenecks that shape the design of robotic systems.</p>
+<p>A Velodyne VLP-16 lidar generates approximately 100 MB/s of raw point cloud data. Transmitting this over a standard WiFi connection (theoretical maximum 50-150 MB/s, practical throughput often 10-30 MB/s) is feasible but consumes most of the available bandwidth, leaving little room for other communication. Robotic systems therefore compress, downsample, or process sensor data before transmitting it — sending extracted features rather than raw data, occupancy grid updates rather than full point clouds, or detected object poses rather than images.</p>
+<p>This compression is itself an inference process. The sending node must decide what information is relevant — what aspects of the raw data are needed by the receiver to update its generative model. Transmitting a detected object's pose (6 numbers) rather than the full point cloud (300,000 3D points) represents a massive information compression, justified by the assumption that the receiver needs only the object-level abstraction, not the raw geometry. When this assumption is correct, the communication is efficient. When it is wrong — when the receiver actually needs the fine geometric details — the compression introduces information loss that degrades the receiver's state estimate.</p>
+<h3>5. Communication Failures and Robustness</h3>
+<p>Communication failures — dropped messages, delayed transmissions, corrupted data — are inevitable in real robotic systems. Robust robot design must anticipate and mitigate these failures.</p>
+<p>In Active Inference terms, a communication failure means that a sensory channel (the subscription to another node's output) goes silent. The robot's cognitive system must detect this failure (the expected message does not arrive within its deadline) and respond appropriately. Options include: degrading gracefully by relying on other sensory channels (if lidar messages stop, rely more heavily on odometry), increasing uncertainty in the affected states (if the fleet server stops sending updated maps, widen the uncertainty on obstacle locations), or taking protective action (if safety-critical communication fails, stop moving).</p>
+<p>The ROS2 lifecycle management system provides mechanisms for detecting and responding to communication failures. Nodes can monitor the health of their subscriptions and take corrective action when expected messages stop arriving. QoS settings like "deadline" and "liveliness" allow nodes to specify their communication requirements and be notified when those requirements are violated.</p>
+<h2>Active Inference Connection</h2>
+<p>Communication in Active Inference serves to extend the effective Markov blanket of an agent. A robot that receives position estimates from another robot effectively expands its sensory reach — it can now perceive (through communication) what the other robot can observe directly. A robot that transmits commands to other robots expands its active reach — it can influence (through communication) parts of the world beyond its own actuators' range. This extension of the Markov blanket through communication is what enables multi-robot systems, human-robot collaboration, and the integration of robots into larger industrial systems. The quality and reliability of communication channels determine the extent and fidelity of this extended blanket, directly affecting the robot's capacity for coordinated free energy minimization.</p>
 <h2>Applications</h2>
-<p>In Robotics, we see Communication manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
-<h2>Conclusion</h2>
-<p>Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<h3>Case Study 1: ROS2 Navigation Stack Communication Architecture</h3>
+<p>The ROS2 Navigation2 stack demonstrates a carefully designed communication architecture for mobile robot autonomy. The behavior tree server communicates with the planner server through the ComputePathToPose action interface, sending goal poses and receiving planned paths. The planner server subscribes to the costmap topic (sensor_msgs/OccupancyGrid) to receive updated obstacle information. The controller server subscribes to the planned path and publishes velocity commands (geometry_msgs/Twist) to the base driver. Each communication channel has appropriate QoS settings: the costmap uses reliable delivery with a short deadline to ensure the planner always has current obstacle data, while the velocity command uses best-effort delivery with a tight deadline to prioritize low latency over guaranteed delivery. This architecture demonstrates how communication channel design — message types, QoS policies, topic naming — formalizes the information flow across subsystem Markov blankets.</p>
+<h3>Case Study 2: Kinesthetic Teaching for UR5 Task Programming</h3>
+<p>A human operator programs a UR5 collaborative robot through kinesthetic teaching — physically guiding the robot through desired trajectories while the robot records joint positions at 125 Hz. The communication channel is the robot's own joint sensors: the human applies forces, the joints move, and the encoders record the resulting trajectory. The robot's controller switches to gravity compensation mode (near-zero stiffness), allowing the human's guidance to dominate joint motion. After recording, the robot replays the learned trajectory under position control (high stiffness). This physical communication loop — human intent transmitted through force, robot state perceived through encoders — is a direct, embodied communication channel that bypasses the ambiguities of speech and gesture. It works because the generative models of human and robot share a common representation: joint-space trajectories. The limitation is that only trajectory-level information is communicated — the human's higher-level intent (why this trajectory, what it achieves) is not captured, limiting generalization to new situations.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 1 (Systems)</strong>: Communication channels as extensions of the system's Markov blanket</li>
+<li><strong>Module 2 (Agents)</strong>: How communicated information supports agency in collaborative scenarios</li>
+<li><strong>Module 6 (Learning)</strong>: How learned models can be shared through communication</li>
+<li><strong>Module 8 (Planning)</strong>: How communicated constraints and goals shape planning processes</li>
+</ul>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model Alignment</td>
+<td>Communication that reduces divergence between agents' generative models</td>
+<td>Two robots sharing position estimates to agree on relative locations</td>
+</tr>
+<tr>
+<td>Topic Communication</td>
+<td>Asynchronous publish-subscribe data stream</td>
+<td>Lidar node publishing sensor_msgs/LaserScan to the costmap node</td>
+</tr>
+<tr>
+<td>Service Communication</td>
+<td>Synchronous request-response exchange</td>
+<td>Requesting a map update from the map server</td>
+</tr>
+<tr>
+<td>Human-Robot Communication</td>
+<td>Information exchange between humans and robots</td>
+<td>Kinesthetic teaching through physical guidance of a UR5</td>
+</tr>
+<tr>
+<td>Bandwidth Bottleneck</td>
+<td>Finite information capacity of a communication channel</td>
+<td>WiFi throughput limiting point cloud transmission rate</td>
+</tr>
+<tr>
+<td>Communication Failure</td>
+<td>Loss or degradation of an information channel</td>
+<td>Dropped messages causing a robot to rely on stale obstacle data</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Macenski, S., et al. (2022). Robot Operating System 2: Design, architecture, and uses in the wild. <em>Science Robotics</em>, 7(66).</li>
+<li>Goodrich, M. A., &amp; Schultz, A. C. (2008). Human-robot interaction: A survey. <em>Foundations and Trends in Human-Computer Interaction</em>, 1(3), 203-275.</li>
+<li>Friston, K., &amp; Frith, C. (2015). A duet for one. <em>Consciousness and Cognition</em>, 36, 390-405.</li>
+</ol></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,26 +885,166 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Communication</h1>
+<div><h1>Lab: Multi-Robot Communication and Coordination</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Communication</strong>.</p>
+<p>Design communication protocols for a multi-robot team, framing inter-robot communication as generative model alignment through shared prediction errors. You will analyze how robots can share beliefs, coordinate actions, and achieve consensus using Active Inference principles.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Communication.</li>
+<li>Understanding of Active Inference agents from Modules 02 and 05</li>
+<li>Familiarity with basic networking concepts (publish-subscribe, message passing)</li>
+<li>Module 06: Learning (how shared experience accelerates adaptation)</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Communication as Generative Model Alignment</h2>
+<p>Consider a team of three warehouse robots that must coordinate to avoid collisions and distribute pick tasks efficiently.</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Robotics.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Communication.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Communication (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>Each robot maintains its own generative model of the warehouse. What information should robots share to align their models?</li>
+<li>Position beliefs (where am I?)</li>
+<li>Task status (what am I doing?)</li>
+<li>Environmental updates (obstacle detected at location X)</li>
+<li>
+<p>Model parameters (learned friction coefficients)</p>
+</li>
+<li>
+<p>Frame inter-robot communication as prediction error sharing: Robot A sends a message to Robot B. In what sense is this message a prediction error that updates Robot B's generative model?</p>
+</li>
+<li>
+<p>What is the Active Inference interpretation of a communication failure (lost message, delayed transmission)?</p>
+</li>
 </ol>
-<h2>Discussion Requirements</h2>
+<p>{fill:textarea}</p>
+<h2>Part 2: ROS2 Topic Architecture Design</h2>
+<p>Design a ROS2-compatible message-passing architecture for the multi-robot team:</p>
+<ol>
+<li>Define the topic structure:</li>
+<li><code>/robot_i/belief/pose</code> -- robot i's belief about its own pose</li>
+<li><code>/robot_i/belief/task_status</code> -- current task state</li>
+<li><code>/shared/environment_updates</code> -- map updates from any robot</li>
+<li>
+<p><code>/shared/coordination</code> -- task allocation and conflict resolution</p>
+</li>
+<li>
+<p>For each topic, specify: message type, publication rate, and which robots subscribe.</p>
+</li>
+<li>How does this architecture map to the Markov blanket structure of the multi-agent system? Each robot has its own blanket, and communication channels form the sensory/active states between robot blankets.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Consensus as Collective Free Energy Minimization</h2>
+<p>Design a consensus algorithm where robots agree on a shared world model:</p>
+<ol>
+<li>Each robot has a belief about the location of a movable obstacle: Robot A believes (3.0, 2.0), Robot B believes (3.2, 1.8), Robot C believes (2.9, 2.1).</li>
+<li>Define a consensus update rule based on precision-weighted averaging:</li>
+<li>mu_consensus = sum(Pi_i * mu_i) / sum(Pi_i)</li>
+<li>Where Pi_i is robot i's confidence in its estimate</li>
+<li>Trace three rounds of consensus updates. Do the robots converge? What happens if one robot has much higher precision than the others?</li>
+<li>How does this relate to minimizing the collective free energy of the multi-agent system?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Communication Bandwidth and Information Content</h2>
+<p>Analyze the trade-off between communication bandwidth and coordination quality:</p>
+<table>
+<thead>
+<tr>
+<th>Communication Level</th>
+<th>Bandwidth</th>
+<th>Information Shared</th>
+<th>Coordination Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No communication</td>
+<td>0</td>
+<td>Nothing</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Position only</td>
+<td>Low</td>
+<td>Pose estimates</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Beliefs + uncertainty</td>
+<td>Medium</td>
+<td>Poses + covariances</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Full generative model</td>
+<td>High</td>
+<td>All parameters + beliefs</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>For each level, describe a scenario where coordination succeeds or fails.</li>
+<li>What is the minimum communication needed to avoid collisions?</li>
+<li>Frame bandwidth constraints as a cost term in the expected free energy of communication actions.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 5: Distributed Active Inference Pseudocode</h2>
+<p>Write pseudocode for a distributed Active Inference loop where each robot runs locally but communicates with neighbors:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">distributed_AIF_step</span><span class="p">(</span>robot_id, belief, neighbors<span class="p">):</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">1.</span><span class="w"> </span><span class="n">Local</span><span class="w"> </span><span class="n">perception</span><span class="o">-</span><span class="n">action</span><span class="w"> </span><span class="n">cycle</span>
+<span class="w">    </span><span class="n">observation</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sense</span><span class="p">()</span>
+<span class="w">    </span><span class="n">belief</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">update_belief</span><span class="p">(</span><span class="n">observation</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">)</span>
+<span class="w">    </span><span class="n">action</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">select_action</span><span class="p">(</span><span class="n">belief</span><span class="p">,</span><span class="w"> </span><span class="nb">preferences</span><span class="p">)</span>
+
+<span class="w">    </span>#<span class="w"> </span><span class="mf">2.</span><span class="w"> </span><span class="n">Communication</span><span class="p">:</span><span class="w"> </span><span class="n">send</span><span class="w"> </span><span class="n">belief</span><span class="w"> </span><span class="nb">summary</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="nb">neighbors</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">neighbor</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nb">neighbors</span><span class="p">:</span>
+<span class="w">        </span><span class="n">send</span><span class="p">(</span><span class="n">robot_id</span><span class="p">,</span><span class="w"> </span><span class="n">belief</span><span class="p">.</span><span class="n">summary</span><span class="p">(),</span><span class="w"> </span><span class="n">neighbor</span><span class="p">)</span>
+
+<span class="w">    </span>#<span class="w"> </span><span class="mf">3.</span><span class="w"> </span><span class="n">Receive</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">integrate</span><span class="w"> </span><span class="n">neighbor</span><span class="w"> </span><span class="n">beliefs</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">receive_all</span><span class="p">():</span>
+<span class="w">        </span><span class="n">belief</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">integrate_neighbor_belief</span><span class="p">(</span><span class="n">belief</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span>
+
+<span class="w">    </span>#<span class="w"> </span><span class="mf">4.</span><span class="w"> </span><span class="n">Coordination</span><span class="p">:</span><span class="w"> </span><span class="n">adjust</span><span class="w"> </span><span class="n">action</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">conflict</span><span class="w"> </span><span class="n">detected</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">collision_predicted</span><span class="p">(</span><span class="n">belief</span><span class="p">,</span><span class="w"> </span><span class="n">neighbor_beliefs</span><span class="p">):</span>
+<span class="w">        </span><span class="n">action</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">resolve_conflict</span><span class="p">(</span><span class="n">action</span><span class="p">,</span><span class="w"> </span><span class="n">neighbor_beliefs</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">execute</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">belief</span>
+</code></pre></div>
+
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Communication Aspect</th>
+<th>Classical Multi-Robot</th>
+<th>Active Inference Multi-Robot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Message content</td>
+<td>State estimates</td>
+<td>Beliefs + precisions (prediction errors)</td>
+</tr>
+<tr>
+<td>Coordination mechanism</td>
+<td>Centralized planner or auction</td>
+<td>Collective free energy minimization</td>
+</tr>
+<tr>
+<td>Conflict resolution</td>
+<td>Priority rules</td>
+<td>Precision-weighted consensus</td>
+</tr>
+<tr>
+<td>Adaptation to failures</td>
+<td>Timeout + fallback</td>
+<td>Reduced precision for silent agents</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
 <ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Communication.</li>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Friston, K., &amp; Frith, C. (2015). A duet for one. <em>Consciousness and Cognition</em>, 36, 390-405.</li>
+<li>Ren, W., &amp; Beard, R. W. (2008). <em>Distributed Consensus in Multi-vehicle Cooperative Control</em>. Springer.</li>
 </ul></div>
 </div></section>
 
@@ -856,64 +1055,105 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-practice_quiz">
-<div><h1>Practice Quiz: Communication</h1>
+<div><h1>Practice Quiz: Communication in Robotic Systems</h1>
 <h2>Part A: Multiple Choice</h2>
 <ol>
-<li>
-<p>What is the primary role of <strong>Communication</strong> in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket</p>
-</li>
-<li>
-<p>In Robotics, Communication is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable</p>
-</li>
-<li>
-<p>Which mathematical quantity is most central to Communication?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision</p>
-</li>
-<li>
-<p>How does Communication relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment</p>
-</li>
-<li>
-<p>A failure in Communication would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy</p>
-</li>
-<li>
-<p>Which scale is most relevant for analyzing Communication in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above</p>
-</li>
-<li>
-<p>Communication connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above</p>
-</li>
+<li>Communication in a robotic Active Inference framework is best understood as:
+A) Only verbal speech between robots and humans
+B) The exchange of information between agents (robots, humans, or subsystems) that enables alignment of generative models and coordinated action
+C) The physical wiring connecting robot components
+D) Broadcasting raw sensor data to the internet</li>
 </ol>
-<h2>Part B: Short Answer</h2>
+<p><strong>Answer: B</strong> -- Communication in Active Inference extends beyond data transmission to encompass the alignment of generative models between agents. When a robot signals its intended trajectory to a human coworker, it is helping the human update their model of the robot's future states, reducing mutual surprise.</p>
 <ol>
-<li>Explain how <strong>Communication</strong> facilitates the minimization of prediction error.</li>
-<li>Provide a concrete example of Communication failing in a Robotics scenario.</li>
-<li>How would you model Communication using a POMDP (Partially Observable Markov Decision Process)?</li>
+<li>In a multi-robot system, why is communication essential from an Active Inference perspective?
+A) Robots enjoy social interaction
+B) Each robot has a limited Markov blanket and cannot directly observe other robots' internal states; communication extends the effective sensory boundary to include information about other agents' beliefs and intentions
+C) Communication increases power consumption, which is always desirable
+D) It is not essential -- robots should always work independently</li>
+</ol>
+<p><strong>Answer: B</strong> -- Each robot's Markov blanket limits what it can directly observe. Communication acts as an extended sensory channel, allowing robots to share state estimates, predictions, and goals. This reduces collective free energy by enabling coordinated behavior.</p>
+<ol>
+<li>A collaborative robot signals its intended motion to a human coworker through LED indicators and projected workspace boundaries. This is an example of:
+A) The robot decorating its workspace
+B) Legibility -- making the robot's predictions and intentions observable to the human, enabling the human to update their generative model of the robot's behavior
+C) The robot wasting energy on lights
+D) Communication that serves no functional purpose</li>
+</ol>
+<p><strong>Answer: B</strong> -- Legible robot behavior reduces the human's prediction error about what the robot will do next. Projected trajectories and LED state indicators externalize the robot's internal states, helping the human maintain an accurate model of the robot's plans.</p>
+<ol>
+<li>In the ROS2 middleware, the DDS (Data Distribution Service) quality-of-service policies shape communication between nodes. In Active Inference terms, these policies define:
+A) The color scheme of the user interface
+B) The precision, reliability, and temporal characteristics of information flow across the Markov blankets of communicating subsystems
+C) The physical location of each node
+D) The robot's favorite communication protocol</li>
+</ol>
+<p><strong>Answer: B</strong> -- QoS policies (reliability, deadline, liveliness, history depth) determine how faithfully and quickly information flows between nodes. These correspond to the precision and bandwidth of the communication channel -- high reliability and low latency yield high-precision inter-subsystem information exchange.</p>
+<ol>
+<li>When two mobile robots share their local occupancy grid maps over a communication channel, this is:
+A) Map merging -- combining partial generative models from different agents to form a more complete joint model with lower collective uncertainty
+B) A waste of bandwidth
+C) Only possible with identical robots
+D) An example of competitive behavior</li>
+</ol>
+<p><strong>Answer: A</strong> -- Each robot has built a partial map (local generative model) from its own observations. Sharing and merging these maps reduces both robots' uncertainty about the environment, lowering collective free energy -- a form of collaborative inference.</p>
+<ol>
+<li>A human operator uses a joystick to teleoperate a robot in a hazardous environment. The communication channel here transmits:
+A) Only the robot's entertainment preferences
+B) Compressed action commands from the human's generative model to the robot's motor system, with video feedback returning sensory observations to the human -- forming a distributed perception-action loop across the communication channel
+C) Random signals
+D) Nothing useful</li>
+</ol>
+<p><strong>Answer: B</strong> -- Teleoperation creates a distributed Active Inference loop: the human's brain is the generative model, the communication channel bridges the human's decisions and the robot's sensors, and the video feed closes the sensory loop. Latency and bandwidth limitations in the channel directly impact control performance.</p>
+<ol>
+<li>Stigmergic communication -- where robots leave physical traces (markers, modified terrain) for other robots -- is analogous to:
+A) Littering
+B) Modifying the shared environment so that future sensory observations of other agents carry information, effectively using the world as a communication medium within the Active Inference framework
+C) Destroying the environment
+D) Communication that only works with humans</li>
+</ol>
+<p><strong>Answer: B</strong> -- Stigmergy (e.g., ants leaving pheromone trails) allows agents to communicate by modifying the external states that fall within other agents' Markov blankets. A robot marking a explored area with a physical tag changes what future robots will observe, indirectly transmitting information.</p>
+<ol>
+<li>Communication bandwidth limitations affect Active Inference multi-robot systems by:
+A) Having no effect on system performance
+B) Constraining the precision of shared information, forcing robots to compress, prioritize, and selectively transmit the most informative aspects of their generative models
+C) Improving all aspects of coordination
+D) Only affecting audio communication</li>
+</ol>
+<p><strong>Answer: B</strong> -- Limited bandwidth means robots cannot share full state estimates. They must compress information (transmitting sufficient statistics rather than raw data), prioritize (sharing the most uncertain or decision-relevant variables first), and accept reduced precision on shared beliefs.</p>
+<ol>
+<li>A robot asking a human "Should I pick up the red object or the blue one?" is an example of:
+A) The robot being indecisive without purpose
+B) Active communication to resolve ambiguity -- the robot's generative model cannot distinguish between two equally viable actions, so it seeks information from the human to reduce expected free energy
+C) The robot testing the human's color vision
+D) A programming error</li>
+</ol>
+<p><strong>Answer: B</strong> -- When the robot's policy evaluation produces a tie (equal expected free energy for multiple actions), querying the human provides additional preference information that disambiguates the decision. This is epistemic action through the communication channel.</p>
+<ol>
+<li>Natural language communication between a human and a robot requires:
+A) The robot to have a generative model of the human's language, including how words map to world states, actions, and intentions -- essentially a shared generative model at the linguistic level
+B) Only a microphone and speaker
+C) The robot to understand every human language simultaneously
+D) No generative model of any kind</li>
+</ol>
+<p><strong>Answer: A</strong> -- Language understanding is generative model inversion: the robot must infer the speaker's intended meaning (hidden state) from the observed utterance (sensory data). This requires a generative model of how communicative intentions produce language, grounded in the shared physical and task context.</p>
+<h2>Part B: Short Answer and Design Prompts</h2>
+<ol>
+<li>
+<p>Design a communication protocol for a team of three warehouse robots that must coordinate to avoid collisions while fulfilling orders. What information should each robot share, at what frequency, and how does this reduce collective free energy?</p>
+</li>
+<li>
+<p>A robot arm and a human worker share a workbench. The robot must communicate its planned movements to the human. Compare three modalities: visual projection of planned trajectories, auditory beeps indicating movement onset, and haptic resistance when the human's hand enters the robot's planned path. Which provides the highest-precision information for the human's generative model?</p>
+</li>
+<li>
+<p>Explain how communication latency in a teleoperation scenario increases free energy in the distributed human-robot system. What strategies (prediction displays, model-based compensation) can mitigate this?</p>
+</li>
+<li>
+<p>How would you design a communication system for an underwater robot team where acoustic communication is available but severely bandwidth-limited? What aspects of the generative model should be prioritized for transmission?</p>
+</li>
+<li>
+<p>A search-and-rescue robot encounters a survivor but cannot determine the best extraction path. Design an Active Inference communication strategy where the robot queries a remote human operator, incorporating the operator's response into its planning generative model.</p>
+</li>
 </ol></div>
 </div></section>
 

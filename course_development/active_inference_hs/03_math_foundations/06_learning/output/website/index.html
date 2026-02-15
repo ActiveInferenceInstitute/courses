@@ -776,15 +776,15 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lecture_content">
-<div><h1>Module 06: Learning in Hs</h1>
+<div><h1>Module 06: Learning in High School</h1>
 <h2>Learning Objectives</h2>
 <ol>
-<li>Define <strong>Learning</strong> within the context of Hs.</li>
+<li>Define <strong>Learning</strong> within the context of High School.</li>
 <li>Analyze how Learning interacts with other components of the Active Inference framework.</li>
-<li>Apply specific constraints of Hs to the formal definition of Learning.</li>
+<li>Apply specific constraints of High School to the formal definition of Learning.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Learning</strong>. In the <strong>Hs</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>This module explores <strong>Learning</strong>. In the <strong>High School</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between Action and Communication.</p>
 <h2>Key Concepts</h2>
 <h3>1. Learning as a Markov Blanket Boundary</h3>
 <p>How does Learning define the boundary between the agent and the environment?</p>
@@ -793,30 +793,11 @@ body.dark-mode .question-container:hover {
 <h3>3. Active Inference Dynamics</h3>
 <p>How does the process of Learning drive the perception-action loop?</p>
 <h2>Applications</h2>
-<p>In Hs, we see Learning manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
+<p>In High School, we see Learning manifest in:
+*   <strong>Specific Example 1</strong>: Curve fitting in statistics class is mathematical learning through Active Inference: when you fit a line y = mx + b to scattered data points, you are finding the parameters (m, b) that minimize the sum of squared prediction errors -- each iteration of the least-squares algorithm updates your generative model to better predict the data, and the residuals tell you exactly how much surprise remains.
+*   <strong>Specific Example 2</strong>: The mathematical concept of overfitting directly maps to Active Inference's complexity term in free energy: a polynomial that passes through every data point (high-order model) has zero prediction error on training data but massive surprise on new data, while a simpler model with slightly higher training error generalizes better -- this accuracy-complexity tradeoff is the mathematical essence of why biological learning favors efficient generative models.</p>
 <h2>Conclusion</h2>
-<p>Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<p>Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,27 +807,103 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Learning</h1>
+<div><h1>Lab: Updating Estimates -- Learning from Data</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Learning</strong>.</p>
+<p>Practice <strong>parameter updating</strong> -- mathematically adjusting a model's estimates as new data arrives. In Active Inference, learning means updating the parameters of the generative model to better predict future observations.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Learning.</li>
+<li>Completed Math Foundations: Action module (expected value, optimization)</li>
+<li>Comfort with averages and basic algebra</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Running Average as Learning</h2>
+<p><strong>Goal</strong>: See how the average updates incrementally as each new data point arrives.</p>
+<p>A student takes quizzes each week. Scores: 70, 80, 75, 90, 85.</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Hs.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Learning.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Learning (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>After quiz 1, the estimate of their "true ability" = 70.</li>
+<li>After quiz 2, estimate = (70 + 80) / 2 = ?</li>
+<li>After quiz 3, estimate = ?</li>
+<li>Continue through all 5 quizzes.</li>
+<li>Plot the running average over time. How does it stabilize?</li>
+<li>The running average is a simple <strong>learning rule</strong>: the model's parameter (estimated ability) updates with each new observation.</li>
 </ol>
-<h2>Discussion Requirements</h2>
-<ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Learning.</li>
-</ul></div>
+<p>{fill:textarea}</p>
+<h2>Part 2: Weighted Updates -- Learning Rate</h2>
+<p><strong>Goal</strong>: Explore how a learning rate controls the speed of updating.</p>
+<p>Instead of a simple average, use the update rule: new_estimate = old_estimate + alpha * (observation - old_estimate), where alpha is the learning rate.</p>
+<p>Start with estimate = 70. Use the same quiz scores: 70, 80, 75, 90, 85.</p>
+<ol>
+<li>With alpha = 0.5: After quiz 2 (score 80), new_estimate = 70 + 0.5 * (80 - 70) = ?</li>
+<li>Continue updating with alpha = 0.5 for all 5 quizzes.</li>
+<li>Now repeat with alpha = 0.1 for all 5 quizzes.</li>
+<li>Compare the two sequences. Which learning rate adapts faster? Which is more stable?</li>
+<li>In Active Inference, the learning rate relates to <strong>precision</strong> -- how much weight the agent gives new data vs. existing beliefs.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Curve Fitting as Learning</h2>
+<p><strong>Goal</strong>: Fit a line to data and see learning as minimizing prediction error.</p>
+<p>Data points: (1, 3), (2, 5), (3, 6), (4, 9), (5, 10).</p>
+<ol>
+<li>Plot these points on graph paper.</li>
+<li>Draw a line that looks like a good fit. Record your estimated slope (m) and intercept (b).</li>
+<li>For your line y = mx + b, compute the prediction at each x value.</li>
+<li>Compute the <strong>prediction error</strong> at each point: (actual y) - (predicted y).</li>
+<li>Compute the sum of squared errors: sum of (error)^2.</li>
+<li>A better-fitting line has lower total squared error. In Active Inference, learning minimizes <strong>prediction error</strong> -- the gap between what the model predicts and what actually happens.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Overfitting vs. Generalization</h2>
+<p><strong>Goal</strong>: Understand why simpler models can be better than complex ones.</p>
+<p>Using the same 5 data points:</p>
+<ol>
+<li>A straight line (y = mx + b) has 2 parameters. It fits reasonably but not perfectly.</li>
+<li>A curve passing through all 5 points exactly has 5 parameters. It has zero training error.</li>
+<li>Imagine a 6th data point at x = 6. Which model would you trust more to predict it? Why?</li>
+<li>The straight line <strong>generalizes</strong> better despite having higher training error.</li>
+<li>In Active Inference, free energy = prediction error + complexity. The complexity term penalizes overly complex models, favoring simpler generative models that generalize.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Math Concept</th>
+<th>Symbol</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Running average</td>
+<td>x_bar = sum(x_i) / n</td>
+<td>Simple estimate updated with each data point</td>
+</tr>
+<tr>
+<td>Learning rate</td>
+<td>alpha</td>
+<td>Controls how much each new observation shifts the estimate</td>
+</tr>
+<tr>
+<td>Prediction error</td>
+<td>y - y_hat</td>
+<td>Difference between actual and predicted values</td>
+</tr>
+<tr>
+<td>Sum of squared errors</td>
+<td>sum((y_i - y_hat_i)^2)</td>
+<td>Total prediction error across all data points</td>
+</tr>
+<tr>
+<td>Overfitting</td>
+<td>--</td>
+<td>Model memorizes training data but fails on new data</td>
+</tr>
+<tr>
+<td>Generalization</td>
+<td>--</td>
+<td>Model performs well on unseen data</td>
+</tr>
+</tbody>
+</table></div>
 </div></section>
 
 <section id="practice_quiz">
@@ -867,7 +924,7 @@ C) To increase entropy
 D) To eliminate the Markov Blanket</p>
 </li>
 <li>
-<p>In Hs, Learning is best described as:
+<p>In High School, Learning is best described as:
 A) A static property
 B) A dynamic process
 C) An external state
@@ -912,7 +969,7 @@ D) None of the above</p>
 <h2>Part B: Short Answer</h2>
 <ol>
 <li>Explain how <strong>Learning</strong> facilitates the minimization of prediction error.</li>
-<li>Provide a concrete example of Learning failing in a Hs scenario.</li>
+<li>Provide a concrete example of Learning failing in a High School scenario.</li>
 <li>How would you model Learning using a POMDP (Partially Observable Markov Decision Process)?</li>
 </ol></div>
 </div></section>

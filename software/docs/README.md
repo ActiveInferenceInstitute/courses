@@ -36,11 +36,11 @@ Detailed specifications for developers and power users:
 
 | Document | Purpose |
 | :--- | :--- |
-| **[CLI_REFERENCE](CLI_REFERENCE.md)** | Complete documentation for all 21 CLI scripts. |
+| **[CLI_REFERENCE](CLI_REFERENCE.md)** | Complete documentation for all 22 CLI scripts. |
 | **[MODULES](MODULES.md)** | Python API reference for the source (`src/`) modules. |
 | **[CONFIGURATION](CONFIGURATION.md)** | Schema for `publish.toml` and `pyproject.toml`. |
-| **[TESTING](TESTING.md)** | Guide to the 1,020+ test suite and "No Mocks" policy. |
-| **[COURSE_CATALOG](COURSE_CATALOG.md)** | Full list of all 14+ courses and their structures. |
+| **[TESTING](TESTING.md)** | Guide to the 1,021+ test suite and "No Mocks" policy. |
+| **[COURSE_CATALOG](COURSE_CATALOG.md)** | Full list of all 17 courses and their structures. |
 
 ---
 
@@ -57,4 +57,4 @@ For course authors and curriculum designers:
 | **[YOUTUBE](YOUTUBE.md)** | Transcription and archiving for YouTube content. |
 
 ---
-*Last Updated: 2026-02-14*
+*Last Updated: 2026-02-15*

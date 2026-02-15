@@ -12,7 +12,7 @@ This repository contains the complete curriculum infrastructure for the Active I
 
 | Directory | Purpose | AGENTS.md |
 |-----------|---------|-----------|
-| `course_development/` | Source curricula — all authoring happens here | [AGENTS.md](course_development/AGENTS.md) |
+| `course_development/` | All source curricula (17 courses across levels and domains) | [AGENTS.md](course_development/AGENTS.md) |
 | `published/` | Rendered outputs for distribution (generated, not hand-edited) | [AGENTS.md](published/AGENTS.md) |
 | `software/` | Python engine: 21 modules, 21 scripts, 18 docs, 1,020 tests | [AGENTS.md](software/AGENTS.md) |
 | `summaries/` | Generated course summaries | [AGENTS.md](summaries/AGENTS.md) |
@@ -79,7 +79,7 @@ courses/
 │   ├── AGENTS.md                      ← Master curriculum guidelines
 │   ├── active_inference/AGENTS.md     ← Core curriculum (4 tracks)
 │   ├── active_inference_*/AGENTS.md   ← Level-adapted courses
-│   ├── domains/AGENTS.md             ← Domain curricula
+│   ├── domains/AGENTS.md             ← Domain curricula (6 domains)
 │   └── [per-unit, per-module AGENTS.md]
 ├── published/
 │   └── AGENTS.md                      ← Published outputs guidelines

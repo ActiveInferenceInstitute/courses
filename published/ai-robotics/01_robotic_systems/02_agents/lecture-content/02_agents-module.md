@@ -1,52 +1,102 @@
-# Module 02: Agents in Robotics
+# The Robot as Agent: From Mechanism to Autonomous Actor
+
+## Executive Summary
+
+A robot becomes an agent when it does more than passively respond to inputs — when it actively selects actions to minimize surprise about its sensory future. This module examines what it means for a robotic system to possess agency, distinguishing between simple reactive controllers, deliberative planners, and the Active Inference framework that unifies both under a single principle. Agency in robotics is not an all-or-nothing property but a spectrum defined by the depth and sophistication of the generative model that drives behavior. A thermostat-like controller has minimal agency; a UR5 running model-predictive control has more; a mobile robot navigating autonomously through an unstructured environment has substantially more. Understanding this spectrum — and the hardware and software architectures that support each level — is essential for designing robotic systems that can operate reliably in the real world.
 
 ## Learning Objectives
 
-1.  Define **Agents** within the context of Robotics.
-2.  Analyze how Agents interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Agents.
+1. Define robotic agency in terms of Active Inference — the capacity to select actions that minimize expected free energy.
+2. Distinguish between reactive, deliberative, and hybrid agent architectures in robotics and map each to the Active Inference framework.
+3. Analyze how the depth of a robot's generative model determines its level of autonomy.
+4. Identify the hardware and software requirements for supporting different levels of robotic agency.
+5. Evaluate the relationship between agency, embodiment, and the robot's Markov blanket.
 
 ## Introduction
 
-This module explores **Agents**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+The concept of agency transforms a robot from an elaborate mechanism into something more: an entity that pursues goals, adapts to circumstances, and makes decisions under uncertainty. In the previous module on Systems, we established that a robot is defined by its Markov blanket — the boundary between its internal states and the external world. Agency emerges when a robot uses its internal states not merely to transform sensory inputs into motor outputs through fixed mappings, but to maintain and act upon a generative model of how the world works and what it expects to encounter. The next module on Perception will examine how the sensory side of this process constructs beliefs about the world; here, we focus on the agent itself — the decision-making entity at the center.
 
 ## Key Concepts
 
-### 1. Agents as a Markov Blanket Boundary
-How does Agents define the boundary between the agent and the environment?
+### 1. What Makes a Robot an Agent?
 
-### 2. Generative Models of Agents
-What parameters involved in Agents must be optimized to minimize variational free energy?
+In Active Inference, an agent is any system that minimizes variational free energy through both perception (updating beliefs) and action (changing the world to match expectations). By this definition, even a simple PID controller exhibits a rudimentary form of agency: it maintains an internal state (the desired setpoint), perceives the current state through a sensor, and acts through a motor to drive the error toward zero. The controller "expects" the process variable to equal the setpoint, and it acts to fulfill that expectation.
 
-### 3. Active Inference Dynamics
-How does the process of Agents drive the perception-action loop?
+But this minimal agency lacks key features of what we typically mean by a robotic agent. It has no model of the world beyond the single variable it controls. It cannot reason about the future. It cannot adapt its goals. Richer agency requires a richer generative model — one that represents the dynamics of the world over time, the consequences of different actions, and the uncertainty associated with both.
+
+A UR5 manipulator running a full motion planning and control stack illustrates richer agency. The robot maintains a kinematic and dynamic model of its own body, a geometric model of its workspace, and a task model specifying what objects to grasp and where to place them. It perceives the current state through joint encoders, force sensors, and cameras. It selects actions — joint trajectories — by evaluating which movements will bring the current state closer to the goal state while avoiding collisions, respecting joint limits, and minimizing energy consumption. This is a much deeper generative model, and correspondingly deeper agency.
+
+### 2. Agent Architectures in Robotics
+
+Robotic agent architectures have historically been classified along a spectrum from purely reactive to purely deliberative, with hybrid architectures combining both.
+
+**Reactive architectures** map sensor readings directly to motor commands through fixed rules or learned mappings. The subsumption architecture, pioneered by Rodney Brooks, layers simple stimulus-response behaviors (avoid obstacle, follow wall, seek light) with priority arbitration. In Active Inference terms, reactive architectures have very shallow generative models — they predict only the immediate sensory consequences of actions, with no temporal depth. Their advantage is speed and robustness; their limitation is inability to plan ahead or reason about novel situations.
+
+**Deliberative architectures** maintain explicit world models and use search or optimization to select action sequences. Classical STRIPS-style planners, and modern approaches like PDDL-based task planners, fall into this category. These correspond to Active Inference agents with deep temporal generative models — they simulate the consequences of action sequences many steps into the future. Their advantage is the ability to solve complex, multi-step problems; their limitation is computational cost and brittleness when the world model is inaccurate.
+
+**Hybrid architectures** — the dominant paradigm in modern robotics — combine reactive low-level controllers with deliberative high-level planners. The three-layer architecture (reactive control, executive, deliberative planner) is standard in autonomous vehicles, manipulation systems, and service robots. From an Active Inference perspective, the layers correspond to different depths of the generative model: the reactive layer operates on a model of immediate dynamics (milliseconds), the executive on a model of behavioral sequences (seconds), and the planner on a model of task-level goals (minutes to hours).
+
+### 3. Embodied Agency and the Morphological Computation
+
+A robot's agency is not solely a product of its software. The physical design of the robot — its morphology — shapes and constrains the kinds of agency it can exhibit. This is the principle of morphological computation: the body itself performs part of the computation that would otherwise need to be done by the controller.
+
+Consider a robotic gripper designed with compliant, underactuated fingers. When this gripper closes around an irregularly shaped object, the fingers passively conform to the object's geometry without any explicit computation of contact points or grasp forces. The mechanical compliance of the fingers performs the "computation" of adapting to object shape. In Active Inference terms, the gripper's physical design embodies a generative model of grasping — it implicitly "expects" objects of varying shapes and "acts" to conform to them through its passive dynamics.
+
+This contrasts with a rigid, fully actuated gripper that must explicitly compute contact locations, normal forces, and friction cones for every grasp. Both grippers can be understood as agents, but the compliant gripper offloads part of the agency to its physical structure, reducing the computational burden on its controller. This principle extends to legged locomotion (compliant legs that passively absorb terrain irregularities), swimming (flexible fins that exploit fluid dynamics), and manipulation (tools that constrain motions to useful subspaces).
+
+### 4. The Generative Model as the Core of Agency
+
+The sophistication of a robotic agent is ultimately determined by the richness of its generative model — the internal model that predicts sensory observations given the robot's actions and the state of the world. This model has several components that determine the depth of agency.
+
+The **dynamics model** predicts how the world evolves over time: if I apply this torque, where will the joint be in 10 milliseconds? If I push this object, where will it slide? The accuracy and temporal depth of the dynamics model determine how far ahead the agent can plan. A model that predicts only one step ahead supports reactive control; a model that predicts hundreds of steps ahead supports sophisticated planning.
+
+The **observation model** predicts what sensory data the robot should receive given a hypothesized world state: if the object is at position (x, y, z), what should the camera image look like? What should the lidar return? The accuracy of the observation model determines how effectively the agent can infer the current state from ambiguous sensor data.
+
+The **preference model** encodes what states the agent "prefers" — in engineering terms, its objectives and constraints. A manipulator prefers states where the end-effector is at the target pose. A mobile robot prefers states where it is at the goal location without collisions. In Active Inference, these preferences are encoded as prior beliefs about the agent's future sensory states, and actions are selected to make these preferred observations come true.
+
+### 5. Autonomy as Model-Based Self-Governance
+
+Autonomy in robotics is often graded on a scale from teleoperation (human controls everything) to full autonomy (robot controls everything). Active Inference provides a principled way to understand this scale: autonomy is the degree to which the robot's own generative model, rather than an external operator's commands, governs action selection.
+
+A teleoperated surgical robot like the da Vinci system has minimal autonomy — the surgeon's generative model (in the surgeon's brain) drives action selection, and the robot merely executes commanded motions. A semi-autonomous robot that handles navigation but asks a human to confirm task decisions has intermediate autonomy — its generative model governs locomotion but defers to the human's model for high-level choices. A fully autonomous warehouse robot that receives only high-level goals ("move pallet A to location B") and handles all perception, planning, and execution internally has high autonomy — its generative model governs the full perception-action loop.
+
+## Active Inference Connection
+
+Active Inference unifies the traditionally separate problems of perception, decision-making, and control under a single objective: minimize expected free energy. This means a robotic agent does not need separate modules for "sensing," "thinking," and "acting" — it needs a single generative model and an inference procedure that jointly updates beliefs about the world and selects actions. The agent's behavior emerges from this unified optimization rather than from hand-designed pipelines. In practice, computational constraints require approximations — the three-layer hybrid architecture can be understood as a factored approximation to full Active Inference, with each layer handling a different temporal scale of the generative model.
 
 ## Applications
 
-In Robotics, we see Agents manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### Case Study 1: UR5 as a Manipulation Agent
 
-## Conclusion
+The UR5 collaborative robot, when integrated with a wrist camera and force/torque sensor, operates as a manipulation agent with a multi-level generative model. At the joint level, PID controllers act as minimal agents maintaining position setpoints. At the arm level, an inverse kinematics solver and trajectory planner act as a deliberative agent selecting joint paths that achieve end-effector goals. At the task level, a pick-and-place executive acts as a sequential decision agent, choosing which object to grasp next based on a task model. Each level's agency is supported by a corresponding generative model: joint dynamics, arm kinematics, and task-state transitions. The integration of force sensing at the wrist adds a critical sensory channel that enables the agent to detect unexpected contacts, infer object properties (weight, stiffness), and adapt grasp strategies — deepening the generative model from pure geometry to physics.
 
-Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### Case Study 2: ROS2 Navigation Stack as a Hybrid Agent
 
-<!-- Content padding to ensure file size requirements -->
+The ROS2 Navigation2 (Nav2) stack implements a hybrid agent architecture for mobile robots. The behavior tree executive serves as a high-level deliberative agent, selecting navigation strategies (follow path, spin recovery, wait). The planner server generates global paths using A* or Dijkstra's algorithm on a costmap — a deliberative agent reasoning about spatial structure. The controller server tracks these paths using local planners like DWB (Dynamic Window-Based) that reactively adjust velocities to avoid obstacles detected in real-time lidar data. Each component maintains its own generative model at a different temporal and spatial scale. The costmap is a spatial generative model predicting obstacle locations. The local planner's forward simulation is a temporal generative model predicting collision outcomes. The behavior tree is a task-level generative model predicting which behaviors will achieve the navigation goal. Together, they form a layered agent whose autonomy emerges from the composition of these models.
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+- **Module 1 (Systems)**: The system boundaries that define what the agent can sense and act upon
+- **Module 3 (Perception)**: How agents construct beliefs about the world state from sensory data
+- **Module 4 (Cognition)**: The computational processes that maintain and update the generative model
+- **Module 6 (Learning)**: How agents improve their generative models through experience
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
+| Concept | Definition | Robotics Example |
+|---------|-----------|-----------------|
+| Agent | A system that selects actions to minimize expected free energy | A mobile robot navigating to a goal while avoiding obstacles |
+| Reactive Architecture | Direct sensor-to-motor mapping with minimal internal model | Subsumption-based obstacle avoidance behaviors |
+| Deliberative Architecture | Model-based planning with deep temporal reasoning | A* path planning on a global costmap |
+| Hybrid Architecture | Layered combination of reactive and deliberative components | ROS2 Nav2 stack with behavior tree, planner, and controller |
+| Morphological Computation | Physical body design that embodies part of the generative model | Compliant underactuated gripper fingers |
+| Generative Model Depth | Temporal and structural richness of the agent's world model | Joint dynamics (shallow) vs. task planning (deep) |
+| Autonomy Level | Degree to which the robot's own model governs action selection | Teleoperation (low) to full autonomous navigation (high) |
 
-<!-- Content padding to ensure file size requirements -->
+## References
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+1. Parr, T., Pezzulo, G., & Friston, K. J. (2022). *Active Inference: The Free Energy Principle in Mind, Brain, and Behavior*. MIT Press.
+2. Brooks, R. A. (1991). Intelligence without representation. *Artificial Intelligence*, 47(1-3), 139-159.
+3. Gat, E. (1998). On three-layer architectures. In *Artificial Intelligence and Mobile Robots* (pp. 195-210). MIT Press.
+4. Pfeifer, R., & Bongard, J. (2006). *How the Body Shapes the Way We Think*. MIT Press.
+5. Lanillos, P., et al. (2021). Active Inference in robotics and artificial agents. *arXiv preprint arXiv:2112.01871*.

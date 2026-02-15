@@ -1,14 +1,14 @@
-# Module 06: Learning in Hs
+# Module 06: Learning in High School
 
 ## Learning Objectives
 
-1.  Define **Learning** within the context of Hs.
+1.  Define **Learning** within the context of High School.
 2.  Analyze how Learning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Hs to the formal definition of Learning.
+3.  Apply specific constraints of High School to the formal definition of Learning.
 
 ## Introduction
 
-This module explores **Learning**. In the **Hs** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Learning**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between Action and Communication.
 
 ## Key Concepts
 
@@ -23,30 +23,10 @@ How does the process of Learning drive the perception-action loop?
 
 ## Applications
 
-In Hs, we see Learning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+In High School, we see Learning manifest in:
+*   **Specific Example 1**: When Spotify's Discover Weekly gets better at recommending songs you like over months of use, it is performing Active Inference learning: each song you skip or save generates a prediction error that updates the algorithm's generative model of your music taste, gradually reducing the surprise in its weekly recommendations until the playlist feels like it reads your mind.
+*   **Specific Example 2**: Training an image classifier to recognize cats vs. dogs illustrates machine learning as Active Inference: the neural network starts with random weights (high free energy, massive prediction errors on training images), and through thousands of backpropagation iterations it adjusts its generative model parameters until the prediction error on new images is minimized -- the loss curve dropping over epochs is literally a plot of free energy being minimized.
 
 ## Conclusion
 
 Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

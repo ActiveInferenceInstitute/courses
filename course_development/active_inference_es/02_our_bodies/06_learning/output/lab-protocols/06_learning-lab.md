@@ -2,40 +2,60 @@
 
 ## Goal
 
-To feel how hard it is to learn a new way of moving (rewiring the brain).
+Feel how hard it is to learn a new way of moving -- and watch your brain rewire itself!
 
 ## What You Need
 
-* Paper and pencil.
-* A mirror (bathroom mirror or handheld).
+* Paper and a pencil
+* A mirror (bathroom mirror or handheld)
+* A table to set up on
 
 ## Steps
 
 ### 1. The Easy Way
 
-Look at the paper.
-Draw a Star.
-Easy, right? Your brain has a strong path for this.
+Look at your paper normally. Draw a simple star shape.
+Easy, right? Your brain has a strong, well-worn path for this movement.
 
-### 2. The Hard Way
+### 2. The Setup
 
-Put the paper in front of the mirror.
-Hold your hand so you can ONLY see it in the mirror (don't look at your real hand).
-Try to trace the Star (or draw a new one).
+Now set up the mirror challenge. Place your paper on the table in front of the mirror. Hold a book or folder above your hand so you CANNOT see your hand directly -- you can only see it in the mirror.
 
-### 3. The Struggle
+### 3. The Hard Way
 
-Your brain says "Go Right," but in the mirror, your hand goes "Left."
-It feels wobbly!
-Keep trying for 2 minutes. Does it get easier?
+Try to trace the star shape (or draw a new one) while ONLY looking in the mirror.
+Your brain says "Move right!" but in the mirror, your hand goes LEFT!
+It feels wobbly, strange, and frustrating. That is totally normal.
+
+### 4. Keep Trying
+
+Practice for 2-3 minutes. Does it get any easier?
+Each time you try, your brain is building a new path. The more you practice, the smoother it gets.
+
+### 5. Compare
+
+Look at your first attempt and your last attempt. Can you see improvement? That is your brain learning!
 
 ## My Learning Log
 
-| Attempt | How did it look? | How did it feel? |
+*
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+*
+My first mirror star looked like: ___
+My last mirror star looked like: ___
+The hardest part was: ___
+
+| Attempt | How Did It Look? | How Did It Feel? |
 | :--- | :--- | :--- |
-| **Normal Star** | Perfect | Easy |
-| **Mirror Star** | Squiggly mess! | Weird! Frustrating! |
+| **Normal Star** | | |
+| **Mirror Star (1st try)** | | |
+| **Mirror Star (3rd try)** | | |
+| **Mirror Star (5th try)** | | |
 
 ## What We Learned
 
-When the world changes (mirror reverses it), our old predictions don't work. We have to learn a new way, and that takes practice!
+| Question | My Answer |
+| :--- | :--- |
+| **Did the mirror star get better with practice?** | |
+| **Why was it so hard at first?** | |
+| **What did your brain have to relearn?** | |

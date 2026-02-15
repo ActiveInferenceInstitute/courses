@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Communication**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Communication**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between Learning and Planning.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Communication drive the perception-action loop?
 ## Applications
 
 In Embodied, we see Communication manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: In partner dancing (tango, contact improvisation), the lead communicates the next movement not through words but through subtle shifts of weight, pressure through the hands, and directional intention felt through the torso; the follow's body receives these signals at the tactile Markov blanket and her generative model predicts the incoming movement trajectory, creating a shared predictive loop where two bodies communicate entire movement sequences through the embodied language of pressure, momentum, and spatial intention.
+*   **Specific Example 2**: A basketball team executing a fast break communicates through coordinated movement -- a point guard's change of pace signals the wing to cut, a head fake communicates misdirection to the defense, and the timing of a bounce pass conveys expected arrival position; this movement-based communication operates through shared generative models where each player's body predicts the others' trajectories, creating a distributed active inference system where social coordination emerges from aligned embodied predictions rather than verbal instruction.
 
 ## Conclusion
 
 Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

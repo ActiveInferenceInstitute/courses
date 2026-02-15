@@ -2,29 +2,153 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>lab</title>
+    <title>tmpm4bi5j8e</title>
 </head>
 <body>
-<h1>Lab: Exploring Action</h1>
+<h1>Lab: Optimization and Expected Value</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Action</strong>.</p>
+<p>Practice <strong>optimization</strong> -- finding the best choice among alternatives -- using <strong>expected value</strong> calculations. In Active Inference, action selection means choosing the policy that minimizes expected free energy, which combines expected value with information gain.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Action.</li>
+<li>Completed Math Foundations: Cognition module (Bayes' theorem)</li>
+<li>Comfort with multiplication and weighted averages</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Expected Value of Actions</h2>
+<p><strong>Goal</strong>: Compute expected values to compare different action choices.</p>
+<p>You are deciding how to spend 2 hours before a test. Three study strategies:</p>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>P(A grade)</th>
+<th>P(B grade)</th>
+<th>P(C grade)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Review notes</td>
+<td>0.3</td>
+<td>0.5</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>Practice problems</td>
+<td>0.5</td>
+<td>0.3</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>Study group</td>
+<td>0.4</td>
+<td>0.4</td>
+<td>0.2</td>
+</tr>
+</tbody>
+</table>
+<p>Assign values: A = 4 points, B = 3 points, C = 2 points.</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Hs.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Action.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Action (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>E[review notes] = 0.3(4) + 0.5(3) + 0.2(2) = ?</li>
+<li>E[practice problems] = ?</li>
+<li>E[study group] = ?</li>
+<li>Which strategy has the highest expected value?</li>
+<li>Would you always choose the highest expected value option? What might matter besides the average?</li>
 </ol>
-<h2>Discussion Requirements</h2>
-<ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Action.</li>
-</ul>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: Minimizing Expected Loss</h2>
+<p><strong>Goal</strong>: Reframe optimization as minimizing a cost rather than maximizing a reward.</p>
+<p>An agent wants an A on the test. Define "loss" as the gap between desired and actual grade:</p>
+<table>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Loss (gap from A)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>0</td>
+</tr>
+<tr>
+<td>B</td>
+<td>1</td>
+</tr>
+<tr>
+<td>C</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>E[loss for review notes] = 0.3(0) + 0.5(1) + 0.2(2) = ?</li>
+<li>E[loss for practice problems] = ?</li>
+<li>E[loss for study group] = ?</li>
+<li>Does minimizing expected loss give the same best strategy as maximizing expected value?</li>
+<li>In Active Inference, the agent minimizes <strong>expected free energy</strong> -- which is a type of expected loss relative to preferred outcomes.</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: The Explore-Exploit Tradeoff</h2>
+<p><strong>Goal</strong>: See how information gain competes with expected reward.</p>
+<p>You know Strategy A has E[grade] = 3.1 (from Part 1). A new Strategy D is untested -- you have no data.</p>
+<ol>
+<li>If you pick Strategy D, what is your expected grade? (You do not know -- that is the point.)</li>
+<li>What do you gain by trying Strategy D even if it might be worse? (Information!)</li>
+<li>Suppose after trying Strategy D once, you learn E[grade for D] = 3.5. Was exploring worth it?</li>
+<li>In Active Inference, <strong>epistemic value</strong> (information gain) is added to <strong>pragmatic value</strong> (expected reward). An agent that only exploits never discovers better strategies.</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Gradient Descent (Intuitive)</h2>
+<p><strong>Goal</strong>: Understand optimization as repeatedly taking small steps toward improvement.</p>
+<p>Imagine you are on a hilly landscape in the dark and want to reach the lowest point.</p>
+<ol>
+<li>Strategy: At each step, feel which direction slopes downward and take a small step that way. This is <strong>gradient descent</strong>.</li>
+<li>Suppose your "height" at position x is f(x) = (x - 3)^2. Compute f(0), f(1), f(2), f(3), f(4).</li>
+<li>Starting at x = 0, which direction reduces f(x)? Take a step of size 1 in that direction.</li>
+<li>Repeat until you reach the minimum. How many steps did it take?</li>
+<li>In Active Inference, the agent adjusts its actions to "descend" the free energy landscape, always moving toward states that match its preferences.</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Math Concept</th>
+<th>Symbol</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expected value</td>
+<td>E[X] = sum(x_i * p_i)</td>
+<td>Probability-weighted average outcome</td>
+</tr>
+<tr>
+<td>Expected loss</td>
+<td>E[L] = sum(loss_i * p_i)</td>
+<td>Probability-weighted average cost</td>
+</tr>
+<tr>
+<td>Optimization</td>
+<td>argmin / argmax</td>
+<td>Finding the action that minimizes cost or maximizes reward</td>
+</tr>
+<tr>
+<td>Explore-exploit</td>
+<td>Epistemic vs pragmatic value</td>
+<td>Tradeoff between gaining information and maximizing reward</td>
+</tr>
+<tr>
+<td>Gradient descent</td>
+<td>x_new = x - step * slope</td>
+<td>Iterative optimization by following the downhill direction</td>
+</tr>
+</tbody>
+</table>
 </body>
 </html>

@@ -8,7 +8,7 @@ B) To minimize variational free energy
 C) To increase entropy
 D) To eliminate the Markov Blanket
 
-2. In Hs, Perception is best described as:
+2. In High School, Perception is best described as:
 A) A static property
 B) A dynamic process
 C) An external state
@@ -47,5 +47,5 @@ D) None of the above
 ## Part B: Short Answer
 
 1.  Explain how **Perception** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Perception failing in a Hs scenario.
+2.  Provide a concrete example of Perception failing in a High School scenario.
 3.  How would you model Perception using a POMDP (Partially Observable Markov Decision Process)?

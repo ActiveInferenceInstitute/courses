@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>38_Ijcnn 2021 Plenary Talk Active Inference - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>38_Ijcnn 2021 Plenary Talk Active Inference</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>38_Ijcnn 2021 Plenary Talk Active Inference</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>IJCNN 2021 Plenary Talk: Active Inference</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=Y6FL442YRdI">YouTube</a>
+<strong>Playlist</strong>: Active Inference &amp; Free Energy Principle ~ Lectures, Podcasts, Discussions
+<strong>Duration</strong>: 58:55 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>participant yeah there hi nice to meet you very very nice so i might start now so i have the extreme honor to introduce professor carl fristen who is professor for neuroduty at university college london and he is scientific director of the welcome test center for neuroimaging in london he is one of the leading experts for brain imaging and in particular he invented the key technology spm which is cited as a single paper more often than the publications or the citations of others in their whole lifetime so he is regarded as one of the top 10 most influential neuroscientists and i think personally that this research is a superb example of how formal mathematical modelling and machine learning can help to understand key questions of mankind so how the brain works professor fristen is a recipient of the first young investigators involved in human brain mapping fellow of rural society fellow of academy of medical sciences recipient of me never golden brain award and actually the awards are so many that i would eat up your time therefore rather as an elaborating on your cv please allow me to give the word to you and to learn more about active inference i'm pleased to attend your talk and everyone else thank you thank you it's a great pleasure to be here and i very much welcome the opportunity to speak to you today i'm going to talk about active inference and ask a question what is optimal about behavior and in particular are there different kinds of optimality specifically bayesian optimality in terms of those things that we aspire to and the information gain consequent upon our sentient behavior my talk's going to have two parts to it i'm going to first of all set up the framework in terms of self-evidencing namely action and perception in the service of maximizing the evidence for our generative models of the world i'm going to motivate that in terms of normative accounts of sentient behavior and related specifically to things like artificial intelligence and machine learning the second part of the talk will use simulations to illustrate technically the kind of message passing entailed by the first principal account of the first half of the talk and i want to conclude but with a special focus on epistemic foraging responding to affordances that denote information gain following a particular course of action or policy so self-evidencing active inference is predicated on the notion that there's one underlying objective function such that we can read perception and action as a process of optimization so what are we optimizing effectively we're optimizing the log probability of some outcomes given a generative model or more simply me who would anticipate those outcomes and clearly that's almost a tautological specification of the kinds of outcomes i expect to encounter so we can read this as those outcomes that have value and we can from that reading motivate a description in terms of reinforcement learning in engineering optimal control theory and if we were an economist this would be something like expected utility theory what i will go on to unpack is an approximation a bound approximation to this kind of value that i'm going to refer to as a variation of free energy or more simply free energy interestingly the negative of this free energy or value is self-information or surprisal or more simply surprise and information theory so this provides a normative account of sentient behavior in terms of things like the principle of maximum efficiency or the principle of minimum redundancy the inframax principle and indeed the free energy principle itself that in turn is interesting because the long-term average of surprisal or surprise or self-information is entropy so if we imagine that action and perception or always trying to maximize value or minimize surprise then on average it will look as if action and perception are also trying to minimize entropy and that of course is a holy grail of many accounts of behavior in terms of self-organization uh particularly synergetics and of course if i were a physiologist this would just be a statement of homeostasis keeping physiological states within viable bounds resisting the second law where those physiological states would be dispersed and i would dissipate uh dissolve or and possibly die there's a final perspective on this quantity which i'm going to leverage and that's a much more statistical uh perspective namely the probability of outcomes given me as a model and in basin statistics that will be known as bayesian model evidence and from that we can link to accounts of brain function in terms of the bayesian brain hypothesis evidence accumulation perceptions hypothesis testing predictive coding and so on so those are if you like some of the normative theories that can all be subsumed by putting in play a particular objective function and the form of the objective function that i'm going to consider is a free energy that comprises a negative energy and an entropy here um for those of you not familiar with this you can see this as essentially a statement of james's maximum entropy principle so that we want to effectively maximize the entropy of our beliefs about the states of the world that are generating outcomes under certain constraints and those constraints we will see are described by the likelihood of those outcomes given those states that's usually hidden or latent states in the world and our prior beliefs about the states of affairs uh generating our observable outcomes in machine learning many people will be familiar with this as an evidence lower bound so i can unpack this free energy functional its functional form in terms of an expected log evidence simply the probability of some outcomes um under a given model plus a colbecca liblar divergence that can never be less than zero and that constitutes a band on the log evidence giving me this notion of an elbow or an evidence lower bound that's i think an important perspective because i'm defining the evidence in relation to a genitive model i have now at the start an explainable and interpretable account of how any data that i'm trying to classify or use to infer the causes generates those data so basically i should have four free explainable and artificial intelligence what we will see is it will also for free from this bayesian perspective and leverage a design optimality in terms of optimal experimental design which we can understand as augmenting an abductive inference and indeed if we take that abduction through from inference to learning auto-poetic self-constructing self-teaching kind of inference and learning which in principle would lead to a first principle account of data foraging and epistemics and possibly generalized ai or agi i want to look at this objective function from a different perspective simply by rearranging the terms so all i've done here is just move the terms around and expressed it in a way that would be more familiar to statisticians so this same objective function can be written down as a mixture of accuracy and complexity where the accuracy is simply the expected log likelihood of some observable data given their causes minus the complexity that is simply the kl divergence between my posterior beliefs q and some prior beliefs about the states generating those data so that's an intuitive view of this objective functional the complexity term plays a key role here many people will recognize this in terms of occam's principle in the brain this translates into things like functional specialization and redundancy minimization efficient coding from an engineering perspective this complexity also can be understood in terms of minimizing the computational cost literally the degree to which i have to change my mind and going from my prior beliefs to my posterior beliefs in order to provide an accurate account of the data at hand implicit in those prizes of course are parsimonious explanations and beliefs possibly heuristics about the generation of the data that i'm trying to explain from the point of view of thermodynamics that computational complexity translates directly into a thermodynamic or in biology a metabolic cost via things like the czarzinski equality and landauer's principle which put it very simply means that if i'm doing it in the right kind of way i'm doing it very quickly and i'm doing it with the minimum use of energy what i really want to do though is to take that sort of partition of the right kinds of inference and actions in the moment and think about the free energy in the future following a act upon the world and what we're going to see when we consider self-evidencing in the future is the emergence of again this dual perspective on an objective function in terms of optimal bayesian design and that we will see maximizes the accuracy i expect following a move or a sampling of some data while the expected complexity corresponds to optimal bayesian decision in relation to some prior preferences and the two together constitute this self-evidencing so that the base optimal design perspective and base optimal decisions are two aspects of the same thing two sides of the same coin which is this underlying imperative to maximize this evidence lower band so to make that more heuristic let me just um pose a question to the audience imagine you're an owl and you're hungry and if we were in person i would actually ask someone in the audience to say what are you going to do next and almost invariably somebody somebody correctly replies well i'm going to look for my food i'm going to search for my prey and then predate that prey that simple answer has a lot of implications for the choice of the account of sentient behavior if it were the case that i were simply choosing my actions in order to maximize some value function of the states that would ensue say s of t plus one following a particular action i could formulate optimal behavior in terms of a state action policy so i would be choosing those behaviors or those control variables that maximized my value function my state the action value function of the consequences of behaving and thereby elaborate an optimal policy however the simple answer i am going to search for food means that this may not be the best way of formulating optimal behavior so why is that well to search is to resolve uncertainty about where my food is but uncertainty is an attribute of a belief therefore that tells us that perhaps the better kind of objective function or certainly its functional form is a functional in the sense that is a function of a function where that function is a belief so put that simply optimal action may depend upon states of the world on beliefs about states of the world so i'm if you like formalizing that in terms of actions that maximize a functional g of beliefs about states of the world given a particular behavior furthermore thinking about the searching for food example it matters the order in which i do things so i can either try to eat my prey and then search for it or search for it identify where it is and then try to eat it and that ordered aspect leads us into the notion of sequential policy optimization and technically that has implications for the functional form of a normative account based upon an objective functional and i've formulated that here in terms of maximizing a path integral of a functional of the beliefs about states of the world that would ensue under a particular policy where a policy here now is read as a sequence of actions or controls which is distinct from the state action policy here and the reason that i'm trying to emphasize the difference between these two things is to deliberately introduce a dialectic between accounts of sentient behavior based on melbourne's optimality principle versus this path integral of an energy functional um which in physics would be known as an action so what we're talking about basically is a principle of least action that accounts for optimal action in terms of beliefs about states versus an optimality principle that does not and many of you will recognize the different themes and schemes that arise under these two um complementary approaches to optimizing behavior so for example under belmont's optimality principle would have optimal control theory dynamic processing deep rl um bayesian rl basin decision theory state action policy durations and so on a slightly different perspective emerges under a principle of least including active inference and probably more interestingly artificial curiosity on and in robotics this will be known as intrinsic motivation i'm going to cast that in terms of optimal bayesian design that for free becomes part of sequential policy optimization and the treatment of partially observed uh markov decision processes um so what is this free energy um and it's associated functional um that underwrites a principle at least action for a physics of sentience a a bayesian mechanics that explains um or best accounts for optimal behavior well here i've just rewritten the um the free energy functional function my parties in terms of accuracy and complexity so this is the kl divergence we've already spoken about and the accuracy the log likelihood of outcomes given states and here just by moving these terms around we can see immediately how this also translates into an evidence bound in the sense this is another non-negative kl divergence and this is the um the evidence associated with particular outcomes the reason i've written this out is to disclose to show what i think is quite a beautiful mapping between this quantity and the same quantity that would be expected given i have committed to a particular act now the reason that the ins the expected gets into the game and we move from f to g is that before i i have acted i don't have the sensory outcomes available so now i have to take an expectation of the free energy under my posterior predicted beliefs about what i would observe if i made that move what one sees is that the expected complexity um translates into something called risk the expected accuracy becomes something called or negative expected accuracy becomes ambiguity while the evidence found in log evidence um can be read as an intrinsic and extrinsic value respectively so let me just try and relate that to well-established um normative accounts of behavior um first of all let's just focus on the intrinsic value and pretend we had no prior beliefs about the outcomes that characterized me um sometimes referred to as prior preferences so let's ignore the extrinsic value the prior preferences and see what is left and what is left is effectively an expected divergence between beliefs about states of the world before and after observing their consequences and this is just the degree to which my uncertainty as a result has been resolved by committing to this particular policy another way of expressing that is the information gain or the epistemic affordance um due to this policy in the visual search literature that's known as bayesian surprise mathematically it's just the mutual information between the states the world causes and their consequences their observable consequences in the future conditioned upon a particular policy um what i'm going to do now is take away a kind of uncertainty and remove it from the table and the the the uncertainty i'm talking about is the ambiguity so if i remove ambiguity and pretend that i can see directly all these hidden states these latent states generating data then i can ignore this and we just are left with the risk term so what's a risk term well that's another kl divergence and it just scores the difference between beliefs about states in the future given that i have committed to this policy and my prior preferences so it's just the difference between what i anticipate will happen if i do this versus the kinds of outcomes that i would prefer or expect myself to encounter and in engineering this is just kl control in economics it's risk sensitive because we are not we are no longer dealing um with ambiguity so let me make a final move here and take away the risk part in the sense that there is no relative uncertainty about the outcomes of my behavior and what are we left with well we're left with this term here which is back to this um value term in the first review of normative theories the extrinsic value that reflects my prior preferences about the kinds of observations i expect to solicit irrespective of how i behave and from this we can interpret optimal behavior in terms of an expected value for example an economics expected utility theory so there's an interesting relationship between this account of optimal behavior and the bellman optimality account of optimal behavior that arises when i successfully remove different kinds of uncertainty from the problem and in fact we can now repair that dialectic between the government optionality principle and the principle at least action simply by saying that the latter is a special case of the principle of least action when there's no uncertainty to worry about the ensuing computational architecture that we now use to simulate and understand sentient behavior in the neurosciences and in our simulations of active imprints is shown on this slide so in brief we can think of outcomes being gathered by our sensory organs being taken into the brain for example to be assimilated to build posterior bayesian beliefs that maximize this evidence lower bound about hidden states external states beyond technically what is a markov blanket separating the external states from internal brain states to optimize our beliefs to get the best approximation or best guess about the states generating those outcomes and then we use our beliefs about the external latent states to evaluate well what would happen if i did that in terms of the expected free energy and we've seen that we can unpack that or carve it into risk and ambiguity terms and then form beliefs about the most likely policies that we are pursuing and then we can supplement action from those policies and generate a new observation from the world out there and the cycle the action perception uh cycle can continue so in short polycystic policy selection uh can be cast as maximization of an expected free energy uh whereas perceptual inference can be thought of as uh as maximizing this evidence lower bound so all i've said is essentially we have at hand a variational principle at least that subsumes both the epistemic information part of optimal behavior the that which can be ascribed to the extrinsic or the expected value under some prior preferences and together they simply mean that we are choosing those actions inferring the plans the policies that maximize expected free energy uh and this is very close of course to things uh notions um like planning and control um as inference but in a way that has this dual aspect of of both trying to be information seeking at the same time being reward seeking or goal seeking in our epistemic responses so let me briefly illustrate what implications that formulation that sort of least action formulation has for belief updating the brain and subsequent behavior and i've written this down um formally in a way that i thought might be revealing for people in computer science and to designing message passing schemes what what this slide is meant to show is that if i had a generative model of how hidden states unobservable latent states out there generate outcomes then i can always write it down as a probabilistic graphical model so for example we could assume a discrete state-space model a um a hidden markup model or a markov decision process partially observed of the following form where the world is in different states one of a number of different states and they move from one stage to the next point in time in accord with a probability transition matrix that itself depends upon the particular sequence of actions that i prosecute the plan um that itself depends upon the expected free energy and once i know the states of the world i can then generate through a likelihood mapping here denoted by the a matrix some observable outcomes so this would be a generative model for a partially observed markov decision process that is inherently inactive in the sense that the state transitions depend upon my which itself depends upon the expected free energy and you know please ignore these equations here they're just articulating um this example a fairly generic or universal example of discrete state space models of the way that my observable outcomes my sensory information could be generated this is nice because if i can write down a probabilistic graphical model there will always exist a factor graph and in this instance a forney or normal style factor graph and that is the cousin or the conjugate of this graphical model here where the nodes become edges and the edges become nodes we don't need to worry about that that we need to know is if we can write this down we can always write this down what does writing this down mean well it entails a very precise a concrete and crisp description of the message passing that will be needed in order to infer all the unknowns here basically states the world that i don't know and what i am doing the policies i can infer all of these by passing messages around over these edges that now correspond to the run the unknowns the random variables um given the um the parameterized generative model in terms of the prize the probability transition matrices and the likelihood it's naming the likelihood mappings between uh causes and consequences and i've just written down this message passing here in terms of belief updating belief updating of things that we don't know states of the world under a particular policy and the policy which is just a soft max function of the expected free energy here um and the expressions that inherit from the um the form the functional forms of the previous slides written down in terms of linear algebra and the matrices and tensors of the generative model here those updates which are just off the shelf uh variational message passing updates on the previous slide are quite remarkable not just in terms of their simplicity but their isomorphism with the kind of message passing we actually see in the brain so i've just written them out again here um just to highlight how similar they are to things that we already use to simulate neuronal dynamics and message passing on neuronal networks so for example here the belief updates for hidden states of the world under a particular policy any particular point in time are just a non-linear function of a linear mixture of outcomes through the likelihood matrix and beliefs or expectations about past states and future states that are mixed together in the right kind of way to give me the best expectation or guess about the state of the world at any particular time policy selection is this a standard soft max function soft mass response function of this expected free energy i've equipped this model with a precision parameter which we don't need to worry about too much for the point of view of this talk it's interesting in neurobiology because it seems to behave very much like a reward prediction error of the kind that people who study dopamine responses in the brain um like to think about learning just becomes effectively optimizing the parameters of the model the d here are the initial states um at the beginning of a plan or or a policy but the same functional form applies to all the parameters and it looks exactly like heading or associative plasticity evidence accumulation in this simplest example here and then action selection is just selecting the most likely action from my inferred or favorite plan this is a slide that just describes a simple setup a toy example i'm going to use to illustrate the generic kinds of behavior that ensue when we solve those belief update equations or that variational message passing um on the previous slide so this is as simple an example um as we could find that has both a sort of pragmatic and epistemic bits that speak to the intrinsic and the extrinsic value entailed by the expected free energy the idea here is that there is a little mouse it can make two moves in this team maze um and it wants to find a red reward that can either be in the left or the right upper arm of the maze but in addition there's it has the option of going to the lower arm where there's an instructional queue that will tell it where the reward is so you can't see where the reward is from its starting point in the center so it's got a choice it can either take a gamble and uh 50 percent of the time be correct and 50 of the time be wrong but i should say that once it goes into one of the upper arms it has to stay there these are absorbing states so there's a 50 50 chance that it will uh secure its reward for two moves or not it can choose to go and solicit the information garner the information from the instructional queue but it's wasting one move but then knows um with a fair degree of certainty um where to go to um to get the um to the baited arm to get its reward so from the point of view of an expected utility theory or a bellman optimality principle these two plans have the same expected utility um of 50 but from the point of view of something that is self-evidencing that has this epistemic part to the objective function the belief-based part um then clearly it is going to be better um or it's the animal will plan and infer that it will be pursuing a an epistemic policy responding to the epistemic affordance of the instructional cue indeed when we um build this paradigm into a markov decision process write down the factor graph iterate and solve the belief update equations that's exactly this kind of behavior which we see so i'm just summarizing that here with the following graphic the top panel just shows you the side in which the reward was placed um this image representation here is of the plans that the synthetic mouse committed to the degree of uncertainty at certain times these are the outcomes um this is if you like the um reward or negative loss function here and and these reflect learning as their updates to the initial state at the beginning of the plan namely the context of the reward on the left or the right and what we see is at the beginning as we'd anticipate the um the mouse goes and gets its response to its epistemic affordance and then goes to secure its reward and and then what we've done is leave after the first couple of trials the reward on this side so as time goes on it learns that the context is almost uh is all is increasingly likely to be reward on the left hand side and this has the effect of reducing the epistemic or the intrinsic value the information gain the epistemic affordance relative to the extrinsic or more pragmatic part of the expected in other words it the the the afforded by the instructional conditional uh conditional conditions stimulus starts to decline and at a particular threshold falls below the pragmatic or the extrinsic value at which point the most likely behavior is to go straight to where the little mouse knows the reward is sitting and that's exactly what we see at a browned trial 20 here and the synthetic mouse goes straight to her reward um on all occasions so that's a basic illustration of the deterministic um and systematic move from exploratory behavior to exploitative behavior simply because there is this dual imperative to seek information and then seek reward or to maintain certain goal states but of course as you become more familiar with an environment after exploring it the novelty or the salience of that environment starts to decrease and the more pragmatic imperatives start to emerge what i'll do now is just show you how one can generalize this kind of formulation to reproduce quite sophisticated epistemic foraging of the kind that we might engage in and i'm going to use reading as an example uh or a very simplified form of reading just to emphasize interesting sequelae of formulating optimal behavior where you're putting the sort of imperative to minimize uncertainty into the objective function how this um uncertainty changes with time and with the things that you decide to do to produce a particular pattern and scheduling of the way that we go and gather information from the world so everything that follows i'm now taking rewards away so that we can just reveal the epistemic nature of and i'm going to start with exactly the same kind of markov decision process as a generative model of outcomes so this is a reproduction of an earlier slide with our markov decision process here what i'm going to do now is just make it slightly more interesting i'm going to add a temporal depth i'm going to now put a markov decision process on top of my first markov decision process and crucially the higher level markov decision process is going to unfold more slowly in time so this higher level process from the point of view of a generative process or model provides now a context that sets the initial states for a lower process that unfolds more quickly in time and then is reset for a net the next context in the next context so from the point of view of the generative model we're now if you like um placing priors on kinds of behaviors that would generate the most likely outcomes at the lower level from the point of view of the equivalent normal style factor graph we can conversely regard the lower level as supplying evidence for which context we are in this dual exchange is implicit in the belief updating which is just a solution to the belief updating equations or the variational message passing that emerges under these deep dictronic generative models so the particular model that i want to use to illustrate the behaviors at hand is a model of reading um but a very simplified model where we're using sort of iconic letters as a as opposed to a script um so the lowest level of the model is sketched out here and basically what this little agent can see is either a particular icon a particular letter depending upon where she looks at different quadrants in this word here and the these outcomes the what and the where aspects of the sensed or observed outcomes are generated by a number of hidden states first of all the hidden state what word is she looking at is it the word flea which is composed of these two letters there's a little bird next to a cat or is it the word feed there's a little bird next to some seed the bird could uh eat um or is it the word weight there's nothing next to the little the little um bird so this describes the context generating the particular outcomes at the first level so we need to know what was the letter flea feed or weight we'd also need to know where she was looking at this quadrant or that quadrant or this or that quadrant here and just to make things interesting i've also put a flip in here which you can regard um as a font change just to make it more realistic so that there's a degree of generalization so given these states i can always generate a particular set of outcomes under a particular set of moves moving from one to two or one to three or three to four and and that is sufficient to write down a factor graph which is sufficient to define the message passing and the self-evidencing what about the second level right well clearly the sequence of words this you know the sentence that i can be um generating um is it's uh is itself um something that i have to specify from the point of view of the generative model so i have to specify well what kinds of sentences could possibly be generated um and i've taken three sentences here um there's also a what where aspect to um the the structure here so it's what sentence is in play that is generating the words at the lower level or providing a contextual prior for the words at the lower level um and you know where am i in terms of the word and as part of a sequence as opposed to the letter as a part of the word and i can write down these hidden states that i can generate everything i need to know to tell me what the current word is and um um where i am looking in terms of wandering through the sentence so i've got two levels of action i can look at the next word or i can look around this current word various letters and accumulate information as i progress through the letters and the words and thereby simulate reading and this is basically what it what it looks like um so on the top is a description of or a graphic illustrating the sequence of moves that this little agent made whilst reading this four word sentence flee wait feed wait here the interesting thing about it is that she starts off looking around and accumulates evidence summarized here in terms of the expectations about what's happening at the lower level and what's happening at the higher level so this is the second level expectations about what sentence she's reading and these are the first level expectations about the particular word in play the interesting thing about this simulation is that as soon as she's certain about the word because if there's a cat on the um in the on the upper row then it has to be flea she jumps to the next word um and after a couple of sufficient samples to reassure her or render her sufficiently certain that the next word is weight that she then jumps to the next word so what this is convincing is exactly the kind of sparse sampling that we actually use not just in reading but in terms of visually palpating the world in fact palpating the world with all different kinds of sense organs just to get the information that we need in order to resolve our uncertainty about where to look next to build confident certain beliefs about states of affairs out there and this is basically what um we wanted to show with this with this simulation um i just wanted to conclude by coming back to the you know the really interesting issues about the temporal scheduling of this kind of die chronic belief updating and foraging in this instance foraging for information but um if we put rewards in then it would be a you know mixture a blend of foraging for rewards and goals and information um so what i've done here is just show the results of the simulated belief updating in a way that an electrophysiologist might measure them in a real brain so at the top we have the six sentences and i just if you like color coded um the weight or the expectation that we are looking at the sentence one or sentence four here as time progresses during the s the planned reading of this sentence similarly at the lower level here are the three alternative words that could be seen at um your at each sorry three alternative words that could be um being looked at as as as the agent is foraging each uh of the letters in that word um and what and the final panel here um are essentially just the smoothed versions of these rasters of if this was simulated electrophysiology neural activity that can be read as local field potentials that we can measure empirically and notice that the speed at which we accumulate information about the sentence is by construction of this dichronic deep generative model and much slower than the the accumulation of evidence for the word flea feed or weight so we see a very fast accumulation of evidence so we're definitely looking at flea here as soon as we start and then we quickly make up her mind about the subsequent words and then move on to the next word and slowly accumulate evidence for the different sentences and there's an ambiguity here because we have to wait until the last word to disambiguate between sentences one and four and indeed when we get to the last word this little agent can indeed confidently um believe that she has been reading the sentence flee weight feed and weight i've shown the results like this because this is exactly the kind of neuronal dynamics that one sees empirically when looking at this kind of paradigm in monkey electrophysiology so for example here these data or this simulation very similar to the uh the data acquired from used electrode recordings in this instance uh pre-select circadic delay period activity in the prefrontal cortex um that is very reminiscent of um the activity in this uh simulation similarly recording fluctuations in um electrochemical potentials that um are one way of measuring fluctuations in neural activity um show um a remarkable similarity between synthetic and real measurements of parasitic field potentials potentials during active vision um in this instance in uh i think macaque monkey um looking at higher and lower sorry lower and higher areas of the visual brain so i i'm going to finish there because it provides a nice empirical endorsement that the brain may actually be using this sort of message passing in the service of sampling the world in the best way possible in in the sense of optimal bayesian design which has been understood and formalized for 1950s in terms of planning the best way to experiment to disclose those data that resolve the most uncertainty about your hypotheses so this this notion of base optimality in terms of the principle of best experimental design is one way of reading the in epistemic or the intrinsic motivation supplied by the expected uh the expected uh free energy in that sense you can regard perception and active sensing active perception in exactly the same way that people like richard gregory conceive of active sensing and perception as hypothesis testing that really our behavior our is in the in the game of getting the right kind of information that resolves our uncertainty about states of affairs beyond our sensory organs or outside of our skull i'm going to give the the final word to um to einstein just to remember that all of this rests upon the simple understanding and realization that the evidence for our models of the world can always be split into negative complexity of simplicity and accuracy which just means not only in science but also in our sentience everything should be made as simple as possible but not simpler and with that all that remains is for me to thank all the people whose ideas i've been talking about and to thank you for your attention and i look forward to discussing um these these issues with you in the near future thank you very much indeed thank you very much now you have to imagine that everyone is clapping it was a wonderful talk thank you very much i would like to ask everyone who has questioned to to put those in the chat and i take the opportunity to start with the first question so you have this wonderful deep diacronic model would that also be a possibility to easily model drift and changes in in in in the environment say if you have for example seasonal changes and people or or persons are very very very good at adapting to that so would would you could you do that yes um that's a very interesting question in relation to modeling the current epidemic which is if we've actually applied these these models to the coronavirus outbreak and that's a very very pertinent question yeah absolutely so i think what you're saying there is that there are there is a separation of time scales at many many levels it just keeps on going so you what you would do in um in this particular example is just put another markov decision process there was an order of magnitude slower on top of the two levels we've already got and this would provide um a much slower context so there will be leaf updating adaptation at a much much slower time scale um you know interesting aspect of your question of course is what we were looking at there is the fast belief updating uh inferring latent or you know hidden states of the world the same expected free energy and free energy minimizing sorry maximizing elbow maximizing dynamics when applied to the parameters of the model give you learning so there's also inference and learning and the two of those go hand in hand as well so that's another interesting aspect and then you can even take that further and say can you put structure learning on top by using the time integral of the model evidence so now you have a a picture of structure learning how many levels would you want that can be read as basic model selection um or natural selection if you're in biology very interesting so we have one question in the chat from pranav mahayan i might summarize the first question so these are actually two first would be whether you could also a model something like pavlovian fear and risk aversion principles so how can this reward seeking and information gain seeking also account for risk aversion schemes i think it um to articulate um risk aversion and risk sensitivity within this framework is is relatively straightforward so all you do is you rewrite your cost function or your reward function as a log probability so i i was talking about sort of prior preferences so um you just take the logarithm of that and then you have a continuous variable that goes from plus to minus infinity that scores your um your the the value or the extrinsic value of a particular outcome once you've done that then you get all these sort of natural behaviors um that one would see in with the added benefit that now you can measure your reward um or your utility in natural units because now you've expressed your utility as a log probability so if you use natural logarithms you've got natural units which interestingly have the same units as information so now you've got the value of information you can either say well this bit of information is worth three dollars or three dollars is worth this amount of information and the way that you balance the two is effectively um by ascribing a precision an inverse variance to to those belief distributions so once you've written down your reward in terms of probabilistic preferences now you can make them quantitatively bigger or smaller by making them more or less precise so if i'm very very confident a very precise beliefs i like these things and i don't like those that will dominate the um pragmatic or the expected utility part of the expected free energy and that will suppress possibly the risk aspect whereas if i have very very imprecise i don't have any confident beliefs about what i find rewarding my subjective utility if you like um then it's likely that i might become more sensitized to the to you know to to the uh the ambiguity term and i might become more um careful um i want to resolve ambiguity um and be less sensitive to the um or act as if i was less worried about the risks because i'm less confident about what i find rewarding so really interesting question you know in principle you should be able to fit the precisions in order to make them match exactly with economic sort of forms of risk aversion and the like there's another question in the chat so um this would be the question about your views on including or how including emotional balance into the framework and the suggestion would be whether first and second derivative for free energy would would fit that or what would be your view on that well that's a challenging question and certainly people have um have proposed for many years now that the sort of you know the rate of change of free energy as a score in terms of how well you are engaging with your world um is is a nice valence measure of um that could predict your your emotional status um i think that's a useful um heuristic however i think the the you know the more direct answer to this is um it's all in the uncertainty you know if you estimate and you predict that you are now in a context of an environment in a situation where your uncertainty about what to do is irreducible that's going to make you feel anxious and bad so you know the good feelings the aha moments the realization oh yes i won that lottery or it's me it's it's dinner time or it's my favorite sitcom all of these things when you feel good and happy all come along with this collapse of uncertainty and the way four becomes very very clear um so in a sense that is if you like an anticipation of a you're an improvement in the free energy but that has to be represented in the genetic model you know it has to be part of your belief structure in your belief system and your representation of the world and it looks as if that is um the closest um thing in the generative model to that kind of monitoring the fluctuations in how well i'm doing in terms of the free energy seems to be the precision of beliefs about what i'm doing which is of course the dopamine um you know what we think it might be the thing that dopamine registers so at a very simple level of just valence your things being good and bad i would ascribe that to the precision of beliefs about what i'm going to do so when things get better that basically means i can see the way ahead clearly thank you so i'm looking a bit at the time so i i expect although there would be more questions we have to stop here because the time is small is over and we expect the next speaker to be here in in like two minutes so thanks from everyone attending the session for this excellent talk and discussion and we hope every to be able to see everyone and you also in particular in the near future in person thank you well bye bye</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,23 +1,81 @@
-# Lab: Exploring Action
+# Lab: Autonomous Manipulation and Locomotion
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Action**.
+Design autonomous action systems for manipulation and locomotion. You will implement grasp planning algorithms, whole-body control for mobile manipulation, and terrain-adaptive locomotion, framing each as Active Inference action selection.
 
 ## Prerequisites
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Action.
+- Completion of the corresponding module.md lecture material
+- Familiarity with Active Inference concepts (generative models, free energy, prediction errors)
+- Basic pseudocode and diagram skills
 
-## Steps
+## Part 1: Requirements and Architecture
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Robotics.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Action.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Action (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+Define the requirements for an autonomous action system:
 
-## Discussion Requirements
+1. Specify the operational scenario (indoor warehouse, outdoor terrain, human-shared space).
+2. Define performance requirements (speed, accuracy, reliability, safety).
+3. Design the system architecture as a ROS2 node graph.
+4. Map the architecture to Active Inference components (generative model, beliefs, actions, observations).
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Action.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 2: Implementation Design
+
+Design the core algorithms for the autonomous action system:
+
+1. Specify the main algorithm in pseudocode.
+2. Define the data structures and message types.
+3. Specify timing constraints and computational budgets.
+4. How does the system handle failures and edge cases?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 3: Integration and Testing
+
+Design the integration and testing strategy:
+
+1. Define unit tests for each component.
+2. Design integration tests for the complete action pipeline.
+3. Specify simulation-based testing scenarios.
+4. Define metrics for evaluating autonomous action performance.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 4: Autonomy Evaluation
+
+Evaluate the autonomy level of your system:
+
+| Autonomy Dimension | Your System | Ideal Autonomous System |
+| --- | --- | --- |
+| Human intervention needed | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+| Failure recovery | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+| Novel situation handling | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+| Performance degradation | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+| Continuous operation time | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Summary Table
+
+| Concept | Classical Robotics | Active Inference | Your Design |
+| --- | --- | --- | --- |
+| Core mechanism | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+| Uncertainty handling | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+| Adaptation | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+| Key advantage | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+
+## References
+
+- Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. *Frontiers in Neurorobotics*.
+- Parr, T., Pezzulo, G., & Friston, K. J. (2022). *Active Inference*. MIT Press.
+- Pio-Lopez, L., Nizard, A., Friston, K., & Pezzulo, G. (2016). Active Inference and robot control. *Journal of the Royal Society Interface*, 13(122).

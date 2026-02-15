@@ -784,7 +784,7 @@ body.dark-mode .question-container:hover {
 <li>Apply specific constraints of Robotics to the formal definition of Cognition.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Cognition</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>This module explores <strong>Cognition</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between Perception and Action.</p>
 <h2>Key Concepts</h2>
 <h3>1. Cognition as a Markov Blanket Boundary</h3>
 <p>How does Cognition define the boundary between the agent and the environment?</p>
@@ -794,29 +794,10 @@ body.dark-mode .question-container:hover {
 <p>How does the process of Cognition drive the perception-action loop?</p>
 <h2>Applications</h2>
 <p>In Robotics, we see Cognition manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
+*   <strong>Specific Example 1</strong>: A self-driving vehicle's prediction module implements cognition by maintaining generative models of all detected traffic participants (pedestrians, cyclists, other vehicles), propagating their believed states forward in time to predict future trajectories over a 6-second horizon; the cognitive system evaluates multiple hypotheses for each agent's intent (e.g., "the pedestrian will cross" vs. "the pedestrian will wait") and maintains a belief distribution over these hypotheses, updating it as new observations arrive -- this multi-agent predictive cognition is essential for safe autonomous navigation in dense urban environments.
+*   <strong>Specific Example 2</strong>: An autonomous exploration rover maintains a cognitive map using a topological-metric hybrid representation where high-level place nodes (topological) are connected by traversability edges annotated with metric cost estimates; when the rover encounters a blocked path, its cognitive system does not merely re-plan locally but updates its global beliefs about environment connectivity, propagating the new information through the topological graph to assess whether alternative routes exist -- this is inference over a hierarchical generative model that separates spatial reasoning (topology) from geometric detail (metric maps).</p>
 <h2>Conclusion</h2>
-<p>Understanding Cognition allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<p>Understanding Cognition allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,26 +807,123 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Cognition</h1>
+<div><h1>Lab: Autonomous World Modeling</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Cognition</strong>.</p>
+<p>Build an autonomous world modeling system that maintains a 3D scene graph with semantic labels, spatial relationships, and object affordances. You will integrate SLAM with object recognition and design a generative model that supports both navigation and manipulation planning.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Cognition.</li>
+<li>Completion of the corresponding module.md lecture material</li>
+<li>Familiarity with Active Inference concepts (generative models, free energy, prediction errors)</li>
+<li>Basic pseudocode and diagram skills</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Requirements and Architecture</h2>
+<p>Define the requirements for an autonomous cognition system:</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Robotics.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Cognition.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Cognition (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>Specify the operational scenario (indoor warehouse, outdoor terrain, human-shared space).</li>
+<li>Define performance requirements (speed, accuracy, reliability, safety).</li>
+<li>Design the system architecture as a ROS2 node graph.</li>
+<li>Map the architecture to Active Inference components (generative model, beliefs, actions, observations).</li>
 </ol>
-<h2>Discussion Requirements</h2>
+<p>{fill:textarea}</p>
+<h2>Part 2: Implementation Design</h2>
+<p>Design the core algorithms for the autonomous cognition system:</p>
+<ol>
+<li>Specify the main algorithm in pseudocode.</li>
+<li>Define the data structures and message types.</li>
+<li>Specify timing constraints and computational budgets.</li>
+<li>How does the system handle failures and edge cases?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Integration and Testing</h2>
+<p>Design the integration and testing strategy:</p>
+<ol>
+<li>Define unit tests for each component.</li>
+<li>Design integration tests for the complete cognition pipeline.</li>
+<li>Specify simulation-based testing scenarios.</li>
+<li>Define metrics for evaluating autonomous cognition performance.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Autonomy Evaluation</h2>
+<p>Evaluate the autonomy level of your system:</p>
+<table>
+<thead>
+<tr>
+<th>Autonomy Dimension</th>
+<th>Your System</th>
+<th>Ideal Autonomous System</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Human intervention needed</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Failure recovery</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Novel situation handling</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Performance degradation</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Continuous operation time</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Classical Robotics</th>
+<th>Active Inference</th>
+<th>Your Design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core mechanism</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Uncertainty handling</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Adaptation</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Key advantage</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
 <ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Cognition.</li>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press.</li>
+<li>Pio-Lopez, L., Nizard, A., Friston, K., &amp; Pezzulo, G. (2016). Active Inference and robot control. <em>Journal of the Royal Society Interface</em>, 13(122).</li>
 </ul></div>
 </div></section>
 

@@ -1,52 +1,56 @@
-# Module 03: Perception in Embodied
+# Module 03: Perception — Seeing With Fresh Eyes, Hearing With Open Ears
 
 ## Learning Objectives
 
-1.  Define **Perception** within the context of Embodied.
-2.  Analyze how Perception interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Embodied to the formal definition of Perception.
+1. Explain how **mindful perception** differs from ordinary perception — the contemplative practice of receiving sensory experience with reduced top-down prediction and increased openness to bottom-up surprise.
+2. Describe the active inference account of **beginner's mind** as the deliberate relaxation of high-confidence priors, allowing prediction errors to update the generative model more freely.
+3. Analyze the relationship between **precision weighting** and the quality of perceptual experience, showing how attention transforms what we perceive.
+4. Recognize perception in the living presence framework as an active, participatory process — not passive reception but engaged encounter.
 
 ## Introduction
 
-This module explores **Perception**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Look at something you see every day — a tree outside your window, the cup on your desk, the face of someone you love. Now look again, as if for the first time. Let go of the name, the category, the habitual glance. See the particular shade of light falling across the surface. Notice the texture you have never noticed before. Feel the quality of your own seeing — the act of perception itself, not just its content. In this shift from habitual to present-moment perception, something remarkable occurs: the world becomes more vivid, more detailed, more alive.
+
+What has changed is not the world but the precision architecture of your generative model. Ordinary perception is dominated by top-down predictions — the brain generates expectations based on prior experience and sees largely what it expects to see. The cup is "just a cup" because the model has predicted it so thoroughly that actual sensory evidence is barely consulted. Mindful perception reverses this weighting: it increases precision on bottom-up sensory signals while relaxing the grip of top-down predictions, allowing the world to show up with a freshness that habitual perception conceals.
 
 ## Key Concepts
 
-### 1. Perception as a Markov Blanket Boundary
-How does Perception define the boundary between the agent and the environment?
+### 1. Top-Down Prediction and Perceptual Habituation
 
-### 2. Generative Models of Perception
-What parameters involved in Perception must be optimized to minimize variational free energy?
+The brain is fundamentally a prediction machine — it generates expectations about incoming sensory signals and registers the difference between predicted and actual input as **prediction error**. When predictions are accurate, prediction errors are small and perception proceeds effortlessly. Over time, frequently encountered stimuli produce less and less prediction error — the model has learned to expect them — and perceptual experience becomes increasingly habitual, automatic, and thin. You stop seeing the particular and see only the category. Active inference explains this as the natural consequence of model optimization: a well-trained model generates smaller prediction errors, requiring less conscious processing.
 
-### 3. Active Inference Dynamics
-How does the process of Perception drive the perception-action loop?
+### 2. Beginner's Mind as Prior Relaxation
 
-## Applications
+The Zen concept of **shoshin** (beginner's mind) describes the state of approaching experience without preconceptions, with the openness and curiosity of a first encounter. In active inference, beginner's mind corresponds to the deliberate **relaxation of priors** — reducing the confidence assigned to the model's existing predictions. When priors are loosened, prediction errors gain influence: the model becomes more responsive to actual sensory evidence and less dominated by what it already "knows." The result is a perceptual field that is richer, more surprising, and more alive — the world as it presents itself rather than as the model expects it to be.
 
-In Embodied, we see Perception manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+### 3. Bare Attention and Phenomenological Reduction
 
-## Conclusion
+The Buddhist practice of **bare attention** — receiving sensory experience without adding conceptual elaboration — parallels Husserl's phenomenological **epoche**: the suspension of the natural attitude's taken-for-granted assumptions. Both practices aim to access experience before interpretation, to perceive the phenomenon as it gives itself. In active inference, bare attention corresponds to increasing precision on low-level sensory signals while decreasing precision on higher-level conceptual predictions. The meditator perceives "redness" before "apple," "pressure" before "sitting," "sound" before "traffic." This is not a regression to primitive perception but a refined skill of perceptual decomposition.
 
-Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 4. The Temporality of Mindful Perception
 
-<!-- Content padding to ensure file size requirements -->
+Ordinary perception operates at the speed of practical action — we perceive what we need to perceive in order to act effectively. Mindful perception slows down this temporal flow, allowing each perceptual moment to unfold more fully. Varela's research on the temporal microstructure of consciousness suggests that perception unfolds in discrete "moments" of approximately 300 milliseconds, nested within larger cycles of 2-3 seconds. Mindful attention seems to expand these temporal windows, allowing richer perceptual content to be processed within each moment. The result is the contemplative experience of time "slowing down" — not because time has changed but because the model is sampling more finely.
 
-<!-- Content padding to ensure file size requirements -->
+### 5. Perception as Participation
 
-<!-- Content padding to ensure file size requirements -->
+Alva Noe (2004) argues that perception is not a passive process of receiving sensory input but an active, skillful engagement with the environment. To perceive is to exercise a mastery of sensorimotor contingencies — an implicit understanding of how sensory input changes with movement and action. Mindful perception deepens this participatory quality: when you look at a leaf with full presence, you are not a detached camera recording an image but an embodied organism actively exploring the leaf's visual structure through micro-saccades, attentional shifts, and the ongoing integration of form, color, texture, and context.
 
-<!-- Content padding to ensure file size requirements -->
+## Active Inference Connection
 
-<!-- Content padding to ensure file size requirements -->
+Mindful perception is a precision recalibration — a shift in the relative weighting of top-down predictions and bottom-up sensory evidence. In active inference terms, it is the organism deliberately reducing the dominance of its learned expectations in order to allow the world to generate genuine surprise. This is not chaos or confusion but a refined perceptual skill: the practitioner learns to hold priors lightly, to increase the bandwidth of sensory reception, and to meet each perceptual moment with the curiosity that comes from not knowing in advance what will appear. Free energy is not minimized by prediction alone but by the capacity to be genuinely informed by what is actually present.
 
-<!-- Content padding to ensure file size requirements -->
+## Experiential Applications
 
-<!-- Content padding to ensure file size requirements -->
+* **Practice — Single-Object Meditation**: Choose one simple object — a candle flame, a stone, a single flower. Sit with it for ten minutes, attending to it with as much freshness as you can muster. Each time you notice your perception becoming habitual ("I know what this looks like"), gently re-set your attention, as if seeing the object for the very first time. Notice how the object's appearance shifts — new details emerge, colors deepen, the boundary between object and background becomes less fixed. You are experiencing the effect of prior relaxation on perceptual richness.
 
-<!-- Content padding to ensure file size requirements -->
+* **Case Study — Mindful Eating and Perceptual Recovery**: The classic MBSR raisin exercise invites participants to eat a single raisin with full mindful attention — examining its visual texture, feeling its weight, smelling its scent, placing it slowly in the mouth, attending to each phase of chewing and tasting. Participants consistently report astonishment: "I have never really tasted a raisin before." In active inference terms, the exercise strips away the habitual priors ("I know what raisins taste like") and forces the generative model to rely on actual sensory evidence. The result is a dramatic increase in perceptual richness — evidence that most of ordinary perception is model-driven rather than evidence-driven.
 
-<!-- Content padding to ensure file size requirements -->
+## Cross-References
 
-<!-- Content padding to ensure file size requirements -->
+* **Module 02 (Agents)**: The perceiving agent's stance — who is doing the perceiving and how this shapes what is perceived.
+* **Module 04 (Cognition)**: How perceptual experience is interpreted and elaborated through embodied cognitive processes.
+* **Unit 01 (Felt Sense)**: The affective coloring of perception — how the body's felt state shapes what is perceived.
+
+## Summary
+
+Perception in the living presence framework is an active, participatory encounter with the world — not the passive reception of sensory data but the skillful engagement of an embodied organism with its environment. Mindful perception involves a deliberate recalibration of the generative model: loosening top-down priors, increasing precision on bottom-up sensory evidence, and meeting each moment with the openness of beginner's mind. Active inference reveals this contemplative practice as precision engineering — the organism learning to hold its predictions lightly enough that the world can show up as it actually is, vivid and surprising and fully present.

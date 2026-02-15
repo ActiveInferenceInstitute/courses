@@ -2,29 +2,152 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>lab</title>
+    <title>tmprrl1i1e5</title>
 </head>
 <body>
-<h1>Lab: Exploring Action</h1>
+<h1>Lab: Active Inference Control vs. Classical Motor Control</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Action</strong>.</p>
+<p>Compare PID control, Model Predictive Control (MPC), and Active Inference control for a robotic manipulator task. You will design controllers for a 2-DOF planar arm performing a reaching task, analyze their behavior under perturbation, and evaluate how Active Inference unifies perception and action in a single objective.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Action.</li>
+<li>Understanding of basic control theory (PID, feedback loops)</li>
+<li>Familiarity with robot kinematics (forward/inverse kinematics)</li>
+<li>Module 04: Cognition (world models that support action selection)</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Task Specification</h2>
+<p>A 2-DOF planar robot arm must reach from an initial configuration (q1=0, q2=0) to a target end-effector position (x_target=0.5m, y_target=0.3m). The arm has link lengths L1=0.4m and L2=0.3m.</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Robotics.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Action.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Action (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>Write the forward kinematics equations mapping joint angles (q1, q2) to end-effector position (x, y).</li>
+<li>Compute the target joint angles using inverse kinematics.</li>
+<li>Define the observation model: the robot observes joint angles via encoders (with noise sigma_q = 0.01 rad) and end-effector position via a camera (with noise sigma_xy = 0.005 m).</li>
 </ol>
-<h2>Discussion Requirements</h2>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 2: PID Controller Design</h2>
+<p>Design a joint-space PID controller for the reaching task:</p>
+<ol>
+<li>Specify the error signal: e(t) = q_target - q_measured.</li>
+<li>Choose PID gains (Kp, Ki, Kd) and justify your choices.</li>
+<li>Describe the controller output: torque commands tau = Kp<em>e + Ki</em>integral(e) + Kd*de/dt.</li>
+<li>What happens if an unexpected load is placed on the end-effector during the reach? How does the PID controller respond?</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 3: Active Inference Controller Design</h2>
+<p>Design an Active Inference controller for the same reaching task:</p>
+<ol>
+<li><strong>Generative model</strong>: Specify prior preferences over observations (desired joint angles and end-effector position).</li>
+<li><strong>Prediction errors</strong>: Define sensory prediction errors (difference between predicted and observed joint angles) and active prediction errors (difference between desired and predicted proprioceptive states).</li>
+<li><strong>Action as reflex arc</strong>: In Active Inference, motor commands arise from proprioceptive prediction errors -- the arm moves to fulfill its own predictions. Write the update equation:</li>
+<li>u = -dF/da (action minimizes free energy by changing sensory input)</li>
+<li>How does the Active Inference controller handle the unexpected load? Compare with PID.</li>
+</ol>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 4: Perturbation Analysis</h2>
+<p>Compare all three controllers (PID, MPC, Active Inference) under three perturbation scenarios:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>PID Response</th>
+<th>MPC Response</th>
+<th>Active Inference Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>External force on end-effector</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Encoder noise increases 10x</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Joint 2 motor loses 50% torque</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+<p>For each scenario, describe qualitatively how the controller adapts (or fails to adapt).</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Part 5: Unified Perception-Action Pseudocode</h2>
+<p>Write pseudocode for a complete Active Inference control loop that unifies perception and action:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">active_inference_control</span><span class="p">(</span>dt<span class="p">):</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">reached_target</span><span class="p">:</span>
+<span class="w">        </span>#<span class="w"> </span><span class="n">Perception</span><span class="p">:</span><span class="w"> </span><span class="nb">update</span><span class="w"> </span><span class="n">beliefs</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="n">joint</span><span class="w"> </span><span class="n">angles</span>
+<span class="w">        </span><span class="n">mu_q</span><span class="w"> </span><span class="o">+</span><span class="p">=</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">d_mu_q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">kappa</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">prediction_error_proprio</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="n">Perception</span><span class="p">:</span><span class="w"> </span><span class="nb">update</span><span class="w"> </span><span class="n">beliefs</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="k">end</span><span class="o">-</span><span class="n">effector</span>
+<span class="w">        </span><span class="n">mu_x</span><span class="w"> </span><span class="o">+</span><span class="p">=</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">d_mu_x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">kappa</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">prediction_error_visual</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="n">Action</span><span class="p">:</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="n">motor</span><span class="w"> </span><span class="n">commands</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">prediction</span><span class="w"> </span><span class="n">errors</span>
+<span class="w">        </span><span class="n">torque</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="n">kappa_a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">mu_q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">q_desired</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="n">Apply</span><span class="w"> </span><span class="n">torque</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">sensors</span>
+<span class="w">        </span><span class="n">apply</span><span class="p">(</span><span class="n">torque</span><span class="p">)</span>
+<span class="w">        </span><span class="n">q_obs</span><span class="p">,</span><span class="w"> </span><span class="n">x_obs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">read_sensors</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Extend this pseudocode to handle the perturbation scenarios from Part 4.</p>
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>PID</th>
+<th>MPC</th>
+<th>Active Inference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Objective function</td>
+<td>Error minimization</td>
+<td>Cost over horizon</td>
+<td>Free energy minimization</td>
+</tr>
+<tr>
+<td>Perception integration</td>
+<td>None (assumes known state)</td>
+<td>State estimator separate</td>
+<td>Unified with control</td>
+</tr>
+<tr>
+<td>Adaptation</td>
+<td>Requires gain scheduling</td>
+<td>Requires model updates</td>
+<td>Precision learning</td>
+</tr>
+<tr>
+<td>Computational cost</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+<tr>
+<td>Robustness to noise</td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+<td><span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span></td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
 <ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Action.</li>
+<li>Pio-Lopez, L., Nizard, A., Friston, K., &amp; Pezzulo, G. (2016). Active Inference and robot control. <em>Journal of the Royal Society Interface</em>, 13(122).</li>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Oliver, G., Lanillos, P., &amp; Cheng, G. (2021). An empirical study of active inference on a humanoid robot. <em>IEEE Transactions on Cognitive and Developmental Systems</em>.</li>
 </ul>
 </body>
 </html>

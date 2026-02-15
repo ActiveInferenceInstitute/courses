@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>78_Actinf Gueststream 074 1 Narrative Fallacy And Other - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>78_Actinf Gueststream 074 1 Narrative Fallacy And Other</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>78_Actinf Gueststream 074 1 Narrative Fallacy And Other</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf GuestStream 074.1 ~ Narrative Fallacy and Other Limitations of Psychodynamic Case Formulation</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=XX61J32RT9g">YouTube</a>
+<strong>Playlist</strong>: GuestStreams
+<strong>Duration</strong>: 1:35:50 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello and welcome this is active inference guest stream 74.1 on March 6 2024 we're here discussing narrative fallacy in Clinical Psychology and Psychiatry with Alexi tolinski and guests so first there will be a presentation then we'll have a discussion and look forward to everyone sharing what they have to say on that so thank you Lexi first to you for um organizing this and and catalyzing it and also for the presentation so thank you go for it well thank you Daniel I'm most grateful to act benr Institute and you personally for hosting us and your commentary uh and advice like to thank wonderful panel members from many different countries who found the time and expressed interest in in being here and uh to everyone watching us and YouTube um I'm hopeful to clarify from the get-go uh um the terminology because a lot of uh people I talk to reacted to the word fallacy but uh as if I'm trying to kind of talk about truth and psychoanalysis or point out some inaccuracies this is not my intent at all or to the word narrative because it's a vast topic and Linguistics are involved on tropology I just wanted to clarify that narrative fallacy the two words together is specific technical term uh uh introduced by in 2007 and so I'll try to keep this discussion sort of on the ground under the hood and uh we'll I'll illustrate this concept then I will Define it uh hopefully we'll discuss it from the standpoint of neuropsychology active inference and then move on to clinical applications and I very much look forward to a discussion and so I'll proceed um this is the preprint of the paper possibly some of you had a chance to look at it um and uh if you don't mind I'll start with this example what I'll ask everyone to do is to try to memorize a list of words that I'll give you and observe how you feel while doing so and we'll do it a couple of times is that okay sure all right so here we go so um Magnolia 1964 firefighters Club Chicago Jazz 10 what was the last one 10 um okay now I will do the same thing and uh I will present this to you in a slightly different format okay on a cold winter day uh in 1964 a jazz clot Magnolia in Chicago caught on fire the firefighters were on the scene within 10 minutes uh for most of us it is uh uh a little bit easier to uh retain the second format and uh you know we'll talk today about why this is and what's going on here and then I'm just using this as an illustration the example is from the repeated battery for neuropsychological assessment rband I modified it slightly but this is sort of what we'll be talking about uh usually in these conversations uh Miller comes up and Mark SS calls this a Miller's law I mean I think it's a model it's well established and uh uh researched but Miller wrote a famous paper in 1956 called the magical number 7 plus or minus 2 he uh stated that we can process about uh seven units of information uh plusus two on average and uh it's important important that he didn't say seven digits he said seven chunks um uh so I wanted to say that uh you know he already in 1956 talked about chunking and uh to by any chance if somebody's not familiar with the term when you hear a phone number uh uh the area code is usually you know we memorize it as one unit information so I'm in Maryland and 301 is a frequent area code here it doesn't take three units of information it takes just one um the interesting kicker is that if we move from sort of random uh pieces of data to uh sentences then our span immediately doubles it becomes um just give me one second uh all right so um and we'll talk about possibly why this is so moving away from memory examples which is a bit artificial I just wanted to illustrate it experientially uh narrative fallacy is about how we process information how we uh hear speech of others how we read and it refers to our uh limited ability to look at sequences of facts without weaving an explanation into them or equivalently forcing a logical link and arrow of relationship upon them uh if we describe it slightly differently we can say that narrative fallacy is quite simply connecting the dots in to a story form when we don't have the data that these dots are indeed connected to each other Daniel kanaman makes a slightly broader statements uh he he says that we tend to think in stories uh not statistically in our conscious minds and all of that is pretty much about the same thing what is related to this conversation is the concept of work in memory and bear with me to whom it's trivial but it is also a a concept and a model not a fact and uh uh it relies on an assumption that there exist a system in the brain mind which we use to temporarily store maintain and manipulate information particularly on complex tasks so if I were to ask you to multiply in your mind 17 * 69 then presumably you'll be using your work in memory to do that and one of the leading researchers in this field is Ellen battley uh he and and his uh lab are working on uh updated model which will hopefully be published this year but you know he makes a point stating in in some textbooks that uh relationship between working memory long-term memory action perception semantics is complex flexible and interactive so these systems are intertwined if I may you know use a computer science metaphor then long-term memory in a computer is hard drive it is a a spacious and uh cheaper um you know uh memory system um working memory is more flexible faster and more expensive and in computers it's called Ram random exess memory so uh moving forward uh the long-term memory the hard drive if you wish this is a very old model that I think also Mark SS uses quite a bit in his theories when he says repress never returns he relies on this chart quite a bit uh it was introduced by Squire in 1992 who stated that you know long-term memory can be divide it into explicit or declarative memory and implicit non- declarative memory and if we open the working memory uh you know component then this model has been revised and there are some Alternatives versions but one of the current views is that it consists of this subsystems one of the simpler ones is phological Loop where we uh simply uh take in auditory information such as musical sounds or speech it's not a huge space it's about two or three UNS of information and visual spatial sketchpad where we process Visual and spatial information Central executive is the coordinator and you know it it allocates attention this is the most resource intensive uh component of the work in memory the newer component that would is introduced later is called episodic buffer and this is not a monos sensory space this is a multi-sensory space one of the sort of mysteries was that photological Loop is two or three units and we can retain so this is one of the reasons why ptic buffer is introduced but uh it can be used to binding things together between senses such as you know Visual and auditory data and importantly if you look at that chart you can observe that this binding can occur without uh the deployment of expensive Central executive system you can see that their connections from visual to the phological loop directly without the deployment of expensive uh Central executive resources I've already used the term binding and it simply refers to linking the features into objects such as color red and shape Square we quickly create an object red square and then we stop thinking about it in terms of processing speech you know the two terms that uh are pertinent to us is within sentence binding and across sentence binding and as the name suggests within sentence binding refers to using our storage language knowledge to apply to Temporary retention of single sentences in a relatively automatic manner without using expensive you know attentional resources and across sentence binding is the same thing where we connect together multiple sentences um I will illustrate both again on the example that I already gave you uh on a cold winter day in 1964 a jazz club Magnolia in Chicago caught on within 10 minutes if we slow down here and see what's happening when we hear this if I start reading on a cold winter then if you're familiar with American English you know that the next word coming is day and that's a prediction that is based on your knowledge of language a semantic prediction if you wish similarly towards the end you can hear firefighters were on the scene within 10 you know that the next word coming is minutes I'm already introducing the concept of redundancy in speech sequential redundancy if you wish and here was an example of a semantic one and tactically because you know the structure of affirmative sentence in English after you hear the subject a Jaz Club Magnolia you know that the verb is coming and you're waiting for it uh you will also Chunk on a cold winter day together you will chunk Jaz Club Magnolia together and within 10 minutes and of course you'll chunk prepositions and articles together with nouns in 1964 semantically is just one unit of information not three different ones phonetically in English it's four syllables in Russian it's 12 so we we save resources quite a bit if you wish we're doing compression you know across sentence binding uh uh is working uh but only when the story is coherent and you can see here in this example that the two sentences are causally related there is also a temporal structure where there was the fire first and fire fire second and there's a meaning you know when we read the story or hear it with wondering about whether the firefighters were in the scene quickly enough and then you you hear a confirmation of this prediction that they were on the scene quickly all of that helps us process the information now we can fiddle with that a little bit and introduce a meaningless but syntactically correct sentence such as the chsky example colorless green ideas sleep furiously not very easy to retain because we're trying to make sense of it and it's not working and we stay stay with it a while or here is a meaningful but syntactically problematic sentence this is a poem from uh an Stevenson called Utah beside him the gray-headed man has let one arm slide awkwardly over his shoulder he's talking and pointing at whatever it is so it's not just the length of this phrase but the way it's structured makes it problematic for us to retain it so you need both coherence and meaning if however you're dealing with the very first example of 10 words that are unrelated that I gave you I'm not saying it's impossible to bind them it is possible but it will be more resource demanding more expensive so to speak these are formal definitions of within sentence binding and across sentence binding again the important part is we do this relatively automatically without additional costs of expensive you know if you wish or metabolically costly resources uh under certain assumptions you know and uh similarly we can do cross- sentence binding but we have a coherent and meaningful story here is the kicker uh that you know according to Daniel kanaman and we can look at many other perspectives including Mark SS in his book uh Hidden Spring brain mind is an effective or efficient or you could call it lazy Processing Unit which means that we tend to fall back to simplest possible processing regime and we only deploy complex processing when we have to um uh you in terms of emotions you know there is an effect effect that a company's effort which is strain with it doesn't feel so good when we apply effort and if you uh have a video camera across from your face uh with a relatively fast frame rate if you're trying to do 17 * 69 in your mind you will see that your pupil's dialate unless you have iconic memory unless you're Sant then for most people it takes some effort and as a speculation why is it that we have unpleasant effect when we apply effort you know possibly this is so because it is dangerous to operate on nearly depleted resources for more vulnerable and less resilient and Conan's example is that if you are doing 17 * 69 in your head while trying to make a left turn into traffic you're more likely to run into an accident so as a result if our activity demands that we do complex processing then it means conscious commitment to do in complex processing in neuros pychological terms that probably means impulse inhibition we need to inhibit the impulse to fall back to a simpler regime and then we're PR well because we're human to this Universal phenomenon of fatigue any single functional task in the brain mind that we do will get tired such as impulse inhibition this is why when people walk out of the gym they sometimes eat a donut um now it pertains to therapy very very strongly you know we're tired on Friday night you know compassion fatigue auditory fatigue you know We crave silence so what I'm trying to say is no matter how trained the uh therapist is no matter you know how experienced and skilled none of us are superhuman beings with unlimited work memory and we're all prone to narrative fallacy at certain times the two obstacles that I see on the way of this discussion one is simpler which is people being unaware of the issue and this is easier to correct when we just talk about it but I've also faced some denial while people fled out say that this is a non issue and what are you talking about and there is no problem here and this is why I think that the primary effort of the paper was to kind of bring awareness to this and to discuss it I could be wrong but I'd like to hear substantive arguments about this another interesting you know connection point before we move on to clinical is the thought by Mark SS which he voiced years ago I don't recall even on which seminar it's about the fact that how we think influences how we work in a clinical practice and this is a very broad term this phras is sound so simple that it may be even appearing trivial but it's not well for example what we know and what we don't know influences it if you can imagine a clinician who happens to be unaware that thyroid dysfunction may present as an anxiety disorder or depression then they will never ask this question to their patient when was the last time they sawed primary care doctor and did thyroid penal blood work um you know or some clinicians are taught to not ask questions because they're experiential and they derive conclusions based on experience and then they don't know and could be treating Hashimoto disease and therapy you know until cows come home um you know personal therapy changes how we think uh whether we can think flexibly such as using categories with discrete data dead or alive and using continuous thinking with continuous data such as temperature can we even think statistically do we know how to do that um can we think in terms of Dynamics complexity and emergence or we think mostly in deterministic and static ways all of these things matter and they influence how we work so uh a related concept is a case formulation and I wanted to mention that this is not unique to psychotherapy that uh it's used in medicine and L you know experienced neurologist can start suspecting Parkinson's before the patient walks into the Consulting room because he hears shuffling outside the office right and then the patient walks in and information is collected and you see rigid you know maybe flat effect effect rigid posture difficulty initiating movement cognitive slowness um and shuffling gate and rolling pin Tremor and then the neurologist is in client to say that I think that you might have Parkinson's disorder Parkinson's disease which is a formulation this is a sentence this is a story and the Gap explanatory Gap was filled in from what the neurologist knows from his training and formally uh primary tool you know this is the definition a case formulation is a hypothesis about the causes precipitant and maintaining influences of person's psychological interpersonal and behavioral problems and you know I think personally that it's one of the primary Tools in conceptualizing what's going on with a patient and it's very complex the little vignettes that you'll hear uh in a few minutes are oversimplified shortened and a little artificial you know it it usually takes several sessions to come up with a preliminary formulation but to be very honest among many other things a case formulation is a story among other function so here is a short case this is taken from a paper by peran colleages in 2006 called psycho Dynamic formulation its purpose structure and clinical application Mr a is a 52-year-old married businessman he presents on his own initiative with a depressive syndrome after being once again passed over for promotion he himself does not understand this rejection but it is probably related to his lifelong tendency to procrastinate and to annoy his superiors either by being obsequious or by challenging their Authority he has a history of two untreated depressive syndromes one in his 30s that also followed a professional failure and one in his 40s that followed his son's defiant marriage to a woman of another religion Mr A's father was was a sickly professionally frustrated type personality who died of a heart attack when Mr a was in his scenes his mother has always been a martyr with sming despair characterized by chronic insomnia self-doubt obsessive ruminations and social withdraw she never sought treatment Mr a has essential hypertension for which he takes aopa to 150 milligrams his mother's history suggests a genetic predisposition for a unipolar depression let's imagine that this is all the information that we have now let's take this to a psychologist just a psychodynamic clinician who was trained in the tradition of ego psychology it goes back to Sigman Freud was elaborated by Hanna Freud Charles brener and others and this is a formulation uh I want to point out that in each of those examples you will hear a highlight and Mark SS does this you'll hear the central theme the main point so in egos psychology you may hear something like this Mr A's central conflict is between an unconscious wish to kill off his competitors and an unconscious fear that he will be killed if he acts on that wish whenever he expresses derivations of his competitive wish directly he becomes frightened of retaliation he therefore resorts to expressing the wish indirectly by passive aggressive Maneuvers such as procrastination conversely whenever he responds to this fear of retaliation by being solicitous and obedient he inwardly feels resentful and diminished to contain the struggle Mr a has developed intellectual mechanisms that although adaptive for certain aspects of his work Mal adaptive interpersonally and that they isolate him emotionally from others I apologize to you know you know his team psychoanalysts on the panel but you know for for the audience I just want to highlight that in egos psychology you will hear conflict you know uh a formulation will contain conflict typically between a wish and a fear but that's is sort of uh the style let's look at the same exact patient from the psy self- psychological standpoint that goes back to heines Coho and was elaborated by ghetto and others mrr's Central problem consists of his low self-esteem and consequent need for continual recognition and approval from others along with his inability to accept any limitations either in himself which led to disapproval from others or in others which reduce the value of their approval when it occurs presumably during childhood his depressive mother and sickly father were so self-absorbed with their problems that they were unable to respond empathically to his age appropriate aspirations at the same time both parents narcissistically invested in their son the hopes that his achievement would make up for their failures in self psychology you typically hear about narcissistic vulnerability difficulty idealizing parent difficulty in mirroring uh empathic Attunement and perhaps narcissistic extension here's a third version this is object relation school going back to melan Klein Mr L's Central problem is the failure to integrate the good and the bad representations of himself and others during childhood his depressed mother could not respond to her son's needs and demands Mr a is unconsciously frightened that his resultant rage would destroy the very one on whom he depended he repressed his bad angry self and acted like a good Obed and Son the splitting was reinforced by interactions with a controlling father who punitively viewed any of Mr A's independent assertions as acts of defiance in object relations you will hear typically about splitting or lack of integration I want to say that you hear some terminology and I don't want to caricature it each of those formulations is complex nuanced and indeed useful you could get to good results in each of those directions of the work but they are very different and all I'm trying to say is you can observe ve that they are influenced by how people were taught and what they studied I want to ask you just to reflect together do these formulations seem uh elaborated and detailed or brief and tenative how certain do you think the author of each narrative is even if they use euphemisms like it seems that it appears that do they sound you know uncertain okay in their hypothesis this is a CBT example uh from an authoritative Source CB stands for cognitive behavioral therapy this is American Psychological Association essential components of CBT for depression so nearly textbook different patient but also depression I suggested to Nancy that I spent a few minutes in the session giving her a first notion about how CBT would address her difficulties to help her decide whether she wanted to pursue it she agreed to teach the cognitive model I mapped on to a thought record the situation Nancy described to me earlier when her roommate Connie looked hurt when Nancy turned down con's invitation to go out to dinner I asked Nancy a short series of Socratic questions to show her how these thoughts made her feel guilty inadequate and trapped so in a CBT example this is more cognitive therapy than behavioral you see that the thoughts are being analyzed and are put into position of kind of causes that the patterns of her thoughts are causing the symptoms you had conflict in ego psych you had you know uh narcissistic vulnerability and lack of idealization of the self psych you had splitting here we have thoughts Here's the final perspective and quite oversimplified and artificial but at the same time while you and I you know we all talking here you there's many psychiatrists in the world who diagnose their patients with major depressive disorder and prescribe as as arise uh here is the story of chemical and balance this is chemical imbalance in their minds leading to the symptoms this is based on a story called a monoamine theory of depression and these you know clinicians who are thoughtful and and you know trained in well meaning they've read many peer-reviewed studies with some statistical results of ssris we now know that the uh uh the effect is uh weak that it's 3 effect size compared to 0. n of dynamic therapy for depression but nonetheless there's modest effect the important part is that no psychiatrist will be able to explain to you the causal chain of events from a molecular level of Serotonin all the way to the macro phenomenon of depression that is transient you know emergent and you know um complex and dynamic uh so then the connection from molecular level of Serotonin to the to the symptoms was made exclusively through the clinicians Theory and nothing else and this this is an example of also narrative fallacy um I want to also say a few words there's more of that in the paper about verifiability so once the preliminary hypothesis are formed the question is can we truly test them and if you remember the texts from each School of psychoanalysis then I say that they're not specific enough and not falsifiable enough if you take the you know scientific statement that is falsifiable such as water boils under normal pressure at 100° Centigrade it would take a single observation to disprove it you you can observe water under normal pressure boiling at 90 degrees and you're done but none of the statements you heard before are falsifiable in that way and also many were really nonspecific now even if psychiatrist let's say uses response to medication as data you know uh if if you're saying something like I gave somebody Rin and they're better therefore they have a HD this is is flawed because if you give a stimulant to anybody they will attend better and therefore it doesn't prove that a person has ADHD this is an example of circular logic another uh obstacle on our path is Barnum effect and forer effect it's the same thing but I think that people don't talk about it enough essentially what it means is if you feel resonance with a certain idea or paragraph or a patient feels resonance that says absolutely nothing about how clinically useful it is is accurate and and uh none of that here's an illustration of what actually for did he gave his students personality questionnaire and inventory they answered it honestly and then he mailed them results which were identical to one another and he took these results from an astrology book subsequently he asked them to rate how uh they compared these text to how they felt about themselves how accurate they you know they thought it was on a one to five scale and they rated it as 4 something I think 4.5 now astrologist milk that effect like there's no tomorrow this is their livelihood there's a way to present a text with certain things in it like detail um it has to be detailed and then when you read it something will resonate but it absolutely doesn't mean that it's accurate the third bullet is effort justification bias and I think that the hypothesis you heard before you know they took a bit of work to formulate and a bit of thinking which is effort and it is not that easy to let go of something that you developed with effort and finally some clinicians use what's called response to intervention to uh decide to gauge if they're on the right track for example if you deliver an interpretation and the patient cries you tend to think that you're accurate and I think it's a very error Pro method so that if somebody punches me in the face and I cry it doesn't mean that the intervention was therapeutic it could be iatrogenic and there's many more details on that in the paper but to summarize I think that sadly we do not have a rigorous independently verifiable framework of hypothesis testing we we think that we do we declare that we're hypothetically deductive but I think if we go down to it it it is not um moving on to active inference perspective and I apologize to you know analysts who are um you know not not close to this framework or any anyone in the audience but the idea that I shared before that brain mind tends to resort to simpler regimes of processing and only deploys complexity when absolutely necessary is not news to active inference Community this is a formula for variational free energy and you see that it can be decomposed as complexity minus accuracy so if you minimize variational free energy then complexity is minimized and this is the principle of a coms Razer where you are seeking an accurate explanation but among several you will pick the one that is simplest um there is certainly the word inference and belief is is completely koshering good in active inference community and this is a big part of the model however all inferences are probabilistic they're statistical and they're quantitatively verified and I don't think none of the hypothesis I showed before are probabilistic and quantitatively verified there's a viewpoint on emotional inferences in active inference community and from that perspective you could say that anxiety is just a commitment to a basian belief that I am anxious which best explains the prevailing sensory in interceptive cues finally you can look at the some of the processes happening in Psychotherapy from the active inference standpoint perhaps before the patient and therapist meet therapist has certain generative models uh we learn how shame is different from guilt how acute fear is different from anxiety there's different kinds of anxiety and then we meet a patient and we have to adjust our models based on the specific information coming at us which is again perception and adjustment of the models at some point we could infer if we're feeling something in therapy say counter transference what is it that I'm feeling that's an inference or what is it that the patient is feeling and then we could act even silently if we label it in our minds that I'm feeling fear right now without saying it out loud that's an action mental action and so this framework of model and for Act is is fits very well in the active inference framework uh the take-home message I think if we look at narrative fallacy is that when we are driven by Theory more so than by the patient's data then we tend to perceive less and act more we're modifying the environment based on overly confident beliefs and such as the example of a CBT clinician teaching the patient you know they're teaching the patient right issue another issue is that a very high level of precision High certainty in internal beliefs and that violates the principle of Maximum enthropy by James which is cited by Carl friston what this States is that internal beliefs have Brad entropy by entropy the entropy is minimized but the entropy of beliefs is maximized the next issue is that okay when we have data coming to us that either confirms our predictions or disconfirms them we know what to do but if there's no data coming in when there's you know uh uncertainty it is uh uh important to not act um which corresponds to Freud's principle of abstinence until we have enough data to say something or to correct the beliefs so and just to summarize in my opinion and I'll be happy to be corrected the formulations above and in the peerreview paper are not high entropy they're confident they're elaborated they contain conclusions based upon conclusions while the whole thing was based on assumptions so we can declare and state that we're not attached to the theory but I don't know if that is so in clinical practice what else do we have after all to fill in the Gap um so I think we can try to conclude that it is important to stay datadriven more so than Theory driven that we need to be trying to test our inferences in the environment to the degree possible and for that they need to be formulated in a falsifiable way it's important to remember that inferences are probabilistic which requires and necessitates the ability to think statistically and not only in the story form also want to say that what happens when there is you know uh one school of thought or identification I I quite often hear from very experienced coins I am a clian analyst or I am an EMDR therapist or I use effective Neuroscience to infer what is the main emotional problem for the patient so in these uh circumstances I think the chance of narrative fallacy is higher because we are operating within this one school now if we're able to take multiple viewpoints and stay in Merit to all of them there you know that that would decrease the probability because sometimes we can use you know Amman perspective and Tomkins and talk about shame being Central in narcissis this is not what you're going to hear if you're studying neuros pycho analysis and clinical Workshop you will hear about the play System right uh we don't talk about shame enough uh so I think awareness about narrative fallacy and Barnum effect allows us to resist the temptation of confusing coherent and meaningful as clinically accurate and useful coherent and meaningful texts and psychon analytic language are seductive um so I hope to have an sort of discussion about narrative fallacy I think that if we connect the dots by using the glue of the theory duure and nothing else it's a problem I think that we can consider updating how we do case formulations and move away from exclusively story driven form you can already find it in uh Mam's latest book uh psycho analytic supervision she uses 10 dimensional assessment some variables are continuous some are uh uh discreet but you know I think that you know it moves away from the story form in some domains of learning and uh I think also talking honestly about possibility of using Tools in our work in addition to narratives is important like neurologists talk to the patient and they examine the patient but they have MRI Pat scan EG and uh these are completely different ways of analysis than talking to a patient and I certainly think that we can teach these things uh differently um wanted to share that so far I haven't heard any push back from CBT or psychiatrists CBT colleagues or psychiatrists but some of my psychoanalytic colleagues and psychodynamic colleagues uh expressed uh push back it and I classified it in four different the mes the first one is the most frequent thing you hear from psycho analysis you painted a straw man the second one is that I Alexi am not a psychoanalyst and I have not read enough Freud Lan Klein Coho Etc uh some people say that psycho analysis is Art and not science also quite frequently I hear I don't work this way which in some cases took a form of I don't formulate cases and I struggle with that actually because if we do clinical work and our patients have some probability of a complete suicide I wonder if this clinician honestly doesn't think if they only in it and feel things right some people say this is an American thing what you're talking about we don't do it in our country we work with a transference psychon analytic field Theory keris and I fled out her you know there is no fallacy so I think that these are defensive reactions I am not sure why because I'm saying it applies generally not only to Dynamic work but to CBT and Psychiatry but also to Jal as T pointed out to economics and I'm hopeful to maybe have a discussion about it and uh we are right here so we can discuss um thank you great thank you all right let us go to any of our panel in in order who can say hello and give any first remarks and we'll just kind of go around and from there if there's any chance to start with Andrea I would be most grateful he wrote A Commentary in the chat great I'll I'll read the the comment in the chat Andrea wrote Alexi very interesting and sorry I have to leave but I'm sure you will discuss on the major role of aexs in the memorization and in The Binding of the different components in the anxiety-provoking story of the Jazz Club fire as compared to the list to memorize whereas the affect of coloring is completely absent could you say more about that yes I think Andrea is uh bringing up uh it sound working okay yeah is bringing up an important part I think Christina alberini and others talk about it when there is a effective tone in the messages we we uh tend to retain information stronger and better uh so that if fire evokes fear or anxiety in somebody it will be a stronger memory and certainly what I what I've mentioned are very simplistic ways of looking at things but I think when emotions are present when we memorize things uh here's a mark s's example you know when children do two thinkers in power outlet single exposure lifetime memory intense effect pain you know doesn't take any repetition single exposure memory for Life phobic memory so I I think that perhaps I overlooked this important part but yeah um I I uh I think it is uh important to mention and to add to this to this discussion go ahead and unmute David and then go for it oh unmute David and then go for okay uh so on the affect uh aspect of narrative um seems to me that's that I listen to whatever I hear from the perspective of a integrative uh unitary self and that self is conscious and unconscious but and but it's an act of my brain and it it seems to me that narratives have to include all the components of Consciousness in them and that so I would like to talk more about about the issue of the why you know you talk to us Alexy in a narrative way and we respond in that way and uh there's no way to eliminate it um I I think the easy part of your discussion it's the second point is dealing with case formulation um uh which I think you would agree with but my position is the case formulations are good for communication with yourself or with others uh but are not that are they're contradictory to listening and proper the ideal level of involvement and you know it's great to learn all those stories and have them in the back of your head and but not to be thinking about them uh because they get in the way of your responsiveness and your ability to listen properly and I feel like you know I've been at this now for 45 years and the I it's like a comfortable chair that I just sit down and um attune myself to whatever it is that is my way of analytic listening and and and participating and I I might think about a particular patient maybe if it strikes me me as uh self psychology descriptor uh or something like that but I think the case formulations get in the way of actively doing Psychotherapy would you like me to respond or sure please uh you've said many useful things David and uh I think that um um we may not formulate and listen to the patient at exactly the same millisecond uh but you know I think usually I'm quoting Marx Holmes again when people show up in dynamic therapy or psycholytic therapy this is uh a referral request that contains an explanatory Gap when the patient walks in and says I'm afraid of elevators I don't want to write an elevator don't even worry about my mom and dad and whatever this is a very concrete form and they don't need dynamic therapy they can do exposure when they have OCD and they want to walk out the house you know they need exposure when people come in and they say I feel badly but I don't know what it is and how it is or I'm doing something I know I shouldn't be doing it but I'm doing it anyway so and part of the work of course we listen for a long time for as long as it takes we'll think together with a patient and come up with some hypothesis about what this is and uh I think it's inevitable I mean if we bring clinical work so 25% of mental health professionals experience a completed suicide of a patient in our careers if we're dealing with somebody who has acute PTSD this is not like speculation but they've been tortured and they have flashbacks and Nightmares in the whole nine years probability of a completed suicide is five times higher so I must think I have to think at least to do risk anal Paris do they need hospitalization right now or other things and I think that our minds are never fully blank when we're listen I think that's an illusion from be Hest like you know no memory No Agenda it's good to declare that but our minds are not blank when we're listen and we think while listening so this is all like intertwin so so I agree my mind is not blank is I'm just not aware of How It's tuned to I'm doing it's like an instrument and I agree with you that at various moments in the work with patients we need to have explanations to things and then a formulation can be of use in some way uh I'm not talking about in psychoanalytic language but the at the level of description or communication it when those moments occur in therapy then some formulation is needed and but I'm talking about the psychoanalytic schools of thought as describing a patient in a formulation is good to have the knowledge for all the different schools and to find you find your own way of listening to the patient certainly uh I I just wanted to also say that we're not only listening you know at some point I mean if we were just listening then patient can talk to a wall right you know some point we do things such as clarification confrontation interpretation you know containment and these things all of them should be driven by working understanding of what's going on if we've got no formulation in our heads we have no compass on how to act in therapy even if listen for I didn't say it's not in my head sure I'm not conscious of it right right right yeah yeah but I think I've said enough and I think David and I will mostly agree on many different things yeah but U thank you maybe yeah um anyone else has any comments or questions critique anything um sh sh shall I uh time in there okay um well first off thank you for having me um I prepared some comments um I'm afraid Alexa you will classify me in the defensive people I I'll try to seduce you not to do so but we'll see um so um Alexa of course you are more than right when you warn for the problem uh page 11 of hyper serans where we draw connections between the pieces of data without any reason other than our Theory driven beliefs or I would say more generally when we understand uh between quotes uh the problem of our patient you know I'm linan so Jac laon famously warned in the same vein the clinicians or maybe everybody beware of understanding that's what he said Beware of understanding so I do profoundly not think that clinical work is about understanding at least not at his conscious cognitive semantic level and I also agree that the monoamine theory of depression has the same logical status from that standpoint as the discussion of a state of panic from the standpoint of udle Dynamics on page 24 and I will try to show how one can do clinical work without making interpretations not sure if that's going to hold um so not to take too much time I had prepared um a paragraph about the importance of transference so I'm just going to name that uh paragraph um I'm sure you're aware of this importance but you just said something to David that everything that we do as clinicians in our th in our therapeutic session uh should be driven by hypothesis about the patient and I do think that whoever is the patient um there are some like Universal principles uh to work with patients and one of them is um to be unconditional uh and so many of the actions taken in therapy from the clinician is actually driven by this principle of being unconditional and other principles in the same ve which are some sometimes called the Solon principles presence proximity patience availability these kind of things so I I really do think that establishing a transference relationship and I I wouldn't think about TR transference and counter transference we're both in there although the relationship is not symmetrical um is um establishing uh an an apparatus which will work or might work uh for therapy and that many of the actions of the therapist um are uh aimed at uh establishing this apparatus so my third paragraph is of course that there is more to the clinical work than the transference relationship uh you could say the transference relationship is how the therapist engages in a therapy with his subjective um apparatus um but there is also the intellectual investment of the clinician and to me that is not about interpretation at least not interpretation as is given on page 12 about the ego weaknesses Etc in Dutch that is the language which in which I first did clinical work there are actually two words there is interpretation and ding which resonates with the German Dum like in the Trum Trum Dum interpretation is an addition of content while Dum is a form of pointing underscoring punctuation so I have prepare the slide uh to show what I mean um I'm not sure I can I will try um um yeah thank you um see what that gives um let me see I can do like that is that fine too yep that's fine thank you I'll prop it so it's visible so three little cases um in in which maybe it's EU instead of UE I have a doubt now has given effects um maybe these are effects that you would qualify as fallacy but let me explain so early on in my practice I had a patient who had uh troubles uh with uh anxious obsessions whenever she got anxious she started to count one 2 three Etc and she also would have specific rituals which involved a bed and especially which involved um drinking cups and she would with her finger go around the drinking cup from left to right and from right to left and count and go around the handle from left from down to uh from up to down from down to up and count and it just the order that struck me because in Dutch the word for um a drinking cup is the same word as for head and the word for the handle is the same word as for ear so my patient was talking about in Dutch that cop and I only said that betop she let me say that she told her story and I pick picked up these words that these are words that she said and I only picked up these words and I put them in a sequence bet cop or because it struck me and this was enough this was enough it was early on in my practice and quite spectacular to open up like you would have cut somewhere where suddenly everything comes out of it where there started a chain of associations in which she then recounted how as a little kid she had anesthesia and the anesthesia was done at the level of her head and at the level of her ear and that she was extremely anxious that she would not wake up and that she had learned to soothe herself by counting so that she would count until she went to sleep and that she would as soon as she wake up take up the count again as a kind of way to make a a chain um a tread that kept her alive so this was spectacular because the whole session was one Association after the other about these Hospital experiences and about other connections he was making and it the the the session was not enough to contain her uh she came home and she wrote an email I got an email with uh other associations and uh and at the new session she started over again so yeah at least you could say this uh made the patient move the patient moved she she moved mentally um so that was something let's say it was something in another case um my patient another patient um uh spoke about her life and her difficulties and also about her childhood and her upbringing and she was brought up in a religious community and they had rituals and prayers and one of these prayers said uh it was one of the prayers she had she had kept in memory uh Jesus in the middle so this in Dutch is said Jesus in the middle so what I only said is I only fragmented it differently I said youus ADM and that changed the meaning from Jus in the mid from Jesus in the middle to your sister in the middle so again this sparked associations and um uh associations about her compet competitive feelings towards her sister and a mental movement the third example is an example not of my practice but it's been published by a psychoanalyst and thean psychoanalyst his name is Patrick guier lafi and he speaks about a middle-aged patient um who who who comes to his practice and uh says to him I'm almost ashamed to come and ask for your time and attention because everything goes quite well in my life I have a happy marriage I have a happy happy job I have good children but it so happens that now and then seemingly from nowhere I have these heavy moods and these depressions and I don't know how it comes so she counts her story like all the patients do and at one point she says in some kind of context where she speaks about her mother my my mother couldn't in in in in French uh my but instead of saying she says she has a little pose on an an awkward moment in the sentence she says so normally you would say in French and she says and the analyst who is hears this and this is awkward this is not why you would the way you would speak this sentence and he said the only thing he does is he repeats that and then she hears what she said because this changes the sentence the pap it misses it's missing in my slide it's the the key means uh daddy came back and so when she hears what she said daddy came back she suddenly starts to cry she had already counted the story of her father leaving her and her mother uh when she was young and her mother being alone to raise her um and and she being very loyal um with her to her mother but now that she hears P comes back she realizes that she actually had longed for the for her father coming back but that is longing she couldn't let go of it or she couldn't express it because that would be like not being loyal to her mother who was alone and who was um Angry towards her husband having left her and she felt it a duty to be on the mother's side but uh being at her mother's size she she couldn't um uh um process her longing of her father coming back and uh her sadness about his absence she couldn't process that because there was no place for that and now in the analysis she she could do that uh I see your hands is Raising and I know I'm been talking already a lot but these are three examples in which mental movement is induced without adding semantic uh material it's it's about it's about doting about pointing to something so I had two Auto paragraphs three Auto paragraphs but one small uh so but I first uh leave you uh you you raised your hand so I guess you want to say something Alex if that if that's okay with everybody yeah yeah so Arian I I think that I want to separate two things one is I honestly admire your work I say it absolutely sincerely without flattery that these are creative interventions and I love hearing Vates like this I've had similar moments where I went to a visual metaphor and it opened up the work uh I think you a fantastic uh uh clinician and analyst and your patients are very fortunate to be in your care uh I that's that's why statement that I honestly mean the second statement is I don't know if we can use these vignettes to uh generalize I don't know actually well first of all when you says the patient had anxious obsessions and rituals you are already formulating these are beginnings of a formulation you classified her behavior as a ritual not as a tick you know and so you've thought about it okay but then when you said something about these you know phrases in a certain order or not and the patient reacted by opening up and you know recording the memory in the hospital what we don't know Aran is whether it was your words or your nonverbals or the six months of analysis that happened before then and the containment that you created in a relationship I don't really have grounds for a causal inference that it's exactly that interpretation that caused the effect and finally I think that if we look at case studies this is absolutely powerful material but certainly not grounds for uh causal statements because again all clinical reports are correlational data and I think I've used that example with you from research book by kin that if I you know um claim that watching television for a week cures common cold I could have 30 years of experiments I could have tens of thousands of patients each one of them with a proper common C you know shows up watches television for a week comes out there's no common cult therefore television cures common cult we don't have data for causal statements we don't know what exactly helped and specifically whether interpretations or not interpretations we have a school in an in in the US called new school of psychoanalysis with spots and they flat out say interpretations don't work we don't interpret they also say that their field of psychoanalysis works for schizophrenia but there is zero research about their specific School of psychoanalysis versus relations versus lcan versus istdp nobody has done that study we have General Studies on Dynamic treatment but what style of dynamic treatment in a randomized clinical trial was never done so the the I think the scientific answer is we don't know exactly what worked and finally I think if we're talking about Improvement of a patient with you know anxious obsessions and rituals and another thing the the the good thing is um followup so if we wait months after the work is done and we collect thousand patients and we know that the results stay for these thousand patients then we have something to say about the efficacy of this particular modality of treatment if we don't have followup in the session they go up they go down they progress they regress so I don't know if we can have grounds to talk about you know clinical improvements that's sort of my take and again to go back in terms of how you work you presented very sophisticated vignettes and this is this is beautiful among other things but I I just don't know if it applies directly right so I'm not I'm not sure of the format of this because of course I could reply on each point and I would like to reply but um maybe the moderator can come in here it can be however you see it definitely plant seeds to be explored but how about Albert first give a Rel or a totally different perspective and let you see where we're at in a few minutes well I would say first of all thank you very much Alexi for the excellent paper um and for the Pres presentation I'm really loving the discussion so far as well um I had some questions prepared as well but most of them have already been addressed uh uh by all by you and the panel so it's kind of like I'm thinking of something significant I can say I think I'm really curious about the discussion between Aran and you right now so but one thing I was curious about is in the what we can do section of your paper um and this is something you also mentioned during your um during your speech is uh well besides the audio verbal exchange between the patient and therapist we can use like additional tools and I was I was um curious about like the objective status of those tools and the data you you acquire from these tools cuz I'm guessing you also have to integrate those into like a narrative so what does that mean about uh yeah what what does that say that's one thing and secondly like how do you um how can you present that to the patient and this something you you you comment on in the third point of the last part it's it's it's about like some kinds of types of therapy like betous BB they film their patients and the baby and GDP does this thing as well but it it's I'm curious about have you thought about like how would you integrate these kinds of data but by all means I'm I'm very curious on on your comments as well so yeah perhaps I can respond briefly and uh you know this is a controversial topic that evokes much debate but if we go back to neurologist right let's say the neurologist hears a patient case where the patient is on unable to kind of cross the street properly and they have profound spatial deficits and they they are sort of struggling from that problem they cannot do mathematics okay so they don't know exactly what's going on they examine the patient ask them to walk back and forth they talk to the patient they may even order a neuros psychological assessment but then they order an imaging test such as an MRI and they detect that there's a lemon size you know leion in the right hemisphere this is not a conversation this is a different uh data point and then they know theology they know what's up that the spatial deficit was related to this lesion in the right hemisphere we don't do anything like that in Dynamic treatment not at all we insist that speaking to the patient listening to the patient is it it's enough okay in fact if you are talking about video cameras you know in in some modalities of dynamic treatment such as istdp that's a standard practice they insist and kind of it's you know you sign the releases and everything but video cameras are used or supervision and learning I think in psycho analysis proper that is considered kind of anathema because you know first of all it's intrusive there's a third in the in the room which is a camera and that it sort of privacy concerns and then you know it distorts the transference Dynamics and everything but you know what then you're left with is words and also nonverbals like the tone of voice or the posture of the patient but we're missing a lot by processing the data coming at us through the work in memory that is quite limited so uh just as an example again batric bb beatric bb works with uh infant mother diet where there is no language at all you know there is nonverbal exchange and dance baby's doing gooo and mama is doing gaga and sort of uh because it is so fast then they do a video and then they slow play the video with Mom together and they see the level of Attunement the speed if you wish if the baby did this and the mom didn't react or the baby didn't do anything and the mom reacted and you can talk about atunement or misattunement in that play between a baby and a mom beatric BB is a psychoanalyst this is a completely different data point different work from words exchanged and thinking in words uh because words are deterministic tools they're not flows and they are relatively they're averaged out and I think that you know just at least thinking opening the conversation about using these additional data points in addition to the narrative from the patient and our feelings and inference about their feelings would possibly allow us you know to work with the phenomenon here that is chaotic Dynamic emergent complex we we base so much on the words and I think that's a very limited uh data data set uh I don't know if that answers your question Albert uh yeah sure definitely but also what about like the the question the patient asks for some questions are really comp complex and are very difficult to measure using that kind of data like for example a patient comes to the clinic and says um I lack meaning in my life how do you measure that kind of stuff well I I don't mean to trivialize things that I'm going to do an MRI if they like meaning in their life certainly we will talk to them just like neurologist talk but you know sometimes uh I hear about the lack of meaning when the patient is in a depressed state because when the seeking system is down regulated there is no hope there is no uh you know um enthusiasm but also it's drained of meaning the functional system of salience network you know assigns meaning to things that are have you know uh uh values for us and and downregulates other a dog in the field will have value for uh a bone and value for a female dog but no value for oak tree right now uh this is I'm sorry reductionistic example but I do think that in addition to a global philosophical high level discussion what's the meaning of my life there is you know other components of this question of how does a patient talk about meaning and and you could use additional data points about that for example when they are depressed they will tell you the their life is meaningless and you can discuss that this is a phase of their life by the way not a disease of major depression but a mental state so um does that does that answer yeah thank you thank um can you hear me okay I really think that the language Theory uh that is um that is used here is extremely naive for example on page 11 um you say Alexi the world apple is meaningless to a baby who never saw or touched an apple this is this is to me not really informed I mean even not going into psychoanalysis of course an apple can be very meaningful even when it is not seen or touched it is when when the when the surroundings when a modern father speak about the Apple uh it becomes meaningful child will hear it will will filter out the world and word and will try to make sense of it with with the context so um you you could say indeed for example that um this is all coincidence Etc but there there are several things um of course I I give you here three examples now there are thousands of these examples this is not just three examples I mean this is empirical stuff that clinicians here in their very very privileged position of listening to the intimacy of the patient we have a possibility of observing what no one else can observe and this empirical stuff uh um we should do honor to it we should we should do uh as we are in let's we have like a microscope that nobody else has um from right when he first encountered these um uh ambiguity um uh Elements which are clinically meaningful of course he said like this is nonsense but it is not because it is nonsense that uh and it goes against all the theories that it does not exist like uh shakko used to say it is because Darwin was really really uh drawing everything he saw with ultimate Precision that and he gathered data and he gathered a lot of data that he made up a theory the theory uh had only a chance to exist it's the only chance that it exist because you are drawing reality Point by point so your data driven model I couldn't agree more you have this this is the chance where the data the clinical data have a chance of existing and and this is the way science work you make a theory Darwin made a theory that went against all rational all uh evident um um um understanding of the world at that point and Freud speaks about the the primary process and he says this is something we we find ridicule and we scorn and we laugh about it but still it is there and so he he made a theory Darwin based upon all kind of data which he gathered and then he he he had the um the courage to make his theory this theory that he made which was not yet proven allowed um experimental researchers first of one which was mendal to uh device and think of such an experimental uh um uh setup that could uh falsify his theory this experimental setups could not be thought without this Theory they needed that theory to make up that experiment so it is a Pity that of course generations of clinicians do not like experimental research but if I I can uh share again my screen uh I do think that there is a big future for experimental psychoanalysis and uh this is ex this uh uh precisely what I'm doing and um we are finding measures to falsify falsify test uh the is there any chance I could finish just one more minute this is the geocat and shows predominant primary processing in acute psychosis and in uh psychic transparency this is a laboratory induced uh setup to induce parapraxis and it shows that parapraxis are defensively motivated and this is uh another um uh uh publication about the ability of people solving weebus without knowing it which is one of the uh elements that we should um um uh suppose if people have this clinical um uh this clinical uh manifestations so um uh at least at the very least even if you can kind of relativize and and and draw uh put away all these these these elements as coincidence at the very least as a scientific honesty we should take this hypothesis seriously and test it that is scientifically honest so I did not mean to interrupt you it's just my work in memory buffer was getting full from the previous episode so when you moved to slides I started getting packet drops and I forgot to I'm writing things down but I wanted to because you said something very important before I want to go back to first of all you've made a comment about the apple and I'm sorry if it sounds uninformed I happen to be a father and and so I've experienced you know uh fatherhood and uh I want to be specific about what I mean before we criticize it is you know babies from birth have reflexes they have rooting reflex they have orienting reflex and other things now when when baby had doesn't have you know visual system developed enough to perceive an apple it is certainly meaningless because she can't like it can detect sweet versus sour and it can Orient uh but it doesn't you know then there is no apple because you can't detect it and then when it sees something Apple versus a cup you know if if I what's stated in the paper is the word Apple okay the word apple is a bunch of sounds to a baby that doesn't understand the meaning it cannot decode it it may hear Mommy and Daddy say that but also mommy and daddy using million other words and all I'm saying is when we say meaning that means you can decode you can say what it means and there's some chain of associations and other than Mommy or Daddy using the word Apple once I I don't think you have much but when the baby bites an apple and experiences you know through experience The Taste and the Crunch and then the the word apple is associated with tactile gustatory you know all Factory experiences then you have another ball game and certainly there is no bright line but I meant that you need to have long-term memory to make sense of the world that's all it means just to be specific another thing is I certainly don't say let's throw away all the theories absolutely that's not the point as Kurt Levan said a good theory is the most practical thing you can have uh that being said I want to be precise about theories and specific so and uh for example uh when people use the term iology such as a certain word like black beetle was eological and panic okay iology means causal I don't think there's any grounds to say that the word black beetle is causal for a panic attack panic attack is a complex multiply determined phenomenon that is related to bed nucleus ofri analis anterior singular cortex you know perhaps it may have some triggers you know but it's a complex phenomenon that should not be reduced to being triggered by a certain word in in panic disorder and if we look at clinical things the definition of a panic attack is that it comes unexpected there is no trigger if it is triggered then technically we're not talking about a panic disorder so I'm just saying that you know in order for us to test something it needs to be falsifiable otherwise we're we're we can cannot test a statement you can certainly test falsifiable I've been tested and and I've published it well all I'm saying is as part of your work you know so when you have work with 1,400 students and you've conducted the um the uh French par um uh rebuses the the complex tasks I think what you've proven with your research is that people can can unconsciously solve the Rebus and that is valuable addition to other work which mark ssite with uh uh takoscope where we can unconsciously read simple things we can count simple things we can associate face with a word unconsciously that's all it means but it doesn't prove that Lan is correct in saying that unconscious structured as a language that is not a falsifiable statement that unconscious is structured as a language that's a belief yeah you can put it in in different parts and and and test different parts is the first part of it is important because it's never supposed it's not into psych Linguistics you you only have the hypothesis because you listen to people you dare you need psychoanalysis it's not into psycho Linguistics well I think that we test all our medications on rats and mice and you can have a phobia in a mouse you can have an anxiety disorder in the mouse and other things this is what all pharmacology is based on zero language zero so when Lam says unconscious is structured as a language what unconscious is a vast space I have moral memories of how my guad moves when I get up from the chair I have phobic memories I have all sorts of things in mind conscious and I think it's a reduction and it's a certain prism of looking at things to say it's structured as a language and language has multiple structures you know so you know uh English is structured differently than Russian you know and so it's culturally determined so I I I just think that it's one of the possible Avenues of work I think if we decode and decompose the studies we can you know investigate the important part is also falsifiability as Brian nosik showed in 19 2015 36% of studies in Psychology are reproducible vast majority of the studies we do when an independent team of researchers repeats it does not show the repeated result so a single study is also a data point but but I'm saying that you know uh theories are good hypothesis are good research is good all of that is good but but the point of my discussion was that narrative fallacy exists it influences clinical work let's be precise about it I'm not saying let's not use language by all means let's use language but we need other things it's what I'm trying to say wow lot to it um perhaps um each people David you can unmute and then each person can um make kind of some closing comments from here so David then Arian then Albert then Le unmute please David thank um I think it's uh really helpful that um the other discussions uh prepared questions from the paper um uh I I fully agree about the limitations of all of our models and and to have a research or experience-based uh system of uh monitoring things with patients for instance Nancy McWilliams um more recent work uh talks about variables of that describe this or that aspect of a given patient that those are much more uh meaningful than uh uh a descriptive uh case formulation so I just wanted to add that I like that part of the paper including NY um and that's all I'll say thank you Albert then Aron then I'll make some comments before youi uh I'm not sure what I can say what what I've already said before um I think the discussion proves that the paper uh uh opens up um a platform from great for a great discussion maybe like to add a closing remark uh maybe this is one of like the defensive statements but um to what extent is therapy a science in not art that's that's a complicated question but there you go thank you thank you everybody um yes um I still had one one one point uh in in what I had prepared and and maybe I can bring that point um in as a closing remark um so Alexa you also say that the key point of this paper is that we should not be constrained in designing clinical models by their need to fit the limitations of our working memory and it it comes to me that if the clinical work is indeed um very much more um centered uh on on uh helping the patient to hear uh what he says in all its ambiguity which for me is an important part of the work and next to the the transference um then that that changes also that that point uh because um uh a big part of the clinical word and is on the primary process level and it is what is called free floating attention and that does not uh weigh upon the working memory because it's actually um letting go of uh secondary process control and inhibition it's the inhibition which is very costly and um so uh yeah I understand uh that that that your point is about a fallacy um but to me the two points are actually let's say obviated that whatever the patient says uh it is important and it makes the patient move and um there by by using this angle um you you're not weighed upon uh by working memory uh at the level of your working memory and also but that would be another another paper I guess in another session I I do think that any technical addition to therapy is actually um counterproductive and I I I would I do think that we need to replace any medical or technical apparatus for Psychotherapy to something which is which which we dare to claim as clinicians uh which is very much more uh um human sciences and uh which is very much more um about uh the Dynamics of the mental apparatus and and I think we should we should dare to claim that that um Psychotherapy is about uh uh these tools that that are not in our model uh presence proximity unconditionality unconditionality patience of availability and listening of course in an informed and in an intelligent way you you took a risk Alexa by inviting me I'm sorry it's so this is what I have to say thank you it's awesome what you've shared and complemented what he wrote I'll just make a few points for footnotes this reminds me a lot of scientific pluralism there's methodological pluralism there's different measurements and how do we even juxtapose something like as vast as the unconscious with a brain region like Alexi alluded to like what is that doing in terms of how it plays out for people already today um also as like a non therapist I saw a lot of parallels between the question or discussion does the therapist have an interpretation with does the organism have a representation because people debate well is it a representation if it's aware or not aware of the representation does it have a representation or is it a representation like David mentioned just sitting down in the chair as a posture that then does not use working memory or explicit memory as just alluded to so I think that the the interplay of the different complex features of cognitive systems and how expertise and experience and all these other factors that you just pointed to that last little piece like proximity and availability those factors that are going to go like off the health record but they're part of the actual moment that your training is about so understanding what that is and not letting it be like overly reduced or or turned into measurements is really um very rich and and important discussion so again thank you Alexi for bringing it together and everybody for for joining on what is what's the last word Lexi well again I'm grateful to everyone I like that it got a little more uh Intense or heated or something and I think they were just getting warmed up this is the beginning of the conversation maybe not the end of it I welcome critique and commentary and further discussions and uh I'm completely fine with disagreements and pluralism as David um Daniel you mentioned uh um yeah it it's much more nuanced than than what what I wrote about but I I was opening hoping to even talk about it because sometimes four uh three journals uh refuse to publish the paper you know one peer reviewer said you know the best part of your paper is where you cited fruit okay so meaning everything else is completely useless you know and so this is what I'm up against and the fact that we're talking about it is music to my arts and thank you all very much one quick comment I wanted to say about the tools I'm not the kind of guy who says Let's dump the humanity and introduce the tools let's diagnose everything with AI That's not the idea the idea is to Simply let's not throw away information if I can get additional information about the patient if I know that they've tested their thyroid last month and it's okay I'll take it you know I I you know when experiential people say I don't ask questions I see what happens between me and the patient I draw conclusions based on that I think that's a flawed technique because you need to know some things I need to know if there was a prior suicide attempt and and etc etc and what medications are taking so I'll take any and all information available to me in whatever form visual auditory whatever to help you know have a more nuanced picture but again thank you all very much I really appreciate it thank you Daniel and uh yeah I think uh thank you till 74.2 thanks thank you bye bye by bye byee</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,51 +1,95 @@
-# Practice Quiz: Planning
+# Practice Quiz: Planning — Your Brain Is a Time Machine
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Planning** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. Planning in active inference is your brain's ability to:
+A) Perfectly predict the future
+B) Simulate possible futures and choose the path most likely to get you what you want
+C) Avoid all risk
+D) Do nothing until you're forced to act
 
-2. In Ms, Planning is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+**Answer: B** — Your brain runs simulations of different possible futures and picks the one that best matches your goals.
 
-3. Which mathematical quantity is most central to Planning?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+2. Your brain's simulations of the future are limited by:
+A) Nothing — your brain simulates perfectly
+B) Your past experience — you can't accurately simulate things you've never encountered
+C) The time of day
+D) How many friends you have
 
-4. How does Planning relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+**Answer: B** — Your brain remixes past experiences to imagine futures, so gaps in experience lead to less accurate simulations.
 
-5. A failure in Planning would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+3. The **explore vs. exploit dilemma** is:
+A) A video game challenge
+B) The trade-off between trying new things and sticking with what you know works
+C) A test question
+D) Something only adults deal with
 
-6. Which scale is most relevant for analyzing Planning in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+**Answer: B** — Every plan involves deciding whether to try something new (explore) or stick with what's reliable (exploit).
 
-7. Planning connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+4. A good rule of thumb for the explore/exploit trade-off is:
+A) Always explore, never exploit
+B) Explore more when stakes are low, exploit more when stakes are high
+C) Never try anything new
+D) Always stick with what you know
+
+**Answer: B** — Low-stakes situations are perfect for exploration; high-stakes ones are better for reliable approaches.
+
+5. Why is middle school a great time for exploration?
+A) Nothing matters in middle school
+B) The long-term consequences of most decisions are relatively low, so you can try things and learn
+C) You have no other options
+D) Exploration is required by law
+
+**Answer: B** — The relatively low long-term stakes make middle school ideal for trying new things and building experience.
+
+6. The best plans are:
+A) Rigid and detailed, covering every possible minute
+B) Flexible, leaving room for surprise and adaptation
+C) Made by someone else
+D) Never changed once created
+
+**Answer: B** — Since you can't predict everything, smart plans leave room to adjust when surprises happen.
+
+7. Instead of planning to write your whole essay on Sunday, a better plan is:
+A) Don't write the essay at all
+B) Break it into parts across multiple days so unexpected events don't ruin everything
+C) Write it all Monday morning before class
+D) Wait for inspiration to strike
+
+**Answer: B** — Spreading work across days builds flexibility — if one day goes wrong, you still have progress.
+
+8. The active inference principle for planning is:
+A) Predict the future perfectly
+B) Reduce future uncertainty where you can, and build flexibility where you can't
+C) Never plan ahead
+D) Only plan for the best case
+
+**Answer: B** — Good planning is about managing uncertainty, not eliminating it.
+
+9. You can't accurately simulate a school dance you've never attended because:
+A) Dances are unpredictable by nature
+B) Your brain doesn't have enough past experience data to make confident predictions about it
+C) Nobody can predict dances
+D) Your brain refuses to simulate fun events
+
+**Answer: B** — Without prior experience, your brain's simulations may be way better or way worse than reality.
+
+10. The "Future Simulation Challenge" asks you to imagine best case, worst case, and most likely case because:
+A) It's fun to daydream
+B) Planning based on the most likely case with a backup for the worst case makes goals less stressful
+C) You should always prepare for the worst
+D) Best-case scenarios always come true
+
+**Answer: B** — Running multiple simulations helps you plan realistically while being prepared for problems.
 
 ## Part B: Short Answer
 
-1.  Explain how **Planning** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Planning failing in a Ms scenario.
-3.  How would you model Planning using a POMDP (Partially Observable Markov Decision Process)?
+1. Think of a goal you have for the next month. Describe your "most likely case" simulation and one backup plan for if things don't go perfectly.
+
+2. Give an example of a time you chose to explore (try something new) when the stakes were low. What did you learn from the experience?
+
+3. Describe a situation where a rigid plan fell apart because something unexpected happened. How could a more flexible plan have helped?
+
+4. Using the explore vs. exploit idea, what is one new thing you'd like to try this semester (explore) and one thing you'll stick with because it works (exploit)?
+
+5. Why is planning a weekend hangout with a general structure but flexible details better than planning every minute? How does this connect to managing uncertainty?

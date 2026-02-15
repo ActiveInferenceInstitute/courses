@@ -143,7 +143,7 @@
 
 #### 4d. Testing
 
-- 822 tests, all passing
+- 1,021 tests, all passing
 - Coverage across all modules
 - All tests use real methods — no mocks or stubs
 
@@ -197,7 +197,7 @@
 - **3,400+ content files** (module.md, questions.md, practice_quiz.md, lab.md, dashboard.html, README.md, AGENTS.md)
 - **38 YouTube playlists**, ~2,600 video transcripts
 - **21 software modules**, **23 CLI scripts**, **18 documentation files**
-- **822 tests**, all passing with real methods
+- **1,021 tests**, all passing with real methods
 - **6 output formats**: PDF, DOCX, HTML, TXT, MD, MP3
 - **Multi-language** translation support
 

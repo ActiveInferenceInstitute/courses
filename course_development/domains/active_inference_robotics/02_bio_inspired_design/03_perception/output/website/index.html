@@ -784,7 +784,7 @@ body.dark-mode .question-container:hover {
 <li>Apply specific constraints of Robotics to the formal definition of Perception.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Perception</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>This module explores <strong>Perception</strong>. In the <strong>Robotics</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between Agents and Cognition.</p>
 <h2>Key Concepts</h2>
 <h3>1. Perception as a Markov Blanket Boundary</h3>
 <p>How does Perception define the boundary between the agent and the environment?</p>
@@ -794,29 +794,10 @@ body.dark-mode .question-container:hover {
 <p>How does the process of Perception drive the perception-action loop?</p>
 <h2>Applications</h2>
 <p>In Robotics, we see Perception manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
+*   <strong>Specific Example 1</strong>: A bat-inspired robot uses biomimetic sonar with dynamically deformable pinnae (ear-shaped acoustic reflectors) to implement active perception -- by reshaping its ear geometry during echolocation, the robot modulates the directional sensitivity pattern of its ultrasonic receivers, actively sampling acoustic space to reduce uncertainty about obstacle geometry in dark environments, directly paralleling how biological bats adjust pinna shape to extract 3D spatial information from echo returns.
+*   <strong>Specific Example 2</strong>: A lateral-line-inspired underwater robot equipped with arrays of pressure-sensitive artificial neuromasts along its body perceives hydrodynamic flow fields the way fish do; the distributed sensor array provides a likelihood function over nearby object positions and water currents, and the robot's generative model inverts this flow-field data to infer the presence, distance, and velocity of neighboring objects even in zero-visibility turbid water where vision-based perception completely fails.</p>
 <h2>Conclusion</h2>
-<p>Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<p>Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,26 +807,122 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Perception</h1>
+<div><h1>Lab: Bio-Inspired Sensor Design and Predictive Perception</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Perception</strong>.</p>
+<p>Design bio-inspired sensing systems for robots by studying biological sensory organs and neural processing. You will compare biological and artificial perception strategies, implement a predictive coding-inspired sensor processing pipeline, and analyze how biological sensor design principles improve robotic perception.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Perception.</li>
+<li>Completion of the corresponding module.md lecture material</li>
+<li>Familiarity with Active Inference concepts (generative models, free energy, prediction errors)</li>
+<li>Basic pseudocode and diagram skills</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Biological Sensor Analysis</h2>
+<p>Compare biological and robotic sensing for three modalities:</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Robotics.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Perception.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Perception (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li><strong>Vision</strong>: Compare the vertebrate retina (on-center/off-surround, saccades, foveation) with a standard RGB camera. How does retinal processing implement prediction error computation at the sensor level?</li>
+<li><strong>Touch</strong>: Compare human fingertip mechanoreceptors (Merkel cells, Meissner corpuscles, Pacinian corpuscles) with robotic tactile sensors. What information is lost in current robotic touch?</li>
+<li><strong>Proprioception</strong>: Compare muscle spindles and Golgi tendon organs with joint encoders and current sensors. How does biological proprioception implement Active Inference?</li>
 </ol>
-<h2>Discussion Requirements</h2>
+<p>{fill:textarea}</p>
+<h2>Part 2: Predictive Coding Pipeline</h2>
+<p>Design a perception pipeline inspired by the brain's predictive coding architecture:</p>
+<ol>
+<li>Define a hierarchical processing stack with at least three levels (e.g., edge detection, object boundaries, scene understanding).</li>
+<li>Specify top-down predictions flowing from higher to lower levels.</li>
+<li>Specify bottom-up prediction errors flowing from lower to higher levels.</li>
+<li>How does this architecture differ from standard feedforward image processing?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Active Sensing</h2>
+<p>Biological organisms actively control their sensors. Design active sensing strategies:</p>
+<ol>
+<li><strong>Saccadic vision</strong>: Design a camera control strategy inspired by eye saccades that fixates on informative regions.</li>
+<li><strong>Whisking</strong>: Design a tactile exploration strategy inspired by rodent whisking for shape recognition.</li>
+<li><strong>Echolocation</strong>: Design an ultrasonic sensing strategy inspired by bat echolocation for obstacle mapping.</li>
+</ol>
+<p>For each, how does Active Inference (expected free energy minimization) explain the biological sensing strategy?</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Bio-Inspired Sensor Design Table</h2>
+<p>Propose bio-inspired improvements to standard robotic sensors:</p>
+<table>
+<thead>
+<tr>
+<th>Standard Sensor</th>
+<th>Biological Inspiration</th>
+<th>Proposed Improvement</th>
+<th>AI Benefit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RGB camera</td>
+<td>Foveal vision</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Pressure sensor</td>
+<td>Fingertip mechanoreceptors</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Microphone</td>
+<td>Barn owl auditory system</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>LIDAR</td>
+<td>Bat echolocation</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Classical Robotics</th>
+<th>Active Inference</th>
+<th>Your Design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core mechanism</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Uncertainty handling</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Adaptation</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Key advantage</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
 <ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Perception.</li>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press.</li>
+<li>Pio-Lopez, L., Nizard, A., Friston, K., &amp; Pezzulo, G. (2016). Active Inference and robot control. <em>Journal of the Royal Society Interface</em>, 13(122).</li>
 </ul></div>
 </div></section>
 

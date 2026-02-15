@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05_Physics As Information Processing Ander Aguirre Discussion 2 - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>05_Physics As Information Processing Ander Aguirre Discussion 2</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>05_Physics As Information Processing Ander Aguirre Discussion 2</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>"Physics as Information Processing" ~ Ander Aguirre ~ Discussion 2</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=hSj7eOYuZe4">YouTube</a>
+<strong>Playlist</strong>: Physics as Information Processing ~ Chris Fields ~ 2023
+<strong>Duration</strong>: 1:13:13 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello it's July 1st 2023 we're in physics as information processing in the second discussion so thanks all for joining and we'll see who else comes in if you're watching live feel free to write questions in the live chat and I'll relay them onwards so Andre thanks and uh it would be awesome to begin with a little bit of some overview and some points that you wanted to get to yeah thank you Daniel um so good morning everyone so if you would start up a bit goal with Chris last time so I have a few slides that I singled out so now we're getting to uh reform reformulation of quantum theory in terms of reformulation so opposed to the dynamical theory and uh as we've talked in previous sessions we need to a little bit philosophically uh with the ontology of measurement entails um so Chris last lecture started with these three basic ingredients so an action that's um number one a thing to ask you about uh this is the qubit the physical degrees of freedom that we need to perturb in some way to ask a question and then finally mathematics a language that makes sense a context that makes sense of of that information that we got um I should say number one that came up in the first fashion when um I can't I can't exactly remember but at some point we talked about what is information and we came up with uh or we brought up a definition that goes something like this it's the nicer Dash it's uh differences that make a difference this is um Chris told me I can remember who who first coined this Dash but I think it it's quite old at least early early 70s anyway so number one basically let's curve that part right if I want to gather some information I need to perturb a system somehow so I need to act and this is in early in in units of actions right so units of energy times time and we provided the example of productsing right which is apparently near optimal from the quantum perspective this is mechanically what goes on in your eyes and slide comes in and this is clearly the difference that makes a difference in your in your brain the second part were the physical degrees of freedom so recall that we had a boundary okay so this this theory of of quantum mechanics as measurement necessarily breaks down the system into a bipartite system with a boundary and you are which are a lot smaller than um then the degrees of freedom of A and B uh at least in terms of the dimension of the Hilbert space and change all right sorry can you repeat Andre I repeat what sorry just last 30 seconds yeah so so the second ingredient is it the the physical medium in which this information exchange occurs where the physical decrease of Freedom the qubitsar um arranged and these are physically perturbed in order to mediate that difference that makes a difference so we can think of this dually as either preparing those qubits or decoding those qubits and then finally there was the notion of the reference frame okay so this Theory necessitates a free choice of the agent of a reference frame and physically what this amounts to is three choice of uh a measurement axis for those for those uh qubits so we can think of measuring disease being uh in those periods on the binary so you know that that requires a free choice of of that axis and this you know amounts to your reference frame the context in which those measurements are are performed on one extreme case we have that if if those references are perfectly aligned then the exchange of information is is noiseless uh there was it somewhere over here I think I can't quite recall but generically this these two reference frames of Alice and Bob A and B are not exactly the same they get to they get to choose the reference frames I think it's all the way on the bottom actually right so they can be aligned if they're aligned they are exchanging noiseless information right there is no Randomness if they are not superposition and that's when you're gonna get you know probabilities in in the outcomes trivial probabilities so parts are good yes okay so I have a few more comments of the main things okay I'll take me just a few minutes and then we can chat back and forth perhaps this slide is interesting important I remember this is where I asked the question myself because I was I mean I still you know it's it's not easy to wrap your hair around what's going on here so we said that measurement and preparation are completely dual pictures so this is going to be expanded on in the next lecture but a jerk uh corollary of that is that if you prepare crystal in similar terms if you prepare something in a certain State and then you uh measure it right away you should expect that it's still in that state right so uh intuitively speaking this induces the cycle right and uh where you have preparation and measurement and you you're back to square one so to speak yeah and uh in in in in generating that cycle obviously there has to be some notion of time right um that's that's where we're gonna have to make sense of uh the distinction between internal and external time if we take this measurement operator and here perform some operations we can write it as a unitary propagator from quantum mechanics which again preserves information it just leaves the state as it is but with this little trick of the weak rotation you can write it as e to the measurement up to a constant and that you know precisely encodes at least morally speaking uh what we just said right that this preparation measurement thing is a cycle and more importantly it gets rid of this T external time presumably in in here it's going to be replaced by some notion of internal time we're going to have an internal time qrf that is quote unquote the true local time as the Observer proceeds um I'm not entirely certain of the details but now looking at it here the beta which uh presumably there's a you know the beta and inverse temperature here um I think this is going to be intimately related to Notions of thermal time this has been explored in papers by rovelli um called you know internal tanker revs and thermal time is the way in which the Observer observes the passage of time uh those papers of royalty are linked in the Q a by the way so I can also provide links later uh I think there might have been a question should I stop yeah Dean go for it and there's I was curious about this because what I heard Chris start this session with was that he was going to try to help us understand when we are looking at something through a mechanical lens so quantum mechanics and to me this slide was the way of addressing as he said his words were characterized information transfer in a Quantum theoretic way that the that the translation from H to m took the the mechanics aspect out of the change or timepiece it was the purification the most theoretical form of transfer of information as opposed to pulling up just the one ordered or sequenced or mechanical lens did I I heard you asked the question and I kind of smiled because I thought to myself no I understand why Anders is asking this question it's can something be both gripper in this in the conceptual meaning sense ontologically and gripped a physical object and I think what that I thought maybe I was misintermining I'd like your what your perspective on this is that ability to go from H to m is what allows us to have both the mechanical and the theoretical the transference in its purest sense is that being able to have both both can be true is that what it is yes for sure yeah yeah um yeah I I much else uh to say here it's it is it is true that um you can think of the information transfer picture as an enlargement or an addition to the mechanical picture and that I don't think that the mechanical picture has to be just you know thrown out completely I think I think it's interesting to keep it to see how it can be recovered from the information uh processing picture this reminds me actually there is an Italian physicist I think his name is curry Bella and Dean if you want I can I can link you the papers later who is very fond of the information theoretical approach to quantum mechanics and deducing quantum mechanics from first principles and here is a paper I think the title is physics without physics or something like that where you know he he treats um uh this whole thing as a seller baby seller automaton and by taking the appropriate scaling limits he derives qft now I'm interacting qfd so he says okay let me start with some axioms how information should be information processing I mean I'm doing very loose here then get a cellular automaton out of this and the tech scale and a record UFT non-interacting qft at least so you know start with a few axioms our information processing recovery mechanics from that does that add to your question a little bit yeah so so all I want all I'm trying to do is tie this back into some of the live streams that we've done in the past and I know I use different language I I am not a scientist and I've not studied Quantum other than sort of in passing ways but I do think that what this spoke to me about was something that I've always tried to include which is that there's the figure it out piece which to me is the conceptual and the meaning part that Chris talked about very clearly here and then there's the outing of the figure there's this sort of physical Edge and Boundary that if you don't have an awareness of both things happening concurrently the preparation and the measure are a unitary absorb minimum of two State then all bets are up in terms of being able to think of these these propagators and operators and all of the ways that we're trying to explain the situation they're off so we have to have both we have to have that sense that there is a transfer but there are and there is the mechanics we we have to keep both juggling all the time so that's where I that's where this one particular slide was really quite uh both biased confirming for me but I think it also as you say is going to open up a lot that July um yeah I agree I think this might be the most you know important or mysterious if you wish in his life yeah and it turns the pyramid the conventional approach here's the pyramid into a top that can be spun essentially with a rick rotation and it and it validates how information transfer probably gets short shrift in most of this Quantum conversation but it's it's probably at least an equal to to the mechanical part the what what order are we delivering this information in at that point I'll stop thanks yeah foreign thanks um Alexi hi can you hear me yep uh so uh I mean I I'm an you know um my mathematics teacher in high school used to say this is beautiful but I don't quite understand it so I I wanted to maybe I have two questions but I'll start with with this simpler one so when Chris talked about the reference frame uh and said common language you know I think in Shannon common language is the alphabet there's a receiver and Sandra and in the alphabet that they share and then Chris said this reference frame is a physical thing like neurons or hands or mouth and then I got lost because you know if uh when I encode I modify something in the on the hard drive then the physical components of the hard drive is the reference uh frame but you know this is not the shared language then you know so that's my first question maybe I'll stop here to to Really I understand we're dealing in metaphors but I want to understand that you know the reference frame up or down if Bob and Alice understand it similarly then is that really physical I think answer is that increase would you give a better answer start from beginning is that both are true at the same time I think Chris would give you a better answer but the the semantics or the sorry the Sherling which reference frame has to have a physical embodiment and and that's uh Hardware a piece of Hardware it's it's a neuron or something um in this case it's the your free choice of the spin axis and that that's your reference frame but at the same time it's it's a physical it's a physical piece of Hardware so reference frames are both a piece of Hardware but also a piece of semantics so if I take it from the language I don't quite understand to computer science so if Alice and Bob communicate through a piece of memory whether it's random access memory hard drive then endless encode something on that hard drive and Bob reads from the hard drive so in that sense they understand how to encode and decode but they use the same physical piece that's the reference frame would that be correct I might just add one again continuing with the computer science let's just and and the Shannon alphabet let's just say that these are plain text character encodings and so they share the same set of character a through z encodings that that is reflected somewhere physically and so if um if a message was if if a message were sent um from another letter it wouldn't render properly it's like outside uh they couldn't differentiate um Omega from Zeta because they only have the A through Z software pack and so there's an informational distinguishment that's facilitated by the information that's classically inscribed on the screen the memory and there is is an embodied physical as well as a semantic aspect to that situation all right I think I'm getting closer to understanding so to move away from computer science if Ellis is a painter she took a brush dipped it in red paint and painted on the canvas red and Bob has the same understanding of red as Ellis and then he looked at the canvas in red red that it is both the physical you know a mark on the canvas and and the symbol of red right yes and if if somebody had red green color blindness the physical apparatus was not able to to informationally distinguish then right they they couldn't make this Wick rotation into the quantum cognitive space they wouldn't be able to to um detect that there was a red figure painted on a green background yeah okay the key component here is that the the reference frame is inside of the agent it's you know if you're a color blind there is something physical inside of your head or your eyes or whatever that does not allow you to see the difference so your semantics are affected ultimately by a physical piece of Hardware well yeah maybe I used a bad example because color actually is computed in the brain and color blindness is not necessarily physical so uh okay but I I think I get it closer but you know if we if I may ask another question I get lost with a saying that preparation and measurement are they have to happen both and that when you prepare when you read you modify so I am okay with the act of writing the act of encoding so when I encode something such as I you know Mark red on the canvas or I write to the hard drive a I modify the hard drive that is true but if I if I am asking a question right I'm not modifying anything on the canvas so in what way the act of asking the question or Preparation is modifying the qubit this is where I'm lost you know if I does that make sense yeah I think this is exactly a question I asked to Christian in the Stream So I can't quite remember his answer but I think it was basically that they're um in the sense of you know they're they're both two ways of looking at the same thing uh it was kind of like you know evolving time towards the future or or the past if you have time symmetry you know you can you can divide um yeah so I I myself am slightly confused by the very but I think the answer is that they are painting at the same picture of or am I preparing are just completely do okay that's I think well do you remember that Daniel yeah okay I'll give a different angle than the um the formal Duality relationship so let's think about our measuring device is going to be a carpet and we're interested in whether somebody has walked on the carpet so to prepare the carpet we comb it very nicely in One Direction and I'm sure there's analogies there with the um preparation of qubits in a quantum computer but we're going to comb the carpet as an act of preparation and then something is going to happen maybe it's a split second later and so we're very confident that it should be still nicely combed or maybe it's going to be a whole working day later but now we're going to take that probe the tip whatever it may be and we're going to run it along the carpet and we're going to measure the state of of the direction of the fibers of the carpet so if we didn't prepare the measurements we wouldn't have a calibrated reference point to know how things had even changed and so there's there's a cycle of preparing the apparatus through something like a calibration or at least like a emptying of memory to be able to then make an observation and to have that observation have the kind of meaning that we would have expected like Purge the photo detector make the measurement now you have to purge it again that's the preparation what do you think Alexi that is a beautiful metaphor and I dig that except I think I heard Chris say that when you prepare you make Cube it into up or down and this is when I'm lost because when you comb the carpet you don't do that you don't put the footstep on it in fact there may not be any footstep right and this is this is where I'm missing you know I think in quantum physics as well if you measure there's the cause and effect relationships are broken here for me you know if in my Act of preparation I'm opening my canvas to to read the message but I do not know what the message will be I'm game but if he's saying that when I prepare I modify the carpet such that it becomes either up or down actually not blank but up or down then I'm lost you have to comb the carpet up or down there's no blank carpet so you you um you know you have a slate you have an Etch A Sketch you could either make all the pixels white and then you'd be able to measure a message in the dark or you can make all the message dark or the Slate dark and then you could be able to measure something that was light but you pick a direction of polarization in your preparation or calibration step so that deviations from that can be the measurements so you're saying carpet is binary carpet doesn't have multiple States carpet can only have two states so if I prepare it I effectively put it in one of those States well if they do anything yeah let's say we had the carpet at a um 45 degree angle mathematically we could describe that as a mixed state and it may not be the most effective for measuring the movement of people across the carpet but yeah you could um Define it um or comb it that way it doesn't necessarily if it were only a binary it wouldn't be a qubit then it would be a classical bit I actually yeah with the with you know I I you know recall lecture a couple of slides more shoots we briefly talked about it like 10 minutes ago by preparing you are choosing an axis and whatever you up or down in that axis now that doesn't mean that the environment gets to do its own thing right uh and he superposition of uh outcomes but at least you're measuring that axis right so it's going to be either up or down in that act you can call it two pictures and I have uh I just want to see a few words on graphic screens and Define my diagrams and maybe clarify question a little more Dean on this really really interesting I I don't know how metaphorically you could explain the carpet as a wave but I think once you get away from the it's up or down that possibility enters the conversation and the only reason I I wonder whether or not metaphorically the wave aspect of that can be included in how you're describing the carpet is that Chris spent quite a bit of time on the all possible paths argument and in particular and I love this when Alice isn't looking right well in that in that wave equation how could Alice not be looking that's what gets real I mean Alice could not be looking if it's if it's binary if it's or up or down but if it's wave it's on a it's on a it's a unitary propagator I'm not sure how she takes her eyes off of this preparation measure thing that's going off all the time so this is this is actually an what I consider to be a feature or an opportunity or an opening in the sense that from a strictly information transfer piece not a mechanical piece now not a physical thing from an information transfer piece maybe the carpet can be metaphorically understood as a wave that the eyes of Alice or whoever's doing the preparing and the measuring Bob Alice I don't care peaches that there is actually a difference then between something that is exchanged and something that is informationally transferred and again I don't think that the four of us here sitting right now are going to resolve that but I wonder If part of our part of the difficulty in this is finding the physical metaphor that explains the theoretical transfer in such a way that it doesn't it it breaks the Symmetry and holds it because again we're back to gripper and grip we're back to figuring it out and Outing the physical figures in the state that we're in and we have to do both at once so again Daniel you're you're the creative guy how do you turn your carpet metaphor into a wave equation maybe there's a subwoofer in the room or maybe somebody is um waving the carpet but what what you what you said about the um what is exchanged and what is um maybe the transfer is the classical component uh um oh I I don't know which one will be exchange or transfer but one of them is the classical inscription that's how many gigabytes were written or read to the hard drive but what's exchanged let's just say are the the semantics of meaning and given an appropriate co-preparation maybe only one bit needs to be for the exchange of a message that was already triggered to be set off and then also this entire discussion it it kind of strikes me as like the uh Cartesian duality of our time but rather than mind and body it's the physicality of information syntax and the metaphysicality of information and that's these kind of Two Worlds with their own physics and metaphysics that we're trying to connect and it's like similarly well is the information how does the information world cause something physical how does the physical cause something informational and I think that the entire Journey that the course and everyone is on is uh physics as information processing that those as a qualified and distinguished but minimum of two set Alexi yeah thank you so much uh can you hear me yeah I I I'm yeah Thinking Out Loud maybe but I I think the way to get closer to understanding in my head is to let go of the metaphor of asking a question right so if Alexis is talking to Daniel through zoom and I pose even a closed question up or down so I you know uh formulated the question and you know uh released it into Zoom space and then I'm silent and I opened my listening to your answer but you Daniel have agency to stay up or down I did not I do not have any effect on whether you will say up or down right and that's the difference so me asking you a question does not modify uh the answer you you decide Ellis talking to Bob Bob has the agency to answer the question not Alice and that that's where I'm stuck so I don't know if asking a question continues to be a good metaphor preparing preparing the instrument for measurement is is maybe better and and so but but actually Alice is not asking Bob Ellis is acting on a qubit right and qubit is is a simple thing that you know can can literally physically be up or down I guess and so that's that's maybe maybe that's the answer that Ellis does not ask involved Ellis does something to the qubit and because qubit can be up or down then that's no longer asking a question asking a question implies your your correspondent can can can tell you anything when we're dealing with the very sophisticated process of natural language question asking I think we're dealing we're dealing with something that that's orders um of composition above the Kinder the kind of binary ask so I I agree with that um it's almost like um Alice prepares the photoreceptor so it's slate is refreshed and then it's the photon or the light emitting object that has the agency to send the photon or not I mean maybe the measure the preparation occurs and then no one comes back to check whether or not agency was even exerted and I think when we really focus on like the Nano probe like Atomic Force microscopy really tracing with a super fine tip over the surface of something or scattering x-rays when we really think about the the um moment of information transfer we've realized like nothing comes for free and I think that this question asking framework other than really conveniently reads arrive in quantum mechanics in one hour incredibly helps us understand that we don't get to ask it for free in terms of time we don't get to ask it for free in terms of energy and we don't get to ask free floating questions with a question and or agentic responder are not involved already in a semantics so I think it's calling attention to um the components of an experiment or a question or an opening but agree that it's not always as simple as a binary question but in the special simple bazel case it does start there you want to look at any of the um the participant submitted questions if there was any that struck your face let me finish real quick I have like yeah maybe five minutes to wrap this up uh so and and this I think is going to at least in part answer one of Dean's concerns so the next thing we should uh very briefly cover so let's talk a little bit about you know holographic screens and also uh this is the paper on the physical media photographic principle so let's take a look at also this picture from that paper this is the holographic boundary and you know nine hours principle and all these thermodynamic constraints on information necessitate uh the breakdown of this boundary in terms of you know free energy extraction sectors memory sectors and so on and by the way if you if you read um the paragraphs around this picture there's more details on how the time qrf is is induced but we'll leave that as it is for now uh Dean what I meant by this answering your your concern your concern was that you don't see how Alice can take off her eyes from the picture yeah uh but that's precisely what's going on here right there's there's a sector that's being observed which is a subset of these keywords that are being observed but presumably she has the freedom to you know say hey this sector now I I declare as my observation sector please I declare as my memory sector this I declare us at my through my uh free energy extraction sector so it is because of this fundamental limits on the amount of information processing it is not true that she can she doesn't have a an unidealized you know you know laplacian if you wish um access to all the degrees of freedom she can only observe finally uh a final amount of stuff so so she she is forced to take her eyes off at least part of the system at least for a while right because otherwise you know all this energy and time constraints that Daniel was just mentioning you know they're not we you have to abide by those um so a few things that Chris mentioned in the last lecture when it came to this holographic screen is well number one uh we've got all the information exchange is mediated by bits uh here at the qubit at this holographic screen this in turn enforces um a finiteness in the information transfer if you wish there is not infinitely uh an infinite amount of information in finite space even if you were to pack it at planckian density which is presumably the limit that black holes achieve it's still a finite amount of information in a finite amount of so if you have Finance you are taking uh the other is the following um and again uh Chris will deal with this at greater detail in perhaps lecture five I think maybe four but it's the notion of emergence base time which is that a and b separately so you think of you know these are presumably the internal degrees of freedom what's going on inside of a Alice at an abstract level there may not be a notion of the space but you know notion of space emerges at the boundary and uh that's uh not easy to explain I think presumably has to do with and stuff like um and I don't know the full details myself but but for now that's that's one of the key things that that Chris mentioned which is that an agent you know may not have a space but he may emerge honorary the last thing and I'm glad that to see that this was mentioned already so it saves us time I don't have to say it again take us a minute this five months at least you can answer if you're can you just turn off your video under just so you don't have lag yeah one second yes this notion of uh refinement diagrams right what is this whole thing about unitary Evolution or preparation the the scattering picture as Alice preparing at the director of her boundary right and writing it into her memory measuring it at some point in future right requires that you consider the possible that happened to that preparation okay so if there's some amount of time passes you're prepared you know your data time T you look at it again at time t plus DT you have to take into account all the possible histories it's just saying I prepared it here now it's up to B what happens until the next time I look at it up to the environment so I I have to in in that unitary Evolution I consider all the possibilities right and that's that's exactly you know the requirement so let's just look at the computer leave it there for now no we can open up the discussion so there's two things that are now where was this yeah so uh-huh go ahead yeah so all I was I'll I understand or I think I understand I think I understand that if I'm looking at on or if I'm attending to on I'm not looking it off what what I saw in that wave thing with vitamin was I could also be looking at the switch where the two different places of on and off exist and when I'm looking at the entire switch I'm not looking at one or the other I'm looking at the at that basal as Daniel described that basal opportunity of both and and I think that on that I don't know how that ties in with reference frames but on that level that says I'm now looking at all possible in that moment I don't think at least from that perspective that reference frame I'm zooming into a on or off binary Choice decision Branch I'm I'm still at that place where the preparation allows for for both I'm not I'm literally not taking my eyes off at that place so again I'm not arguing with you because I what you describe and then and the image that you brought up all that is is bringing it down to a granular level and saying if I'm paying attention to this I can't be paying attention to that but if I from a transfer perspective back up so that I can see both both possibilities at once I don't know that I'm taking my eye off of either that's that's the only thing that I was bringing up now of course Chris will probably hear this and go Dean you got to go and rethink this whole thing through which is great because I'm here to learn but that's again if I if I miss if I miss spoke about what I was trying to say it wasn't because I I don't see those moments when I'm I'm directing my my preparation over here and that's going to give me one kind of measurement versus if I'm taking a larger time frame and now or larger spatial frame or larger holographic screen like I don't even know how to describe it because I just don't have the words for it yet but there you go I just want to be clear that I'm not I don't think I'm confused I just want to know the difference between when I'm looking at on or off and when I'm looking at the entire switch that's all I'll add one point on this slide it goes back to some of the earliest points that Chris made about the ontological Primacy of communication space and time arise from communicating agents communicating agents are not something that we have to squeeze into an a priori spatial Temple framework so quantum mechanics saying here on the slide is about measurement not mechanical motion so we don't need to wait around or speculate as to how from the quote mechanical or physical hard drive measurement arises or happens we start with the measurements occurring and then different kinds of sophisticated agents can conceptualize of movements through spaces and times and this also relates to Bayesian mechanics as a mechanics and a physics of movement on information geometric spaces and so the physics can be projected by appropriately prepared agents but we don't necessarily need to wonder about how that agent fits within a mechanical setting and I guess this is where humans are with the I am a strange Loop girdle Escher Bach gripper and gripped mystery of being able to to see it multiple ways Audrey do you want to go to the um questions yeah let me just say using remarks here I think what Chris is uh punch in line of the paper uh free energy principle for Quantum systems which is you know morally speaking it's similar to relative relaxation to thermodynamical equilibrium which is that if you have an isolated bipartite Quantum system A and B are gonna turn um are going to tend towards reference Frame Alignment under for entanglement and this these two things are are basically very intimately related by aligning the reference frames you'll get a and b will be driven towards maximal entanglement so uh should I uh take a look at the questions and open this yeah so so uh if you guys have access to the Q a ah there's been many more questions in the last you know bringing you guys attention to a few of them uh this is where Chris links uh to the papers of rubelli which I mentioned earlier in passing when we were talking about the preparation measurement cycle and the notion of thermal time or uh you know subjective time if you wish somebody Brew out this remark that you know performing some calculations here you can relate T time to a change in a change in the volume of phase space or you know more precisely the the amount of available states in the state space you know with a log and whatever uh with respect to the energy right and you know so so this you know restates the the idea that we're talking about earlier right like your intrinsic uh subjective time being basically speaking that is uh Observer dependent so that's a a good question to uh take a look at there's another one what is what is meant by local free of choice uh this is a very good answer too local here means that some boundary right isolated uh systems are idealized by you know definition there's always going to be an observer interacting with an environment so a nice purely isolated system is an idealization so a local free choice means here is exactly what we said earlier right that you get to choose the spin access at the boundary I mean there were some nice questions relating Mark of blankets to the scattering picture uh so this one for instance it's also worth a look so somebody you know brought up this you very good point about the scattering Matrix the scattering Matrix is by the way you know let's not think about it mathematically just uh let's think about the picture right you you imagine two particles that are interacting far away they are free right they are specially separated on interacting free particles yeah and somehow at some point they come to interact right and then you have to write all the final diagrams for all the exchange of bosons or whatever the interaction is and and that's how you would compute the amplitudes for the scattering process right how those two particles that were you know separated came to interact and then they go off to Infinity again uh Chris here brings up the point that in a sense how you define a mark of blanket is you know in the opposite direction right you see micro blanket in at least in the graph Theory sense you start with a node and micro blanket is just the set of nodes that separate in terms of conditional probability that node from everyone else right and then you can have edges which are going to be directly uh causal networks so as you click no no Cycles directed edges that's that's how the graph looks and you you build up so essentially you're taking the opposite um picture right you start with a node which in this case would be the interaction and then you build up to Infinity as opposed to in the scattering picture which is like you start with particles non-interacting at Infinity let me see how they go off to Infinity again and then the interaction is is in the middle uh So that obviously the answer is is a bit more uh precise but it's it's worth taking a look at this is it an interesting one too of a symmetrical input output y bandwidth so again if you think of it as a graph nothing is constraining you to say that you're going to have more incoming errors than outcoming errors into the boundary right that that's just the way it is you know if you think of it a graph there is no symmetry imposed the only natural sense of symmetry would be energy conservation and that's exactly what you know Chris says here right which is that and I'm not sure myself how you relate it to a conservation of not quite information I I wouldn't know how to fix it myself I would just take a look at the question but basically you know there's a priority nothing that necessitates symmetry in input output in Market blankets but if you are to talk about any sort of symmetry the natural language would not be in terms of incoming versus outcome in errors but rather energy conservation which we we saw is is you know a closed cost enough information transfer right because of the minimal requirements for Action to rewrite a qubit and the last question that I would like to bring your you guys's attention to I mean all of them are great uh but we have finite resources and finite times on internet uh would be would be uh this one okay and I'm not gonna go into too much detail but this is again about the local wait no one second so turn on my camera by the way Daniel go for it and also people people can see all the questions on the website right and submit their own as well yes for sure uh so and now I lost track of the question that I wanted to show you guys I think it's this one over here yes uh yes exactly this one so by the way all of them are good even this one the holographic principle doesn't make it easier to compute any physics problems well please take a look at Chris's answer but all I can say is that this ideas of holography I'm not an expert I'm not a condensed matter physicist but they're they're used all over physics nowadays not necessarily just in high energy uh I know that condensed matter theorists use them all the time so the answer to this is an emphatic yes the holographic at least adhcft is used all over but again I'm not a physicist myself so this is the last question I want to do bring your attention to and uh here Chris uh this this may be the one worth taking a look at in terms of uh in order to answer all uh you know the earlier speculations that we had about time internal clock here somebody asks about synchrony you know just the perception of time with respect to external clocks I suppose increase here answers that at the end of the day any even if you're using an external clock everything that you perceive outside at the end of the day has to be in terms of an internal clock any information incoming you're gonna have to you know make causal sense of it you're gonna have to write it into a memory in terms of an internal clock so so you're never going to be able to eat so to speak increase your position of the passage of time by taking an external clock even if you think it's more precise than anything you have inside I think that's basically what his answer amounts to and this is morally related to you know all this Frame halting problem stuff where because I'm never as a system you're never going to give an infinitely precise you know I'm speaking very Loosely here an infinitely precise description or yourself you're you're never gonna morally speaking again that's that's what it amounts to you're never going to be able to outdo your internal clock by by trying to leverage something external like like you know an atomic clock that even if you think it's more precise at the end of the day your own subjective uh perception of information will depend on internal clocks so we can uh open up things and conclude in remarks and any other Alexi or Dean or anyone else who may have joined I don't have anything else to say at this point I mean where where or when are we we had Session One with a real big historical overview section two we focused on the measurability question which is answered with a question and we talked about some of the constraints of question asking namely that it takes time it takes energy you have to ask it to somebody or something on an interface and it has to have a semantic Quantum reference frame and this is dovetailing with a free energy principle of course because the free energy Principle as it says in the syllables to what does the free energy principle apply and Chris says everything measurable that's why it's a theory of every thing that we choose to measure model not ontological statements about what is and then where are we heading into in session three have you looked ahead under or do you want me to read what's in the syllabus uh please do yeah yeah I think basically uh my short answer to that and possibly my full answer also is that it's just going to take care of the loose hands in this lecture too so this lecture too is a warm up to the to the real thing which we need to talk more seriously about reference friends to to in order to get the precise a picture of this Quantum measurement process yeah yeah it says that session three will introduce the idea of quantum reference frames and the representation using hierarchies of binary classifiers these formal structures provide a semantics for measurement and hence provide the basis for a theory of meaning for interacting agents the language of qrfs allows a particularly straightforward and intuitive definition of variational free energy and so allows a fully General Quantum formulation of the fep we will see that the fpp is a classical limit on the principle of unitarity the fundamental principle of quantum theory uh by the way uh Daniel can I I'm not sure if you're busy but I just got an email from Chris I think he may be watching us and I think he's just confused about the link so Chris I don't know if you're there still but do you think it's worth it can we send him the link real quick if you can come for a few yeah I'll I'll send Chris the um the zoom link now so yeah hold on to your qubit Chris we're coming so let's let's give him a few minutes maybe he's still watching and he'll he'll answer the questions better than I could well well Daniel is sending him sending him a Lifeline can I just from the from the the rookie perspective on this Session One seemed like there was a big time window like the historical piece over using an external clock and a timeline this one felt like the parabola and the up or down and the entanglement was almost instantaneous in terms of that plank length that we were really holding up as comparative to that timeline that chronological timeline and so I'm guessing that now that we've established those two as different where does that go but again that's just the rookies view of things hey Chris welcome yeah hi this is a very interesting discussion um and it it's uh given me some pointers as to what to emphasize at the beginning of session three uh but I I can say in response to Dean's question that the time when Alice isn't looking is the time during which Bob is making his measurement and then his next preparation step so if you if you consider again that slide that shows uh sort of the Feynman representation of what's Happening as this unitary flow that's what Bob is doing and I think Andrew said that oh from Alice's point of view Bob is just some Quantum system and she's banged on that system by asking a and now that system is doing something or other that she can't see until it it I.E Bob bangs on his side of the screen and she gets some information by making a measurement oh so she she may be not looking for a very short period of time oh right according to her internal clock she's not looking for just the time it takes for one of her internal ticks to take place but uh in in general oh we're not saying anything about how long that time is right if you think of this in a scattering Theory way oh then we're talking about the time between two protons leaving the Rings on the uh Large Hadron Collider to the time that all the stuff that comes out of their Collision is measured by the detectors which is a nanosecond or something like that some very short period of time so just just think of that interval as the measure of the intrinsic uh time dependence external time dependence of the interaction someone has to do something and then someone else has to do something and there's a gap between what the first person does and what they see in response oh let's see what's the other question uh the the other central question that came up today was the question of why observing something requires action and of course in the in the classical picture observing something doesn't require any action at all the the event just happens and this is the the fundamental if you will distinction between classical and is that making an observation in in quantitory is taking an action on the world and there's a lovely metaphor that's that's not correct in detail but it's it's very useful I think conceptually uh which Heisenberg came up with to try to explain his uncertainty principle too his classical colleagues they said look suppose I'm trying to to see a very small particle and measure its motion uh I have to have a microscope to see this particle and to measure its motion I need to to light it up and shine some light on it and those photons of light are actually impacting the thing I'm trying to see so the the act of observation itself requires banging something into an object uh and uh when we're just looking out at the world it's the sun that's banging the light into the object not us but we can we can sort of merge those two systems together because it's the sun that's taking the action that lets us get some information that the sun is perturbing the things that we're looking at by banging photons into them and I think that that picture of of Heisenberg's is what uh he used to to actually derive the uncertainty principle in terms of momentum and uh position because banging something into something is transferring momentum to it photons transverse of momentum to the tiny particle in the microscope and that perturbs its position on the microscope stage which is precisely what Heisenberg is trying to measure so that's his his point in that analogy observation itself always takes action and that's why observation and and preparation are duels and quantum theory because they each require a minimum one unit of action and I think Andrew you said the The Duality can be thought of in terms of time and variance and that's exactly correct preparations just measurement run backwards right and vice versa and if you let me say a few words I think this also answers my own confusion and the one that Alexi the question that Alexi post earlier which is this Duality between preparation and measurement in your picture that you're bringing up Chris with a Heisenberg by shining photons on a particle that I'm trying to observe um these pictures of preparation and measurement are dual because in in doing so I'm constraining the system in trying to measure it I'm constraining it so it's so in in me trying to gather information by shining photos on it what I'm really doing is I'm constraining it I'm just saying you can only take this this you know momenta or or position is is would that be correct of yeah in fact your in the microscope example it's particularly clear you're you're bouncing a photon off of the object and then it's that Photon that you're detecting right oh there there was one other question that uh can be answered quickly it was the question about uh what's the yeah uh Alice is using when she's uh measuring up or down measuring her spin up or down and of course they're they're several reference frames involved here uh so let's work inwards uh in a real system Alice is sitting here she's got a Stern gerlock apparatus which is a vertical magnet apparatus and she's measuring the spin of an electron that's that's traveling through this Stern gerlock device and what the certain gurlock device does is is Orient the spin uh with a magnetic field that's that's not homogeneous so it ends up pointing physically up uh as it comes through the apparatus how is that apparatus oriented I mean what defines the up direction for that apparatus well in the Practical setting what defines that apparatus orientation is the Earth's gravitational field right we're sitting we're in we're here in the laboratory and the Earth's gravitational field tells us what direction is down it's toward the center of the Earth and so up is away from the center of the earth and that's what defines the axis for the apparatus which is a great big piece of metal so it's very responsive to the gravitational field so now we can ask about Alice right Alice is also embedded in this gravitational field and she also can detect the gravitational field she can tell which way is down toward the center of the Earth by the the force acting on her feet and that measurement is taking place in Alice's brain so in Alice's brain there's a representation of which way is up and that's the internal reference frame of Alice that lets her do the experiment you know if she was freely floating in but the apparatus was anchored to the she wouldn't be able to tell that it was anchored to the gravitational field that's Einstein's the point that Einstein makes in all of those experiments where he has observers flying around in spacecraft uh that they have to have their own oh what what Einstein didn't emphasize was that reference frame is in their head it's encoded by their nervous system oh so uh I I think it was Daniel who said this exactly correctly that uh the physical object uh in her head that the actual neural network that tells her which way the gravitational field is uh is itself a semantic object I mean that's that's what gives the word up and down meaning for Alice and what is what is what do I mean when I say the word meaning I mean it lets her take some action semantics boils down to actionability if it gives things significance and this this was the point that that Bateson was making when he said differences that make a difference uh for a for an organism something is Meaningful if it actually makes a difference for what I can do uh in this world that I'm trying to survive in oh so I'll I'll leave it at that but this is this is very very useful for uh leading off the next session so thank you very much for for all of that awesome thank you I guess if I could say one thing here is that let me scroll back up to the three points early in the night would tell you that you require action to to perturb the system and measure and then the semantics or the contextuality that may be encoded in in the in the nervous system would tell you what is the difference that it's being made would that be correct yeah right what what tells you that there's a difference there it's it's what what you're able to detect and represent internally oh it's almost like step one do differently step two you have to ask it to a different thing and then three you need the semantic frame that makes a and b different differences all the way down um well we will transcribe this and fix the few patchy moments enter we'll work together on updating the transcript so that everybody who wants to be well prepared for the measurement of the third lecture will be absolutely in place thank you Chris for joining that's a fun fun cap to this discussion so all right thank you see you all next time bye</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24_Danceability As An Approximate Measure Of Groove Collective - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>24_Danceability As An Approximate Measure Of Groove Collective</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>24_Danceability As An Approximate Measure Of Groove Collective</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>"Danceability as an Approximate Measure of Groove Collective Synchrony Through Music"</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=-39CESDAfLM">YouTube</a>
+<strong>Playlist</strong>: 4th Applied Active Inference Symposium (2024)
+<strong>Duration</strong>: 33:33 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>all right that has concluded the live presentations section of the Symposium I'm now going to play the pre-recorded videos so one second to rearrange get it in position now we'll continue with the pre-recorded videos hopefully all of them concatenated into the next few hours okay this talk is by Leonardo MOA Rodriguez Groove as the musical glue for social bonding ladies and gentlemen hello welcome to today's talk on Groove as a musical glue for social bonding my name is Leonardo Mula Rodriguez I'm a PhD student at Center and this is a neuroscientific and crosscultural perspective now I'm a bit self-conscious by the fact that the only audio you'll be hearing today is my voice no music but do books sing No we're doing a deep dive into the scientific literature not musical theater maybe musical theater in the future of uh my active inference why my my name is Lear Müller Rodriguez I'm a PhD student at the Cambridge Institute for music therapy Research Center and my focus is on sleep music four dimensions and if you cous how does this tie in with danceability where it relates to musical entrainment U more specifically slow beats I'm also a composer music produc producer and musician so how this groove Foster social bonding there's a little outline of today's presentation Groove and his relationship to Spotify stability the Neuroscience of it the social bonding the crosscultural aspect flow States in music what musical features Define Groove an active inference application of GrooVe and a l update to Spotify uh suggestion so what is Groo in essence it's the Apex of an inverted u-shape relationship between rhythmic complexity and grooviness so and pleasure if you uh grooviness is at a moderate level of um rhythmic complexity which is um rhythmic complexity is if you use the musical term syncopation is the amount to which the Rhythm deviates from the meter or the beat or alternatively you can think of um the tempo the beat is a Tempo and it relates to how certain you have your predictions of that Rhythm so Groove is a pleasurable sensation sensation of wanting to move the body to music driven by rhythmic patterns that balance predictability and surprise here's another study looking at the same thing and we'll see into the Neuroscience in a bit that proves this now spotify's danceability is a measure they use and they Define it as so we don't have the the actual computation that they do it's the suitability of a track for dancing based on a combination a unknown combination unless you work at Spotify of tempo Rhythm stability beat strength or pulse Clarity and overall regularity and this data sets um someone put this on on reddits and they've looked at a million tracks and like okay you beat me in terms of data set um and so they've categorized all the musical genres several musical genres in terms of uh as a function of dance ability and based on the discussion and it makes sense um on Reddit it's more about rhythmic Simplicity seems to analyze because it's more more danceable music is techno deep house and then you have salsa music which is lower and people in the comments who are salsa Dan like what what is going on and especially metal heavy Rock or hard you know metal fans that were thinking like wait is comedy more dancable than my favorite wrer so they're a bit offended with that um at least sleep music makes sense that it's kind of low um yeah so it lacks this relationship between the complexity and predictability fun fact if you listen to all the million tracks it will take you 7 years and 9 months if you listen to it on 24/7 basis here's my data set I compared sleep soundtrack sleep playlists um that are either very popular on YouTube or that I've created my own self or playlist that I have millions of subscribers on Spotify to high energy music such as gy music that has this beast mode playlist has a mill 11 million uh subscribers so this regon uh music regon is a Latin popular dance music very popular 11 million and this has about 5 million and you see the dance ability is in general higher for this higher energy music compared to sleep music and here I compared veillance and high energy music is also more positive apparently uh sleep music is more negative anyway let's dive into the Neuroscience of it and here the main thing I want you to focus on is the fact that b perception is present in the brain and uh frequencies increase their strength at the onset of the pulse here there are different temp that were used or different speeds uh between pulses and as you see there's always an increase just after the uh pulse regardless of the tempo it happens all the time and it happens at the level of beta and Alpha brain waves and gamma brain waves these higher brain uh frequencies higher frequencies and um it activates these uh brain regions here and we'll go a bit more in detail but it seemed it's quite wide range and it turns out that we can call these the musical Rhythm brain Network because it makes use of the damic and rhythmic sorry the doer mintic reward system in the brain um for beat perception and positive effect of groovy music and this involves a supplementary motor area premotor area nearby the pmen as well as for pleasure and the urge to move to the music is the nucleus acaban and this connection to the medial orbital frontal cortex because we're talking about an auditory stimulus um auditory regions must be involved and uh the cereum also form fine motor movements turns out that musical Rhythm predictions and surprises are measurable in the bra in the brain on in two forms so the first one is about short-term habituation to a rhythm via repetition of a certain Rhythm and then the deviation from that the surprising change to that rhythm is seen here in this paper where this this measure called the mismatch negativity which measures prediction errors in relation to Rhythm deviations changes or Omission that you don't have that note that used to be in that Rhythm and the other form um of surprises and predictions is by the recruitment of long-term memory or uh we can talk about it in terms of implicit music theory syntactic knowledge where here regardless of you're being told in advance that there will be a non-traditional chord sequence um that will be played you will have this sort of mismatch negativity which is more specific because it recruits long-term memory here is called the electric respon in the auditory nerve era and um yes that's an interesting aspect um by traditionally I mean traditional music western music theory um for harmonies here again we just looking a bit deeper into this whereby beta waves we saw earlier and gamma waves The High Frequency waves we saw earlier in terms of beat perception are responsible for top down so the beliefs the predictions better and the updating the surprises um through the gamma high frequency um activity in the brain so another aspect of of music is that it's usually done in groups such as musical performance um appreciation music therapy or learning about music and turns out that music in groups synchronizes brains and this is called interpersonal brain synchrony and in addition it recruits the same musical Rhythm Network that we just saw with a you know a bit more broadening of it it has the amygdalin insula which is usually involved visceral um uh activity and more generally the prefrontal cortex the Moto areas uh you know could involve actually moving if you're performing and the basil gangli in general which incorporates all the dopaminergic reward system which nuclear acents uh and dopaminergic system Etc putam in Cate we saw that earlier now music the real function of Music beyond the auditory cheesecake that Stephen Pinker says it's not just pleasure not just reward systems it has to do with social bonding and building trust music is a participatory um activity and dancing actually is a way to participate without any musical virtuosity or even familiarity to the music this is why I call it embodied Democratic music participation open to all and fosters joy and social bonding and music strengthens this interact uh interactive rituals you can talk about it in terms of ritual and it's a social tool for enhancing uh groups so as as you can see here you start to predict you the Beats you see repetitive motions this induces Groove induces dancing to it and this enhances social bonding within this sort of you can frame it within an agent environment system more of a uh seeing others uh dance and move encourages dancing so this reinforces the social bonding aspect and this was examplified here where eyes open uh with low Tempo High Tempo High roof actually increases the collective movement um in a group of people listening to music and this is what they were measuring here with this cross wavelet and uh dance promotes also here interpersonal movement interaction promotes self other integration it enhances social cohesion through synchronized movements and more specifically moderate uh syncopation and low as well for Al there an implication for parkon disease low and moderate syncopation which is groovy music um does so as well it encourages self other inclusion Which social B and now we're talking about music The Groove and is it applicable to a crosscultural uh definition of Music well first there has been this is with Japanese music actually there has been an optimal Groove Tempo range identified um which seems to be a u inverted u-shape relationship non linear relationship with Tempo is this seems to be from 107 to 126 B BPM beats per minute uh Tempo and The evolutionary interpretation for this is the fact that it's near 120 BPM which is the optimal tempo for walking and dancing so this is where Groove might come into sensory motor synchronization is most optimal in that around 120 BPM um and there are also universals crosscultural universals of Music which has been identified using statistics um and the main aspects that are crosscultural is Beats dancing making music in group percussion repetitive melodic sequences these are musical features that are Universal just going a bit deeper into this they used a music for all around these spots it's quite a geographically varied data set although only 34 recordings you know there's millions of music but I think it's a nice General generalization we make based on the Black Box the black box here are musical features that are at least 50% uh shared in globally and the most uh which are the most you know the whiteness as is shared um the most share of the beat subdivisions by binary tary subdivisions or scales that have up to seven notes so this is interesting and this was controlled phenetically meaning that this ensure that the these musical patterns and associations are not solely due to Shared cultural or evolutionary histories another aspect that is crosscultural are musical bodily Sensations and emotions what I want you to focus on here is this correlation they asked um Asian participants 5 500 people and Western participants 500 people to associate emotional labels to musical features and there's a very strong correlation 094 uh between these so there's a sort of crosscultural aspect here obviously it's not all cultures maybe African Latin and uh Middle Eastern cultures do feel differently but here's just a Latin um influence that's indeed instrumental sinking in syn pated music which is uh groovy music which here was Samba um encourages the urge to dance so Groove at least is present in Latin American music now musical flow is not restricted to groove what is flow flow is a state of absorption total absorption in an activity in other words the feeling of losing yourself in the moment uh flow state is usually characterized as a state of emotional resilience against traa and here emotional expressivity is one of those not Groove uh uh musical features that induces musical flow and here the two uh main things I want you to focus on is the blue um histograms which are state of flow here were performers piano performers and this is a musical feature and so there was higher flow during swelling dynamics of crescendos that which is volume um uh fluctuations as well as um repetition of um Melodies and not only just any Melodies but stepwise Melodies that are not too far apart in terms of distance on the keyboard uh or in terms of notes so the closer they are blue is again flate the closer they are the The Melodies the more flow and juicing they provoke um another musical element that provokes flow that is not Groove is the narrative Arc storytelling emotional Journeys in music and this interesting paper by colleague Annie hesit identified stages emotional stages of the heroes Journey which is a a narrative Arc found in myths films popular films yeah in stories narratives in general they've identified emotional stages of the hero's journey in patients and clients specifically in this case was eating disorders but applying to just more generally undergoing music therapy so most they were look they were doing guided imagery with music which is a type of music therapy and depending what they're saying the clients these themes were identifiable within this uh the heroes Journey narrative Arc so that's very interesting um and this is very important for music therapists because this uh informs further the scanning aspect that they usually do in gim which is that they try to identify using the music where is the emotional stage that the client and the therapist should start their um work emotional work and so this is actually a emotional Journeys are actually a concept that is applied by DJs they usually talk about energy arcs for their DJ sets um and it's also very prevalent in film soundtracks um you know film soundtracks are using so music is being used to guide the emotional journey of the audience now flow as neural entrainment I think it's neural entrainment is evident for beat perception we've seen it several times here's more evidence like accurate beat perception increases neural entrainment here is just saying that beat sensitivity uh there's a sort of tempor range where this sensory motor synchronization decreases uh with very slow Tempe um but here again be perception this the beat is being um being identified in a neural activity and even if you imagine certain rhythms these frequencies appear also in the brain activity so neuron training with beat perception is clear but how about for emotional expressivity and um emotional Journeys well this study um reconstructed the music that was listened to by the uh participants from their neural patterns it was a combination of EG and fmri a technique that made use of EG and fmri and and deep neural networks to reconstruct the music based on the neural activity and you can see that not only very impressively resembles quite a lot in terms of spectrogram information but obviously there's not just Rhythm activity or yeah Rhythm information that's being displayed there's more there's frequency activity so this takes us to this study that demonstrated that spectral flux is actually the most um accurate measure for neural entrainment to music and you can see this with this red line is the highest correlation um and with neural entrainment and in addition they've uh demonstrated that it is a metric that encompasses amplitude Envelope as well as beats they they have mutual information here and spectral flux or spectral novelty is called is a measure me of Novel energy increases in the frequency spectrum um so this an interesting aspect now nevertheless as you can see other strong neural synchronization musical features um in addition to spectral flux are Tempo range so uh roughly as you can see here with the orange uh line 60 to 120 BPM uh High familiarity with the music and post CL wey to perceive the Beats so let's keep it simple what are the groove's musical features two things moderate rhythmic complexity within an optimal range of around the walking tempo of humans um this these two Encompass most of these characteristics syncopation Tempo micro timing event density this has to do with and even beat sence has to do with rmic complex complex soap of attack is a variant of beat saliency a low frequency band is the base enhances um dancing uh volume and then this is the core progression and that now keep in mind that sensory motor synchronization is not limited to this uh Groove Tempo range the sensory motor uh synchronization Tempo range is shown to be between 60 to 180 BPM below Above This the sensory motor synchronization which is usually finger tapping or dancing to the beat decreases um which is probably linked to biomechanical reasons um however probably training increases your capacity to do so uh to synchronize however the beat perception still can occur Beyond those uh temp this Tempo range uh I recommend watching this YouTube video by Adam NE which uh goes into this uh the extremes of be perception let's apply active inference into Groove but first before we do that we need to understand that the brain is constantly generating predictions about how the world Works in order to minimize the uncertainty about how the world Works two the brain is a lay thing and it balances top down and bottom up influences where higher layers send beliefs about the world down to lower sensory layers which the sensory layers as we can see here um actually send back up sensory stimuli to adjust the uh beliefs through the mechanism of minimization of prediction errors or minimization of free energy now talk about groove groove balances confid prediction uh confident predictions with surprise about the Rhythm uh just reminding you it is an optimal playing with belief updating about musical rhythms now listening to groove is accessible to groups of people and therefore can become a shared stimulus for motor and emotional synchrony and therefore under the active inference uh framework um generates generalized synchrony uh which means that people have shared World models the listeners have shared World models and this is depicted here um uh with this quote it say neither a model of my behavior or your behavior but a model of our Behavior quote by friston um and generalized synchrony actually requires flexibility in terms of your higher uh beliefs um and because you're trying to model uh flexibly your Collective identity and Collective behavior and because of this and the social bonding aspect I place musical groove on the spectrum of the Rebus hypoth hypothesis which is a relaxed belief under psychedelics meaning that it's not as the the flattening of the free energy landscape is not as Extreme as psychedelics are supposed to do but musical Groove can achieve this through the the social bonding so dancing to the same music not only increases trust and social bonding but it also allows for individual creativity compare an expert dancer and a novel dancer um a novice dancer and an expert won't be having motor mimicry but they will be sharing emotional s and this uh provides the mechanism for trust and bonding while considering uh creativity of individuals and you can make use of a Federated belief multi-person system um model Groove as the shared marginal likelihood that people nonverbally communicate um so because idiosyncratic dance moves have been shown to even increase more uh the social bonding and Trust I encourage you next time to take the risk and bust on some moves on the on the dance for all right so what are what I want you to consider right now is the current models of the context that encourages dancing yes they say musical properties they have temporal predictions that you can do induces pleasure induces arousal and together with regularity Chris urged to move to the music and um this will generate motor planning or policy generation under the active inference uh framework and and this desire to move and in training um body movements creat social connection but I like to add a bit more to this in terms of contextual factors based on the literature review we're presenting today this is a hypothetical contextual Factor um framework for dance ability um basically Groove is the mechanism for uh dancing but there are several contextual layers that people individuals might need to cover um before starting to dance for instance I have two example individuals a white individual here this white uh Arrow who requires um seeing other people seeing their friends to before starting to move whereas this red individual just requires to feel a change in emotions to start wanting to move and these layers uh have a nonlinear relationship with the group meaning that uh your entry level contextual entry level to start dancing um might be seeing a friend starting to dance and you might not need familiarity with the music to start dancing to start connecting to the groove uh whereas DJs sometimes make use of familiar music in their DJ sets to encourage people to start dancing they say getting those first three people to dance is always the most difficult part and uh once you have them the crowd joins and you have a crowd dancing so this was modeled with a reduction of entropy to do it relatively simply uh whereby depending on the distance to the groove there's a higher um entropy level that has a nonlinear relationship uh with grooving and K has is based on personality and the relationship between each layer there's another way of conceptualizing this as a the gravity of GrooVe the layers uh are done like this so implications for spotify's danceability we saw that is more likely has to do with rhythmic complexity comedy is more dancable than uh Blues apparently or or heavy metal headbanging is not as you know dancing as as laughing veence as well the most joyful music seems to be as Sala and the less joyful music is sleep maybe Spotify is inspired by uh the rapper Nas who has a lyric saying sleep is a cousin of death so let's go beyond this and uh and uh on Rhythm and Tempo and incorporate what we've been seeing today into dance ability so if you want to generate the formula that goes beyond theability unkknown equation which is most likely rithmic Simplicity we convert uh we Sorry first uh I want to point you to this study which asked musicians to perform groovy music uh with simple and complex M Melodies and they show that there's about 30% occurrence of fast notes uh specifically 16th notes um when people perform groovy music and this was also confirmed in terms of listeners saying yeah that's groovy um and so here I've just uh used the optimal Groove range and transformed it into seconds so you can have an idea and ah too quick for Spotify they can't no I'm just kidding uh you get to see the the the equation um so what I've done is I made use of uh spectral flux which is this spectral novelty makes use of for transform and then logarithmic compression to enhance uh weakened spectral components and then you compute the difference between time frames in terms of positive energy increases and so the measures positive increases in Energy Event density is another measure that's been used in these studies and it's a number of events onsets per a Time window so here's a Groove uh formula I suggest which is open to to your feedback um which is 30% of energy onsets uh that is in the 16th of a note um time window um divided by a measure that's dependent on the tempo and a measure is four times a beat because most music is on 4x4 meter music so I want to give you this quote dance is an energetic mode of participation for a large population regardless of age familiarity with music or instrumental singing virtuosity to summarize we found that Groove is a musical mechanism for social bonding through movement and therefore through movement is danceability right and we can make use of the active inference to model grp as a musical mechan mechanism for generalized synchrony even uh as Federated beliefs to um model individual creativity further Works um would encourage the usage of uh um other social bonding metrics in music such as group singing uh chanting is seen around rituals around the world and this has implications for group music therapy life performances and team building music recommend assist sys Etc so please do comp contact me I'm open to collaborate for this uh Groove um projects and discuss any of your ideas uh we could discuss about musical uh uh you know exchange music if you want and I just want to show here my YouTube channel which explores thanks to the YouTube channel I've actually learned how active inference works you know they say teaching is the best way of memorizing and in here for instance I made explored Chris Field's um work in the active inference with the holographic boundary um for social interactions which is which could also be a a further uh direction of of trying to to conceptualize musical Groove in that manner but shared marginal likelihood is probably very effective as well uh thank you so much please do ask me for the references um I will send them they have been sent or yeah I should be on the chat by way asking answering some questions thank you very much for your time see you very soon byebye thanks</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

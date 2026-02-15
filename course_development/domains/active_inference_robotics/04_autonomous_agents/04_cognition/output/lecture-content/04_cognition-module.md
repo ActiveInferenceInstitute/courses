@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Cognition**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Cognition**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between Perception and Action.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Cognition drive the perception-action loop?
 ## Applications
 
 In Robotics, we see Cognition manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A self-driving vehicle's prediction module implements cognition by maintaining generative models of all detected traffic participants (pedestrians, cyclists, other vehicles), propagating their believed states forward in time to predict future trajectories over a 6-second horizon; the cognitive system evaluates multiple hypotheses for each agent's intent (e.g., "the pedestrian will cross" vs. "the pedestrian will wait") and maintains a belief distribution over these hypotheses, updating it as new observations arrive -- this multi-agent predictive cognition is essential for safe autonomous navigation in dense urban environments.
+*   **Specific Example 2**: An autonomous exploration rover maintains a cognitive map using a topological-metric hybrid representation where high-level place nodes (topological) are connected by traversability edges annotated with metric cost estimates; when the rover encounters a blocked path, its cognitive system does not merely re-plan locally but updates its global beliefs about environment connectivity, propagating the new information through the topological graph to assess whether alternative routes exist -- this is inference over a hierarchical generative model that separates spatial reasoning (topology) from geometric detail (metric maps).
 
 ## Conclusion
 
 Understanding Cognition allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

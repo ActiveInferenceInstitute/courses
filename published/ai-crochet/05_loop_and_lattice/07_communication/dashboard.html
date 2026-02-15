@@ -1,249 +1,512 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard: Communication — Loop And Lattice</title>
     <style>
         :root {
-            --accent: #38bdf8;
-            --accent-glow: #38bdf822;
+            --a: #38bdf8;
+            --ag: #38bdf822;
             --bg: #0f172a;
-            --card: #1e293b;
-            --border: #334155;
-            --text: #e2e8f0;
-            --muted: #94a3b8;
-            --dim: #64748b;
-            --green: #22c55e;
-            --red: #ef4444;
+            --c: #1e293b;
+            --bd: #334155;
+            --t: #e2e8f0;
+            --m: #94a3b8;
+            --d: #64748b;
+            --g: #22c55e;
+            --r: #ef4444
         }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
 
-        /* Hero */
-        .hero { background:linear-gradient(135deg, #6366f1, #a855f7); padding:48px 24px 36px; text-align:center; }
-        .hero h1 { font-size:2rem; color:#fff; margin-bottom:8px; }
-        .hero .sub { font-size:1.1rem; color:rgba(255,255,255,.85); margin-bottom:12px; }
-        .hero .tag { display:inline-block; background:rgba(255,255,255,.2); color:#fff; padding:4px 14px; border-radius:20px; font-size:.8rem; backdrop-filter:blur(4px); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
 
-        /* Nav */
-        .nav { display:flex; justify-content:center; gap:6px; flex-wrap:wrap; padding:14px 24px; background:#1a2332; border-bottom:1px solid var(--border); }
-        .nav a { color:var(--muted); text-decoration:none; font-size:.85rem; padding:6px 14px; border:1px solid var(--border); border-radius:8px; transition:all .2s; }
-        .nav a:hover,.nav a.active { color:var(--accent); border-color:var(--accent); background:var(--accent-glow); }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--t);
+            line-height: 1.6
+        }
 
-        .content { max-width:1100px; margin:0 auto; padding:24px; }
-        .stitle { color:var(--accent); font-size:1.25rem; margin:32px 0 16px; padding-bottom:8px; border-bottom:2px solid var(--border); }
-        .stitle:first-child { margin-top:0; }
+        .hero {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            padding: 48px 24px 36px;
+            text-align: center
+        }
 
-        /* Cards */
-        .cgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
-        .concept-card { background:var(--card); padding:20px; border-radius:12px; border:1px solid var(--border); cursor:pointer; transition:transform .2s,border-color .2s; }
-        .concept-card:hover { transform:translateY(-2px); border-color:var(--accent); }
-        .concept-card h3 { display:flex; justify-content:space-between; align-items:center; font-size:1rem; margin-bottom:8px; }
-        .concept-card h3 .toggle { font-size:1.2rem; color:var(--dim); transition:transform .3s; }
-        .concept-card.open h3 .toggle { transform:rotate(45deg); }
-        .concept-card .brief { color:var(--muted); font-size:.9rem; }
-        .concept-card .detail { display:none; color:var(--muted); font-size:.85rem; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); line-height:1.7; }
-        .concept-card.open .detail { display:block; }
-        .meter { background:var(--border); border-radius:8px; height:6px; overflow:hidden; margin-top:14px; }
-        .meter-fill { height:100%; border-radius:8px; background:linear-gradient(90deg,var(--accent),#38bdf888); transition:width 1s ease; }
-        .meter-label { color:var(--dim); font-size:.7rem; margin-top:4px; }
+        .hero h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 8px
+        }
 
-        /* Quiz */
-        .quiz-box { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
-        .qprog { color:var(--dim); font-size:.85rem; margin-bottom:12px; }
-        .qq { font-size:1rem; margin-bottom:16px; font-weight:500; }
-        .qbtn { background:rgba(255,255,255,.03); color:var(--text); border:1px solid var(--border); padding:12px 16px; border-radius:10px; cursor:pointer; display:block; width:100%; text-align:left; margin:6px 0; transition:all .2s; font-size:.9rem; }
-        .qbtn:hover:not(:disabled) { background:rgba(255,255,255,.08); border-color:var(--accent); }
-        .qbtn.correct { background:#166534; border-color:var(--green); color:#bbf7d0; }
-        .qbtn.wrong { background:#7f1d1d; border-color:var(--red); color:#fecaca; }
-        .qbtn:disabled { cursor:default; opacity:.85; }
-        .qexp { margin-top:12px; padding:12px; border-radius:10px; font-size:.9rem; display:none; animation:fadeIn .3s; }
-        @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
-        .qnav { display:flex; gap:8px; margin-top:16px; }
-        .qnav button { background:rgba(255,255,255,.05); color:var(--text); border:1px solid var(--border); padding:8px 18px; border-radius:8px; cursor:pointer; transition:all .2s; font-size:.85rem; }
-        .qnav button:hover:not(:disabled) { border-color:var(--accent); color:var(--accent); }
-        .qnav button:disabled { opacity:.3; cursor:default; }
-        #score-box { display:none; margin-top:16px; padding:20px; background:rgba(0,0,0,.2); border-radius:12px; text-align:center; animation:fadeIn .5s; }
+        .hero .sub {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, .85)
+        }
 
-        /* Checklist */
-        .cklist { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
-        .cklist label { display:flex; align-items:flex-start; gap:10px; padding:8px 0; color:var(--muted); font-size:.9rem; cursor:pointer; transition:color .2s; }
-        .cklist label:hover { color:var(--text); }
-        .cklist input[type=checkbox] { margin-top:3px; accent-color:var(--accent); width:18px; height:18px; flex-shrink:0; }
-        .cklist .done { color:var(--accent); text-decoration:line-through; opacity:.7; }
-        .pbar { background:var(--border); border-radius:8px; height:8px; overflow:hidden; margin-top:16px; }
-        .pfill { height:100%; border-radius:8px; background:var(--accent); transition:width .5s ease; width:0; }
-        .ptxt { color:var(--dim); font-size:.8rem; margin-top:6px; }
+        .hero .tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, .2);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: .8rem
+        }
 
-        /* Module nav */
-        .mnav { background:var(--card); padding:24px; border-radius:12px; border:1px solid var(--border); }
-        .mgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
-        .module-link { display:block; padding:14px; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:var(--muted); text-decoration:none; font-size:.85rem; transition:all .2s; }
-        .module-link:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
-        .module-link.current { border-color:var(--accent); background:var(--accent-glow); }
-        .module-link strong { display:block; color:var(--text); margin-bottom:2px; font-size:.9rem; }
-        .module-link.current strong { color:var(--accent); }
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            padding: 14px 24px;
+            background: #1a2332;
+            border-bottom: 1px solid var(--bd)
+        }
 
-        footer { margin-top:48px; padding:24px; text-align:center; color:var(--dim); font-size:.8rem; border-top:1px solid var(--border); }
-        @media(max-width:600px) { .hero h1{font-size:1.5rem;} .cgrid,.mgrid{grid-template-columns:1fr;} .content{padding:16px;} }
+        .nav a {
+            color: var(--m);
+            text-decoration: none;
+            font-size: .85rem;
+            padding: 6px 14px;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+            transition: all .2s
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: var(--a);
+            border-color: var(--a);
+            background: var(--ag)
+        }
+
+        .ct {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px
+        }
+
+        .st {
+            color: var(--a);
+            font-size: 1.25rem;
+            margin: 32px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--bd)
+        }
+
+        .st:first-child {
+            margin-top: 0
+        }
+
+        .cg {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px
+        }
+
+        .cc {
+            background: var(--c);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--bd);
+            cursor: pointer;
+            transition: transform .2s, border-color .2s
+        }
+
+        .cc:hover {
+            transform: translateY(-2px);
+            border-color: var(--a)
+        }
+
+        .cc h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+            margin-bottom: 8px
+        }
+
+        .cc h3 .tg {
+            font-size: 1.2rem;
+            color: var(--d);
+            transition: transform .3s
+        }
+
+        .cc.open h3 .tg {
+            transform: rotate(45deg)
+        }
+
+        .cc .b {
+            color: var(--m);
+            font-size: .9rem
+        }
+
+        .cc .dt {
+            display: none;
+            color: var(--m);
+            font-size: .85rem;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--bd);
+            line-height: 1.7
+        }
+
+        .cc.open .dt {
+            display: block
+        }
+
+        .mt {
+            background: var(--bd);
+            border-radius: 8px;
+            height: 6px;
+            overflow: hidden;
+            margin-top: 14px
+        }
+
+        .mf {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, var(--a), #38bdf888);
+            transition: width 1s
+        }
+
+        .ml {
+            color: var(--d);
+            font-size: .7rem;
+            margin-top: 4px
+        }
+
+        .qb {
+            background: var(--c);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--bd)
+        }
+
+        .qp {
+            color: var(--d);
+            font-size: .85rem;
+            margin-bottom: 12px
+        }
+
+        .qo {
+            background: rgba(255, 255, 255, .03);
+            color: var(--t);
+            border: 1px solid var(--bd);
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin: 6px 0;
+            font-size: .9rem;
+            transition: all .2s
+        }
+
+        .qo:hover:not(:disabled) {
+            background: rgba(255, 255, 255, .08);
+            border-color: var(--a)
+        }
+
+        .qo.correct {
+            background: #166534;
+            border-color: var(--g);
+            color: #bbf7d0
+        }
+
+        .qo.wrong {
+            background: #7f1d1d;
+            border-color: var(--r);
+            color: #fecaca
+        }
+
+        .qo:disabled {
+            cursor: default;
+            opacity: .85
+        }
+
+        @keyframes fi {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .qn {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px
+        }
+
+        .qn button {
+            background: rgba(255, 255, 255, .05);
+            color: var(--t);
+            border: 1px solid var(--bd);
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: .85rem
+        }
+
+        .qn button:disabled {
+            opacity: .3
+        }
+
+        #sb {
+            display: none;
+            margin-top: 16px;
+            padding: 20px;
+            background: rgba(0, 0, 0, .2);
+            border-radius: 12px;
+            text-align: center
+        }
+
+        .ck {
+            background: var(--c);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--bd)
+        }
+
+        .ck label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            color: var(--m);
+            font-size: .9rem;
+            cursor: pointer
+        }
+
+        .ck input[type=checkbox] {
+            margin-top: 3px;
+            accent-color: var(--a);
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0
+        }
+
+        .ck .done {
+            color: var(--a);
+            text-decoration: line-through;
+            opacity: .7
+        }
+
+        .pb {
+            background: var(--bd);
+            border-radius: 8px;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 16px
+        }
+
+        .pf {
+            height: 100%;
+            border-radius: 8px;
+            background: var(--a);
+            transition: width .5s;
+            width: 0
+        }
+
+        .pt {
+            color: var(--d);
+            font-size: .8rem;
+            margin-top: 6px
+        }
+
+        .mn {
+            background: var(--c);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--bd)
+        }
+
+        .mg {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 10px
+        }
+
+        .lk {
+            display: block;
+            padding: 14px;
+            background: var(--bg);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            color: var(--m);
+            text-decoration: none;
+            font-size: .85rem;
+            transition: all .2s
+        }
+
+        .lk:hover {
+            border-color: var(--a);
+            color: var(--a)
+        }
+
+        .lk.cur {
+            border-color: var(--a);
+            background: var(--ag)
+        }
+
+        .lk strong {
+            display: block;
+            color: var(--t);
+            margin-bottom: 2px;
+            font-size: .9rem
+        }
+
+        .lk.cur strong {
+            color: var(--a)
+        }
+
+        footer {
+            margin-top: 48px;
+            padding: 24px;
+            text-align: center;
+            color: var(--d);
+            font-size: .8rem;
+            border-top: 1px solid var(--bd)
+        }
+
+        @media(max-width:600px) {
+            .hero h1 {
+                font-size: 1.5rem
+            }
+
+            .cg,
+            .mg {
+                grid-template-columns: 1fr
+            }
+
+            .ct {
+                padding: 16px
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="hero">
-        <h1>Module 07: Signals Through the Mesh — Information Flow in Fabric and Networks</h1>
-        <p class="sub">Conclusion</p>
-        <span class="tag">Active Inference Crochet — Loop And Lattice</span>
+        <h1>Module 07: Signals Through the Mesh</h1>
+        <p class="sub">Information Flow in Fabric</p><span class="tag">Active Inference Crochet — Loop And
+            Lattice</span>
     </div>
-
-    <nav class="nav">
-        <a href="module.md">Lecture</a>
-        <a href="questions.md">Questions</a>
-        <a href="practice_quiz.md">Quiz</a>
-        <a href="lab.md">Lab</a>
-        <a class="active" href="#">Dashboard</a>
-    </nav>
-
-    <div class="content">
-        <h2 class="stitle">Key Concepts</h2>
-        <div class="cgrid">
-<p style="color:#94a3b8">No key concepts defined for this module.</p>
+    <nav class="nav"><a href="module.md">Lecture</a><a href="questions.md">Questions</a><a
+            href="practice_quiz.md">Quiz</a><a href="lab.md">Lab</a><a class="active" href="#">Dashboard</a></nav>
+    <div class="ct">
+        <h2 class="st">Key Concepts</h2>
+        <div class="cg">
+            <div class="cc">
+                <h3>Mesh vs Solid Communication <span class="tg">+</span></h3>
+                <p class="b">Mesh fabric (chain spaces, open patterns) transmits signals loosely like a sparse network.
+                    Solid fabric transmits directly like a dense, fully-connected network.</p>
+                <div class="dt">
+                    <p>A lace pattern with chain-3 spaces creates long-range connections between distant nodes, while
+                        solid single crochet creates tight, local connectivity. The crocheter's choice between open and
+                        closed fabric is a choice between communication topologies — sparse vs dense network
+                        architectures with fundamentally different information-flow properties.</p>
+                </div>
+                <div class="mt">
+                    <div class="mf" style="width:95%"></div>
+                </div>
+                <p class="ml">Centrality: Core structural concept</p>
+            </div>
+            <div class="cc">
+                <h3>Pattern as Communication Protocol <span class="tg">+</span></h3>
+                <p class="b">Written crochet patterns are communication protocols — compressed descriptions encoding
+                    complex network structures for transmission between crocheters across time and space.</p>
+                <div class="dt">
+                    <p>"Ch 3, 5 dc in ring, sl st" compresses a detailed graph specification into a few symbols. Like
+                        TCP/IP or HTTP, crochet notation is a standardized protocol enabling reliable transmission of
+                        complex structural information. Different notation systems (US/UK terms, charts, video) are
+                        different protocols for the same underlying network data.</p>
+                </div>
+                <div class="mt">
+                    <div class="mf" style="width:90%"></div>
+                </div>
+                <p class="ml">Centrality: Information theory bridge</p>
+            </div>
+            <div class="cc">
+                <h3>Stitch Markers as External Memory <span class="tg">+</span></h3>
+                <p class="b">Stitch markers are external memory nodes — physical tokens carrying information between
+                    sessions, extending the crocheter's cognitive system beyond the brain.</p>
+                <div class="dt">
+                    <p>A stitch marker placed at a pattern repeat boundary is externalized working memory. It frees
+                        cognitive resources by physically encoding positional information. This is extended cognition:
+                        the crocheter's mind extends beyond the skull to include the markers, the pattern, and the
+                        emerging fabric itself as components of a distributed cognitive system.</p>
+                </div>
+                <div class="mt">
+                    <div class="mf" style="width:85%"></div>
+                </div>
+                <p class="ml">Centrality: Extended cognition bridge</p>
+            </div>
         </div>
-
-        <h2 class="stitle">Self-Assessment Quiz</h2>
-        <div class="quiz-box">
-            <div class="qprog" id="qprog">Question 1 of 2</div>
+        <h2 class="st">Self-Assessment Quiz</h2>
+        <div class="qb">
+            <div class="qp" id="qp">Q 1/5</div>
             <div id="qc"></div>
-            <div class="qnav">
-                <button id="pbtn" onclick="prevQ()" disabled>&larr; Previous</button>
-                <button id="nbtn" onclick="nextQ()">Next &rarr;</button>
+            <div class="qn"><button id="pb" onclick="prevQ()" disabled>&larr;</button><button id="nb"
+                    onclick="nextQ()">Next &rarr;</button></div>
+            <div id="sb"></div>
+        </div>
+        <h2 class="st">Learning Objectives</h2>
+        <div class="ck" id="ck">
+            <label><input type="checkbox"> Understand mesh vs solid fabric as different network communication topologies
+                — sparse long-range vs dense local connectivity.</label>
+            <label><input type="checkbox"> Analyze crochet patterns as communication protocols that compress network
+                specifications for reliable transmission between crocheters.</label>
+            <label><input type="checkbox"> Explain stitch markers as external memory in a distributed cognitive system
+                extending beyond the brain.</label>
+            <div class="pb">
+                <div class="pf" id="pf"></div>
             </div>
-            <div id="score-box"></div>
+            <p class="pt" id="ptt">0/3</p>
         </div>
-
-        <h2 class="stitle">Learning Objectives</h2>
-        <div class="cklist" id="cklist">
-<label><input type="checkbox"> Identify how information flows through crocheted fabric — mechanically, visually, and structurally — and relate these flows to signal propagation in neural networks.</label>
-<label><input type="checkbox"> Recognize that open mesh crochet patterns (filet crochet, chain spaces, lace) are literal communication networks whose connectivity determines which signals reach where.</label>
-<label><input type="checkbox"> Map stitch notation systems (written patterns, symbol charts, stitch diagrams) onto the concept of communication protocols, and understand crochet charts as graph representations of stitch networks.</label>
-            <div class="pbar"><div class="pfill" id="pfill"></div></div>
-            <p class="ptxt" id="ptxt">0 of 3 complete</p>
-        </div>
-
-        <h2 class="stitle">Module Navigation</h2>
-        <div class="mnav">
-            <div class="mgrid">
-<a class="module-link" href="../01_systems/dashboard.html"><strong>Module 01: Systems</strong>Module 01: Surfaces and Spaces: The Topology of Crocheted Fa</a>
-<a class="module-link" href="../02_agents/dashboard.html"><strong>Module 02: Agents</strong>Module 02: The Crocheter as Neural Architect</a>
-<a class="module-link" href="../03_perception/dashboard.html"><strong>Module 03: Perception</strong>Module 03: Reading Curvature in the Fabric</a>
-<a class="module-link" href="../05_action/dashboard.html"><strong>Module 05: Action</strong>Module 05: Shaping the Manifold, Stitch by Stitch — How Acti</a>
-<a class="module-link current" href="#"><strong>Module 07: Communication</strong>Module 07: Signals Through the Mesh — Information Flow in Fa</a>
+        <h2 class="st">Module Navigation</h2>
+        <div class="mn">
+            <div class="mg">
+                <a class="lk" href="../01_systems/dashboard.html"><strong>01</strong> Topology of Fabric</a>
+                <a class="lk" href="../02_agents/dashboard.html"><strong>02</strong> Neural Architect</a>
+                <a class="lk" href="../03_perception/dashboard.html"><strong>03</strong> Reading Curvature</a>
+                <a class="lk" href="../04_cognition/dashboard.html"><strong>04</strong> Hidden Layers</a>
+                <a class="lk" href="../05_action/dashboard.html"><strong>05</strong> Shaping Manifolds</a>
+                <a class="lk" href="../06_learning/dashboard.html"><strong>06</strong> Training the Network</a>
+                <a class="lk cur" href="#"><strong>07</strong> Mesh Communication</a>
+                <a class="lk" href="../08_planning/dashboard.html"><strong>08</strong> Yarn Architectures</a>
             </div>
         </div>
     </div>
-
-    <footer>Active Inference Institute &mdash; Active Inference Crochet — Loop And Lattice — Module 07: Communication</footer>
-
+    <footer>Active Inference Institute — Loop And Lattice — Module 07</footer>
     <script>
-    /* Concept cards */
-    document.querySelectorAll('.concept-card').forEach(function(c){
-        c.addEventListener('click',function(){c.classList.toggle('open');});
-    });
-
-    /* Quiz engine */
-    var Q=[{"q": "A primary learning goal of this module is to:", "opts": ["Skip foundational concepts and focus only on advanced material.", "Memorize all definitions without applying them to real situations.", "Review content from a completely different subject area.", "Identify how information flows through crocheted fabric — mechanically, visually, and structurally — and relate these flows to signal propagation in neural networks."], "correct": 3, "explain": "This module focuses on: Identify how information flows through crocheted fabric — mechanically, visually, and structurally — and relate these flows to signal propagation in neural networks."}, {"q": "By the end of this module you should also be able to:", "opts": ["Repeat previous module content without new application.", "Complete unrelated worksheets for extra credit.", "Watch videos without taking notes or reflecting.", "Map stitch notation systems (written patterns, symbol charts, stitch diagrams) onto the concept of communication protocols, and understand crochet charts as graph representations of stitch networks."], "correct": 3, "explain": "Another key goal: Map stitch notation systems (written patterns, symbol charts, stitch diagrams) onto the concept of communication protocols, and understand crochet charts as graph representations of stitch networks."}];
-    var ci=0,ans=new Array(Q.length).fill(null),sc=0;
-
-    function renderQ(){
-        var q=Q[ci],done=ans[ci]!==null;
-        var h='<p class="qq"><strong>Q'+(ci+1)+'.</strong> '+q.q+'</p>';
-        q.opts.forEach(function(o,i){
-            var c='qbtn';
-            if(done){if(i===q.correct)c+=' correct';else if(i===ans[ci])c+=' wrong';}
-            h+='<button class="'+c+'" onclick="pickA('+i+')" '+(done?'disabled':'')+'>'+String.fromCharCode(65+i)+') '+o+'</button>';
-        });
-        if(done){
-            var ok=ans[ci]===q.correct;
-            h+='<div class="qexp" style="display:block;background:'+(ok?'#166534':'#7f1d1d')+';">'+(ok?'Correct! ':'Incorrect. ')+q.explain+'</div>';
-        }
-        document.getElementById('qc').innerHTML=h;
-        document.getElementById('qprog').textContent='Question '+(ci+1)+' of '+Q.length;
-        document.getElementById('pbtn').disabled=ci===0;
-        document.getElementById('nbtn').textContent=ci===Q.length-1?'See Score':'Next \u2192';
-    }
-
-    function pickA(i){
-        if(ans[ci]!==null)return;
-        ans[ci]=i;
-        if(i===Q[ci].correct)sc++;
-        renderQ();
-    }
-
-    function nextQ(){
-        if(ci<Q.length-1){ci++;renderQ();}
-        else{
-            var pct=Math.round(sc/Q.length*100);
-            var d=document.getElementById('score-box');
-            d.style.display='block';
-            d.innerHTML='<h3 style="color:'+(pct>=60?'var(--green)':'var(--red)')+'">'+sc+'/'+Q.length+' ('+pct+'%)</h3><p style="color:var(--muted);margin-top:8px">'+(pct>=80?'Excellent understanding of the material!':pct>=60?'Good foundation. Review the concepts you missed.':'Consider re-reading the module before moving on.')+'</p>';
-        }
-    }
-
-    function prevQ(){if(ci>0){ci--;renderQ();}}
-
-    /* Checklist with localStorage */
-    var SK='ai_active_inference_crochet_loop_and_lattice_07_communication';
-    var QK=SK+'_quiz';
-    function initCL(){
-        var saved=JSON.parse(localStorage.getItem(SK)||'[]');
-        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
-        boxes.forEach(function(cb,i){
-            if(saved[i])cb.checked=true;
-            if(cb.checked)cb.parentElement.classList.add('done');
-            cb.addEventListener('change',function(){
-                cb.parentElement.classList.toggle('done',cb.checked);
-                saveCL();updProg();
-            });
-        });
-        updProg();
-    }
-    function saveCL(){
-        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
-        localStorage.setItem(SK,JSON.stringify(Array.from(boxes).map(function(c){return c.checked;})));
-    }
-    function updProg(){
-        var boxes=document.querySelectorAll('#cklist input[type=checkbox]');
-        var n=boxes.length,done=Array.from(boxes).filter(function(c){return c.checked;}).length;
-        document.getElementById('pfill').style.width=(n?done/n*100:0)+'%';
-        document.getElementById('ptxt').textContent=done+' of '+n+' complete';
-    }
-
-    /* Quiz persistence */
-    function saveQuiz(){
-        localStorage.setItem(QK,JSON.stringify({ci:ci,ans:ans,sc:sc}));
-    }
-    function loadQuiz(){
-        try{
-            var d=JSON.parse(localStorage.getItem(QK));
-            if(d&&d.ans&&d.ans.length===Q.length){
-                ci=d.ci||0;ans=d.ans;sc=d.sc||0;
-            }
-        }catch(e){}
-    }
-    /* Patch pickA to persist */
-    var _origPickA=pickA;
-    pickA=function(i){_origPickA(i);saveQuiz();};
-
-    /* Init */
-    document.addEventListener('DOMContentLoaded',function(){
-        document.querySelectorAll('.meter-fill').forEach(function(f){
-            var w=f.style.width;f.style.width='0%';
-            setTimeout(function(){f.style.width=w;},200);
-        });
-        loadQuiz();
-        renderQ();
-        initCL();
-    });
+        document.querySelectorAll('.cc').forEach(function (c) { c.addEventListener('click', function () { c.classList.toggle('open') }) });
+        var Q = [
+            { "q": "How does mesh fabric differ from solid fabric as a communication topology?", "o": ["No difference", "Mesh creates sparse, long-range connections (like chain spaces bridging distant nodes); solid creates dense, local connectivity", "Mesh is always better", "Solid cannot transmit any information"], "c": 1, "e": "Mesh and solid represent fundamentally different network architectures: sparse with long-range connections vs dense with local connectivity, each with distinct information-flow properties." },
+            { "q": "Why are crochet patterns comparable to communication protocols?", "o": ["They use electricity", "They compress complex network specifications into standardized notation for reliable transmission between crocheters across time and space", "They are only used by computers", "Patterns are not a form of communication"], "c": 1, "e": "Crochet patterns are standardized compression protocols: 'ch 3, 5 dc in ring' encodes a detailed graph specification, enabling reliable transmission of structural information between any trained crocheter." },
+            { "q": "What role do stitch markers play in the crocheter's cognitive system?", "o": ["Purely decorative", "External memory nodes that physically encode positional information, extending cognition beyond the brain", "They replace the need for patterns", "They measure yarn weight"], "c": 1, "e": "Stitch markers are externalized working memory — physical tokens carrying information between sessions. They are part of the crocheter's extended cognitive system, freeing mental resources for higher-level decisions." },
+            { "q": "US vs UK crochet terminology represents:", "o": ["Incompatible crafts", "Different communication protocols encoding the same underlying network structures", "A political disagreement", "Different types of yarn"], "c": 1, "e": "US and UK terms are different protocols for the same data: US 'single crochet' and UK 'double crochet' describe the identical stitch operation. The underlying network architecture is protocol-independent." },
+            { "q": "How does the emerging fabric itself participate in the crocheter's cognitive system?", "o": ["It does not participate at all", "The fabric encodes structural memory — completed rows serve as physical records that the crocheter reads to determine next actions", "Fabric only stores yarn", "Only the pattern matters"], "c": 1, "e": "The fabric is part of the extended cognitive system: completed rows encode structural memory that the crocheter reads tactilely and visually to inform decisions about the next row, creating a loop between internal cognition and external artifact." }
+        ];
+        var ci = 0, ans = new Array(Q.length).fill(null), sc = 0;
+        function renderQ() { var q = Q[ci], dn = ans[ci] !== null; var h = '<p style="font-size:1rem;margin-bottom:16px;font-weight:500"><strong>Q' + (ci + 1) + '.</strong> ' + q.q + '</p>'; q.o.forEach(function (o, i) { var cl = 'qo'; if (dn) { if (i === q.c) cl += ' correct'; else if (i === ans[ci]) cl += ' wrong'; } h += '<button class="' + cl + '" onclick="pickA(' + i + ')" ' + (dn ? 'disabled' : '') + '>' + String.fromCharCode(65 + i) + ') ' + o + '</button>' }); if (dn) { var ok = ans[ci] === q.c; h += '<div style="margin-top:12px;padding:12px;border-radius:10px;font-size:.9rem;background:' + (ok ? '#166534' : '#7f1d1d') + ';animation:fi .3s">' + (ok ? 'Correct! ' : 'Incorrect. ') + q.e + '</div>' } document.getElementById('qc').innerHTML = h; document.getElementById('qp').textContent = 'Q ' + (ci + 1) + '/' + Q.length; document.getElementById('pb').disabled = ci === 0; document.getElementById('nb').textContent = ci === Q.length - 1 ? 'Score' : 'Next \u2192' }
+        function pickA(i) { if (ans[ci] !== null) return; ans[ci] = i; if (i === Q[ci].c) sc++; renderQ(); localStorage.setItem(QK, JSON.stringify({ ci: ci, ans: ans, sc: sc })) }
+        function nextQ() { if (ci < Q.length - 1) { ci++; renderQ() } else { var p = Math.round(sc / Q.length * 100); document.getElementById('sb').style.display = 'block'; document.getElementById('sb').innerHTML = '<h3 style="color:' + (p >= 60 ? 'var(--g)' : 'var(--r)') + '">' + sc + '/' + Q.length + ' (' + p + '%)</h3>' } }
+        function prevQ() { if (ci > 0) { ci--; renderQ() } }
+        var SK = 'ai_crochet_ll_07', QK = SK + '_q';
+        function initCL() { var s = JSON.parse(localStorage.getItem(SK) || '[]'); var b = document.querySelectorAll('#ck input[type=checkbox]'); b.forEach(function (cb, i) { if (s[i]) cb.checked = true; if (cb.checked) cb.parentElement.classList.add('done'); cb.addEventListener('change', function () { cb.parentElement.classList.toggle('done', cb.checked); localStorage.setItem(SK, JSON.stringify(Array.from(document.querySelectorAll('#ck input[type=checkbox]')).map(function (c) { return c.checked }))); upP() }) }); upP() }
+        function upP() { var b = document.querySelectorAll('#ck input[type=checkbox]'), n = b.length, d = Array.from(b).filter(function (c) { return c.checked }).length; document.getElementById('pf').style.width = (n ? d / n * 100 : 0) + '%'; document.getElementById('ptt').textContent = d + '/' + n }
+        document.addEventListener('DOMContentLoaded', function () { document.querySelectorAll('.mf').forEach(function (f) { var w = f.style.width; f.style.width = '0%'; setTimeout(function () { f.style.width = w }, 200) }); try { var d = JSON.parse(localStorage.getItem(QK)); if (d && d.ans && d.ans.length === Q.length) { ci = d.ci || 0; ans = d.ans; sc = d.sc || 0 } } catch (e) { } renderQ(); initCL() });
     </script>
 </body>
+
 </html>

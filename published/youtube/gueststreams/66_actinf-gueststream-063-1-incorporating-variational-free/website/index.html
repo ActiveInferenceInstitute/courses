@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>66_Actinf Gueststream 063 1 Incorporating Variational Free - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>66_Actinf Gueststream 063 1 Incorporating Variational Free</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>66_Actinf Gueststream 063 1 Incorporating Variational Free</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf GuestStream 063.1 ~ "Incorporating (variational) free energy models into mechanisms"</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=6Yr_g9j4kso">YouTube</a>
+<strong>Playlist</strong>: GuestStreams
+<strong>Duration</strong>: 1:41:25 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>right hello and welcome this is active inference live stream 63.1 it's November 7th 2023 we're here with mikal pikarski and we'll be hearing a presentation followed by a discussion on incorporating variational free energy models into mechanisms the case of predictive processing under the free energy principle so looking forward to this lecture and discussion thank you for joining and off to you thank you very much Daniel thank you for invitation uh this is a great honor for me and very nice uh I'm little stressed I hope uh my presentation will be uh interesting for you and um give a chance to take a new some new ideas concerning the the basian models especially productive processing under the free energy principle so uh my talk is based uh on my recent papers which I published after after many many months of revisions in centes and I will sketch The View which I try to develop here uh which I think has some interesting implication also for the discussion in the field of bayian modeling like in The Wider context of philosophy of Neuroscience of philosophy of uh cognitive science so I will try to justify the three hypothesis uh one General and two more specific concerning uh the predict processing and free energy principle so the first one idea which I found in recent paper of some philosophers of mechanistic explanations is the is the idea that um there phenomena I think that there are neurocognitive phenomena which uh should be explained not only in the terms of the composing the mechanism which uh is related to this phenomena but also should incorporate the the constraints from the environmental constraints and the flows of free energy I will uh be I will defend the view according to which if you want to explain those mechanism those phenomena we have to take an account of flows of free energy and the notion of free energy of course in the work of those mechanists uh is related to the thermodynamic free energy but I will try to show that um the free energy we can understand also in the terms of interenational or variational free energy this is the first hypothesis the second uh hypothesis is um this is not my idea because we found in many papers of Jacob ho or pavesi the idea that predictive processing provides a sketch of mechanism in other words predictive processing is computational framework which has mechanistic or or in which can offer a mechanistic explanation of its Target phenomena and I will try to to connect the two my hypothesis and shows that but mechanistic predictive processing takes a informational constraints from the free energy principle in other words we can uh in uh integrate free energy Principle as normative Theory normative principle with process Theory predictive processing using the mechanistic uh picture mechanistic idea of explanations so let's start from the first uh hypothesis um I think that there is a general and common agree in the field in the works of some authors from cognitive uh science from philosophy of Neuroscience uh the view which schematically called new mechanical philosophy According to which the explanation of phenomena is a matter of the composing this phenomena in to underlying mechanism so when we want to explain phenomena for example this is a view who defend the the car Craver or William Beal and the others when we want to explain phenomena not only cognitive but also biological social canena we have to decompose the mechanism which is responsible for the realization of this phenomenon and this mechanism can be traed as a uh mechanism which casual product the phenomena or a mechanism which is responsible in the terms of cons dtive responsibility for the realization of the phenomena and uh those authors who and those Traditions which craer in his book explaining the brain calls the system Traditions claims that explanation is a matter of finding the systems the mechanism which should be described should be should be identified by scientists and should be decomposed into into Parts into components should we should recognize the relation between those components and the we should recognize and describe the organization which rules of the relations between the components and it means that uh we can think about the mechanism in terms of hierarchical organization because if we look come this figure from The Book of the Craver phenomena phenomena are based hierarchically on the underlying uh structure of hierarchical structure of U mechanism the low and higher level mechanism and according to our uh scientific aims according to uh our strategy we can uh looking for the more deeper or more deeper mechanism concerning for example how the level of a biological organization to the level of the physiological organization and so on and one of the most important authors in the field of mechanistic explanation the field of uh new mechanism William Beal um in recent latest paper uh he little Chang the standard view on the composition he claims that characteristic of the composition or normative strategy of the composition mechanical explanation should be reing we should reink this strategy why because there are high level cognitive mechanisms which cannot be described Solly in the terms of hierarchical organization or in the terms of casual uh relations because there are some kind of mechanism which are as uh and Collex claims which are active control mechanism they are mechanism which are responsible for production the phenomena what kind of phenomena the active phenomena active active structures like uh bily movements responsible for body movement and physiological process and CRA Bal cran sorry that those mechanism of course they play a central uh ual role in the hierarchical organization but they also a components of complex network of heterarchical web of control systems and they play its casual role they casual Ro because they perform a given function in this heterarchical web why it is possible because in this sense those pH those phenomena are the uh are mutually constrainted by the other elements we can call their constraints and they are uh and they are active or they derive their casual efficieny because they are constraint systems and um in in opinion of Beal uh and the other authors who co-work with him it is important to reink uh our old uh image of of DEC composition because in standard view on the decomposition we don't take an account uh on two elements on uh constraints which make given mechanism uh active in the sense of the being part of heterarchical web and the second point is the energy because biological and mechanisms cognitive mechanism are always um related to the flows of the free energy which they uh transform which they uh Pro process and why this is important because according to beel he claims what is characteristic for biological mechanism uh in the context in the contrast to the other mechanis is that the biological mechanism are dissipative structures it means that they Ur and maintained in the context in the fridge in fridge free energy is being dissipated and if we don't uh don't incorporate this element of transforming of um processing the flows of free energy we in the facto we don't really explain why given mechanis or given systems have behaviors as back and B claims completely unconstrained system will have no behaviors and I will f think that uh if you want to explain neurocognitive mechanism we have to adopt the view which I describ in my paper as a the constraint based mechanism approach and according to VI it's heris mechanistic explanation of at least some cognitive phenomena should be based or should incorporate dimensions of constraints element of the environment which makes mechanism active and the flows of free energy and this is the first piece of uh my idea and uh second is that I think that we can try to uh demonstrate this idea in uh one example from cognitive contemporary cognitive science and I will try to adopt this idea into the frame of predictive processing so now I'll will sketch a a short view about predictive processing framework and why this is important for me uh to try to test this this framework into the context of the constraint based mechanism approach um so predictive coders uh develop the C and the helan idea that that our cognitive systems our brains don't have a direct access to the causes of information we received by the input and the uh and they claim that uh the central the main function of the brain on the central nervous system is to minimize uh uncertainity which is described in the terms of minimizing long-term minimization of average prediction error uh how it is possible how brain can do this uh it possible because the brain inhabit or embedded the virtual informational structure with which predictive C byan describe as generative model and the generative model is hierarchical and multilevel structures which transform pro pro process the information coming from the IND why because in this way the brain can minimize the So-Cal prediction ER or the crepancies the differences between the state of the model state of the organism and the information coming from the from the environment because successful minimalization of prediction error has many adaptive uh benefits so uh this is General um picture uh now we should look more uh closer to this image and try to develop a um formal technical language so uh we can use this the idea which develops a take to think about the relation between the events in the word in the time term of relation between cause and effect but what we receive is the observation we receive by the sensory input observations and if the idea developed by predictive coders coming from homehold is that we don't have an access to the straight through States as understood as the causes of the observation so we have to infert the true states to act successfully in the environment and how it is possible to infer to guess the true States responsible for the observation we receive so there is a development of the hel idea of unconscious inference and ban claims that this idea can be translate into the thinking about the statistical inference what kind of statistical inference as we know this is the bayian bayian inference but what does it mean the generative model minimize prediction error or infer the States um using the ban inference talking inference um Rises um a small problem because B inference exact B inference is in inra hard uh we cannot compute exact ban inference and the idea which develop for example Carone is that our models our brains using models generative model don't compute exact Bion inference but it uses the simpler version of ban inference they approximate they uses approximation of ban inference so in other words if the story is uh correct then um continuous minimalization of prediction error can be described or understood or explained in the terms of approximation of ban inference and this is this approximation is possible because model minimizing prediction error simultaneously minimize a certain quantity which frone calls varation energy the quantity which is always greater than or equal to suor and using this quantity uh model iteratively update the internal parameters upd the internal States and uh in this in that way can infer the most probable to uh states which is responsible for the observation which model refers so uh and according to predictive processing uh as I read it correctly what is characteristic for the brain is it that the brain main function is to uh processing information in the terms of ban approximation and I try to unpack this idea uh and uh read this and try to read this in the context of new mechanical philosophy so this is the first step the second one is to justify that predictive processing can be connected with mechanical philosophy and um in many papers of weski hares Shava ho we we see good arguments uh According to which predictive processing as computational architecture provides the scientist so-called sketch uh of mechanisms what is sketch of mechanism this is the idea developed by Pini and Kaplan and they that sketch of the mechanism is the incomplete representation of mechanism it means this is there some kind of representation of mechanism when the scientist omitted some components some parts of the mechanism and good SK sketch of the mechanism should lead us to the schema of mechanism which is the complete representation of constitutive element of given mechanism so if predictive processing give give us a chance to to to to write a sketch of the mechanism uh and and if predictive processing is about the neural function of the brain then um if the view which I developed uh after the ideas of Beal and Collex if this if this view of the constraint based mechanism purose approach uh is correct then I will claim that if predictive processing if predictive ERS want to build a mechanistic explanation of cognitive phenomena they should include into the explanation flows of free energy because without this uh flows without the constraint of informational or in general in is free energy uh we don't cannot explain how it is possible that mechanism operates and is active as long as this energy is available and it does is which I defend in this paper in sentence is that predictive processing models should uh include informational constraints if they are to be mechanistic of course if we think about predict processing as the way to explain the function of the brain and of course there is one natural questions because many authors will claim that the good uh theoretical normative uh principle for building models in predictive processing offer the free energy principle so the the question arise does uh the free energy principle can offer this constraints for predictive architect and I will be claim that yet yes the FB offers these constraints but of course we should try to justify this this St more uh specifically so uh but we've got we find an the one big uh problem when we talk when we look into the uh 2018 paper of William Beal when he introduced the idea of uh necessity of uh including the free energy flows into explanations he directly write that the notion of free energy uh which he developed in his papers in his view is distinct from the energy uh principle or free energy articulated by Carone and the others in other words he say that okay we should include into explanations flows of the free energy but this is the thermodynamic free energy we cannot use the other kind of the energy because uh because this is distinct Notions uh in the same year in 2018 uh friston published a draft a print of his book of free energy principle for a particular physic and he said something what contradict with the view of the B he said that her istically free energy in the ter thermodynamical free energy is consistent with the variational free energy means that pron claims uh something qu contradict the tesis of the back and I think that it is possible to justify the thesis of fron but possibly I try to do this in different way than then FR then Frist do this does this so um for me as a person without good formal uh preparation to reading the paper of ciston U it was hard to find a good way reading of his paper on his Cooperators so um but I think that we can try to reconstruct the idea uh which supporters of the free energy principle um develop and this ideas can be commonly described as something what I call the ban mechanics argument uh the first site I wrote here is coming from the paper of Max ramstead and he claims that at of biasan mechanics is the variational free energy principle so the Freestone in his latest paper proposed the idea of the loping of the bian mechanics the bian mechanics uh which uh can investigate describe and offer the thetical background for an explanation what is fre principle what is foral free energy and um why this idea is it's important for me because um first will claim that every kind of mechanism each mechanism can be treated as an expression of some kind of mechan mechanics we've got classical mechanics we got quantum mechanics uh thermodynamic statistical also bial mechanics and every kind of mechanics has it own rified constructs those constructs can be understood as thermodynamic energy temperature or variational free energy and uh what is important is that that those constructs those ried constructs those Notions are Justified and can be used only in the realm of given type of mechanics it means that it is possible that we've got some rified constructs which we can use on the based in the realm of the one kind of the mechanics but we cannot use this in the other type of Mechanics for example when we talk about the den notion of the uh temperature it can be it will be used in different way in the realm of quantum and in the realm of statistical mechanics and it means that if we take the construct like variational free energy on thermodynamic free free energy from the point of the view of this argument it means that all of these constructs are relative or related to the description and method of measurement we it which we use in the uh specific type of mechanics and what does it mean it means that there is no um ontological uh we don't have a good ontological argument to claim something like that that for example statistical mechanics is more primary than for example classic or bi mechanic why because every kind of mechanism each type of mechanics can be trated as a complementary description of the behavior of a dynamic systems and it means that the most uh primary the most basic structure we try to explain describe in terms of mechanics dynamical uh systems or the Dial Systems so when according to fre it means that ban mechanics can be treated as all others kind of mechanics which we find in physics but what is specifical for this mechanic as I said is the Assumption of variational energy which is strictly related to the Assumption of mar of blankets pron will uh claim that this additional constraints the constraints of Mark of blankets makes possible to speak of states of something as relative as something different of something else uh and why this is important to make a possibility to think to talk about for example internal and external States because um this talking this the possibility of talking about the different states uh directly applicable and directly important to the living organism and for example neural structures friston in his book claim that uh every type of mechanics ignore Assumption of a mark blanket and the Assumption of ration energy and um and in some implicit sense will claim that the state outside blanket and the states out of blanket this difference between those kind of States can be ignored for why because if this um why I thinking is correct every kind of mechanics give us a chance give us a possibility to talk about the systems we try to describe in terms of heatbed or thermal reserver it means that every kind of mechanics except quantum mechanics uh give us a possibility to talk about the states as in equilibrium steady state so uh and according to this argument we should say that variational free energy can be applied and Justified only in the real of basian mechanics and this application help us to describe explain why some things are autonomous or active why some things can be as as Bal s dissipative structures but it means that vational free energy give us a chance to describe some kind of phenomena some kind of system as autonomous or active but and simultaneously ter dynamical free energy can be implied in the realm of the the object which we can try uh which we want to explain in the terms of statistics or statist as a statistical emble um and this is uh this is why FR will claim that both ational free energy and thermodynamical free energy are consistent because they are two consequences or expression we can say the same more Elemental think the think which can more Elemental more basic mechanistic or maybe Quantum nature and it means that thermodynamical free energy and variational free energy are the notion or constructs um which we can trade as the as a two side of the one coin and uh um uh it's and using them is dependent of our method of measurements of our scientific interest from the our strategy to investigate in phenomena but they are complementary in the sense that they offer uh the scientist that um the possibility of describe dynamical systems from the two other sides but this those sides are complementary uh and how we should under understand and interpretate the the bayian mechanics argument because I think this argument should be interpretate in more philosophical more specific way if the thermodynamical free energy and vational free energy are two sides or are related to as two aspect of more Primal Dynamics uh there is still open the questions what about what we talk when we talk about systems which minimize varation of energy and when we talk about the direction the the flows of the thermodynamical free energy and I think that um this ultra realistic or super realistic interpretation literal interpretation of this argument is not correct because it seems that we should interpretate a construct like like thermodynamical andir energy as uh the useful useful function which are which uses which uh justification are related to our scientific models and so on um in other ways there will be the problem to defend the tesis of FreeOnes that the pan and stasic mechanics are equivalent formulation of the same thing I think the the same thing about which with friston talk is the dynamical systems and we try to find a good tools to describe the systems but it means that we don't have a good tools which represent or map the uh real structure of the systems and it means that the notion we use like verion energ and thermodynamic of energy should be understood as the con constructs which are related and and ultimately reduced to the method uh of measurement descriptions the method we use so uh it means that when we talk about the consistency or complementarity of vational fre energy in thermodynamical free energy we don't have any we don't make any ontological com commitments any monological assumption about the representational architecture propers of the target systems it means that the models are which are based on the free energy principle address the Casual structure of the word in the sense that they are epistemically useful we can use them in the practice of model building but they are not epistemically useful in the sense that we describe the real properties which we can literally describe as uh generative models as varation energy and so on and so on and uh I think uh when we talk about the free energy principle the instrumental and realistic interpretation is correct and the free energy principle doesn't imply any ontological solution about the target phenomena but um from the point of the view of my my argument there is one problem because this instrument Al interpretation of Frisian argument doesn't have any mechanistical specific mechanistic implication we don't anything talk about mechanistic character of the phenomena uh why this is important because when we come back to the field of uh philosophia of new mechanical the field of new mechanical philosophy we all see that I think there is in very General there's a common view that we should think uh about mechanism in a realistic manner what does it mean the the view which I try to describe here is soal mechanistic realism According to which uh we should think about the stru the structures the the the entities in the world as the structure which are in some sense sense richer than M aggregation of causes why this is important because me mechanism which we try to identify the compos should be should be produced by some kind of structures and the structures should be more richer than a simple aggregation of the causes and this is the four part first part of this argument and the second con connected to the idea I try to develop is that that there are some of those structures whose at first organization cannot be reduced to an aggregation of the causes of causes and second uh this organization should be explained in terms of mechanism which are constrained by a flows of information flows of thermodynamic energy and described maybe in terms of minimizing rational Fergy in other words I will be claimed that if we adopt the mechanistic realism we should try to say that there are such phenomena such structures the explanation of which should take into account the energetic constraint which we can try to describe in terms of vational free energy and this in this and um if we try to adopt the the the image of coming from the mechanistic realism we will defend the view which I describe as moderate realism about by modeling or moderate realism about processing ande principle in this moderate realistic interpretations we can s say that system minimizes prediction error or minimizes variational free energy because it implements in some way some casual mechanism that can be described approximately in terms of minimizing VAR energy are simultaneously maximizing Mutual information between internal States and sensory States and it means there uh we can identify describe and the compose some kind of mechanism which we should trade as system of mutual constraints that restrict the flow of information the flows also the thermodynamic uh free energy to perform work in such a way that those mechanism minimize or should minimize discrepancy between internal State between the parameter of the model between the prediction of the model and uh the information coming from the environment in which given systems uh act and live why because without this um without taking those constraints flows of information we cannot describe and explain why those kind of mechanism or why the kind what uh this kind of organism are at non equilibrium steady States so um and I think that we can find in in the field of thermodynamics of information and also with the the work of craft freem argument which I called argument from neur computation uh good argument for the moderate realistic interpretation ofp and freeer principle and according to this argument we can say that there is always tradeoff between neural information processing and Thermon thermodynamic energy poost it means that every time when biological sensor detect a changeing the environment every time when biological organ process the informations this uh processing information or detection a change in environment is proportional to the amount of information is proportional to the um some minimum uh energy in term of thermodynamics so every time when uh system transer process information every time uh there is ex minimum cost of a thermodynamic energy and this argument from Nur computation could be this related to the uh formal investigation from coming from the FR monograph about thein equality piece of this book about the yin equality is really hard um but uh one and a half years ago I I was talking with car friston about this argument about the yin equality and I think we can try to reformulate in more nonformal way and according to the Ain equality if we interpretate this in the realm of the free energy principle this equality allows us to connect variational free energy with thermodynamical free energy in this sense that the when we want to describe and moving one system from one state to another and this moving in the system we can as uh uh creating dying the information there is a certain amount of thermodynamic uh work cost and thermodynamic and action which should be entailed by this moving uh in other words when we look into the a generative model in our brains we will say that every time when the model update belief in in the sense that every time when model change information uh in the internal state of the model every time there is an thermodynamical work cost so the belief updating in the ban generative model is strictly related the thermodynamic cost of this belief updating and I think that uh moderate realistic interpretation should explain us how it's possible because because uh when we talk about the belief upd generative model when we talk about the minimalization of error literally we we literally we don't map the formal structures we use onto the target phenomena h i don't claim that there are real generative model in our brains I don't talk that our brains uh optimize base and so on but I will claim that there are some structures in our head there are some structures in the W that are richer than simple aggregation of cod and those structures Implement some casual mechanism that scientist can approximately describes in terms of models which minimize perational uh energy or prediction error as and I agree with u the thesis of kof and colleagues that uh our models fit the data without literal make M mapping yes our model is are true because they are approximation of the data and I think that uh we can think about the predictive processing model incorporated or related uh or integrated sorry with uh the free energy Principle as some kind of approximation of the data which we want to investigate a specific type of the data uh uh like our neural organs and so on and I think that we should distinguish and remember about three distinct elements the fact the free energy Principle as formal principle the formal principle which doesn't assume any ontological uh assumption and doesn't imply any ontological commitments about the target phenoma the predictive processing framework as mechanistic comput models which are grounded from the one side in this formal principle which uh the form when the for principle offers the uh variational methods variational uh Notions and from the other side on theistic of mechanistic explanations and the thir the biological systems the target systems that predictive processing and bi Asians employed to model which are based uh which are uh independent of the implication or on the language of the three energ principle and also uh which are independent from the language and uh ontological implication of uh process Theory like predictive processing so uh and in going to conclusion so um I will claim that the reference to the informational constraints allows the scien scientist to explain the neural organs the brains not only as a kind of physical material physical mechanism but also as a systems which have homeostatic Futures homeostatic nature so and I will be claims that it means that a full satisfaction explanation of how the brain works not only how the brain uh can be treated in terms of statistical or uh classical mechanics but also with the terms of uh thinking about the the brain as active as and the part of living body uh a full explanation of uh brain as part of the living body uh requires taking into account informational cont constraints which I believe can be characterized and described in terms of ban operational free energy minimalization and the last uh one conclusion uh is the observation that from the point of the view of the argument I try to develop is that the free energy principle is also normative in the sense that it sets a norm that should be met by mechanistically non-trivial process Theory or predictive processing models assuming the correctness of the constraint based mechanism approach okay thank you very much that that's all what I have thank you great presentation I'll make a first comment meanwhile anyone who's watching live is welcome to ask a question okay well I would like to applaud this great talk you connected the scholarship and the framings that are used in the philosophy of mechanistic accounts with free energy principle active inference predictive processing and I think you articulated several lines of arguments that were in the literature including where there was change or even partial um incoherence or just partial ambiguity certainly ambiguity related um justifications or understandings of the relationship between thermodynamic free energy and mechanics and basian free energy and mechanics and that is a very wide space with everyone saying things like it's a purely formal resemblance and it's just a convenient computational her istic used in science and physics and engineering and there's just no need to worry about more than that ranging to arguments that that they are co- extent or that they have different kinds of statuses so I very much appreciate in your paper and in this presentation that according to the way that different discussions about mechanism have been carried out in the biological sciences using that setup to clarify some of these discussions in field that are all great to approach with kind of a first principal View and it's helpful to see how it connects with the arguments of like Craver and Beckel he thanks um I agreed that I try to develop some arguments which are uh which exist in the current literature but um for example when I read uh the paper of beel I think that the this idea doesn't be directly explicitly um articulated and um I think that Beal should be doesn't agree with my argument my interpretation of his view because because of the variational uh free energy but I still believe this is very very basic intuition uh but this intuition is said that if we if we think about the part of the human organism if we think about the brains what is more specific for the brains is that the brain process information not brain brain process the thermodynamic energy no brain uh process or produce some kind of hormones but the brain process the information and this information is very important for uh for a living organism and I think that this intuition could should be tasted uh in the in the field of uh on in the field of science or maybe in the field of philosophy of Neuroscience and uh I'm not so sure that can this is possible to to taste it but uh I think that this is important to description or explanation of those mechanism that those mechanism as the are the mechanism of transform processing information and possibly uh possibly maybe it's enough to say that okay those mechanism information with the which the brain process it's not important to explanation of how it is is possible but um I think that predictive CS the the supporters of the free energ principes s something important and they claims that what is specific for the brain is not only that the process information but also is is the process in some specific way uh using something what we can describe in terms of ban programation or more wider as a statistical inference and I think that and I think if predictive coders predictive processing uh is a fruitful strategy of explanation in the field of Neuroscience ER if the model builds by predictive coders are uh scientifically useful then uh we should take an uh we should use theistic coming from the free energy principle that um take it seriously okay because I don't want to I try to say that uh talking about the brains which use which uses which use the generative model which approximates by as inference this is not the way of talking way of speaking I think that we don't only describe but uh but this the word we use the notion we use as I said are in some way correct response to the some kind of structures casual structures which we are which we have in our uh head and uh maybe we investigate we invite more uh specific better words better Concepts better tools to describe those structures but um I believe that for now uh predictive principle give us a good chance to explain why our brains are not only the matter but also the part the important part of the living bodies and uh what is the difference between the power the brain as active control mechanism uh and why this brain shouldn't be treated uh as heat buff or thermal Reservoir and so on and I think that and I think this is the way this is the reason why beel uh try to reformulate this the classical image of the composition because he um observes that some mechanism cannot be described or tra as non- living nonactive and if they shouldn't be trated as act they should be treated as active and living then uh I think we have to to we have to um try to incorporate into our understanding into our explanation the fact that the information which the brains those mechanism process is really really important to understand why and how they act how they are the part of dissipative structures like our organ thank you I'll ask a question next from the live chat John Athos wrote what are you defining as information when you say the brain is processing information okay good questions um I think um I think when I talk about information I think about some kind of semantic information um of course if if we try to use in practice this idea which I Tred to develop uh the question about information should be more specific more more information should be more specify but um I find the argument which develop Rosa I correctly remember when she claims is that uh when we talk about the information which is processed by single neuron of course this is the some kind of Sy information there is no any semantic but with when we want to try to understand how it is possible that the brain as SP orgam the cortex process information this is always strictly related to the some kind of semantic information and I think we can think about this semantic information um try to this but this is I don't know for now how it is possible in the realm of my argument but we think to try about this what we traditionally describe as semantic information in terms of variational information because I think that if brains minimize prediction error if brains approximate byan inference it means that brain operates using uses the information in semantic sense um in my in my paper I wrote about the uh the mutual information between between the uh internal and sensory States um but I think I I see this is the as lack of my view doesn't because I don't prize what kind of information precisely I mean but I think that if uh we take this view as some kind of um proposition of her ristic of building the models um the empirical investigations lead us to them to the uh possibility of describe this information more specific uh more uh specific terms awesome very interesting so a few lines that I'd love to ask uh questions about so in your paper and presentation you Center the variational free energy as kind of the analytical construct doing the work in the mechanistic account and I wondered what leads to one analytical construct doing that kind of work for example why not Center Surprise and see variational free energy as a computational puristic or just an approximator so what what would be the relevance in in a mechanistic account sensors the concept of surprise or the concept of prediction error versus the concept of variational free energy which are related Concepts in that an organism minimizing one does minimize across all but they are different in terms of their formal basis and what we could say about them okay I think that um I think that if the answer on your question can be can have two two parts the first one uh is related to uh the view which I defend as moderate realism I will and I will claim um notion we use the concept we use are related are corresponds to the structures which we try to develop and describe using this Notions but in not the sense that we literally map the content of this Notions onto those those Target phenomena so probably V energy for now looks a a good fit to those those phenomena from my from my point of the view but U it doesn't mean that we don't can use the other Notions but you ask why why we don't talk about surprise or predictive errors I think that uh we don't explain um in satisfaction way uh this idea when we talk about the surprise maybe or prediction error because we don't understand why uh White brain approximate uh ban inference if we don't introd the notion of the vational free energy or maybe it's equivalent to the bot upper bound of surprise but if we don't introduce this notion then we don't don't find the compettion uh formulation or compettion Foundation to description of the brain working in terms of minimalization of prediction error because I've got some problems with it but maybe may may maybe uh try to explain how I understand this if we take the few um um few level of description of David Mah I think that talking about the minim minimization of prediction error or minimalization of uncertainity are related uh to the uh compettion level and I think that talking about minimalization of R energy or approximation by inference are related to the algorithmic level and the idea which I try to develop is to using the connection between those level to investigates what's happened on the uh mechanistic uh level the level of mar and I think that the notion of prediction error or Soo um when we talk about this we omit something important what describe and explain friston his his paper concerning energy yeah very interesting also there's different ways to view this but in the vfe centrism there's also the possibility of relationality as a core principle because if the mechanism surrounded surprisal of the system that would be closer to an account where there was like a surprise module or something that was about what the systems what representations were internal for the system but with vfe we have something that's explicitly implementational relative to a constructed model so then it it naturally um connects to discussions about how modeling is done practice be because it is a constructed variable whereas like temperature ostensibly it is important for a chemical reaction or temperatures of core graining I'm sure there's a lot of ways to say it more formally but the the kinetics do matter for the chemical reaction and then we have tools that are able to measure temperature in different settings cognitive modeling seems to have a relational step that's a lot more [Music] multifaceted because VF is only calculated relative to the modeler's construct so one person might make a model that shows the vfe doing this and a different model would show something different and that seems to be a bit different than like we have two thermometers but we both agree that temperature really does matter yes yes I agree to agree but the I think the information that the dimension of information is more subtle than uh the dimension of temperature of mass and of course uh VF is related to the modelers and model which they develop but um uh I tried to send something more of course VF is related to the modelers but there is something in the uh Target phenomena which motivate modelers to use VF and of course if I look on the piece of the paper the paper does doesn't look like for example process the information and doesn't motivate me to to to think about this paper as something what I can model using uh the variational energy or variational principle but when I talk about on a living organism or the human brain on on the something like that there is something in the structure in the phenomena which motivate me to build a mod than using this um principle and of course uh the truth of the method of measurement the truth of the m method of model building is arbitrary in the sense that model uh the target phenomena doesn't directly give us an information which method is better but uh it's not arbitrary in the sense that I think that we can in the same fruitful way use the statistical mechan for example to explain the brain and for example ban modeling to explain the brain it's not arbitrary in the sense that I can use the the piece of paper to to eat something as I can I can take a glass of the water if I want to drink but I cannot take a piece of paper if I want if I wanted to drink but but uh and this in in this sense when we distinct the formal principle the romatic principle we disting the model which are built on the normative principle and the target phenomena which we want to explain using this model based on the foral principle um then it means that the relation between the target phenomena and the relation between the model is not arbitrary in the sense that we can use every kind of the model to every kind of phenomena and I think that um when we try to look into our brains this kind of the structures in some way motivate us to build the compettion models and those compettion models I think is in some sense different than the compettion model for of behavior of I don't know pones or moving of my hand um and so um in general I would say that uh truth of and coming back to your questions uh as I said the the dimension of information the con informational constraints are more uh more subtile than the constraint like mass or temperature because um probably we don't have a as a same good uh method of measurement of the information like we have the good method of measurement of temperature of the mass and uh probably maybe uh the free energy principle or variational principles are not the the best possible way of describing and explaining the brains but probably I think there this is the most optimal for moment uh when we take the the whole knowledge our knowledge about the brains it's the most the most optimal models and methods to to trying to explain this phenomena but but as I said uh using of the variational principles using of the basian modeling doesn't uh uh doesn't don't lead us to the say something very specific ontologically independent from these models about the the nature of the phenomena we describe thank you yeah that makes me think about a sufficient account a mechanistic account if you have a system that entirely is described by hot and cold flows through a pipe you may have a sufficient and even a total account with only thermodynamics now maybe the hot and the cold exactly signify like a signal so then there would need to be some kind of information processing model or layering to understand and and then we move into a space where um looking at just the information measures on the syntax like the amount of data transmitted in in bytes or something over a digital connection you've already already highlighted the relevance of the semantic information flows which is um a topic that Chris fields and others have started to look into and then there's a further uncoupling between the um material basis of the information transfer and the flow I'll ask another question from the live chat so upcycle Club wrote are there any limitations or challenges associated with incorporating mechanisms yes good very very good questions um I think we can looking for the limitation related to the uh questions which scientist uh gives uh uh it means that we can looking for a limitation concerning the the the the the methods and of course the more important limitation concerning the the border of the of the systems and um it is hard to give a one good answer because in the field of the in the field of the mechanical philosophy there is a big discussion about the border of the mechanisms and if we take uh the constraint based mechanism approach the situation is looks more uh complicated because um system Traditions uh of the composing mechanism will claim that the border of the mechanism are related to the border of are related to the components of the mechanism when I say that the components of the mechanism it's it means that something what we de compose is not enough because we have to also look into to the elements which are not literally the part of the mechanism but but which makes the mechanism active it means that the border of the mechanism is um unclear and I think the main uh limitation concerning my idea is to is to say when we have to stop to explain for example when we take an example of the pipe uh and the water moving in the pipe um this is the part of the mechanism but the the the the the the material from which the pipe is built is the Environmental constraints which is not the part of the mechanism but which is important which is relevant for the functioning of mechanism because the the plastic pipe give uh makes the better for example better working of the mechanism than the wooden pipe and I think the main limitation is related to the questions of U which constraints for example when we talk about the constraints as environmental con uh environmental uh factors which of the constraints are uh how many constraints we need to to say that okay this is enough we we understand how this mechanism isactive um and I don't know for now uh where this border is uh because opening the mechanism on the constraints opening the mechanism on the information coming or processing by the for example narrow mechanism make this questions about the Border mechanics more specific or more more complicated um but I think this is similar discussion or similar problem like we find the the field of the FR principle when we talk about the border of the micro blankets or where we talk about the the mark of the cognitive or Mark of the living organism I think that if we integrate mechanically the free energy principle with the the the for example mechanical predictive processing then uh then this discussion about the border of mechanism be a part of the discussion of the border of Marco Blancas of the border of informational systems something like that thank you that's a that's a huge point it made me think about having a physical object could be digital or analog that's going to implement some procedure program that is going to be bound apparently by the halting problem like the inability to know for some kinds of systems how the pro the program is going to turn out um by the incompleteness type pattern so there's certain informational constraints that kind of come out of nowhere seemingly to constrain the um action or to to provide some some thing that limits the action or the knowability of the action so then you um highlighted that it it is actually this stopping time question or the halting question as a question of scientific strategy in building accounts knowing how much to include and and that's very related to like identifying or selecting a system of interest because you could say well the pipe comes from here and so we're going to go back up the supply chain and pretty soon if you include the flow of air or the movement of digital information or something like that in system that can unfold to include untenable models so then there's a course graining and all already um people make informational core screenings like with causal influence diagram like just the the the the relevance of one variable on another and so it's just very interesting that by having the material Thermo mechanism and a legitimated role or status for informational mechanisms which are the natural kind of explanation for perhaps algorithms or that still there's the the boundedness of what is being accounted for but a clearer way to know how far out informationally just like you could go out physically in the thermal account with layers of rooms outside of the heat bath also you could go out informationally more into the past for example or you can just say we're just drawing a line around this so maybe by yeah sorry sorry no I think I think that the the the for maybe the best way is to um question about on the of the borders of the mechanism borders of the system relative device to the our scientific interesting because when we talk for example when we talk about the pipe or we talk about the digital system um they are some kind of artifacts and they are related to the architecture who made them when we talk about the brain it is hard to think about the brain in the same or analogous sense and we talk about the pipe or the glass or the paper because there are artifacts you can say about natural artifacts and I think that our uh thinking about the borders of the system we want to describe maybe primary should be related to the our our questions concerning the borders and pro maybe it the story was that that mechanists um in this system tradition the traditional VI mechanism um will say something like that we think about the brains as mechanism like the other one we can we can develop the the structure of the the of the Social Web the structure of the uh of the brain the structure of the the bones and so on and so on uh and this this way of thinking about the brain as the kind of the mechanics like the other one in some sense uh direct the investigation into brains and this is why for example the composition as the whole strategy new mechanical philosophy many authors think about this as as relevant and uh we don't need anything else but when Beal for example claims that okay but there is a mistake because our brains are based on the web of active mechanism and those active mechanism is most more specific because uh what makes them active is not only it's not is not only what makes them and mechanism in traditional normal sense and when we talk when we look into the paper of Beal he doesn't develop the the idea of talking about the whole brain they developed the the investigation into the small pieces of how some kinds of cells transform uh molecules and so on and so on but they they still uh claims that if we uh show the bound into too fast then uh then we don't explain correctly how the given mechanism the given cells uh do actively what does what actively what it does and um I don't know if if um probably if I want to the defend the idea of moderate realism about ban modeling I would like to say something like that that that there are some kind of borders world um we try looking for those borders um maybe this this the systems and the difference between different systems uh motivate us to try and describe these borders but um there is no possibility to say that the factor here there is a borders but always when we talk about the borders this is talking about the borders is related to our our uh measurement tools and uh the method so I think that the small move in mechanical philosophy which I describe as the constraint based mean approach um we can interpretate as um as uh example of uh the situation when the phenomena motivate us to change our scientific practice because uh back 20 or 30 30 years developed the the new mechanical philosophy but in last five or six years he claims that okay but this old view was not perfect we have to change something and I think this is this is the argument for the moderate interpretation of the scientific practice phenomena in some sense because we developed a good method to investigate into phenomena PHA in some sense motivate us to change to to to to to uh develop the the the new methods and change our our scientific uh horis and so on wow that's awesome one other thing it made me think about was the differences the the relevance or the difference between the thermodynamic and the informational accounts become very clear when studying decentralized systems that are spatially disaggregated because when there's something that's physically enclosed and and it has like a unitary physical component and a unitary informational component like a desktop computer or a single tissue then there is an undeniable overlap between those two systems which kind of host and relate to each other but then when there's a system that um has other things amidst it that than just thinking here about Nest mates in the ant colony well then spatial enclosure and just inclusion of all the material components seems to clearly capture too much and so that seems to suggest a more role which takes on many rich areas from semiotics and all these other semantic questions not just again a reduction of the informational to the syntactic like how much um energy or material was transferred because again that will just conflate that'll make Mech it's it's it's um it's a approach that won't lead to the best research agenda on mechanistic accounts interesting h so I think that the the the the the question about semantic information uh is really important here but if we take uh basian ideas about the the brain which infer the information coming from uh the environment this is thisinformation is something more than the syntactic relation um but um I think I think what is important uh here is what what what what PR's really important claims that I think that uh information change everything in that sense that when we try to literally think about um bi approximation and so on then it means that everything we want to describe and explain as scientist is stly related to the information we receive you of course this is very very simple uh every every object uh we observe every object we want to describe uh is always related to the information we have about this object and it means that there is no something like we got a naked fact naked State of Affairs uh maybe ontologically there are but from the point of the view of the entities like us every time when we receive when some information every time when we observe something and we try to develop a model of some kind of phenomena it's it's always um related to the some kind of information what we have about this phenomena and uh I try to say something very met metaphysical um I think that the varal uh uh point of the view as we can say something like that the bian point of the view um show us that there is no distinct border between the the the the object we try to map uh between the the language we try to use to map this object because I think there is something that Max rad has right when we they claim that we still we try to describe the objects who behave like the that we try to describe the territory which behave like a map which describe this territory and of course this is not only the metaphor I think that uh everything what scientist try to do is to reconfigure is to identify the structures uh which um are extended now to the structure uh of thinking structure of information in which we use um I don't know I think that that that bayian view about human brains about the world uh lead us to the one uh very important questions about um about the informational natur nature world I don't know um I spec right now okay but when we when we think when we take seriously this uh kind of thinking about a science about about the entities the most basic the most fundamental uh future of the world it's not a mass it's not a temperature it's not an energy but an information and I think the information is something what change a difference and uh literally it means that if you want to develop a science we cannot ignore this very basic fundamental futures of the world why because the information of course I don't want to say it's something like pism P informational something like that but I will say that information is always for he for someone and and and I would like to say that from some some when when I reading the papers of freom and so on I I still think about what why we should or why we shouldn't uh ignore the information in our investigation and I think that ban uh modeling give us a good tool maybe it's a ple for uh the place of information in the in the in the science because but not only literally talking about information okay we not it's obvious that brain process information but information is antiy which making possible many many of the phenomena and I think that our brains in short we say our brains are the entities which are which are possible because there are information which makes this mechanism this kind of mechanism but not the other sorry I this I think this is really speculative uh metaphysical uh but it's hard to catch this idea yeah there's there's a lot there um certainly the unity of the scientific and the broader informational Endeavor is very interesting and so thinking about that explicitly in terms of epistemic foraging seeking out which measurements or observations to acrew and that being kind of on a Continuum of agency of experimental selection and there's other like a fixed camera does not have control over the sensory observations it's making it could have internal cognitive control but but having a unified way to talk about what it is that science or just different ways of knowing even outside of what we might call Professional science today that those different manifestations are are part of a ecosystem of Shar intelligence part of a shared fabric with other information as chemical elements are in circulation in a chemical ecosystem what is the status of the Connections in semantic ecosystems and people could have viewpoints like well there are no semantic ecosystems there's just syntactic ones and you know there's no syntactic ones there's just material ones I mean people can always go that reductionist path but to the point where any given person says okay I've kind of bottomed out on reductionism here or I'm looking for another perspective there is going to be the question of what the semantic account is and what its status is and does it articulate with the thermodynamic account do they have a a zone of indistinguishability do they have um a broadly overlapping region maybe it could be one way in one system and a different way in a different system system but these will constitute like some of the fundamental philosophy questions that that you identified in terms of real mechanistic accounts for intelligent systems and using active inference to develop any kind of account I think we cannot ignore the semantic uh and maybe the one of the most important things that fristom says is that semantic is important in that sense that it is not only the the medium uh which we use for example when we if I correctly understand the the the origins of the the the fian free energy principle it comes from the method of measurement of the in activity and someone can say okay this is only the method and there is no any implication uh of course but I think that the Fone will say something more it says that there are phenomena which in which semantics play and not only the uh of course there is phenomena in which semantics play an important role but we cannot ignore the semantic Dimension um in our practice of uh science building or model building uh it means that semantic is not something like the piece of the paper I can use the piece of the paper when I have wrote uh a paper or I can uh use a word or offic and something like that and this not important what a material use I think that many authors or maybe papers think about the semantic as some kind of the medium like the kind of the paper I use I think that the re energy active inference framework show us that the information or semantic is something uh what makes possible for example to to to to to do this to do a science or make or maybe the information semantic is some is something what makes possible for as a human human being and maybe like a thermodynamic free energy if we don't uh transform the the mules from the environment we don't live but the question is why uh science talk many things about the thermodynamic processes and talk enough not enough uh about the informational processes I think that the biam modeling uh FR approach lead us to the conclusion that there are systems for which the transfer informations is uh a same important like to transform process the thermodynamic energy in the argument which I tried to develop from the ne computation show us that all always there is a tradeoff there is a comprom there is a relation between information processing and thermodynamic work Coast if there is some kind of tradeoff why we don't uh take an usage but Pro probably it as I said uh information is something what is hard to uh be measured like temperature like mass and and so on and so on and I believe that um veral principles uh give us a chance to try to develop this of course remembering about this that those principles are only the those principles lead us to the tools which are only the the more or better more or minor the approximation of the the the real real um okay well wow do you have any closing thoughts or where is your research in this area going to go uh I think that uh I've got a I've wrote a grand proposal about this idea and a few days ago I I received a reject in Polish Center um and the one of them I think this the the the the one the reason why they reject my proposal is that I I propose uh um using appli this idea into the the real modeling framework so the next steps I and I think I agree because this is very speculative uh I propos some kind of horis sixs and I believe that this hortic can be applied in a real model building strategy and uh the next step about now I'm thinking is that to to Mid person or to to make a competence concerning that and find the finding the way to how to taste this idea in in practice um and still um there is two options um the first one is that okay this is the the the speculative idea and we don't need think about the the the mechanism in terms of information constraints and so on and so on and the second is that okay this is a correct idea but but maybe variational principle bi modeling is useless here because everything what you need is coming from the thermodynamic of information or the classical theory of information like and so on so I think there are many open doors I hope I will take a way to find some of them thank you well it was a great presentation and discussion you're welcome back anytime to share what that next step looks like I really appreciate this I think it certainly is a great benefit to the literature to connect the kinds of things that people want to say and do to now how we are saying and doing it thank you thank you Daniel thank you very much thanks for questions that was a very nice experience thank you excellent all right till next time good night bye bye</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

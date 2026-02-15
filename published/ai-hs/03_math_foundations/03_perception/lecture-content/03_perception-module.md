@@ -1,14 +1,14 @@
-# Module 03: Perception in Hs
+# Module 03: Perception in High School
 
 ## Learning Objectives
 
-1.  Define **Perception** within the context of Hs.
+1.  Define **Perception** within the context of High School.
 2.  Analyze how Perception interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Hs to the formal definition of Perception.
+3.  Apply specific constraints of High School to the formal definition of Perception.
 
 ## Introduction
 
-This module explores **Perception**. In the **Hs** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Perception**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between Agents and Cognition.
 
 ## Key Concepts
 
@@ -23,30 +23,10 @@ How does the process of Perception drive the perception-action loop?
 
 ## Applications
 
-In Hs, we see Perception manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+In High School, we see Perception manifest in:
+*   **Specific Example 1**: Bayesian updating in statistics is the mathematical foundation of Active Inference perception: when you flip a coin 10 times and get 7 heads, your prior belief (P(fair) = 0.5) combines with the likelihood of the observed data to produce a posterior distribution that shifts toward "biased coin" -- this is exactly how a perceptual system updates its generative model given surprising sensory evidence.
+*   **Specific Example 2**: In signal processing, a Kalman filter estimates the true position of a moving object from noisy GPS measurements by maintaining a predicted state (generative model) and weighting it against each new observation based on measurement precision -- this is perception as mathematical inference, and the filter's update equation is a concrete implementation of prediction error minimization.
 
 ## Conclusion
 
 Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

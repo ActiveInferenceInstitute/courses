@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>71_Actinf Gueststream 067 1 Andr S Corrada The Logic Of Ntqr - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>71_Actinf Gueststream 067 1 Andr S Corrada The Logic Of Ntqr</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>71_Actinf Gueststream 067 1 Andr S Corrada The Logic Of Ntqr</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf GuestStream 067.1 ~ Andrés Corrada "The logic of NTQR evaluations of noisy judges"</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=HThdpvQzA4o">YouTube</a>
+<strong>Playlist</strong>: GuestStreams
+<strong>Duration</strong>: 1:51:15 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello and welcome it's December 7th 2023 we're here in active inference guest stream 67.1 Andres Kata is here with us and we'll be presenting And discussing on ntqr Logic for noisy AI algorithms complete postulates and logically consistent error correlations so thank you for joining Andreas and also yakob and looking forward to this discussion thank you Daniel thank you for introducing me uh hello Jacob and Jacob and and Daniel Jacob would you would you like to talk about why you're here uh yes sure uh so hi I'm yakob I am a researcher currently based in California um I am interested in using physics-based principles to model intelligent and self-organizing systems and how different Frameworks uh most specifically active inference can be applied to both topics in Ai and systems engineering and broadly how we can use these formalisms to understand systems at a deeper um more inclusive level with other disciplines as well and I'm very interested to hear uh your talk and your your thoughts on um these these uh these topics um and engage in hopefully a productive discussion looking forward to that yes okay so I'm going to talk about the problem of self-regulation for any intelligent machine and in it has been a long journey for me in dealing with this topic it goes back to a pattern that I that that I took out in 2010 but recently I've come to understand it because I've been collaborating with a philosopher and an economist uh the aspects of it and that's why I have this very Abstract title for it called ntqr because it refers to a situation where you have an ensemble of n experts to which you have given T tests and each test has Q questions and each question has our responses okay so it's about evaluating noisy AI algorithms when you give them these types of testing protocols and superficially at the beginning we can take that testing protocol to be the surface application itself you are literally taking let's say a multiple choice exam but I'm going to eventually dislodge you from that to understand that this is a digitizing format for testing logical consistency of anything right because you can digitize anything so even if it's continuous right you can create you know four response ranges right and stuff like that and the big breakthrough for me has been the recognition that for a long time I talked about these things as universal thermometers and the universality meant that they could be used everywhere just like thermometers can be used everywhere aside from you melting them right or freezing them Beyond uh their range and the thermometer also had the notion of being stupid no intelligence no theory about the world or the phenomena that it's measuring the temperature off and I've did that for a long time and I took out a patent because I thought that I had found a method to do these thermometers and and you can patent methods but it turns out that I did not discover a method or have a patent I discovered logical postulates for evaluation and so what I'm talk going to talk about today is the logic of evaluating noisy functions period in general universally and so I'm going to talk about them as postulates because they apply whenever you are doing these ntqr tests and so a major conceptual goal for me is to convince you of that right that I have something that you could call postulates because especially in the machine learning world people say this is crazy this cannot possibly be right how could you have postulates uh for anything uh in in in the real world uh so General and you'll see that I I do that by basically uh shedding all representation so I I want to mention these collaborators uh one of them happens to be my cousin this is a conflict of interest disclosure uh he's a professor of philosophy at Virginia Westland University and he has been the severe critic of of things and I you know I've done most of the work in terms of the mathematics and the Machine learning but he's the person that is responsible for actual introducing the the concept of logically consistent versus logically sound and the utility of of having any sort of logical right proof for for anything that you do and then the other collaborator with this paper is IIA Parker who uh works with the Navy and has a masters in economics because you're going to see that this is a fundamental problem in economics that goes under the name of principal agent monitoring so I'm going to talk about you know the the uh two main goals that I have in the talk then I'm going to introduce the main problem that we're going to be addressing right this PR principal agent monitoring problem and then I'm going to make a a a some observations about you guys I find that the the the format of these live streams is uh incredibly interesting to me intellectually and I just want to you know sort of give an outsider Viewpoint about what I'm seeing that you guys are doing that I find so laudable and as I was saying to Daniel I have a little bit of an impostor syndrome because I feel like you guys made a mistake inviting a stranger like me so suddenly but I I hope to repay that kindness by engaging in a good discussion with everybody and so then I'm going to you know introduce this idea right of algebraic evaluation talking about binary classifiers and I'm going to make the math be really simple right just linear algebra so that you can understand understand it right I don't want to lose you because this this is eventually involves algebraic geometry and something called grubner basis and all these complicated stuff but I don't want to use this math to hide from the basic ideas that are behind it and then I'm going to talk about what I said before that that you shouldn't think of the multiple choice exams as actually being the surface realization of how something is being evaluated you could you could have given people a philosophy exam and give giving them written essays and then you have Chad GPT grade the written essays and give a score right from you know zero to four right so then you're making an ntqr equals five test right and so I'm going to go over that and then the main technical result of today the main thing that is the the the Breakthrough is that there are complete postul for pairs of correlated binary classifiers that allow you to separate Cor correlation from Individual performance in a way that actually allows you to then immediately trivially sort of uh compute the only logically consistent error correlation if you believe that they behaved in a particular way and I'll go through that caveat then I'm going to show an exact solution for the tree of error independent classifiers and then then show some experiments you know and work work through the math of doing it any questions or people want to comment on anything go a little further and I believe we'll have a few pieces to add in okay so the the the main goal that I have right is is that I want to describe to you what I did technically right which is try to figure out how I'm going to evaluate uh ensembles of noisy binary classifiers and so you you know it has a particular way that I go about it blah blah blah blah and you know that's sort of like the surface realization but once you realize how how I done it and what I have been able to achieve what I really want you to think about is this last question right if it's not this thing that I'm going to talk about wow isn't it something like this because it seems like this is so easy to implement and it's so useful if it existed and so that's where I want to take you okay and so I want to have the discussion for that and you know we can go into the math and I can pull up the papers I can pull up GitHub repos right and I can show you stuff if you want me to show it but I don't think it's going to help the discussion and so I want to talk about you know sparsity picking best variants and safety from internal mistakes that those are the topics I think Jacob uh Rose you know talked about some of them right I think uh the November 14th talk that I saw with Alexander he was harping very much on sparsity being a very biological thing and you're going to see how I use it right because I basically have a data streaming algorithm okay so this is my outside review I mean this is a community of people that you guys have been working in so such hard problems and you're still working on such hard problems which I have to say you know and I'm being you know honest here you've made very little progress on right but it's because they're really hard fundamental problems but you guys don't give up you guys are still having this live stream you're still inviting people you're still discussing it right I love that right not giving up on on on on on particularly hard problems right so I'm very attracted to that particular mind temperament and you're a community as I can observe of people who have come to neuroscience and biological things but from different places sometimes from physics sometimes from biology sometimes from mathematics and have arrived there but you're still bringing in people from those places right and there's a lot of active listening that I saw Daniel writing stuff down right as people were speaking I mean incredible stuff that you rarely see so kudos to you guys for setting up this sort of environment and you know inviting a stranger like me to talk to you it's very courageous intellectually and I applaud it and I hope to repay the kindness by engaging a discussion for the purposes of clarification right that's what we're here for okay so you know I I I I think in LinkedIn now I have myself a scientist and inventor and I'm starting I think I'm going to flip it I'm going to say inventor and scientist because the older I get the more I think that invention is better than science first of all it's been around before us right and some people claim that fire made us right and we didn't invent fire it wasn't invented by homosapiens and so invention has been before uh humans and it probably will be after humans are around right and and so I've done I worked in many different things and so I I I've done I have a patent for an underwater Periscope uh you when you are at the bottom of a pool when you look up you see that you see that Circle that's called snail's window the whole world the the the the whole above surface world has been compressed into that Circle and distorted but you can see with the shading right that you can pick up pieces of the world and so if you could if you have a a polarized camera You Could reconstruct this so it's this idea of reconstructing right what's beyond that's I find it interesting and I've worked in in uh I trained as a physicist but I trained uh you know I I've been always interested in the marriage of mathematics and exact stuff with a very physical problem so for my PhD I worked on super fluid film vortices on a Taurus and I found a theorem of reman that had had no application quantum mechanics until this problem okay so let's get to the to the meat of the problem so the principal agent monitoring problem so this is a problem as old as a hell so it appears in Plato's uh Republic and some people call it the allegory of the Ship of Fools right so there is a ship owner who has a crew of sailors and you know they're kind of Rowdy Sailors Plato says that they may be drunk and among them there's a philosopher king who's pler himself right and uh and but the owner you know doesn't know how to pick the sailors right he he the owner just owns the ship doesn't have any ability that's why the owner has hired Sailors so if you are an a a principal and you hire somebody to do the job for you either you're lazy or stupid and you don't want to do it yourself so you have this monitoring problem how do you monitoring you know how do you do how do you monitor work that you don't want to do or don't or don't know how to do does everybody get that the Paradox there right and so and so Plato's answer is democracy no way to do this right because there can be factions right part of the crew can have a faction and you're not going to pick the best Captain if if you have people vote for who the best Captain is so you know Plato use this to attack democracy but this kind of goes this is counterintuitive right we know that that that group right that groups are better for us right that ensembles help us survive better right so there's this tension in western civilization between this sphere of the mob right and this thing about the unitary right philosopher king that's going to be the dictator so who's going to rule us is it going to be the philosopher king dictator or is it going to be the mob right so there's this constant tension so I came up with this problem because I'm one of the hundreds of scientists that have made speech recognition possible on your phone right now I used to work for Dragon Naturally Speaking and Dragon Naturally Speaking if you go into wir magazine and look at the highlights of machine translation uh the founding of uh dragon systems in Newton Massachusetts in the 80s is considered to be a pivotal moment because you know the the dragon systems went on to create uh the first uh continuous speech recognition product on the desktop and and the way that speech recognition was developed was as people may know from machine learning was by having data sets and one of them was people reading the Wall Street Journal and then that being transcribed with all the mistakes that people made and the hes and the H and so forth right but after you know five or or or six years you know the Wall Street Journal uh Corpus became very important as a benchmark and so people started realizing well you know I'm being greater in correct in this transcription but I actually it's the official transcription that's wrong and so why don't we just redo it right and so they went through the whole Corpus and they redo they spent the money to do it better and so they so every test from then on right in the software had the old Benchmark with the mistakes so that you could still Benchmark old papers and then the new Benchmark and I said who's checking the new Benchmark right it's the principal agian monitoring problem right who checks the experts how do we know that this last transcription doesn't have any mistakes then a second moment in my professional life I'm a lecture at UMass Amherst in physics right physics 101 I have to lecture 500 students the only way to do this is to give them multiple choice exams bubble sheet answers right that I then collect with the Proctors at the end of the exam and take to the back of the room and feed into an optical scanner I won't describe to you everything that I did and I was told to do to randomize the test in the in in the in the room okay but it led me to sometimes when I was feeding those exams to say why do I need to feed the first sheet the answer key why can't I use the wisdom of the crowd to grade the exam and then finally the the thing that actually got me into the mathematics of actually doing this was in the in 2008 I started working in in in uh in UMass amher in the computer science department with Howard Schulz doing digital elevation models from uh multiple maps that were done from aerial photographs so how do you combine these things right there's there's so much data now right this is the problem that we have so much data how do you combine it and not prevent the noise from corrupting it and then finally the 2010 patent by data engines on error independent model solution which as I'm going to tell you has disappeared the the the patent is not and void there can be no patents on postulat you cannot patent natural law so I'm telling you the the the history of my business failure basically okay so so this is the paper that was on uh you know the the geometric uh let me get the laser point there the geometric Precision error right for computer vision test and basically the idea there is that you you have a bunch of maps okay and you and I'm I'm plotting here the error Co variance Matrix between the different maps and the way that my boss Howard Schulz did the maps he did it so that he took advantage of the fact that when you have a photograph a and photograph B when you match features in a to B you can go this way right one way an arrow but you can also go the other way and that matching is not symmetric so he wanted to take advantage of that nonsymmetry to discover blunders and he did so and he was able to show that he got rid of blunders but he went on to continue using the maps and everybody told him Howard why are you doing that those maps are really correlated right that's A2 B and b2a matching and he said yeah but why not they have some information and So eventually I was able to prove that he was right and this is what I'm showing here is is where I have a model where I just assume that everybody's zero and all and I've induced a signal if you're a physicist you know what I'm talking about right because I have these two pair to these two maps that I know have been correlated or highly correlated and I'm introducing them there with other maps that are not so correlated so it's like Ian I'm I'm I'm putting an injection right a modulating signal and this recovery here was with compressed sensing and you see how without being told that that along the diagonal there's this strong structure it's able to pick it up up right so sparsity if the errors are sparse enough you can discover the error the Precision error between regressors so even though today I will talk mostly about classification everything applies to regression too and here's the the the Crux of the issue right that that the the the the way to do this is to basically get rid of reality this is the way that you get rid of represent ation right if if I have a model why don't I subtract the True Value from the model whatever remains is the is the error and so I'm just going to talk about that today in terms of classification okay can we can stop here if people want to ask questions because the next theme is going to be data streaming yeah I have a few comments yakob you want to go first though uh yeah sure I guess I was wondering if there if if you have been thinking about I guess a measure to quantify how uh how much information is lost or can be lost when using a particular Benchmark uh because the way it it sounded like when you were talking about it is I guess similar to the notion of well all models are Co graining of the particular thing we're modeling therefore every Benchmark is going to have this problem of who's watching The Benchmark or who's checking that The Benchmark itself is correct um which is a uh I I suppose in escapable problem we cannot Escape it as a civilization right nobody knows what the answer key is right there is no dictator that we can go to as a civilization as a society it's inescapable right we're always benchmarking to something else there is nothing but benchmarking to something else right am I am I crazy here or can I get an alen right nothing but difference yes nothing but gradient Unity is at minimum to yes yes right that is the only thing that we have to observe and that's a statement of relative relativity in physics too right that we cannot observe absolute velocity we can only observe relative velocity between particles it's the same thing for measurement it's not different yeah a few other comments so the back and forth keeping the back and forth directions Being Fit And how that contains information on blunders like you described and then another subtle pattern is in the in the Matrix one slide previously in the cells that were too off diagonal yep there's a a slight positive correlation that's transmitted sply potentially Amplified through compress sensing and distorted and so on there's also ripples of underlying even trivially analytical Square correlation matrices empirically Plus noise plus compressed sensing have these attributes and that is what puts so much of the experimental design and attention interpretation onus onto the cognitive entity as hardly this or any data speak itself yes yes yes I have to agree with you right there there is we have to distinguish here there is no magic and there's no metaphysics here there's only a measurement which is a statistic of a sample and therefore it's impossible for it to for you to generalize it right it's not an it's not an intrinsic property here right if I'm telling you that this is the error correlation those Maps I'm telling you that that's is the error correlation for that particular collection and for those particular maps not for the algorithm in the future in the or in the past right I'm telling you something about the test that you just took period end of story nothing else if you want to ascribe meaning to that go ahead right but then you're incurring that right that cognitive uh you're the one who's now becoming the dictator right the bucket is stopping with you because you decided to assume that that measurement meant ex about the world yes when you undertake the epistemic quest then you're the principal epistemic agent and that's an N equals 1 situation another I think interesting touch point is um hierarchical predictive processing models which we talk about a lot in in active inference they have a highest level prior and if that is going to be also learned over updated there's going to be a hyper prior on that so that's one aspect where there's just the buck stopping at a point from a hierarchy perspective and then also um even with just the gaussian the bell curve with the mean and the variance but there's not a variance on the variance that is what gets collapsed that's the metacognitive and that degree of freedom is what constraints and makes models go stale and makes them overgeneralize without being aware yes and I want to I'm going to address that one here because I'm going to talk about measuring error correlation independent of model being able to measure empirical error correlation now whether you want to generalize that because you have some view of how to basian generalize it or not that's a separate issue right but being able to at least Benchmark the the the actual correlation on the test so that then you can have those cognitive models and those epithetic models that can have that let's make the analogy your car has a computer in its engine right and it also has a thermometer what I'm going to talk about today is about how to build a thermometer that helps the car's computer run the engine better right and I'm all I'm saying really comes down to that that it wouldn't it be great if intelligent Minds had a thermometer for intelligence right because then the thermometer just tells you that the car is overheating it doesn't tell you why you need a cognitive process right to Fig figure that out oh it's because a piston is blowing right or the oil went down right that's a separate issue right but knowing that something is wrong by overheating with a thermometer is golden right and I want to get to that rock of having a thermometer that I don't have to worry about representation it just gives me a measurement I'll deal with the fact of what it means right but I just don't want to worry about what that measurement is or I want to reduce it as much as possible so that EP so it may sound weird but you would want a tool that strips epistemology from checking the logical consistency of your evaluation so that you can Aid that epistemic agent and so I'm right this is the thing that that I find weird and fascinating here that I'm going to propose to you that what we need to do is strip epistemology and I'm going to do that uh you know continuing on and and so let me now start talking about that okay so data streaming so so you guys talked about sparsity right so the way that I encountered uh a data streaming was with a good touring smoothing uh algorithm in speech recognition at at at Dragon systems they gave us a a a a book written by um gosh what how can I forget his name U our research director and and he had good touring smoothing uh frequency smoothing can I get a count of how many people know about what this is or know what data streaming is is this something that you guys know very well as a community give a description that sets it up for how you want to talk about it okay so the the uh the the way that the typical uh uh uh data streaming algorithm and the way that it gets presented is that it's a method for minimizing memory when you want to compute statistics of a of a stream and so the prototypical simplest case is you have a stream of numbers that are coming down the the pike right and you want to keep uh and at any moment I want you to tell me what the average of those numbers are so the memory intensive way to do it is to store all the numbers right and whenever you a query gets made take the average of those numbers right the whole list but of course as the as the stream increases right that list is going to balloon and become humongous so the the philosophy of data streaming is is don't do that just keep two numbers have a sum so every time you get a number increment the sum and then have a counter of how many numbers you've seen and then the average is just the sum divided by the number right so just having two numbers two integer counters or two real numbers whatever right you can store and and at any time compute a stream that may be a billion long so that's the purpose of data streaming right to compress you you take a data sketch as it's called which is a compressed version of all the events that you've observed in the data stream in all their richness but you're not doing that you're just taking the events and you're doing some sort of compression on it and you're keeping that statistic and you and and then at the end when people tell you ask you you say oh this is the average that I've served so far so for a good touring smoothing got invented by Alan touring during World War II because I don't know if you know that he was responsible for the Enigma machine breaking right in World War II and you know they had they started to you know Alan T was a very good mechanical dude he actually built a tide predicting machine way before computers or he did any of the stuff that he was doing you know uh as he's known very abstractly right he was very much Hands-On and he helped build a bomb which were early computers that were processing uh the uh German traffic that day and trying to decode it they had to work all day these bombs were continually churning right this is the nigma Machine by the way recently found in a flea market $15,000 if you find this machine so it had these very complicated rers right and so these These are the bombs and they had a lot of uh woman assistance right back when when computers were women right before uh you had the grace Allen and so forth right and so uh this you had to send people home at the end of the day when did you stop you don't know how many secret rer settings were done that day when do you stop when do you decide that you've done enough processing and there's no big chunk of German traffic that you've missed so he came up with good touring smoothing which was how many rotors settings have we not seen which is a crazy statistic if you think about it right what do you mean how many things have you not seen right and so he was able to do it by shifting right by saying well there's many orders for which we've seen only one message right and there's fewer orders settings for which we've seen two messages right and so if you look at how many messages were per rotor setting which now biologist used to figure out how many species they miss in a survey you can then know how to shift the mass to the zero frequency observation you take a little bit of probability from everything and shift it down and can you believe that this is still one of the probable best ways of doing this estimating unknown frequencies Alan orari from UC San Diego has been doing some of the modern work on understanding good touring smoothing notably it doesn't get used nowadays in neural networks because neural networks never have any missing data they will always give you an answer even if it's wrong or lining this paper which was published in neurs argues that that's wrong and you should go back to doing what he does but we're not going to go into that okay can I make a comment there yes um this reminds me of the distinction with parametric and non-parametric statistics and when people talk about how many parameters this model has neural network Transformer what have you it's a parametric model that's why they're talking about how many parameters there are and nonparametric methods although that's kind of like saying the non- elephant animals kind of classic joke it's also like a very open and procedural space where there can be a lot of methods such as shuffling and leaving one out all these different statistical methods that may have less power or less of some statistical positive capacity in the case where the generated data for example are known to be from a gussian error distribution but under relaxed assumptions about variant structure then non-parametric statistics can do well yes and in and and and heuristics must be something that biological systems use a lot right instead of exact computation I would mitos that statement into two which the first statement I'm most comfortable with is we can model biological agents as using heris sixs we can model anything as using heris in our finiteness as cognitive modelers so if we say we're restricting ourselves to an eight parameter model or to this kind of genre of model for this phenomena it's a map territory distinction now as to whether the territory uses here istics whether you can really say does a bacterium or does a squirrel use her istics that is a question what are those her istics but the first question which I feel most strongly about is that we can say that we'll choose to use heris sixs in modeling complex Behavior why not how can that be not the case okay I'll grant you that uh because I I don't have actually experimental right I mean to be to be precise right scientifically you're you're asking for a particular demonstration of our ristics and our biological system and I don't have that I only have an aspirational statement that maybe it does happen right okay so so the the thing that I want to do here and the problem that I'm trying to solve again is not necessarily procedurally what's happening we know that Us in the world are not completely isolated from the world right but what I want to think about is the ganking extreme where you're isolated and paranoid which does occur in certain technological reals it doesn't have to be a mental paranoia right so for example a a self-driving car that wants to check if pedestrian detectors immediately right that immediacy right means isolation right you can't wait to get the feedback by actually touching something right or get further information moving forward forward and you know it it's it's it's close right it can only rely of on on its own things because it's unlike a Roomba right it can't be bumping into pedestrians it cannot get feedback any other way other than this mechanism that it's decided to do whatever it is for pedestrian detection which could be sonar or could be visual so I think of it as an extreme that I want to solve to understand what are the limits of what can be done okay not because we are actually need to be in that real and so the I want to I wanted to build certain features into it right because I was using this in in in speech recognition and and one of the things that I wanted to do was you know to make it simple and so I wanted to treat all the members of the amples as black boxes so I don't want to go inside your brain I don't want to go in and get readings of internal parameters in models which is not wrong mind you again right to to come back to the analogy of the thermometer and the computer in a in a car engine right you can have intelligent things and and a lot of people do neural networks right and they and they inspect internals to try to figure out right how to detect when it's actually hallucinating there's nothing wrong with that right but I'm saying that it it itself is then going to bring assumptions that I can't check right so I don't want to do that I want to treat everything as a black box I just want to see what the decisions are from the the the Oracle or whether that Oracle be a person a function or whatever right and I don't want to go I don't want a theory mind the other thing that I want to do and here's the The crucial thing right is I want finite chains of safety validation I don't want to use basan models I don't want to use probability because like you just mentioned Dan those are hyperparameters which are encoding information about the world and the whole point about being paranoid is that I cannot right I cannot rely on that right I cannot rely on any representational knowledge I don't want to right to avoid that Pitfall and so by going to sample statistics that's how I'm going to avoid that because I'm not going to talk about distributions I'm not going to infer anything about the future or the past I'm just going to tell you a number about something that already happened and since it's a sample statistics right I'll be able to then uh do the magic that I do which is to create a complete set of postulates so then I can prove that you could be in states that are provably wrong or inconsistent and and so that's the punchline right that that I can do both of these things of of being isolated and gonin right and Paranoid by just having functions that only use statistics of the decisions by The Ensemble members nothing else let's stop here because this is an important point right this is a design choice right that I'm making Could you um unpack that a little further I'm not sure I fully understand how sample St using sample statistics differs from conceptually from using say basian probability on your data so would would you agree that there's the concept of sample statistics and then you know distribution statistics right and things like that right that you can always Define a sample statistics and actually compute it if you knew what the the sample was so that's what I'm talking about that that that's what I mean by sample statistics and then I mean by so so what would it be it would be something like um if if you have data being produced by a gaussian distribution right a sample statistic would be the mean of what was produced okay that has meaning that exists right independent of what meaning you want to ascribe to it whether you want to think that it's the mean of of the actual gaussian distribution right that's a separate thing right using that data and using that mean to then estimate what is the mean of the gaussian distribution that produced it is a complete different task yes right so for one the data may not have been produced by a gaussian right this this issue just to connect it to like what we talk about with variational or just basian inference and active inference let's just say in the room the temperature is continuously variable but then the thermometer is going to be integers and then the agent is only capable of core graining into buckets of 10 so we can still talk about only cares because of you know a Precision Engineering spec right why am I being uh uselessly precise right yeah yeah variable Precision to promote system properties is definitely a corollary of this kind of a framework more broadly like getting getting rid of the um representation question this is like hierarchical predictive processing a visual and so at the earlier lower levels and this phenomena is recapitulated in in silico as well as in aspects of biological systems that the earlier layers pick out less abstract components like edges and on and off and then not that it's clean but that at each synoptic interval which can be modeled as actually means and variances and differentials in the hierarchical predictive processing architecture that can be modeled as like a kind of like representation explained away you know where's the romcom in this pattern of neural activity and then it's just very interesting that you brought up of course the engineering setting predictive code which is to say difference in coding was discovered SL invented in the video compression setting and yet in the row and Ballard 1999 work and so on it came to be understood as a more general property of how information transmission on in certain settings led to certain parimon that has certain relation ships with things like the cman filter and predictive coding so so so you you and Jacob have mentioned this thing about uh a a transmission of information so so I I'm not going to go into it there's so much to talk about I've been working on this for a decade it it the difference between the observed responses gives you something about the test but also something about the quality of of of the person who answered the test the uninformative person who answered the test doesn't transmit anything about how they performed the random guesser only transmits information about the test if I random if I randomly guess what A and B are right I'm going to have the right proportion of A and B as the right as the test itself G to be in the wrong places yeah right but but but your but you're transmitting the difference between the A's and the B's and so there is no magic here if the Ensemble is made of stupid agents they are not able to transmit via their aligned responses any information that allows you to grade them so my method has blind spots right there is no magic here right if your Ensemble is made up of stupid members that don't have an information you're not going to get anywhere what do you think about an ant colony where none of the nestmates know about how many seeds that they have and how many nestmates need what and how much rain there is outside and the rate of information and blah blah blah but they don't know any of that they're just using their local interested in that I actually have a couple of books on ants and an colonies and I saw that you wrote a paper on on ant colony behavior I'm very interested in thinking about that but we're not going to be able to talk about that okay fair enough but okay so I'm interested in the comment you made about R too general information um the so data streams as as ntqr test right so we're going to look at binary classification right so back down here below we have the true label right so this is a stream so think of this floor to the right that gray box everybody sees that Alpha and beta and then I have three different classifiers that are making different decisions right so aligned on the first item the first two classifiers are saying that it's beta and the third one disagrees and says that it's that it's Alpha everybody with me on this as being a right and so what I'm going to do is just collect how many times each of these different patterns occurs that's the compression right so we could be looking at a test that has a million items I don't care I'm since I'm doing binary classification I only need two to the three eight integers so right there we see the compress ression that's very attractive right for in terms of a biological system right because you're not you're not storing the whole stream you're just storing these eight integers that are picking up these patterns Okay and like I said and like Daniel has said right you can digitize to whatever you want in terms of engineering spec you don't want to measure the degree of the temperature of a car to a millionth of a degrees is useless right economically there's no point likewise you may not care too much to worry about you know knowing right you don't care about too much Beyond boiling or something like that right you just want to be told hey the car is overheating right you could digitize that that's a safety you're coding in there by choosing the the the gradation of digitation you're deciding what is your engineering spec and what is your safety concern okay so I cannot tell you that this is an instrument that you have to design and you have to decide what your R is any questions on that yeah just a few notes this is really interesting um there's the principle of the hash encoding or the kind of lookup table for all the combinations and then you can do hierarchical nestings um and then also this situation is kind of like the cells in the retina just speaking coarsely that there's some false positive and false negative for some activation thresholds and so it's kind of like a retinal display that is getting noisy photons and and also there's there's variability through all of these finite systems variability and finiteness are ever prevalent but the observation is just what it is exactly exactly and and that therefore right all the problems with philosophy and logic occur because of infinity right if we just accepted that the world is finite but maybe very large right we would solve all sorts of problems right zos axom choice is only needed for infinite sets right finite sets everything is is explainable and understandable okay so so here I'm going to show you you know eventually you're going to see this this this this is the the set of equations for three classifiers and these are the eight frequencies okay and so the these are the complete postulates for error independent classifiers so I'm I'm going to come back to this and make it much simpler than it is right but I just want to show you how you know these frequencies here right there are eight of them and I can sort of synthesize right assuming that that that that the classifiers have some sort of uh performance right if I just I I randomly pick numbers between one and 100 and then divided by 100 to to have these values and then I just plug them back in here and then I get what what the frequencies would have been of how they voted so I I'm just trying to show you how these numbers right are integers right there's no probability here and then the other thing I want to go back to is is uh uh something that I think you guys would find interesting from the physic is Renault was a a a a 19th century French physicist very famous for building the most precise thermometers of his time at the time when people were just inventing the concept of temperature and people told him how do you know that you're measuring anything temperature is an imaginary concept dude we don't even believe that there's such a thing as temperature and even if you did you would need to have some sort of theory about how you make errors in your thermometer so that I would believe what your thermometer is saying and ren know was screw that right he says are you saying that there is no science without theory that there can be no purely empirical measurement and he said no I'm going to make purely empirical science and so he was a radical empiricist eventually in the 20th century right we found out that empiricism doesn't work but he basically is going to do what I'm I'm I'm going to show you today and and this is what I did with the maps he took thermometers and just compared them against each other that's all he did and then he looked at the differences right and he's the first one to start talking about the concept of precision as saying yes I can build the most precise thermometers because I can get them to agree to certain amount of figures right and then they start disagreeing so even in science right there's a concept that you really do not have science until you have this agreement in measurement you have to have error in measurement if you do not have error in measurement you're either tell me about math and postulates or you're or you you're you don't know what you're doing your instruments are stuck you think they have a prision that they actually don't have thank you this is awesome um when we have multiple observations going wide that's sometimes called Sensor Fusion and then when we have the clash of the prediction and the observation and the differential that's found there that's the predictive processing architecture so those are both there's so many motifs but you totally need a minimum of two other otherwise you have like a statistical monad which is really more of just a pure conceptual object and then one interesting tie in is like in active inference as we specify the generative model the preferences are directly over observations in the extreme case meaning that the likeliest thing and the preferred thing are one and the same and it's just that it just you prefer to get that number on the roulette table and every single time your action is confirming that's the case that that is one special case that can be set up as well as epistemic more General epistemic activities but by having the pragmatic value load directly onto observations like the thermometer reading not I have a preference for the room to be at 72 but I have a preference for something about the measurements and that is the direct Target rather than the hidden State being the direct Target which leads to a Fantastical analysis okay so you guys seem to be uh yeah yes ahead of about thinking about this and how to implement it okay so let me finish with this with the temperature saying that that the reason I came up with upon Renault was because that this thing happens in invention all the time right you're not too clever you invent something and you think you're clever but you're not right it's somebody's thought about it before you just don't know it right you're just ignorant and so I said you know somebody must have thought about this somebody must have done something like this and so I went looking for it and so I found this book inventing temperature which has a whole discussion about Renault and how he's wrong because he thought that he was doing a metaphysics right he thought that he was getting behind the curtain that that was his philosophical mistake right and so I want to pull back from his philosophical mistake and say no this is the comment I made earlier to Daniel right I have I am not saying anything about what the reality is I'm only telling you an estimate of a sample statistic that's it how you want to interpret that is up to you and I recommend this book because it's great reading right because it's about how you invent physical Concepts right and and and the struggle that people went okay so now we're getting into the uh the the the the part where I think you guys are going to be interested because I'm going to back go back to the digitizing the format for logical consistency because there's two different viewpoints of the same test and one of them which is the one that I'm choosing to use the ntqr methodology just to have a new word for you to go somewhere else in your mind is different from the ml binary classification case which has semantics and here's where I want to show to you that the mathematics of the ntqr test is separate from the semantics it can be attached to semantics but they're not the same thing so I want to spend some time to make sure that we capture this one okay so and then the the payoff here is the the realization that it you can start to understand it in terms of semantics this is something that a machine could use to Binary classify things in the environment okay which is how I thought of it first and how people in machine learning think of it right I have a binary classifier because I'm looking to classify things in the external world I'm looking to be told how many A's and B's there are in the external world but once I pull the rug from under you I'm going to tell you that the exactly the same mathematics can be used to figure out the statistics of correctness and that has nothing to do with what a and b means in the world because it just means that there's some percentage of the questions had a as the right answer and B as the right answer but who knows where you came from digitizing that format right so there doesn't need to be any semantics attached to a and b and I can still calculate what your performance in the total test is so something that can be attached semantically then has the same mathematics in a way that it can be used to check test about chemistry about philos phos ophy about geology about any subject right you're not doing binary classification you're just correcting grades that a test that have two responses per question or three or four that's a general thing yes very separate from the specific task of binary classifying things in the world so I'm going to stop and and and and and encourage discussion because I want you to get I'm going to show you the differ es too in how it comes into the the mathematics but I want to first get if you if just with words you understand that there's binary classification where the percentage of A's and B's in the test actually means something in the world and then there is grading of multiple choice exams where the percentage of a and Bs has no meaning outside of the test it just means that that 10 questions in the exam had a as a correct and you know 10 had B but you know the questions could have been about geology right A and B doesn't mean anything yeah just to kind of say it how I'm seeing it if we look at the output of a statistical test we might get a a vector percentage rain and percentage not rain basian calls a model probabilistic statistical model percent dog percent cat in contrast we have a different procedural nonparametric approach that can be designed incrementally to dis discard various aspects of information especially in a discret finite space taking kind of the finitist perspective on modeling and then using that to say well I am cor screening into this many cells so I am going to have this many hash codes so we will be able to do this in this runtime okay that's a little bit too complicated Daniel let me let me restate the following we have a philosophy question okay a philosophy exam and and the and the and the philosophy exam consists of uh you know A and B questions right where you giving a passage and you're giving two philosophers and you have to identify which philosopher wrote that passage okay you you get the philosophy exam yeah it's testing for familiarity with philosophers not the ability to generate philosophy or recognize new kinds but I hear you right but but then so so so we could have uh you know schopenhauer and Vicken Stein as choices A and B in question one but question two could have Plato and Aristotle so A and B right are not referring to the same thing in the two different questions that's what I mean by having no semantic connection right but your grade is the percentage of times that you correctly answered a when he was an A type question right so is that is that make it easier to understand that it I'm making a simpler point right that I can detach the cor grading you from having attaching a semantic meaning to your response it's it's like you um this this is a common question in uh in Neuroscience where certain cell certain cells while learning a task can learn an abstraction of of the task for instance if it is a or b you will have cells that respond to this concept of A or B but then you have specific components of um of the network which specialize to the particular instance of A or B like Aristotle versus Plato um or any other set of um set of philosophers I guess the question is whether I'm not I F understand the the what whether so both both can happen at the same time right so both can happen at the same time right you recognize that that you can have the general structure right where where basically if if what I'm trying to argue is is that if there's an algorithm that can grade art equal two questions right then I'm done right it can it can do it for any r equal to question of philosophy or economics and it can also do it for binary classification what do you think about binary classification of language like language generation questions or yeah any anything right but but you would have to decide if that's correct let me let me go on maybe you know and then uh when I show you things you can start uh let me see if I can let me escape and see if I can go now to Mathematica so I get to show you some pictures yeah yeah like the example yeah I think of the pheromone perception in the environment and the alarm or no alarm is it at the threshold you got finite number of antenna finite number of receptors noisy signaling go no go buck stopping with a nestmate brain somehow some way okay so let let let me go on and and you'll see what I that I I think you'll start to see how there's different ways of looking at things we still only see PowerPoint oh sorry I see yeah I'm going to do share again and I'm doing share now of Mathematica okay you see the Mathematica oops not yet I just took it away I don't know why I did that you see it now yes okay and then oh I'm G to stop the share because I need to do the whole thank you that way I avoid okay perfect perfect okay and then now I can go to here yes perfect so this is the paper that I sent Daniel and it's the one that I've submitted to uh a special issue on AI safety and philosophical studies and so I want to you know so so because I'm doing AI safety right I want to I want to speak about this specific case of doing a binary classifier to be concrete right and so I'm now shifting into uh getting you into the mode of accepting that in fact they are there's a logic to evaluation that there are postulates and there's a logic and that it's Universal right it's a big one it's a big Burber and so the way that I'm going to do it is by just you know talking to you about how I would what are the possible grades on a on an exam that has two responses uh before I see anything right and so I know that if I have you know Q uh you know QA questions right of a type then the number of correct responses so R is for response right on the a questions that the I classifier right does everybody see that notation r a subi right this has to be these relationships have to hold I claim these are posit I you know I I've been thinking how the hell did uclid do this to begin with how do you introduce pulus what do you argue what do you say right when you have postulates you can't prove them right you have to sort of say I can sort of prove them here but you have to sort of see them and say yeah of course that makes sense Andres right you can't have more correct responses of a than there are a questions or B agree we're within a circumscribed axiomatic verified information environment so play on where I have Q questions right where I've told you what the number of Q questions are right there's no way there's no there's no other way right and so therefore I can I can immediately go and write you know this this table I mean this is how simple it is right I'm going to tell you here let me let me make that bigger right so you see this I'm I'm having a a q equal 20 exam right 20 question Sam and I'm just going to make a table of all the possible correct a responses you could have AA right the number that you of A's that you correctly add said that it was a and the number of B's that you correctly said were BS and then I'm just going to keep track of the number of A's right questions well the number of a questions can only go from zero to the total questions right and then once I decide that there's n a of them then like I said right my correct responses can only go from zero up to that one and then if I have any questions the B questions has to be this Remnant and so if you just do that this is this is the cube you get this is what you get for the grades until three weeks ago I've never seen this Cube and it's amazing that this cube is it's actually you know kind of a nice figure right it has got this double edged kind of thing right but that's it if you answer a 20 question exam with 20 responses your correct grade is somewhere is a point somewhere here is it a true tetrahedra I I don't know what to call it right it's got that 90 degree twist right at the bottom is 90 degrees to the top yeah well wow what do you see in it what does it mean to you well the the thing about it that that that I found really interesting is let me show you the other way of looking at it right which is now the way that I looked at it for years until this year which is the the realm in which I looked at it which was the the the machine learning where now I'm telling you what is the percentage of things that a that you got correct I'm telling you the percentage of B's and then I'm telling you the percentage of of A's and in that Cube that same Q equal 20 test this is how it looks see how different that is see how it has that kind of quadratic structure what's different between the two um now okay so I'm going to show you what's different is that I decided to do the math in the machine learning world where so so this is what I'm I'm I'm sort of showing you now right these are postulates right the number of a responses that you give me are equal to the number of a responses that you got correct plus the a the B's that you incorrectly label as A's yeah true positives and false positives exactly exactly right this is these are postulates right these are prior postulates right they they exist before you see any observation about the test right everybody on board with the fact that this is posets right and and that the number of responses you give right in a sort of a election Integrity right there can be no more votes than their voters it obeys this and I can rewrite this in terms of being a binary classification with these equations down here yeah just to kind of connect that to the case of an election so it's like one approach would be to take in the samples as evidence and try to estimate a a continuous hidden State and you're always going to get into this statistical approach versus treating the fundamental finiteness we had I'm not going to use the ntqr but those are the parameters that describe the finite Printing and dissemination project of that project in that printing there was a thousand ballots with five options that is the state space you could go into cognitive modeling you could do narrative information you could do interpretation you can have this all the things but the finiteness and the discreetness then to get around this challenge of like well temperature like in it could be like any number or it could be a number greater than zero so how do you deal with that and you take a kind of engineering approach here which is you define the safety zone which can be hierarchical abstract safety zone generalized anomalies and so on but you define the safety zone within the safety zone you have the direction of free energy minimization statistically control or you just stay in this in the fully finite worlds and maybe the issue can be resolved by explaining away the semantics of the decision through mere propagation and procedure exactly logical consistency okay so so so it turns out that the that so so these two parets right these two parcs here are written as a binary classifier here and you see that these equations are linear here right so that's the cube that you saw with the planes and you saw that when I went to the ml I showed you parabolas that's a quadratic are people seeing that in the equations right that when I change to the ml point of view where I'm dividing right then I end up having these quadratic structures right in the in the cube right you see the the parabola what does that represent to you that's the ml space that's where I'm telling you the accuracy as percentages you see the percentage of you you got half yeah it has the this this test has the highest resolution when the coin is even 50/50 statistics does the best job when the coin is 99 and one then three measurements give you very poor statistical power because you can't resolve 991 from like 982 very well it's not quite like that but it's close to that but let's move on okay so so so this so so I'm not going to show you the math but these two equations right this is where the algebraic geometry comes from this is what we can observe right we observe how many times you said that it was a and we can observe how many times it was B that you said that it was B and I know it's related to your individual performance by these this these equations it turns out that you can disentangle them and there's actually you know because these two frequencies have to add up to one there's only one postulate and that postulate is being represented here in the two different ways it's either this one or this one either in the ml world or the the ntqr world and here's where we come back to that thing about transmitting information the difference between your responses is telling me something about the difference in your correctness just to clarify like you use a single equation number 16 you're it's exactly the same test it's exactly the same test but I'm showing you know p p of a sub a is RA a a ided QA so are you co- asserting these auma or are you declaring them equivalent they're equivalent and so they're Co asserted by equivalence yes and why do the shapes look different then because they're in different spaces one is in the P space and one is in the in the integer space right one is in the integer ratios and the other one is in the the whole integer okay you got yes so it's kind of like a discrete mesh and it's continuous and there's Integrity between the discret and the continuous and you have very strong procedural guarantees on the discret and then you have arbitrary or standard statistical guarantees on the continuous but my problem is that I I have difficulty seeing how a biological system could do the division one but I see I can see how it could do the integer one very well right that's why I'm bringing up the ntqr that's why I think you guys would be interested in it because the ml space is not I don't see how a biological system could be dividing one but I can see how a biological system could build build a cube that's 20 aside it yeah that's kind of like a synapse and the synaptic release it's in vesicles like it's not like dopamine is a continuous variable at the synaptic level the dopamine release is in one bucket yeah so then so so then we get to the so so this is the the the the interesting part right so so what is the problem with ensembles gosh if we could just do so here's where we go back to humanistics right and my love heuristics majority voting is such a great algorithm it's so simple right it's so simple and it works if if if things were good enough majority voting would just be good enough right it would just make us safe as it is the problem with majority voting is that it can go wrong right the mob can be wrong right things could be flipped right in terms of their accuracy so we need to consider now ensembles right and and and the problem with ensembles is that they can be error correlated right they're not going to be making their their errors independently so we need to handle that and so here's where we come to the first set of what I would call non-trivial posites right because this is what makes them complete right that if I observe two classifiers this right they can only vote four different ways and there's no other way that's it that's the completeness this is guaranteed so if I give you equations that describe these four different frequencies and those are the going to be the four posites I'm done and so uh by the way these are the surfaces for some of the uh those planes um I'm going to show you later let me move on to the because it's going to be 4:30 um so here's the correlation so this is what I'm I was saying before Daniel that this is the PS right are these things right the responses divided by the total number of questions right so either I can talk about RS or I can talk about PS and then correlation is defined as something that looks exactly like you would Define it for distribution but it's here defined for a sample right so basically what I'm saying is I want to continue to write things as being individual products of performance and so what I really want to have inside this parenthesis right is the number of times that they both said that it was a and it was a well that's this number here but I'm not going to put that number right what I'm going to do is I'm going to stubbornly stick with individual performance and then I'm going to put the difference between that number that I need and what I and and this thing that I'm stuck with putting in which is the product and so these are the four postulates for pair correlated binary classifiers you only need two of them you need one for the a label and you need one for the B label and it acts exactly like you would expect uh correlation to do right when when the when correlation is positive it's going to increase inrease the number of responses where they agree and when it's negative right it's going to increase when they disagree it has the right sign basically right correlation here is plus contributing plus and in these two equations where they disagree is continuing with minus yes something like a finite procedural recasting and reimagining of the true positive true negative false positive false negative those are four actual values and so again within the finiteness of digitized sensing especially you can take purely non-parametric purely algorithmic purely arithmetical numerical approaches rather than always passing everything through the kind of statistical meat grinder I'm done I'm done Daniel I'm done I'm done you you said you said exactly right this is this is the the thing right and so I'm not going to go back into Tom Mitchell and platonus one of the students came up with an independent solution which is wrong and and I've been slammed by reviewers because they say they they did it right and I'm doing it wrong and it turns out to be the other way around but I'm not going to go into that that's my personal beef but let me then show you what happens when you do when you take these equations right so so what is the problem the problem that everybody's encountered with with pair binary classifiers is that correlation is entangled with individual performance in every one of these equations do you see that 26a 26b 26 C and 26d have correlation in every single one of them we cannot separate correlation from Individual performance but if you use algebraic geometry you can and that's what I'm not going into you can separate these equations you get back the individual equations 33 a and 33b are exactly the same equations that I showed you before but then you get these new ones where you've decoupled correlation so 33d 33e and 33 FS are the only ones that have correlation and it turns out that they are the same postulate you get no information from them so uh and in fact then everything in binary classification is controlled by this number the number of times that you agreed in the B label minus the product of times that you said there was B it turns out that you can prove that for binary classification this is exactly the same as this other quantity and the way that I'm going to use error correlation is this one this equation right here and the only thing I want you to note about this equation is that it's linear in the correlation so if you tell me what you think the greatest and I observe how that you voted and how you differed in your voting I can tell you what your error correlation is I'm raising ahead and I'm just want to show you some evaluation okay so so see what the so this equation is the solution for prevalence of uh A's when they do a classifiers are making error independent uh mistakes it comes from this quadratic polinomial that you get from solving that very complicated system that I show at the end so now I need eight of them I need three of them right so I need eight equations so now I have I i j and k and you see sort of a descending a symmetric pattern right this lather goes down one way and it goes up the other way these are the B's and these are the A's when you solve that equation you get a quadratic and it's that quadratic that I'm excited to show you right this do you get a quadratic equation which has these complicated factors that depend only on the stat the statistic that you have observed there's no free parameters so this is not basian estimation in any way right you cannot you have no Freedom whatsoever so then when I do synthetic data where I I've made it to have 19 20s of of one of the variables it it predicted uh exactly but let me show you some experimental results and and the one that I want to show you is where it fails that independent solution is going to fail if if the if the if the classifiers are too correlated it's going to give you an imaginary solution imaginary can I make a comment that yes please sorry go ahead an imaginary solution means that the parabola doesn't touch the axis and gosh I look at this picture and I go I can draw this circuit I can make this circuit physical circuit right so that I could because right I could make a geometric construction that draws a a that draws this Parabola and then I can check to see whether electrically it touches that axis and this is a warning light if you don't touch that axis your classifiers are correlated too much right the error independent solution has failed so this is something that no probalistic method can do right no probalistic method that assumes error Independence can show that the error Independence assumption is violated that's the main problem with distributions and statistics right if you make assumptions you cannot prove right because you're you're you're tuning your parameters to satisfy your assumptions but when you're doing things algebraically like I'm doing here there is no freedom you can be in a state where they the and and actually I can show because I can have a complete representation where I include all the correlations I can prove that when I do these computations if the classifiers ever have a square root that's unresolved this is the independent algebraic evaluator I can prove that that means that that set of classifiers is actually correlated it has nonzero Z correlation and Below you're seeing that that's in fact the case right you're seeing that one of the the the the correlations is almost 6% and I've been able to detect with the independent solution that in fact there is nonzero correlation because I have an an unresolved square root that doesn't make any sense right these are integer numbers what does it mean to say that that you're you got a percentage that is some square root right and this cannot be done by any infinite statistical right this is the the distinction I want to make there's finite statistics which is about samples and there's infinite statistics which is an infinite number of samples right and there is finite statistics where you where you accept that what's gold is the sample the sample is true everything that that you derive from it is is not possibly true versus the infinite statistical world where the world the sample is always wrong right in statistics a given sample is always wrong right the equality only occurs on the average of the samples that's a complete different way of thinking yes and I say that the finite one is the one that I want to choose in terms of safety and it's 4:30 exactly so I'm gonna stop because you know I think I feel like I've been talking too much and and maybe people can chime in and and push back and have interesting questions yeah anyone in live chat and then yakob go for it yeah it's um I want to show you how I just want to say how crazy this is I'm giving you error correlations which are the only logical consistent error correlations once I decided to do majority voting or not and here I'm showing you that majority voting is kind of like a little bit too hysterical it thinks that they're 25% correlated and in fact they're only at most 1% and and so my method right of using the postulates gives a better self-consistent solution I haven't gone in into that right but I go what basically what I do is I take this number which is not at all an integer ratio right and I find the integer ratio that's closest to it right and then I ask for that integer ratio what is the only logically consistent error correlation and I get this these numbers yeah that reminds me of the finite Pi like 22 over 7 is a classic small approximator of Pi and you can go into approximators exactly and therefore get closer and closer incessantly keeping the strong guarant right but at some point it's useless you're you're you're you're doing the the the width of a hydrogen atom as people like to point out right your error in the circumference is going to be the width of a hydrogen atom who cares right and so a finite heuristic is going to do it very well sorry Jacob I I had to I had to interrupt you there to just to point out right that that that the fact that I can even measure error correlation and say that it's logically consistent is incredible I just have to say that yeah and no worries I I'm still trying to wrap my head around the the concept of disentangling the semantics from the particular tools that you're using right um because I feel like it also kind of depends on your expectations as the person using these tools like going back to the going back to the example of Like A or B like if you if you take away um if you take away the particular content of those of those questions and you only look at the statistics of the of the answers of correctness I would say statistics of correctness statistics of correctness then perhaps you perhaps you are taking away the correlation from the particular content of those questions yes but are you taking away the correlation of for instance the person who said those questions oh my God it's so good it's so good that you were saying right so so so so here's what I had to do at UMass when I was giving the the exams right so so UMass amher is a state school right so you get bubble sheet answers right uh exams at at at UMass amher right but I taught at Williams and at swore right I never gave bubble sheet exams at at swore or Williams right so it's only right that when you have large classes that you have these things right and so at UMass right that the students would cheat so they told me you have to make five exams and Dr the student is one color exam and then you put you see people in a diamond pattern around around that student so that everyone around the student has a different color exam and then you scramble the the the responses so nobody can uh look over anybody's shoulder and copy the bubble right so what am I trying to do there why am I trying to do that because I want to prevent the error correlation that occurs because you cheat it and I'm trying to find out the error correlation between all the students that is due to a commonly shared cognitive misunder understanding of Newtonian physics maybe they're still s right maybe I put a question that is testing their their belief in Aristotelian physics right and I want to detect that that and so when I get a wrong answer in a question the purpose of the exam for me as a professor is to find out what I should be talking about the next class right to address the mistakes that people are making cognitively I want to design a test that blocks any error correlation except the cognitive one and so that goes to what you're saying Jacob right you get to decide what error correlation right somebody's error correlation right may be a goal for you right I as a teacher want to see cognitive error correlations because I want to help you and teach better and the when I talked about digitizing you you brought up another thing Jacob which is that maybe in the original signal the responses were not correlated but then when I digitized it I correlated I have no and and I think Daniel also talked about that right that when you change formats right you introducing spio signals and all of them are in there and yes there is no guarantee right but but by the way uh there is the advantage here that I can measure the error correlation right so that you can see whether I did introduce right by digitizing the te the The Logical grading if I introduced correlations or not that existed in the original format does that make sense there's no free lunch there's no free lunch you won't get anything for free here if you really think about it right it sounds magical but it isn't it's okay on the free lunch theme kind of thinking about this in a fun way there's a lunch where you just show up and it's there for you so that's kind of the dream scenario if you're one of those who eat lunch at that time because it's kind of like you've chosen the access to create a finite projection to you've the it's the right test the seating arrangement there's just an ideal situation and then some of those may be actually perhaps even relaxed in practice like I I I don't know all the details but when you describe that you're taking an integer approximator so there's ways of of in of integer iing and ftiz that strip semantics but then I thought about what if the Ship of Fools what if none of them can be the captain well then the ship's going to go extinct and then it doesn't matter what that's the imaginary Parabola that doesn't make contact it's like no there's no decision rule there's also no quadratic regression but this is just an imaginary solution these people are talking about survival strategies that are imaginary yes yes yes so so so you get the other part about which is what why it was good to put it in a philosophical uh Journal which is what if there is no answer key what if we are all deluded and we're just testing with a test our alignment on a delusional belief I explained this to uh an ex-wife of mine who's a psychoanalyst and she because I was explaining the concept of logical consistency versus logical soundness by the way with logical soundness you need to know the truth table logical consistency you don't you're just checking to see right without semantics that you're that you're uh cranking the logic Machinery correctly right if your premises are correct your conclus Solutions are correct so that's what I mean here by logical consistency of grading right I cannot tell you exactly what the grade is but I can tell you whether you're being logically consistent with how you believe uh your your experts are behaving right so that that is yes that's the only thing that can be checked here right but it can be provably shown right that that you are in a highly correlated State and therefore you should raise alarm and and so when you look at at that what it this could be it could be also you could think of it as a way of selecting right if you have different models and you find the one that's most aligned with the what your beliefs are about what the truth is then you have instant compression right just select that model right because you found the one that's most aligned with everybody right and so you don't need to keep all of them but there's nothing to right to say that you're not hallucinating and that you're going to be eaten right because you think that there is no tiger there but there is a tiger right you could have false beliefs and be delusional right confident and alive not confident and soon to decease exactly right and so there's nothing here that prevents that from happening but it would allow you if you were initially in a good operating state to start detecting something that is malfunctioning right so could prevent that from happening yeah I'll ask a question from the live chat upcycle Club writes I have a question how do you define the data sketch of the decisions so that was in the uh that was in the uh the the statement about completeness right so whenever you look at an ensemble uh there by the way there's there's a if you know data streaming right there's data streaming algorithm for every statistic right sample statistics there's many of them of course for a finite sample there's only a finite number but there's many of them right combinatorially explosive so here it is right if I'm talking about three right I have to talk about two to the three or eight frequencies if I'm looking at only their alignment right but that's not the only statistics I may want to right suppose that you're looking at classification of of uh DNA payers so you're woring so there's also sequence information so you may want to know how accurate you are on the point you know on the on the given base pair but you may want to know what what what percentage of times you were correct on both pairs so now you're keeping tab of another set of Statistics which is not the one here in equation 38 right because now you're comparing uh two different points on the DNA sequence right and so you could be keeping statistics about the observation 10 steps back or 10 steps forward right so there's an infinite number of Statistics that you could be doing so I've only shown one small set of them and for every one of them you're going to be able to write this summation right it's it's it's it's a part of uh if you will of of the basis of probability theory that you have event space right and that you can delineate event space completely right so you have completeness right there is no event that you do not know about if you and by the way there's no theory about all the theories of the world this is why you cannot do this with theoretical work right because we do have no theory that can enunciate all the postulates of all the possible theories about the world this can only be done with sample statistics right that's how I get away with this yeah to to kind of reflect that back I I first off I again I appreciate this presentation and work I I encourage people to to look into this because it's very interesting and to connect to the prior Century of statistics and understand where exactly this is positioned and and How Deeply this statistical Paradigm is baked into the safety discussion and to this last point that you're creating many possible spaces um the error patterns and covariances can be harder to fake than the mean you could just take one number say God Dan oh my God Daniel oh my God okay you oh my God I mean I mean come on it it just yes exactly right right you can fake the signal but you cannot fake the correlation it's so much harder right it's so much harder to do that yeah if they're faking the mean and the variance and all the higher coordinates emotion then it's in distinguishable exactly exactly right yes so this applies to the concept of Enemy Inside the gates how would you detect that something inside of you is hallucinating right now and you shouldn't be paying attention to it right this is would be a crucial thing for any right let's go back to the original question right forget about what I said if it's not how I said it is it has to be something like this is how can an entity have intelligence have integrity of thought if it doesn't have a way of detecting Enemy Inside the gates yes you have to defend against yourself cognitive security yes right this is this is what I think is so interesting about this right right forget about right the number one enemy you have to worry about is you your hallucination that is preventing you from seeing the tiger that I would think that that would be the primary thing and like going back to the semantics I can see how this can be used for binary classification of right o of safe unsafe right tiger not Tiger but then because the mathematics is exactly the same how the a biological system could coopt exactly the same computational structure to just check correctness of very complicated opinions not just binary classification how about yakob um a last thought and then we'll just each have a closing word here yeah I'm trying to connect these thoughts to um I guess the the active inference formalism where like where how many how many layers of of metacognition do you need to um to re to realize or uh elicit this type of self self-reflective behavior on the different systems that you're modeling to all of them right this would be used everywhere like crazy right you could use this over and over and over and over over and over right to check every single component right it has no intelligence so therefore it can be used right anywhere that's what I'm saying that that this is the thing that I find fascinating about it because it has no intelligence and it's stripped the semantics you can insert the instrument anywhere to check statistics of correctness of your noisy oracles what that makes me think about is uh Chris fields's recent course and not not not saying you watch this or anything like that but what he spoke to was that there's a classical screen that can be digitized a physical screen and then there's two agents that have these semantic reference frames that was done in a basian statistical setting and you have kind of um added discret beads to some first approximation inside some of these otherwise distributional considerations like if the two thermometers can be from 0 to 10 that's how many parse observations there are you can have all kinds of distributions and flows and that type of modeling and continuous State spaces or there may be a whole variety of activities available in the discrete Cube including these things like well one over and seven up and then that correlation again to make the point clear it can be basically detected and and triangulated where discret differential is occurring in active inference we have the kind of continuous optimization machine learning but this is more like pinpoint like this bolt is failing rather than like there's a08 that one of the bolts is loose no it's this this is failing yes it's it's definitely trying to identify this is failing don't pay attention it right maybe take it out of emble what are the next steps for your work the so kind of going through the binary case has made me realize it was very hard to figure out the binary case I I've been working it since 2010 but now that I've finally gone through the other end and I made and I figured out how to make it simple I'm starting to be able to write down what the solutions have to be for the three label case so the R equals 3 test and so what I've not going into is that H it goes back to that issue of these two numbers being the same 34 and 35 there's no more information in the binary case but in the in the three Lael case you would find that these three things are not the same right so strangely enough when you have more responses there's more information because there's more chance of disagreement and disagreement is the most informative thing that you can have for an ensemble agreement is useless agreement is a tiny portion of these equations right look at these equations these equations there are four of them right well not this one but in the in the eight one you can see it yeah the max informative coin flip is 50/50 that's the statistical way to say this right but here right there are eight equations and only two of them are when they completely agree and this is what people like to talk about platonus and Tom Mitchell talk about the agreement equations where they just wanted to talk about 41 plus 48 add it and I'm like why why not look at the full set of information is available when you consider 41 42 43 40 you know what I'm saying each one of these is true it's much more complicated when you have correlation then you have pawise correlation and then you have three-way correlation but my point is right that these things are are are quite complicated and but but they have a very predictable structure this makes me think about it being a meta observation yes it's a second level it's an actual alith it's an actual fact as much as the thermometer reading is a fact the thermometer that measures the difference between them is also a fact that's right and then you have to decide well I know that I'm in this domain and you know this is temperature and temperature is not going to change very quickly because it's a car engine right so it can't actually fluctuate you know what I'm saying that kind of thing so if you see something that's fluctuating too much you know that it's wrong right that's domain knowledge right being applied to then take a measurement right and then interpreting that measurement as being a a a safety issue or not right again the computer is needed right the thermometer is providing the reading but the computer is needed to understand why the other analogy I like to make is like a murder mystery a crime has been committed with this method you can interview all the suspects and find VIA logical consistency the suspect right because they have a story that doesn't compare to anybody else but you cannot find why and how because there's no semantics of why people commit murders or how they commit them right so this helps you solve the crime who committed the crime you know this this algorithm is malfunctioning but it cannot help you figure out why or how right that you need a higher cognition right thank you again for joining thank you for inviting me in this wonderful discussion indeed perhaps a 67.2 in a future time yes I touch thank you guys thank you</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

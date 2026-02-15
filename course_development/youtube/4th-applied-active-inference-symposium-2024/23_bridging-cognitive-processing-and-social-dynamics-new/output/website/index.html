@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>23_Bridging Cognitive Processing And Social Dynamics New - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>23_Bridging Cognitive Processing And Social Dynamics New</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>23_Bridging Cognitive Processing And Social Dynamics New</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>"Bridging Cognitive Processing and Social Dynamics New perspectives on Power and Active Ignorance"</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=EkYlOX-f9sk">YouTube</a>
+<strong>Playlist</strong>: 4th Applied Active Inference Symposium (2024)
+<strong>Duration</strong>: 30:42 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>welcome back welcome back hello son and Ma again we are in the session physics and metaphysics of social Powers so thank you both for joining and take it away thank you so much for having us I was just asking if we should introduce ourselves which uh which we will um so I will introduce myself and then ma can introduce herself so that I don't make any mistakes so because my brain is on hyper hyper abstractions at the moment anyway I am Sonia I'm a PhD student uh based in Rotterdam at the araso school of philosophy and uh we've been working on this paper with ma recently and Ma please uh yes so I'm a PhD candidate at the University du amoral in cognitive Computing and I'm also a director of research strategy at versus thank you so yeah as Daniel said we're going to be talking about the the Spectrum the big spectrum of between the physics and the metaphysics of uh social Powers uh very inspired by the work of uh of ramstead here HP Hines and uh by Mouse work on on on power recently with Sarah Grace mansky um and then we're trying to combine that with some work that I'm doing with two other colleagues uh Wilkins and clav Vasquez on on the concept of active ignorance which we will be um continue continuing to work on in the coming time um so yeah and then generally inspired by by ideas of semantic attraction from Hinton and by Major names in in philosophy and sociology who have been treating these Concepts through different Avenues uh less kind of formal Avenues but still relevant nonetheless now that we're actually capable of joining um yeah the physical with physical that's what we're going to we're going to try here with this presentation so the concept of power we we argue can be explored at at several scales from physical action and process effectuation all the way to complex social dynamics so this kind of spectrum wide analysis of power requires attention to the fundamental principles that constrain these processes and in the social realm the acquisition and maintenance of power is intertwined with both social interaction and cognitive processing capacities so socially facilitated empowerment grants empowered agents more information processing capacities and opportunities either because they're relying on others to bring about desired policies and or because they're able to enjoy more information processing possibilities as a result of relying on others for the reproduction of material tasks material is in Brackets because these tasks need not be material so the the effects of social empow empowerment imply an increased ability to compute information thereby augmenting the evolution of a specific State space specific is a keyword here uh really commenting back on what Ma just uh just mentioned in at the end of the previous talk so empowered individuals attract the attention of others attention is one the central Focus uh of of our paper so they attract the attention of others who contribute to increasing the scale of their access to various policies effectuating these these State spaces that we mentioned so the presented argument posits that social power in the context of active inference is a function of several valuable gr variables among them an individuals or group's ability to attract the attention of others with access to or the ability to facilitate desired policies and an individuals or group capacity to effectively process information as a result of its power amplifying effects this extended computational ability also buffers against potential loss or or possible vulner vulnerabilities semantic social artifacts so narratives um ideologies histories representation at large are attentional scripts which ensure the coordination of social patterns so you can think of anything from psychological schema habits group think insulation policies Etc and these are the structures under and by which agents mediate and leverage power and they're because of that the main focus of attention here so uh thinking about this the linking between the physical and metaphysical Concepts and the world gravitational metaphors abound in language this is like really prominent in the work of of Shephard Lake of and Johnson of course with spatial metaphors um I've been I've done some writing on it at the beginning of my PhD and also um laand Kent uh did some really nice work that's also up on the on the active inference archive and then in his papers course um so the idea of power being pulled towards complex social attractors uh was also famously presented by uh Pier borue who linked various concepts of capital cultural capital political cap Capital Social Capital to power as this kind of social attraction and also traction and he borrowed the metaphor from from physical field theory in fact so there is already the connection is really present and obvious there uh only in in a metaphoric way um which we're kind of trying to expand on here uh so expanding also on his legacy to to you know take the epistemological and the empirical as totally Inseparable things that we're analyzing and his desire to actually ground sociological analysis in in in a scientifically tractable manner we're trying to frame uh these kind of attentional attractors that move systems towards certain configurations through active imprints and this framing allows for a new take on the dialectics between the individual and the collective again linking back to what was just mentioned at the end of the previous talk so in terms of um questions of information processing capacity not only are resource distrib ution and you know the division of labor a systemic fact but also the modulation and projection of future possibilities cannot be computed at the level of the individual clearly so this is something rather obvious in our context and our framing power this is how and why the minimization of uncertainty for for social systems is in fact social right so agents seek alliances and policies which ensure that cognition so information processing and future projection can be distributed this allows for efficient practical traction because and here I quote from Steinberg at all 2023 epistemic confidence in knowing interpreting and acting together is that traction that happens when we when we're socially distributed uh and this in contracts with this kind of individualized agency where one's estimation of and here I quote again Divergence in mental States between self and others is what allows for the sort of prediction and interpretation of others Behavior which we might kind of want to frame as something that has a shorter range traction on on the future so now we're going to look at the theoretical framework and I pass it over to Ma so um obviously you have heard this 15 times but I'm still gonna go through it because there are some Concepts in here that will become relatively silent after but to go over it briefly active inference explains how biological agents minimize varal free energy to align their internal beliefs with external reality so effectively they've reduced discrepancies between expected and actual sensory inputs and we sort of Leverage The Descent on free energy to to to couch model uh perception cognition and action through basian uh belief updating and so free energy is the upper bound on surprise or the unexpectedness of sensory data relative to an agent's predictions and so direct computation of surprise is complex so agents use variational free energy uh to to approximate based on their internal in generative model and so um you can see that for example the K Divergence term measures how closely the internal uh beliefs match the true posterior of and so agents align their beliefs with actual data as they minimize it so the log likelihood term ensures predictions align with observations so to minimize fre energy agents update their beliefs they allow for adaptive action selection that supports coherent gold directed behavior and so there are two strategies perceptual inference to adjust your beliefs to match the sensory inputs and active inference which is um acting to change the environments and align new sensory data with internal models um active inference interestingly and as we saw earlier with the the whole word cloud spans or can span multiple scales from cellular processes maintaining homeostasis through cognitive systems using predictive coding to update beliefs based on hierarchical prediction errors and so this really gives us a broad biological principle where minimizing free energy promotes systemic efficiency and optimal homeostasis across scales and so um reducing free energy really means that you minimize entropy as well and you align your beliefs with reality to reduce this uncertainty important to not is that we also Factor um action and so expected free energy can be decomposed to extrinsic goal oriented and epistemic uncertainty reducing components that balance exploration and exploitations and so this dual strategy ins ensures that agents achieve immediate goals while gathering information to adapt effectively in uncertain environments and so Central to active inference we really have this concept of a generative model which allows agents to predict sensory inputs and their hidden causes the generative process represents the real world states that produce observations and generative models reflect the agent's hypotheses about these processes uh the agent's actions correct mismatches between its model on real sensory inputs uh to align the model with reality going quickly over uh the the different terms in a hierarchical structure each level predicts the states of the ones below and it corrects predictions based on sensory feedback and there are conditional depend encies that Cascade between layers that support uh belief updating and adaptation we have observable states that are the sensory inputs the agent receives and tries to predict using its model the hidden States uh latent variables that represent underlying causes inferred by the agent to explain sensory inputs there is a series of parameters that Define the statistical dependencies between hidden and observable States likelihood function which indicates how well the hidden States and parameters predict observe data we have a PR distribution which is the initial beliefs about the hidden States and the posterior distribution which is the updated beliefs after observing data and combining likelihood and prior then obviously we use the marginal likelihood which is the probability of observed data under the model to integrate over hidden States and so we use this for model evaluation and comparison to determine how well a model explains sensory inputs so the generative model really enables the agents to align its beliefs with the sensory data sometimes through hierarchical predictions realistically most often through hierarchical predictions and feedback loops and they refine their understanding of the environments to improve action selection for adaptive behavior and so this picture is really uh very individual so um we can see though that within this picture it's really really Rife to uh to couch power dynamics so we start from Individual agents as predict systems that minimize uncertainty through prediction uh through perception and action and so brunenberg really made a Salient point about this with his paper on the Primacy of I can where agents develop you know empowerment through embodied interactions which enable them to affect the environment so if we scale this up to Social Power agents use generative models for self- prediction but also to predict others intentions they form the basis social understanding in Collective action Carl has lots of work about this um Connor Hines as well Axel constant maxel ramstead Casper hes Natalie Castell which I believe will give a talk as well and so attention uh is driven by Deep preferences and it shapes what becomes Salient which influences both individual and group Behavior at the group level shared predictive models facilitate coordinated actions so stigmergic processes as explored by our very own Daniel uh environmental modifications that guide Behavior allow distributed control while deontic cues as explored by axle constant enforce social norms and so cultural practices further shape Collective attention it creates shared perceptual Landscapes which is something that we explored with uh Toby Sinclair Smith I think I said his name wrong I call him Toby so I don't really know how to say his name and finally we have to know um how to couch joint attention and this is work that and at the University of Quebec in Montreal have also positive that posited that this mechanism basically enables efficient coordination through mutual recognition of action possibilities and so power here our structures emerge through self organizing subgroups based on belief similarity so again this is work that has been explored by Natalie Castell which we can call decentralized influenced spreads within Network structures and they amplify certain narratives While marginalizing others and so these these processes create cultural C Capital where shared norms and knowledge facilitate efficient social interaction um attention here is thus shaped by those preferences but it shows that the importance uh of critically constructing shared narratives without homogenizing scripts that stifle diversities are is an important thing to consider so it's a point made by Anna AR simplistic one dimensional fuse like there is no alternative constrain attention and reduce complex systems to narrow goals which is why fascism tends to be very attractive especially in times of high uncertainty and so distributed generative models over time including historical narratives and generational Dynamics give us the tools to Envision power as possibilistic which is a term that Sonia introduced here this this shifts the focus from isolated agency to Collective Dynamics and hierarchical organization we get a richer analysis of how agents and groups interact within con constraints to shape future possibilities so active inference really gives us a frame for social power beyond very simplistic atomized ideas of agency and focus instead on this emergent distributed process that structure Collective behavior and potential thank [Music] you so yeah to return to the concept of narrative because it's sort of the thing that that um frames something that might go from from from the small scale to the large scale in different ways and something that we can all colloquially uh sort of latch onto narratives are are are social mechanisms which have the power to make or break power you can say uh the cognitive exploration of of of the not yet engaged right of of scripts that are not yet there but one may kind of uh uh latch onto or sort of effectuate anything you can think of here things like speculations fictions future possibilities of All Sorts um can be these can be under as semantic attractors that enable kind of relatively risk-free learning right so you're you're projecting to imagine what might be the case if and the simpler The Narrative usually the easier it is to sort of minimize like vast uncertainty so these possibilistic Explorations in the form of narratives allow agents to explore counterfactual scenarios and minimize uncertainty without the sort of exposure to the to the real world consequences of this um this this SA safy mechanism frames both The evolutionary advantage and persistent appeal of narrative engagement in human culture and in the context of power you know leveraging strong narratives as as Ma just pointed out such as US versus them that's like the the the one that you know the biggest semantic attractor that we seem to keep returning to all the time these types of reductionisms that greatly minimizes uncertainty about an agent or group's current predicaments and they become because of this very very appealing and sometimes self-fulfilling unfortunately policies that bring about their effects resulting in Collective uh Collective behaviors which can benefit sorry I'm so like which can be beneficial or detrimental to the greater whole the uh the effects of of variational free energy minimization can be observed of course at the level of the basic structures of language in this sense so semantic attractors like redundancy rhyme alliteration Etc can be stood as patterns which Aid memory communication informational retrieval policies because they permanently reappear right so pulling attention to the same phenomena and here I use scare quotes very very strongly the same phenomena uh thus greatly reducing the need to interpret and organized linguistic interaction and cognition a new every time which is very costly so we can understand for example the possible emergence of rythmic patterning in communication as enabling the storage and access of information collectively by connecting a sound pattern to a phenomenon we reduce uncertainty about reality once that sound pattern is witnessed again in in sort of true pavlovian fashion by way of the same uncertainty minimizing mechanisms simple simple or complex narrative constructs create cognitive situations where agents reduce comple complex aspects of the world down to Preferred scenarios and now we can look at how active inferences are useful apply framework for this I pass it over to again thank you so I'm I'm here drawing on work that is currently ongoing from other people as well with whom I'm collaborating and I want to make sure that these ideas are appropriately attributed to them we're going to talk about individual agency and empowerment and so autonomy uh can be defined as a system's capacity to self-govern using internal Norms uh so this is a topic explored by Jaclyn Hines Alex kefir inish poo in part ADV veres um and so empowerment here is measured by the maximum Mutual information between an agent's actions and resulting States so this reflects how much influence an agent has over future States uh higher empowerment means greater potential for desired outcomes and so empowerment maximizes is the entropy of actions and States while ensuring strong action State correlations autonomous agents are thus more driven by intrinsic motivation and this is a premise that again Alex Kefir is one of the Pioneers uh here it's thus connected to drives and control to systems that optimize future action State paths and so under active inference agents minimize expected free energy to balance exploration information seeking and exploitation goal Pursuit so this involves perceptual inference to update beliefs and generate model refinements through action outcomes and so here power operates as an attractor in Social systems it it draws agents towards influential entities through access to resources and strategic advantages Happ it leads through it leads therefore to to amplification through feedback loops um powerful agents help others minimize their expected free energy by providing some degree of stable predictable Frameworks and reshaping the informational landscape so high power entities have privileged access to information and can model their environment more effectively and they also influence what can be modeled and how impacting the collective predictive landscape powerful agents can offload cognitive demands as well processing complex information more efficiently and directing narratives to manage error absorption and uncertainty so power here enables agents to shape others Focus directing attention to favorable States while diminishing access to Alternatives and this leads to feedback loop where control over the environment enhances in fluence and perpetuates power the whole story around 1% so power grants a broader range of operational capabilities and extends influence over others State space policies within its domain and so here active inference reveals power as this emerging property um of the connection between perception action and social structures more powerful agents maintain and expand their control by shaping both informational and physical environments so let's go over three main components Precision modulation belief alignment and ultimately minimizing Divergence first Precision modulation powerful agents shape expected outcomes by altering the social or informational environment as we saw they create narratives or scripts that effectively reduce the dimensionality of the state space forming stable attractors such as social norms or shared stories and these attractors direct Collective attention and ensure that other agents align their actions with these preferred States um but here basically the posterior belief about States uh has uh an alpha that modulates the impact of precision on these beliefs and so in belief alignments the power to direct attention and utilize Precision modulation really enables the leaders to make specific aspects of reality more Salient for others and so by establishing these attractors within the belief space the leaders guide others interpretations and behaviors um these attractors act as a focal points reducing ambiguity and encouraging agents to align their beliefs and actions around them thus fostering a shared understanding so the the alignment process naturally emerges for minimizing the expected free energy uh and so for example um uh where P of O given s and Pi is the likelihood of outcomes uh given States under policy pi and uh Q of s given o and Pi is the posterior belief about States and so this decomposition shows us the intrinsic and extrinsic components which balance uncertainty reduction with goal oriented behavior that is um shaped by this Precision that we mentioned earlier and so finally uh minimizing Divergence uh can be represented just using a coolback Liber Divergence uh which is a measure of the difference between two agents belief distributions and so a lower K Divergence indicates closer belief alignments and so leaders influence this alignment by modulating this Precision which amplifies confidence in specific interpretation and so the process minimizes belief Divergence across agents which promotes synchronized understanding and cohesive group Behavior without the necessity for direct coercion although that is yet another way uh to minimize the state space uh and therefore is an available practice so Precision modulation sets the framework for control belief alignments ensures Collective cohesion and minimizing Divergence uh formalized as the alignment so basically we capture the Dynamics uh and influence uh the Dynamics dynamics of power and influence within social systems and so finally we come to the conclusion we have a lot more in the paper that we're still working out so look out for that um yeah so what we're we're thinking about here in terms of this kind of shift um attentional shift uh from from ideas of territorial and material power to this new realm of of informational and computational power um well this this for us requires attention to attention uh for sure something that we can we can look at in uh in ways that we can formalize and of course we propose that active inference provides crucial theoretical tools for for making power structures visible and therefore analyzable and so allowing possibly for the potential to rethink current social asymmetries so again given this of apparent transition between the organization of life around the centrality of physical work and matter and things moving in space towards the centrality of attention and information uh especially considering the whole attention economy idea we kind of try to think about the possible sustainable social future uh which requires the addressing of both resource and information distributions and the latter is best analyzed through the power of attention um as we've tried to to show as a major factor or the one major Vector influencing social dynamics and of course this is very important to mention hierarchies are inevitable in complex thermodynamic systems but we propose if we can begin thinking about this uh fostering transparent plastic hierarchies that remain contestable and thus open to novelty open to learning right this approach um has to acknowledge uh historic and thermodynamic constraints while also acknowledging space for systemic Evolution and while hierarchies are inevitable social scripts should be read writable by those with an interest in survival within them right and this helps reorient our understanding of an unfolding globalizing interconnected and interdependent life and participation in a system is only participatory if those involved are able to track the consequences of the variables and th future State spaces at stake a true distribution of information processing cap capabilities is essential for systemic sustainability and proper Equitable development and when thinking through evolutionary biology lenses for example let's try to polish them clearly and not fall into social Darwinism narratives and to quote from the xenop feminist Manifesto um lovely colleagues there Patricia Reed for example if nature is unjust then we change nature which is what we are all in the business of doing here at little bit all right that was um that was our presentation thank you awesome okay we'll be back in a few minutes e for</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,23 +1,92 @@
-# Lab: Exploring Agents
+# Lab: Agent Detective -- Who (or What) Has Goals?
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Agents**.
+Determine what qualifies as an **agent** by analyzing a range of everyday entities, from pets to thermostats to classmates, and identifying their preferred states, sensory channels, and actions.
 
 ## Prerequisites
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Agents.
+- Completed the Systems module and lab
+- Read the module on Agency and Goals
 
-## Steps
+## Part 1: The Agent Lineup
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Hs.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Agents.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Agents (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+**Goal**: Classify a set of entities as agents or non-agents.
 
-## Discussion Requirements
+For each entity below, decide whether it qualifies as an agent under Active Inference. Remember, an agent is a system that acts to maintain preferred states (minimize surprise).
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Agents.
+| Entity | Agent? (Yes/No) | What are its preferred states? | How does it sense the world? | How does it act? |
+|--------|-----------------|-------------------------------|------------------------------|-----------------|
+| Your pet (dog, cat, fish) | | | | |
+| A thermostat | | | | |
+| A rock | | | | |
+| A plant on a windowsill | | | | |
+| A self-driving car | | | | |
+| A classmate studying for a test | | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 2: You as an Agent -- A Day in Your Life
+
+**Goal**: Track your own agency over one hour.
+
+Pick any hour of your day. Every 10 minutes, record:
+
+1. What was your **preferred state** (what did you want)?
+2. What **sensory information** did you receive?
+3. What **action** did you take?
+4. Did your action reduce surprise (move you closer to your preferred state)?
+
+| Time | Preferred State | Sensory Input | Action Taken | Surprise Reduced? |
+|------|----------------|---------------|-------------|-------------------|
+| 0 min | | | | |
+| 10 min | | | | |
+| 20 min | | | | |
+| 30 min | | | | |
+| 40 min | | | | |
+| 50 min | | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 3: Comparing Agents
+
+**Goal**: Compare a biological agent to a mechanical agent.
+
+Choose one biological agent (e.g., yourself, your pet, a bird outside) and one mechanical agent (e.g., a Roomba, a thermostat, an automatic door). Answer:
+
+1. What do both agents have in common?
+2. What can the biological agent do that the mechanical agent cannot?
+3. Which agent has a more complex generative model? Why?
+4. Could the mechanical agent ever be "surprised" in the same way you are? Explain.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 4: Designing an Agent
+
+**Goal**: Design a simple agent on paper for a specific task.
+
+Imagine you are designing an agent whose job is to keep a classroom comfortable. Specify:
+
+1. **Preferred states**: What conditions does it try to maintain?
+2. **Sensory inputs**: What does it measure?
+3. **Available actions**: What can it do?
+4. **Generative model**: What does it "believe" about how its actions affect the environment?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Summary Table
+
+| Concept | Definition | Your Example |
+|---------|-----------|--------------|
+| Agent | A system that acts to maintain preferred states | |
+| Preferred States | The conditions the agent "wants" to be in | |
+| Surprise | A state the agent did not predict and does not prefer | |
+| Generative Model | The agent's internal representation of how the world works | |

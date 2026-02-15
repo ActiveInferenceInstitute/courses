@@ -1,51 +1,66 @@
-# Practice Quiz: Agents
+# Practice Quiz: Body Science — Module 02: Agents
+
+**Name**: ______________________ **Date**: ______________________
+
+---
 
 ## Part A: Multiple Choice
 
-1. What is the primary role of **Agents** in Active Inference?
-A) To maximize reward
-B) To minimize variational free energy
-C) To increase entropy
-D) To eliminate the Markov Blanket
+1. In the context of your body, which of the following can act like an "agent"?
 
-2. In Ms, Agents is best described as:
-A) A static property
-B) A dynamic process
-C) An external state
-D) A random variable
+A) Only your whole brain
+B) Individual cells — like white blood cells that detect threats, move toward them, and attack
+C) Only you as a whole person
+D) Only robots and computers
 
-3. Which mathematical quantity is most central to Agents?
-A) The Lagrangian
-B) The expected free energy
-C) The surprisal
-D) The precision
+2. A white blood cell detects a bacteria, chases it through your bloodstream, and destroys it. This white blood cell is acting like an agent because:
 
-4. How does Agents relate to the concept of the Generative Model?
-A) It is separate from the model
-B) It is a component of the model
-C) It destroys the model
-D) It is only relevant for the environment
+A) Someone told it what to do
+B) It senses its environment, has a goal (destroy the invader), and takes action to achieve it
+C) It is just floating randomly
+D) It has a brain
 
-5. A failure in Agents would likely result in:
-A) Perfect prediction
-B) Generalized surprise
-C) Immediate death of the agent
-D) Zero entropy
+3. Your heart beats faster when you're scared even before you consciously decide to be afraid. This shows that:
 
-6. Which scale is most relevant for analyzing Agents in this course?
-A) Quantum
-B) Neural
-C) Social
-D) All of the above
+A) Your heart has no connection to your brain
+B) Some body agents act on predictions automatically, without needing your conscious awareness
+C) Fear is not real
+D) Your heart is broken
 
-7. Agents connects directly to which other component?
-A) The step before it
-B) The step after it
-C) Both A and B
-D) None of the above
+4. What is the difference between a cell acting as an agent and you acting as an agent?
+
+A) There is no difference at all
+B) A cell responds to chemical and physical signals at a tiny scale; you respond to sights, sounds, and social situations at a larger scale, but both sense, predict, and act
+C) Cells are not agents
+D) Only humans can be agents
+
+5. Your gut has its own network of neurons, sometimes called the "second brain." This shows that:
+
+A) You have two brains that fight each other
+B) Agency is distributed — different parts of your body make their own predictions and decisions
+C) The gut does not interact with the rest of the body
+D) Neurons only exist in your head
+
+6. Bacteria in your gut help you digest food. In return, you provide them with a warm, food-rich environment. This relationship is an example of:
+
+A) Two agents with conflicting goals
+B) Two agents (you and the bacteria) whose goals align — both benefit
+C) A system with no agents
+D) Something that has nothing to do with Active Inference
+
+7. When you stub your toe, pain signals travel to your brain, and you quickly pull your foot away. The "agent" that pulled your foot away was:
+
+A) The toe itself
+B) A reflex arc in your spinal cord — an agent that acted before your brain even fully processed the pain
+C) Someone else moving your foot
+D) A random muscle twitch
+
+---
 
 ## Part B: Short Answer
 
-1.  Explain how **Agents** facilitates the minimization of prediction error.
-2.  Provide a concrete example of Agents failing in a Ms scenario.
-3.  How would you model Agents using a POMDP (Partially Observable Markov Decision Process)?
+1. Explain how a **white blood cell** acts like an agent. What does it sense? What is its goal? What actions does it take? What happens when it encounters something it hasn't seen before (a prediction error)?
+
+2. Your body contains trillions of cells, many of which act like tiny agents. But you also act as one unified agent when you make a decision. How do all these **tiny agents work together** to create a single "you"? Give an example.
+
+3. Compare how **you** respond to a cold day (putting on a jacket) with how your **body cells** respond (shivering, constricting blood vessels). Both are agents taking action. What are the similarities and differences in how these agents sense, predict, and act?

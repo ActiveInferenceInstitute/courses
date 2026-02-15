@@ -1,14 +1,14 @@
-# Module 08: Planning in Hs
+# Module 08: Planning in High School
 
 ## Learning Objectives
 
-1.  Define **Planning** within the context of Hs.
+1.  Define **Planning** within the context of High School.
 2.  Analyze how Planning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Hs to the formal definition of Planning.
+3.  Apply specific constraints of High School to the formal definition of Planning.
 
 ## Introduction
 
-This module explores **Planning**. In the **Hs** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Planning**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between Communication and Systems.
 
 ## Key Concepts
 
@@ -23,30 +23,10 @@ How does the process of Planning drive the perception-action loop?
 
 ## Applications
 
-In Hs, we see Planning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+In High School, we see Planning manifest in:
+*   **Specific Example 1**: Decision trees in probability class are mathematical planning structures: at each branch point you evaluate the expected value E[X] = sum(x_i * p_i) of each possible outcome, and the rational plan follows the path that maximizes expected reward (or equivalently minimizes expected free energy) -- for example, deciding whether to study for two tests by calculating which allocation of study hours minimizes your total expected grade loss.
+*   **Specific Example 2**: The shortest-path algorithms you learn in discrete math (like Dijkstra's algorithm) formalize planning as mathematical optimization: the algorithm evaluates all possible routes through a weighted graph, maintains a priority queue of candidates ranked by cumulative cost, and greedily selects the path that minimizes total distance -- this is precisely how Active Inference agents plan by evaluating policies and selecting the one with lowest expected free energy across future time steps.
 
 ## Conclusion
 
 Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_Actinf Textbook Group Cohort 4 Meeting 3 Chapter 1 Part 1 - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>02_Actinf Textbook Group Cohort 4 Meeting 3 Chapter 1 Part 1</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>02_Actinf Textbook Group Cohort 4 Meeting 3 Chapter 1 Part 1</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf Textbook Group ~ Cohort 4 ~ Meeting 3 (Chapter 1 part 1)</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=F6-0JpsrzFA">YouTube</a>
+<strong>Playlist</strong>: Active Inference Textbook Group ~ Cohort 4
+<strong>Duration</strong>: 56:59 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>all right greetings everyone welcome to cohort 4 on June 20th for chapter one discussion we're going to get to chapter one discussion in one second but I wanted to just show one area of development and something that people can explore um and then mention one thing about math learning group so first in the equations page there's a few sub pages that might be interesting to explore first where we previously had the equation screenshots so you could like Mouse over equation 2.1 and click on the screenshot um we added the latex so this is just a plain text code that renders in coda then there's some sub views that use Coda AI so this explanations View these prompts um basically just to show what it looks like in code AI explain the latex as if I'm not familiar how would a high schooler be interested in this what's some summary code where is this equation important and can you explain the variables it's not perfect but it gets pretty far very cool this is the explanations page there's a philosophy page just one column but it's just bring up 10 philosophy questions and a lot of these are like awesome discussion starting points you know what what does Divergence mean all these things and then also languages so here's just a few languages but we can add people's preferred languages just totally feel free to make a suggestion we can add more AI columns um so we have to keep on exploring this because the latex representation with plain text is really amenable to this kind of language model work so just mention that and then also um someone in cohort for is interested in the math learning group I think they're [Music] um they're potentially interested in like a morning time UTC but if somebody else is interested then we can kind of get this going so it could be in the Discord but if anyone is interested to pick up with math learning group and basically just it could be an unrecorded session in the Discord another hour um to go over the equations sorry about that um so if anyone is interested um maybe just make write a comment here and just say here sometimes I'd want to do this just basically like a math study time um and then let's just see if there's a any specific options for what times people want to do such activities so on either the AI or the math learning group does anyone have any just general thoughts or questions otherwise we'll move to chapter one all right so let's head over to chapter one just right off the bat before we get to the questions it would be awesome if anyone could just share any of their Reflections on chapter one just anything about their experience reading it or what what they felt it was like or what stuck with them or anything that kind of raised after they read chapter one um yeah um so I've had some familiarity with active inference for a while so a lot of what I read already tracks for me um but that said I'm curious about variational uh free energy is like a particular it seems that so active friends seems to be based on a particular form of Bayesian inference that it relies upon like this variational formulation I'm more curious about that I assume the textbook will get much more into what's specific to variational free energy is as opposed to some other um formulation of it but yeah that's something that that I'm kind of still chewing on right now thank you anyone else Yeah I'd write a chapter one a while ago and I think I just Dove deeper into it knowing that you know we're looking for questions and stuff but I really appreciated the um the video that you and Ollie did so I watched that for the first time today and I really appreciated the heads up to actually read ahead to chapter 10 which I'll do yeah that looks good um for me in this this more in-depth reading um action really stuck out to me um so I went to the ontology to look at the definition of action that's like Central to my area I'm in motor neuroscience uh and I can relate to the idea that action has to have a goal of purpose but I noted that in the ontology that goal purpose is not in the definitions it's more of a general sort of Behavioral definition and then I started to think about you know in our area we also use inaction so like action imagery and observational learning which you're not really acting you're watching somebody else and and so I posted that question about um does Action have to change the world and what do we mean by that do we mean like I'm going to change the physical world that we all share or am I actually sharing my internal uh changing my internal model of the world through action yeah so in summary I really got hung up on this this action um terminology cool that that those are some great things to explore anyone else with a just any thought about chapter one I I'm from I was familiar with the Bayesian brain hypothesis about like the you know our mind is kind of uh a predictive mechanism and yeah but but like this framework um you know the more I thought about it the more I started seeing like these patterns around me like thinking about you know the different uh things that I observe in in that sense of active inference like uh the action and the perception and and like specifically I saw it like in children's Behavior for example like uh you know that the ability to to change their mind and and the relief in contrast with like stubbornness sometimes you know when they're very stubborn and kind of like a you know they will do whatever they can to change their reality although you know they can't necessarily do so but so it was it was very interesting just uh thinking about like uh various behavioral um patterns that I see around me and translate them into this framework yeah of here and then anyone else uh question about uh salincy uh because I'm quite familiar with the definition of salinity in vision science in which something is silent if you know the visual features involved are different from what you have in your neighbor but I think that silencio has a much more general definition in active inference some quite interesting to understand you know how it is Quantified and what the Yeah it's proper definition you know it's generalization how it generalize you know the very simple definition in uh in vision science yeah cool uh for me uh I'm a psychiatrist so um talking about Helen Hall uh Freud who invented the cycle analytic theory was influenced by holy molds and as you can see in the chapter one and also at chapter two uh Helen Holmes said that perception is an unconscious inference process and which is quite interesting because so the cycle analytic theories are based on uh the assumption that individuals uh make really individual uh interrelationship based on their childhood memories and experiences and based on the fact uh I I I got quite curious about uh whether we can explain psychoanalytic theories based on active inference or other computational models that are based on these assumptions or theories that are inspired by Helen holds or other uh other and other scientists who are also having similar similar uh points cool there's definitely some other people in the in the textbook group and around so I hope that they can continue on this topic anyone else want like a general um topic or we can return to some of these mentioned points as well as some of the other asked questions just uh I don't want to track too much but just in response to Young Boon uh I and maybe you're already familiar with this but the way I ended up in active inference uh was through the work of Mark songs uh and neuropsychoanalysis I yeah so I I would strongly recommend checking him out and he he wrote a piece where he completely wrote rewrites Freud's uh like early scientific paper um using the terminology of of active inference um I think it's great and I'd be happy to explore the relationship between psychoanalysis and active inference like more potentially within the confines of of this group in the textbook oh yeah I I heard about him but uh I never actually uh read his papers so I'll look it up thanks thanks for bringing up sure thank you to Daniel well you want to unmute and go for it or he I just wanted to mention who worked North half's work in relation to um I mean psychoanalytic understanding of active inference uh it's not completely in line with Mark Stones line of research but it provides an alternative path uh through some of the uh psychoanalytic ideas of active inference based on his own spatial temporal philosophy in Europe okay cool all right well let's just revisit some of these topics and then turn to the questions but we're totally just killing and and whichever um ways that people want to go or anyone who wants to raise your hand like you know what whatever comes to mind let's just do them while we're here some of these as with the many coats of paints idea we're just gonna kind of give like a first or a few thoughts on and we're going to be revisiting in the coming chapters because like this is the topic chapter one is just kind of like opening the door so let's we're gonna certainly address all of this once all these topics are going to come back like again and again because the ontology gets Revisited so much so active inference being based upon the variational free energy as opposed to some other formulation we're going to talk about this a lot more in chapter two and in equation 2.5 we're going to meet the variational free energy and so leading up to equation 2.5 and in this discussion around 2.5 and in Chapter 2 and elsewhere we're going to talk about like what do we mean by variational free energy and why is active inference using it essentially it's a really tractable and optimizable heuristic that lets us carry out Bayesian inference efficiently because there's situations where if you had infinite Computing resource you could do exact Bays you could just plug and chug and just do the matrix multiplication and get the exact correct answer however with large data sets that's not really tractable and so in Bayesian statistics and this is even outside and before active inference people use variational methods because they're super effective computationally so for example a variational autoencoder a variational autoencoder is a widely used machine learning method or a Bayesian statistical method and a variational autoencoder finds the optimal fit for data not underfitting or overfitting through finding the variational free so inactive inference a lot of times there's there's a lot of interpretation and a lot of extension of what free energy is in all of this but it's also possible to kind of pull back to this pretty non-contentious Bayesian statistical interpretation and just consider variational methods as being part of Bayesian statistics and used to tractively optimize challenging inference problems so we're going to talk more about that in chapter two anyone have a thought or a question on this um Ali please I wanted to point to the distinction between variation of pre-energy and expected free energy because as it says here active in prints is based upon the variation formulation it's true but uh the perceptual part of active inference theory is based on variation of free energy but when it comes to action policy selection and decision making the parameter to be to be optimized is actually expected free energy which is expressed in equation 2.6 so basically those two equations between variationally free energy expressed in equation 2.5 and the expected free energy expressed in equation 2.6 can be seen as parallel to each other but uh they're used to formulate different aspects of uh for of active inference one is for perception and the other one is for action awesome thank you Ali two ways to minimize free energy update your mind through perception and learning action through changing the world the only thing you can't do is like put your thumb on the scale and directly change your sensory outcomes so you prevent the thumb going on the scale because you don't have a line going from the internal States out to the sense States so that the set states are only coming in that's inbound dependency and then that leaves two avenues for reducing um free energy perception and action and we're going to talk a lot more about this in chapter two when equation 2.5 and 2.6 come into play okay continuing on this theme of action so action was brought up and obviously like this is one of the really exciting pieces this is what is going to be referenced throughout the book a unified approach on perception and action or all these different ways which we see active inference presented like going Beyond passive or perceptual so does Action have to change the world is this changing the physical environment or can we change the generative model through action thank you um Holly uh yes so uh maybe I'll just uh yeah please I think you know I think you know the when Ali brought up expected free energy you know you're you're making changes to your policy your brain uh your model and um and so then what's happening is that and what I find interesting uh is the leverage points and this concept that making a very slight change in your understanding of the world has a much larger effect than an actual you know physical action you can see it um there in that image so I thought and I don't know if I don't know if a variation of the energy and the expected for energy really take that into account that you know that these you know the The Leverage points or not that maybe some people have some ideas well it's like like in nested modeling like for a generative model that only sees up to this point the optimal leverage Point that's detected is going to be so and so but then a deeper generative model might be able to see uh more leverage points Ollie uh well rather than describing action as something that changes the environment if we want to talk a bit more precisely uh what action means in active inference is actually one in which active States intervene constantly in external Dynamics right and uh formally it means a kind of Jacobian coupling between the external states that depend upon the act upon the act of the states or active intervention so uh what we mean by changing the environment uh we mean more precisely the the kind of active state that would lead to a kind of causal intervention uh in the environment and not something that just I don't know it changes something per se and this kind of this station comes into play when we want to talk about uh covert and over actions as discussed in phenomenology which will come to later in the book but yeah I think that would be helpful to awesome you have so many things to look ahead to overt action is physically manifested embodied action covert action or internal action is attention or mental action and so that is like something that doesn't necessarily change outside of the generative model but it's it's modeled with attention and action inside the model and there's actually um even a very cool um recent work on transparent and explainable artificial intelligence and again just looking ahead here they use attention and meta awareness as internal or covert attention uh generative models in an artificial intelligence way but this model was actually developed in a meditation and phenomenology setting where the action selection was internal attentional control not external control yeah I'll put the um this is the explainable AI paper in the chat and then also just again looking ahead one place to to what is this concept of action this is figure 4.3 which is kind of like a Rosetta Stone figure Pi are going to be the actions that are selected from and where those actions intervene is how the hidden states of the world change Through Time so if the hidden States s changing through time is like the true temperature in the room and at each time Point T you have a thermometer reading that gets emitted from the true temperature so we're only able to observe the observables which is the thermometer readings and there's the true underlying changes in temperature or you could think of this as the true underlying activity of the neural system and the observation is the fmri that's kind of where this comes from in terms of like friston's lineage with SPM and then if there's two actions you can take turn on the heater or not it causally intervenes in how States change their time maybe if you don't turn on the heater it just passes the hidden State on forward without changing it and if you do turn on the heater it increases it by one per time step that's that's one sense of um action and then also just by by mousing over um we see it from the ontology and also we we can update the ontology it's it's never like these things are locked definitions just to be clear but we see a really common pattern which is that there's like a broad and a narrow sense a lot of these terms in the active anthontology action belief attention salience things that people have brought up today there's like a broad sense qualitative definition which largely or exactly is how we would use this day to day just action is what occurs super general term and then there's like a narrow or a more technical definition which sometimes conveys how this is operationalized in generative modeling so more specifically actions are the active States that the agent's generative model is going to select and actually and so that's like more of the quantitative and formal definition of action and then we'll explore a lot about how his action selected because that is the entire expected free imperative is the selection of action and how goal orientation preference orientation expectation orientation is embedded Within action despite there not being a reward function as we might see in reward learning reinforcement learning we're going to have a different approach for adaptive and flexible Behavior that's not based upon reward learning or reward function okay any any other thoughts or just any other ideas on on this in action Martin so does Action have to have movement it's one thing I'm looking at here I mean the the overt versus the cover so overall obviously I have to have some movement that I could observe um but he said uh earlier that you could have the covert like for example attention being a covert action yeah well depending on the system of Interest action could be an API call so certainly it doesn't have to be a person's body that we're modeling could be a computational or a purely informational system and then covert or internal attention I mean you could argue it has some physical informational substrate so it's not like it's um you know happening in some some you know alternative plane of existence but for the purposes of the modeling it might not be realized through a gross morphological movements yeah and and it's going to be super cool like how we're gonna when we look at um figure 4.3 as kind of this cognitive kernel or this kind of firmware element and then again when we take it to uh when we look at how these um models compose even just starting to see familiarity here in figure two we see basically this figure 4.3 downward facing e that's the inference part hidden State and observations and policy intervening that's like this downward facing e policy intervening and then that just gets nested and so that speaks to the composability of these kinds of Bayesian graphs in when you look at a specific model it becomes clear which actions are associated with overt movement and which actions are associated with covert okay any other thoughts or thoughts or um yeah I guess just to briefly kind of add to the table under action um like on page 10 ever so briefly um the authors make the distinction between exploration and exploitation and um that seems like a really interesting or useful division to me like so both of them seem to be both of them are related to minimizing free energy or expected free energy in this context and um yeah exploration is to resolve uncertainty so I view that as like taking in new information versus um exploitation which has to do more with yeah acting on the World to bring your your observations into line with whatever your your goal is uh or your or your plan is your your set point to use that the word from cybernetics thank you and here's a really clear claim in contrast with other Frameworks policy selection so behavioral selection inactive inference automatically balances exploration and exploitation now this is a um very strong version of the claim as we'll explore it's not that simply making an active inference model does automatically balance it it's not like just writing it out is going to make you know the startup work and the ship work and the plane fly and all of this so so it can be read too strongly it's not that it's automatically going to be effective however it sets the stage or it provides an accounting system for the the Adaptive finessing between we'll explore that more in chapter two when we look at what is it that expected free energy and variational free energy are and then how is it that that policies are selected behaviors are selected that are able to adaptively finesse between more exploratory behavior when there's information to learn and more exploitative behavior when there's kind of pragmatic value on the table and maybe it's more important to just get the pragmatic value rather than to um continue learning but that's where we see um variation in Behavior ultimately variation in cognition and behavior when there's too much attention paid to epistemic or to pragmatic value and that's a lot of where like these like Precision Psychiatry cognitive modeling things come into play foreign any other thoughts or questions on this it kind of connects to to even the next point that was on again just as it is in the ontology not the it's the only or the final definition but it's just the extent to which a cue is going to be attended to a cue that is not salient has no attention to it and something that's not being attended to the consequences for the queue are diminished in the limit case if you didn't pay attention to something it just you know didn't cross your radar it doesn't update the generative model that's like attention to zero in The Other Extreme case when the attention is super high it's like you're updating your prior to just whatever it is the new data point is you perfectly attend to it and it is like the is same as having like no memory so no attention is like totally pushing your prior forward full memory full attention no memory and then finding out what is an Adaptive amount of remembering and learning and forgetting Salient observations are those that resolve uncertainty that's the information that we're seeking out is the information that reduces our uncertainty about something and then how much it reduces it we're going to talk about some formalisms especially in chapter two for comparing like is this sequence of observations or that sequence of observations going to be more Salient which one is going to have higher epistemic value which one is going to reduce my uncertainty more which one will I learn more by viewing which one will update my prior is more which one should I pay attention to more those are all kind of like related questions for like which information is going to be the good information and these are the the two sides of the joint imperative for expected free energy Information Gain and pragmatic value how good is the information pragmatic value what is the utility am I going to be at homeostasis exploration exploitation and so expected free energy is like this unified imperative that contains both of those elements such that different policies can be ranked or evaluated or upweighted based upon how well they contribute to both Information Gain and pragmatic value comes up in chapter two but just wanted to kind of preview it any other um thoughts or questions or let's let's go to the questions table and just like the the questions that people are most interested okay first I'm going to go to the chapter four or cohort four questions so just to make sure that even if they have a few upvotes that that all of your questions can be addressed so we'll first look at this question and then we'll turn to chapter one questions overall so as always like you know whenever you're watching or participating even if it's a chapter that was long discussed ago or you know up ahead just add questions it's it's really awesome and upvote them so that and develop the discourse so we can have good short answers for these page nine action minimizes free energy and surprise by changing the world okay so talked a little bit about that previously does this imply that the agent implements action to alter their world or their actions implemented to change the Asians model of the world or both can an Asian Implement action not solely to minimize their free energy but free energy in another agent for example using action demonstration for observational learning yeah does anyone have any thoughts on this okay I'm just starting with the observational learning two two quick angles listen again everyone can add more in live stream 53 um sequence there were some paleoanthropologists and we discussed observation learning a lot and they highlighted how a lot of times people have focused on the kind of moment of innovation for example in um creating stone tools in in human cultures in history but it's not just about the one innovator making the stone tool it's actually in the moment of observational when the onlooker is able to either understand or not understand and ultimately adopt or not adopt or to copy or not to copy that behavior and so they approached this from an active inference perspective and this also brings up ideas like thinking through other Minds ttom which is kind of like the active version of theory of mind but thinking through other minds or thinking with other Minds is more explicitly like one's generative model in a social environment also includes a generative model of what the other is thinking and doing and so um if if one is in an uncultured setting where action demonstration can be used for observational learning then these are the kinds of dynamics that that are possible to model so it's one angle is yes it's been considered in a social and cultured setting how like gesture and demonstration and observation might play a role in transfer learning a more Technical and general response is in multi-agent systems you have agent reducing their own free energy making their own perception Action Cycle but also you have like the joint distribution you know you have the nest mate going about their own way but then in the aligned or the healthiest or adoptive setting the colony is also reducing its expected free energy so One agent or neuron or an Esme or a person might undertake an action that increases their own surprise transiently as part of a distributed cognitive that has a joint free energy that is reduced through that action so it's not necessarily like every single subunit is always and only reducing its free energy per se but the Adaptive whole is going to reduce its free energy and that might be um entailing some subunit increasing its surprise uh yes than anyone else uh yeah I mean I think I'm I keep thinking in a way as a psychiatrist so uh it feels like like psychoanalytic therapy itself is something a therapist suing Trying to minimize the free energy of the client because like they provide explanations and interpretations about why they are doing such Behavior or why they are making such relationships with others so I guess maybe uh in a broad aspect I would say uh giving providing explanations about why some individuals are behaving in such way would be another action that actually reduces the free energy of another agent that's very cool yeah like by providing a narrative summary it's a sense making tool that helps explain and make sense of their perceptions and actions Martin yeah it's really interesting and thanks for that uh it just got me thinking you know sometimes we we I guess we try to free um minimize energy and others directly like I'm a university teacher so by teaching I'm trying to reduce you know their free energy um but sometimes you find it's best to let them on their own way so I'm just thinking about like in fact analytics which is very distant field from my area but uh letting others interpret meaning from their situation rather than bringing it for them if that makes sense and I'm just thinking you know maybe this is a side topic but would active infants speak to what's a better approach or want to do it for the other or to let the other explore in a way let them work through that space of energy free energy and then find their own way to minimize that yeah great topics oh yeah I think that's a really good uh point because like at in cycle analysis we sometimes like have to choose whether to give a very direct interpretation or sometimes we let the patient to understand what's going on by themselves but it's always a controversial um question about what to do well we do have some like theories and some sense about like when what to do on certain situations but uh it's quite a Pity that we don't really have like a very uh scientific grounds for what to do in psychoanalysis so I think that's a really good point let's go to mind is uh this this came up with this chapter in fact this so if we're working to minimize our free energy right and we sort of acting in a world to minimize surprise how do we avoid confirmatory bias you know so I'm thinking now that the world is flat so I am going to reinforce that model because if I don't then that's going to create some uh free energy right it's going to create a surprise so I'm gonna act in the world I'm going to hang out with people who don't challenge that and I'm thinking back into psycho um Psychiatry practice or counseling maybe people may have ingrained sort of models in the perceiving the world just based on that model resulting confirm it's very bias yeah this is a is a very important topic especially as the as they put it existential imperative is self-evidencing to repeatedly re-measure my body at homeostatic temperature to be unsurprised about re-measuring myself at homeostatic temperature is to maintain homeostasis so in reward learning you would say well homeostatic temperatures are the most rewarding that's the top of the reward function and then we're going to basically Hill Climb to get to the most rewarding body temperature that's the reward learning paradigm inactive your preference is your expectations the C Factor is what you expect expect to find myself at body temperature that's the bottom of the bowl I'd be the least surprised at 37c and I'd get more surprised as I went out and now we're going to go to the bottom of the bowl and we're going to pursue the most likely course of action bound our surprise with expected and variational and so with the imperative as self-evidencing and surprisal bounding we're going to pursue likely Paths of rather than with the imperative being reward learning the imperative is to maximize reward however does self-evidising mean that we seek out homophily doesn't mean that we just shut our eyes and go into the dark room these are really important topics and for example in the dark room problem um it has been discussed for many years people say well if the imperative of the generative model is to reduce surprise then why don't people just go into sensory deprivation where there's highly predictable sensory inputs and this has been discussed and addressed for for a long time but the short answer is while you're in the room reducing your uncertainty about your visual field you're increasing your uncertainty about a variety of other aspects that are required for operation of the organism and so you kind of net on balance uncertainty is rising while you're in the room which is why we are always adaptively moving around and seeking information and all of this however you can always set up a constrained or a toy generative model that exhibits any given limitation or pathology that's not too surprising itself but to actually use this as an accounting system for the kinds of adaptive and interesting behavior that organisms do exhibit that's the interesting piece not whether you can make a um visual input only generative model that may select to be in a dark room but if you have an active visual entity that can turn on a light it may turn on the light or if it has a hunger uh cue it may need to seek food eventually so it's a little bit of a non-sequit or a kind of over interpretation of a thought experiment that's just really in a little bit of a partial way trying to come at this so you can imagine that there's situations where self-evidencing goes right and where it goes wrong and that's exactly the space that we're exploring a lot of times when I think about homeostasis and temperature um I think about you know like huberman and many uh kind of biohackers want you to uh you know experience cold contrast therapy and especially if you are sensitive to cold you know it's very important that you get in there and do your cold plunge your cold showers and so that's that's I think that's an interesting example where you're changing that you know that set point basically um by by doing other activities that seem opposite to what uh you know what would what would make you comfortable cool thank you any other thoughts or questions or let's look at like one or a few of these asked questions just just a general question Daniel so when we post questions because I posted that one I had to go to the main table to post a question and then it feeds into the cohort four is that how it works I couldn't I couldn't post directly into there yeah um all the uh it's it's all there's only one underlying questions object so each of these are like different views so if you just go here and just like hit enter you'll add a new row and you can ask a question in cohort for and then that'll be like in chapter one and in cohort four um and so that it'll come up when we go to chapter one questions as well or you could um yeah or you could ask and but then it might not necessarily be tagged to cohort for but it doesn't really matter what cohort it you know as long as it's in the chapter that's a good place got it thanks well one distinction and and you know I look forward to seeing some of you next week in the other time also discussing chapter one um or next week at this time where we'll be in chapter six with cohort four you're all welcome to join but a really key distinction that's a that's um raised in figure 1.2 is the high road and the low road and this is basically going to structure chapters two and three the low road is going to describe how the low road is basically Bayesian statistics that's how we're going to do cognitive modeling but you could use Bayesian statistics to model anything you could do it on health records you could do it on weather data so Bayesian modeling doesn't have to be about adaptive cybernetic Auto poetic agents Bayesian statistics the how can be about anything chapter two low wrote chapter 3 is going to be the high road and the high road is like the kind of what or why and it's self-organized self-evidencing systems and so this describes more like the specifications for adaptive agents this is like what they need to be doing observed repeatedly by an observer and or by themselves in this kind of like sophisticated reflexive sense but it doesn't necessarily say how that happens it turns out where the why and the how meet is active inference we're going to be using Bayesian statistics that's how to model adaptive cybernetic entities that's why and so that's kind of going to be explored in the chapters two and three low road High Road so that's kind of the the big structuring motif ultimately of this textbook um Olivier yeah in in the figure there is a an order you know in all the items on the lower Road and a high road uh it is although important to understand anything or just you know one group and another group it's a it's a schematic ordering I believe that there is a way to read them in order but it's not an exhaustive or a unique ordering so um up so for example oh sorry someone is someone closing the okay so base theorem is just describing basically tautological statements about conditional and Joint probabilities this gets used in a generative model which is basically a model that can be used in a recognition capacity or an A generative capacity that's the tale of two densities in simple settings or passive settings we're interested in perception as but once we go into the anticipatory or the predictive setting we're interested not just in dealing with incoming streaming data but basically making ongoing predictions now casting the next kind of into the unknown step that now casting can take is action as inference because it's not enough to just deal with incoming streams of data sometimes you want to take the action to open the book to find out that idea of perception and planning as inference is Unified in the Bayesian brain and it turns out that variational Bayesian methods are going to give us some tractable optimizable approaches for approximate Bayesian computation where exact Bays probably doesn't apply or is really challenging just like we kind of mentioned earlier so that gets us to doing variational Bayesian optimization on perception and planning as inference in the Bayesian brain that's active inference so that's kind of low road ordering the high road ordering is starting with the free energy principle which is a non-falsifiable principle just like the principle of least action in classical mechanics this is like a principle for informational systems under this principle are seen as being in the game of self-organization via surprise minimization you'll continue to find yourself organized if you're continually minimizing your surprise about who and what you are that is um supported or described by a partitioning conditional independent structure called a Markov blanket which we're going to explore and the markup blanket can be seen as carrying out self-evidencing through this kind of anticipatory real-time predictive processing which is related to predictive coding and in the extended embedded inactive setting that can be understood as basically self-authoring self-meaning making and ultimately even extended Niche Construction which gets us to active inference from The High Road so again not exhaust exhaustive or or unique ordering but certainly something that they have considered and laid out a certain way thank you everyone for this awesome um chapter one discussion I hope to see you either next week at the other time or whenever and just leave a comment on this page here if you um want to start up the math group so thank you all</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

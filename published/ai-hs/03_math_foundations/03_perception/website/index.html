@@ -776,15 +776,15 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lecture_content">
-<div><h1>Module 03: Perception in Hs</h1>
+<div><h1>Module 03: Perception in High School</h1>
 <h2>Learning Objectives</h2>
 <ol>
-<li>Define <strong>Perception</strong> within the context of Hs.</li>
+<li>Define <strong>Perception</strong> within the context of High School.</li>
 <li>Analyze how Perception interacts with other components of the Active Inference framework.</li>
-<li>Apply specific constraints of Hs to the formal definition of Perception.</li>
+<li>Apply specific constraints of High School to the formal definition of Perception.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Perception</strong>. In the <strong>Hs</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>This module explores <strong>Perception</strong>. In the <strong>High School</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between Agents and Cognition.</p>
 <h2>Key Concepts</h2>
 <h3>1. Perception as a Markov Blanket Boundary</h3>
 <p>How does Perception define the boundary between the agent and the environment?</p>
@@ -793,30 +793,11 @@ body.dark-mode .question-container:hover {
 <h3>3. Active Inference Dynamics</h3>
 <p>How does the process of Perception drive the perception-action loop?</p>
 <h2>Applications</h2>
-<p>In Hs, we see Perception manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
+<p>In High School, we see Perception manifest in:
+*   <strong>Specific Example 1</strong>: Bayesian updating in statistics is the mathematical foundation of Active Inference perception: when you flip a coin 10 times and get 7 heads, your prior belief (P(fair) = 0.5) combines with the likelihood of the observed data to produce a posterior distribution that shifts toward "biased coin" -- this is exactly how a perceptual system updates its generative model given surprising sensory evidence.
+*   <strong>Specific Example 2</strong>: In signal processing, a Kalman filter estimates the true position of a moving object from noisy GPS measurements by maintaining a predicted state (generative model) and weighting it against each new observation based on measurement precision -- this is perception as mathematical inference, and the filter's update equation is a concrete implementation of prediction error minimization.</p>
 <h2>Conclusion</h2>
-<p>Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<p>Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,27 +807,118 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Perception</h1>
+<div><h1>Lab: Conditional Probability and Likelihood</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Perception</strong>.</p>
+<p>Practice computing <strong>conditional probabilities</strong> and <strong>likelihoods</strong> -- the mathematical tools an agent uses to update beliefs when new evidence arrives. These calculations are the building blocks of perception in Active Inference.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Perception.</li>
+<li>Completed Math Foundations: Agents module (probability distributions)</li>
+<li>Comfort with fractions and basic probability notation</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Conditional Probability</h2>
+<p><strong>Goal</strong>: Compute P(A|B) -- the probability of A given that B has occurred.</p>
+<p>A school has 200 students. Of these, 120 play sports, 80 are in band, and 40 do both.</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Hs.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Perception.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Perception (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>Draw a Venn diagram showing Sports, Band, and the overlap.</li>
+<li>P(Sports) = ?</li>
+<li>P(Band) = ?</li>
+<li>P(Sports | Band) = P(Sports AND Band) / P(Band) = ?</li>
+<li>P(Band | Sports) = P(Sports AND Band) / P(Sports) = ?</li>
+<li>Is P(Sports | Band) the same as P(Band | Sports)? Why does this matter?</li>
 </ol>
-<h2>Discussion Requirements</h2>
-<ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Perception.</li>
-</ul></div>
+<p>{fill:textarea}</p>
+<h2>Part 2: Likelihood vs. Probability</h2>
+<p><strong>Goal</strong>: Distinguish between P(data | hypothesis) and P(hypothesis | data).</p>
+<p>A bag has either 7 red and 3 blue marbles (Bag A) or 3 red and 7 blue (Bag B). You draw one marble and it is red.</p>
+<ol>
+<li>P(red | Bag A) = ? This is the <strong>likelihood</strong> of Bag A.</li>
+<li>P(red | Bag B) = ? This is the <strong>likelihood</strong> of Bag B.</li>
+<li>Which bag is the drawn marble more likely to have come from?</li>
+<li>The likelihood ratio is P(red | A) / P(red | B) = ? What does this number tell you?</li>
+<li>In Active Inference, the generative model predicts observations. The likelihood measures how well a prediction matches what was actually observed.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Conditional Probability Tables</h2>
+<p><strong>Goal</strong>: Read and compute from a full conditional probability table.</p>
+<p>A weather app's prediction model:</p>
+<table>
+<thead>
+<tr>
+<th>Actual Weather</th>
+<th>P(app says sunny)</th>
+<th>P(app says rainy)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sunny</td>
+<td>0.9</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>Rainy</td>
+<td>0.3</td>
+<td>0.7</td>
+</tr>
+</tbody>
+</table>
+<p>Each row is a conditional distribution P(app prediction | actual weather).</p>
+<ol>
+<li>Verify each row sums to 1.</li>
+<li>If it is actually sunny, what is the probability the app gets it wrong?</li>
+<li>If it is actually rainy, what is the probability the app gets it right?</li>
+<li>Which weather condition does the app predict more accurately?</li>
+<li>In Active Inference, this table is part of the <strong>generative model</strong> -- it describes how hidden states (actual weather) generate observations (app predictions).</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: From Observation to Belief</h2>
+<p><strong>Goal</strong>: Use conditional probability to reason backward from observation to cause.</p>
+<p>Suppose P(sunny) = 0.6 and P(rainy) = 0.4 (your prior beliefs). The app says "rainy." Using the table from Part 3:</p>
+<ol>
+<li>P(app says rainy | sunny) = ?</li>
+<li>P(app says rainy | rainy) = ?</li>
+<li>P(app says rainy) = P(rainy|sunny)<em>P(sunny) + P(rainy|rainy)</em>P(rainy) = ?</li>
+<li>Without doing full Bayes yet, which hypothesis (sunny or rainy) does the "rainy" prediction support more?</li>
+<li>This reasoning -- from observations back to hidden causes -- is <strong>perception</strong> in Active Inference.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Math Concept</th>
+<th>Symbol</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Conditional probability</td>
+<td>P(A|B)</td>
+<td>Probability of A given B has occurred</td>
+</tr>
+<tr>
+<td>Likelihood</td>
+<td>P(data|hypothesis)</td>
+<td>How probable the data is under a hypothesis</td>
+</tr>
+<tr>
+<td>Likelihood ratio</td>
+<td>P(D|H1) / P(D|H2)</td>
+<td>Relative support for two hypotheses</td>
+</tr>
+<tr>
+<td>Generative model</td>
+<td>P(observation|state)</td>
+<td>How hidden states produce observations</td>
+</tr>
+<tr>
+<td>Prior</td>
+<td>P(hypothesis)</td>
+<td>Belief before seeing evidence</td>
+</tr>
+</tbody>
+</table></div>
 </div></section>
 
 <section id="practice_quiz">
@@ -867,7 +939,7 @@ C) To increase entropy
 D) To eliminate the Markov Blanket</p>
 </li>
 <li>
-<p>In Hs, Perception is best described as:
+<p>In High School, Perception is best described as:
 A) A static property
 B) A dynamic process
 C) An external state
@@ -912,7 +984,7 @@ D) None of the above</p>
 <h2>Part B: Short Answer</h2>
 <ol>
 <li>Explain how <strong>Perception</strong> facilitates the minimization of prediction error.</li>
-<li>Provide a concrete example of Perception failing in a Hs scenario.</li>
+<li>Provide a concrete example of Perception failing in a High School scenario.</li>
 <li>How would you model Perception using a POMDP (Partially Observable Markov Decision Process)?</li>
 </ol></div>
 </div></section>

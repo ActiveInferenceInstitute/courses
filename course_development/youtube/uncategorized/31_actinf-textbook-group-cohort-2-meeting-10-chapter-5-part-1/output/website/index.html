@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31_Actinf Textbook Group Cohort 2 Meeting 10 Chapter 5 Part 1 - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>31_Actinf Textbook Group Cohort 2 Meeting 10 Chapter 5 Part 1</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>31_Actinf Textbook Group Cohort 2 Meeting 10 Chapter 5 Part 1</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf Textbook Group ~ Cohort 2 ~ Meeting 10 (Chapter 5, part 1)</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=7bKXo3caFH8">YouTube</a>
+<strong>Playlist</strong>: Uncategorized
+<strong>Duration</strong>: 55:03 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello this is active inference textbook group cohort 2 we're in meeting 10 on November 4th 22. and we're having our first discussion on chapter five message passing and neurobiology so to begin does anyone want to share any general thoughts or remarks on chapter five just any experiences they had reading it any topics that they thought they want to discuss a little bit today just anything about their reading of chapter five yes Ali well I think in chapter five uh since the authors decided to go uh pretty deep into neuroanatomical structures or neuroanatomical uh substrates of most of the active inference Concepts uh well having a kind of basic understanding of neural neuroanatomy uh in my view is an essential prerequisite to understanding the contents of this chapter uh but otherwise it provides some empirical evidence for why active inference modeling Works uh or to put it this way it explains uh the some of the testable predictions we can get from applying uh from seeing active inference from a neuroanatomical perspective awesome thank you anyone else want to share a general thought on chapter five yeah as Ali stated that chapter is going to provide a host of examples which are going to be discussed separately and then synthesized together regarding neurobiology specifically mammalian neurobiology which is one of the most important systems of interest of us as humans and also it's one of the most studied in terms of different um zones where active inference models have been applied ranging from as we'll see in this chapter the micro circuit level so the connectivity patterns of small numbers of computational elements which might be like neurons or it could be brain regions then there's a discussion of motor commands in terms of continuous time active inference and how motor uh behaviors in the periphery are coordinated there are then several discussions about decision making neuromodulation and learning and then there's a hierarchical hybrid model that's presented which integrates The Continuous and the discrete cases of active inference in a unified generative model and that's what brings it all together in the summary and also just one note maybe we've mentioned before um chapter one provides an overview of the book much like chapter 10. chapter 2 and 3 are the roads to active inference but not active inference itself though it also kind of is chapter 4 we learned about the essence of specifying an active inference entity which is its definition in terms of a generative model and now immediately we're moving to the area with the most empirical support and popular interest which is understanding active inference in the context of mammalian neuroanatomy and that will conclude the first half of the book which is the epistemic component the second half of the book chapter six through ten heads into some of the step by step and recipes around designing active inference models but in some ways as we complete this last chapter in the first half of our cohort it's just good to keep in mind that like we spent 60 percent of the time getting into the game then where the low and the high road intersected was in the generative model and now we're immediately going to be talking about topics related to applications and specific generative models applied to neurobiological phenomena in health and in disease okay does anyone else want to add a comment on chapter 5 before we start moving through it all right chapter 4 described the generative model in this chapter there's a focus on the process theories arising from those Dynamics theories that explain how the brain May Implement variational so as per classical scientific Criterion the goal of a theory or a contribution is to variously explain predict design control these are the criteria that active inference can and should be compared and juxtaposed with other competing theories and so many of these aspects are going to be touched upon explain and predict and ultimately to design and control but initially in this setting to explain and predict so we'll be keeping an eye out for unique and valuable explanations and predictions that active inference modeling of a given system of Interest provides in comparison with some other approach that could be taken let us take a step back from the technical material of chapter four The and turn our attention to the process theories accompanying active inference it's important to draw a distinction between a principle like the free energy principle and a process theory about how the principle may be implemented in a certain kind of system such as the brain the latter lets us develop hypotheses that are answerable to empirical data so quite commonly we hear about the non-falsification or the non-falcifability of the free energy as a principal akin to a principle of least action and one can see that comment addressed at the beginning of this chapter which is sure whatever you think about whether free energy principle is tautological or it can it can't be falsified when we develop specific hypotheses embodied as models of given systems of Interest then we're certainly in the space of being able to find unique explanations and predictions to falsify or not like we could have one model that says that two brain regions are connected in some way and then there could be an experimental study that falsifies or adds or removes evidence to support that claim so this is where we actually get into the last mile of scientific modeling where we're going to be saying specific things about specific systems the Dual aim of this chapter is to introduce readers with a technical background to the neurobiology of active inference so that's people coming from a math and modeling perspective to learn about some of the importance neurobiological substrates where active inference models have been constructed over the last 10 or so years and to highlight to biologists the relevance of theory to practical neuroscience so for those who are coming from more of uh embodied or biological angle here why does it matter that we're adding this mathematical layer on top of the raw anatomical observations like the structural connectivity of different is an empirical measurement about the world so what are we doing that goes beyond saying this is connected to that and the chapter is not the final word it is simply some interpretations that seem most consistent with the currently available evidence here they describe how in the following sections they're going to uh bring up first as mentioned briefly before the role of the micro circuit as a computational component which is very common to computational then moving through motor and cortical regions of the mammalian neuroscience to understand first modularly and then in composition how decisions around motor behaviors can be seen as the coordination among multiple active inference generative models anyone want to give a general thought or just like something that's interesting or exciting about this framing section 5.2 micro circuits and messages so in chapter four there was a discussion about belief updating which we spoke a little bit about in terms of message passing and belief propagation in Bayesian graphical Networks and here they provide some written overview of the layered structure of the mammalian cortex so does anyone want to give a note on the mammalian cortex or the layer structure the so-called six-layer structure of the mammalian cortex so just for context this is like um let's see where where it's actually sliced through here we have a prototypical mammalian brain I'm always emphasizing mammalian because this is not some general um property of brains like invertebrate brains have a very different layout they don't have cortical layers in the same way um and so these cortical regions near the top of the head if one slices through them they reveal a very specific pattern of cells that are arranged in these laminar or layer like ways and so there are these six areas six layers one two three four five maybe that should be six um or maybe there's some other thing happening here but this is representing like a slice through cortex and so this has been modeled as a column because as you go across the cortical surface there are these repeating units that have this kind of laminar structure it's like six layers of Locker across the cortical surface once it's unfolded and then sliced through and that's represented from a Bayesian computational view in figure 5.1 canonical cortical microcircuits illustrating relationship between inferential message passing and the architecture of the cerebral cortex on the left is a schematic of some Anatomy where the different connections represent inhibitory or excitatory synapses so in high inhibitory synapses reduce the likelihood of the downstream neuron firing when activated and up and excitatory synapses increase the likelihood of the downstream neuron firing when activated so the left is not a base graph it's actually a summary of structural anatomical histological that means tissue level Anatomy connectivity in the middle is a message passing architecture so like a scheme for variables and their connectivity within a hierarchical predictive processing architecture and on the right side is a message passing scheme that's described to solve a partially observable Markov decision process pomdp now on the left is an empirical structural map on the right we see two computational implementations of inference and action and they're being kind of laid out they could be laid out in any way they could look like um the Big Dipper graphically but they're being juxtaposed with the cortical layers so that we can start to see some concordances and resonances between the location of a given variable in a statistical model of inference and action and the neurobiological who with plausible biological connectivity might be implementing or doing something like the computational role that the variables play in the abstract models so that's going to be the path towards or the template of the path towards unique explanations and predictions from using computational modeling of the structural neural Anatomy does anyone have any thoughts or questions on um figure five one or like how a structural anatomical empirical map might be juxtaposed with statistical models um maybe a good thing to think about our question answer here is like what connections or what structure reflects something like a a belief in the statistical sense or what connection could be made there so what neurobiological structures can reflect or represent beliefs sure yeah that's fair when what way are they different or yeah what what's not a belief here does anyone have any a lot of arrows thoughts yeah and the quarterback he's gonna sit here yeah one thing I notice immediately in this uh previously is just the cortical layers there and the there's this two on the right hand side of that for layer three and layer four so I'm not sure what exactly yeah yes oh okay yep yep um one important thing to note about the cortical layers which is almost obtrusively under discussed is the cortical column performs as one integrated unit the fact that it's six layers doesn't mean that there's like a little octave Loop and then a second active Loop and then a third active Loop so it's not like a six if someone said I'm looking at a six layer predictive processing hierarchy one might think that there's like six cleanly separated layers of a wedding cake but actually the cortical column has six arbitrarily defined not to say that there's no grounding but there's finer scale differences and there's coursing and there's overlapping zones and it's behaving with connections that span across multiple layers so this isn't like a clean six layer predictive processing model this is like one integrated architecture that functions with this connectivity and importantly this is the basis of like the Thousand brains hypothesis and numenta Ai and people who have been pursuing the cortical architecture as the or a basis for intelligence in natural and artificial systems and it's long been hypothesized when comparing the brains of different mammals like what neuroanatomical features are associated with differences in perceived intelligence or learning capacity and one of the features is the prevalence in the primates and in humans of higher cortical regions so-called higher cortical regions with this specific architecture whereas other brain regions maybe have not had so much evolution in their um size or in their circuitry that doesn't mean that they're unimplicated in intelligence it just means that people have looked for where there are more differences to this question that Brock asked about like where might beliefs be embodied So within the Bayesian setting the statistical setting a belief is just any parameterization can be said to be a belief about a variable so we're not talking about experienced or personally held or verbally stateable beliefs we're talking about statistical parameterization of a given variable and there's at least two ways one can think about beliefs being represented or embodied in a structure of this and we're going through this in slow time because like this kind of general questions about what is the structural neuroanatomy and how does it relate to statistical modeling thereof is going to be at the heart of the following examples as well not just this cortical um case um one can see the firing rate of a neuron in like an artificial neural network setting or just the value that a statistical variable takes on as representing a belief about that variable then one can think about the presence or absence or the waiting or the type like inhibitory excitatory of a connection between two variables as embodying a hypothesis about the structure of how those variables are connected under the implicit assumption that we're developing models that actually do functional things of course one could just connect all of the variables and have an all by all model however as we sparsify the relationships amongst variables which is to say remove edges from the all by all the model becomes computationally easier to fit and we talk about that in terms of the factorizability of the variational Bayesian approach so if none of the variables were connected they're all independently fit that's like the simplest it can be to fit n variables if all the variables were interacting in combinatoric ways that would be increasingly computationally complex and for a given amount of data we would have less and less statistical power to resolve any given variable or combination of variables because the same amount of information from our observations is now being like partitioned and spread out over fitting estimates for more and more variables and so what biological systems do and what statistical models do is enforce either just through physical constraints or through design sparsity conditions on functional statistical modules such that the models are more computable though they only may be exploring a subset of the space of total possible models exploring well a subset whose sparsity embodies certain aspects of the world maybe a more appropriate um model to fit situationally figure 5.2 simplified version of the predictive coding scheme shown in the middle of five one so does anyone want to give a thought on 5-2 foreign so here's message passing between three cortical regions so here's three cortical columns each consisting of like one through six layers and um there's going to be message passing happening laterally dotted lines show ascending messages prediction errors and solid lines show descending messages or predictions so in this setting um this rightmost region is like the quote top most but left right top down bottom up those are all just spatial metaphors but we'll continue to use this higher and lower in the hierarchical modeling where the lower levels of the hierarchical model are more close to where the rubber hits the road in terms of like the perceptual machinery and the action effectors and higher levels of a hierarchy are associated with more and more abstract or general or deeper or slower features so this figure is representing how um there is a uh within cortical column relationship between predictions and prediction errors between a superficial and the Deep levels using the concordance between variables and cortical layers established in 5.1 and then the um outcome of one cortical layer can also be engaged in this prediction and prediction error relationship with an anatomically lateral cortical column however from a computational perspective this is like the top the middle and the bottom of a three layer cognitive model the superscripts are describing the level so here's like I I plus 1 and I minus 1. so this is just describing that this is a scheme that can be computationally extended to many levels of hierarchical modeling and it's being embodied by the lateral juxtaposition neuroanatomically of cortical columns Ali did you have something you wanted to add there uh well yeah I I just wanted to mention friston's uh recent paper from a couple of months ago uh in which uh the neurobiological substrate of uh prediction errors are explained uh in in detail namely the computational Psychiatry which is a great overview paper of the whole field of computation Psychiatry through the lens of active inference and especially in on the matter of prediction error I'm sorry a matter of prediction error I just wanted to uh point the section uh let me sorry yeah You're The Importance of Being precise I I just wanted to quote a couple of sentences from this paper which says and predicting or estimating uh Precision is a universal requisite for making sense of data from estimating the signal to noise ratio in some sensory apparatus through to estimating standard error when making inference bison nyman Pearson statistic affording certain prediction errors greater Precision increases their influence on belief updating and has all the Hallmarks of attentional selection physiologically this simply entails an increase in the excitability or post-synaptic gain of neuronal populations broadcasting prediction errors on this view there is an intimate relationship between attention and the modulation of synaptic efficacy by classical neuromodulators and non-linear postsynaptic responses responsible for mediating the exchange between fast fighting spiking inhibitory interneurons and superficial pyramidal cells so it's basically the arguments from the book but in a much more concise and a little bit well-structured argument in my opinion so if anyone wants to um just look at this paper I think it might be helpful in grasping uh the material uh which is I'm posting the link here in the chat yeah thank you for sharing it just to kind of again as we walk towards unique explanations and predictions for active inference models of empirical neural Anatomy we can think about at least a few areas of alignment between these models so there's structural alignment where realized anatomical connections have parallels to statistical Connections in a Bayesian graph they are not one and the same but it's just an area of alignment that can be used to explore predictions and explanations then also there's two areas that are mentioned by what Ali just read which are some of the functional components for example neural firing rates or um synchronizations and other sorts of dynamical functional relationships like when this variable is high that one is lower whether they're connected or not structurally and chemical features like neuromodulation or the presence or absence of an excitatory or inhibitory neuromodulator at a given synapse or even taking us into synaptic plasticity and the neuromodulation of hebeian associative learning all of these areas when brought together in a total fabric of evidence help us strengthen the relationship between the computational models and the neural anatomical empirical findings and then they suggest things to each other so that was heavily on the cortical architecture of the column and then how laterally linked columns which again is their empirical structural connectivity patterns can be thought of in terms of hierarchical Bayesian modeling then they move into motor commands let's think about the layer V of the projecting as a projection so layer V of the column here is this DP deep criminal cell that's just the name of the cell it has a certain architecture that makes it called perimetable terminal um this is like classic Santiago romanica Hall stuff and um it has this Arrow coming out going to motor neurons so here's like a motor output from this cortical column not all cortical columns are involved in motor outputs but some are so we're going to be receiving inputs from those pyramidal neurons and it's going to be projecting onto a butterfly no this is a cross section of the neural cord the spinal cord of a mammal figure five three neuroanatomy associated with active inference in modulating spinal motor reflexes coming in to the system from the proprio sensors afferent meaning like um away from the sensor as opposed to efferent the proprioceptive afferent signal is being compared in an error-like fashion with an Epsilon the descending taught down predictions coming from that cortical column that we just looked at the output of this comparison is a motor message or command or signal to a motor actuator so one can imagine that where proprioception exactly matches expectations around no motor movement might be passed forward I'm trying to hold my hand on the table all signals are suggesting that the expectation is being realized and no movement is enacted in comparison if one expects to be receiving different proprioceptive afferent information which is to say to be in a different postural position then motor commands can be enacted to reduce that Divergence so different proprio receptors for example are in your elbow such that there's a different proprioceptive afferent coming in when your elbow is extended and when it's completely closed expectations in the head the brain can change such that different motor commands are enacted to open and or close the elbow dynamically as authentic proprioceptive information comes in so broadly that is this neural Anatomy any thoughts or questions on it uh actually there's um I think it was in the beginning of section 5.3 uh there's a sentence which might uh result in some uh misunderstanding your confusions which says the schematic on the left in figure 5.1 shows that layer 5 of the cortex projects with spinal pyramidal neurons and that this can be interpreted as a prediction but if we look at figure 5.2 I'm sorry 5.1 we we won't see this explicitly um I mean anything labeled as a spinal pyramidal neurons because uh because the primary citation neural cell types in corticospinal tract is pyramidal Neuron spinal motor neurons and spinal parameter neurons are sometimes used interchangeably so in this figure actually what we see is an excited worry connection which is drawn from layer 5 to spinal motor neurons and not spinal pyramidal neurons but they're basically the same things so I just wanted to clear up that uh if anyone has that misunderstanding thank you the pyramidal neuron there's a large diversity of structure but if you like squiggles that look like this you'll love cellular neuroscience um there's an extremely interesting discussion around sensory attenuation in the context of motor initiation and completion we need a way when we want to make a move so to speak we need a way to preclude sensory data from updating our expectations so that we can entertain the initially false belief that we are moving so this belief can be realized through action so let's just imagine that we're in a case where we are expecting the elbow to be closed but the proprioceptive information is suggesting that it's extended if um you know the cortical hierarchy simply changes its belief to it I believe that it is closed that will immediately be overwritten by the vertical proprioceptive information coming in and so as we know there's two ways to update the generative model and to minimize free energy changing the world and changing your mind so here it's like change the body or change the mind and under high Precision information changing one's Minds will be brought back into alignment with the high attention which is to say high Precision to the sensory information coming back in and so the computational strategy implemented is that the descending motor tracks predict not just the data but the Precision or the confidence placed in those data so high Precision high confidence High attention that means you snap to whatever that is being uh whatever that high attention high confidence High attention variable is in the extreme just whatever it said in the last time Point becomes your estimate the opposite extreme is low confidence low Precision low attention and in that case no matter what that signal says you don't change your mind at all and so what happens is previously we're talking about the elbows prediction around being like open or closed but now let's think about it as providing a uh expectation and a variance coming down um so initially the confidence placed in those data are decreased that allows movement to be initiated this is known as sensory attenuation and can be thought of as the complement to sensory attention so attenuation just is low attention diminishing increasing of attention equipping us with the capacity to ignore certain prediction errors such as generated by psychatic eye movements where sensory attenuation is known as psychotic suppression so other than the blind spot and so on cycatic suppression is one of the most interesting examples of kind of embodied Precision modulation like when you do an isocade which can happen multiple times per seconds there's no nausea or vertigo except when it's pathological because during that motor movement there's a reduced attention to the bottom-up visual input and this is highly highly empirically demonstrated in multiple areas of the visual processing neurobiology so that like when the eye is still there's an increased attention to the incoming raw bottom-up information when the eye is moving there's a decreased attention to the bottom-up information and an increased Reliance on the generative model during those transients of cicada and so similarly to initiate a movement requires an initial suppression of precision alongside a change in expected expectation of proprioception and that's what allows one to believe like okay I'm going to get out of the chair I believe that I'm out of the chair and then that shifts the balance of minimizing free energy towards changing your body AKA changing the world through action rather than immediately just getting your change your mind knocked back into place and interestingly this is absolutely Concordance with many healthy neurodiversity and pathological scenarios involving um the neurobiology of failure to initiate continue or terminate movement so like there's scenarios where somebody may have trouble beginning movements but once they've begun movement they can walk normally alternatively there are motor behaviors where somebody may have trouble terminating Behavior and so these can be modeled from a computational perspective so that not only are we able to say well this chemical is higher in this condition or people with this diagnosis tend to have this comorbidity but we can actually think about the parameterization of these computational and have some more Nuance around well should we be increasing what or modulating what Ollie actually there's an interesting argument in Mark's home's uh book The Hidden Spring which says that Consciousness I mean it says that Consciousness is only required to mediate mismatches between internal and external States the more adaptively and predictively reliable our model becomes the more our Behavior becomes automated operating below the level of conscious experience so basically it says that Consciousness is needed in situations where surprisal needs to be minimized when there's no surprisal there's not much need for Consciousness or in other words Consciousness is a process that somehow seeks to overcome itself well very deep thank you for sharing it just to peer ahead into where we're going in the second half of five and then people can think about some questions hopefully write them down as they see fit so now we're coming back into the brain into the subcortical structures so beneath the layer of Cortex that has the histology described by the columnar architecture are the subcortical structures sometimes referred to as being in the midbrain specifically there's going to be a discussion of the basal ganglia and colleagues this is one of the regions in the brain that has been implicated through many neuroimaging and disease related and all kinds of different studies in decision making and learning and it's known to have some dopaminergic characteristics expression of signaling related to dopamine and actually only a very small fraction of cells in the in the mammalian or invertebrate neuroanatomy are dopaminergic in this way it's not like every neuron is responsive to to dopamine some of the details are described some of the mathematical parallels are drawn and here it culminates in a uh indirect pathway and direct pathway of decision making that are Which choice between these two Pathways is favored is going to be computationally assigned to the role of this gamma variable and these two pathways can be thought of as sort of like deliberative decision making in the direct pathway and instinctual or habitual decision making in the indirect pathway how do we see that playing out observations are coming in and in both cases policy pie are coming out so this neuroanatomy is implementing a computation that takes in some type of input from the cerebral cortex which again might be a prediction about something else and results in policy evaluation and selection e is the variable representing affordances and it can be thought of as like a habit Vector because it characterizes not just what can be done but the Baseline frequencies or probabilities of those actions to be done whereas G is expected free energy and that relies not on the past habits and ratios of performance of different behaviors without consideration to the impact of those behaviors but rather the expected free energy calculations around different policies that could be undertaken so here we can start to see differences in decision making where sometimes this is sort of a type 1 type 2 manifolds in terms of like quick simple decisions that don't even need to reference the future on the indirect pathway and deliberative potentially planning like operations involving expected free energy calculations and a dopaminergic neuromodulatory feature that balances the relative contributions of these two decision-making Pathways with respect to their influence on policy table 5.1 describes neurotransmitters they're Associated computational role even though they all play many roles this is just a coarse draining and a sort of starting point and then empirical evidence around the role of that neurotransmitter in that computational way many work by first and at all many work just in the normal Neuroscience route 5.6 is going to move us towards it's a short moving us towards thinking about stitching and composing together hierarchical active inference generative models that have continuous and discrete State spaces together because as they write our interface in the world around us in the Contin is in the continuous domain the implication of which is at the lowest level of any hierarchy in the brain must be continuous however as decision making becomes more and more abstracted it can be seen increasingly in certain cases as symbolic or discrete so from the perspective of a generative model that means associating alternative discrete hypotheses about the world with continuous Dynamics entailed by those hypotheses turn left or turn right bring an umbrella don't bring an umbrella is it raining or not friend or enemy juxtaposed with the continuous information arising from the body and in summary with a short section again they are now going to link together the three neuroanatomical systems that are described in the chapter under the spirit of this type of continuous discrete hybrid generative modeling approach specifically we see this cortical that is engaged in a relationship in with a subcortical structures a biologically plausible relationship which reflects the actual structural anatomical connectivity between cortical and subcortical structures and of appropriate computational parallelisms #explanations and predictions and in the brain the cortical and subcortical architectures are ultimately resulting in this study with outputs that then engage the spinal column in the reflex arc that was described earlier so policies might be discrete throw the baseball or don't and that can be using complex cortical predictive processing like decision making facilitated by this dopaminergically mediated handoff between more instinctual habitual like behavior and more deliberative like expected free energy comparisons and that can be enacted a prediction minimizing approach carried out in the spinal column this is continuous whereas policies can be discretized that's a short chapter there's no equations there's some variables in the figures but there aren't really equations chapter over the years will be fractally unpacked to the most incredible level of detail they are just raising some key points and pointing some initial steps Ollie as I uh mentioned in the previous cohort I just wanted to recommend this talk uh from Thomas Parr which summarizes most of the points in this chapter and some more uh and uh I highly highly recommend it for anyone uh reading this chapter because it really helps understanding some of the more obscure Concepts here thank you excellent okay any final thoughts or we will close this session thank you cohort too</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

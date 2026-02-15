@@ -1,23 +1,94 @@
-# Lab: Exploring Planning
+# Lab: The Time Machine -- Thinking Ahead by Simulating the Future
 
 ## Objective
 
-Design and simulate a simple agent that demonstrates the principles of **Planning**.
+Practice **planning** as future-oriented simulation by building decision trees, evaluating counterfactual scenarios, and analyzing how you weigh risk against ambiguity in everyday decisions.
 
 ## Prerequisites
 
-*   Basic understanding of Python or a relevant simulation tool.
-*   Familiarity with the formal definition of Planning.
+- Completed all previous Everyday Life modules (Systems through Communication)
+- Read the module on Future Simulation
 
-## Steps
+## Part 1: Decision Tree Builder
 
-1.  **Define the Environment**: Create a simple grid world or state space relevant to Hs.
-2.  **Define the Agent**: Specify the agent's generative model, focusing on Planning.
-3.  **Simulation**: Run the agent for 100 timesteps.
-4.  **Perturbation**: Introduce a specific challenge to Planning (e.g., increased noise, occlusion).
-5.  **Analysis**: Plot the Free Energy over time. Does the agent successfully adapt?
+**Goal**: Map a real upcoming decision as a branching tree of possible futures.
 
-## Discussion Requirements
+Choose a decision you face in the next two weeks (choosing classes, planning a weekend, deciding whether to try out for a team). Build a decision tree:
 
-*   Attach your code or simulation logs.
-*   Explain the specific mechanism used to implement Planning.
+1. **Root node**: State the decision.
+2. **Branch 1 (Policy A)**: What is the first action? What might happen next? Draw at least two levels of consequences.
+3. **Branch 2 (Policy B)**: Same for the alternative action.
+4. **Branch 3 (Policy C)**: A third option if one exists.
+
+For each endpoint, rate:
+- **How much do you want this outcome?** (1-10, where 10 = strongly preferred)
+- **How uncertain are you that it will happen?** (1-10, where 10 = very uncertain)
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 2: Counterfactual Thinking
+
+**Goal**: Practice imagining "what if" scenarios to understand how the brain simulates alternatives.
+
+Think of a decision you made in the past week. Now imagine you had chosen differently:
+
+1. **What you actually did**: Describe the action and the outcome.
+2. **What you could have done**: Describe the alternative action.
+3. **Imagined outcome**: What do you think would have happened?
+4. **Confidence**: How sure are you about the imagined outcome? What are you uncertain about?
+5. **Active Inference connection**: When you imagine an alternative future, you are running your generative model forward in time. What does this tell you about the purpose of imagination?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 3: Risk vs. Ambiguity
+
+**Goal**: Distinguish between risk (known probabilities) and ambiguity (unknown probabilities).
+
+Consider two bets:
+
+- **Bet A (Risk)**: Flip a fair coin. Heads you win $20, tails you win nothing. You know the odds are 50/50.
+- **Bet B (Ambiguity)**: Draw from a mystery bag. You might win $30 or nothing, but you have no idea what the odds are.
+
+1. Which bet would you choose? Why?
+2. Which bet has higher expected value?
+3. Which bet has higher ambiguity?
+4. In Active Inference, why might an agent prefer the risky bet even when the ambiguous bet might pay more?
+5. Now imagine you can pay $2 to peek inside the mystery bag first. Would you? This is epistemic action -- paying a cost to reduce ambiguity.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 4: Planning Horizon Experiment
+
+**Goal**: Explore how the depth of future simulation affects decision quality.
+
+Think about a goal you have (getting into college, saving money, learning a skill). Plan it at three different horizons:
+
+| Planning Horizon | Plan | How Detailed? | How Confident? |
+|------------------|------|---------------|----------------|
+| Next week | | | |
+| Next month | | | |
+| Next year | | | |
+
+1. Which horizon produced the most detailed plan?
+2. Which horizon had the most uncertainty?
+3. Why does the brain struggle to plan far into the future?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Summary Table
+
+| Concept | Definition | Your Example |
+|---------|-----------|--------------|
+| Planning | Simulating future action sequences to select the best policy | |
+| Counterfactual Thinking | Imagining alternative outcomes that did not actually happen | |
+| Risk | Uncertainty with known probabilities | |
+| Ambiguity | Uncertainty with unknown probabilities | |
+| Planning Horizon | How far into the future the agent simulates | |

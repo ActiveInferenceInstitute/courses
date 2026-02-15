@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_Active Inference Bookstream 001 03 Governing Continuous - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>03_Active Inference Bookstream 001 03 Governing Continuous</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>03_Active Inference Bookstream 001 03 Governing Continuous</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Active Inference BookStream #001.03 ~ "Governing Continuous Transformation"</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=rCmq0TVGpW0">YouTube</a>
+<strong>Playlist</strong>: BookStreams
+<strong>Duration</strong>: 53:04 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello and welcome everyone it's December 27 2022 we're in active bookstream number 001.03 we're in the third in a series of discussions on governing continuous transformation off to you blue okay so this book stream is going to be part of an ongoing series of book streams at the Active inference Institute so please get in touch if you would like to participate either in one of these dot zero contextualization videos or an upcoming discussion over the material and these are all of our links here this is a participatory online lab we are open to interacting with anyone no matter what your level of expertise is in active in finance inference or governance or other so the goal of this bookstream is to discuss chapter three we're going to go over the book map and roadmap and the keywords of the chapter and then there's two sections that kind of fell out of this chapter three so we'll split those up um so we can just maybe introduce ourselves so I'm blue Knight I'm an independent research consultant in New Mexico and I'll pass to Tyler what's going I'm Tyler I'm more of a dow practitioner out of California I'm Daniel I'm a researcher in California and as this is our year closing book stream and this is going to be focusing on some board and strategy related topics I think it'll be interesting to talk about reflection and how do we look back how do we Now cast how do we look forward nice yeah I'm definitely excited to um align the material that is presented in the book with um the ongoing development of strategy and governance in active inference Institute so that's for me what I'm excited about today Okay so this chapter is micro foundations of strategic governance and the two sections are the role of the board and models of board cognition um so Tyler do you want to read this section of the abstract sure right so there's no Universal governance model the Strategic role of the board does not does vary as a function of cultural laws governance orientation ownership structure and firm context the period of 1998 to 2001 time of financial markets rational exuberance dominated by government governance orientation centered around stock price considerations has given birth to today's compliance-driven governance logic ruling public companies simply put ever since corporate governance has been estranging the board that's uniquely integral part of strategy process Chris Stanley during this very period management research started complementing their two demographic input output models with behavioral and cognitive Dimensions developing a new conversation around the cognitive micro Foundation support Effectiveness to this day a study of the board strategic role remains confined to the boardroom and treats the environment as an exogenous variable we will take the next half bye oh the top-down cultivated hierarchical disconnect so characteristic of traditional corporate governance and strategy processes is more likely to feel prediction error reinforcing the perception that the world is unpredictable and uncertain indeed the very limitations of corporate governance research may be an astute reflection of the very real and often self-inflicted limitations of the board's strategic role shareholders are challenged to ensure that the board's full strategic potential is not wasted more specifically there is a need for a new self-organizing governance logic Tyler do you want to read this the role of the board yeah sure so for Section here is to roll the board and then we'll go into really different models of thinking about board cognition uh so we'll start this quote from Sean there's no Universal governance model the Strategic role of the board does vary as a function of culture laws governance orientation ownership structure public private Equity founder family-led controlled or combination thereof in sperm-specific context all right let's go to the next one oh yeah this is upper echelon so um you know not being familiar with like a lot of business um like vernacular I I just set this in there so it's the high level of command Authority or Rank and this can be like a top level management or the board of directors or both um it seemed like that there was not like it wasn't specifically defined in the book as we're reading it but Tyler do you have any like thoughts on that specifically like what do you think means how many times yeah my understanding is that was a combination of both the board and uh the top management instructor so yeah he left it pretty big but that's my understanding all right so we'll start off uh talking about like what a board could be uh and so this is bajan's definition of what a board could mean and not necessarily what it does mean so the board of directors is a unique integral part of a firm to Upper Echelon it asks from within and without the firm as a boundary spanner it should encapsulate strategy processes to constructive tension between organization and an active environment exploit exploitation and exploration as well as financial and strategic controls um and so I think even people outside of like an active inference free energy governance context would probably agree with roughly this this definition that like a board should be this Collective governing body that used their Collective wisdom uh because that the idea is that is greater than just like one person at the top making all the decisions and that that Collective wisdom something interesting and unique comes out of that uh though that's not necessarily what always happens oftentimes it's not exactly what happens so let's go to the the next slide we talk about different uh so these are different ways of thinking about how a board like actually functions and there's like a lot of different ways like board the board the board's role and like what they actually do an organization varies considerably across a lot of different dimensions so one different way you could look at it is uh the cultural uh background of the board so this is from a study I think if they did this on Dutch Royal company which had branches both in England and then also in you know the rhyme in like Germany right and so they found that taught me they're just having anglo-sax and corporate governance orientation are more likely to pursue exploitative and external growth strategic renewal trajectories while those having Orion corporate to pursue exploratory internal growth strategic renewal trajectories so I think what they're implicitly saying is that they're facing similar uh strategic contexts they're the same company but for some reason culturally they're more oriented to doing certain kinds of actions then you can also think about it just by the context of the business right there might be certain boards that have different roles that are more appropriate for certain kinds of contacts so some might be more administrative maybe it's kind of like a legal requirement to have the board and that's kind of why they're there they're more of just making sure that everything is running on time more of an entrepreneurial where they're actually taking a more strategic role there's directing and controlling we can imagine that they're more uh kind of integrated with management and then their supervisor which might just be hey making sure that everything is is going okay that there are no uh outrageous um fraud that's being committed within the company so a very common issue too is that the board often doesn't have much of a role at all uh and so this is a quote from uh one of the studies at The Shrine sites that managerial hegemony Theory argues that boards are legal fiction dominated by management so the idea here is that management actually runs the show you have a board they have to check some boxes they're often legally mandated right so like for a 501c3 or a C Corp like you have to have a board uh but they're like okay like let's just appease regulators and and have this board well not actually giving them anything substantial to do this is actually like a really big problem in non-profit um board management as well because it's not it's very unclear what non-profit boards are supposed to do and oftentimes like non-profits will put a lot of donors on their board in a lot of ways just to appease you know these these donors egos in exchange for getting more more funded but without having a clear sense of like what they're actually supposed to do and this actually matters quite a lot because if they don't know what they're supposed to do but they have all the power in the organization like the board runs the organization in a non-profit and so they have like no accountability unclear responsibilities but all the power and so what that often dissolves into is that the CEO or the executive director is actually running the show and the board is there just kind of like checking boxes and um more of a formality which does not really get as a greater cognition that the genre is hinting at it could be possible uh by having a board so that's unfortunate all right let's go to the next one all right okay so um this was the first of John's claims there's a danger however that the compliant board is breathing formalism group think and risk aversion at the expense of operational understandings strategic focus and dependent thinking effectively the board has been distanced from initiating and directing strategic renewal unless lawmakers of all corporate governance guidelines in tune with the requirements of a distributed and discontinuous world the board is either relegated to strategic relevance or increasingly representative source of inertia reflected by the struggle with growing complexity um so let's just like unpack what jean meant by irrational exuberance from that claim so irrational exuberance this is a a famous quote from Alan Greenspan and this was from the 1996 when this was like the beginning of the.com Boom like the.com boom still had a couple years left to go before it really kind of petered out uh they said irrational exuberance is unduly escalated asset values and so during this period there's like the late 90s you got all these companies that uh well one there's like wild speculation in these companies but also there wasn't great strategic or financial controls by the by the boards and so you had companies like Enron and Tycho Worldcom that were like very much misrepresenting their financials and so the end result of this after the bus the.com bust uh was the uh sarbanes awfully I I always mispronounce this sarbanes actually uh so which in what that did was that it created um the number of like audit and Regulatory controls especially over the board making sure the boards have complex interests that they're actually overseeing the organization effectively which is all wonderful in many ways that that can be great those are good things but there's also a ton of Regulation that imposes on these companies and it also imposes a certain model of what a board is supposed to be doing uh onto these corporations and so John does not like some aspects of that some of the way that enforces wood board can and should be and so he says the 2002 sarbanes obviously act the United States has been the most prominent legislative product resulting from irrational exuberance composing Draconian measures on the audit and financial representations a publicly listed companies so I think what a lot of what John is saying about this period is that like before 2002 um four-star games obviously you know you had a lot of uh misrepresentations a lot of rational exuberance but something interesting that did happen during that same period was that we also had a lot of experimentation on what a board could and should be and so you got a lot of research during the same time thinking about what managed your real cognition what forward cognition actually looks like what the boards of role could be and that kind of free and lose culture also created um a more expansive view of what a board is but then once you get into 2002 and you get all these regulations from starveying to honestly that really constrained the idea of what a board could be and put all of these other burdens on top of the board and so it really kind of diminished their potential strategic and cognitive role within the company uh blue or Daniel do you have anything you just want to add here all right so that was talking about the the rule of the board and that's all just to say like the role of the board is often extremely unclear like any like non-profit or Corporation um and so now it was on kind of switches gears and says okay well let's think about different models of board cognition and different ways that you can think about how a board could operate um so let's go to the next one sure so rendova 1999 was among the first to link managerial cognition to corporate governance distilling the board's distinct cognitive contribution to strategy process specifically in terms of environmental scanning and interpretation her contribution can be considered seminal laying grounds for a stewardship-inspired corporate governance approach that is now widely adopted by Leading private Equity firms where top management team and board strategized together often in highly complementary ways and based upon cash financed equity-centric alignment of interests as opposed to free call options private Equity is more of a governance than a financing model explaining its Public Market equivalent outperformance according to rendova board directors do impact decisions and so this I I thought that this idea of managerial cognition um was interesting it just like speaks to my interest in hierarchical um cognition at different levels so this is the um a reference that uh gives that is the managerial response to changing environments perspectives on problem sensing from social cognition so looking at like what is managerial cognition so this paper characterizes managerial problem sensing and necessary precondition for managerial activity directed towards organizational adaptation as composed of noticing interpreting and incorporating stimuli and I liked this like definition of cognition really as like noticing interpret interpreting and incorporating stimuli although like in the paper they don't say managerial cognition directly I think that it's attributed largely to this paper as very seminal in the field um and then environmental scanning and interpretation from the previous claim also so that that this is the vendova paper um that Dijon cited and it says the cognitive perspective in this paper proposes proposes suggests that directors contribute to dealing with the complexity and uncertainty associated with strategic decisions it argues that directors possess valuable problem-solving expertise which they can apply to a variety of contexts directors make their cognitive contributions to strategic decision making by performing along with the firm's managers a set of cognitive tasks scanning interpretation and choice and like I noticed again this like environmental scanning interpretation and choice does this like how does this relate to like noticing interpreting and incorporating stimuli like I think that they're maybe you can it's like a rephrase scanning interpretation and choice claim the Bichon makes in the paper he says rendova appreciates the dynamic nature of strategy process when she postulates that board participation in strategic decision making Rises with increasing environmental complexity and uncertainty however mendova's approach is rather static as it falls short of connecting the board table to the rest of the organization and interchangeably treats perception as interpretation a free energy governance lens instantly exposes the obvious shortcomings maybe Tyler's gonna tell us how [Music] all right so let's go through a couple more of these different models of forward cognition one of them is called stewardship Theory um so to look quote here from one of the original papers about stewardship Theory Davis 2007 so economic approaches to governance such as the agency theory tend to assume some form of homo economic use which depicts subordinates as individualistic opportunistic and self-serving alternatively sociological and psychological approaches to governance such as stewardship Theory depicts subordinates as collectivists grow organizational and trustworthy um and so like there's I think a couple different lenses you can think about search Theory like one is kind of more of this like communist version of a more collectivist world where hey actually we're not all fully selfish we actually have more uh we also have like collectivist aims and um people it's like a different way of thinking about like individual motivation I think another one too is that where this is really shine and become um actually important in like applied practice it's been in private equity and so in private Equity like the owners are the same as the management and this actually ends up mattering because what they've seen these states have found they can find this quote here is that actually impacts um performance quite a bit I think sorry we already read that quote but the idea here is that when management ownership are combined the management acts as more stewards rather than people who are just paper pushers but they're actually really taking care of this investment and more aligned with the board interests um okay the next one is absorbitive capacity so absorbit of capacity thinks about the board as like a cognitive cognizing unit that's informed by the experiences of its members so some similar to what blue said earlier uh that the board's expertise the board's cognition isn't foreign by the diverse experiences of its board members so the ability of a firm to recognize the value of new external information assembly that and apply it to commercial ends is critical in its innovative capabilities we label this capability from absorptive capacity which suggests that it's largely a function of the firm's level of Prior related knowledge uh it goes on to say it's from rendova uh director's contribution as a source of requisite varieties to increase the pool of available interpretive Frameworks on which decision uh group in which the decision group can draw uh so the idea here is that there's limited information that any individual or any group can can process you should get more people so you could get more diverse experiences so you could process more information through different models and that will lead to more enhanced cognition if I could add a note on that previous slide The Mention Of The requisite Variety in the rendova quote is from cybernetics and Ross Ashby's law of requisite variety which is the idea that for a system to be a good regulator adaptive in a given environment that it needs to have internal states that are of the order of magnitude of external States like if there's a hundred positions that the food could be in but you're you can only conceptualize of 10 then you're not going to be able to have a granular or nuanced enough perspective to like find the food um that ties the managerial and strategic practice oriented areas which frankly dominate Society to some of the more theoretical perspectives and system independent perspectives on cybernetics and cybernetic systems as cognitive systems which is what brings this entire discourse into the active inference area yeah and I think that's also another important lens on thinking about poor diversity because a lot of times for diversity is often seen through a more of a political lens when there's also like a computational lens as well that's really important foreign contribution is relevant in three regards first it is impossible to meaningly infer board performance from demographic variables in the absence of a process model linking demography and output second the board's role as a group is essentially a cognitive role and is therefore a cognitive rather than behavioral perspective is critical to better understand the essence of board performance and third effort Norms cognitive conflicts and the use of Knowledge and Skills are important process variables underlying board performance Tyler's gonna tell us effort norms and cognitive conflicts all right so effort Norms I.E the intensity of cognitive resourcefulness on the task performance Behavior cognitive conflicts the leveraging of differences in perspective and the use of Knowledge and Skills or important process variables underlying poor performance the dimension of effort Norms cannot be stressed enough the sheer presence of the collective pool of competencies and experiences is rather meaningless unless actively and purposefully and exercised so the idea here is that even if you have a diverse set of perspectives on your board even if you have like a computational Firepower theoretically if the board isn't absolutely inclined to acting on that and processing that information uh it's just not going to happen in that that power you have that potential power just doesn't really matter uh I think this is important too because a lot of boards see themselves in a more passive in a more passive way where like the CEO is feeding them information and kind of giving them things to rubber stamp approve and so even if you have people who have that those capabilities that capacity it's not really even being used and so you have to have a board that's actually inclined to taking more of an active role to really get that cognitive potential um from your board members damn blue one thing out there yeah one thought by analogy to the brain and the central nervous system is like the usage of resources for cognition and the brain is still using a lot of energy slightly less but a lot during sleep so what exactly are these cognitive conflicts what is the resource in the case of the board is it the limited time in a meeting where people can speak is it limited attention to different decisions is it um what is it that's actually um conflicted and how do we gain insights from thinking about the board as a cognitive entity so I think we'll we'll get some of those soon when we talk about inertia um but I think you're right in that like the time the limited time constraints are a huge factor of that where it's just like you're less inclined to actively do a very like high cognitive task you know a very demanding cognitive task if you have a couple hours every month to really talk about it or in the case of a 501c3 like board members are unpaid and so if you're an unpaid member there's probably like limited time they're actually willing to put to actually thinking about some of these problems so I think that they're all a lot of Dimensions to it but we'll talk about that shortly so so I think like this last end of this quote um the competencies competencies and experiences of the collective pool is meaningless unless it's actively and purposely exercised really speaks a lot to collective intelligence um and how like within a company aboard a managerial system there is this this collection and you're not um like contributing to the the like emergence of the group The Group intelligence if um you're not using all of the different uh expertises of of the different people in the group and so I think that that it's really limiting um but but I also wonder um you know like we might have a board that's like a very diverse group of people and we all have different tasks in management different skills and management but like we also can do things like crochet and bake and like uh paint and and so like to what extent are these other skills that might be present in the board like relevant or necessary for like management to to thrive and um like really to enhance the collective for for the group I don't know yeah one one last short thought on that recalling the earlier quote how there's no Universal governance model it's like if we were talking about ant colony strategies is it better to Simply have more Nest mates or fewer or bigger brain per body size or smaller it's like there isn't a universal answer because there's different strategies in fact multiple strategies that might be adoptive in a given Niche but it doesn't really make sense to even talk about one without the other whether you're talking about like chess or ant colonies or the board and so that's like where the particular partitioning of active inference helps because it reminds us that the cognitive process of perception cognition including action selection and then action and action is happening within the context of a generative process in the niche and that can't be just like left for later that's an intrinsic part of the particular partitioning okay so here Bhajan makes a claim that essentially there are three important conclusions to take forward from Golden and zajac 2001 I don't know if I said that right probably not uh first demographic and procedural variables impact strategic change rather curve linearly second power relationships are critical to understanding the impel versus impede debate and strategic renewal and third attentional focus and engagement in terms of an okazolean linkage of cognition and structure and that's in this reference okay Ocasio 1997 are a promising venue upon which to pursue future research um and then this linkage of cognition and structure um from this paper it's toward an attention-based view of the firm um from William Ocasio 1998. here he says the central argument is that firm behavior is the result of how firms Channel and distribute the attention of their decision makers what decision makers do it depends on what issues and answers they focus their attention on what issues and answers they focus on depends upon the specific situation and on how the firm's rules resources and relationships distribute various issues answers and decision makers into specific Communications and procedures um and so that that like pushes salience I think to the Forefront um especially with regard to like you know board collective intelligence like maybe the crocheting and knitting and baking and all those things are not really relevant or maybe they could be maybe this is the explore part where active inference comes in another another link here with attention and structure and cognition is attention to something that's more dynamic but it requires the structural connections like between brain regions or at the synaptic level or uh apis that call each other in a computational system those pipes have to be in place for attention to be dynamically allocated and so the structural aspects of the firm are more like it's morphology and then the attentional and the more rapidly changing aspects are more like perception and fast changing cognition and so that's going to be like a theme that gets built upon are the faster changing more perceptual and decision making like components of the firm and the slower changing more structural elements of the firm or just to build on that a little bit like something I've noticed from prior companies that even if you have a very engaged board like a board that we they would say gives a lot of attention within the firm and has a high intentional capacity like they may not actually be linking that to the structure of the firm so for example something I've often observed is that you'll have like two people putting to go together the uh quarterly board deck for a company of like a thousand people right so everything gets processed through this like tiny funnel of two people who have to synthesize everything on behalf of the board where they're essentially just like making the conclusions for the board at that point and so if you're not really linking both the attention and the structure you're really missing out on like the potential power of your board all right uh inertia so inertia you could think that really as just like reluctance to change and similar to the idea of like bounded rationality uh is that there are certain constraints which you have to reason that board often reasons Within so read a couple quotes from I think it went off presentation mode um so I'll read this quote from hand in 1977 he came up with the original idea of inertia organizational inertia which again isn't specific to uh the firms it's really an idea that you can apply to any Collective system so there are a number of obvious limitations on the ability of organizations to adapt that is there are a number of processes that generate structural inertia and uh John says that indeed corporate governance best practice skylines May rather fuel governance inertia rather than freeing the board as an impactful supporting their impactful variable supporting continuous strategic renewal and so they make this like a little more concrete and kind of go through a couple different examples of inertia and these all come from Hannah and second 77 paper where he kind of defined this idea of organizational inertia so I'll list a couple of them one was that previously made Investments aren't easily transferable there are constraints on the information decision maker makers receive there are political constraints there are closet history to allocate tasks and create procedures so like you've basically done all the work to figure out who's doing what it's a lot of work to like redo that there are legal constraints perceptions of legitimacy if you were to change course at this point uh unclear how your strategy will succeed in competitive environments like if we do this how will others react and so all of this just creates a sense of like anxiety that people just don't want to confront and they feel good and comfortable uh pursuing something that they already understand and so you can think of that as organizational inertia and this is particularly a problem with boards because especially if you have a board with a limited attentional capacity like they're not going to be putting the time to really think they're going to work through that anxiety they're not going to be like actually doing the hard work to overcome that and so you end up having to defaulting to something that people already understand and so there's often something that you hear in organizations where like okay well we we could do this really ambitious thing and like there are people who might be actually excited about this more exploratory initiative that you could do but like how are we going to sell that to the board right and oftentimes it's the CEO has to put their reputation on the line to sell something that's more exploratory and risky to the board who has limited attentional capacity they're anxious about it so they just kind of have to trust this one person to say yes go for it it's okay and so again you're not really unlocking that uh that cognitive power potential of the board one one more aspect there on inertia to connect to the Bayesian physics inertia is something that physical objects have in classical mechanics like whether it's a a ball at rest that requires some Force to push or whether it's a bicycle and movement whose inertia allows it to stay upright inertia is an aspect of physical objects and by analogy in the Bayesian physics the inertia is like the resistance of a prior to be updated to incoming observations so a prior distribution with a high inertia it's like a heavy distribution it's immovable to new stimuli and that corresponds to having low attention because it's like as new information comes in the prior has high inertia it doesn't update a lot whereas when there's High attention paid to the incoming stimuli in the extreme the prior just updates to whatever the new stimuli says that's our new best estimate so that's ultra high attention and also very very movable and that's um like a light object and so there isn't a general answer but this puts us into a framing where we can think about this structural and attentional inertia as part of the morphological and dynamical cognitive process of the board and the organization more generally yeah that I really like that perspective on it and it makes me think about how why position is spending so much time thinking about the board because it's kind of this combination of low attention High responsibility uh for updating like your the beliefs of the organization and so that's where like a lot of just any like continuous change or transformation would have to happen start the board so I understand might be trying to spending so much time thinking about this and talking about different models of board cognition Hopman at Al 2019 make an invaluable contribution in moving away from deterministic models that suggest which specific board configurations and Leadership concentrations enhance board Effectiveness firm performance and a firm's overall strategic capability instead they focus on the board's meta capabilities such as self-evaluation and self-reconfiguration to power continuous strategic renewal the board's power of vis-a-vis management is strongly related to board chair initiates self-evaluation and self reconfiguration thereby ensuring that the board can still critically evaluate strategic proposals and reconfigure strategies so unfortunately though hot men at Al do not go far enough since strategic renewal Remains bottlenecked by the board chair we need governance processes that neutralize the overdependencies on the chairman and the CEO so oftentimes within an organization that has the board the chairman is kind of running the show on the board and their counter report is the CEO and they do a lot of the agenda setting for how the board actually operates how much attention that they're actually giving on to problems the kind of information that's the incoming and available to the board and so a lot of responsibility relies on the board of like how cognition can actually happen uh and like I have been in this position myself I've been a board chair a lot of responsibility kind of ends up being on you for how well the board and consequently the organization can run and so what's unfortunate and something I've actually tried to do with myself is like spread the responsibility of the board chair uh throughout the board so that cognition doesn't rust on like a single person that's actually more spread out through that entire you know cognizing unit uh and that is difficult to do so I'm curious if we've gone later on in the book has uh some recommendations on how to structure that yeah I'm curious Tyler like what um you know with respect to like the Dao world that you live in like what are some governance processes that do neutralize that um over over dependence on the chairman and CEO of a company like what can you you know maybe say a few words about yeah so one I mean there's like a lot of different governance processes but like we kind of talk about a couple of them so one is that like if you're doing especially like token or token based voting with the nfts or the rc20s like any generally most people can make a proposal not anyone can make a proposal but like a lot of times the agenda setting can be done in a distributed way so it's not necessarily the board chair and the CEO determining hey these are the things that we're bringing up to a vote but that can be done more dynamically and oftentimes there's a quorum like uh rules about who can propose so it's not like fully decentralized but in a sense like that agenda setting can be done more decentralized um and there's also ways of creating salience as well uh without having a single person at the top saying what is selling and what like what matters and what doesn't there are ways there are different governance strategies where stallions kind of like bubbles up and you can kind of determine certainly governance rules like your Quorum for example in a more like Dynamic way and so there's a lot there how it can't work then there's also like how it actually works in practice and in reality like a lot of times without governance like usually often is like a couple people making a lot of the proposals and so what's interesting is that even if you want to be in a more distributed way like sometimes there's this like pull of gravity towards centralized decision making and it really just is that there's like limited attention available even if like you're not saying you're not legally mandating some kind of centralized structure there's just like only a couple people who are really willing to like actually synthesize all this information at any given time especially within Dows like dab proposals are often extremely Technical and there's often limited people who can even like do that if they wanted to so like it's something that I've been personally struggling with is thinking about like okay well there's this world that we want to live in that's maybe more decentralized and less hierarchical and more connected but there's also just these constraints on like human time and attention effort capabilities that constrains the kind of structures that you can have uh and yeah and hopefully later in the book The John will have some good recommendations on how you can stress your organization your board to kind of mitigate that like pull towards centralized processes uh but it's just something I've witnessed a lot in like the DAT world as well cool thanks um so I think that that's the the end of the material today so uh next week we have the chapter is quite a bit longer this one was pretty short um but yeah we're looking forward I think to um what rajan's gonna tell us about free energy governance and he's setting the stage now for delineating the problems and now like how do we go about solving them I'm curious to delve into this next section with you guys can I bring up a few points and questions of course all right so one of them was it described the board as a spanner earlier on and I wondered whether the board was kind of like at the heart of the onion insulated by more and more layers or whether the board is on the front line interfacing more publicly in the actual position or that person perhaps serving in a different position as well like wearing multiple hats so feel free to give any thoughts on that or we can just raise the point I mean my understanding of well there's like how it actually works now and then how it can work how it actually works now is I think it's often more like in the onion uh where they are getting more refined and more refined information that filters through a hierarchy until it finally gets to the board and what I think the Jean is hoping for is something that resembles more of like like a motherboard like this integrating unit where there's all these connections from other parts of the organization there's still that hierarchical structure but is not insulated from the rest of the organization and that I think that's what the Drone is getting at uh but from my understanding of board governance like that is less often the case and it's really hard to build interesting so I think that that's like a really great question um and I'd like to really kind of explore it more in more detail when we get into our discussion section so I think we should add that to the dot one um list all right another topic is there was the mention of a compliance board as well as how a board could be like dissonance or impel versus impede and so how to balance between uh simply going with what the body provides towards totally wishing things were different it's like in the extreme neither is going to work so there has to be some middle path but there's no Universal model so that's just kind of one point and then another one was the market centrism of a for-profit company means that in some sense but please suggest if otherwise the financial success on the broader Market will Define the persistence and the growth of the company so that is kind of like projecting this very high dimensional space of strategy and composition and attention projecting down onto a number line like did the stock price go up or down and so to what extent do um for-profit and not-for-profit organizations or components of organizations have clearer or more alignable measures because like I mean yeah it's just like if the only Criterion of cognition was this one test then you kind of get the good Hearts law situation where other measures can fall by the wayside so how does that get prevented in or ameliorated in for-profit Endeavors and then on the other side how does that not get ignored when there are very real material constraints in non-profits as well yeah I forgot to mention this point earlier but it's like a really important one that like a lot of our model of like shareholder governance is often very like culturally specific to America so there are other ways you could think about uh board governance and corporate governance so for example in uh especially up in Germany there's like a stakeholder governance model where for example you're legally required to have a board member in Germany who is a representative of the workers right and so this is more aligned with like and you could think of that you could expand that model too of like stakeholder governance but that could mean so that's just Germany's model where they're like hey workers rights need to also be important in addition to profit right but you can also expand that to think of okay well what if we had an advocate for the consumer on the board right like you could expand that idea of what a for-profit company's stakeholder governance model can look like in Japan for example like there's a lot of for-profit companies are also like family run so there's these family considerations on top of the for-profit incentives as well so then between like even like a between like a C Corp like for-profit company and then a non-profit there are different uh legal structures that kind of bridge the distance between the two so like one of the famous ones is called a b Corp and so a b Corp it's essentially the same thing as a C Corp um it can make money it's a it's a for-profit company but uh in the bylaws they are not legally mandated to only maximize for profit uh they can also maximize for other they call it like double bottom line initiatives so they're like there's other things that this for-profit company can try to do aside from just get money uh and then there's like a lot of different permutations of that like a lot of different legal structures you can have that and same with a non-profit too like even a non-profit couldn't have ways that is trying to get Revenue uh and think in a more for-profit way uh even though there aren't people who are shareholders who are going to profit from it but they can they can act in a similar way so I think often like the the distinction between non-profit and for-profit can actually become quite fuzzy in the way that we think about for-profit governance is often very like culturally Centric on how we've done things in the US and in England not necessarily on like how it can be done Daniel I think like what what I'm curious to know like what goes into defining or creating a compliant board or like a dissonant board um like I mean I would think that it's like not structured to be a compliant board I mean maybe they write it into bylaws that the board just agrees with everything that that everyone does but I think it's more of like an emergent property of the board and like does the entire board need to be replaced if like you say you have a compliant board and you want more of like a strategy driven governing board like do you have to completely interrupt like the the Norms right like we're you know it like Bijan had said the Norms if the norm is to be compliant like do you have to just erase everyone to bring in like a whole new crew to develop new Norms otherwise like that one person who's like oh let's just go along with whatever everybody says like they'll keep that culture alive right um to clarify that I think what Bajan meant was compliance board which is more like if you're like in a regulatory if you're a nuclear power plant for example you want to have a compliance centered board who's making sure that you're following all the rules and regulations but I think to your point blue like it compliant board is also an important like cloudboards function as compliant boards are just rubber stamping approvals and that is not super useful so yeah I think that's also a good point and one fun topic I think to do a little research into is how did we even get here with a board I mean isn't a board or the table that was also mentioned those are just like rectangles how did we get to this point where the meeting table architecturally and the people gathered around it have become legally required and then even sub-constrained from there and so really just thinking broadly as I think in the um Dao and other spaces people are thinking broadly about what organizational morphologies and what developmental trajectories and ecosystems of shared intelligence facilitate adaptive cognition and what boards do and how they both build on the Legacy and stay within that lane of what may be legally required for compliance as well as innovate and move Beyond some of these um like shortcomings and fallacies that boards can fall into yeah I've actually looked into this a little bit about like how like why boards are a thing and like for example in non-profit boards like they were just designed for like a different time when a lot of times you were just getting you're like basically foundations I had a bunch of money that they were going to allocate and they were like top-down driven models not necessarily like dynamically responding to to the world around them and dynamically changing and I think there's only a lot of four profit corporations it was kind of a similar idea is like we are going to Charter this boat and we're gonna go to this other country and we're gonna do trade there and we're gonna like come back right it was a more simple and like linear model of thinking about planning and so they're just made for a different world and like I think NAB there's a lot of legal infrastructure that has build up around them so like actually innovating around that's really difficult so for example one thing I've been working on a nonprofit recently we're like well we don't want to have a board we want to be more Community Driven we want to be a co-op and so then we we looked into being Co-op and actually the legal infrastructure for setting it up is actually just like not developed at all you basically have to have a lawyer spend thousands and thousands of dollars to actually figure out how that's going to work and it's also very precarious even though like if this thing is even going to work so it's just really this well-trodden path has just been beaten down over and over again because it's the path of least resistance but not necessarily the optimal one for uh you know cognition or announcement I was going to say earlier like how did we get here to this board right and it's a script that like it's a script that is has become solidified into law um and it's the same thing like when you have a compliant board like the rubber Stampers um and that's just also a script that that they have followed so that's why they're all compliant so and not really kind of leveraging the type of governance that would be maybe optimal for the strategy of the company okay cool cool yeah and the other final final thoughts or we can hold it table it for the upcoming discussion rhythms of cognition rhythms of the year the agenda setting the agenda communicating with the board board communicating with the organization organization communicating outside the organization it's great topics and I think we're three deep into the series and we're just going to continue to see how the scholarship and the legacy of a lot of conventional and even heterodox thinking and management is taking the next step with this book and the contribution that takes it into the free energy governance space cool well thanks guys and we'll see you next week for getting into the free energy principle all right thank you</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

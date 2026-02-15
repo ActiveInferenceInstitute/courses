@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This module explores **Planning**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+This module explores **Planning**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between Communication and Systems.
 
 ## Key Concepts
 
@@ -24,29 +24,9 @@ How does the process of Planning drive the perception-action loop?
 ## Applications
 
 In Embodied, we see Planning manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+*   **Specific Example 1**: A trail runner approaching a technical descent scans the terrain ahead and her body pre-selects a sequence of foot placements three to five steps in advance, with each planned step generating a proprioceptive simulation -- she feels in her ankles and knees which rocks will be stable and which will shift; this is embodied planning as temporal depth in active inference, where the generative model projects expected sensorimotor consequences across multiple future time steps and the body selects the trajectory that minimizes cumulative expected free energy.
+*   **Specific Example 2**: A gymnast standing at the end of the vault runway mentally rehearses the entire sequence -- the run, the hurdle, the contact with the board, the flight, the twist, the landing -- and feels each phase as a kinesthetic simulation in her muscles and joints before she takes a single step; this pre-movement planning is the generative model running a full temporal sequence of predicted proprioceptive and vestibular states, evaluating the expected free energy of the complete action trajectory and committing to the policy only when the simulated landing "feels" solid in the body's predictive imagination.
 
 ## Conclusion
 
 Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->

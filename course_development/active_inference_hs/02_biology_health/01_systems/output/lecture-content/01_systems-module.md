@@ -1,52 +1,56 @@
-# Module 01: Systems in Hs
+# Module 01: Systems -- The Body as a Hierarchy of Self-Maintaining Boundaries
 
 ## Learning Objectives
 
-1.  Define **Systems** within the context of Hs.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Hs to the formal definition of Systems.
+1. Describe the human body as a **nested hierarchy of systems**, from cells to tissues to organs to the whole organism, each maintaining its own Markov Blanket.
+2. Explain how the concept of **biological boundaries** -- cell membranes, skin, the blood-brain barrier -- maps onto the formal notion of Markov Blankets in Active Inference.
+3. Analyze how biological systems maintain their organization against the constant thermodynamic tendency toward disorder (entropy).
+4. Connect the Active Inference understanding of biological systems to practical concepts of health and disease.
 
 ## Introduction
 
-This module explores **Systems**. In the **Hs** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].
+Your body is not one thing. It is roughly 37 trillion cells, organized into tissues, organs, and organ systems, all coordinating their activity to maintain the remarkable stability that keeps you alive. Each cell maintains its own boundary (the cell membrane). Each organ maintains its own internal environment. And the whole organism maintains its boundary with the external world through skin, mucous membranes, and the immune system.
+
+What holds all of this together? Active Inference provides a unifying answer: every level of biological organization is a **system** that maintains a **Markov Blanket** -- a boundary that separates its internal states from the external environment while allowing controlled exchange. Life, at every scale, is the ongoing project of maintaining boundaries against the relentless tendency of the physical world toward disorder.
 
 ## Key Concepts
 
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
+### 1. The Cell as the Fundamental Biological System
 
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
+The simplest biological system is the cell. Its Markov Blanket is the **cell membrane** -- a lipid bilayer that separates the cell's internal chemistry from the external environment. The membrane is not a passive wall; it is an active boundary that selectively admits nutrients, expels waste, and receives chemical signals. In Active Inference terms, the membrane's ion channels and receptors are **sensory states**, its transport proteins and signaling molecules are **active states**, and the biochemical processes inside are **internal states** that model and respond to external conditions.
 
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
+### 2. Hierarchical Organization
+
+Biological systems are nested. Cells form tissues. Tissues form organs. Organs form organ systems. Each level maintains its own Markov Blanket while being part of a larger system's internal states. Your liver cells maintain their individual boundaries, but they also collectively maintain the liver's boundary as an organ, which in turn contributes to the body's overall metabolic stability. This **hierarchical organization** is not accidental -- it is a necessary feature of systems complex enough to maintain themselves in a changing environment.
+
+### 3. Homeostasis as Free Energy Minimization
+
+The concept of **homeostasis** -- the body's tendency to maintain stable internal conditions -- is one of the oldest ideas in biology. Active Inference reframes homeostasis as a special case of free energy minimization. When your body temperature drifts from 37 degrees Celsius, this constitutes a prediction error: the body's generative model "expects" 37 degrees, and the deviation is surprise that must be minimized. The body acts (sweating, shivering, vasodilation) to bring sensory states back into alignment with its predictions. Homeostasis is Active Inference at the physiological level.
+
+### 4. The Immune System as a System Boundary
+
+The immune system is perhaps the most dramatic example of a biological Markov Blanket in action. It defines the boundary between **self** and **non-self**, maintaining a generative model of what belongs inside the body and responding to anything that violates that model. A bacterial infection is, in Active Inference terms, a massive prediction error: the immune system's model did not predict these foreign molecules, and it must act to eliminate them and restore its expected sensory states.
+
+### 5. When Boundaries Fail: Disease as System Breakdown
+
+Disease can be understood as a failure of system maintenance at some level of the hierarchy. Cancer occurs when individual cells stop respecting the boundary constraints of the tissue system -- they multiply without coordination, violating the tissue-level model. Autoimmune diseases occur when the immune system's generative model of "self" becomes inaccurate, leading it to attack the body's own cells. In both cases, the failure is fundamentally about a Markov Blanket that is no longer functioning correctly.
+
+## Active Inference Connection
+
+The free energy principle states that any self-organizing system that persists must minimize the difference between its predictions and its sensory states. For biological systems, this means that every cell, every organ, and the organism as a whole must continuously act to maintain its expected internal conditions. The thermodynamic tendency toward disorder (entropy increase) means that this maintenance is never complete -- it requires constant energy expenditure. Life, in this framework, is a far-from-equilibrium process sustained by the active minimization of free energy at every level of biological organization.
 
 ## Applications
 
-In Hs, we see Systems manifest in:
-*   **Specific Example 1**: [Add domain-specific example here]
-*   **Specific Example 2**: [Add domain-specific example here]
+* **Case Study 1 -- The Blood-Brain Barrier**: The brain maintains one of the most selective Markov Blankets in the body: the blood-brain barrier. This layer of tightly packed cells lining brain blood vessels strictly controls what molecules can enter the brain's internal environment. It admits glucose and oxygen (necessary sensory inputs) while blocking most pathogens and toxins. When the blood-brain barrier is compromised -- through injury, infection, or certain diseases -- the brain is suddenly exposed to prediction errors it cannot handle, often with devastating neurological consequences.
 
-## Conclusion
+* **Case Study 2 -- Organ Transplant Rejection**: When a patient receives a transplanted organ, the immune system's generative model identifies the new tissue as "non-self" -- a massive prediction error. The resulting immune response (rejection) is the system acting to eliminate what it perceives as a violation of its boundary. Immunosuppressive drugs work by reducing the precision the immune system assigns to these prediction errors, effectively telling the system to tolerate the surprise of new tissue rather than fighting it.
 
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+## Discussion Questions
 
-<!-- Content padding to ensure file size requirements -->
+1. If a cell's membrane is its Markov Blanket, what happens to the "system" when the membrane is destroyed? How does this relate to the concept of death at the cellular level?
+2. Why is hierarchical organization so common in biological systems? What advantage does it provide from an Active Inference perspective?
+3. How does the concept of homeostasis as free energy minimization change the way you think about common health advice like "stay hydrated" or "get enough sleep"?
 
-<!-- Content padding to ensure file size requirements -->
+## Summary
 
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
+The human body is a nested hierarchy of systems, each maintaining its own Markov Blanket against the tendency toward disorder. From the cell membrane to the immune system to the skin itself, biological boundaries are active, selective, and continuously maintained through free energy minimization. Disease often represents a failure at some level of this hierarchy. Understanding biology through Active Inference provides a unified framework that connects cellular physiology to organ function to whole-organism health. In Module 02, we examine the **agents** within these systems -- cells, organs, and organisms as entities with their own generative models and adaptive behaviors.

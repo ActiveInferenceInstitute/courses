@@ -776,15 +776,15 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lecture_content">
-<div><h1>Module 08: Planning in Hs</h1>
+<div><h1>Module 08: Planning in High School</h1>
 <h2>Learning Objectives</h2>
 <ol>
-<li>Define <strong>Planning</strong> within the context of Hs.</li>
+<li>Define <strong>Planning</strong> within the context of High School.</li>
 <li>Analyze how Planning interacts with other components of the Active Inference framework.</li>
-<li>Apply specific constraints of Hs to the formal definition of Planning.</li>
+<li>Apply specific constraints of High School to the formal definition of Planning.</li>
 </ol>
 <h2>Introduction</h2>
-<p>This module explores <strong>Planning</strong>. In the <strong>Hs</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between [Previous Topic] and [Next Topic].</p>
+<p>This module explores <strong>Planning</strong>. In the <strong>High School</strong> curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between Communication and Systems.</p>
 <h2>Key Concepts</h2>
 <h3>1. Planning as a Markov Blanket Boundary</h3>
 <p>How does Planning define the boundary between the agent and the environment?</p>
@@ -793,30 +793,11 @@ body.dark-mode .question-container:hover {
 <h3>3. Active Inference Dynamics</h3>
 <p>How does the process of Planning drive the perception-action loop?</p>
 <h2>Applications</h2>
-<p>In Hs, we see Planning manifest in:
-*   <strong>Specific Example 1</strong>: [Add domain-specific example here]
-*   <strong>Specific Example 2</strong>: [Add domain-specific example here]</p>
+<p>In High School, we see Planning manifest in:
+*   <strong>Specific Example 1</strong>: Decision trees in probability class are mathematical planning structures: at each branch point you evaluate the expected value E[X] = sum(x_i * p_i) of each possible outcome, and the rational plan follows the path that maximizes expected reward (or equivalently minimizes expected free energy) -- for example, deciding whether to study for two tests by calculating which allocation of study hours minimizes your total expected grade loss.
+*   <strong>Specific Example 2</strong>: The shortest-path algorithms you learn in discrete math (like Dijkstra's algorithm) formalize planning as mathematical optimization: the algorithm evaluates all possible routes through a weighted graph, maintains a priority queue of candidates ranked by cumulative cost, and greedily selects the path that minimizes total distance -- this is precisely how Active Inference agents plan by evaluating policies and selecting the one with lowest expected free energy across future time steps.</p>
 <h2>Conclusion</h2>
-<p>Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p>
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements -->
-
-<!-- Content padding to ensure file size requirements --></div>
+<p>Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.</p></div>
 </div></section>
 
 <section id="lab_protocols">
@@ -826,27 +807,156 @@ body.dark-mode .question-container:hover {
 <button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
 </div></div>
 <div class="section-content" id="content-lab_protocols">
-<div><h1>Lab: Exploring Planning</h1>
+<div><h1>Lab: Sequential Decisions -- Thinking Multiple Steps Ahead</h1>
 <h2>Objective</h2>
-<p>Design and simulate a simple agent that demonstrates the principles of <strong>Planning</strong>.</p>
+<p>Practice <strong>multi-step decision analysis</strong> using decision trees, expected values across time, and the concept of <strong>expected free energy</strong>. In Active Inference, planning means evaluating policies (sequences of actions) by computing their expected free energy over future time steps.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Basic understanding of Python or a relevant simulation tool.</li>
-<li>Familiarity with the formal definition of Planning.</li>
+<li>Completed Math Foundations: Communication module (entropy, information gain)</li>
+<li>Expected value calculations, basic tree diagrams</li>
 </ul>
-<h2>Steps</h2>
+<h2>Part 1: Decision Trees</h2>
+<p><strong>Goal</strong>: Evaluate a two-step decision by computing expected values at each branch.</p>
+<p>You have a project due in 2 weeks. At week 1, you choose: Start now or Wait.</p>
+<p>If you Start now:
+- P(finish early) = 0.7, value = 10
+- P(need rush) = 0.3, value = 5</p>
+<p>If you Wait:
+- At week 2, you can Work hard or Wing it
+  - Work hard: P(decent grade) = 0.6, value = 7; P(poor grade) = 0.4, value = 3
+  - Wing it: P(decent grade) = 0.2, value = 7; P(poor grade) = 0.8, value = 3</p>
 <ol>
-<li><strong>Define the Environment</strong>: Create a simple grid world or state space relevant to Hs.</li>
-<li><strong>Define the Agent</strong>: Specify the agent's generative model, focusing on Planning.</li>
-<li><strong>Simulation</strong>: Run the agent for 100 timesteps.</li>
-<li><strong>Perturbation</strong>: Introduce a specific challenge to Planning (e.g., increased noise, occlusion).</li>
-<li><strong>Analysis</strong>: Plot the Free Energy over time. Does the agent successfully adapt?</li>
+<li>Draw the decision tree with all branches labeled.</li>
+<li>E[Start now] = ?</li>
+<li>E[Wait, then Work hard] = ?</li>
+<li>E[Wait, then Wing it] = ?</li>
+<li>If you Wait, which week-2 action is better? What is E[Wait] using the best week-2 choice?</li>
+<li>Compare E[Start now] vs. E[Wait]. What is the optimal policy (sequence of decisions)?</li>
 </ol>
-<h2>Discussion Requirements</h2>
-<ul>
-<li>Attach your code or simulation logs.</li>
-<li>Explain the specific mechanism used to implement Planning.</li>
-</ul></div>
+<p>{fill:textarea}</p>
+<h2>Part 2: Discounting Future Rewards</h2>
+<p><strong>Goal</strong>: Understand how agents value near vs. distant outcomes.</p>
+<p>A discount factor gamma (0 &lt; gamma &lt; 1) reduces the value of future rewards: V = r_now + gamma * r_next + gamma^2 * r_later.</p>
+<p>Policy A: rewards = [2, 2, 2] (steady)
+Policy B: rewards = [0, 0, 8] (delayed payoff)</p>
+<ol>
+<li>With gamma = 1.0 (no discounting): V(A) = ? , V(B) = ?</li>
+<li>With gamma = 0.5: V(A) = 2 + 0.5(2) + 0.25(2) = ? , V(B) = ?</li>
+<li>With gamma = 0.9: V(A) = ? , V(B) = ?</li>
+<li>At what discount factor does Policy A become better than Policy B?</li>
+<li>In Active Inference, the time horizon of planning is related to how far into the future the agent evaluates expected free energy.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Expected Free Energy (Simplified)</h2>
+<p><strong>Goal</strong>: Combine expected reward and expected information gain into a single score.</p>
+<p>Recall: Expected Free Energy (G) = Expected Loss + Expected Uncertainty (negative of: pragmatic value + epistemic value).</p>
+<p>Two study policies for a test next week:</p>
+<p>Policy 1 (Review known material):
+- Expected grade: 85/100 (pragmatic value = 85)
+- Expected information gain: low (epistemic value = 5)</p>
+<p>Policy 2 (Practice new problems):
+- Expected grade: 75/100 (pragmatic value = 75)
+- Expected information gain: high (epistemic value = 25)</p>
+<ol>
+<li>Score(Policy 1) = pragmatic + epistemic = ?</li>
+<li>Score(Policy 2) = pragmatic + epistemic = ?</li>
+<li>Which policy has lower expected free energy (higher combined score)?</li>
+<li>Why might an Active Inference agent prefer Policy 2 early in studying but switch to Policy 1 the night before the test?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Policy Trees and Evaluation</h2>
+<p><strong>Goal</strong>: Enumerate and compare complete policies.</p>
+<p>A robot agent at position A can move to B or C, then from there to D or E.</p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>Step 1</th>
+<th>Step 2</th>
+<th>P(success)</th>
+<th>Reward if success</th>
+<th>Info gained</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pi_1</td>
+<td>A-&gt;B</td>
+<td>B-&gt;D</td>
+<td>0.8</td>
+<td>10</td>
+<td>2</td>
+</tr>
+<tr>
+<td>pi_2</td>
+<td>A-&gt;B</td>
+<td>B-&gt;E</td>
+<td>0.5</td>
+<td>15</td>
+<td>5</td>
+</tr>
+<tr>
+<td>pi_3</td>
+<td>A-&gt;C</td>
+<td>C-&gt;D</td>
+<td>0.6</td>
+<td>12</td>
+<td>3</td>
+</tr>
+<tr>
+<td>pi_4</td>
+<td>A-&gt;C</td>
+<td>C-&gt;E</td>
+<td>0.3</td>
+<td>20</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Compute the expected reward for each policy: E[reward] = P(success) * reward.</li>
+<li>Compute a combined score for each: Score = E[reward] + info_gained.</li>
+<li>Rank the policies by expected reward alone. Then rank by combined score. Does the ranking change?</li>
+<li>In Active Inference, the agent assigns a probability to each policy proportional to exp(-G), where G is the expected free energy. Policies with lower G (better combined score) are more likely to be selected.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Math Concept</th>
+<th>Symbol</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Decision tree</td>
+<td>--</td>
+<td>Branching diagram of sequential choices and outcomes</td>
+</tr>
+<tr>
+<td>Discount factor</td>
+<td>gamma</td>
+<td>Reduces the weight of future rewards (0 &lt; gamma &lt; 1)</td>
+</tr>
+<tr>
+<td>Expected free energy</td>
+<td>G</td>
+<td>Combines expected loss and expected uncertainty over future steps</td>
+</tr>
+<tr>
+<td>Policy</td>
+<td>pi</td>
+<td>A complete sequence of planned actions</td>
+</tr>
+<tr>
+<td>Policy evaluation</td>
+<td>E[G(pi)]</td>
+<td>Scoring a policy by its expected free energy across time steps</td>
+</tr>
+</tbody>
+</table></div>
 </div></section>
 
 <section id="practice_quiz">
@@ -867,7 +977,7 @@ C) To increase entropy
 D) To eliminate the Markov Blanket</p>
 </li>
 <li>
-<p>In Hs, Planning is best described as:
+<p>In High School, Planning is best described as:
 A) A static property
 B) A dynamic process
 C) An external state
@@ -912,7 +1022,7 @@ D) None of the above</p>
 <h2>Part B: Short Answer</h2>
 <ol>
 <li>Explain how <strong>Planning</strong> facilitates the minimization of prediction error.</li>
-<li>Provide a concrete example of Planning failing in a Hs scenario.</li>
+<li>Provide a concrete example of Planning failing in a High School scenario.</li>
 <li>How would you model Planning using a POMDP (Partially Observable Markov Decision Process)?</li>
 </ol></div>
 </div></section>
