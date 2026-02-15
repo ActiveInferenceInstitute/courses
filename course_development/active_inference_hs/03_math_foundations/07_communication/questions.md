@@ -6,37 +6,37 @@
 
 3.  Contrast the Classical view of Communication with the Active Inference view.
 
-4.  Develop a question that connects Communication to a real-world problem in High School.
+4.  Calculate the information content I = -log2(p) for the message "School is cancelled due to snow" (assume p = 0.02) versus "School starts at 8 AM" (assume p = 0.95). Which message carries more information, and by how much?
 
-5.  Develop a question that connects Communication to a real-world problem in High School.
+5.  Explain Shannon's concept of channel capacity. If a communication channel can transmit 1000 bits per second and each message requires 10 bits, how many messages per second can be sent?
 
-6.  Develop a question that connects Communication to a real-world problem in High School.
+6.  What is a Hamming code, and how does it use redundancy to detect and correct errors? Explain the mathematical principle behind adding parity check bits.
 
-7.  Develop a question that connects Communication to a real-world problem in High School.
+7.  In Active Inference, how does communication between two agents reduce uncertainty? Write a mathematical expression showing how the receiver's entropy decreases after receiving a message.
 
-8.  Develop a question that connects Communication to a real-world problem in High School.
+8.  Why does Shannon's theory define information in terms of surprise? How does this mathematical definition connect to the Active Inference concept of prediction error?
 
-9.  Develop a question that connects Communication to a real-world problem in High School.
+9.  Calculate the entropy H = -sum(p * log2(p)) of a binary communication channel where the probability of sending a 1 is 0.5 versus 0.9. Which channel has higher entropy, and what does this mean for communication?
 
-10.  Develop a question that connects Communication to a real-world problem in High School.
+10.  Describe how error-correcting codes embed messages in a higher-dimensional space. Draw a simple example with a 4-bit message and its 7-bit Hamming code representation.
 
-11.  Develop a question that connects Communication to a real-world problem in High School.
+11.  In the context of Active Inference, what does it mean for communication to "align generative models" between a sender and receiver? Give a mathematical example.
 
-12.  Develop a question that connects Communication to a real-world problem in High School.
+12.  How does the concept of mutual information I(X;Y) quantify the effectiveness of communication between two agents? What does it mean when mutual information is zero?
 
-13.  Develop a question that connects Communication to a real-world problem in High School.
+13.  A teacher explains a concept three different ways. From an information-theoretic perspective, why might redundant communication reduce the receiver's prediction error more than a single explanation?
 
-14.  Develop a question that connects Communication to a real-world problem in High School.
+14.  Explain the mathematical relationship between data compression and efficient communication. How does a ZIP file relate to finding a compact generative model?
 
-15.  Develop a question that connects Communication to a real-world problem in High School.
+15.  What is the noisy channel coding theorem? Explain how it guarantees reliable communication even over noisy channels, and relate this to Active Inference's robustness to sensory noise.
 
-16.  Develop a question that connects Communication to a real-world problem in High School.
+16.  Compare and contrast the information content of a photograph versus a text description of the same scene. Which has higher entropy? Which requires more bits to transmit? How does each update the receiver's generative model?
 
-17.  Develop a question that connects Communication to a real-world problem in High School.
+17.  How does the concept of bandwidth in communication theory relate to the capacity of a Markov blanket? What mathematical constraints do both impose?
 
-18.  Develop a question that connects Communication to a real-world problem in High School.
+18.  A binary message 1011 is encoded using a (7,4) Hamming code. If bit 3 is flipped during transmission, explain the mathematical process the receiver uses to detect and correct the error.
 
-19.  Develop a question that connects Communication to a real-world problem in High School.
+19.  In multi-agent Active Inference, two agents communicate to coordinate their actions. Describe mathematically how their shared generative model evolves through message exchange and how free energy decreases for the joint system.
 
-20.  Develop a question that connects Communication to a real-world problem in High School.
+20.  Design a simple communication system between two mathematical agents. Agent A observes a noisy signal and must communicate its estimate to Agent B. Specify the encoding scheme, the channel noise model, and the decoding rule. Calculate how much the receiver's uncertainty decreases after receiving the message.
 

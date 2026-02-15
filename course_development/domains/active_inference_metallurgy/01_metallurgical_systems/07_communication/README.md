@@ -16,11 +16,33 @@ Part of **Metallurgical Systems**.
 | [lab.md](./lab.md) | Lab: Diffusion as Atomic Communication |
 | [dashboard.html](./dashboard.html) | Interactive Dashboard |
 
-## Learning Goals
+## Learning Objectives
 
-1. **Define** communication in the Active Inference framework for metallurgical systems
-2. **Identify** how communication manifests in crystal structures, defects, and fundamental thermodynamics
-3. **Apply** communication principles to real materials engineering problems
+1. **Interpret** Fick's first and second laws as message-passing equations describing how concentration information propagates through the lattice
+2. **Compare** diffusion pathways (bulk, grain boundary, surface, pipe) as communication channels with different bandwidths
+3. **Explain** the Kirkendall effect as asymmetric message-passing between atomic species with different diffusivities
+4. **Analyze** uphill diffusion (spinodal decomposition) as counter-intuitive information flow driven by thermodynamic model predictions
+5. **Calculate** diffusion distances and concentration profiles using the error function solution to Fick's second law
+6. **Connect** the relaxation of concentration gradients to prediction error minimization in the Active Inference framework
+
+## Key Concepts
+
+- **Fick's laws as information flow**: Concentration gradients drive atomic flux, progressively reducing the prediction error toward uniform composition
+- **Diffusion pathways**: Grain boundary diffusion provides high-bandwidth communication; bulk diffusion is the slower default channel
+- **Kirkendall effect**: Different atomic species communicate at different rates, revealing the multi-agent nature of interdiffusion
+- **Spinodal decomposition**: The system's generative model predicts that phase separation reduces free energy, driving uphill diffusion
+
+## Prerequisites
+
+- Modules 01-06 (prior modules in Metallurgical Systems)
+- Fick's laws of diffusion, error function solutions
+- Concept of chemical potential and its gradient as a driving force
+
+## Cross-References
+
+- **Previous**: [06 Learning — The Arc of Alloy Development](../06_learning/)
+- **Next**: [08 Planning — Alloy Design as Strategic Planning](../08_planning/)
+- **Related**: [02.07 Interface Energy and Thermodynamic Signaling](../../02_thermodynamic_inference/07_communication/)
 
 ## Resources
 
