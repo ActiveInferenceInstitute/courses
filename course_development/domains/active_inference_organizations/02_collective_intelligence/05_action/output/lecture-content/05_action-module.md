@@ -1,0 +1,74 @@
+# Team Coordination and Collective Action: How Groups Act Together
+
+## Executive Summary
+
+Collective action is more than individuals acting in parallel — it is **synchronized, interdependent behavior** that produces emergent outcomes. Under Active Inference, collective action requires that team members share enough of their generative models to predict each other's behavior and coordinate without constant explicit communication. This module examines coordination mechanisms, division of labor, stigmergic coordination, and how teams resolve the tension between individual autonomy and collective alignment.
+
+---
+
+## Learning Objectives
+
+1. Distinguish **coordinated action** from **parallel individual action**
+2. Understand **coordination mechanisms**: explicit (plans, rules) and implicit (shared models, norms)
+3. Apply the concept of **stigmergic coordination** — coordination through environmental modification
+4. Analyze the **autonomy-alignment trade-off** in team action
+5. Design action structures that enable collective performance
+
+---
+
+## Key Concepts
+
+### 1. Levels of Collective Action
+
+| Level | Description | Coordination Required | Example |
+|-------|-----------|---------------------|---------|
+| **Parallel** | Individuals work on separate tasks independently | Minimal — only task allocation | Call center agents handling separate calls |
+| **Sequential** | Output of one becomes input of another | Handoff protocols | Software development waterfall |
+| **Reciprocal** | Members continuously adjust to each other | Shared mental models + real-time communication | Jazz ensemble, emergency response team |
+| **Intensive** | All members simultaneously contributing to a single output | Deep shared models + high bandwidth communication | Surgical team, product design sprint |
+
+### 2. Coordination Mechanisms
+
+**Explicit coordination**: Plans, schedules, role assignments, standard operating procedures — these reduce the need for real-time communication by pre-specifying actions.
+
+**Implicit coordination**: Shared mental models that allow team members to predict each other's behavior without explicit communication — what sports teams call "chemistry."
+
+**Stigmergic coordination**: Coordination through traces left in the shared environment (like ants leaving pheromone trails). In organizations: shared documents, Kanban boards, conversation threads, code repositories. Each person's work modifies the shared environment, guiding others' actions without direct communication.
+
+**Case Study — Wikipedia**: Wikipedia exemplifies stigmergic coordination at scale. No central authority assigns editing tasks. Instead, editors respond to the state of articles (missing content, quality issues) left by previous editors. The environment (the wiki itself) mediates coordination among hundreds of thousands of contributors.
+
+### 3. The Autonomy-Alignment Trade-Off
+
+Teams must balance:
+
+- **Autonomy**: Giving individuals freedom to use their expertise — important for complex tasks where local knowledge matters
+- **Alignment**: Ensuring individual actions serve collective goals — important for coordination
+
+Active Inference frames this as a multi-agent inference problem: each agent minimizes its own free energy, but the team needs a mechanism to ensure that local minimization serves global minimization.
+
+---
+
+## Cross-References
+
+- For strategic execution, see [Organizational Systems: Action](../../01_organizational_systems/05_action/module.md)
+- For policy selection under EFE, see [Strategic Modeling: Action](../../03_strategic_modeling/05_action/module.md)
+- For intelligent automation, see [Digital Transformation: Action](../../04_digital_transformation/05_action/module.md)
+
+---
+
+## Summary
+
+| Concept | Team/Collective Meaning |
+|---------|------------------------|
+| Collective action | Synchronized, interdependent behavior producing emergent outcomes |
+| Coordination mechanisms | Explicit (plans) and implicit (shared models) mechanisms enabling joint action |
+| Stigmergic coordination | Coordination through environmental traces (shared documents, boards) |
+| Autonomy-alignment | Balancing individual freedom with collective coherence |
+| Division of labor | Distributing action across specialized roles |
+
+---
+
+## References
+
+- Heylighen, F. (2016). Stigmergy as a universal coordination mechanism. *Cognitive Systems Research*, 38, 4–13.
+- Salas, E., et al. (2005). Is there a "Big Five" in teamwork? *Small Group Research*, 36(5), 555–599.

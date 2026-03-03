@@ -1,0 +1,84 @@
+# Lab: Action and Decision-Making
+
+> **Learning Goal:** Analyze how agents select actions by balancing exploration and exploitation.
+
+## Part 1: Exploration vs. Exploitation
+
+**Scenario**: You're in a new city for the weekend with three meal opportunities remaining.
+
+| Decision | Explore (try somewhere new) | Exploit (go somewhere known) |
+|---------|---------------------------|----------------------------|
+| Dinner tonight | | |
+| Lunch tomorrow | | |
+| Dinner tomorrow | | |
+
+For each meal, decide whether you would explore or exploit, and explain your reasoning. How does your remaining time (uncertainty window) affect your decision?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 2: Action as Prediction Fulfillment
+
+> **Learning Goal:** Trace the action-as-inference process in specific motor behaviors.
+
+**Instructions**: For each action, identify: (a) the prediction, (b) the sensory feedback, (c) the prediction error, (d) the motor adjustment.
+
+1. Catching a ball thrown to you
+2. Typing a word on a keyboard without looking
+3. Walking on an icy sidewalk
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 3: Expected Free Energy Analysis
+
+> **Learning Goal:** Evaluate actions using the EFE framework.
+
+**Scenario**: You're deciding between two summer internships:
+
+- **Internship A**: At a company you know well, doing work you're good at. Comfortable but predictable.
+- **Internship B**: At a startup in a new field. Uncertain but potentially very rewarding.
+
+Analyze each option using:
+
+1. Pragmatic value (how likely to achieve preferred outcomes?)
+2. Epistemic value (how much will you learn / reduce uncertainty?)
+3. Overall EFE: Which option has lower expected free energy?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 4: When Action Goes Wrong
+
+> **Learning Goal:** Apply the framework to clinical conditions affecting action.
+
+**Case analysis**: For each condition, explain the disruption in Active Inference terms.
+
+1. **Akinesia in Parkinson's**: A patient wants to walk but can't initiate the movement.
+2. **Compulsive hand-washing in OCD**: A patient washes hands 50+ times per day despite knowing they're clean.
+3. **Impulsive spending**: A person buys expensive items on impulse and regrets it later.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 5: Reflection
+
+In 150 words, discuss: If action is about making the world match predictions, does free will exist? Or are we just biological machines fulfilling our generative model's predictions?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Lab Summary
+
+| Part | Skill Practiced | Key Concept |
+|------|----------------|-------------|
+| 1 | Decision analysis | Exploration vs. exploitation |
+| 2 | Motor analysis | Action as prediction fulfillment |
+| 3 | Comparative evaluation | Expected Free Energy components |
+| 4 | Clinical reasoning | Action disruption in disorders |
+| 5 | Philosophical reflection | Free will and Active Inference |

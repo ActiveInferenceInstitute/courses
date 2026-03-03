@@ -1,0 +1,67 @@
+# Practice Quiz: Communication / Multi-Agent Systems (Advanced Theory)
+
+**Name**: _________________ **Date**: _________________
+
+## Part A: Multiple Choice
+
+**1.** Multi-agent Active Inference involves:
+A) Only isolated agents
+B) Each agent modeling the environment, which includes other agents — creating recursive generative models
+C) Central control
+D) Identical agents
+
+**2.** Shared generative models emerge from:
+A) Genetic programming
+B) Repeated communication that aligns agents' priors and likelihoods — cultural norms, institutions, and shared narratives
+C) Physical force
+D) Random alignment
+
+**3.** Nash equilibrium in Active Inference terms is:
+A) Maximum entropy
+B) A joint policy where no agent can reduce their expected free energy by unilaterally changing policy
+C) Minimum complexity
+D) Random action
+
+**4.** Stigmergy is:
+A) Direct communication
+B) Indirect communication through environment modification — agents leave signals (like pheromones) that other agents detect and respond to
+C) Telepathy
+D) Random behavior
+
+**5.** Generalized synchrony between coupled agents means:
+A) They share the same body
+B) Their internal states become correlated through mutual modeling — "being on the same wavelength"
+C) They always agree
+D) They are physically connected
+
+**6.** Cultural evolution as model selection means:
+A) Only genetic selection matters
+B) Groups whose shared generative models better predict the environment outcompete those with worse models over long timescales
+C) Culture is static
+D) Individual learning is irrelevant
+
+**7.** The "dark room problem" for multi-agent Active Inference asks:
+A) Why agents prefer darkness
+B) If agents minimize surprise, why don't they create perfectly predictable social bubbles? The answer is that epistemic value drives social exploration — agents actively seek informative social interactions to improve their generative model of others
+C) How agents communicate underground
+D) Whether agents are conscious
+
+**8.** Institutional design as generative model engineering means:
+A) Institutions are irrelevant to cognition
+B) Laws, norms, and organizational structures function as shared prior constraints that coordinate agents' inference and action — designing institutions is designing the group-level generative model
+C) Only individual cognition matters
+D) Institutions cannot be modeled
+
+## Part B: Short Answer
+
+**1.** Two people are having a conversation. Each models the other as an Active Inference agent. Explain how mutual predictive modeling can lead to generalized synchrony (aligned internal states) without either agent having direct access to the other's internal states. What role does shared environmental context play? (200 words)
+
+**2.** Compare pheromone-based stigmergic communication in ant colonies with social media algorithms as communication mediators. In both cases, agents modify a shared environment that other agents sense. What are the Active Inference parallels, and where does the analogy break down? (200 words)
+
+## Part C: Essay Questions
+
+**1.** Design a multi-agent Active Inference simulation for a specific social phenomenon (market dynamics, political polarization, scientific progress, language evolution). Specify: (a) the number and type of agents, (b) each agent's generative model, (c) the communication mechanism, (d) how models are updated based on social observations, (e) what emergent behavior you predict. (500 words)
+
+**2.** Analyze the phenomenon of "echo chambers" and political polarization through multi-agent Active Inference. How do precision weighting, confirmation bias (high precision on confirming evidence), and group-level model alignment produce polarization? What would an Active Inference-based intervention look like? (400 words)
+
+**3.** Write a capstone essay for the Communication module: Compare Active Inference's account of multi-agent systems with other frameworks: (a) evolutionary game theory, (b) multi-agent reinforcement learning, and (c) complexity/chaos theory. What does Active Inference add? What does it miss? Is there a unique explanatory contribution, or does it merely re-describe what other frameworks explain? (500 words)

@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13_Physics As Information Processing Ander Aguirre Discussion 6 - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>13_Physics As Information Processing Ander Aguirre Discussion 6</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>13_Physics As Information Processing Ander Aguirre Discussion 6</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>"Physics as Information Processing" ~ Ander Aguirre ~ Discussion 6</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=dAolShffDWo">YouTube</a>
+<strong>Playlist</strong>: Physics as Information Processing ~ Chris Fields ~ 2023
+<strong>Duration</strong>: 1:01:51 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello and welcome everybody this is physics as information processing it's October 28th 2023 and we're in discussion 6 so we'll see where and how and when we go but to begin with thank you for watching if you're watching live please feel free to write any questions or comments in the live chat as this is our last discussion we're going to be probably ranging broadly so looking forward to people's comments there otherwise perhaps we can all go around first and say hello or just give any thoughts or Reflections to get things going and then we'll jump into some of the questions and answers and look at some of these great thoughts that have been sent and responded to so perhaps Dean and then Harrison David any just overall thoughts or comments to get us going um thanks Daniel I guess my overall impression was that I think that the way that the entire series was organized and and and um structured allowed for these kinds of conversations that we're having today which I think are really really valuable as as you can see on the slide here I think a lot of a lot of question and answer tends to be focused around what is um whereas the the conversations that we've had uh we can sort of tease that apart a little bit and ask questions around what if and get into the counterfactual piece of it and and interact around that and I've really really appreciated that so that's my overall sense that we haven't left it sort of on the page um we've actually been able to sort of breathe some life into it through these conversations oh Harris yeah uh I just wanted to say that it was a great series we all left a lot and we got the opportunity to uh even ask questions to um to Chris and uh get back some very insightful answers uh that they are very helpful in order to uh let's say push the envelope forward uh overall this has been a a great uh series I've enjoyed it a lot and while conversing with some of my colleagues uh they also enjoyed it so uh the feedback is is great and uh thanks to activ inference Institute for facilitating this and to you guys thank you thank you and welcome David if you want to just begin with any thoughts or what brought you into the game in the bottom of the ninth um well in in school I was actually trying to use um free energy to develop some sort of a network of agents that were deciding what information to send and what states to be in based on each other's approximation of each other's States and um so I registered at the beginning but then I guess life happened I didn't really crash the page but um yeah so now I'm just kind of opening up to things and participating more in the world that I exist in and this is a natural um this is really tied to to the work that I was doing in school I don't know if this is a place to ask a question so I'm not going to asking any question but that's like the let's begin with that okay oh yeah so I was thinking about I was qu I was I'm still confused about like Markoff blankets and non- localism how would those two things work together well like non- localism seems to me that an entity could be distributed arbitrarily in uh like in whatever is I don't know if the universe say like SpaceTime is what is or if that's just a construction that we create through the information processing and like putting relation like enunciating or like uh rendering the information in a way where it's like all the related components can be mutually distinguished um but the Markoff blanket seems to be highly local I I don't know maybe I this is what but like I'm confused about this it seems to be highly local and like uh it seems like everything is connected with everything um so I I'm kind of confused about how an entity could be defined with a Markoff blanket while at the same time what is seems to be completely intertwined non-local mutually like defined yes Dean please so can I just just clarification are you thinking that local and non-local is um somehow similar to maybe arbitrary um I'm thinking local is like within a volume and non-local is like distributed like a loc like a sphere like a small sphere where all the information is like within a sphere and everything within that sphere is causally relevant everything without is causely irrelevant but then um like a I'm thinking of a markof market as a sphere and everything on the inside is like independent statistically from everything on the outside I guess I'm asking around when where where do you play where do you see that being placed do you see that being placed arbitrarily like when you when you set that up whenever you whenever you decide where that bound re exists are you asking because it's local or it's non-local because it's wherever inside and outside is present is is it is the is the is the what's the word I'm looking for are you are you are you wondering about how the how that doesn't seem to be consistent that it one minute it can be here and then the next minute it can change in arbitrarily end up being in a different place not not that I'm not that it doesn't seem to me that that's the confusion it's more like um like you know David bom's implicate and explicate order and the idea that the explicate order is like one hologram there's like the hollow movement where each layer affects each layer and it's all the explicate is all at once explicated in mutual relatedness I don't know um I don't know if these words are incoherent completely like uh and uh um and then but the but then the uh markof blanket like I'm I'm taking the example of my skin as like I don't know if that's even um good example but my skin is like a markof blank kid but but then if everything is mutually related and explicated like this whole body is submerged in the same field that everything else is submerged in and in that sense everything is linked to everything there's no I don't know um let me try adding a few pieces here so welcome welcome Ander and and Chris will hopefully join too here we go okay opening act just to catch up Chris and Ander David asked about the marov blanket and about if slow everything is connected to everything and how we associate Marco blanket or the holographic screen with localism and non-locality do you want to give any quick thoughts on this or are you asking me if you want to either of you could um I don't know uh let's wait a minute for Chris to show up uh yeah I'm I'm here now yeah I'm glad you found the way finally so uh did you guys question did you guys go through the slides of last time the lecture on biology no no we just began and started with a mar blanket question yeah um I mean I think I think it wouldn't hurt to talk about that because um a big part of of that last lecture was the copy and diversified notion um as a universal feature in nature and I mean naively I'm I I think that you know the creation of new boundaries is implicit in there so maybe maybe Chris can comment but I I also thought it was very worthy of mentioning today that you know the cycle of error correction memory and so on so th those would be my only two comments in in the agenda for today uh maybe Chris can say a few words but I didn't mean to interrupt uh so Marco blankets we can pivot it to biology I'm sure okay okay I think I'm seeing this question is this a question about the definition of Markov blankets I there's there's something about I I can't actually see the entire no it's not a question on my screen oh it's not a question on your screen okay a question on your screen right but could you tell me what the question is again yeah David just restate it how you see it well the question was if um if everything is like mutually connected and mutually defined and interconnected and there's a non- localism in the sense that everything is mutually connected and mutually find and um I'm kind of implicitly working with assumption that the implicate explicate order uh makes sense and they explic it is like one hologram and it's all lost audio Al together now um oh I still hear him oh the audio Chris Chris can you is audio okay yeah yeah I lost at least half that audio just dropped out Al together oh yeah so I'll try to sorry about that I I'll just like so if if everything is kind of explicated like if it's information in the brain is kind of rendering it all at once together I'm just confused as and the whole body is submerged in the same like in the same like the whole body is submerged in it like if I look in the mirror the whole body is submerged in it and it's all uh non-local I mean by that I mean it's all like connected together and mutually defined and mutually uh necessary to even make sense of any piece of it uh if there is even such a thing as a pie and I'm wondering I mean not so that's one that's one way of looking at it and then the other way is like the local to me it seems like the there's like the skin Markoff blanket it's kind of local and I'm kind of like confused as to how those things uh kind of work like how those things like it seems like all the information in a sphere a sphere could be a Markov blanket and then the on the inside and the outside they're statistically independent is that the like the the whole movement on the inside and the outside because of the markof blanket separates those but then if everything is this whole body is submerged in this thing that's mutually related I just confused as to how like I don't know I just I'm confused as how those things work together um I I sus I suspect the I'm not sure I understand your question but I suspect the answer has to do with whose point of view we're talking about so if if you are the system that's in so let's fix a marov blanket someplace uh if you're the system on the inside then all you can see is what's encoded on the blank and you have no independent access to what the Dynamics is on the outside so you don't actually know what the Dynamics is on the outside um and similarly if you're on outside now if you're somehow able to view the whole system you can see the whole system is having some joint Dynamics but if the if the whole system is is is olated then there isn't anybody on the outside kind of by definition so the idea of a whole Dynamics is just a theoretical postulate that we make to make the mathematics make sense now if you move to a move from the classical formulation to the quantum formulation then it's possible to prove a very nice theorem which is that if you're inside uh a holographic screen uh you can't measure the entanglement entropy across the screen uh what that means is that you can't know that your state is conditionally independent of what's going on outside so you if if you're inside a holographic screen you can't know that you're not entangled with with whatever's outside so you can't even know whether you have uh a well-defined state in a sense and I'll sort of I think the same thing would probably hold true from the point of view inside a Markov blanket that uh you wouldn't be able to know whether your Markov blanket had holes in it or something like that I mean the the problem is in the classical formulation uh you assume there's no analog of entanglement uh so there's no analog of entanglement entropy so I think the strongest thing you can say is you don't actually know your statistical relationship to what's going on outside but you still can only see what's encoded on the blanket thank you Chris if I can add a few more pieces so David you described everything connected to everything for a system with that kind of a base graph there aren't Markov blankets because a Markov blanket is the set of nodes that make two other sets of nodes conditionally independent so in a fully connected setting again be leading to the question what is outside of that but in a fully connected setting you don't have a blanket as such um in fact the basian graph describes the factorization or the articulation and the sparsity of the system so it is a connectedness that is usually much much much sparser than everything connected to everything but that's not to say that differences can't make a difference at a distance it's just that they propagate through a local causal structure and then SpaceTime is constructed by certain kinds of cognitive agents that was one of the key aspect aspects of this course and so we can take as primary the topology of the active inference agent environment relation and then marov blanket is just the sensorium on the inbounds and the action capacity on the outbound one question though I do have to that is what about the nonzero gravitational effect for example of something that's distant in space and time of course Markov blankets don't have to be spatial temporal they can be an arbitrary State spaces but how do we deal with those kinds of long range influences that's that's my question yeah well uh here I think it's useful to contrast Newtonian gravity with with einsteinian gravity uh Newtonian gravity is infinite range and instantaneously acting whereas einsteinian gravity is infinite range but it's locally encoded so uh Einstein the einsteinian gravity that you feel is your local measurement of the curvature of your local bit of SpaceTime so that is very much happening on on your Markov blanket right it's a local measurement uh local in SpaceTime so let's let's assume There's A Spacetime that's objective and characterizes everything uh then you're locally measuring it on your blanket and that's what you feel as as gravitational attraction or or your mass uh whereas in uh Newtonian or lassi gravity uh you don't have that sense of locality right as soon as something changes anywhere in the universe it affects you so Einstein was was struggling of course to make gravity consistent with electromagnetism where it was clear that forces are transmitted at at finite speed the speed of light and he didn't have the idea of a graviton moving at the speed of light uh but he did have this this idea of local measurement so non-locality was was a NAA to to Einstein and that's basically why he spent so much trouble removing it from physics and that's why he hated the idea of entanglement so much because it seemed to him that from a space time point of view it had to be non local Daniel can I bring up a point at this point so I think uh this is somewhat relevant to uh a question I really wanted to ask Chris which is in lecture six I remember minute 23 I I wish I had written it down but I can roughly remember um it was you know that philogenetic graph and and you see life growing in a self-similar way you know just like the the the genealogical tree of species same thing happens at the individual level with growth and so on anyways I found that fascinating in the sense that the degrees of freedom of Life as a whole grow right and and around that minute 23 you made a comment well then the environment must must be shrinking and you tie this with SpaceTime and something about SpaceTime you know we from the physics side we also have that uh you know we have cosmological inflation and whatnot are any of those things related that that remark uh I feel like was made in passing and I think there's a lot there to to be said um it also maybe shed some light on uh the Emer SpaceTime issue if it does uh emerge from a more basic ontological object like a tensor Network and the the degrees of freedom at in the tensor network is it fair to say that life as it grows gets more of those degrees of freedom but then somehow anything that happens to SpaceTime is an illusion in that sense I don't even know if I'm formulating that question right but I I think Chris knows what's what I'm talking about yeah I the the the comment makes the most sense in uh the context of the the state space itself leaving a s side State uh SpaceTime so if you think of uh think of a Hilbert space and uh draw a boundary someplace that separates what what we're going to call life from what we're going to call non-life yeah and uh essentially what you know life has done over the past three billion years is incorporate bits of the non-life part of the state space into life right so so you know total biomass is increasing right uh so more and more of the available mass is getting incorporated into living things and so if we we can kind of heris fold SpaceTime in and say uh you know in the in the in the locality in the local of Earth and over this fairly short time period uh and the expansion of SpaceTime is is more or less negligible um so so life is actually taking up more space now that it did certainly at the time of lucco when all of us uh weren't around but there is just one probably population of cells that we're descendants of uh but the the point about the the hbert space is is just is just the point that if you have once if you've divided it in two and you move the boundary then one system gets bigger at the expense of the other system which now has less of the hbert space so that's all that remark really is right as the system uh in a sense takes over degrees of freedom of the of the environment so that's in that case it becomes a different system at every time step from the point of view of it it has now a different Hilbert space and different internal Dynamic so physically it's a different thing yeah but when when we look at it we say oh this thing is continuous through time it it is expanding it's growing it's developing evolving whatever right and so so then I guess comment just that uh question that just occurred as you as you were talking that begs the question uh you know does that biomass come to dominate all the uh degree degrees of freedom in the universe is that there's all presumably there's a tension with the rate at which that those degrees of freedom are growing and the rate at which SpaceTime is growing does the growth of SpaceTime in terms of those degrees of freedom that may be more fundamental uh amount to loss in error correction capacity uh how how do we not I mean and maybe more spec speculatively how you reconcile this with uh loss of thermodynamics like it do we know are you implying that life is going to come to dominate every everything and fill up the entirety of of the known universe um yeah I I think that's a stretch U um I would say at this point that until we have a a a mature theory of quantum gravity that makes enough empirical predictions to be testable uh it's not clear at least to me how the whole emergent SpaceTime picture fits together with uh the inflationary picture or the expanding SpaceTime picture um I mean in some sense taking a strict cobbert space view if the universe is an isolated system then it's Hilbert's face is fixed and so your question in a sense becomes what's the relationship between SpaceTime and this Hilbert space are are what we think of as SpaceTime degrees of freedom real degrees of freedom or not and uh um seems to me that question really isn't resolved and I I'm not sure at this point how to resolve it Aris you wan to yeah just um have some something small to add um overall this is uh very interesting and uh these questions are very deep uh what I wanted to add is that I was uh uh thinking the initial question regarding Mark of blankets and I also have some question that uh it's related with it but I will ask a chis later uh what I wanted to add now is that um basically Mar Mark of blankets are a way of describing the boundaries of a system in terms of statistical mechanics or statistics let's say and uh essentially from what I understand they are um um Paramount in order to Define observers and also the systems under observation so any pH any physical system that can be seen as an observer uh with a mark of blanket let's say so uh now trying to tie it all up with active inference well active inference as I understand it it implies that the system uh is actively referring to um its external States from its internal States in an effort to both uh uh learn let's say and adapt to the uh to the environment so uh this goes back and ties with this metaphorical lingl say with the skin this is how I I understand it and uh it actually means that uh a system with a mark of blanket can actually be seen as performing physics as information processing which is the back of this series that uh chis is offering to us and a final comment in terms of non locality nonlocality can actually be seen as a form of information processing so this is what I want n part did you say uh how nonlocality is a form of information processing yes this is how I understand this what do you think about about that Chris if we put it in terms of [Music] uh entanglement is a useful resource for information processing but it's only a use a usable resource if it's combined with classical communication either across time or uh across space so um entanglement is only useful as of as a resource if different observers can act locally uh I.E without interfering with each other on the Quantum resource so um if you think of entanglement as non-locality if you embed it in SpaceTime in that way then it it is useful as a computational resource but The Observers also have to transmit classical Communications in a way that uh fully complies with locality so in a in a bell epr type experiment for example if you have Alice in one lab and Bob in the other lab making measurements of of some entangled State then at some point uh to know that the state is entangled they have to send their CL classical records to each other uh as classical communication and then deal with those records locally so in a sense nonlocality in that sense is useful for computation but it's only useful if you also have locality great great thank you ER actually I'm working on on uh on a Noel notion let's say U um that it's something like U takes the notion of ENT tlement and transform it in in in the following sense I'm I'm actually thinking of Maximum un tanglement as a resource for classical computation so uh that's something I am actually exploring it's I find it to be an uh nice concept did you say maximum unentangled yes maximum separability yeah okay that that makes sense I mean we need maximum separability yeah or or we need to be able to factor a state space to talk about two different observers so to talk about conditional Independence yeah in in in my head uh these maximum entaglement as a resource can actually be expended to perform classical computation or even to increase the coherence of a Quantum system so I'm playing with that notion a bit who thank you can I ask something really quick about yeah there was uh okay um so there apparently like from what I don't understand very much but from um bore apparently the the the whole experimental setup was one entity they couldn't be broken down into like constituent pieces that are interacting but had to be taken as one entity from what I understand and apparently Einstein's view is um well I really don't know what his view was but apparent like it's not one entity can broken be broken down to localized pieces that are interacting and I'm kind of apparently they couldn't get along like Bor and Einstein apparently there was like a party or something and then they all congregated to separate parts of the room and didn't really interact and apparently it was because they had these like opposing views on the same thing of like breaking down the interconnectedness into separate constituent subsystems and even like taking the partial Trace I mean par there was one universal function taking the partial Trace which buzzly Define the subsystems but never perfectly so like it's all tied together but I can't really exp I'm trying to say like how do you um I'm asone like these seem like two very opposed view they seem like very alternative views like on on one side you have like kind of like an indivisible ho and the other side you have like locality where it's almost like there's like a sequence of measurements leading up to an ego an I that then measures as like a real entity as another one is like the Observer and The observed are one thing they cannot be meaningfully separated maybe functionally they can be separated but like as actually onto like as actually existing subcomponents that cannot be defined strictly that's two different I from what I understand one of them is saying yes you can Define these subsystems and they really do exist as separate entities the the other one is saying that's just kind of like a like a useful notion like a useful way to organize information as to operate on that information deposit a subject and an object and to have the subject operate on the object is a useful way for thinking to separate itself and it seems like this is closer to Bor and the other one is closer wellar apparently that's a distinction of like Bor and Einstein from what I understand uh from what I understand which is please correct me if it's wrong and uh so yeah I want to put that out there and uh I don't know what that's gonna Spa in terms of responses but yes well I think that's a a fair characterization of the bore Einstein debate actually to add a response there whether it actually exists it seems like in one of those framings you had an observer looking at something and if we Define actually existing in a relational observed setting then to the Observer it actually the measurement actually exists prepare measure prepare measure and then from another perspective viewing that setup then it's the Observer of a setup MH and so it's just again to Chris's first point about what perspective and this is one of the most essential pieces that that the blanket screen relationality brings into play is there isn't a view from nowhere but there is a perspective that may have a definite answer and yet there are multiple perspectives that have complimentary answers in our scenario Daniel can I speak for a minute oh yeah I was I was muted earlier I didn't realize I meant to ask David I don't have an answer to to your question but uh I was wondering if you could reformulate it would be would it be fair to reformulate your question and say as saying are blankets objective or not is is the bore Einstein debate equivalent to that and then second and I guess this may be for for Chris I was skiping through the answers and one of them was talking about how the the main one of the big tensions between general relativity and quantum theory is the idea of object persistence and I I I don't know how to articulate it either but I I feel like uh it was more or less what you were getting at uh David is is that is that correct yeah I think that's a another way to put it and and also the thing you said about the third person looking at those systems if there's multi-agent communication that's what that's that's kind of the thing that I'm that's kind of the thing that I'm kind of stuck on in terms trying to understand this because like if there's a third agent looking okay those two are subsumed in the information on the holographic screen and then I don't know anyways so that's where I'm kind of I think a delightful thing to read here is uh Jean viger's paper where he introduces the vigner friend thought experiment and I think it's from uh there's a book called The Scientist speculates the editor is someone named good go D and uh it's also and vigner has a paper in this book I think it's 1961 and it's also the paper where vigner talks about uh Consciousness being an essential Concept in quantum theory but the the thought experiment is that viger's friend is doing an experiment in his laboratory and making observations um and vigner is outside laboratory and um vigner has to regard his friend is in some sort of superposition with his instrument he has to regard his friend as as entangled with his friends instruments uh until vigner can actually interact locally with the friend and make a measurement of the friend's State and so it it makes uh viger's friend and his apparatus look like an entangled pair and vigner now looks like an experimenter who's operating on just one part of an entangled pair uh but vigner uh himself tells the story very nicely and it's just it's that sort of historical text I think is is always useful to have a look at and see how the people themselves were responding to this idea and vigner is quite perplexed by this thought experiment uh and I and I think all of those people were were were quite you know they were quite honestly mystified with what observation actually is and what uh Consciousness is and all of these other questions that people are a little bit scared to talk about uh in the ensuing several decades self reference yeah you can go ahead self- reference seems to be like there's this ancient symbol of the uro boros uh the output is the input it feeds on itself even like Consciousness I have to contextualize my I have to contextualize to contextualize like a self-referential I have to everything refers to itself and then at the end self- reference is where all the paradoxes are like this sentence is false or all I know is I know nothing these are all paradoxical statements so there's some sort of mystery cell division of self- reference like that ancient view is that it's like embryogenesis cosmogenesis same thing um I don't know there's yeah there I it seems to me that there's some sort of mystery that's so it's like the M it just eludes like I don't know thinking tries to make these thought systems but it just slips out like I don't it just you can't grasp it I don't know um I mean but that's that's already a conclusion which I don't necessarily want to even make because if it's self- reference I is thinking okay then maybe it goes all the way to the bottom but I don't know Daniel can I ask a question before we run out of time actually I have two maybe one is a bit longer the second one is sh so the first one uh Chris is I was very intrigued and looking forward to hear you talk a little bit about that uh Psych of error correction and memory and you know persistence and so on and in particular uh I was wondering if it relates at all to the main know the thing you talked about in that lecture six uh the copy and diversify uh business because intuitively if that cycle is something that an organism has to implement I'm talking about that that that slide with you know the error correction and whatnot then it pays a thermodynamic price for it uh so I presumably there's an anabolic process of of of trying to grow so you can feed degrees of freedom into this error correcting scheme if you know thinking like a physicist something like that might be happening uh so is the copy and diversify feature a necessity of having to run this cycle that's um my first question I that's a good question I don't know whether it's necessary uh I think one could think of a a fairly smallscale heat engine or metabolic system that can pull just enough free energy out of its environment to store a one bit memory uh and you can think of think of something like a flip-flop right these things aren't alive so it's not it's not quite as complex as an organism but it it is using energy to maintain a memory and its memory does influence Its Behavior so I I think we have these limiting cases like this that don't have to grow but when you when you think about organisms um organisms have the problem of being made out of very delicate parts that need to be replaced and it's it's that degradation that I think is driving this need for constant copying and for from a physics point of view I think what that boils down to is that the the organisms living right at the edge of an interaction with its environment that's too strong to maintain so the the environment environmental interaction is constantly a risk of spinning out of control and having too large an energy transfer which basically tears the mark on blanket apart and exposes too many of the internal degrees of freedom to the outside so I this this may be one way of of saying what characterizes life that it's it's interacting with its environment right on the edge of an interaction that's too strong and it's it's it's great to have a strong interaction because then you have you have big I good values and so you have large bandwidth uh but the risk is that the environment tears you apart close to the fire but don't get burnt become become the fire and then control the redo balance and gain that autopoetic regulative capacity which works when it works yeah until something comes along with bigger teeth you know um another comment if I May is um as as the course comes to an end one two of the two things I realized Associated to classicality that we've talked a lot about in this class are object persistence and boundaries right so so classicality being a feature intrinsically boundary related and having a lot to do with object persistence and so so so artist just thinks completely dual from from an FP point of view you because you want to maintain the Integrity of the boundary you want you know you want to preserve that classical information presumably I'm not sure I guess my question to to everyone is our object persistence and uh and uh well in the topic of uh classicality object persistence and boundaries like are are these basically completely dual dual pictures that my question yeah I wouldn't be surprised and we also need object persistence to define so this idea of object persistence is is a a very key idea that that has to be dealt with and and physics has largely ignored this idea which is kind of objects are taken for granted but but I think I think what Carl says in that 2019 free energy principle for a particular physics paper is fairly clear on this I mean he basically says uh the free energy principle tells systems to persist that's basically what a system has to do by by maintaining the Integrity of its mark on blanket I I think that's very insightful if it doesn't it's not yeah it's not a system anymore well as we somewhat Glide towards a local closure of course anyone is welcome to bring up any Reflections and also I'd love to hear about where we go from this now measured outcome how do we prepare individually at The Institute scale ecosystem scale and what are we going to do coming out of this are we talking about that right now or any thoughts yeah just keep learning bro what do you mean by the ecosystem scale like the active inference ecosystem and our own ecosystems going beyond our own scale I guess the only thing I can comment on this is I Echo The View that or not view or or rather remark that Chris made in the lecture about Quantum biology as a field it's in a nent stage right now but I mean I think you know there will be a non trival interaction between the active influence community and and Quantum biology that I'm making that suris right so let's talk about Quantum biology for a second I'll open up the Pandora's Box here let's think of it as a parable as a post or maybe even fanfiction because Chris has shared so much with us I I want to kind of build off of it if you will um indulge me for a second I'll read you a little story just hear the story out qu Quantum biology sounds like more than up or down without saying that it more up or down as what information can be counterfactually is looking at carrying capacity as in quotes can be and from that carrying capacity comes orientation things like Direction and scale things like the ability to plan appear to fit better in the inter orientation category relative to the carrying capacity category which is non-c communitive in action so if and this is a big if if we agree that orientation is to follow should our recognizing of planning affordances follow as well so from the session slide there was a quote living systems are genetic Quantum systems that the fbp has driven of a high level of computational complexity and here the in quotes computation is baked in as something planable with this as a reference frame to make plans we need carrying capacity check agreed but in order to learn where does the carrying capacity Plus orientation relationship insist that we start with a received plan this perspective is compared to say actively inferring our way to the plan falls out of carrying capacity just making this explicit we can then ask should we first apply a received plan or apply active inference that helps clarify when the strategy is one more based on exploitation versus a strategy more B based biased to exploration in summary when did information delivery things like product or package packaging begin to Trump information carrying capacity which is essentially information processing rather than we need this paired relationship the carrying capacity Plus the orientation as a minimum of two so that we can compare identify change and no change model patterns Etc this is another way of asking when did subject matter expertise come to be seen as more valuable than prediction matter expertise when it seems like when you both capacities if we want independency and here's the kicker if not given time to reflect on what's being asked here and I know Chris oftentimes has a nice long pause to reflect but if not given the time to reflect people will take their subject matter expertise strategy which clearly is a next move perspective over one that holds up next move plus all moves meaning that they bring prediction matter expertise in to follow to param parameterize to unlock to unring to Unbound what's in and what's out of course without prediction matter expertise what is quantum biology wow can you just post that someplace so we can think of a I'll just I'll just email it to you Chris cool that was great yeah I I I think you're you're asking about the fundamental question of what what what does Carl call it epistemic value and the role of curiosity and that whole cluster of issues well I I think I need to give you the credit that you deserve on this I think it's the fact that you have allowed us to interact with you that's given us the that kind of courage and confidence to be able to put things out there I don't know how much of it sticks for how much of it I'm not sure that it requires disciples but I do think it provides what you've done is provided Medium so again I guess that's my way of saying thank you well thank you that's that's yeah thank you Chris uh I have learned so much this year um more than more than ever before okay well great this is this has been a great class and hopefully uh hopefully various things will come out of it I mean so certainly just from looking at the questions that have been in the question Forum lots of people are thinking about these issues and um that's that's what I think aii needs going forward is people thinking and talking about stuff thank you Chris yeah a few outcomes that we know we'll transcribe the lectures the discussions add in screenshots add in the Q&amp;A and publish those proceedings as a book we will pick back up in 2024 with potentially having the recorded and written contents as part of curriculum so not just replicating but now continuing on with another quantum flow across this now classical artifact because it's Quantum in the moment and then once it's communicated it becomes a classic and we have M to prepare that state all right great I I'm gonna have to sign off um but thank you very much thank you Chris thank you thank you Chris right ciao does anyone else does any anyone else want to make any reflection or comment I just thank everybody that's helped organize participated in all of the discussions even the people who showed up at the very end of the discussions because I really appreciate that again I can't emphasize enough when we get a chance to interact with this stuff when we get to manipulate it when we be able to get ask questions even though we feel vulnerable I think that that's when a lot of the really good stuff um tends to get Consolidated so thank you to all of you I'll read some fun comments from the live chat just the last several just to recognize some of our great um colleagues um lucrative leadership um wrote yes on yes more on affordances Ian wrote would love for this series to continue Joanne wrote thank you this was a wonderful learning experience Mills 8102 wrote the probable and the possible there's some emojis Pablo senta heart powwow da I don't speak this language but I can definitely hear understand and feel it so thank you everybody who's watching along these were all great and um we prepare and measure every day at The Institute so I really do hope that people from all backgrounds all vectors all preference and prior sets come Eng gauge and not presuppose too much about us or themselves or what can happen when we really do interact and when we take it into the kinds of spaces and timelines that we know we want to be on all right thank you by bye thank you everyone bye</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08_Actinf Orgstream 008 1 Nathan Schneider Governable Spaces - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>08_Actinf Orgstream 008 1 Nathan Schneider Governable Spaces</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>08_Actinf Orgstream 008 1 Nathan Schneider Governable Spaces</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf OrgStream 008.1 ~ Nathan Schneider: "Governable Spaces: Democratic Design for Online Life"</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=KwFpamHzmUc">YouTube</a>
+<strong>Playlist</strong>: Active Inference OrgStream
+<strong>Duration</strong>: 51:27 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello and welcome it's April 9th 2024 we're in active org stream 8.1 with Nathan Schneider discussing the work in the book governable spaces so there's many places we can enter in and jump off from but first Nathan thank you very much for joining and perhaps you could say a quick hello and then we'll jump into some quotes yeah absolutely thank you for having me it's wonderful to be here okay so I have two quotes prepared and then we'll also see any questions people have from live chat or anything else that comes up or anything you want to ask all right so this is a quote on page three of the book do you want to say any words before the quote about like what is this book about when did you publish it how is it published who did it Etc and then we'll jump in okay sure yeah it's uh it was published in um late February of this year 2024 and uh with University of California press it's available for free online as well as in print um from you know wherever you get books and um it's it's really an exploration of the why the daily aspects of our online lives and the governance in those uh in our daily online lives really matters um I've spent a lot of years exploring like political economy of online life trying to support the development of alternative platforms that are built as cooperatives and and that sort of thing so I've worked a lot with you know building things at the company scale thinking about policy you know found an accelerator for those sorts of things um but in this one I I kind of step back or step into you know what is what are our political experiences in everyday life life and why do these matter and it kind of starts with a history of how our our online lives came to be structured and managed the way they are and and then it it blows up from there into um suggesting that you know maybe some of these these daily practices are actually part of what's driving the kind of Decline and crisis of democracy more generally um and uh and then let's think about what to do about it so it's it's really a kind of plea for for um uh recognizing the that um you know we could do much more much better in bringing democracy into the spaces that we inhabit online and to recognize the way in which we've you know often without Rec without noticing it um failed to do that awesome okay here's a quote on page three and when I read it I thought about active inference and about this opportunity for a two-way street like for people who are learning active inference to hear about how the perspectives that you're bringing and drawing very richly on are just right up even next to it so much of this book dwells in interactions of human politics and technological systems but as above the more than human world envelops it all providing the stage and the stakes a planet waiting to see whether we can govern our way out of self-d Destruction deciding whether to maintain the conditions necessary for human civilization is there democracy in the wild creatures hurdling through space on a fragile world can expect no rights or powers of decision from physics and biology a government's claim to rule means little in a high mountain Wilderness or neighborhood whose residents have made themselves ungovernable to survive against a hostile police force yet governance and its cognates are names we use for doing what all life forms must orchestrating our perceptions and reactions so as to have a chance at thriving in our surroundings consider it simply the intersection of power and cooperation an intersection hardly unique to us so what made you write that um great great question um very a very specific moment really um I was I was um kind of early in imagining this work that I've been doing for for some years already forming into a book and I was uh at a retreat um uh at a a Catholic Retreat Center I go to sometimes in Colorado and I was going on a long walk and felt just like deeply embarrassed actually for I've been doing a lot of work around voting systems and all this sort of stuff and um uh running around with people developing like Dows on block chains and all this and I was just observing the interactions among the creatures around me and um and just recognizing like I I I just have to own up to the fact that um first of all governance is not something unique to humans and um and and to kind of hold the recognition that um you know that the things that that this book is engaging with um are are just all around us um and and to connect this this question of democracy in human societies with not to say that democracy is what's happening in that ecosystem but there is a form of governance at work um and uh to to make sure that those things aren't totally separate um because I think we lose a lot of our own potential when we when we neglect that there are things going on in the natural world and and we are the natural world that um are beyond the the systems that we've we've happened to to dream up um so so to me it was really a kind of passage of humility uh and I really appreciate you lifting it up because a lot of the rest of the book is okay humans let's come together and intentionally craft our governance structures and all this sort of thing but I think it's important to ground that intentionality and that that that um kind of literal construction of of um you know our own political spaces in a recognition that there's a much longer story here and we're part of a much more complex um set of systems and than you know political science as a discipline for instance tends to appreciate that's awesome it's a similar perspective like coming from a field ecology View we're always looking out seeing how things are natured and patterned and then people talk about governance or regulation or even democracy like in the Beehive or in the ant colony but also it's a mapping it's like a metaphor it's not intended to exactly describe what ought to be the case for human systems it is like the whole question of biomimicry and there's a lot of like biomaterials and bio mimicry but then the question becomes for the governance and interaction systems like what can we learn from what's quote natural what is natural are computers natural what do you think well I I draw some on um on for instance uh Adrien Marie Brown who uses a lot of language about biomimicry she's a activist and writer um Associated for instance with like black lives matter and and um you know various kind of Liberation movements today and she you know she's not a scientist she's very UPF friend about that but she draws a lot on um the language and metaphors of of um biomimicry and and related discourses um to explain um to to understand political change in in in our world and and I I take a lot from her um I I use her in some respects to deepen and um correct for instance a thinker like um Alexis toille who was a kind of bounding figure in the theories of democracy right who traveled around in the in the early United States in the 1930s wrote Democracy in America the kind of letter to the European Aristocrats like himself about like how this whole democracy thing was going and what he emphasized was um this this weird pattern which was that he just saw the Civic associations and small um ordinary practices of of democratic life in people's communities and he saw this as vital to the practice of larger scale democracy and this is a a finding and observation that's been reaffirmed in later political Theory and and and empirical political science um that um healthy democracies at the level of a nation state or a region um you know really tend to to um have the these kinds of thick textures uh of democratic life in in their everyday environments and and Adrian Marie Brown takes that same idea but puts it in this kind of biomimicry language this recognition of the fractal the way in which um the small is kind of uh in a system uh small scales uh what what occurs at small scales resembles what occurs at larger scales um and to me is just an important um lens through which to recognize what's going on in our everyday online lives has you know is affecting in ways that are sometimes hard to perceive and understand but that appear to be very real affecting our ability to to practice democracy uh at larger scal so so um you know and I I think we have to be we have we also have to be careful about these kinds of these kinds of inferences um but at the same time democracy is such an imaginative activity I mean it it it can only be what we imagine it uh to be it can only be what we let ourselves be what we let ourselves practice and um therefore I think the space of metaphor and and um relationship is really important in constructing our political lives we map ourselves on to is uh vital and this is also in the context of human societies one one uh a project that I explore some in the book that's still quite preliminary is this idea of governance archaeology I've been working on with bica carugati um who's a political scientist um and um and what we've been exploring is how to broaden the repertoire of of governance histories that we can draw on by building you know databases and repositories of these histories um to catalog what has has and does go on in our world thinking about the way in which for instance the so-called founding fathers of the United States for instance had they were reading books about often ancient Greece and Rome right and they were often referring to those while they were justifying the possibility of building a new kind of democracy um and uh and that makes me wonder what repertoire what histories are we turning to today as we for instance design the the flows of power in online life or in other kinds of spaces around you know addressing climate change or uh governing undersea cables or governing AI what metaphors are we going to draw and what what um playbooks are we going to turn to and if we are able to allow ourselves to um consider biomimicry to um um to consider indigenous practices that have been so often suppressed or neglected by dominant Powers um if we allow ourselves to um have some humility for instance about those Colonial histories we've been we've been told and we've often integrated into our own self- understanding you know suddenly our the range of motion becomes broader this the range of possibilities of what we could do become broader and and essential critique for in online spaces is just like we've limited ourselves with a very very profound um set of constraints a design pattern I call implicit feudalism you know the admins the mods telling every you know having all the power uh addressing problems through censorship and Exile um you know this the these things that we're very used to in online spaces are actually a very small subset of the possibilities of how humans could could could interact yeah thanks for adding all that I really like the biological thread and the naturalizing of the decision- making and like the different perspectives that are involved in that it was focused on the human and the anthropological but also like you mentioned uh in that first quote like we're also dealing with governance spaces that don't only include humans as if that wasn't already like a totally broad enough space um and then the bottom up and the top down is often how it's explored like from a multiscale biological system's view looking at multiscale governance or regulation like of tissue homeostasis and then that's kind of the discussion is about the bottom up signaling and the top down influences and people who kind of favor one of those accounts like the bottom up being kind of explaining things in a sense by their lower components but also giving those lower components agency um so it's just very interesting as we develop like the particular works that connect the systems and the broader perspectives on human systems helping us see on one hand the similarities that help make biomimicry plausible however it's not going to provide any answers it's only going to provide us kind of the the path or the tool to to get up to a very challenging human point which is like well then how do we want the online governance to be if not the Linux kernel or Reddit or social media platform model so how have you kind of explored that with medov and elsewhere um just for context for those who aren't familiar medov is an organization that we you know we met through I as I recall um and uh it's a a network of people working around online governance and this community has been really Central to for me and writing this book and then doing this work um and um and one of the founding ideas that we um a group of us developed as metago was coming into being was um this idea of modular politics um which is a language just for imagining a different texture a different framework for um for online spaces um so today we tend to assume okay you start a Facebook group or you start a a a group chat or whatever platform it is whoever starts it has essentially all the power and um they can delegate some of that power but you know it all kind of comes from them and it's it's not changeable it's it's um kind of crude um and it's built on this logic of uh the early ass online communities which were like you know a BBS server a bolet and board system like sitting in somebody's house and the people who logged in were guests in that person's house and so yeah they had all the power um but is that really does that model describe the kinds of communities that we're working with now I don't think so I think for many of them you know we could imagine some really different kinds of of structures and um the idea with modular politics is rather than when you start a new community you you just kind of fall into this default implicit feudalism design instead you have the ability to actually design using assembling modules um the kind of governance that you want so assembling using um a kind of a a conect collection of of tools that you choose um you can try to capture the most appropriate um uh governance for the kind of space that that you're building um and uh you know all this is to say I mean in some ways it's all about just like catching up to existing organizations um where you know you can write bylaws in a lot of different ways and we need I think a kind of digital equivalent uh to that that option to be able to um really Define and and reflect on what do we need in a given space is this space something where I can vote the mod out if I don't like what they're doing or is it one where there's a jury that makes decisions where people get randomly selected um there are all kinds of um ways you could imagine online spaces being governed and um we just really haven't had the chance to do that there are a few exceptions that that I look at that show that this approach is not crazy because whenever people do actually have the opportunity to self-govern in digital space they end up going this kind of Route so for instance um when the city of Barcelona said hey we want to support a whole lot more um citizen participation um and they helped develop this platform called deum uh then actually what did they do people started building a bunch of modules for that system they they built the system so they could handle you know people essentially writing plugins kind of like plugins for a WordPress website except in this case they're like decision-making tools that you can add and and you can pick and choose which ones you want to use in the system and um in this case it's less for the platform than for the city but still when you have that invitation to say how could we self-govern uh uh suddenly people get really creative about what they um what they build uh another context where this has occurred is is in the context of blockchains um where um uh this is a network design that unlike the server based logic of earlier internet Technologies the uh network is uh governed across servers whether you're talking about Bitcoin being governed by miners or ethereum by stakers or a dow like an organization on say ethereum uh governed by token holders in each case there is governance is a problem in crypto context in a way that it really hasn't been in other web contexts regardless of you know this is all in the context of lots of scams and you know alant and all this stuff that that we all know about but but this nevertheless has produced um really the first explosion of innovation in governance technology for the internet just because it's really the first time people have had to figure this out and there's been billions of dollars at stake in how you self C these these networks um and if you look at the popular tools for instance for developing Dows like Aragon for instance um uh they have adopted essentially a a modular structure um where you have a kind of base layer and you can assemble you know or the nosis system um you can assemble different um uh modules for how you want to self-govern and and um you know build your community stepwise like that um so so you know that we could allow ourselves this tremendous creativity uh that we've seen in these little pockets where people have had the opportunity to self-govern online suddenly they start really going crazy and coming up with some some really really interesting designs um and uh uh but in most of our online lives that is not even an opportunity so the question hasn't really Arisen for for so many people great all right I'll ask some questions from the live chat so two questions from Sid feel free just to answer however you want is it Democratic if the community admin makes everyone in the group an admin what is the equivalent of a democratic space in a telegram or Facebook community and another related question what are some affordances in modern online communities that allow for governable spaces okay great um let's see maybe I'll start with the second one you know what are some affordances you know in the in the current context that we see um you know uh one thing you I I found is that trying to bring democracy into particular spaces um for instance like um I co-founded a Mastadon server called social. Coop um it took a lot of work to to build in uh Dem Democratic structures we have to go to a separate platform lumio to do decision-making we have a separate platform awiki for managing our bylaws and and the kind of how-to guides and all those sorts of things um the Mastadon did not um allow us to do a lot um just by default built into the tool but the fact that it's a Federated Network that is small enough that a group of people can download it run it on a server and start trying to figure out how to govern it that's a powerful affordance um you know subreddits have a lot of group autonomy they're able to build at least you know significant group Culture even though they rely on a lot on admins and mods um and um and I think reddits strengths really demonstrate the power of community self-governance um and and how much more could be possible um the uh and so these communities that allow uh these platforms I mean that allow um kind of distinct communities to form um and to have real autonomy that's an important prerequisite but it's really not sufficient um and um and in terms of what you can do with those tools you're often working against them you're often kind of bending over backwards to try to get tools not designed for democracy to work that way for instance like giving everyone admin Authority I don't know like that's kind of like giving everybody the nuclear football you know that's um that's not necessarily what a lot of us would recognize is democracy that's kind of like crazy um right um it's it allows everybody to act and do whatever where they want without necessarily having structural accountability to others and um the fact that that feels like the best option or the closest thing is just another reminder of how poorly equipped these tools are um so for instance what if there were functionality built in where you could say okay you know if a if an admin starts really like going off the rails the the participants maybe the people with enough reputation in the community you know who've who've been upvoted a certain number of times like can vote that person out of that role and vote somebody new in um or you know there a l wide range of structures one could incorporate there could be a petition system there could be a jury system there could be you know votes that are kind of ongoing uh ra uh rather than just at one time um when you look at for instance the the world of crypto despite you know and you see through all the scams and nonsense you know there's actually been a ton of creativity and okay how do we get decision-making structures that actually reflect what we're trying to do and and they're continually iterating on this um in in that context and and increasingly also using the kind of biomimicry um but it requires designing these these systems differently um in the context where we have um had kind of exceptions that prove the rule like the Debian project um uh or the transition of Debian is a kind of operating system based on Linux um it's run as like a direct as a constitutional democracy that took a lot of work to build in if you download Wikipedia or sorry mediawiki the software underlying Wikipedia it's all the same software but you you start to realize it doesn't have any of the the cool governance structures that make Wikipedia great built in you know those are things that had to be added on top built on kind of at the cultural layer um and what would it look like to have um to have tools that that were more set up to enable people to have appropriate and diverse kinds of of governance structures built into their into their tools right now if you want you know to practice democracy if you want to do things that are kind of recognizably De Democratic online you have to really bend over backwards you have to really really work against the biases of the system in order to get what you want uh what I hope for is a world where you know as the the um poet uh Peter Lauren um Peter Moren put it you know a world where it's easier to be good where you know the default settings are a little closer to the values that we claim to hold about you know how Civic life should proceed great thank you all right some questions from love evolve what are the patterns of governable spaces and please contrast physical governable spaces with digital SL virtual governable spaces yeah that's a good question in terms of patterns um one tool that my lab has built is called Community rule it's a very prototype uh platform Community rule. info that uh enables people to like author simple bylaws and we have some templates built in um we turned them into a book as well um the templates are really um you know they're things like um an elected board a jury petitions um consensus docracy all these things are practices that exist offline as well as online in some contexts um and in some respects I think of the challenge as like catching online spaces back up to what we've been doing offline um you know I at the beginning of the book I compare a mailing list I was running to my mother's Garden Club and the Garden Club had much better governance stoling than the mailing list um but um but at the same time I think when you look at what people are doing in online cont context um where self-governance has really been taking off you see possibilities of things Way Beyond what we um we do in offline spaces or at least just very different so for instance in those crypto contexts I was talking about you know often you're dealing with Anonymous users you're dealing with um uh uh you you can't rely on a court system to you know address wrongdoing you have to design structures in a way that is kind of foreign to say running a Bowling Club right because the Bowling Club is able to build on a lot of infrastructure of like the nation state and law and courts and police and all these things that can be used to prevent wrongdoing um and in the context of network native organizations that aren't dependent on a on a nation state and all these things um uh you need to design governance around that you need to make sure that that you know uh uh people can there are consequences for negative action you know for harmful actions um and so it invites a different kind of design a lot of the crypto um uh uh uh governance designs have involved some blend between like Financial stake and personhood um uh and uh attempts to um build in this combination of like cryptography to secure a network and um and economic incentives um you know we would probably uh uh react really you know Vis early to the idea of economic incentives in like voting for a president um but in the context of a of an online Network it might make more sense because we don't have like the infrastructure of citizenship and we don't have all these these other things and maybe we don't want those things right because you know those things are protected by violent borders right and we want to create online networks that are more inclusive than than our nation states maybe um so so you know to me that is just thrilling and and part of what motivated um you know the at the heart of what motivated me to write this book as with like my last few books um you know earlier one on the Cooperative movement and then the one before that on on Occupy Wall Street and the the movements of 2011 was just like the thrill at seeing people reinvent democracy in real time um that to me is I just love seeing that happen and and I just fall in love every time I experience it um and in some of these online spaces I have seen that happen I've seen people go back to the drawing board and ask no wait what would we actually want this structure to be set up as um how would we actually want to self-govern and they make all kinds of mistakes and it's like embarrassing to watch and all these things just like like watching a social movement form is kind of cringy constantly um but still you have this feeling like this is this process is alive you know we are learning something new and um It's that kind of moment that I hope more people can can somehow experience wow very cool what about the art in the book or perhaps more broadly how do you you see visualizations and art and Aesthetics and governance yeah thanks for asking that um so I um uh turned to um a collaborator I've worked with before including on the governance archaeology project I mentioned um Daria medic who's a really brilliant artist and and um digital rights activist um and uh and you know to me the I've always been really interested in the visual quality of books in my lab does a lot of like really um you know art heavy Productions um and uh you know I think the word words and images are you know produce an important dialogue in particular I was interested in how to represent interfaces for this book um and if you look at you know the normal way of doing this is okay you do something on a web browser and you take a screenshot and I I I did that initially I I had a bunch of screenshots and I when I looked at them I thought you know it's not really clear here what is going on like um uh uh for the user in a kind of visceral way um you know what's going on phenomenologically like what what what does this interface feel like it doesn't translate in a screenshot when we're moving our way through online space and we're we're manipulating a you know a mouse and a keyboard or or or or we're using our fingers or we're we're manipulating the space we see it really differently than just like looking at a screen or looking at a page um and in order to show the the aliveness of these spaces I thought okay we for this book I really want to not just rely on those screenshots but I want to uh create um illustrations that um surface and and um bring forward the the significant parts of the interfaces I'm trying to highlight um and that and that reveal something about what using them might be like and and um you know Daria is someone who I you know I just really appreciate her uh recognition of that Vision she also has we did this work in um in the you know during weekends on the at the media archaeology lab which is a lab here on campus that's a basement full of old computers that work and um and so we were kind of surrounded by these retro interfaces and um and you know built the illustrations um in that in that way um you know also it was important to rec you know when you look at a book that's like 10 years old about the internet and you look through the screenshots that are that are depicted in it and they all look like old and you know kind of it makes the book age more of interfaces drawing on kind of 80s Aesthetics and things like that that's great um like to kind of represent that and the darker and the lighter the the the the negative and the positive like Visions for the interface like in figure three it's the admin options and there's the create rules there's so many options to create rules there's no um opportunity to ask what people feel like and then you can just jump down the Wormhole with getting started before even creating a rule that's kind of like nudge and then like contrasting with figure eight where it's like these overlapping overlays Community fridge library for all transformative Justice Center and then at in the intersection of these multiple layers and function there's more like a neighborhood but one of those might extend beyond the neighborhood but then it's not as rich as like when it's overlapping yeah no it it's um you know and she she also Incorporated these these um kind of natural textures there are like fractal images there there are roots and and um you know the the goal was to um recognize the way in which we are always approaching interfaces through metaphors um we are I mean going back to like the names of interface designs like window and I mean the Mouse um pointer everything is a metaphor to something else you know in crypto wallet um and and coin token all every piece of language that we use to describe our online lives are full of metaphors to earlier regimes of of manipulation and design and and and power and um so we tried to capture you know not only the literal buttons and so forth on the interface but also like what is the what is the um metaphor going through here um you know I thought about a lot like the early online services like geoc cities or um or uh there was uh eworld uh from Apple which like imagine the internet is like a city where you're going from building to building geoc cities was like you're you're in different cities different districts um and I think those early those early experiments with language around the internet were really important in terms of like helping people imagine what was going on here and um I wanted to make sure that those metaphors were very present because that's exactly kind of the thrust of the book that these experiences of interfaces we have are not just are not just some kind of mundane thing technical thing we have to work with they actually are shaping our our political imaginations in really fundamental ways that's awesome like a ballot or a request for information is more than the paper it's printed on it's different than it has causal efficacy in the real system that people are in so now to a quote from page 129 near the end and then there's also like 50 pages of citations and index so that was very cool this section on 129 I think book ends shortly where as there's many powerful pieces in this last section but on 129 says implicit feudalism has been a kind of meta governance and like so much meta governance it too often hides beneath notice but changing how we govern requires being attentive to the Met governance at work shaping the background conditions of governance is itself a form of governance so what about that quote how is it related to attention and perception and action and all of that well when I W when we started this organization The Meta metag governance project which had already been named when I got involved um I didn't I hadn't come across that term it just kind of s cool because for some reason these days attaching meta to anything sounds cool you know to some people and um uh and uh then I realized really through collaborators in that Community um um that oh this is actually a term that like political scientists have developed and um and and and that just helped me understand all the more what we were up to um what this this concept of meta governance came from was the recogition that okay if you look at the global order you know of like governments and Nos and all these things um there are there are the structures in place like the government of Egypt but then there's also the meta structures that say okay here are the constraints in which the government of Egypt is going to exist um uh this is these are the the structures within which NGS operate um like for instance the government of Egypt is essentially a military dictatorship but you know there there are a bunch of reasons why it kind of makes sense to make it at least look like it's a constitutional democracy with a president right you know and that's the nomenclature that get that gets used because it's it creates a kind of compatibility with the global community and creates this this kind of perception and this this set of this kind of plausible deniability um and that there is a kind of meta order underlying what is possible I mean even the idea of West Fan Nation States the idea of like governments with a monopoly over land within certain specified borders is a form of meta governance at the end of the book I point to this wonderful website native um hyphen land. CA that that um Maps indigenous territories and they're overlapping you know I live on the land of the um principally arapo cheyen and ute people they torically have shared this land um used it in different ways and used it in a migratory fashion and um you know they they were not they didn't claim a kind of Monopoly over it um and so there are other ways of ordering our our government systems and um and and and and what starts as kind of like a quibble about user interface design at the beginning of the book ends with this whole question about like hey you know could have a very different way of understanding how we self how we govern ourselves um when because actually in order to get to this interface design question we have to start thinking about the meta governance have to start thinking about what is the underlying set of rules that um constrain and Define the possible set of rules um and once we start messing with that meta governance o a lot of things start start opening up a lot of um pretty radical possibilities and and I do hold out a kind of you know I I I'm a media studies Professor so I have to be cynical and about most things but you know I do kind of hold out a kind of um hope in like some of the early dreams of the internet which is to create a world where people can connect across borders where um where Geographic accidents of birth and so forth are less important and people can find people and their communities regardless of you know where they come from and and and and what they look like and and all these sorts of things and um you know I think now the question is is more like how can we rather than say regardless how can we live in where we are be hold our identities our multiple forms of identity um and also connect with each other through you know as like true peers in across our the network that we have and um you know I in order to really make good on that promise you know I think we we need to revise the kind of metag governance of online life and and imagine what it means to be a kind of true citizen um truly empowered with you know the right to covern um in these online spaces um rather than simply deferring to what I think are in many respects like deeply dangerous and failed you know state-based institutions or corporations to you know to run these things for us awesome thank you all right in our last minute some more questions love evolve writes pair of questions thoughts on the metaphor of community garden and more so gardening verb analogy to Shared governing digital spaces question and thoughts on citizen assemblies and their rise in localities along with online tools and platforms to support these yeah thank you you um uh yeah the the garden metaphor is is really present I hope throughout um you know the book starts out with with a kind of with a picnic in a park that I imagined as Prospect Park in New York City um and talks about my mother's Garden Club um I think the that you know I don't think I I I have done the the my best thinking around like that that um you know deepening that set of relationships between human political governance and broader ecologies there's so much more to be done and there's so much more that others have done I just wanted to make sure to have the nods in there you know to have that th those Place uh you know to to those kind of bookmarks to say okay you know let's not forget we're part of a broader ecology let's not forget that humans are not you know the only things managing resources on this Earth um and um and so so I hope that those nods um uh uh just at least um uh uh convey some recognition that you know for the limitations of so much else that's in this B book and my thinking um let's see the the other question was oh was around citizens assemblies um I think this is a really important opening um I hope everybody you know learns about it um and follows what's going on in many part parts of the world in in um Africa and South America and Europe um in particular and um Canada has been experimenting with these um we're starting to get some exploration in the US the idea here is is to um uh to to develop structures alongside or instead of um representative elections to instead have randomly selected citizens uh making decisions um uh or at least developing proposals um so you know for instance this could look like um a government saying okay we're kind of stuck on this issue of how to address climate change this is the you know what the government of France has done and so we're going to have an assembly to come together and develop a new set of solutions that we could potentially adopt um there's some controversy in this in this scene of people doing this stuff around should we make these Buy ing um I'm personally in favor of that I think we need to um have you know essentially new channels for you know shaping our societies and this is a really powerful way we could do that to to really work against the bias of who ends up being a politician which is like somebody who thinks they should be a politician right um a lot of the people who I trust most in my life are the people who don't want a lot of power you know um who aren't motivated by seeking and retaining power um and so I would love to see those people have actually more power in our world um and this kind of assembly uh process is a way of achieving that um I I think that these experiments have been extremely promising there are some pretty cool ways in which people are now incorporating Ai and other Technologies like with platforms like polus um and and others there's an experiment going on in MIT right now around this um around integrating AI with citizen assembly model um I've been advocating for that with my own city government um trying to identify ways in which we could um we could use assemblies and other processes like this to to solve some of our kind of most polarized um challenges but to me this is just one example of of what we could explore if we allowed oursel to recognize that democracy is not just a set of fixed institutions that we have to defend against like authoritarians but actually the democracy is an ongoing process that we constantly have to be Reinventing that was something Alexis daville recognized that that WB Deo recognized that that you know um I think just runs you know it's it's it's a it's a deep part of this democratic tradition and something that is really being forgotten today um you know I just plea that you know the best defense is offense the best the only way to to help democracy um Thrive as a as a practice and vision is is to keep Reinventing it um and to enable it to evolve thank you that really resonates with a lot of the discussion in autop poesis and self reconstitution and regeneration within biological systems and that is kind of the naturalizing and the biopolitics of cyberphysical systems which is a novel Niche to be in so in the last minutes what is metov SL your lab and your research going to be working towards how can people like learn more and do more and differently yeah so um medov is a community that um is open and and uh on a good day welcoming um that um I really invite folks who are interested in this conversation to to join you can find more information at metag of.org um it a lot of the community lives in a slack um so unfortunately participation generally involves joining that but we've got a bunch of different research projects going on as well as kind of community Explorations um I recently finished drafting a paper with some folks in that community on attention economies and governance design um exploring how to how to make those fit together um there's work on public AI um you know rethinking the political economy of AI there's work on um rethinking uh you know the governance of philanthropy and Grant making um so there a bunch of lines of work that are going on there um and my lab is the media economies Design Lab at CU Boulder um I primarily work with um graduate students here so if you're interested in doing uh you know especially Masters or PhD work uh on um uh around issues like Democratic economies or online governance um I'd love to love to talk with you all right thank you very much for the work and for doing all this cool projects and more so till next time thank you Nathan absolutely such a pleasure to be on here thank you peace bye e</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

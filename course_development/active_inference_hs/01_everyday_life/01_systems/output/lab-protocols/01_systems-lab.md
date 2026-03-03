@@ -1,0 +1,85 @@
+# Lab: Boundary Mapping -- What Makes a System?
+
+## Objective
+
+Identify and map the boundaries of systems you encounter every day, using the concept of the **Markov blanket** to distinguish what is "inside" a system from what is "outside."
+
+## Prerequisites
+
+- Read the module on Systems and Boundaries
+- Bring a notebook or use a drawing app on your device
+
+## Part 1: Your Phone as a System
+
+**Goal**: Map the boundary of your smartphone as a system.
+
+Think of your phone as a system with an inside and an outside. The Markov blanket is the boundary that separates the phone's internal states from the external world.
+
+1. **Internal states**: List five things that are "inside" the phone system (e.g., battery charge, stored photos, app data).
+2. **Sensory inputs**: List three ways the phone receives information from the outside (e.g., touchscreen, microphone, camera).
+3. **Active outputs**: List three ways the phone acts on the outside world (e.g., speaker, screen display, vibration).
+4. **Blanket states**: The sensory inputs and active outputs together form the Markov blanket. Draw a circle with the internal states inside, the external world outside, and the blanket states on the circle's edge.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 2: Your School as a System
+
+**Goal**: Apply the same boundary-mapping to a larger system -- your school.
+
+1. What counts as "internal" to the school system? (Think: students during school hours, teachers, curriculum, building temperature.)
+2. What are the school's sensory inputs? (Think: attendance records, test scores, parent emails, fire alarms.)
+3. What are the school's active outputs? (Think: report cards, announcements, events, graduates.)
+4. Draw or describe the Markov blanket of the school.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 3: You as a System
+
+**Goal**: Apply boundary-mapping to yourself.
+
+1. What is inside your personal system? (Organs, thoughts, memories, feelings.)
+2. What are your sensory states? (Eyes, ears, skin, nose, tongue -- plus hunger signals, pain.)
+3. What are your active states? (Speaking, moving, facial expressions, typing.)
+4. How does your Markov blanket change when you put on headphones? When you are asleep?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 4: Comparing Systems
+
+Fill in the comparison table:
+
+| Feature | Phone | School | You |
+|---------|-------|--------|-----|
+| Number of sensory channels | | | |
+| Can it maintain itself without outside help? | | | |
+| Does it have preferred states (homeostasis)? | | | |
+| What happens if the boundary breaks? | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Discussion Questions
+
+1. What is the key difference between a system that is "alive" and one that is not, from an Active Inference perspective?
+2. Can a system exist without a boundary? Why or why not?
+3. Give an example of a system whose boundary is hard to define. What makes it tricky?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Summary
+
+| Concept | Definition | Your Example |
+|---------|-----------|--------------|
+| System | A collection of states separated from the environment by a boundary | |
+| Markov Blanket | The set of sensory and active states forming the boundary | |
+| Internal States | States hidden from the outside world | |
+| Homeostasis | The system's tendency to maintain preferred states | |

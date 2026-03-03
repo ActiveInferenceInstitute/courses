@@ -1,0 +1,75 @@
+# Module 06: Learning — The Little Robot's Mistake
+
+## Learning Objectives
+
+1. Understand what **Learning** is (updating your brain's map).
+2. Learn that mistakes and **Surprise** help us learn.
+3. See how practicing makes us better predictors.
+
+## Introduction: The Little Robot's Mistake
+
+Beep-Boop the Robot loved to play fetch. He had a map in his computer brain.
+**Map Rule #1**: "Balls are light. I can throw them far!"
+
+One day, Beep-Boop saw a bowling ball. It looked like a ball.
+"I predict this will be light!" said Beep-Boop.
+He took **Action**. He tried to throw it. *CLUNK!*
+
+It was HEAVY! Beep-Boop fell over. *Crash!*
+He was **Surprised**. His prediction was wrong!
+
+"Oh no!" beeped the robot. "My map was wrong."
+He took out a pencil and fixed his map.
+**New Map Rule**: "Some balls are heavy. Check first!"
+
+Beep-Boop **Learned** something new because he made a mistake.
+
+## Key Concepts
+
+### 1. What is Learning?
+
+**Learning** is fixing the map in your head.
+
+* When you are a baby, you don't know that stoves are hot.
+* If you touch one... *Ouch!* You are surprised.
+* You learn: "Stoves are hot!" You update your map.
+
+### 2. Surprise is Good
+
+In school, sometimes it feels bad to be wrong. But for your brain, being wrong is the *only* way to learn!
+
+* If you guess everything right, your map is already perfect.
+* If you are **Surprised**, it means you have something new to learn.
+* **Surprise** is the teacher!
+
+### 3. Practice Makes Perfect
+
+Why do we practice sports or reading?
+To make our brain's predictions better!
+
+* First try: "I predict I will hit the ball." (Miss! Surprise!) -> Fix Map.
+* Second try: "I predict I will hit the ball." (Hit!) -> Good Map.
+
+## Activities
+
+### Activity 1: The Heavy Box Trick
+
+Get two identical boxes. Put a brick in one and a feather in the other.
+Ask a friend to lift them. Watch their face when they lift the heavy one!
+That look is **Surprise**. They just learned!
+
+### Activity 2: Drawing from Memory
+
+Look at a toy for 10 seconds.
+Hide the toy. Draw it.
+Look at the toy again. Did you miss anything?
+Fix your drawing. That is **Learning**!
+
+## Summary
+
+**Learning** happens when our predictions are wrong. When we are **Surprised**, we fix the maps in our heads so we can guess better next time. Mistakes are just invitations to learn!
+
+## References
+
+* *Beautiful Oops!* by Barney Saltzberg (A book about how mistakes can be beautiful.)
+* *The Girl Who Never Made Mistakes* by Mark Pett and Gary Rubinstein

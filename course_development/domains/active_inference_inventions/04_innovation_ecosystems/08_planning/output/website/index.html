@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08_Planning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>08_Planning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>08_Planning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Long-Term Innovation Strategy — Planning in the Innovation Ecosystem</h1>
+<h2>Executive Summary</h2>
+<p>Long-term innovation strategy is the art of planning under deep uncertainty across extended time horizons. While tactical decisions operate within a known model, strategic planning must contend with model uncertainty — the possibility that the generative model itself will need restructuring as the future unfolds. This module applies Active Inference planning theory to technology roadmapping, portfolio management, exploration-exploitation balance at organizational scale, and innovation pipeline management. Drawing on cases from Alphabet's moonshot philosophy, 3M's innovation culture, and the pharmaceutical industry's pipeline model, students learn to design planning systems that are simultaneously ambitious and adaptive — committed enough to pursue transformative goals but flexible enough to update as evidence accumulates.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Design technology roadmaps as hierarchical planning models that specify expected trajectories, decision points, and conditions for plan revision.</li>
+<li>Apply portfolio management theory to balance innovation investments across risk levels, time horizons, and strategic domains.</li>
+<li>Manage the exploration-exploitation trade-off at organizational scale using Active Inference's expected free energy framework.</li>
+<li>Design innovation pipelines that process ideas from conception through development to launch with appropriate stage gates and decision criteria.</li>
+<li>Integrate long-term innovation planning with the adaptive capacity to revise plans based on accumulated evidence.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. Technology Roadmapping as Hierarchical Planning</h3>
+<p>A technology roadmap is a hierarchical planning model that links long-term vision to near-term action through a series of intermediate objectives. In Active Inference terms, a roadmap is a deep temporal model — a generative model that makes predictions about the future at multiple time horizons, from the next quarter to the next decade.</p>
+<p>The hierarchical structure is critical. At the highest level, the roadmap specifies a strategic vision — a prediction about how the world will look and how the invention fits within it. At the middle level, it specifies milestones — intermediate states that must be achieved on the path to the vision. At the lowest level, it specifies actions — specific projects, investments, and decisions that advance toward the next milestone.</p>
+<p>This hierarchical structure maps directly onto Active Inference's deep temporal models. Higher levels of the hierarchy generate predictions at longer time scales with greater uncertainty. Lower levels generate predictions at shorter time scales with greater precision. The key planning skill is maintaining coherence across levels: ensuring that near-term actions are consistent with long-term vision while remaining responsive to evidence that may require plan revision.</p>
+<p>Intel's roadmapping practice provides a canonical example. Intel's technology roadmaps specified a sequence of semiconductor process generations (45nm, 32nm, 22nm, 14nm, etc.), each with a target date, performance improvement, and manufacturing approach. The roadmap linked long-term strategic direction (continued Moore's Law scaling) to near-term R&amp;D investments (specific process improvements). When evidence indicated that a particular approach was not achieving targets, Intel could revise the roadmap while maintaining the overall strategic direction.</p>
+<p>Elon Musk's "Master Plans" for Tesla and SpaceX are roadmaps that illustrate the tension between ambition and adaptability. The plans specify long-term visions (sustainable transport for Tesla, Mars colonization for SpaceX) and intermediate milestones (Roadster, Model S, Model 3 for Tesla; Falcon 1, Falcon 9, Starship for SpaceX). The milestones are sequenced so that each generates the evidence and resources needed for the next — a planning structure that is simultaneously highly directed and evidence-responsive.</p>
+<p>The Active Inference approach to roadmapping adds explicit uncertainty management. For each milestone, the roadmap should specify not just the target but the uncertainty around it: what evidence would indicate the milestone is achievable, what evidence would indicate it is not, and what alternative paths would be pursued if the milestone proves infeasible. This transforms the roadmap from a rigid plan into an adaptive decision tree.</p>
+<h3>2. Portfolio Management for Innovation Investment</h3>
+<p>No single innovation bet can be relied upon. Portfolio management distributes innovation investment across multiple bets with different risk profiles, time horizons, and strategic purposes. In Active Inference terms, portfolio management is Bayesian model averaging applied to resource allocation: rather than committing all resources to a single model of the future, the organization distributes resources across multiple models, weighted by their plausibility and potential impact.</p>
+<p>The classic innovation portfolio framework divides investments into three horizons: Horizon 1 (core business optimization — incremental improvements to existing products), Horizon 2 (emerging business development — new products for adjacent markets), and Horizon 3 (transformative innovation — new technologies for new markets). Active Inference provides the rationale: Horizon 1 investments exploit the current generative model (low risk, reliable returns, limited upside). Horizon 2 investments test extensions of the current model (moderate risk, moderate returns). Horizon 3 investments explore fundamentally new models (high risk, uncertain returns, potentially transformative).</p>
+<p>3M's innovation portfolio exemplifies this approach. The company allocates R&amp;D spending across all three horizons, with specific targets: 30% of revenue should come from products introduced in the last four years. This target creates organizational pressure to maintain Horizon 2 and 3 investments even when Horizon 1 products are performing well. The famous Post-it Note emerged from Horizon 3 research — Spencer Silver's "failed" adhesive was a prediction error in the strong-adhesive model that proved to be the basis for a new model (temporary adhesive) with massive commercial value.</p>
+<p>Alphabet (Google's parent company) manages its innovation portfolio through a structural separation. Google (the core business) handles Horizon 1 and 2 investments. "Other Bets" (Waymo, Verily, Calico, X Development) pursue Horizon 3 innovations. This separation protects transformative research from the cost-cutting pressure that Horizon 1 management would apply — the different horizons require different models of success and different evaluation criteria.</p>
+<p>The pharmaceutical industry's pipeline model is the most formalized portfolio approach. Drug companies maintain portfolios of molecules at different development stages (discovery, preclinical, Phase I, Phase II, Phase III). The probability of success increases at each stage (from ~5% at discovery to ~60% at Phase III), and investment increases proportionally. This portfolio structure ensures that the inevitable failures at early stages do not prevent the company from having mature candidates ready for market.</p>
+<h3>3. Exploration-Exploitation at Organizational Scale</h3>
+<p>The exploration-exploitation trade-off — balancing the search for new knowledge (exploration) with the optimization of existing knowledge (exploitation) — is the fundamental tension of long-term innovation strategy. Active Inference provides a principled framework for this trade-off through the concept of expected free energy, which naturally balances epistemic value (the learning potential of an action) against pragmatic value (the goal-achievement potential of an action).</p>
+<p>At the organizational level, exploitation means investing in proven products, optimizing existing processes, and serving known markets. Exploration means investing in unproven technologies, entering new markets, and experimenting with novel business models. The optimal balance depends on the stability of the environment: in stable environments, exploitation dominates because the existing model is accurate and exploration is wasteful. In rapidly changing environments, exploration dominates because the existing model may become obsolete and exploitation of an outdated model is dangerous.</p>
+<p>James March's foundational research on organizational exploration and exploitation established that organizations tend toward exploitation because it produces short-term returns and reinforces itself. Exploration is risky, expensive, and may not produce returns for years. This asymmetry means that organizations must deliberately create structures and incentives that protect exploration from the gravitational pull of exploitation.</p>
+<p>Amazon's approach to this balance is instructive. Jeff Bezos explicitly allocates organizational attention between exploitation ("Day 1" optimization of existing businesses) and exploration ("We will be making bold bets, and some will pay off handsomely, others will not"). Amazon Web Services began as an internal infrastructure project (exploitation) that was recognized as a potential external product (exploration). The exploration was protected by Bezos's personal commitment and by the organizational separation of AWS from the core retail business.</p>
+<p>Startups face a different version of this trade-off. In their early stages, startups are primarily exploring — searching for a viable generative model through rapid experimentation. As they achieve product-market fit, they must transition to exploitation — scaling the validated model. The challenge is that the skills, culture, and organizational structures that support exploration (tolerance for failure, rapid iteration, flat hierarchy) differ from those that support exploitation (process discipline, quality control, hierarchical accountability). Managing this transition is one of the most difficult challenges in organizational development.</p>
+<h3>4. Innovation Pipeline Management</h3>
+<p>An innovation pipeline is a structured process for moving ideas from conception through development to launch, with decision gates at each stage. In Active Inference terms, the pipeline is a sequential planning model that filters ideas based on accumulating evidence of viability.</p>
+<p>Robert Cooper's Stage-Gate model formalizes this process: ideas pass through a series of stages (discovery, scoping, business case development, development, testing, launch), with a decision gate at each transition. At each gate, the idea's evidence is evaluated against criteria: Is the market real? Can we win? Is it worth doing? Can we execute? Ideas that fail to meet gate criteria are killed, reallocating resources to more promising candidates.</p>
+<p>The Active Inference perspective adds a critical nuance to gate decisions: the precision of evidence should match the stage. Early-stage gates should require low-precision evidence (interesting concept, plausible market) because early-stage ideas have not yet had the opportunity to generate high-precision evidence. Late-stage gates should require high-precision evidence (validated market demand, proven technology, confirmed economics) because the investment required to proceed is much larger.</p>
+<p>A common pipeline management failure is requiring high-precision evidence at early stages — killing ideas before they have had a chance to generate evidence. This is equivalent to demanding certainty before exploration, which eliminates the exploratory function of the pipeline entirely. The best innovation pipelines are explicitly designed to be permissive at early stages and increasingly demanding at later stages.</p>
+<p>Procter &amp; Gamble's "Connect and Develop" model extends the pipeline concept beyond organizational boundaries. Rather than relying solely on internal R&amp;D for pipeline input, P&amp;G actively seeks external innovations that can be brought into the pipeline at various stages. This approach increases the diversity of models entering the pipeline, improving the probability that at least some will prove viable — a portfolio effect applied to the pipeline's intake process.</p>
+<h3>5. Adaptive Strategy and Plan Revision</h3>
+<p>The most important feature of long-term innovation strategy is not the plan itself but the organization's capacity to revise the plan in response to evidence. No plan survives contact with reality intact. The strategic advantage lies in having a planning system that updates faster and more accurately than competitors' planning systems.</p>
+<p>Adaptive strategy requires three capabilities: sensing (detecting evidence that the plan needs revision), deciding (determining whether the evidence warrants parameter updating or plan restructuring), and acting (implementing plan changes efficiently). These correspond directly to the perception, cognition, and action modules of this section.</p>
+<p>The concept of "strategic agility" — the ability to make strategic shifts without losing momentum — captures this adaptive capacity. Nokia's failure to adapt to the smartphone era demonstrates the cost of strategic rigidity. Nokia detected the smartphone trend (sensing worked), debated the response internally (deciding was slow and contentious), and ultimately acted too late and too incrementally (action failed). The company's planning system could not update its model of the mobile phone market fast enough to respond to the iPhone's disruption.</p>
+<p>Contrast this with Microsoft's strategic adaptation under Satya Nadella. When Nadella became CEO in 2014, Microsoft's generative model was organized around Windows as the center of its strategy. Nadella recognized that this model was generating increasing prediction errors: cloud computing, mobile devices, and open source were growing faster than Windows-dependent categories. The strategic revision — pivoting to "cloud-first, mobile-first" and embracing Linux and open source — required restructuring the generative model, not just updating its parameters. The speed and decisiveness of this revision (compared to Nokia's slow decline) demonstrates the value of adaptive planning.</p>
+<p>The military concept of "commander's intent" provides a useful framework for adaptive strategy. Rather than specifying detailed plans that may become obsolete, the commander specifies the desired end state and the key constraints. This allows subordinates to adapt their actions to changing circumstances while maintaining alignment with the overall objective. Translated to innovation strategy: specify the strategic vision and the principles that guide decision-making, but allow the specific plans to adapt as evidence accumulates.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: Alphabet's Moonshot Planning — X Development</h3>
+<p>Alphabet's X Development (formerly Google X) is an organizational structure explicitly designed for Horizon 3 innovation planning. X's process, which it calls the "Moonshot Factory," embodies Active Inference planning principles.</p>
+<p>The process begins with defining a "moonshot" — a solution to a huge problem using a radical approach enabled by a breakthrough technology. This framing is a high-level generative model with maximum ambition and maximum uncertainty. X's first step is not to build the solution but to identify the hardest part of the problem — what they call "the monkey." The metaphor is: if you are trying to teach a monkey to juggle flaming torches on a pedestal, do not start by building the pedestal. Start by determining whether you can teach a monkey to juggle. If that proves impossible, no amount of pedestal-building will help.</p>
+<p>This "monkey-first" approach is an Active Inference planning strategy: identify the highest-uncertainty component of the plan and seek evidence about it before investing in lower-uncertainty components. Each moonshot project goes through an "evaluation" phase where the team deliberately tries to kill the project by identifying the most likely failure modes and testing them. Projects that survive evaluation move to a "foundry" phase where they develop toward commercial viability.</p>
+<p>The key insight is that X explicitly rewards killing projects early. Astro Teller, X's head, has described the goal as "making it safe to fail." In Active Inference terms, this means creating an organizational environment where processing prediction errors (discovering that a model is wrong) is valued as highly as confirming predictions (discovering that a model is right). This prevents the sunk-cost bias that causes organizations to continue investing in failing models.</p>
+<h3>Case Study 2: The Pharmaceutical Pipeline — Planning Under Regulatory Uncertainty</h3>
+<p>The pharmaceutical industry's innovation pipeline is the most capital-intensive and longest-duration planning challenge in commercial innovation. Developing a new drug typically requires 10-15 years and $1-2 billion, with a success rate of approximately 5% from initial discovery to market approval.</p>
+<p>This extreme planning challenge is managed through a combination of portfolio diversification, stage-gated investment, and continuous evidence processing. At any given time, a major pharmaceutical company maintains a portfolio of 50-100 molecules at various stages of development. Each molecule represents a generative model (this compound will treat this disease through this mechanism). Clinical trials generate the evidence needed to update these models — Phase I tests safety, Phase II tests efficacy, Phase III tests generalizability.</p>
+<p>The planning challenge is compounded by regulatory uncertainty. The FDA's standards evolve over time, and the requirements for approval of a specific drug may not be fully known until late in the development process. Pharmaceutical planners must maintain adaptive strategies that account for multiple possible regulatory outcomes.</p>
+<p>The COVID-19 vaccine development demonstrated what happens when the planning parameters change radically. Under normal planning assumptions, vaccines require 5-10 years of development. The pandemic's urgency led to compressed timelines, parallel processing of normally sequential stages, and modified regulatory requirements (Emergency Use Authorization). Moderna's and BioNTech's success was enabled not just by mRNA technology but by adaptive planning systems that could respond to radically changed conditions — compressing the pipeline without eliminating essential evidence-generating steps.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 01 (Systems)</strong>: The ecosystem whose dynamics long-term plans must navigate</li>
+<li><strong>Module 03 (Perception)</strong>: Sensing that detects when plans need revision</li>
+<li><strong>Module 04 (Cognition)</strong>: Strategic thinking that designs and evaluates plans</li>
+<li><strong>Module 05 (Action)</strong>: Launch actions that implement plans</li>
+<li><strong>Module 06 (Learning)</strong>: Organizational learning that informs plan updates</li>
+<li><strong>Module 07 (Communication)</strong>: Communicating plans to stakeholders</li>
+<li><strong>Section 1, Module 08 (Planning)</strong>: Foundation-level planning concepts applied at strategic scale</li>
+</ul>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Planning Concept</th>
+<th>Active Inference Mapping</th>
+<th>Key Challenge</th>
+<th>Design Principle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Technology Roadmap</td>
+<td>Deep temporal generative model</td>
+<td>Maintaining coherence across time horizons</td>
+<td>Specify milestones with explicit uncertainty and revision conditions</td>
+</tr>
+<tr>
+<td>Innovation Portfolio</td>
+<td>Bayesian model averaging over resource allocation</td>
+<td>Balancing risk and return across horizons</td>
+<td>Protect Horizon 3 from Horizon 1 cost pressure</td>
+</tr>
+<tr>
+<td>Explore vs. Exploit</td>
+<td>Expected free energy balancing epistemic and pragmatic value</td>
+<td>Organizational gravity pulls toward exploitation</td>
+<td>Create structures that protect exploration</td>
+</tr>
+<tr>
+<td>Innovation Pipeline</td>
+<td>Sequential planning with evidence-based gates</td>
+<td>Requiring appropriate precision at each stage</td>
+<td>Permissive early gates, demanding late gates</td>
+</tr>
+<tr>
+<td>Adaptive Strategy</td>
+<td>Plan revision based on accumulating evidence</td>
+<td>Distinguishing plan updates from plan restructuring</td>
+<td>Build revision capacity into the planning system</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>McGrath, R. G. (2013). <em>The End of Competitive Advantage: How to Keep Your Strategy Moving as Fast as Your Business</em>. Harvard Business Review Press.</li>
+<li>March, J. G. (1991). Exploration and exploitation in organizational learning. <em>Organization Science</em>, 2(1), 71-87.</li>
+<li>Cooper, R. G. (2017). <em>Winning at New Products: Creating Value Through Innovation</em> (5th ed.). Basic Books.</li>
+<li>Schwartz, P. (1991). <em>The Art of the Long View</em>. Currency Doubleday.</li>
+<li>Friston, K. J., Rosch, R., &amp; Pin, T. (2017). Active inference and epistemic value. <em>Cognitive Neuroscience</em>, 8(4), 203-214.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Long-Term Innovation Strategy Design</h1>
+<h2>Objective</h2>
+<p>Design a long-term innovation strategy for your invention that integrates technology roadmapping, portfolio thinking, exploration-exploitation management, and adaptive planning. You will create a multi-horizon planning document that is simultaneously ambitious and responsive to evidence.</p>
+<h2>Materials and Prerequisites</h2>
+<ul>
+<li>Your invention concept and all analyses from Modules 01-07</li>
+<li>Understanding of Active Inference planning from Section 1</li>
+</ul>
+<h2>Part 1: Technology Roadmap Construction (15 minutes)</h2>
+<p><strong>Step 1</strong>: State your invention's long-term vision (5-10 year horizon). What does the world look like if your invention succeeds at scale?</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 2</strong>: Work backward from the vision to define three milestones (roughly at 1-year, 3-year, and 5-year horizons).</p>
+<table>
+<thead>
+<tr>
+<th>Milestone</th>
+<th>Target Date</th>
+<th>Description</th>
+<th>Key Achievement</th>
+<th>Uncertainty Level (1-10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M1 (Near-term)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>M2 (Mid-term)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>M3 (Long-term)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3</strong>: For each milestone, specify decision criteria and revision conditions.</p>
+<table>
+<thead>
+<tr>
+<th>Milestone</th>
+<th>Evidence of On-Track</th>
+<th>Evidence of Off-Track</th>
+<th>Revision Plan If Off-Track</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M1</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>M2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>M3</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4</strong>: Identify the "monkey" — the hardest, most uncertain element of your roadmap. What is the one thing that, if it proves impossible, makes the rest of the roadmap irrelevant?</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 5</strong>: How would you test the "monkey" before investing heavily in the rest of the roadmap?</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: Innovation Portfolio Design (10 minutes)</h2>
+<p>Even if you are focused on a single invention, portfolio thinking helps you allocate attention and resources across different types of activities.</p>
+<p><strong>Step 1</strong>: Classify your current and planned activities across the three innovation horizons.</p>
+<table>
+<thead>
+<tr>
+<th>Horizon</th>
+<th>Activities</th>
+<th>% of Resources</th>
+<th>Risk Level</th>
+<th>Expected Timeline to Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H1: Core optimization</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>H2: Adjacent expansion</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>H3: Transformative innovation</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2</strong>: Evaluate your portfolio balance. Are you over-invested in any horizon? Under-invested?</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 3</strong>: If you could add one activity to your portfolio, what would it be and which horizon would it serve?</p>
+<p>{fill:textarea}</p>
+<h2>Part 3: Exploration-Exploitation Balance (10 minutes)</h2>
+<p><strong>Step 1</strong>: Assess your current balance between exploration and exploitation.</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Exploration Activities</th>
+<th>Exploitation Activities</th>
+<th>Current Balance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Technology</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Market</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Business model</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Team/capabilities</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2</strong>: Is your environment (market, technology, regulation) currently stable or rapidly changing? How does this affect the optimal exploration-exploitation balance?</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 3</strong>: Design one structural mechanism to protect exploration from the gravitational pull of exploitation. How would this mechanism work in practice?</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Innovation Pipeline Design (15 minutes)</h2>
+<p>Design a pipeline that moves ideas from concept to market with appropriate evidence requirements at each stage.</p>
+<p><strong>Step 1</strong>: Define four stages for your innovation pipeline, with gate criteria that match the stage's uncertainty level.</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Purpose</th>
+<th>Duration</th>
+<th>Investment Level</th>
+<th>Gate Criteria (What evidence is required to proceed?)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stage 1: Discovery</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Stage 2: Validation</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Stage 3: Development</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Stage 4: Launch</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2</strong>: For each gate, specify a "kill criterion" — evidence that would cause you to terminate the project rather than proceed.</p>
+<table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Kill Criterion</th>
+<th>Why This Evidence Is Decisive</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gate 1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Gate 2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Gate 3</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3</strong>: How would you ensure that early-stage gates are not too demanding? What mechanisms prevent premature killing of ideas that have not yet had a chance to generate evidence?</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Adaptive Strategy Integration (10 minutes)</h2>
+<p><strong>Step 1</strong>: Define your "commander's intent" — the strategic vision and principles that remain constant even as specific plans change.</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Your Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strategic vision (end state)</td>
+<td></td>
+</tr>
+<tr>
+<td>Core principle 1</td>
+<td></td>
+</tr>
+<tr>
+<td>Core principle 2</td>
+<td></td>
+</tr>
+<tr>
+<td>Core principle 3</td>
+<td></td>
+</tr>
+<tr>
+<td>What is NOT negotiable</td>
+<td></td>
+</tr>
+<tr>
+<td>What IS flexible</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea}</p>
+<p><strong>Step 2</strong>: Design a strategic review process. How often will you formally evaluate whether your plans need revision? What triggers an emergency review?</p>
+<table>
+<thead>
+<tr>
+<th>Review Type</th>
+<th>Frequency</th>
+<th>Participants</th>
+<th>Key Questions</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Routine review</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Milestone review</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Emergency review</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3</strong>: What is the one strategic question you most need to answer in the next 90 days? How will you answer it?</p>
+<p>{fill:textarea}</p>
+<h2>Discussion and Debrief</h2>
+<ol>
+<li>
+<p>How did the "monkey-first" principle change your roadmap? Were there elements of your plan that you had been avoiding because they were the hardest?</p>
+</li>
+<li>
+<p>Was your innovation portfolio balanced, or did you find yourself over-weighted toward one horizon? What organizational or personal factors create this imbalance?</p>
+</li>
+<li>
+<p>How difficult was it to design structural protections for exploration? What pressures in your environment push you toward exploitation?</p>
+</li>
+<li>
+<p>Did the pipeline gate criteria exercise reveal any stages where you were demanding too much or too little evidence? How does the Active Inference principle of matching precision to stage clarify gate design?</p>
+</li>
+<li>
+<p>How does the concept of "commander's intent" change your approach to planning? Is it easier or harder to plan with fixed principles and flexible tactics than with fixed plans?</p>
+</li>
+</ol></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz — Long-Term Innovation Strategy</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>A technology roadmap functions in Active Inference as:</li>
+</ol>
+<p>A) A fixed schedule of product releases
+B) A hierarchical planning model with predictions at multiple time horizons and explicit conditions for plan revision
+C) A marketing document for investors
+D) A regulatory compliance requirement</p>
+<ol>
+<li>The three-horizon portfolio framework recommends separating investments because:</li>
+</ol>
+<p>A) Tax regulations require investment categorization
+B) Each horizon requires a different model of success, evaluation criteria, and management approach
+C) Only Horizon 1 investments are worth making
+D) Horizon 3 investments always fail</p>
+<ol>
+<li>Organizations naturally drift toward exploitation rather than exploration because:</li>
+</ol>
+<p>A) Exploitation is always more valuable than exploration
+B) Exploitation produces short-term returns that reinforce themselves, while exploration's returns are uncertain and delayed
+C) Regulatory environments prevent exploration
+D) Customers prefer companies that do not innovate</p>
+<ol>
+<li>In Stage-Gate innovation management, early-stage gates should:</li>
+</ol>
+<p>A) Require the same level of evidence as late-stage gates
+B) Be more permissive, requiring low-precision evidence, because early-stage ideas have not yet had opportunity to generate high-precision evidence
+C) Automatically approve all ideas to maximize pipeline volume
+D) Be more demanding to save resources by killing weak ideas early</p>
+<ol>
+<li>Alphabet X's "monkey-first" approach means:</li>
+</ol>
+<p>A) Using animals in product testing
+B) Identifying and testing the highest-uncertainty component of a plan before investing in lower-uncertainty components
+C) Prioritizing the most fun aspects of development
+D) Starting with the easiest part of the project to build momentum</p>
+<ol>
+<li>"Commander's intent" in innovation planning means:</li>
+</ol>
+<p>A) The CEO makes all tactical decisions
+B) Specifying the desired end state and key constraints while allowing flexible adaptation of specific plans
+C) Following military organizational structure
+D) Keeping the strategic plan secret from most employees</p>
+<ol>
+<li>Microsoft's pivot to "cloud-first, mobile-first" under Nadella demonstrates:</li>
+</ol>
+<p>A) That strategic planning is unnecessary
+B) Successful adaptive strategy — restructuring the generative model in response to accumulated prediction errors about the Windows-centric model
+C) That leadership changes always improve company performance
+D) That cloud computing was an obvious bet with no uncertainty</p>
+<h2>Part B: Short Answer and Analysis</h2>
+<ol>
+<li>
+<p>Elon Musk's Tesla Master Plan specified a sequence of vehicles (Roadster, Model S, Model 3) where each stage generated the resources and evidence needed for the next. Analyze this as a hierarchical Active Inference plan: (a) how does each stage reduce the uncertainty of the next, (b) what was the "monkey" that could have invalidated the entire plan, and (c) what evidence would have triggered plan revision at each stage?</p>
+</li>
+<li>
+<p>3M's innovation culture maintains a "15% rule" (employees spend 15% of time on self-directed projects) and a target that 30% of revenue comes from products introduced in the last four years. Analyze these policies as organizational mechanisms for balancing exploration and exploitation. What Active Inference function does each policy serve? What risks would the company face if it eliminated either policy?</p>
+</li>
+<li>
+<p>You are leading a cleantech startup with a 10-year vision for decarbonizing industrial heating. Design an adaptive innovation strategy that includes: (a) a three-milestone roadmap with explicit uncertainty and revision conditions, (b) a portfolio allocation across the three horizons, (c) one structural mechanism to protect exploration, and (d) a "commander's intent" statement that guides decision-making when specific plans must change. Frame your entire strategy in Active Inference terms.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

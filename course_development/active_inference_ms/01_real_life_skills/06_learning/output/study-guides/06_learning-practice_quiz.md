@@ -1,0 +1,95 @@
+# Practice Quiz: Learning — Your Brain's Upgrade System
+
+## Part A: Multiple Choice
+
+1. In active inference, learning happens when:
+A) You read your notes over and over
+B) Your brain's predictions don't match reality and it has to update its models
+C) Everything goes exactly as expected
+D) You memorize facts perfectly
+
+**Answer: B** — Learning is driven by the mismatch between prediction and reality. No mismatch, no update.
+
+2. Re-reading your notes is one of the worst study strategies because:
+A) Reading is a waste of time
+B) Your brain sees familiar material, finds no prediction errors, and doesn't update
+C) Notes are always wrong
+D) You should never study
+
+**Answer: B** — Familiarity tricks your brain into thinking it "knows" the material without actually testing the knowledge.
+
+3. Why is testing yourself a better study strategy than re-reading?
+A) Tests are more fun
+B) It forces your brain to make predictions, and getting answers wrong creates prediction errors that drive real learning
+C) Teachers give extra credit for self-testing
+D) It takes less time
+
+**Answer: B** — Self-testing creates the prediction errors your brain needs to actually update and strengthen your models.
+
+4. The **learning zone** is where:
+A) Everything is easy and comfortable
+B) Your predictions are mostly right but sometimes wrong, generating useful prediction errors
+C) Everything is so hard that nothing sticks
+D) You never make mistakes
+
+**Answer: B** — The sweet spot is where challenges are hard enough to create prediction errors but not so hard you're overwhelmed.
+
+5. The **panic zone** is a problem because:
+A) You get too many prediction errors and your brain can't keep up with updates
+B) Everything is too easy
+C) You never make mistakes there
+D) It's the same as the comfort zone
+
+**Answer: A** — When predictions are wrong too often, your brain gets overwhelmed and learning shuts down.
+
+6. "Being wrong is the engine of learning" means:
+A) You should try to be wrong on purpose
+B) Your brain only updates its models when there's a mismatch — no mistakes means no learning
+C) Being wrong is the goal
+D) Smart people are always wrong
+
+**Answer: B** — Prediction errors are what trigger model updates. Without them, your brain has nothing to improve.
+
+7. The "growth mindset" works because:
+A) It sounds nice on a poster
+B) Every time you practice, you generate prediction errors that physically rewire your brain
+C) Smart people don't need to practice
+D) Saying "I can do it" is enough
+
+**Answer: B** — Practice creates prediction errors, and those errors cause real physical changes in your brain's wiring.
+
+8. A kid who says "I'm bad at math" is likely to:
+A) Suddenly get good at math
+B) Stop putting themselves in situations that create the prediction errors needed to improve
+C) Become a math genius through avoidance
+D) Learn faster than everyone else
+
+**Answer: B** — A fixed model prevents you from seeking the challenges that would generate learning.
+
+9. The prediction error study method works by:
+A) Reading your notes five times
+B) Closing your notes, trying to recall, and then comparing — flagging gaps for your brain to update
+C) Asking a friend for the answers
+D) Studying only what you already know well
+
+**Answer: B** — The recall attempt creates predictions, and the gaps you find are prediction errors that drive stronger learning.
+
+10. If studying feels too easy, you should:
+A) Keep doing exactly what you're doing
+B) Increase the challenge to get back into the learning zone
+C) Stop studying since you clearly know everything
+D) Switch to an easier subject
+
+**Answer: B** — Too easy means too few prediction errors, so you need more challenge to keep learning happening.
+
+## Part B: Short Answer
+
+1. Explain why getting a practice test question wrong can actually be better for learning than getting it right. Use the concept of prediction errors.
+
+2. Describe a time when you were in the panic zone (something was so hard nothing was sticking). What could you have done to move back into the learning zone?
+
+3. How would you explain the prediction error study method to a friend who always studies by re-reading their notes?
+
+4. Give an example from sports, gaming, or music where being wrong or failing was essential to getting better. What prediction errors were involved?
+
+5. Think about one skill or subject where you've shifted from a "fixed" mindset ("I'm bad at this") to a growth mindset. What changed? What prediction errors helped you improve?

@@ -1,0 +1,55 @@
+# Module 4: Cognition — Building Models with Math
+
+## Learning Objectives
+
+1. Understand that equations, graphs, and formulas are **mental models** — simplified representations of how things work that let you make predictions.
+2. Learn how to build simple mathematical models and test them against **real data**.
+3. Recognize that all models are **simplifications** — useful but never perfect — and learn to evaluate how good a model is.
+
+## Introduction
+
+Here's a question: if a pizza place charges $8 for a medium pizza and $2 for each extra topping, how much does a pizza with 5 toppings cost? You probably just did the math in your head: 8 + (2 x 5) = $18.
+
+Congratulations — you just built and used a **mathematical model**. The equation `cost = 8 + 2t` (where `t` is the number of toppings) is a model of how pizza pricing works. It takes a complex real-world thing (a pizza restaurant's pricing decisions) and simplifies it into a formula that lets you predict costs.
+
+That's what mathematical cognition is all about: building simplified models that capture the essential pattern and let you predict what will happen. From simple equations to complex algorithms, the same principle applies.
+
+## Key Concepts
+
+### 1. Equations Are Prediction Machines
+
+Every equation is a model that makes predictions. `distance = speed x time` predicts how far you'll travel. `area = length x width` predicts how much carpet you need. `y = mx + b` predicts where a line will go on a graph.
+
+The power of equations is that they let you predict things you haven't observed yet. If you know a car is going 60 mph, you can predict it will travel 120 miles in 2 hours without watching it drive. You're running a mental simulation using your mathematical model.
+
+This is exactly what active inference is about: building internal models and using them to predict. Math just gives you a more precise language for doing it. Instead of "I think it'll take about this long," you can say "at 60 mph, it will take exactly 2 hours." The prediction is sharper, and the error (if any) is easier to measure.
+
+### 2. Graphs: Making Models Visible
+
+A graph is a way of making a mathematical model visible so your brain can spot patterns that might be hard to see in numbers alone.
+
+Plot your math test scores over the school year. If you see them trending upward, your model says "I'm improving." If they're flat, "I'm stable." If they're scattered all over, "something unpredictable is happening." The graph translates numbers into a visual story that your pattern-recognition brain can work with.
+
+But graphs can also mislead. A graph with a manipulated scale (starting the y-axis at 95 instead of 0) can make a tiny difference look huge. A graph that cherry-picks data points can show a trend that doesn't really exist. Part of mathematical cognition is **reading graphs critically** — not just seeing what they show, but asking whether the way they're presented is honest.
+
+When you look at a graph, always ask: What does the scale show? What data was included? What was left out? What would this look like if I changed the scale or added more data points?
+
+### 3. All Models Are Wrong, Some Are Useful
+
+Here's an important truth about mathematical models: **every model is a simplification, and every simplification leaves something out**.
+
+The pizza pricing model (`cost = 8 + 2t`) doesn't account for tax, delivery fees, special deals, or the fact that you probably can't order 1,000 toppings. It works great within a certain range and breaks down outside it.
+
+The equation `distance = speed x time` doesn't account for traffic, bathroom breaks, or running out of gas. It's a useful approximation, not a perfect description.
+
+The question is never "is this model perfect?" (it's not). The question is "is this model **useful enough** for what I need?" A rough estimate might be perfectly fine for deciding whether you have enough allowance for pizza. A precise calculation matters when NASA is landing a rover on Mars.
+
+Learning to evaluate models — to know when they're good enough and when they need improvement — is one of the most sophisticated mathematical skills you can develop.
+
+## Try It!
+
+**Build a Model.** Track something measurable for five days (how many minutes you spend on homework, how many steps you walk, your mood on a 1-10 scale at 3 PM, etc.). Plot your data on a graph. Try to draw a line or curve that fits the data. Now use your model to PREDICT what day six will look like. Then check. How close was your prediction? What would make your model better?
+
+## Summary
+
+Mathematical models — **equations, graphs, and formulas** — are simplified representations of reality that let you make predictions. They're the mathematical version of the mental models your brain builds about everything. **Graphs** make models visible and help you spot patterns, but they can also mislead if you don't read them critically. All models are **simplifications**, so the key question is whether they're useful enough for your purpose. Next: **Action** — testing your mathematical predictions against the real world.

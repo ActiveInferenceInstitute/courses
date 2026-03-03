@@ -11,6 +11,7 @@
 <li>Derive the <strong>precision optimization</strong> equations — how the brain estimates and adjusts the precision (inverse variance) of prediction errors.</li>
 <li>Formalize <strong>attention as precision optimization</strong>: increasing the gain on relevant prediction errors to weight them more heavily.</li>
 <li>Derive the relationship between precision, Fisher information, and model confidence.</li>
+<li>Understand <strong>Bayesian model comparison</strong> through precision and model evidence.</li>
 </ol>
 <h2>Introduction</h2>
 <p>Precision — the inverse variance of a probability distribution — is the fundamental quantity that determines which prediction errors drive belief updating and which are ignored. This module derives the mathematics of precision optimization: how it is estimated from data, how it modulates message passing, and how its optimization corresponds to attention.</p>
@@ -36,18 +37,43 @@
 <h3>4. Attention as Precision Optimization</h3>
 <p>In hierarchical predictive coding, attention corresponds to optimizing precision at each level:</p>
 <p><strong>dγₗ/dt = -∂F/∂γₗ</strong></p>
-<p>where γₗ is the log-precision at level l. This modulates the gain on prediction errors:</p>
+<p>where γₗ = ln(πₗ) is the log-precision at level l. This modulates the gain on prediction errors:</p>
 <ul>
 <li>Increasing γₗ → amplifying prediction errors at level l → "paying attention" to data at that level</li>
 <li>Decreasing γₗ → attenuating prediction errors → "ignoring" data at that level</li>
 </ul>
+<h3>5. Worked Example: Precision Optimization in Noisy Observation</h3>
+<p>Consider an agent observing a signal oₜ = s + εₜ, where εₜ ~ N(0, σ²). The true precision is π_true = 1/σ². The agent maintains a belief over precision using a Gamma distribution q(π) = Gamma(α, β).</p>
+<p>After observing N data points with prediction errors ε₁, ..., εN:</p>
+<p><strong>α_posterior = α_prior + N/2</strong>
+<strong>β_posterior = β_prior + ½ · Σᵢ εᵢ²</strong></p>
+<p>The expected precision is:</p>
+<p><strong>E[π] = α_posterior / β_posterior</strong></p>
+<p>Starting with a weak prior (α=1, β=1), after 10 observations with true σ=0.5 (π_true=4):</p>
+<ul>
+<li>Typical sum of squared errors: Σεᵢ² ≈ N · σ² = 10 · 0.25 = 2.5</li>
+<li>α_posterior = 1 + 5 = 6, β_posterior = 1 + 1.25 = 2.25</li>
+<li>E[π] = 6/2.25 = 2.67 (converging toward π_true = 4)</li>
+</ul>
+<p>With more data, the estimate converges: after 100 observations, E[π] ≈ 3.85.</p>
+<h3>6. Precision and Model Comparison</h3>
+<p>Precision also appears in <strong>Bayesian model comparison</strong>. The model evidence (marginal likelihood) of model m is:</p>
+<p><strong>ln p(o | m) = -F_min(m)</strong></p>
+<p>where F_min is the minimum free energy achievable under model m. A model that assigns appropriate precision to each level of the hierarchy will achieve lower free energy than one with misspecified precision. This is why precision optimization is not just about attention but about <strong>model selection</strong> — choosing the generative model that best explains the data.</p>
 <h2>Derivation Exercises</h2>
 <ol>
 <li>For a Gaussian likelihood p(o|s) = N(g(s), π⁻¹), derive ∂F/∂π and find the optimal precision π*.</li>
 <li>Show that the Fisher information I = Π for a univariate Gaussian with known mean and unknown variance.</li>
 <li>Derive the precision update equation for a two-level hierarchy with different precisions at each level.</li>
+<li>Compute the posterior Gamma parameters for precision after observing 5 data points with prediction errors {0.3, -0.5, 0.1, 0.4, -0.2} and a Gamma(2, 1) prior.</li>
 </ol>
 <h2>Conclusion</h2>
-<p>Precision is the key quantity that bridges perception (what to believe) and attention (what to attend to). Its optimization provides the mathematical foundation for understanding how the brain allocates its computational resources. Module 05 extends the framework to action — how the agent changes the world, not just its beliefs.</p>
+<p>Precision is the key quantity that bridges perception (what to believe) and attention (what to attend to). Its optimization provides the mathematical foundation for understanding how the brain allocates its computational resources and selects among competing models. Module 05 extends the framework to action — how the agent changes the world, not just its beliefs.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Feldman, H. &amp; Friston, K. (2010). Attention, uncertainty, and free-energy. <em>Frontiers in Human Neuroscience</em>, 4, 215.</li>
+<li>Parr, T. &amp; Friston, K. J. (2019). Generalised free energy and active inference. <em>Biological Cybernetics</em>, 113(5-6), 495-513.</li>
+<li>Bishop, C. M. (2006). <em>Pattern Recognition and Machine Learning</em>, §2.3.6: Bayesian inference for Gaussian precision. Springer.</li>
+</ul>
 </body>
 </html>

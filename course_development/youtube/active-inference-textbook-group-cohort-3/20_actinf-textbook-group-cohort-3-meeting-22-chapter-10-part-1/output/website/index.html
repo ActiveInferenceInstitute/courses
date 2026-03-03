@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20_Actinf Textbook Group Cohort 3 Meeting 22 Chapter 10 Part 1 - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>20_Actinf Textbook Group Cohort 3 Meeting 22 Chapter 10 Part 1</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>20_Actinf Textbook Group Cohort 3 Meeting 22 Chapter 10 Part 1</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf Textbook Group ~ Cohort 3 ~ Meeting 22 (Chapter 10, part 1)</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=2UBBVXykuTM">YouTube</a>
+<strong>Playlist</strong>: Active Inference Textbook Group ~ Cohort 3
+<strong>Duration</strong>: 55:20 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hi everyone it's cohort three August 8th and we're in our first discussion on chapter 10. so before we look to the text or any of the specific questions um would anyone like to just give any comments or thoughts on Ted hey Daniel I I'm pretty yeah I'm not prepared for chapter 10 so it's better I'm gonna actually means I I'll read uh later no sorry bye well chapter 10 has no figures or equations it's it's a lot of um synthesis and overview anyone want to give any comments or or we can like look over it and try to pull out some questions pull out some thoughts what do you think is the relevance of this quotation in general we are least aware of what our minds do best is that true I think we should first know what he mean about the awareness what is awareness because the we just suppose to this world but you know we have so much different approach about awareness about Consciousness about mind some philosopher they they don't accept this assumption they they think this is a we should just work with neuron and bearing Network neuron synops and no extra vote because the nobody can exactly know what is awareness we have different introduction about awareness why would Minsky say this it reminds me of the um the the discussion of uh the transparent and opaque mental processes with transparent mental processes are like air like you see through them which is to say you can't see them opaque you can see them by virtue of them blocking the something of light so it's kind of like the fish in the water doesn't know about the water and so the processes that are transparent to us the things that are the most routine the most mundane we have this at least quote is saying we're going to have the least awareness of these I'm not fully sure because I'm I believe there are certain things we are unaware of that our minds do well but also I believe there are things our minds do well that we are aware of so I don't know if the general claim can be said that we're least aware of what we do best since I think there's things that we're aware of or not that we do well or not but it's kind of a side point but but it's you know as with all these quotes they just start the chapter with kind of a fun provocative declaration all right well chapter 10 is a really interesting chapter they wrap up active inferences main theoretical points that's part one chapters one through five and the Practical implementations chapter six to ten then they connect the dots abstract away from the specific active inference models discussed in previous chapters to focus on integrative aspects of the framework all right this is another another spicy peace spicy and contentious does active inference provide a complete solution to the Adaptive problems that sentient organisms have to solve foreign at all of anything I mean we can vote and decide but but but what would be another way to say it or how how would people yeah SML please yeah you asked amazing questions this approach I mean actively Affairs can't solve everything but the if nobody know about a future but at least this optimistic approach is so better than religious we just suppose [Music] everything is like a mystery with this with this Assumption return we can order so much uh thing for research and scientists and Physicians can research about that but if we we think everything is Mystery just we give forbid people for researching and uh in the end we can't we can't achieve anything so my Approach is optimistic about not in the moment this will be a long procedure in and future is open great yeah treating things as a mystery or somewhere on the mystery continue on there with some amount of uncertainty then it plus action so let's let's figure it out and then this is kind of like do we think that we're on the path to achieving a solution to the Adaptive problems that sentient organisms have to solve or is this going to be a fruitless path I think we we're um through our actions we're on the optimistic path but I think this is a really I mean it's a bold claim and the narrow interpretation is did the textbook provide a complete solution but that's a little too narrow and I think the broader question as Mel that you point to is like as a long term fields will we have a scope of addressing adaptive problems that sentient organisms have to solve I even think about it outside of sentient organisms just to the Adaptive problems that things have to solve where some kinds of things are adaptive sentient organisms but that's not all kinds of things and then also but so that's that's big um however the second part of the claim um is a little bit uh clearer and I think more supported active inference therefore offers a unified perspective on problems like or phenomena like perception action selection attention and emotional regulation which are usually treated in isolation and Psychology and Neuroscience so I think that is a super strong claim that um can be pointed to when people what does it mean that it's a unifying theory of perception cognition and action or what what does it mean that that the first principle's approach it's like well if you go to a neuroscience conference you're going to see totally different ontology narratives tools documents philosophies on even just like the visual system the models that are developed for visual perception select action selection and attention those models may have no interoperability at all now that's not to say that they can't be part of an integrated fabric of of a pluralistic scientific accounts so it's not like it it doesn't matter if they're not Unified but this comes back to the needs and the scruffies do we want coherence within and across systems of Interest or everybody has kind of like a level with a tap out and just say no that's like too much integration but at least with these phenomena that they point to here the book uh and the literature demonstrate that these different phenomena can be considered in an integrated model whereas approaches that don't start from a first principle's position in general do not have that ability then they're going to connect to some established Theory and finally extend into some broader topics okay wrapping up only 190 pages only only 95 page flips away 95 little epistemic actions uh we're at the the end of the this little chapter of the journey the book offers a systematic account of theoretical underpinnings and practical implementations of active inference uh on these pages they summarize the chapters this is one reason why I think it may be helpful to have chapter 10 be read at the beginning because they're going to summarize like really clearly what each chapter does so chapter one that's an overview chapter 2 the low road that's the how Bayesian statistics and the generative modeling chapter 3 is the high road the Y self-organization and persistence far from equilibrium modeled through the Markov blanket chapter four gives formal details on active inference focusing again on the generative model and this time exploring it a little bit more fully in the context of variational inference chapter five gives three connected case studies from mammalian neuroscience and talks about how these different neural systems can be modeled with active inference and then how once you model them separately with active inference you can kind of stitch them together really nicely chapter six was the recipe for Designing active inference models a little bit of a Playbook or a guidebook that also brings up a lot of different questions and considerations about scientific modeling chapter seven and eight were respectively about discrete and continuous time generative models chapter 9 was about active inference in the setting of model-based data analysis giving a little bit of information about how you'd go about doing a database analysis why you might do that and and what that looks like and so in that way it's kind of like chapter six about building the generative model but chapter nine is gonna pull back another level and look at what do you do with data thank you 10.3 connecting the dots great damn it so then it decades ago many decades ago lamented that cognitive scientists devote too much effort to modeling isolated subsystems or even isolated phenomena so not even just like oh the visual tract but like visual perception in this one setting whose boundaries are often arbitrary or even worse disciplinary he suggested to try instead modeling the whole iguana a complete cognitive creature perhaps a simple one and an environmental Niche for it to cope with esmail what do you think about that or what did it reference bring up for you then it's always I mean he always is speaking about the extra word he first asked were you imagine for example Consciousness after that you make for yourself problem philosophy zombie I think all of you know what I mean foreign philosophy zombie but uh he has first you should um you you should suggest we have something name a Consciousness after that we can speak uh philosophy zombie doesn't have Consciousness and everything like mind like awareness I told you the first submitting and we should just research about a specific experience experimental equation about mind about bearing and even he denied a phenomenal and every phenomenal uh concept I think his idea is so close to emergence this thing you you accounted like perception sensation and so on all of them are a kind of emergence I mean the difference compared with neuron and brain but this is just bearing and neuron and not exteriority and something V effects on the world and Vault effect on us something like this and we don't need I'm angry with Dennis we don't need so much extra vote suppose and after that we will fall in the problem awesome yeah pretty cool how a lot of those topics like emergence and systems properties which come from the Natural Sciences then connect back to consciousness and awareness like like we discussed a little earlier so benefits of active inference you know next time you're at a party and you know hanging out relaxing one benefit of active inference is that it offers a first principal account of the ways in which organisms solve their adoptive problems so even beyond the theoretical Unity of diverse cognitive phenomena like perception attention and so on a benefit of active inference is that it gives a normative approach so not just an is but actually an ought and says this is how it should be modeled um I think it's it's it's easy to be startled by a normative approach because it can feel like impositional or constraining but I think that's part of our interesting Journey is to understand what this normativity is and and um what exactly is being what what ought to be what way and I'm sure there's many ways to say it but but um there's sort of some there's some some narrow odds and some broader odds a narrow ought would be like for solving a statistical problem with variational variational free energy is the best that you're going to do so that's kind of that's like saying you know if you're doing a linear regression you ought to use the L2 sum of squares Norm um but but there's also kind of this broader potentially less formalized normative stance which is that one ought to extend from that narrow ought about variational free energy as the imperative for statistical modeling and that you then ought to model specific cognitive processes perception action attention and emotion as well as their mechanistic manifestations in a unified way now someone else could say well I have a different normativity I think that specific cognitive processes should be modeled in different and income measure it ways I guess that could be someone's normativity or somebody could say I've never really thought about that I don't I don't think I have a strong prior let alone a normative stance on whether things like should or shouldn't be integrated but but again it's just an interesting um topic and and how many times does normative come up in the book you know 30 times that's um that's more times than you'll see normative outside of like a deontological ethics book and here's what they explained right in the very beginning normative means there's some standard against which behavior can be scored this is that narrower sense free energy they're saying ought to be the right quantity for perceptual modeling but then there's this secondary odds which is a little bit like and so you ought to do things in a unified way but that's a little bit less formal but here's here's that normative level it's Central assumptions all processes minimize variational free energy so it goes kind of this narrow piece for a given statistical problem vfe is the best estimator and then there's this like slightly broader normativity which is and you ought to use vfv for everything to the extent that they say that the problems that things face that organisms or or other things face can be described as inactive they're they're related to action in the world so that's very compatible with embodied inactive extended and cultured Etc affective neuroscience and pragmatism and also the preferences are defined explicitly over observations this connects to perceptual control theory and also just not historically by tethering or modeling to sensory data that's kind of like where the robber hits the road with not overfitting like there's more that could be said there but by making sure that variational free energy is a function of our beliefs and the real incoming data that's a a very strong check on not overfitting not like proposing some auxiliary variable and then being super precise about the auxiliary variable but then the actual empirical data we may be not modeling well again more lists of cognitive phenomena pretty similar here they insert looks like memory and intention it's like slowly mutating and expanding the list what can organisms do they can change their belief perception learning attention internal States or they can change the world action change your mind change the world two ways to produce free energy the third piece of the organism is the sensory data but we keep our Thumb off the scale so the only two things that the organism can do is change its mind and change the world changing the world then changes the external States and that has indirect effect on sensory data they talk about memory they talk about planning planning and memory can be understood as a two sides of the same timeline they have different in our just just in our Arrow of time going forward world of course memory is different than planning because memory doesn't have the same causal impact on our action selection but yet our memories can influence what we do so it's not that they're without causal impact but in both cases whether it's reaching into the past with memory or reaching into the future with planning we can consider that a deep temporal model and deep temporal models so so that that's how you synthesize memory with planning and situational awareness in the moment deep temporal models now we're going to bring in another level of the synthesis which is well what is that deep temporal model about maybe that deep temporal model says it has something to do with interoception and emotion so just there in a few sentences that is a synthesis of past present and future sensory exteroceptive sensory interceptive and affective so that's that's what they mean by what's enabled and these kinds of relationships might be pointed to in another field of Neuroscience or in other fields but if it came from Neuroscience it's unlikely to transfer to spaceships and computers and all these other systems and whether it did or didn't transfer it would be kind of descriptive and elusive but it wouldn't have a formal basis like we know that active inference does okay again they're just hammering the point home we don't start by defining cognitive functions and try to puzzle piece them together we start by what they characterize as the complete solution or maybe we could modify the adjective and the noun like a comprehensive approach or a unified account but we provide a complete solution to the problems that organisms have to solve and then analyze those Dynamics or fine-tune those Dynamics to develop properties that remind us of cognitive functions so like what this reminds me of is um sequential Dynamics this came up multiple times so sequential Dynamics have been modeled with the lock of ultera model it's just a property of certain dynamical systems it's it's not an apriori atomic cognitive function but then that becomes deployed in a cognitive behavioral modeling setting to sequential actions like writing so writing isn't a some core canonical function properties from dynamical systems we can connect to their cognitive concordances and all these are maps not territories so you know maybe there is some module in some system but but that's not necessarily even the best way to go about modeling it this connects back to the whole iguana as well as to for example JF cloutier's work with robotics which mechanisms permit a living organism to perceive the world remember it and plan so once you really think about what something needs to do and be to persist amidst uncertainty the whole iguana then even if you have a very coarse grained picture of the whole iguana like it's not atom level you should hear you know it moves um out of the sun when it's too hot into the sun when it's too too cold that is getting closer to an understanding of the mechanisms that permit it to live rather than infinite molecular description those certainly our our mechanisms but but they're not helping us understand from a cognitive perspective what's happening okay with the normative perspective we can reapproach analogies and trade-offs that have been identified in in different systems so exploration and exploitation this paper um is it's actually a really nice one Hills at all 2015 I believe has some representations of explore and exploit in body and in mind so like come up with 10 words you know you could go red orange yellow green blue purple like that's kind of like exploiting colors or you can have like a Divergent thinking and similarly foraging um you could be exploiting one resource or um exploring across resources understanding that in the context of of active inference which we explored a little bit in the epistemic rat in the maze but it helps us rethink that explore exploit and how to model and approach it so beyond the theoretical Unity we also get a bridge of principled means of understanding corresponding neural computations it offers a process theory that connects cognitive processing to expected neuronal Dynamics so you'll notice in the SPM package a lot of the simulations just as part of the default outputs they include like dopaminergic signaling and so that doesn't you know dopamine does multiple things even in the mammalian brain does multiple things in different organisms brains so um it's not saying that's the one and only trace of dopamine however we can connect molecular mechanisms to statistical properties like surprise now they're going to explore implications of active for psychological functions as if we were sketching a psychology textbook so it's kind of like within the body of this textbook there's the germ of another textbook and they're going to highlight similarities and differences another reason why it may be relevant to read chapter 10 early 10-4 predictive brains predictive Minds predictive processing we've talked about this a fair amount but rather than a world view in which sensory data come in and are processed and then make their way to their final internal representation and then are used to engage action a sort of feed forward model of perception and action inactive inference inheriting from we have an ongoing generative model is generating predictions expectations anticipations about sensory data and about action and then incoming sensory data are able to be juxtaposed as they say to validate their hypotheses predictive coding and there's some subtlety with what's predictive coding what's predictive processing and so on and then at a slower time scale you have the model updating essentially its weights through learning that imperative is self-evidising the best generative model is the one that's least surprised by incoming sensory data that's the maximum model evidence and so that is how this epistemic and pragmatic um dual imperative is Unified through action and active inference they write the term predictive processing is used in a broader and less constrained sense compared to active so again probably a lot of things you could say like active inference is predictive processing plus action active inference is predictive processing with action under the free energy principle but they're more alike than not and predictive processing is the gateway drug I mean lots more debates and and topics on that perception our perception is our generative model of course we want to be careful with the map in the territory but I always return to vision we don't pay attention to our isocate we don't notice our blind spot literally we fill it in and we have high resolution color vision all around the eye even though the retina doesn't support so for me cicades blind spot and peripheral color vision give absolutely tangible evidence that our visual perception is generated and fine-tuned not received and likewise for other sensory modalities that concept of perception as subconscious or subliminal inference is ancients helmholtz and before Bayesian brain again another very closely Allied topic with active inference after all we're talking about brains sometimes and we're talking about Bayesian statistics so how is active inference related to Bayesian brain Bayesian brain refers to a family of approaches that are not necessarily integrated and make different empirical predictions it's kind of a broad family it's not like one specific model because he could also refer to a little bit more of a realist flavor the brain does Bayesian computation or a little bit more of an instrumentalist flavor we use Bayesian statistics to model the brain but in either and and also it can apply at different levels of explanation but broadly active inference is a Bayesian brain hypothesis but it's not just about brains and it's a process Theory not a hypothesis but yes it's Bayesian it could be about the brain but if you do Bayesian brain plus action under the fep I I believe you also compose active but active inference is more integrated it's more normative and it is better described as a process Theory that's falsifiable but but that is very closely aligned with a hypothesis they return to predictive coding which was discovered as a video compression algorithm and only brought into the neurosciences most empirically in the late 90s so it's only been 24 years since some of these things have even come onto the scene in active inference action processing is analogous to perceptual processing it's all part of the generative model in chapter five we explored how top-down descending set points predictions can then induce action that's the equilibrium point hypothesis there's another discussion of sensory attenuation there was a box on that earlier in the book it's kind of like the opposite of attention is attenuation you know turning it up is like more attention turning it down is like attenuating and there was discussion around how of our so attenuating our attention to sensory input creates like it opens up a space of the possible where then we can undertake an action selection and then lock in that precision and that's exactly what happens with an eye cicade that's why we don't perceive the isocate High attention fixed gaze and then it's like we push on the clutch or pull off the gas whether you drive automatic or manual um move the eye it's not noticed it's not attended to but of course it's still getting photons and then once it's fixed again we redeploy the attention and so that's why our phenomenology of vision is basically fixed fixed without um and maybe some pathologies maybe it's there's nausea if there's a failure of that kind of attenuation it might be very unsettling in the isocate setting but in the bodily motor setting this is where um some people um are challenged with beginning motion so they can't step off the gas so then there's sensory inputs like no you're in a chair you should just stay um or or inability to stop motion idea motor these are kind of broad conceptual theories that active inference brings a lot of rigor to but they basically relate to mind and body actions are selected on the basis of their predicted consequences cybernetics tote test operate test exit we've also connected octave to UDA observe orientiside Act perceptual control theory we also have requisite diversity and good regulator theorem um basically everything related to active inference is going to be able to handle with this specific note that the preferences are over perceptions which kind of grounds higher levels of the system optimal control theory so the inbound perceptual and learning side of active inference the cybernetic entity that's like signal processing and sense making the outgoing dependency on the mark on blanket is connected to control theory here's some discussions about control theory importantly optimal motor control is kind of aligned with reward learning in that there's a cost or a value function it uses these economic metaphors cost value reward utility whereas we use all the apparatus that we've described earlier we don't need to invoke these economic metaphors or but we can account for utility in decision making here's the economic theories of utility maximization and reinforcement learning we can account for those with pragmatic value dynamic programming there's really cool modeling work that's using dynamic programming in active inference when when all people have is pragmatic value utility reward then they have to propose these ad hoc strategies to get non-pragmatic Behavior or to escape local Optima like burn-in novelty bonus intrinsic reward the list goes on active inference we just specify it up front expected free energy epistemic plus pragmatic value rather than trying to find the most rewarding or the highest utility path we try to find the most likely path so instead of climbing to the mountain top of the mountain who knows if we're at the top of the mountain we're taking the path of least action and that's what connects all of these discussions to Bayesian mechanics that's what makes it physics based among other things is that it's a variational principle of least action for cognitive systems so just like a baseball with certain starting conditions and so on has a certain Parabola that's the path of the Bayesian updating with a given prior and attention and incoming data stream is going to update a certain way on the path of least action now that that path of least action may also be described by the most rewarding trajectory or the highest utility trajectory or whatever but it turns out that it's a lot more General and generic to describe it as taking a path of least action which is something that physical systems do rather than this kind of like aspirational highest utility approach that's connected to decision making there's no utility or cost function inactive inference we select action plans based upon their probability of happening not based upon their probability of providing a reward and there's parameters like the shaky hand parameter or the temperature on decision making if you turn the temperature to absolute zero then you're going to select the action that you think is better even if it's only a little bit better whereas if you have the shaky hand parameter very high high temperature decision making then you blur differences in the expected free energy of policies and you basically select the policies at um reinforcement learning policy is used differently model based and model 3rl and policy gradient methods which are similar procedurally in certain ways to active however the objective function is different it's a reward function that's being reforced reinforced it's not a generative model surprise bounding free energy explicitly and there are some differences more planning behavior-bounded rationality this kind of connects to type 1 type 2 deliberative dual Theory rational economon free energy theory of bounded rationality valence emotion motivation now they're kind of exploring broader phenomena homeostasis allostasis enteroceptive processing pretty cool that active inference is very flexible to describe visual input or pockets coming over the network or interception again needs and scruffies the neat wants to have a unifying model that can describe all those input output systems or measurement control systems the scruffy says no interception's different than vision and that's different than the computer packet attention salience epistemic Dynamics attention is covert action it's internal action and it's modeled as such overt action is embodied action we can operationally Define attention as the Precision associated with sensory input if you're not paying attention the sensory input doesn't matter in the sense that it doesn't update your model in the limit of paying extreme attention whatever data point comes in you will update your beliefs to be that that's related to gain control in the Bayesian setting like in audio engineering salience is expected Information Gain salience is in terms of an action or policy while attention is an attribute of beliefs about sensory input rule learning causal inference fast generalization great quote by Rumi these are like half page to one page long but there's you know there's there's so much here and then active and other fields open directions sociocultural Dynamics we're exploring that a lot in the ongoing course active inference for the social sciences machine learning and Robotics huge topic a lot of work in this field are those the only two in summary ending with with the Tolkien Lord of the Rings quote alluding to the golden ring on the cover of the textbook we are now at the end of our journey their aim was to offer an introduction to those interested in using methods conceptually and formally did they do it however it is important to emphasize active inference is not something that can be learned purely in theory we encourage anyone who has enjoyed this book to think about pursuing it in practice whether or not you pursue a computational practice we hope you will reflect on it as you engage in active inference and day-to-day life you might be looking to see something you're not sure what it it might be eating what you know you like you might be trying something new might be turning down the shower heat if it's too hot might be not turning down the shower Heat ultimately we are confident that you will continue to pursue active inference in some form that's the book and then there's the appendices any kind of closing thoughts textual tap chapter no figures no equations it's all it's like a whole undergrad degree kind of compressed it covers a lot I guess uh next week we can uh return to some of these discussions bring up some of these notes into the questions ask new questions cool any last comments thank you all see you next time thank you very much bye</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

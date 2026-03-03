@@ -1,0 +1,82 @@
+Lab: Building a POMDP
+
+> Learning Goal: Construct and analyze a simple POMDP from scratch.
+
+Part 1: Constructing the A Matrix
+
+Scenario: A foraging agent in a 2-location world. States: {foodleft, foodright}. Observations: {seefood, seenothing}.
+
+Design an A matrix where the agent can partially observe the food location (occasionally gets it wrong).
+Verify each column sums to 1.
+What would the A matrix look like if observation were perfect? Noisy?
+
+| | foodleft | foodright |
+|---|-----------|------------|
+| seefood | | |
+| seenothing | | |
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 2: Constructing the B Matrix
+
+> Learning Goal: Build transition dynamics with agency.
+
+Same scenario: Actions: {goleft, goright, stay}.
+
+Design the B matrix for each action. The agent is currently at the right location.
+
+For action "goleft":
+
+| | foodleft | foodright |
+|---|-----------|------------|
+| foodleft | | |
+| foodright | | |
+
+Do the same for "goright" and "stay."
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 3: Setting Preferences (C Vector)
+
+> Learning Goal: Translate goals into the C vector.
+
+Exercise: Define C vectors for different types of agents:
+
+A hungry agent that wants food: C = ?
+A scared agent that avoids everything: C = ?
+A curious agent that wants novelty (any observation is fine): C = ?
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 4: Running the Perception-Action Loop
+
+> Learning Goal: Manually trace one cycle of belief updating and action selection.
+
+Setup:
+
+D = [0.5, 0.5] (no initial preference for food location)
+A, B, C as you defined above
+Agent observes: seefood
+
+Update beliefs: q(s) ∝ A(seefood, :) × D
+Normalize q(s) so it sums to 1
+Based on updated beliefs, which action should the agent take?
+How would your answer change if the observation were "see_nothing"?
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 5: Reflection
+
+In 150 words, reflect: The POMDP framework uses just 5 components (A, B, C, D, π) to describe an agent's entire decision-making system. What is gained by this simplicity? What might be lost?
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Lab Summary
+
+| Part | Skill Practiced | Key Concept |
+|------|----------------|-------------|
+| 1 | Matrix construction | A matrix (observation model) |
+| 2 | Matrix construction | B matrix (transition model) |
+| 3 | Preference encoding | C vector (preferences/values) |
+| 4 | Loop tracing | Perception-action cycle |
+| 5 | Framework reflection | Strengths and limits of POMDPs |

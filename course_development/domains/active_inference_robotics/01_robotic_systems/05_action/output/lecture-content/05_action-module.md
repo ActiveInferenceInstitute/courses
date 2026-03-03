@@ -1,0 +1,107 @@
+# Robotic Action: From Beliefs to Physical Forces
+
+## Executive Summary
+
+Action is where the robot meets the world — where internal computations become physical forces, motions, and environmental changes. In Active Inference, action is not the execution of a pre-computed plan but the other side of free energy minimization: while perception updates beliefs to match observations, action changes the world to match the robot's preferred sensory states. This module examines how robotic actuators — servo motors, pneumatic cylinders, grippers — translate cognitive decisions into physical effects, how joint-space and task-space control architectures implement the active states of the Markov blanket, and how the expected free energy framework unifies trajectory generation, force control, and impedance regulation under a single objective.
+
+## Learning Objectives
+
+1. Define robotic action as the modification of the world through active states to minimize expected free energy.
+2. Analyze the chain from cognitive decision to physical force: task-space goals, inverse kinematics, joint-space trajectories, motor torques.
+3. Compare position control, force control, and impedance control as different expressions of active inference.
+4. Explain how actuator properties (torque limits, bandwidth, backlash) constrain the action space available to a robot.
+5. Evaluate how the Active Inference framework unifies trajectory tracking and compliant interaction under a single free energy objective.
+
+## Introduction
+
+The previous module on Cognition examined how robots maintain and update their generative models — the computational engine that drives intelligent behavior. But computation alone does not accomplish tasks. A robot that perfectly estimates the position of a bolt but cannot turn a wrench has no practical value. Action is the active side of the Markov blanket: the outward-facing boundary through which the robot exerts influence on the world. In the next module on Learning, we will examine how the outcomes of actions feed back to improve the robot's models; here, we focus on the mechanisms by which beliefs become forces.
+
+## Key Concepts
+
+### 1. Action as Active Inference
+
+In traditional robotics, the perception-action pipeline is sequential: perceive, plan, act. Perception estimates the world state, a planner computes a desired trajectory, and a controller tracks that trajectory by commanding motor torques. The controller's job is to eliminate tracking error — the difference between the desired and actual joint positions.
+
+Active Inference reframes this. Action is not about tracking a reference trajectory but about making the world conform to the robot's predictions. The robot's generative model includes predictions about its future sensory states — the proprioceptive feedback it expects to receive. When the expected joint position differs from the actual joint position, a prediction error arises. Action reduces this prediction error by commanding the muscles (motors) to move the joints toward the predicted position. The reference trajectory is not an externally imposed command but a consequence of the generative model's predictions about preferred future states.
+
+This reframing has practical consequences. In classical control, the reference trajectory must be fully specified before execution begins. In Active Inference, the "reference" emerges from the interaction between the generative model's dynamics (how the world evolves) and its preferences (what states are desired). This allows more flexible, adaptive behavior — the robot can smoothly adjust its actions in response to changing conditions without re-planning from scratch.
+
+### 2. The Action Hierarchy: From Task Space to Joint Torques
+
+Robotic action is organized in a hierarchy that maps high-level task goals to low-level motor commands.
+
+**Task-space goals** specify what the end-effector (the gripper, tool, or hand of the robot) should do in Cartesian coordinates: move to position (x, y, z) with orientation (roll, pitch, yaw), apply a contact force of 10 N along the surface normal, or follow a welding seam at 5 mm/s. These are the preferred sensory states in Active Inference — the observations the robot wants to bring about.
+
+**Inverse kinematics** converts task-space goals into joint-space goals: what joint angles will place the end-effector at the desired Cartesian pose? For a UR5 with six revolute joints, this mapping is generally non-unique — multiple joint configurations can achieve the same end-effector pose. Selecting among them involves additional criteria: joint limit avoidance, singularity avoidance, and minimum-energy configurations.
+
+**Trajectory generation** produces smooth time-parameterized joint paths from the current configuration to the goal configuration. Trapezoidal velocity profiles and quintic polynomial interpolation are common methods. In Active Inference terms, the trajectory specifies the temporal sequence of preferred proprioceptive states.
+
+**Joint-level control** computes motor torques to track the desired joint trajectory. PID control is the simplest approach: a proportional term reduces position error, a derivative term damps oscillation, and an integral term eliminates steady-state error. More sophisticated approaches like computed torque control use the robot's dynamics model to compute feedforward torques, reducing the tracking error that the feedback controller must handle.
+
+### 3. Position Control, Force Control, and Impedance Control
+
+Different task demands require different relationships between the robot's actions and the environment's response. These relationships correspond to different formulations of the free energy objective.
+
+**Position control** commands the robot to achieve specific joint positions or end-effector poses regardless of external forces. The preferred sensory state is a position, and the robot applies whatever torque is necessary to reach it. This is appropriate for free-space motions where the robot does not contact the environment — reaching toward an object, for example.
+
+**Force control** commands the robot to apply specific forces to the environment regardless of position. The preferred sensory state is a force reading from the wrist force/torque sensor, and the robot adjusts its position until the desired force is achieved. This is appropriate for tasks like polishing, grinding, or pushing — where the contact force matters more than the exact position.
+
+**Impedance control** specifies a desired dynamic relationship between force and displacement — the robot behaves as if it were a spring-damper system with programmable stiffness and damping. In Active Inference terms, impedance control specifies both a preferred position and a preferred way of responding to perturbations. High stiffness means the robot strongly resists displacement from its preferred position (high precision on the position prediction). Low stiffness means the robot complies with external forces (low precision on position, allowing the force prediction to dominate). Impedance control is the most natural expression of Active Inference in robotic action because it directly parameterizes the precision of proprioceptive predictions.
+
+### 4. Actuator Constraints and the Action Space
+
+The physical properties of a robot's actuators define the boundaries of what actions are possible — the action space available to the Active Inference agent.
+
+A UR5 joint motor can apply up to 150 Nm of torque and achieve angular velocities up to 180 degrees per second. These limits define a rectangular constraint region in the torque-velocity space of each joint. The robot's generative model must respect these constraints — it cannot predict or prefer states that would require torques or velocities beyond the actuator limits.
+
+**Backlash** — the play in gear mechanisms — introduces a dead zone where small motor rotations produce no output motion. This means the relationship between motor command and joint motion is not smooth, creating a nonlinear disturbance that the controller must compensate for. In Active Inference terms, backlash increases the uncertainty (reduces the precision) of the mapping from active states to environmental effects.
+
+**Bandwidth** — the frequency range over which the actuator can faithfully track commands — limits how quickly the robot can respond to disturbances. A hydraulic actuator may have a bandwidth of 5-20 Hz, while an electric direct-drive motor may reach 100 Hz or more. Higher bandwidth enables tighter control loops and more responsive active inference.
+
+**Compliance** — the mechanical flexibility of the actuator and its transmission — determines how the robot interacts with contact forces. Series elastic actuators deliberately introduce compliance between the motor and the joint, creating a mechanical low-pass filter that absorbs impact forces and enables safer human-robot interaction. In Active Inference terms, physical compliance embodies a low-precision position prediction — the actuator allows displacement from the nominal position rather than rigidly resisting it.
+
+### 5. Action Selection Under Uncertainty
+
+When the robot is uncertain about the state of the world, action selection must account for this uncertainty. Active Inference provides a natural mechanism through the expected free energy, which balances pragmatic value (achieving goals) with epistemic value (reducing uncertainty) and accounts for the risk of different outcomes.
+
+Consider a UR5 tasked with inserting a peg into a hole. If the hole's position is known precisely, the robot can plan a direct insertion trajectory. But if there is uncertainty about the hole's exact location, a direct insertion risks jamming or missing. Active Inference suggests a strategy: first make contact with the surface near the expected hole location (an action that provides tactile information to reduce position uncertainty), then slide along the surface until the peg finds the hole (an action guided by force feedback), then insert. This compliant search strategy is exactly what skilled human assemblers do, and it emerges naturally from expected free energy minimization — the combined pragmatic and epistemic objectives produce exploratory contact followed by goal-directed insertion.
+
+## Active Inference Connection
+
+In Active Inference, action and perception are two sides of the same coin. Perception minimizes free energy by updating beliefs to match observations. Action minimizes free energy by changing the world to match predictions. The robot's motor commands are the means by which it fulfills its own prophecies — acting to make its preferred sensory states come true. This unification dissolves the traditional boundary between planning and control: both are instances of free energy minimization at different temporal scales. Impedance control, in particular, maps directly to the precision of proprioceptive predictions, providing a concrete engineering implementation of a core Active Inference concept.
+
+## Applications
+
+### Case Study 1: UR5 Peg-in-Hole Assembly with Active Compliance
+
+A UR5 manipulator performing automated peg-in-hole assembly demonstrates Active Inference in action. The task requires inserting a 10 mm diameter shaft into a hole with 0.05 mm clearance. The robot begins in position control mode, moving the peg to the approximate hole location. Upon detecting contact through the wrist force/torque sensor (force exceeding 5 N), the controller switches to impedance mode with low lateral stiffness (50 N/m) and high axial stiffness (5000 N/m). The low lateral stiffness allows the peg to comply with contact forces and slide toward the hole center, while the high axial stiffness maintains insertion pressure. The force/torque sensor provides continuous feedback, and the controller adjusts the peg's lateral position based on the force pattern. When the lateral forces drop below a threshold (indicating the peg has found the hole), the axial stiffness drives the insertion. This entire strategy — contact, compliant search, insertion — can be derived from expected free energy minimization with appropriate precision parameters and dynamics model.
+
+### Case Study 2: Velocity-Controlled Mobile Base Navigation
+
+A Clearpath Jackal mobile robot demonstrates action at the whole-body level. The robot's action space consists of linear and angular velocity commands (geometry_msgs/Twist) sent to the base controller at 20 Hz. The DWB local planner evaluates candidate velocity commands by forward-simulating the robot's trajectory over a 3-second horizon and scoring each trajectory against multiple objectives: proximity to the global path (pragmatic value), distance from obstacles (risk avoidance), and progress toward the goal (pragmatic value). The selected velocity command is the one that minimizes a weighted combination of these costs — analogous to minimizing expected free energy over the prediction horizon. The wheel motors then execute this velocity command through low-level PID control, closing the gap between predicted and actual wheel velocities. When the robot encounters an unexpected obstacle not in its map, the forward simulation predicts collision for trajectories that were previously safe, automatically triggering avoidance behavior without explicit re-planning.
+
+## Cross-References
+
+- **Module 2 (Agents)**: The agent architecture that generates the goals and plans that action executes
+- **Module 3 (Perception)**: Provides the state estimates that action relies on for accurate execution
+- **Module 4 (Cognition)**: The cognitive processes that determine what actions to take
+- **Module 6 (Learning)**: Feedback from action outcomes that improves future action strategies
+
+## Summary
+
+| Concept | Definition | Robotics Example |
+|---------|-----------|-----------------|
+| Active States | Boundary variables through which the system changes the world | Motor torques applied to UR5 joint actuators |
+| Task-Space Goal | Desired end-effector state in Cartesian coordinates | Target grasp pose for a pick-and-place operation |
+| Impedance Control | Programmable dynamic relationship between force and displacement | Compliant peg-in-hole insertion with variable stiffness |
+| Actuator Bandwidth | Frequency range of faithful command tracking | 100 Hz direct-drive motor vs. 10 Hz hydraulic actuator |
+| Action Under Uncertainty | Selecting actions that balance goal achievement with information gain | Contact-based search before precise insertion |
+| Precision of Predictions | How confidently the generative model predicts proprioceptive states | High stiffness (high precision) vs. compliance (low precision) |
+
+## References
+
+1. Parr, T., Pezzulo, G., & Friston, K. J. (2022). *Active Inference: The Free Energy Principle in Mind, Brain, and Behavior*. MIT Press.
+2. Siciliano, B., Sciavicco, L., Villani, L., & Oriolo, G. (2009). *Robotics: Modelling, Planning and Control*. Springer.
+3. Hogan, N. (1985). Impedance control: An approach to manipulation. *Journal of Dynamic Systems, Measurement, and Control*, 107(1), 1-24.
+4. Lanillos, P., et al. (2021). Active Inference in robotics and artificial agents. *arXiv preprint arXiv:2112.01871*.
+5. Pezzato, C., Ferrari, R., & Corbato, C. H. (2020). A novel adaptive controller for robot manipulators based on active inference. *IEEE Robotics and Automation Letters*, 5(2), 2973-2980.

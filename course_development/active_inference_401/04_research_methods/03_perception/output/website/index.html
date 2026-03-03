@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_Perception - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>03_Perception</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>03_Perception</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 03: Perception — Electrophysiological Methods for Active Inference</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 401 | <strong>Unit</strong>: Research Methods | <strong>Audience</strong>: Graduate students / researchers</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Apply electrophysiological methods (<strong>EEG, MEG, intracranial recordings</strong>) to test Active Inference predictions.</li>
+<li>Analyze the relationship between <strong>neural oscillations</strong> and Active Inference computations.</li>
+<li>Evaluate experimental paradigms that dissociate <strong>prediction, prediction error, and precision</strong>.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. Neural Signatures of Predictive Processing</h3>
+<p>Active Inference makes specific predictions about neural signals that can be tested with electrophysiology:</p>
+<p><strong>Prediction errors</strong>: Sensory prediction errors should manifest as <strong>mismatch negativity (MMN)</strong> in EEG — a neural response to unexpected stimuli. The MMN amplitude indexes the magnitude of the prediction error.</p>
+<p><strong>Predictions</strong>: Top-down predictions should be encoded in <strong>pre-stimulus oscillatory activity</strong>. Alpha-band (8-12 Hz) power reflects precision-weighted predictions — stronger alpha = more confident prior, less reliance on sensory input.</p>
+<p><strong>Precision</strong>: The gain on prediction errors is modulated by precision. In EEG, this maps to <strong>attention-related changes in oscillatory power</strong>: increased gamma (&gt;30 Hz) at the attended location reflects increased precision weighting; increased alpha at the unattended location reflects decreased precision.</p>
+<h3>2. Oscillatory Markers of Hierarchical Inference</h3>
+<p>Active Inference predicts specific roles for different frequency bands:</p>
+<table>
+<thead>
+<tr>
+<th>Frequency Band</th>
+<th>Active Inference Role</th>
+<th>EEG/MEG Signature</th>
+<th>Experimental Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delta (1-4 Hz)</td>
+<td>Slowest-level predictions</td>
+<td>Entrainment to speech rhythm</td>
+<td>Ding et al. (2016)</td>
+</tr>
+<tr>
+<td>Theta (4-8 Hz)</td>
+<td>Memory-guided prediction</td>
+<td>Hippocampal theta during prediction</td>
+<td>Rizzuto et al. (2003)</td>
+</tr>
+<tr>
+<td>Alpha (8-12 Hz)</td>
+<td>Precision modulation (suppression of irrelevant PE)</td>
+<td>Alpha increase at unattended locations</td>
+<td>Foxe &amp; Snyder (2011)</td>
+</tr>
+<tr>
+<td>Beta (13-30 Hz)</td>
+<td>Maintenance of predictions (status quo)</td>
+<td>Beta reduction during prediction update</td>
+<td>Engel &amp; Fries (2010)</td>
+</tr>
+<tr>
+<td>Gamma (30-100 Hz)</td>
+<td>Prediction error / local computation</td>
+<td>Gamma at expected mismatch locations</td>
+<td>Bastos et al. (2012)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Directional flow</strong>: Bottom-up (prediction error) signals predominantly travel in gamma/theta. Top-down (prediction) signals predominantly travel in beta/alpha. This can be measured with <strong>Granger causality</strong> or <strong>directed transfer function</strong> on frequency-resolved signals.</p>
+<h3>3. Key Experimental Paradigms</h3>
+<p><strong>Mismatch Negativity (MMN)</strong>: Present a train of standard stimuli (e.g., identical tones), then an occasional deviant. The MMN (deviant - standard difference wave) indexes prediction error. Active Inference predicts: larger MMN for more predictable contexts (stronger prediction = larger error when violated).</p>
+<p><strong>Roving Oddball</strong>: The standard changes every few trials. As the number of repetitions increases, the brain's prediction strengthens, and the MMN to the deviant grows. This directly tests belief updating — each repetition updates the generative model's precision about the standard.</p>
+<p><strong>Oddball with Varying Volatility</strong>: Manipulate how often the standard changes. In volatile blocks (frequent changes), the brain should weight recent evidence more heavily (higher learning rate). In stable blocks, it should weight accumulated evidence. Active Inference predicts measurable differences in PE magnitude and latency.</p>
+<p><strong>Hierarchical Prediction Paradigms</strong>: Use stimuli with structure at multiple levels (e.g., sequences of tones grouped into patterns, with patterns grouped into blocks). Prediction errors at different levels should have different latencies and scalp distributions:</p>
+<ul>
+<li>Local (within-pattern) PE: early, sensory cortex</li>
+<li>Global (between-pattern) PE: late, frontal cortex</li>
+</ul>
+<h3>4. Intracranial Recordings</h3>
+<p>Invasive recordings in neurosurgical patients provide unprecedented resolution:</p>
+<p><strong>Laminar recordings</strong>: Multi-electrode arrays spanning cortical layers can directly measure:</p>
+<ul>
+<li>Superficial layers (L2/3): prediction errors (ascending messages)</li>
+<li>Deep layers (L5/6): predictions (descending messages)</li>
+<li>Layer 4: input from thalamus</li>
+</ul>
+<p><strong>Single-neuron correlates</strong>: Individual neurons can be classified as:</p>
+<ul>
+<li><strong>Error neurons</strong>: Fire to unexpected stimuli, silent to expected</li>
+<li><strong>Prediction neurons</strong>: Active during anticipation, suppressed by input</li>
+<li><strong>Precision neurons</strong>: Modulate gain on other neurons' responses</li>
+</ul>
+<h3>5. Analysis Methods</h3>
+<p><strong>Time-frequency analysis</strong>: Decompose the signal into time-varying frequency content using wavelets or short-time FFT. This reveals when different oscillatory processes engage.</p>
+<p><strong>Source localization</strong>: Reconstruct the cortical sources of scalp-recorded signals (beamforming, LCMV, MNE). This maps oscillatory signatures to specific brain regions.</p>
+<p><strong>Dynamic Causal Modelling for EEG/MEG</strong>: DCM applied to event-related potentials or oscillatory data. Uses neural mass models (populations of neurons with mean-field dynamics) as the generative model.</p>
+<h2>Summary</h2>
+<p>Electrophysiology provides direct tests of Active Inference through neural prediction error signals (MMN), oscillatory correlates of predictions and precision (alpha, beta, gamma), and laminar recordings distinguishing ascending and descending messages. Key paradigms include mismatch negativity, roving oddball, and hierarchical prediction tasks.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Garrido, M. I. et al. (2009). The mismatch negativity: A review of underlying mechanisms. <em>Clinical Neurophysiology</em>, 120(3), 453-463.</li>
+<li>Bastos, A. M. et al. (2012). Canonical microcircuits for predictive coding. <em>Neuron</em>, 76(4), 695-711.</li>
+<li>Sedley, W. et al. (2016). Neural signatures of perceptual inference. <em>eLife</em>, 5, e11476.</li>
+</ul></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Electrophysiological Methods for Active Inference</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design experiments and analyze data using EEG/MEG to test Active Inference predictions.</p>
+</blockquote>
+<h2>Part 1: MMN Experiment Design</h2>
+<p><strong>Exercise</strong>: Design a roving oddball experiment to test precision-weighted prediction errors:</p>
+<p><strong>Stimuli</strong>: Pure tones at 500 Hz (standard) and 550 Hz (deviant)
+<strong>Design</strong>: Sequences where the standard repeats 2, 5, or 10 times before the deviant replaces it</p>
+<p><strong>Active Inference prediction</strong>: MMN amplitude should increase with number of repetitions (more repetitions → stronger prediction → larger PE when violated)</p>
+<p>Specify:</p>
+<ol>
+<li>Number of trials per condition (min 100 deviants per repetition count)</li>
+<li>Inter-stimulus interval (e.g., 500 ms)</li>
+<li>EEG electrode sites for analysis (Fz, Cz for MMN)</li>
+<li>Time window for MMN measurement (100-250 ms post-deviant)</li>
+<li>Statistical analysis (repeated-measures ANOVA on MMN amplitude × repetition count)</li>
+</ol>
+<p><strong>Expected results</strong>: MMN amplitude: 2-rep &lt; 5-rep &lt; 10-rep. This confirms precision-weighted PE.</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: Oscillatory Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Map oscillatory signatures to Active Inference computations.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Analyze the expected oscillatory pattern during a visual attention task:</p>
+<p>Task: Attend to left or right visual field. Predict when a target (grating) will appear at the attended location.</p>
+<table>
+<thead>
+<tr>
+<th>Time Period</th>
+<th>Alpha (8-12 Hz)</th>
+<th>Beta (13-30 Hz)</th>
+<th>Gamma (30-80 Hz)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pre-cue baseline</td>
+<td>Bilateral, moderate</td>
+<td>Bilateral, moderate</td>
+<td>Low everywhere</td>
+</tr>
+<tr>
+<td>Post-cue (attend left)</td>
+<td>Decreased left (precision ↑), Increased right (precision ↓)</td>
+<td>Increased bilaterally (maintaining prediction)</td>
+<td>Increased left (anticipatory)</td>
+</tr>
+<tr>
+<td>Target onset (expected)</td>
+<td>Brief disruption</td>
+<td>Beta decrease (prediction update)</td>
+<td>Gamma burst (local processing)</td>
+</tr>
+<tr>
+<td>Target onset (unexpected)</td>
+<td>Large alpha disruption</td>
+<td>Large beta decrease</td>
+<td>Strong gamma burst</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 200-word analysis: How does this pattern map onto the Active Inference message-passing architecture?</p>
+<p>{fill:textarea}</p>
+<h2>Part 3: Hierarchical Prediction Paradigm</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design a paradigm testing multi-level prediction.</p>
+</blockquote>
+<p><strong>Exercise</strong>: The "local-global" paradigm (Bekinschtein et al., 2009):</p>
+<p><strong>Stimuli</strong>: Sequences of 5 tones: AAAAB (local deviant at position 5) or AAAAA (local standard)
+<strong>Block structure</strong>: In one block, AAAAB is frequent (global standard) and AAAAA is rare (global deviant)</p>
+<p><strong>Two levels of prediction error</strong>:</p>
+<ul>
+<li><strong>Local PE</strong>: 5th tone differs from first 4 → early MMN (~100-200 ms), temporal cortex</li>
+<li><strong>Global PE</strong>: Rare sequence in block → late P3b (~300-500 ms), frontal/parietal</li>
+</ul>
+<p><strong>Active Inference predicts</strong>:</p>
+<ol>
+<li>Local PE should be present even in unaware/unconscious patients (bottom-up, automatic)</li>
+<li>Global PE requires awareness/consciousness (top-down, requires deep temporal model)</li>
+<li>Local PE is modulated by local precision; global PE by global (contextual) precision</li>
+</ol>
+<p>Design the control conditions needed to isolate each level of PE.</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Intracranial Hypothesis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design an ideal intracranial recording study.</p>
+</blockquote>
+<p><strong>Exercise</strong>: If you had access to patients with intracranial electrodes (e.g., epilepsy surgery candidates), design a study to directly test the laminar prediction error hypothesis:</p>
+<p><strong>Hypothesis</strong>: Superficial cortical layers (L2/3) carry ascending prediction errors; deep layers (L5/6) carry descending predictions.</p>
+<ol>
+<li><strong>Electrode type</strong>: Linear multi-electrode array spanning cortical layers</li>
+<li><strong>Target area</strong>: Primary auditory cortex (A1) — well-studied laminar structure</li>
+<li><strong>Paradigm</strong>: Oddball with varying predictability</li>
+<li><strong>Expected CSD pattern</strong>: Current source density (CSD) analysis showing:</li>
+<li>Superficial sink/source pattern for unexpected stimuli (PE)</li>
+<li>Deep sink/source pattern for predictable stimuli (top-down prediction)</li>
+<li><strong>Statistical test</strong>: Compare laminar profiles for expected vs. unexpected stimuli</li>
+</ol>
+<p>What confounds must be controlled? (Stimulus-driven activity vs. prediction-related activity)</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Reflection</h2>
+<p>In 300 words, reflect: Electrophysiology provides the temporal resolution to test Active Inference's predictions about neural dynamics. But the mapping from mathematical quantities (prediction errors, precision, predictions) to neural signals (MMN, alpha, gamma) involves significant interpretive assumptions. How confident can we be in these mappings? What alternative explanations exist?</p>
+<p>{fill:textarea}</p>
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Experiment design</td>
+<td>MMN and precision-weighted PE</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Oscillatory interpretation</td>
+<td>Frequency-band mapping</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Multi-level paradigm</td>
+<td>Hierarchical prediction errors</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Intracranial study design</td>
+<td>Laminar prediction hypothesis</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Critical evaluation</td>
+<td>Neural-computational mapping</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Perception / Electrophysiology (Research Methods)</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em> <strong>Date</strong>: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Part A: Multiple Choice</h2>
+<p><strong>1.</strong> Mismatch negativity (MMN) indexes:
+A) Motor planning
+B) Sensory prediction error — the brain's response to stimuli that violate predictions, with amplitude reflecting PE magnitude
+C) Reward
+D) Sleep</p>
+<p><strong>2.</strong> Alpha oscillations (8-12 Hz) in Active Inference reflect:
+A) Motor commands
+B) Precision modulation — increased alpha suppresses irrelevant prediction errors, functionally implementing precision down-weighting
+C) Sensory input
+D) Random noise</p>
+<p><strong>3.</strong> Bottom-up prediction errors preferentially travel in:
+A) Alpha/beta bands
+B) Gamma and theta frequency bands, consistent with their role in driving fast, stimulus-related neural computation
+C) Delta only
+D) No specific band</p>
+<p><strong>4.</strong> The roving oddball paradigm tests:
+A) Motor learning
+B) Belief updating — how repeated exposure strengthens predictions, producing larger prediction errors when expectations are violated
+C) Emotional regulation
+D) Language processing</p>
+<p><strong>5.</strong> Laminar recordings can distinguish:
+A) Only noise
+B) Ascending prediction errors (superficial layers L2/3) from descending predictions (deep layers L5/6), directly testing the canonical microcircuit model
+C) Only one layer
+D) Chemical signals</p>
+<p><strong>6.</strong> The local-global paradigm dissociates:
+A) Two types of reward
+B) Local prediction errors (automatic, early, temporal cortex) from global prediction errors (awareness-dependent, late, frontal-parietal) — testing hierarchical prediction
+C) Vision from audition
+D) Memory from attention</p>
+<p><strong>7.</strong> Steady-state visual evoked potentials (SSVEPs) test Active Inference by:
+A) Measuring saccades
+B) Tagging neural responses to specific stimuli at known frequencies — allowing researchers to track how attention (precision weighting) modulates the gain of specific sensory channels
+C) Testing motor reflexes
+D) Measuring sleep stages</p>
+<p><strong>8.</strong> Magnetoencephalography (MEG) advantages over EEG for testing Active Inference include:
+A) Better temporal resolution
+B) Superior spatial resolution and less sensitivity to volume conduction — enabling better localization of prediction error sources in specific cortical regions
+C) Cheaper equipment
+D) Better frequency range</p>
+<h2>Part B: Short Answer</h2>
+<p><strong>1.</strong> A researcher records EEG during an auditory oddball task and finds that MMN amplitude decreases when participants are told the deviants are "unimportant." Interpret this in Active Inference terms: what computational variable is being modulated by the instruction, and how does this relate to the neural response? (200 words)</p>
+<p><strong>2.</strong> Explain why cross-frequency coupling (e.g., gamma amplitude nested within beta phase) is predicted by hierarchical predictive coding. What would disruption of this coupling (e.g., by ketamine) predict for perception? (200 words)</p>
+<h2>Part C: Essay Questions</h2>
+<p><strong>1.</strong> Design a comprehensive EEG experiment testing three specific predictions of Active Inference about perception: (a) prediction errors are precision-weighted, (b) predictions travel top-down in beta frequencies, and (c) higher hierarchical levels generate later, more frontal responses. For each prediction, specify the paradigm, expected neural signature, and statistical test. (600 words)</p>
+<p><strong>2.</strong> Compare EEG, MEG, and fMRI as methods for testing Active Inference predictions. For each modality: strengths, limitations, what it can uniquely reveal, and what it cannot. Design an ideal multimodal study combining two or more modalities. (400 words)</p>
+<p><strong>3.</strong> Critically evaluate: Some researchers argue that MMN and related signals can be explained by simpler adaptation mechanisms (stimulus-specific adaptation, SSA) without invoking prediction. How would you distinguish the Active Inference account from the adaptation account experimentally? (400 words)</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

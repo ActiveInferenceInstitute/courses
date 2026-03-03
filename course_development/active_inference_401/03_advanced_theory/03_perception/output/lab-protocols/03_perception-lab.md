@@ -1,0 +1,109 @@
+# Lab: Bayesian Mechanics and the Free Energy Principle
+
+> **Learning Goal:** Analyze the mathematical foundations of Bayesian mechanics, working through the particular partition, Helmholtz decomposition, and path integral formulations.
+
+## Part 1: Particular Partition Analysis
+
+**Exercise**: For each of the following systems, identify the four partition states:
+
+| System | External (η) | Sensory (s) | Active (a) | Internal (μ) |
+|--------|-------------|-------------|-----------|--------------|
+| Cell | Nutrient concentrations, toxins | Membrane receptors, ion channels | Metabolic outputs, motility | Intracellular signaling, gene expression |
+| Brain (neuroscience) | World state | Sensory neurons (retina, cochlea) | Motor neurons, glands | Cortical neurons, subcortical circuits |
+| Thermostat | Room temperature | Temperature sensor | Heater on/off switch | Electronic comparator circuits |
+| Bacterium | Chemical gradient | Chemoreceptors | Flagellar motors | Intracellular signaling cascades |
+
+For the cell example, verify: (a) External states influence sensory but not internal states directly. (b) Internal states influence active but not external states directly. (c) The Markov blanket is formed by sensory + active states.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 2: Helmholtz Decomposition Exercise
+
+> **Learning Goal:** Decompose dynamics into dissipative and solenoidal components.
+
+**Exercise**: Consider a 2D system with states x = (x₁, x₂) and dynamics:
+
+dx₁/dt = -x₁ + 2x₂ + noise
+dx₂/dt = -2x₁ - x₂ + noise
+
+1. Identify the dissipative component (symmetric part of the drift matrix): Γ = ?
+2. Identify the solenoidal component (antisymmetric part): Q = ?
+3. What does the dissipative component do? (Gradient descent toward the mode)
+4. What does the solenoidal component do? (Rotational flow around the mode)
+5. Sketch the combined flow field. Note: the system spirals toward the fixed point.
+
+Relate this to neural dynamics: the dissipative component = inference (converging to a belief), the solenoidal component = exploration (oscillatory dynamics).
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 3: NESS and Inference
+
+> **Learning Goal:** Understand when physical dynamics are equivalent to inference.
+
+**Exercise**: Write out the conditions for the Free Energy Lemma to apply:
+
+1. **Stationarity**: The system must be at NESS — time-invariant probability density
+2. **Markov blanket**: The particular partition must hold
+3. **Smooth dynamics**: The drift must be differentiable
+4. **Ergodicity**: The system must visit its typical states
+
+Now consider a violation of each condition: What happens to the inference interpretation if...
+
+- The system is not at steady state (e.g., developing embryo)?
+- The Markov blanket leaks (internal states directly influence external states)?
+- The dynamics are discontinuous (phase transitions)?
+- The system is not ergodic (irreversible transitions)?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 4: Path Integral Analysis
+
+> **Learning Goal:** Work with path-integral formulations of free energy.
+
+**Exercise**: Consider a system evolving from state x₀ at t=0 to state x_T at t=T:
+
+1. Write the action functional S[x(t)] = ∫₀ᵀ L(x, dx/dt) dt
+2. The most likely path minimizes S. How does this connect to the principle of least action?
+3. Why must we consider *distributions over paths* rather than single paths?
+4. How does path-integral free energy F[q(x(t))] generalize instantaneous free energy?
+5. What is the "temporal cost" of changing beliefs quickly vs. slowly?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 5: Critique and Limits
+
+> **Learning Goal:** Critically evaluate the scope and limits of Bayesian mechanics.
+
+**Exercise**: Evaluate these critiques:
+
+| Critique | Strength (1-5) | Your Response |
+|----------|----------------|---------------|
+| "FEP is unfalsifiable — any system at NESS can be described this way" | | Is mathematical equivalence a scientific claim? |
+| "Markov blankets in biological systems are approximate, not exact" | | How does this affect the formal results? |
+| "The dual-aspect interpretation overrelates inference and physics" | | Where does the analogy break down? |
+| "Bayesian mechanics is just a re-description, not an explanation" | | What explanatory work does it do? |
+| "The gauge freedom makes the beliefs unidentifiable" | | Does gauge freedom undermine the interpretation? |
+
+Write a 300-word analysis: What is the epistemological status of the FEP? Is it a law, a principle, a framework, or a tautology?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Lab Summary
+
+| Part | Skill Practiced | Key Concept |
+|------|----------------|-------------|
+| 1 | System analysis | Particular partition identification |
+| 2 | Mathematical analysis | Helmholtz decomposition |
+| 3 | Formal conditions | NESS and inference equivalence |
+| 4 | Advanced mathematics | Path integral formulation |
+| 5 | Critical evaluation | Epistemological status of FEP |

@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_Agents - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>02_Agents</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>02_Agents</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>The Creative Agent: Inventor Archetypes, Team Creativity, and the Role of Prior Beliefs in Invention</h1>
+<h2>Executive Summary</h2>
+<p>Every invention emerges from an agent — a system that maintains a boundary with its environment, holds a generative model of how the world works, and acts to bring the world closer to its expectations. But not all creative agents are alike. This module examines the inventor as an Active Inference agent, exploring how different inventor archetypes (the methodical engineer, the tinkerer, the accidental discoverer, the visionary systems thinker) arise from different configurations of prior beliefs, precision weightings, and policy selection strategies. It extends the single-agent view to team creativity, showing how multiple agents with complementary generative models can collectively explore the solution space more effectively than any individual. Understanding your own agent architecture — your priors, your biases, your preferred modes of action — is the first step toward becoming a more effective inventor.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Characterize the inventor as an Active Inference agent with a generative model, prior beliefs, precision weighting, and action policies</li>
+<li>Identify and compare multiple inventor archetypes in terms of their Active Inference parameters (exploration rate, prior strength, model complexity)</li>
+<li>Explain how an inventor's prior beliefs both enable and constrain the inventions they can conceive</li>
+<li>Analyze team creativity as multi-agent Active Inference, including the roles of shared generative models, complementary priors, and distributed free energy minimization</li>
+<li>Assess your own inventor archetype and identify strategies for expanding your creative repertoire</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. The Inventor as Active Inference Agent</h3>
+<p>An inventor is an adaptive agent that maintains a generative model — an internal representation of how the world works, what needs exist, and what interventions might address them. This model generates predictions about sensory observations. When predictions fail (prediction error occurs), the agent can either update its model (perceptual inference) or act on the world to make predictions come true (active inference). Invention is, at its core, an extreme form of active inference: the inventor has a model of a world that does not yet exist and acts to bring that world into being.</p>
+<p>The generative model of an inventor includes beliefs about physics, materials, user needs, market dynamics, manufacturing processes, and aesthetic preferences. These beliefs have different levels of precision — how confident the inventor is in each belief. An engineer trained in materials science has high-precision beliefs about material properties but may have low-precision beliefs about user behavior. A designer has the reverse profile. These precision weightings determine which prediction errors the inventor notices and acts upon, fundamentally shaping the direction of their creative work.</p>
+<p>The inventor's action policies — the repertoire of actions they know how to take — further constrain the creative process. An inventor who knows how to write software but not how to solder has a different action space than one with the reverse skills. Active Inference predicts that agents select policies that minimize expected free energy — the combination of achieving goals (pragmatic value) and reducing uncertainty (epistemic value). Creative inventors are distinguished by their willingness to select policies with high epistemic value, choosing actions that generate information even when the pragmatic payoff is uncertain.</p>
+<h3>2. Inventor Archetypes as Parameter Configurations</h3>
+<p>Different types of inventors can be understood as different configurations of Active Inference parameters. These are not rigid categories but tendencies — attractors in the space of possible agent configurations.</p>
+<p><strong>The Methodical Engineer</strong> operates with strong, well-calibrated priors and high precision weighting on technical feasibility. Their generative model emphasizes physical principles, manufacturing constraints, and quantitative performance metrics. They minimize free energy primarily through model refinement — systematically narrowing uncertainty about a well-defined problem. James Dyson, who built 5,127 prototypes of his cyclone vacuum, exemplifies this archetype: strong priors about the physics of cyclonic separation, combined with relentless empirical testing to reduce model uncertainty.</p>
+<p><strong>The Tinkerer</strong> operates with weaker priors and lower precision, allowing more exploration. Their generative model is broad rather than deep, emphasizing analogies and heuristics over formal analysis. They minimize free energy through action — building and testing quickly, letting the world provide the structure their model lacks. The Wright brothers exemplified this approach, building and testing gliders and wing shapes in rapid succession, using empirical feedback rather than theoretical analysis (which, at the time, was unreliable for aerodynamics).</p>
+<p><strong>The Accidental Discoverer</strong> has strong priors in one domain that are suddenly violated by unexpected observation. The key trait is high precision on the surprising observation — the ability to notice when something unexpected has happened and treat it as signal rather than noise. Alexander Fleming's discovery of penicillin required noticing that a mold contamination had killed bacteria on his culture plates. Many other researchers had seen similar contamination and discarded it. Fleming's prior model predicted bacterial growth; the violation was precise enough to register as important.</p>
+<p><strong>The Systems Thinker</strong> maintains multiple generative models simultaneously, looking for structural isomorphisms between domains. Their minimization of free energy operates at a meta-level: they seek to unify apparently disparate phenomena under a single model. Buckminster Fuller, who saw connections between geodesic geometry, structural engineering, housing, and global resource management, exemplifies this archetype.</p>
+<h3>3. Prior Beliefs: The Lens That Both Reveals and Conceals</h3>
+<p>An inventor's prior beliefs are simultaneously their greatest asset and their greatest limitation. Priors focus attention, making certain observations salient and certain solutions conceivable. But they also create blind spots — regions of the solution space that the inventor cannot perceive because their model does not predict observations from those regions.</p>
+<p>The concept of "functional fixedness" in psychology describes a specific form of overly rigid priors: the inability to see an object as useful for anything other than its conventional purpose. Karl Duncker's classic candle problem demonstrates this — subjects cannot see a box of tacks as a shelf because their prior model categorizes it as a container. Inventors who overcome functional fixedness do so by lowering the precision of their priors about object categories, allowing alternative functions to become conceivable.</p>
+<p>The history of invention is rich with examples of priors both enabling and constraining. Kodak's engineers had deep expertise in chemical photography — priors that made them the world's best film manufacturers. Those same priors blinded them to the potential of digital photography, which violated their model of how images should be captured and stored. Steven Sasson, the Kodak engineer who built the first digital camera in 1975, succeeded precisely because he was new to the company and had weaker priors about photography being necessarily chemical.</p>
+<p>Active Inference suggests a strategy for managing this tension: metacognitive awareness of one's own priors. By explicitly representing beliefs about beliefs — knowing what you assume, and knowing the precision of those assumptions — an inventor can deliberately loosen priors when exploring and tighten them when converging. This is the difference between unconscious bias and deliberate modeling.</p>
+<h3>4. Team Creativity as Multi-Agent Active Inference</h3>
+<p>When multiple inventors work together, the team constitutes a multi-agent Active Inference system. Each agent has its own generative model, priors, and precision weightings. The team's collective creative capacity depends on how these individual models interact.</p>
+<p>Complementary priors are the most valuable feature of a creative team. An engineer, a designer, a business strategist, and a user researcher bring different generative models that, together, cover more of the solution space than any individual model could. The engineer predicts technical feasibility; the designer predicts user experience; the strategist predicts market dynamics; the researcher predicts user needs. When these models are brought into dialogue, the team can identify solutions that satisfy all constraints simultaneously.</p>
+<p>However, multi-agent systems face a coordination challenge: the agents must somehow align their models enough to communicate effectively while maintaining enough model diversity to avoid groupthink. In Active Inference terms, this is the tension between shared (common) priors and individual priors. Too much alignment produces a team that thinks as one — efficient but uncreative. Too little alignment produces a team that cannot communicate — diverse but dysfunctional.</p>
+<p>The most productive creative teams manage this tension through shared artifacts. A sketch, a prototype, a user story, or a system diagram serves as a common reference point — a shared observation that all team members can interpret through their own generative models. The artifact is not the generative model; it is the sensory evidence that multiple generative models can process. This is why design thinking emphasizes externalization: making ideas visible so that multiple agents can perceive and respond to them.</p>
+<h3>5. The Role of Motivation and Expected Free Energy</h3>
+<p>What drives an inventor to create? Active Inference provides a precise answer: inventors are agents who expect that certain actions (inventing) will reduce free energy more than alternative actions (not inventing). This expected free energy has two components that illuminate inventor motivation.</p>
+<p>The pragmatic component reflects goal-directed motivation: the inventor expects their invention to achieve some desired outcome — solving a problem, meeting a need, generating revenue, earning recognition. This component drives convergent creativity — the process of refining a solution to meet specific criteria. Edison's pragmatic motivation (commercially viable electric lighting) drove thousands of systematic experiments to find the right filament material.</p>
+<p>The epistemic component reflects curiosity-driven motivation: the inventor expects that the process of inventing will reduce their uncertainty about how the world works. This component drives exploratory creativity — the process of investigating possibilities without a specific endpoint. Richard Feynman's work on quantum electrodynamics was driven substantially by epistemic motivation — he wanted to understand nature, and useful inventions (such as quantum computing foundations) emerged as byproducts.</p>
+<p>Most inventors are motivated by both components, but the balance varies. Understanding your own motivational profile — how much you are driven by pragmatic goals versus epistemic curiosity — helps you choose projects that sustain engagement and select team members whose motivational profiles complement yours. A team of pure pragmatists will efficiently converge on conventional solutions; a team of pure epistemic explorers will generate fascinating insights but may never ship a product. The ideal creative team balances both.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: The Complementary Agents of Apple (1976-1985)</h3>
+<p>The founding team of Apple Computer illustrates multi-agent creative dynamics with unusual clarity. Steve Wozniak and Steve Jobs had radically different generative models that, in combination, produced inventions neither could have achieved alone.</p>
+<p>Wozniak's generative model was technical and bottom-up. His priors emphasized circuit elegance, component efficiency, and engineering beauty. He could perceive opportunities for hardware optimization that were invisible to non-engineers. His precision weighting was highest on technical performance: he literally counted the number of chips in competing designs and aimed to use fewer. His action policies centered on building — he invented through the act of construction.</p>
+<p>Jobs's generative model was aesthetic, market-oriented, and top-down. His priors emphasized user experience, industrial design, and market positioning. He perceived the personal computer not as a collection of circuits but as a tool for human empowerment. His precision weighting was highest on the experiential quality of the product: how it looked, how it felt, what it meant. His action policies centered on evaluation and direction-setting rather than construction.</p>
+<p>The tension between these two agents was productive precisely because each could perceive prediction errors invisible to the other. Wozniak would build a technically brilliant machine; Jobs would experience it as a user and identify where the experience failed his model. The resulting product — the Apple II — was simultaneously more elegant technically and more accessible experientially than either agent could have produced alone.</p>
+<p>This case illustrates a key principle of multi-agent creativity: the value of a teammate is proportional to the difference between their generative model and yours, provided you have enough shared model (enough common language and mutual respect) to communicate across the gap.</p>
+<h3>Case Study 2: Percy Spencer and the Accidental Discovery of the Microwave Oven</h3>
+<p>In 1945, Percy Spencer, an engineer at Raytheon working on magnetron tubes for radar systems, noticed that a chocolate bar in his pocket had melted while he stood near an active magnetron. This observation violated his generative model: magnetrons were supposed to produce radar signals, not heat food. Most engineers would have dismissed this as a trivial side effect — their priors about magnetrons were so strong that the heating effect would register as noise rather than signal.</p>
+<p>Spencer's agent architecture made him receptive to this surprise. Although he had deep expertise in magnetrons (strong technical priors), he also had an unusual background. Largely self-educated, he had worked in diverse roles before specializing in microwave technology. This diverse experience gave him a broader prior — a generative model that included cooking, consumer products, and practical problem-solving alongside electromagnetic theory.</p>
+<p>Critically, Spencer assigned high precision to the unexpected observation. Rather than discarding it, he deliberately tested it: he pointed the magnetron at popcorn kernels (they popped), then at an egg (it exploded). These experiments represent Active Inference in action — policy selection designed to reduce uncertainty about the unexpected phenomenon. Each experiment updated his model: microwaves could cook food, rapidly and internally.</p>
+<p>The resulting invention — the microwave oven — required Spencer to construct a new generative model that bridged two previously separate domains: microwave engineering and food preparation. This kind of model construction is characteristic of the accidental discoverer archetype: strong domain expertise provides the context for noticing anomalies, while breadth of experience provides the interpretive framework for understanding their significance.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 01 (Creative System)</strong>: The creative system provides the environment in which agents operate; the agent's affordances are constrained by the system's Markov blanket</li>
+<li><strong>Module 03 (Creative Perception)</strong>: An agent's prior beliefs determine what they can perceive; this module's archetype analysis explains why different inventors see different things</li>
+<li><strong>Module 04 (Inventive Cognition)</strong>: The cognitive processes discussed in Module 04 are the internal model-updating mechanisms of the agents described here</li>
+<li><strong>Module 06 (Learning to Invent)</strong>: Learning changes the agent's generative model over time, potentially shifting them between archetypes</li>
+<li><strong>Section 1, Module 02 (Agents in Invention)</strong>: Foundational agent concepts; this module extends them with inventor-specific archetypes and team dynamics</li>
+</ul>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Active Inference Term</th>
+<th>Invention Application</th>
+<th>Key Insight</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inventor</td>
+<td>Active Inference agent</td>
+<td>Person or team creating novel solutions</td>
+<td>Inventors act to bring model predictions into reality</td>
+</tr>
+<tr>
+<td>Expertise</td>
+<td>Prior beliefs (with precision)</td>
+<td>Domain knowledge, skills, experience</td>
+<td>Priors focus attention but create blind spots</td>
+</tr>
+<tr>
+<td>Inventor type</td>
+<td>Parameter configuration</td>
+<td>Methodical, tinkerer, accidental discoverer, systems thinker</td>
+<td>Different archetypes suit different invention challenges</td>
+</tr>
+<tr>
+<td>Skill repertoire</td>
+<td>Action policies</td>
+<td>What the inventor knows how to build/do</td>
+<td>Available actions constrain the space of possible inventions</td>
+</tr>
+<tr>
+<td>Team creativity</td>
+<td>Multi-agent inference</td>
+<td>Complementary experts working together</td>
+<td>Diverse models cover more solution space than any single model</td>
+</tr>
+<tr>
+<td>Motivation</td>
+<td>Expected free energy (pragmatic + epistemic)</td>
+<td>Goal-directed vs. curiosity-driven invention</td>
+<td>Balancing pragmatic and epistemic motivation sustains creative engagement</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Isaacson, W. (2011). <em>Steve Jobs</em>. Simon &amp; Schuster.</li>
+<li>Duncker, K. (1945). On problem-solving. <em>Psychological Monographs</em>, 58(5), 1–113.</li>
+<li>Kahneman, D. (2011). <em>Thinking, Fast and Slow</em>. Farrar, Straus and Giroux.</li>
+<li>Wozniak, S., &amp; Smith, G. (2006). <em>iWoz: Computer Geek to Cult Icon</em>. W. W. Norton.</li>
+<li>Cropley, D. H. (2015). <em>Creativity in Engineering: Novel Solutions to Complex Problems</em>. Academic Press.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Discovering Your Inventor Archetype</h1>
+<h2>Objective</h2>
+<p>Identify your own inventor archetype by examining your prior beliefs, precision weightings, preferred action policies, and motivational profile. Then practice adopting a complementary archetype to expand your creative repertoire. By the end of this lab, you will have a concrete self-assessment and a strategy for leveraging your strengths while compensating for your blind spots.</p>
+<h2>Materials / Prerequisites</h2>
+<ul>
+<li>Your own invention idea or project (any domain, any stage)</li>
+<li>Paper and pen for sketching</li>
+<li>A timer</li>
+<li>Completed reading of Module 02: The Creative Agent</li>
+</ul>
+<h2>Part 1: Map Your Generative Model (15 minutes)</h2>
+<p>Your generative model is everything you believe about how the world works, what needs exist, and what solutions are possible. Most of this model is implicit — you operate on assumptions you have never explicitly stated. This exercise makes parts of that model visible. When you can see your assumptions, you can evaluate them, update them, and identify the ones that might be wrong. The goal is not to judge your beliefs but to catalog them, because awareness of your own model is the first step toward managing it deliberately. Pay special attention to beliefs you hold with high confidence — these are your strongest priors, and they are both your greatest asset and your most likely blind spot.</p>
+<p><strong>Step 1 (5 min):</strong> Consider your invention idea. List your core beliefs about the problem you are trying to solve. These are your priors — the assumptions you bring to the creative process.</p>
+<table>
+<thead>
+<tr>
+<th>Belief / Assumption</th>
+<th>Confidence Level (1-10)</th>
+<th>Source (Education / Experience / Intuition / Data)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2 (5 min):</strong> Now list beliefs about your solution approach — what you assume about how the problem should be solved:</p>
+<table>
+<thead>
+<tr>
+<th>Solution Assumption</th>
+<th>Confidence Level (1-10)</th>
+<th>What Would Change If This Were Wrong?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3 (5 min):</strong> Identify your three strongest beliefs (highest confidence) and your three weakest. What does this pattern tell you about where your model is well-calibrated versus where you are operating on assumption?</p>
+<p fill:textarea="fill:textarea">Strongest beliefs:</p>
+<p fill:textarea="fill:textarea">Weakest beliefs:</p>
+<p fill:textarea="fill:textarea">What this pattern reveals:</p>
+<h2>Part 2: Identify Your Archetype (12 minutes)</h2>
+<p>The four inventor archetypes — Methodical Engineer, Tinkerer, Accidental Discoverer, and Systems Thinker — are not rigid categories but tendencies. Most inventors are blends, with a primary archetype that dominates their default approach and secondary tendencies that emerge in specific situations. The value of identifying your archetype is not to label yourself permanently but to understand your default settings — the assumptions, priorities, and approaches you fall back on when you are not consciously choosing a strategy. Once you know your default, you can deliberately choose to override it when the situation calls for a different approach.</p>
+<p><strong>Step 1 (6 min):</strong> Rate yourself on each dimension below. Be honest — there are no right answers.</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Scale</th>
+<th>Your Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>When facing a new problem, I prefer to analyze before building vs. build to understand</td>
+<td>1 (analyze first) — 10 (build first)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>I trust theoretical reasoning vs. empirical testing</td>
+<td>1 (theory) — 10 (empirical)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>I focus deeply on one domain vs. draw from many domains</td>
+<td>1 (deep) — 10 (broad)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>I am motivated by solving a specific problem vs. exploring what is possible</td>
+<td>1 (problem-focused) — 10 (exploration-focused)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>I prefer refining an existing solution vs. generating entirely new approaches</td>
+<td>1 (refine) — 10 (generate new)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>I work best alone vs. in dialogue with others</td>
+<td>1 (alone) — 10 (with others)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>When I encounter something unexpected, I investigate it vs. stay on track</td>
+<td>1 (stay on track) — 10 (investigate)</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2 (6 min):</strong> Based on your ratings, which archetype(s) best describe you? You may be a blend.</p>
+<ul>
+<li><strong>Methodical Engineer</strong>: Low scores on 2, 5, 7; high scores on 1 (analyze side)</li>
+<li><strong>Tinkerer</strong>: High scores on 2, 5; low scores on 1 (build side)</li>
+<li><strong>Accidental Discoverer</strong>: High scores on 3, 7; moderate on others</li>
+<li><strong>Systems Thinker</strong>: High scores on 3, 4; often moderate across others</li>
+</ul>
+<p fill:textarea="fill:textarea">My primary archetype:</p>
+<p fill:textarea="fill:textarea">My secondary archetype (if applicable):</p>
+<p fill:textarea="fill:textarea">How this archetype has shaped my past creative work (give a specific example):</p>
+<h2>Part 3: Identify Your Blind Spots (10 minutes)</h2>
+<p>Every inventor archetype has characteristic blind spots — regions of the solution space that are systematically invisible because the archetype's generative model does not predict observations from those regions. The Methodical Engineer may miss solutions that require artistic intuition. The Tinkerer may miss solutions that require formal analysis. The Accidental Discoverer may miss solutions that require sustained systematic effort. Identifying your blind spots is uncomfortable but essential — it is the difference between unconscious bias and deliberate modeling. The following exercise asks you to confront what you are most likely to miss.</p>
+<p><strong>Step 1 (5 min):</strong> Every archetype has characteristic blind spots. Based on your archetype, identify what you are likely to miss:</p>
+<table>
+<thead>
+<tr>
+<th>My Archetype Tendency</th>
+<th>What It Causes Me to Miss</th>
+<th>A Time This Actually Happened</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2 (5 min):</strong> For your invention idea, identify one specific blind spot that your archetype creates. What aspect of the problem or solution space are you not seeing because of your priors?</p>
+<p fill:textarea="fill:textarea">The blind spot:</p>
+<p fill:textarea="fill:textarea">Why my priors cause this blind spot:</p>
+<p fill:textarea="fill:textarea">What an inventor with a different archetype would see here:</p>
+<h2>Part 4: Adopt a Complementary Archetype (15 minutes)</h2>
+<p>One of the most powerful techniques for expanding your creative capacity is to deliberately adopt a different inventor archetype — to think about your problem through a lens that is not your natural default. This is cognitively demanding because it requires temporarily reducing the precision of your habitual priors and increasing the precision of unfamiliar ones. Think of it as method acting for inventors: you are not pretending to be a different person, but you are deliberately adopting a different set of assumptions, priorities, and approaches to see what they reveal about your problem.</p>
+<p><strong>Step 1 (5 min):</strong> Choose the archetype most different from yours. For the next ten minutes, you will deliberately think about your invention idea from this perspective. Before you begin, describe how this archetype would approach your invention:</p>
+<p fill:textarea="fill:textarea">Archetype I am adopting:</p>
+<p fill:textarea="fill:textarea">How this archetype would frame my problem:</p>
+<p fill:textarea="fill:textarea">What this archetype would prioritize:</p>
+<p><strong>Step 2 (10 min):</strong> Spend ten minutes working on your invention idea from this new perspective. Write, sketch, or diagram whatever emerges. The goal is not to produce a polished idea but to explore territory your default archetype would not visit.</p>
+<p fill:textarea="fill:textarea">What emerged from adopting the complementary archetype:</p>
+<p fill:textarea="fill:textarea">Was anything genuinely surprising or useful? What?</p>
+<p fill:textarea="fill:textarea">What will you carry forward from this exercise?</p>
+<h2>Part 5: Design Your Creative Team (8 minutes)</h2>
+<p><strong>Step 1 (4 min):</strong> If you were building a team of 3-4 people to develop your invention, what archetypes would you recruit? Why?</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Archetype</th>
+<th>What They Bring</th>
+<th>How They Complement You</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>You</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Teammate 1</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Teammate 2</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Teammate 3</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2 (4 min):</strong> What shared artifacts (prototypes, documents, diagrams) would this team need to communicate across their different generative models? List at least three:</p>
+<ol>
+<li>{fill:textarea}</li>
+<li>{fill:textarea}</li>
+<li>{fill:textarea}</li>
+</ol>
+<p>How would you ensure the team maintains enough model diversity to avoid groupthink while staying aligned enough to make progress?</p>
+<p>{fill:textarea}</p>
+<h2>Discussion / Debrief Questions</h2>
+<ol>
+<li>
+<p>Did the archetype self-assessment surprise you, or did it confirm what you already knew? What was the most informative dimension?</p>
+</li>
+<li>
+<p>When you adopted the complementary archetype in Part 4, did it feel uncomfortable, liberating, or both? What does that tell you about the flexibility of your generative model?</p>
+</li>
+<li>
+<p>In what situations is it most important to be aware of your archetype? When are your default tendencies most helpful, and when are they most limiting?</p>
+</li>
+<li>
+<p>How does the concept of "precision weighting" help explain disagreements in creative teams? Think of a time when you disagreed with a collaborator — can you reframe that disagreement as a difference in precision weighting rather than a difference in values?</p>
+</li>
+<li>
+<p>The module discusses the accidental discoverer as someone who notices anomalies that others dismiss. How can you cultivate this capacity regardless of your primary archetype? What practices or habits might help?</p>
+</li>
+</ol></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: The Creative Agent</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>In Active Inference, an inventor's generative model includes:
+   A) Only their technical knowledge and skills
+   B) Beliefs about physics, user needs, markets, materials, and aesthetics — with varying precision
+   C) A fixed blueprint of the invention they intend to build
+   D) Only the information they have gathered in the current project</p>
+</li>
+<li>
+<p>The "Methodical Engineer" inventor archetype is characterized by:
+   A) Weak priors, rapid exploration, and tolerance for ambiguity
+   B) Strong priors, high precision on technical feasibility, and systematic model refinement
+   C) Broad but shallow knowledge across many unrelated domains
+   D) Primary reliance on chance discoveries and serendipity</p>
+</li>
+<li>
+<p>Why was Kodak engineer Steven Sasson able to invent the digital camera while senior photography experts missed the opportunity?
+   A) He was more intelligent than the senior experts
+   B) He had access to better equipment and funding
+   C) His weaker priors about photography being necessarily chemical allowed him to perceive digital imaging as viable
+   D) He was instructed by management to pursue digital technology</p>
+</li>
+<li>
+<p>In multi-agent creativity, shared artifacts (prototypes, sketches) serve as:
+   A) Final products ready for market
+   B) Decorative elements that improve team morale
+   C) Shared sensory evidence that multiple generative models can process and respond to
+   D) Legal documents establishing intellectual property</p>
+</li>
+<li>
+<p>The expected free energy that drives inventor motivation has two components:
+   A) Cost and revenue
+   B) Pragmatic value (achieving goals) and epistemic value (reducing uncertainty)
+   C) Effort and reward
+   D) Risk and return</p>
+</li>
+<li>
+<p>Alexander Fleming's discovery of penicillin exemplifies the "accidental discoverer" archetype because:
+   A) He had no relevant expertise and stumbled onto the discovery purely by luck
+   B) He had strong domain expertise but also high precision on an unexpected observation that others dismissed
+   C) He was systematically searching for antibiotics through a methodical process
+   D) He combined insights from multiple unrelated scientific fields</p>
+</li>
+<li>
+<p>The optimal creative team balances:
+   A) Identical generative models to ensure perfect communication
+   B) Completely different models with no shared understanding
+   C) Complementary models with enough shared framework to communicate but enough diversity to avoid groupthink
+   D) A single leader's model with subordinates who execute without question</p>
+</li>
+</ol>
+<h2>Part B: Short Answer / Analysis</h2>
+<ol>
+<li>
+<p>The Wright brothers and James Dyson both produced breakthrough inventions through iterative prototyping, but their inventor archetypes differ. The Wright brothers tested many designs rapidly with minimal theoretical analysis (tinkerers), while Dyson built 5,127 prototypes guided by deep understanding of cyclonic physics (methodical engineer). Using Active Inference concepts, explain how both approaches can be effective despite their differences in prior strength and precision weighting. What type of problem is each approach best suited for?</p>
+</li>
+<li>
+<p>A creative team consists of a mechanical engineer, a graphic designer, a marketing strategist, and a user researcher. Using the multi-agent Active Inference framework, describe how each team member's generative model contributes to the team's collective creative capacity. Identify a specific type of design decision where disagreement between team members would be most productive, and explain why using the concept of complementary precision weightings.</p>
+</li>
+<li>
+<p>You are an inventor who identifies strongly as a Methodical Engineer (strong priors, high precision on technical feasibility, systematic approach). Your current project requires a radically novel solution — something outside the domain of your existing expertise. Using Active Inference concepts, describe three specific strategies for temporarily shifting your agent configuration to be more exploratory. For each strategy, explain what Active Inference parameter it modifies and how.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

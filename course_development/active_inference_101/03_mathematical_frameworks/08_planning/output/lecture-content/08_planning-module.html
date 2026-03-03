@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 08: Planning — Deep Temporal Models and Planning as Inference</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 101 | <strong>Unit</strong>: Mathematical Frameworks | <strong>Audience</strong>: First-semester undergraduates</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Formalize planning as <strong>inference over policies</strong> using Expected Free Energy.</li>
+<li>Introduce <strong>deep temporal models</strong> — hierarchical models that plan across multiple timescales.</li>
+<li>Explain how <strong>habits emerge</strong> mathematically as strong policy priors.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Planning is the capstone of Active Inference's formal framework. This module shows how the machinery developed throughout this unit — generative models, variational inference, EFE, and learning — combines to produce planning, habit formation, and hierarchical decision-making.</p>
+<h2>Key Concepts</h2>
+<h3>1. Planning as Inference</h3>
+<p>Traditional AI treats planning as a search problem. Active Inference treats planning as <strong>inference</strong>:</p>
+<ul>
+<li>Define policies π as sequences of actions: π = [a₁, a₂, ..., a_T]</li>
+<li>Evaluate each policy using Expected Free Energy: G(π)</li>
+<li>Select policies via posterior: P(π | o) ∝ P(π) × exp(-G(π))</li>
+<li>The policy prior P(π) encodes habits — the default tendency toward certain action sequences</li>
+</ul>
+<p>Planning is not separate from inference — it's the same variational inference machinery applied to the policy dimension.</p>
+<h3>2. Tree Search via Policy Evaluation</h3>
+<p>Each policy generates a predicted future trajectory:</p>
+<p>For policy π = [a₁, a₂, a₃]:</p>
+<ul>
+<li>t=1: q̃(s₁) = Σ B(:,:,a₁) × q(s₀) → q̃(o₁) = A × q̃(s₁)</li>
+<li>t=2: q̃(s₂) = Σ B(:,:,a₂) × q̃(s₁) → q̃(o₂) = A × q̃(s₂)</li>
+<li>t=3: q̃(s₃) = Σ B(:,:,a₃) × q̃(s₂) → q̃(o₃) = A × q̃(s₃)</li>
+</ul>
+<p>The agent mentally simulates each policy's consequences, then selects the policy with lowest total expected free energy.</p>
+<h3>3. Deep Temporal Models</h3>
+<p>Real planning involves multiple timescales simultaneously:</p>
+<ul>
+<li><strong>Fast timescale</strong>: "Which finger movement do I make?" (milliseconds)</li>
+<li><strong>Medium timescale</strong>: "Which sentence do I say?" (seconds)</li>
+<li><strong>Slow timescale</strong>: "Which career do I pursue?" (years)</li>
+</ul>
+<p><strong>Deep temporal models</strong> are hierarchical POMDPs where higher levels operate on slower timescales:</p>
+<ul>
+<li>Higher level: Sets goals (C vectors) for the level below</li>
+<li>Lower level: Selects policies to achieve those goals</li>
+<li>Transitions at higher levels are slower (B matrix with fewer state changes per unit time)</li>
+</ul>
+<p>This creates a hierarchy: abstract plans at the top, concrete actions at the bottom.</p>
+<h3>4. Habit Formation — Strong Policy Priors</h3>
+<p>Habits emerge when the policy prior P(π) becomes very strong:</p>
+<ul>
+<li>Initially: P(π) is relatively flat → the agent evaluates all policies (goal-directed behavior)</li>
+<li>With experience: Successful policies accumulate evidence → P(π) sharpens</li>
+<li>Eventually: P(π) is so strong that EFE evaluation is bypassed → habitual behavior</li>
+</ul>
+<p>Mathematically: P(π | o) ∝ P(π) × exp(-G(π)). When P(π) dominates, the posterior follows the prior regardless of EFE.</p>
+<h3>5. The Complete Active Inference Algorithm</h3>
+<p>Bringing everything together — what the agent does at each time step:</p>
+<ol>
+<li><strong>Observe</strong>: o_t</li>
+<li><strong>Infer states</strong>: q(s_t) ← minimize F with respect to states</li>
+<li><strong>Evaluate policies</strong>: G(π) ← compute EFE for each policy</li>
+<li><strong>Select policy</strong>: P(π | o) ∝ P(π) × exp(-γG(π))</li>
+<li><strong>Act</strong>: Execute a_t from the selected policy</li>
+<li><strong>Learn</strong>: Update parameters (A, B, C, D) via Dirichlet updates</li>
+<li><strong>Sleep</strong>: Perform BMR to simplify model structure</li>
+<li><strong>Repeat</strong></li>
+</ol>
+<p>This is the complete mathematical specification of an Active Inference agent.</p>
+<h2>Summary</h2>
+<p>Planning is inference over policies, evaluated using Expected Free Energy. Deep temporal models extend this to hierarchical planning across multiple timescales. Habits emerge as strong policy priors that bypass evaluation. The complete Active Inference algorithm integrates perception, cognition, action, learning, communication, and planning into a single mathematical framework.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Friston, K. J. et al. (2017). Deep temporal models and active inference. <em>Neuroscience &amp; Biobehavioral Reviews</em>, 77, 388-402.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press. (Chapters 8-10)</li>
+<li>Millidge, B. et al. (2021). Understanding the origin of information-seeking exploration in probabilistic objectives for control. <em>arXiv:2103.06859</em>.</li>
+</ul>
+</body>
+</html>

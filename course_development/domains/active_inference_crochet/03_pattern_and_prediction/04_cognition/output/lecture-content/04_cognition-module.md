@@ -1,0 +1,128 @@
+# Mental Models of the Finished Piece: Cognition in Pattern Reading
+
+## Summary
+
+When you read a crochet pattern, your mind does far more than decode abbreviations — it builds a mental model of the finished object, simulates how stitches will create texture and shape, and performs arithmetic to understand increases, decreases, and construction logic. In Active Inference, this cognitive work is **generative model simulation**: running your internal model forward to predict outcomes without physically creating them. This module explores the thinking that happens between reading the pattern and picking up the hook.
+
+---
+
+## Learning Objectives
+
+By the end of this module, you will be able to:
+
+1. Explain how crocheters visualize the finished piece from written instructions as generative model simulation
+2. Describe how understanding stitch abbreviations builds an internal symbolic language for pattern prediction
+3. Demonstrate mental arithmetic for increases and decreases as model-based computation
+
+---
+
+## Key Concepts
+
+### 1. Visualization as Generative Model Simulation
+
+The most remarkable cognitive feat in crochet is **visualization** — reading a page of text and symbols and seeing, in your mind's eye, what the finished piece will look like. This is not imagination in the loose sense. It is your generative model running a forward simulation:
+
+- You read "Ch 4, 2 dc in 4th ch from hook" and your model generates a prediction: a small cluster of stitches fanning from a single chain, the beginning of something round
+- You read "Rnd 2: 2 dc in each st around (12 dc)" and the simulation updates: the cluster is growing, turning into a flat circle
+- By Round 5, you can "see" a coaster or the beginning of a hat crown
+
+This simulation draws on stored experience. A crocheter who has made granny squares instantly recognizes the construction logic when reading a granny square pattern. A crocheter who has never worked in the round may struggle to visualize how flat rounds become three-dimensional objects.
+
+The quality of your visualization — how vivid, accurate, and detailed your mental image is — directly reflects the quality of your generative model. Experienced designers can read a complex garment pattern and mentally "try it on," predicting fit, drape, and appearance. This is the generative model at its most powerful.
+
+### 2. Stitch Abbreviations as a Symbolic Language
+
+Crochet patterns use a compressed symbolic language: sc, dc, hdc, tr, fpdc, bpdc, ch, sl st, sk, inc, dec. Each abbreviation is a **symbol** that your cognitive model must decode into a rich, multi-dimensional prediction:
+
+When you read **dc** (double crochet), your model unpacks:
+- **Height**: About twice the height of a single crochet
+- **Density**: More open than sc, with visible posts and gaps
+- **Drape**: Creates a softer, more flexible fabric
+- **Motion**: Yarn over, insert, pull up, yarn over, pull through 2 (twice)
+- **Sound**: A specific rhythm of hook through fabric
+
+This decoding is so automatic for experienced crocheters that it feels instantaneous. But it represents a trained cognitive model that has learned to expand compressed symbols into rich multi-sensory predictions.
+
+For less common abbreviations — fpdc (front post double crochet), blo (back loop only), bobble — the decoding may be slower, requiring conscious recall. This is your model operating at the edge of its training, where it can decode but with lower confidence and speed.
+
+### 3. Mental Arithmetic: The Math of Shaping
+
+Crochet patterns require real mathematical thinking, and crocheters perform this math constantly — often without recognizing it as computation:
+
+**Increase calculations**: "Inc evenly across (30 to 36 stitches)"
+- How many increases? 36 - 30 = 6
+- How far apart? 30 / 6 = every 5th stitch
+- Your model computes: sc 4, inc, repeat 5 more times
+
+**Decrease calculations**: "Dec evenly across (48 to 42 stitches)"
+- How many decreases? 48 - 42 = 6
+- Spacing: 48 / 6 = every 8th stitch
+- Your model computes: sc 6, dec, repeat
+
+**Size scaling**: "The pattern is for Size M. I need Size L."
+- Your model must adjust stitch counts, row counts, and potentially shaping schedule
+- This is re-parameterizing the generative model while preserving its structure
+
+**Repeat math**: "Repeat 4-row pattern 7 times" means 28 rows total — your model must track where you are in both the local repeat and the global row count.
+
+This arithmetic is **model-based computation** — your generative model performing calculations to predict future states of the fabric. The more fluent you are with this math, the more accurately you can predict how the finished piece will look.
+
+### 4. Reading Your Fabric: Cognitive State Inference
+
+Experienced crocheters can look at their work-in-progress and "read" it — determining which row they are on, which stitch comes next, and whether the pattern is tracking correctly. This is **cognitive inference**: using visual observations of the physical fabric to reconstruct the abstract state of the pattern.
+
+Consider what this requires:
+- Recognizing individual stitch types by their visual appearance from the top
+- Counting rows by examining the fabric's edge
+- Identifying the pattern repeat by its visual signature
+- Detecting errors by noticing disruptions in the expected visual rhythm
+
+This is the inverse of visualization. Where visualization runs the model forward (text to mental image), reading the fabric runs the model backward (physical fabric to abstract pattern state). Both directions require a well-trained generative model.
+
+### 5. Understanding Construction Logic
+
+Beyond individual stitches and rows, cognition in crochet involves understanding **construction logic** — how pieces fit together to create three-dimensional objects:
+
+- A flat circle that becomes a hat by stopping increases and working even rounds
+- A rectangle that becomes a sweater body when you leave armhole openings
+- Separate sleeves that are joined to the body at the yoke
+- A granny square that is joined to other squares to create a blanket
+
+Understanding construction logic is understanding the **hierarchical structure** of the generative model. Individual stitches compose into rows, rows compose into pieces, and pieces compose into finished objects. The cognitive ability to think at multiple levels simultaneously — "I am making a double crochet, which is part of the yoke shaping, which will create the raglan angle" — reflects a deeply layered generative model.
+
+---
+
+## Applications: Strengthening Your Cognitive Model
+
+### The Blind Reading Exercise
+
+Choose a pattern with no photos. Read it through and sketch what you think the finished piece looks like. Then find project photos online. The gap between your sketch and reality reveals where your cognitive model needs training.
+
+### Stitch Abbreviation Flash Cards
+
+Test yourself: for each abbreviation, can you predict height, density, texture, drape, and the motion required? The speed and richness of your predictions indicate your model's fluency with the crochet symbolic language.
+
+### The Mental Math Check
+
+Before starting a project, work through the arithmetic in your head or on paper. For a garment: total stitch count, number of increases, shaping schedule, total row count. This exercise reveals how well your cognitive model handles the quantitative dimensions of pattern prediction.
+
+---
+
+## Conclusion
+
+Cognition in crochet pattern reading is generative model simulation. You visualize the finished piece, decode stitch abbreviations into rich predictions, perform mental arithmetic for shaping, and read your fabric to infer abstract pattern state. The depth and accuracy of these cognitive processes depend on the complexity and training of your generative model. Building your cognitive skills builds your model — and a better model means more accurate predictions, fewer errors, and greater creative freedom.
+
+In the next module, we move from thinking to doing — how crocheters modify patterns on the fly, acting on the world to align their work with their intentions.
+
+---
+
+## Key Terms
+
+| Term | Crochet Meaning | Active Inference Meaning |
+| --- | --- | --- |
+| Visualization | Picturing the finished piece from text | Generative model forward simulation |
+| Stitch abbreviation | Compressed symbol (sc, dc, etc.) | Encoded model element to be decoded |
+| Mental arithmetic | Calculating increases, repeats, sizing | Model-based computation |
+| Reading the fabric | Looking at WIP to determine pattern state | Inverse inference (effects to causes) |
+| Construction logic | How pieces compose into objects | Hierarchical model structure |
+| Pattern repeat recognition | Seeing the underlying rule | Extracting the generative rule from observations |

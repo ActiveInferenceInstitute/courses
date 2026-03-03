@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_Perception - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>03_Perception</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>03_Perception</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 03: Perception in Crochet Circles</h1>
+<h2>How Yarn Speaks Through Touch</h2>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Explain how fingers read yarn weight, texture, and irregularities as sensory evidence.</li>
+<li>Describe the detection of knots or inconsistencies as surprise (prediction error) in the Active Inference framework.</li>
+<li>Connect hand feel and color perception in variegated yarns to interoceptive and exteroceptive sensing.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Yarn speaks, but not in words. It speaks through the language of touch — through drag and slip, warmth and coolness, spring and drape, smoothness and texture. Every centimeter of yarn that passes through a crocheter's fingers carries information, and the crocheter's perceptual system is constantly reading, interpreting, and responding to that information.</p>
+<p>In Active Inference, <strong>perception</strong> is not passive reception of data. It is an active process of inference — the brain (and the body) are constantly generating predictions about what sensory signals should arrive, and then comparing those predictions against what actually arrives. The difference is <strong>prediction error</strong>, and it is prediction error that drives learning, adaptation, and attention.</p>
+<p>This module explores how yarn communicates with the crocheter through touch, sight, and even sound — and how the crocheter's perceptual system makes sense of it all.</p>
+<h2>Key Concepts</h2>
+<h3>1. Reading Yarn Weight Through Touch</h3>
+<p>When a crocheter handles yarn, their fingers are performing a sophisticated measurement process. Without a scale or a label, experienced hands can distinguish between lace-weight and fingering-weight yarn, between DK and worsted, between bulky and super bulky. How?</p>
+<p>The fingers are reading multiple sensory channels simultaneously:
+- <strong>Diameter</strong>: The thickness of the strand as it passes between thumb and forefinger
+- <strong>Density</strong>: How heavy the yarn feels for its thickness — a tightly spun worsted feels denser than a loosely spun one of the same diameter
+- <strong>Resistance</strong>: How much the yarn resists being pulled — heavier weights create more drag through the tensioning fingers
+- <strong>Drape</strong>: How the yarn hangs when a length is suspended — a heavy yarn falls straight, a light one may float or drift</p>
+<p>Each of these sensory channels provides evidence that the crocheter's perceptual system integrates to form a belief about the yarn weight. This is Bayesian perception in action — combining multiple streams of uncertain evidence to arrive at a best estimate.</p>
+<h3>2. Surprise: Detecting Knots and Irregularities</h3>
+<p>Imagine you are crocheting steadily, working through a rhythm of single crochet stitches. Your fingers are feeding yarn at a consistent rate, and the sensory signal is smooth and predictable. Then — a bump. A knot. A sudden change in thickness.</p>
+<p>That bump is <strong>surprise</strong> in the Active Inference sense. Your perceptual system was predicting a smooth, uniform signal, and what it received was a sudden deviation from that prediction. The prediction error is large, and it immediately captures your attention.</p>
+<p>This is why knots are so noticeable even though they are tiny — they represent a large prediction error relative to the uniform signal the hands were expecting. A knot in a textured yarn (where the baseline prediction already includes some irregularity) produces less surprise than a knot in a smooth yarn, because the perceptual model already expects variation.</p>
+<p>Other forms of surprise in yarn handling include:
+- <strong>Thin spots</strong>: Where the yarn unexpectedly narrows, creating a sudden drop in the expected diameter signal
+- <strong>Joins</strong>: Where two ends of yarn are spliced together, creating a brief change in texture or thickness
+- <strong>Color changes in solid yarn</strong>: An unexpected shift in shade that the eyes detect against the expectation of uniformity
+- <strong>Moisture patches</strong>: A spot that feels different because it absorbed moisture from your hands differently</p>
+<h3>3. Hand Feel as Interoception</h3>
+<p>Not all perception in crochet is about the yarn. Some of it is about the crocheter's own body — and this is where <strong>interoception</strong> comes in.</p>
+<p>Interoception is the perception of your own internal states: fatigue, tension, comfort, pain. When you crochet, you are constantly receiving interoceptive signals:
+- <strong>Hand fatigue</strong>: The gradual buildup of tension in the muscles of the hand, wrist, and forearm
+- <strong>Grip pressure</strong>: The proprioceptive awareness of how tightly you are holding the hook and the yarn
+- <strong>Posture feedback</strong>: The sense of how your shoulders, neck, and back are positioned during extended work
+- <strong>Emotional tone</strong>: The felt sense of satisfaction, frustration, boredom, or flow that accompanies the work</p>
+<p>These interoceptive signals are just as important as the exteroceptive signals from the yarn, because they influence how you work. As your hands fatigue, your tension changes. As your emotional state shifts, your stitch quality may vary. A skilled crocheter has learned to monitor these internal signals and adjust accordingly — taking breaks before fatigue compromises their work, stretching to maintain posture, noticing when frustration is affecting their stitches.</p>
+<h3>4. Color Perception in Variegated Yarns</h3>
+<p>Variegated yarn adds a visual dimension to the perceptual challenge. When working with a yarn that changes color along its length, the crocheter must perceive and predict not just tactile properties but also visual patterns.</p>
+<p>Working with variegated yarn involves a unique form of perceptual prediction:
+- <strong>Color sequence</strong>: The crocheter begins to predict when the next color change will come. After several rows, they develop expectations about the repeat length.
+- <strong>Pooling patterns</strong>: The way colors distribute across the fabric depends on the stitch count per row. A crocheter who understands this can predict — and manipulate — whether colors will pool, stripe, or argyle.
+- <strong>Contrast detection</strong>: The eye constantly compares adjacent colors, detecting where transitions are smooth and where they are jarring. High-contrast transitions generate more visual surprise.</p>
+<p>This is multimodal perception — the integration of tactile and visual information to form a unified understanding of the material being worked. The hands feel the yarn while the eyes watch the fabric grow, and both streams of evidence are combined into a single, coherent perceptual model.</p>
+<h3>5. Active Sensing: Seeking Information</h3>
+<p>Perception in Active Inference is not just about passively receiving signals — it is about <strong>actively seeking</strong> information to reduce uncertainty. Crafters do this constantly:</p>
+<ul>
+<li><strong>The squeeze test</strong>: Rolling yarn between the fingers to actively sample its texture and compression</li>
+<li><strong>The snap test</strong>: Pulling a length of yarn taut and releasing to hear and feel its elasticity</li>
+<li><strong>The drape test</strong>: Holding a length of yarn up and letting it hang to observe its behavior under gravity</li>
+<li><strong>The burn test</strong>: Touching a flame to a fiber end to identify the fiber type by smell and behavior (protein fibers smell like burning hair, plant fibers like burning paper, synthetics melt)</li>
+</ul>
+<p>Each of these is an <strong>epistemic action</strong> — an action taken not to change the world but to gain information about it. In Active Inference terms, these are actions that reduce expected free energy by resolving uncertainty about the yarn's hidden states.</p>
+<h2>The Free Energy Principle and Perception</h2>
+<p>In the Free Energy Principle framework, perception is the process of minimizing prediction error by updating the internal model. When the yarn feels as expected, prediction error is low and perception is smooth and effortless. When something unexpected happens — a knot, a color change, a new fiber type — prediction error increases, and the perceptual system must work harder.</p>
+<p>This is why familiar materials feel "right" — there is a deep perceptual comfort in working with a yarn whose properties match your predictions. And it is why new materials can feel unsettling or exciting — the prediction errors they generate demand attention and model updating.</p>
+<p>The crocheter's perceptual skill grows with experience. Each new yarn handled, each knot encountered, each color transition observed adds to the generative model. Perception becomes richer, more nuanced, and more confident — not because the senses change, but because the predictions they are compared against become more refined.</p>
+<h2>Conclusion</h2>
+<p>Yarn speaks through touch, sight, weight, and drag. The crocheter's perceptual system is constantly reading these signals, comparing them against predictions, and generating the rich sensory experience of working with fiber. Knots are surprise, smooth yarn is confirmed expectation, and the skilled crocheter's perceptual world is a constant flow of evidence and inference. In the next module, we will explore how this perceptual information feeds into cognition — the thinking that happens in the hands.</p>
+<h2>Connections</h2>
+<ul>
+<li><strong>Previous Module</strong>: <a href="../02_agents/module.md">Agents — Hands That Know the Yarn</a></li>
+<li><strong>Next Module</strong>: <a href="../04_cognition/module.md">Cognition — When Your Hands Think Ahead</a></li>
+<li><strong>Course Home</strong>: <a href="../README.md">Fiber &amp; Flow</a></li>
+</ul></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: How Yarn Speaks Through Touch</h1>
+<h2>Materials Exploration — Perception</h2>
+<h3>Objective</h3>
+<p>Develop your perceptual awareness of yarn by systematically exploring how different fibers communicate through touch, sight, and sound. You will practice active sensing, discover your prediction errors, and map your own perceptual generative model.</p>
+<h3>Materials Needed</h3>
+<ul>
+<li>6-8 yarn samples of varied fiber types, weights, and textures (including at least one variegated yarn)</li>
+<li>A crochet hook appropriate for each yarn</li>
+<li>A blindfold or opaque bag</li>
+<li>Paper bags numbered 1-8 (to hide yarn identities)</li>
+<li>A notebook for observations</li>
+<li>A friend or fellow crafter (optional but recommended)</li>
+</ul>
+<h3>Part 1: Perception Without Prediction (15 minutes)</h3>
+<p>Place each yarn sample in a numbered paper bag without looking at it (or have a friend prepare the bags).</p>
+<p>For each bag, reach in and handle the yarn without looking:
+1. Describe the tactile sensation in detail: smooth or rough? Warm or cool? Springy or limp? Light or heavy? Slippery or grippy?
+2. Predict the fiber type, weight category, and color.
+3. Rate your confidence for each prediction (1-5).
+4. Open the bag and compare your predictions to reality.</p>
+<p>Record your results:</p>
+<table>
+<thead>
+<tr>
+<th>Bag #</th>
+<th>Tactile Description</th>
+<th>Predicted Fiber</th>
+<th>Actual Fiber</th>
+<th>Predicted Weight</th>
+<th>Actual Weight</th>
+<th>Predicted Color</th>
+<th>Actual Color</th>
+<th>Confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reflection</strong>: Where was your prediction error highest? What surprised you? Which sensory channels were most informative?</p>
+<h3>Part 2: Detecting Surprise (15 minutes)</h3>
+<ol>
+<li>Take a smooth, uniform yarn and crochet 10 rows of single crochet.</li>
+<li>While working, have a friend secretly tie a small knot in the yarn about 2 feet ahead of your hook (or prepare this yourself beforehand and forget the exact location).</li>
+<li>Continue crocheting and note the exact moment you detect the knot.</li>
+<li>Record: Did you feel it before you saw it? How far in advance? What was the sensation?</li>
+<li>Repeat with a textured or boucle yarn. Compare how easily you detect the knot in each.</li>
+</ol>
+<p><strong>Reflection</strong>: The knot is a prediction error — a deviation from the expected smooth signal. Compare how surprise feels in smooth versus textured yarn.</p>
+<h3>Part 3: Multimodal Perception with Variegated Yarn (20 minutes)</h3>
+<ol>
+<li>Choose a variegated or self-striping yarn.</li>
+<li>Crochet 20 rows, paying attention to the color pattern as it develops.</li>
+<li>After 10 rows, pause and predict:</li>
+<li>What color will appear in the next 5 stitches?</li>
+<li>Will the colors pool, stripe, or create argyle-like patterns?</li>
+<li>Continue and check your predictions.</li>
+<li>Change your stitch count per row (add or remove 3 stitches) and observe how the color pattern shifts.</li>
+</ol>
+<p><strong>Reflection</strong>: Your growing ability to predict the color pattern is your generative model updating in real time. How quickly did you start to anticipate the color repeats?</p>
+<h3>Part 4: The Sound of Crochet (10 minutes)</h3>
+<ol>
+<li>Work 5 rows with a crisp cotton yarn. Listen to the sound of the hook and yarn.</li>
+<li>Work 5 rows with a soft wool. Listen again.</li>
+<li>Work 5 rows with an acrylic. Listen.</li>
+<li>Can you hear differences? Describe the sounds each material makes.</li>
+</ol>
+<p><strong>Reflection</strong>: Sound is an often-overlooked perceptual channel in crochet. Some crafters report that they can hear when their tension changes or when a yarn has a flaw. Is sound part of your perceptual model?</p>
+<h3>Discussion Questions</h3>
+<ol>
+<li>Which of your senses provided the most accurate information about yarn identity — touch, sight, or something else?</li>
+<li>Were there cases where your prediction was wrong in a way that taught you something new about a fiber?</li>
+<li>How did working with the variegated yarn change your relationship between tactile and visual attention?</li>
+</ol>
+<h3>Reflection</h3>
+<p>Write a short paragraph about how yarn "speaks" to you. Before this lab, were you aware of how much perceptual processing happens while you crochet? What new aspects of perception did this lab reveal?</p></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Perception (Fiber &amp; Flow)</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>In Active Inference, perception is best described as:
+A) Passively receiving sensory data from the environment
+B) An active process of generating predictions and comparing them to sensory evidence
+C) Only visual processing of the yarn's appearance
+D) Memorizing fiber content labels</p>
+</li>
+<li>
+<p>A knot in a smooth yarn causes more surprise than a knot in a textured yarn because:
+A) Knots are larger in smooth yarn
+B) The baseline prediction for smooth yarn expects uniformity, so deviations are more salient
+C) Textured yarn has no knots
+D) Smooth yarn is always lower quality</p>
+</li>
+<li>
+<p>Interoception in the context of crochet refers to:
+A) The perception of yarn color
+B) The awareness of the crocheter's own internal states such as fatigue and grip pressure
+C) The perception of room temperature
+D) Reading the pattern instructions</p>
+</li>
+<li>
+<p>The "squeeze test" (rolling yarn between fingers to assess quality) is an example of:
+A) Pragmatic action to change the yarn
+B) Epistemic action to reduce uncertainty about the yarn's hidden states
+C) Random fidgeting
+D) Damaging the yarn's structure</p>
+</li>
+<li>
+<p>When a crocheter works with variegated yarn, they must integrate:
+A) Only tactile information
+B) Only visual information
+C) Both tactile and visual information — multimodal perception
+D) Only the label information</p>
+</li>
+<li>
+<p>Hand fatigue during a long crochet session affects perception by:
+A) Improving accuracy as the hands warm up
+B) Changing the interoceptive baseline and potentially reducing precision of tactile predictions
+C) Having no effect on the work
+D) Making the yarn softer</p>
+</li>
+<li>
+<p>An experienced crocheter identifies yarn fiber content by touch because:
+A) They read the label beforehand
+B) Their generative model makes accurate predictions about how different fibers feel, enabling rapid recognition
+C) All yarn feels the same
+D) Touch cannot distinguish between fibers</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Explain in 2-3 sentences how color pooling in variegated yarn is a perceptual prediction phenomenon. How does a crocheter learn to anticipate where colors will land in the fabric?</p>
+</li>
+<li>
+<p>Describe a specific example of how tactile and visual perception might conflict when working with yarn (e.g., a yarn that looks rough but feels soft). How does the perceptual system resolve this?</p>
+</li>
+<li>
+<p>A crocheter reports that they "know something is wrong with the yarn before they can see the problem." Using Active Inference concepts, explain how tactile prediction error can detect anomalies faster than visual inspection.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

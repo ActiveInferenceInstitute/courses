@@ -1,0 +1,66 @@
+# Practice Quiz: Body Science — Module 04: Cognition
+
+**Name**: ______________________ **Date**: ______________________
+
+---
+
+## Part A: Multiple Choice
+
+1. Your brain is often described as a "prediction machine." This means:
+
+A) It can see the future
+B) It constantly builds and updates mental models to anticipate what will happen next in your body and environment
+C) It only predicts when you're taking a test
+D) Predictions and thinking are unrelated
+
+2. When your body "knows" to release digestive enzymes before food reaches your stomach (just from the smell of food), this is an example of:
+
+A) A mistake
+B) Your body's cognitive system making a prediction based on past experience and acting ahead of time
+C) Digestion having nothing to do with the brain
+D) A random chemical reaction
+
+3. Your brain uses about 20% of your body's energy. Most of that energy goes to:
+
+A) Moving your muscles
+B) Running predictions and mental models that manage your body and make sense of the world
+C) Growing hair
+D) Storing fat
+
+4. The placebo effect (feeling better after taking a sugar pill you think is medicine) shows that:
+
+A) Medicine doesn't work
+B) Your brain's beliefs and predictions can change how your body actually feels and heals
+C) Sugar pills are real medicine
+D) The placebo effect isn't real
+
+5. Your brain has to decide which body signals to pay attention to and which to ignore. This process is called:
+
+A) Sleeping
+B) Attention — your brain's way of prioritizing the most relevant predictions
+C) Shutting down
+D) Random selection
+
+6. When you learn that a dark alley is actually a safe, well-lit path, your fear decreases. This is because:
+
+A) The alley physically changed
+B) Your brain updated its mental model of the situation, which changed its prediction from "danger" to "safe"
+C) Fear is not related to thinking
+D) Nothing in your brain changed
+
+7. Phantom limb pain (where people feel pain in a limb that has been amputated) demonstrates that:
+
+A) Pain only comes from the body
+B) Your brain maintains a model of your body, and it can generate sensations based on that model even when the body part is gone
+C) Amputated limbs grow back
+D) The brain has no model of the body
+
+---
+
+## Part B: Short Answer
+
+1. Explain the **placebo effect** using Active Inference ideas. How do your brain's predictions about a treatment actually change what happens in your body? Why does this show that cognition is not separate from your physical health?
+
+2. Your brain makes predictions about your body that you're not aware of (like predicting your blood oxygen level). Describe two examples of **unconscious cognitive predictions** your body makes. What happens when those predictions are wrong?
+
+3. Compare the way your brain handles a **familiar situation** (like walking to school) with an **unfamiliar situation** (like visiting a hospital for the first time). How does your brain's cognitive processing differ? Which situation uses more energy, and why?

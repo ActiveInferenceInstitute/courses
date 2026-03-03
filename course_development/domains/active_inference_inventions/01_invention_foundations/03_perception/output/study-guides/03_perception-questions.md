@@ -1,0 +1,45 @@
+# Study Questions: Seeing What Others Miss
+
+## Analytical Questions
+
+1. Active Inference describes perception as primarily a top-down process: the brain generates predictions and processes the prediction errors. How does this differ from the common-sense view of perception as a bottom-up process? What are the implications of the top-down view for how inventors should approach problem identification?
+
+2. The rolling suitcase was not invented until 1970, despite wheels and suitcases both existing for centuries. Using Active Inference concepts, explain why this invention was so delayed. What perceptual mechanism prevented travelers and luggage designers from perceiving the opportunity? How was the prediction error eventually detected?
+
+3. Sara Blakely (Spanx) and James Dyson (bagless vacuum cleaner) both identified problems that industry insiders had normalized. Compare their perceptual processes. How did being outsiders to their respective industries function as a perceptual advantage? Are there risks to the "fresh eyes" approach?
+
+4. Takuo Aoyagi's invention of the pulse oximeter required reinterpreting "noise" (pulsatile fluctuations in light absorption) as "signal" (information about arterial oxygen saturation). Explain how the signal-noise distinction depends on the observer's generative model. Can you identify another invention where the key breakthrough involved reinterpreting noise as signal?
+
+5. Precision weighting determines how much confidence an inventor places on different evidence sources. Describe a scenario where an inventor overweights personal experience and underweights user research data. Then describe the opposite scenario — overweighting quantitative data while underweighting direct user observation. What is the optimal precision weighting strategy for the problem-identification phase of invention?
+
+6. IDEO's shopping cart redesign began with systematic observation rather than brainstorming. Compare the Active Inference perspective on this approach (active sensing to detect prediction errors) with the common innovation advice to "just brainstorm." Why does observation before ideation lead to better inventions?
+
+7. The concept of empathic perception involves adopting another user's generative model. How does this differ from simply "asking users what they want"? Why might observing users in context (contextual inquiry) yield higher-precision evidence than surveying them?
+
+8. Active sensing in Active Inference means choosing observations that maximally reduce uncertainty. Apply this principle to an inventor who is deciding between three evidence-gathering strategies: (a) surveying 1000 random people, (b) observing 10 extreme users in their natural environment, and (c) running a laboratory test of the key mechanism. Under what conditions would each strategy be most informative?
+
+9. Explain the concept of "chronic prediction errors" — problems that people experience repeatedly but have learned to accommodate. Give three examples from different domains (e.g., domestic, professional, medical, educational) and explain why the accommodation strategy persists even when a design intervention is possible.
+
+10. How does the Active Inference framework explain why expert inventors in one domain sometimes fail to perceive problems that novices immediately notice? Use the concepts of precision weighting and generative model rigidity to build your argument. How can an expert deliberately maintain perceptual openness without sacrificing their expertise?
+
+## Applied Questions
+
+11. Choose a 15-minute period from your day yesterday and try to recall it in detail. What did you perceive? What did you not perceive but probably happened? How does this exercise reveal the selectivity of your perceptual system?
+
+12. Identify three "chronic prediction errors" in your daily life — frustrations or inefficiencies that you have learned to tolerate rather than solve. For each, explain why you have accommodated rather than acted. Does any of these represent a genuine invention opportunity?
+
+13. Visit a space you use regularly (kitchen, office, classroom, workshop) with "fresh eyes." Spend 10 minutes observing as if you were visiting for the first time. Document at least five things you notice that you normally overlook. Which of these observations could lead to an invention?
+
+14. Interview someone who uses a tool, space, or process differently than you do (a left-handed person using right-handed scissors, an elderly person using a smartphone, a child navigating a supermarket). Document the prediction errors they experience that you do not. What does this reveal about the limitations of your own perceptual model?
+
+15. For your invention idea, design an "active sensing" plan: three specific observations or experiments you could conduct to reduce your uncertainty about whether the problem you are solving is real, widespread, and severe. For each, explain why this particular observation is maximally informative.
+
+16. Reflect on a time when you misjudged a situation — you thought something was a problem but it turned out not to be, or you dismissed something as unimportant that later proved significant. What precision weighting error did you make? How would you calibrate differently in the future?
+
+17. Choose an invention that you use daily. List three prediction errors that the original inventor must have perceived in order to create this invention. How do you know these were the relevant prediction errors?
+
+18. Apply the signal-noise framework to your own invention idea. What is the strongest evidence that your perceived problem is real (signal)? What is the strongest counter-evidence or alternative explanation (potential noise)? What additional observation would most decisively settle the question?
+
+19. Practice analogical perception: take a principle from a domain you know well and apply it to a domain you know less well. For example, if you know cooking, apply the concept of "mise en place" (pre-preparation) to office workflows. What prediction errors does this cross-domain lens reveal?
+
+20. Develop a "perceptual training plan" for yourself — three specific practices you will adopt over the next month to improve your ability to detect prediction errors. These should be concrete and actionable (e.g., "I will spend 10 minutes per week observing users of my invention idea in their natural environment").

@@ -1,0 +1,47 @@
+# Lab: The Binary Bracelet
+
+## Goal
+
+To write a message in Binary Code using beads.
+
+## What You Need
+
+* String or Pipe Cleaners.
+* Beads of two colors (e.g., Red and Blue).
+* A Binary Key (Chart).
+
+## Steps
+
+### 1. The Key
+
+Use this simple code:
+
+* A = Red-Blue-Red
+* B = Red-Red-Blue
+* C = Blue-Red-Red
+*(Real binary is 8 bits, this is a simplified 3-bit version for kids!)*.
+
+### 2. The Message
+
+Choose a word. (e.g., "DAD").
+
+* D = Blue-Red-Blue
+* A = Red-Blue-Red
+* D = Blue-Red-Blue
+
+### 3. The Build
+
+String the beads in order.
+Tie it around your wrist.
+You are wearing secret robot data!
+
+## My Bracelet Log
+
+| Letter | Color Code |
+| :--- | :--- |
+| **First Letter** | Red-Blue-Red (A) |
+| **Second Letter** | Blue-Blue-Red (T) |
+
+## What We Learned
+
+Computers store everything (pictures, games, texts) as long strings of two things (On/Off, Red/Blue). We call these **Bits**.

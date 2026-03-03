@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_Communication - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>07_Communication</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>07_Communication</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 07: Communication — Speaking From the Body, Hearing With the Body</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Explain how <strong>embodied communication</strong> operates through somatic channels — tone of voice, facial expression, gesture, posture — that transmit felt sense between organisms.</li>
+<li>Describe the role of <strong>interoceptive resonance</strong> and <strong>mirror mechanisms</strong> in enabling one body to feel what another body feels.</li>
+<li>Analyze Gendlin's concept of <strong>carrying forward</strong> — how articulating the felt sense in language transforms and deepens somatic experience.</li>
+<li>Recognize that communication in the felt sense framework is fundamentally a process of <strong>generative model alignment</strong> between embodied agents.</li>
+</ol>
+<h2>Introduction</h2>
+<p>You are sitting with a friend who is grieving. She has not spoken yet, but your body already knows. There is a heaviness in the room, a slowing of your own breath, a subtle ache in your chest that was not there before you sat down. Her grief has crossed the space between you and registered in your body as a felt sense. This is embodied communication at its most fundamental: not the exchange of propositions but the transmission of somatic states between living systems.</p>
+<p>Long before language evolved, organisms communicated through the body — through posture, movement, vocalization, and the direct physiological influence of one organism on another. Even now, with all the sophistication of language, the deepest layers of human communication remain somatic. The tone of voice that contradicts the words, the facial micro-expression that reveals the hidden emotion, the postural shift that signals withdrawal — these bodily signals carry more communicative weight than their verbal counterparts. Active inference reveals why: embodied communication is the process by which generative models synchronize, reducing the free energy of mutual prediction.</p>
+<h2>Key Concepts</h2>
+<h3>1. Interoceptive Resonance and Empathy</h3>
+<p>When you witness another person's pain, your own body responds: your muscles tense, your heart rate shifts, your facial expression mirrors theirs. This is <strong>interoceptive resonance</strong> — the phenomenon by which one organism's bodily states induce corresponding states in another. Vittorio Gallese has argued that this resonance, mediated by mirror neuron systems, provides the somatic foundation of empathy. In active inference, resonance occurs because your generative model predicts not only your own interoceptive states but the states of others: when you observe a pained expression, your model generates the interoceptive prediction that would accompany your own pain, producing a felt sense of the other's experience.</p>
+<h3>2. Vocal Prosody as Somatic Signal</h3>
+<p>The semantic content of speech carries only a fraction of its communicative meaning. <strong>Prosody</strong> — the rhythm, pitch, volume, and tonal quality of the voice — communicates directly to the listener's body. Stephen Porges's polyvagal theory emphasizes that specific prosodic features (the "music" of speech) engage the social engagement system, signaling safety or threat through direct vagal pathways. A calm, melodic voice activates the ventral vagal complex, producing a felt sense of safety. A sharp, staccato voice activates sympathetic arousal, producing a felt sense of alarm. In active inference, vocal prosody modulates the precision of the listener's interoceptive predictions — calming voices lower the precision on threat-related prediction errors, while alarming voices amplify them.</p>
+<h3>3. Gendlin's Carrying Forward: Language as Felt Sense Completion</h3>
+<p>Eugene Gendlin observed that when we find the right words for a felt sense, something shifts in the body — a release, an opening, a sense of "yes, that's it." He called this <strong>carrying forward</strong>: language does not merely label pre-existing feelings but actively transforms and completes them. The felt sense is implicit and unfinished; language carries it forward into explicit, differentiated form. In active inference, this corresponds to a reduction in interoceptive free energy: the verbal formulation provides a higher-level prediction that explains and organizes the previously vague interoceptive signals, producing a "felt shift" as the model achieves a better fit.</p>
+<h3>4. Somatic Attunement in Therapeutic and Relational Contexts</h3>
+<p>Daniel Stern's concept of <strong>affect attunement</strong> describes the process by which caregivers match not the specific behavior of an infant but its felt quality — its intensity, timing, and contour. When a baby reaches excitedly for a toy and the mother responds with a matching vocal crescendo, she is communicating: "I feel what you feel." This cross-modal matching of felt sense is the foundation of secure attachment and emotional regulation. In active inference, attunement is generative model alignment: two organisms' models converge on a shared representation of the current affective state, minimizing the mutual prediction error between them.</p>
+<h3>5. The Limits of Language and the Primacy of Somatic Communication</h3>
+<p>Not everything that can be felt can be said. The felt sense frequently exceeds linguistic articulation — there are dimensions of somatic experience for which no adequate words exist. This is not a failure of language but a structural feature of embodied communication: the body's generative model operates in a higher-dimensional space than language can capture. Silence, touch, shared breathing, and co-present stillness may communicate more of the felt sense than any verbal formulation. In therapeutic and contemplative contexts, the ability to sit with the incommunicable — to hold the felt sense without forcing it into words — is a communicative skill of the highest order.</p>
+<h2>Active Inference Connection</h2>
+<p>Communication in the felt sense framework is the process by which generative models influence and align with each other across the boundary of individual Markov blankets. When I speak from my felt sense and you receive my words in your body, my generative model's predictions are shaping yours — and yours, through your responses, shape mine in return. Free energy is minimized jointly: both organisms' models converge toward a shared understanding of the current situation. This mutual, embodied inference is the deepest form of communication — not the transfer of information but the co-creation of shared felt meaning.</p>
+<h2>Experiential Applications</h2>
+<ul>
+<li>
+<p><strong>Practice — Empathic Listening as Somatic Resonance</strong>: In your next conversation, bring attention to your own body while listening. Notice how the other person's words, tone, and posture register as felt sensations in your own body — a tightening, a warmth, a heaviness, an opening. These somatic responses are your generative model's empathic predictions, offering you information about the speaker's felt state that may exceed what their words explicitly convey.</p>
+</li>
+<li>
+<p><strong>Case Study — Focusing Partnerships and Relational Carrying Forward</strong>: In Gendlin's Focusing practice, a listener accompanies a focuser without interpreting, advising, or analyzing — simply reflecting back the felt sense as the focuser articulates it. This relational container amplifies the focuser's interoceptive precision: the presence of an attuned other creates conditions of safety that allow the generative model to relax its defensive priors and attend more openly to the felt sense. The relational field itself becomes a medium of inference, with both participants' bodies contributing to the shared process of meaning-making.</p>
+</li>
+</ul>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 06 (Learning)</strong>: Communicating felt experience reinforces interoceptive discrimination — articulation refines what we can feel.</li>
+<li><strong>Module 08 (Planning)</strong>: Communicating intentions and felt assessments enables collaborative planning between embodied agents.</li>
+<li><strong>Unit 02 (Living Presence)</strong>: Present-moment awareness is the foundation of genuine empathic communication.</li>
+</ul>
+<h2>Summary</h2>
+<p>Communication in the felt sense framework transcends the exchange of propositions. It is the somatic process by which one body's felt states influence and resonate with another's — through vocal prosody, facial expression, gestural mirroring, and the direct physiological impact of shared presence. Gendlin's carrying forward reveals that language, at its best, does not merely label feelings but transforms them. Active inference frames communication as mutual generative model alignment: two embodied agents reducing their joint free energy through the co-creation of shared felt meaning. The deepest communication does not inform the mind; it moves the body.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Resonance Between Bodies</h1>
+<h2>Objective</h2>
+<p>Experience communication as an embodied, intercorporeal process through exercises in co-regulation, mirroring, and body-to-body resonance. This lab demonstrates that communication begins not with words but with the mutual influence of living bodies.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>A partner (strongly recommended; solo alternatives provided)</li>
+<li>A quiet space for 25 minutes</li>
+<li>No prior experience required</li>
+</ul>
+<h2>Part 1: Breathing Together (5 minutes)</h2>
+<p><strong>With a partner</strong>: Sit facing each other at a comfortable distance. Close your eyes. Begin by breathing naturally. After a minute, open your eyes just enough to see your partner's chest or belly rise and fall. Without verbal agreement, allow your breathing to synchronize. Notice what happens.</p>
+<p><strong>Solo alternative</strong>: Sit in a public space or recall a recent conversation. Notice: when you are near someone, does your breathing tend to synchronize with theirs? Can you recall a time when being near a calm person calmed you, or being near an anxious person made you anxious?</p>
+<p>In Active Inference, breathing synchrony is a form of mutual free energy minimization. Two bodies reduce uncertainty about each other by aligning their rhythms.</p>
+<p>{fill:textarea}(Describe the process of synchronization. Did it happen naturally or require effort? How did it feel when your rhythms aligned?)</p>
+<h2>Part 2: Mirror Movement (7 minutes)</h2>
+<p><strong>With a partner</strong>: One person leads, the other mirrors. The leader moves slowly -- raising a hand, tilting the head, shifting weight. The mirror follows as closely as possible.</p>
+<ol>
+<li>Leader moves for 2 minutes. Mirror follows.</li>
+<li>Switch roles for 2 minutes.</li>
+<li>For the final minute, neither leads. Let the movement emerge between you without a designated leader.</li>
+</ol>
+<p><strong>Solo alternative</strong>: Stand in front of a mirror. Move slowly and watch your reflection. Notice the felt difference between seeing yourself from outside and feeling yourself from inside. Now close your eyes and continue the movement. What changes?</p>
+<p>In Active Inference, mirroring is the alignment of generative models: each person is predicting the other's movement and acting to reduce the mismatch.</p>
+<p>{fill:textarea}(Describe the experience of leading, following, and leaderless movement. When did you feel most connected? What happened in the leaderless phase?)</p>
+<h2>Part 3: Proximity and Presence (5 minutes)</h2>
+<p><strong>With a partner</strong>: Stand about 3 meters apart, facing each other. Close your eyes. One person slowly walks toward the other. The still person notices: At what distance do you first feel the other person's presence? What is the quality of that felt sense?</p>
+<p>When the walker is very close, both stop. Open your eyes. Notice how proximity changes the felt relationship.</p>
+<p><strong>Solo alternative</strong>: Notice how your body responds to different spatial relationships throughout your day. How does it feel to be close to a wall versus in the center of a room? How does crowding feel versus open space?</p>
+<p>This exercise explores the interpersonal Markov blanket -- the felt boundary between self and other that shifts with distance and orientation.</p>
+<p>{fill:textarea}(At what distance did you first feel the other person, or how did proximity to objects change your felt sense? Describe the quality of the sensation.)</p>
+<h2>Part 4: Voice and Vibration (5 minutes)</h2>
+<p><strong>With a partner</strong>: Take turns humming a single tone. The other person places their hand on their own chest and notices: Can you feel resonance with the other person's hum? Now hum together, finding a shared pitch. Notice how the vibration in your chest changes.</p>
+<p><strong>Solo alternative</strong>: Hum at different pitches and notice where in your body each pitch vibrates. Low tones resonate in the chest; higher tones in the throat and head. The body is a resonating instrument.</p>
+<p>Communication through sound is not just about information -- it is about vibration, resonance, and the physical coupling of bodies through the medium of air.</p>
+<p>{fill:textarea}(Describe where you felt the vibrations. What happened when you found a shared pitch? How does this change your understanding of communication?)</p>
+<h2>Part 5: Reflection</h2>
+<p>{fill:textarea}(What is communication before words? How do bodies speak to each other? What did this lab reveal about the embodied foundations of connection?)</p>
+<h2>Reflection Table</h2>
+<table>
+<thead>
+<tr>
+<th>Communication Dimension</th>
+<th>What I Felt</th>
+<th>Active Inference Connection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Breathing synchrony</td>
+<td>{fill:text}</td>
+<td>Mutual free energy minimization</td>
+</tr>
+<tr>
+<td>Mirror movement</td>
+<td>{fill:text}</td>
+<td>Generative model alignment</td>
+</tr>
+<tr>
+<td>Proximity and presence</td>
+<td>{fill:text}</td>
+<td>Interpersonal Markov blanket</td>
+</tr>
+<tr>
+<td>Voice resonance</td>
+<td>{fill:text}</td>
+<td>Physical coupling through shared medium</td>
+</tr>
+<tr>
+<td>Leaderless interaction</td>
+<td>{fill:text}</td>
+<td>Participatory sense-making</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Communication</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>What is the primary role of <strong>Communication</strong> in Active Inference?
+A) To maximize reward
+B) To minimize variational free energy
+C) To increase entropy
+D) To eliminate the Markov Blanket</p>
+</li>
+<li>
+<p>In Embodied, Communication is best described as:
+A) A static property
+B) A dynamic process
+C) An external state
+D) A random variable</p>
+</li>
+<li>
+<p>Which mathematical quantity is most central to Communication?
+A) The Lagrangian
+B) The expected free energy
+C) The surprisal
+D) The precision</p>
+</li>
+<li>
+<p>How does Communication relate to the concept of the Generative Model?
+A) It is separate from the model
+B) It is a component of the model
+C) It destroys the model
+D) It is only relevant for the environment</p>
+</li>
+<li>
+<p>A failure in Communication would likely result in:
+A) Perfect prediction
+B) Generalized surprise
+C) Immediate death of the agent
+D) Zero entropy</p>
+</li>
+<li>
+<p>Which scale is most relevant for analyzing Communication in this course?
+A) Quantum
+B) Neural
+C) Social
+D) All of the above</p>
+</li>
+<li>
+<p>Communication connects directly to which other component?
+A) The step before it
+B) The step after it
+C) Both A and B
+D) None of the above</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>Explain how <strong>Communication</strong> facilitates the minimization of prediction error.</li>
+<li>Provide a concrete example of Communication failing in a Embodied scenario.</li>
+<li>How would you model Communication using a POMDP (Partially Observable Markov Decision Process)?</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 01: The Prototype as a System — Building Generative Models You Can Touch</h1>
+<h2>Executive Summary</h2>
+<p>A prototype is not merely a rough draft of a product; it is a <strong>physical generative model</strong> — a tangible instantiation of the inventor's beliefs about how a system should work. This module examines prototypes through the lens of Active Inference systems theory, revealing that every design choice about what to include or exclude in a prototype is a decision about the prototype's <strong>Markov blanket</strong>. By understanding prototypes as simplified systems with internal states, sensory surfaces, and active capabilities, inventors can make principled decisions about fidelity levels, material choices, and testing scope. The transition from mental model to physical prototype is the transition from implicit inference to explicit, testable prediction.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Characterize a prototype as a generative model made physical, identifying its internal states, sensory states, active states, and external environment.</li>
+<li>Apply the concept of the Markov blanket to determine what a prototype should include and what it should deliberately exclude.</li>
+<li>Distinguish between fidelity levels (low, medium, high) as different degrees of model resolution and evaluate which level minimizes expected free energy for a given testing purpose.</li>
+<li>Analyze how the boundary between a prototype system and its testing environment determines what can and cannot be learned from testing.</li>
+<li>Design a prototype specification for your own invention project that explicitly maps system boundaries to learning goals.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. The Prototype as an Embodied Generative Model</h3>
+<p>In Active Inference, a generative model is an internal representation that an agent uses to predict sensory observations and guide action. The model encodes beliefs about the causal structure of the world — what causes what, what depends on what, and what to expect under various conditions. When an inventor builds a prototype, they are literally constructing a physical version of this generative model. The prototype embodies the inventor's hypotheses about how components interact, what materials will behave in what ways, and how users will engage with the system.</p>
+<p>Consider James Dyson's development of the bagless vacuum cleaner. His first prototype was built from cardboard and duct tape attached to an existing vacuum. This cardboard cyclone was not the product — it was a physical generative model encoding his hypothesis that centrifugal separation could replace filter bags. The prototype generated predictions: air entering at a specific angle and velocity should separate dust particles of a certain size. When he tested it, the discrepancy between prediction and observation (the prediction error, or surprise) told him exactly which parameters of his model needed updating. Over 5,127 prototypes, Dyson was not simply "trying things" — he was systematically reducing the free energy of his generative model by making it progressively more accurate.</p>
+<p>The crucial insight is that a prototype does not need to be a complete product to be a complete generative model for a specific hypothesis. A cardboard mock-up is a perfectly adequate generative model for testing spatial relationships. A 3D-printed shell is a perfectly adequate generative model for testing ergonomics. The prototype's purpose determines its required fidelity.</p>
+<h3>2. Markov Blankets and Prototype Boundaries</h3>
+<p>Every prototype has a boundary — a Markov blanket that separates its internal workings from its external testing environment. This boundary consists of <strong>sensory surfaces</strong> (where the prototype receives inputs from testers, power sources, or environmental conditions) and <strong>active surfaces</strong> (where the prototype produces outputs, effects, or responses). The internal states of the prototype — its mechanisms, circuits, algorithms, structural elements — are shielded from the external world by this blanket.</p>
+<p>Deciding where to draw this boundary is one of the most consequential decisions in prototyping. Include too much within the blanket, and you build something expensive and slow that tests too many variables simultaneously. Include too little, and your prototype cannot generate the predictions you need to test your core hypotheses.</p>
+<p>Consider the development of the original iPhone. Apple's earliest prototypes separated the Markov blanket into distinct subsystems: one prototype tested only the multi-touch screen (sensory surface), another tested only the antenna and radio components (communication subsystem), and a third tested the user interface software running on a desktop computer. Each prototype had a tightly defined blanket that isolated specific internal states for testing. Only in later stages were these subsystems integrated into a unified blanket.</p>
+<p>This is the <strong>modularity principle</strong> in Active Inference prototyping: a complex system's Markov blanket can often be decomposed into nested sub-blankets, each of which can be prototyped and tested independently before integration.</p>
+<h3>3. Fidelity Levels as Model Resolution</h3>
+<p>Prototype fidelity — the degree to which a prototype resembles the final product in appearance, materials, functionality, and interaction — maps directly onto the concept of <strong>model resolution</strong> in Active Inference. A low-fidelity prototype is a coarse-grained generative model with few parameters and broad priors. A high-fidelity prototype is a fine-grained model with many parameters and tighter priors.</p>
+<p><strong>Low fidelity</strong> (paper sketches, cardboard models, wireframes): These prototypes encode only the most essential structural hypotheses — spatial relationships, basic user flow, overall form factor. They are cheap to produce and disposable, which makes them ideal for the early stages of invention when the inventor's uncertainty is highest. In Active Inference terms, when your priors are very broad (you are unsure about many things), you need a model that can be updated quickly and cheaply. The Wright brothers built hundreds of low-fidelity wing models for their wind tunnel, each testing a single hypothesis about lift coefficients.</p>
+<p><strong>Medium fidelity</strong> (3D prints, functional breadboards, clickable mock-ups): These encode more detailed hypotheses about material properties, component interactions, and user experience. They narrow the prior distributions on specific parameters while maintaining flexibility on others.</p>
+<p><strong>High fidelity</strong> (pre-production units, beta software, working mechanical assemblies): These approach the resolution of the final product and test near-complete system integration. They are expensive but generate the most realistic prediction errors, because the model's predictions are now close enough to reality that subtle discrepancies become visible.</p>
+<p>The inventor's task is to choose the fidelity level that minimizes <strong>expected free energy</strong> — the combination of information gain (epistemic value) and practical utility (pragmatic value) — given current constraints on time, money, and knowledge.</p>
+<h3>4. What to Include and What to Exclude</h3>
+<p>The question of what to include in a prototype is fundamentally a question about the <strong>generative model's scope</strong>. In Active Inference, a generative model does not need to represent everything about the world — it needs to represent enough to make useful predictions about the variables of interest. Similarly, a prototype does not need to include every feature of the final product — it needs to include enough to test the hypotheses that currently carry the most uncertainty.</p>
+<p>This principle yields a concrete prototyping heuristic: <strong>include components that are causally upstream of your test variables; exclude components that are causally independent.</strong> If you are testing whether a new latch mechanism is strong enough, you need the latch, the mounting surface, and the load — but you do not need the product's color scheme, packaging, or branding. These variables are outside the prototype's relevant Markov blanket for this test.</p>
+<p>The pharmaceutical industry applies this principle rigorously. In early drug development, the "prototype" is a molecular compound tested in cell cultures (an extremely simplified system). The Markov blanket includes only the drug molecule and its target receptor — everything else about the human body is excluded. As the compound advances through animal testing and clinical trials, the blanket expands to include more of the biological system, but always in a controlled, deliberate manner. Each expansion of the blanket corresponds to a new set of hypotheses being brought under test.</p>
+<p>A common failure mode is the <strong>kitchen sink prototype</strong> — a prototype that tries to include everything, resulting in a system so complex that when it fails, you cannot determine which component caused the failure. This is the prototyping equivalent of an overfitted generative model: it has so many parameters that it cannot generate clear prediction errors for any specific hypothesis.</p>
+<h3>5. The Prototype-Environment Interface</h3>
+<p>The Markov blanket of a prototype defines not only what is inside the prototype but also what constitutes its testing environment — and therefore what can be learned from testing. The <strong>sensory surface</strong> of the prototype determines what environmental inputs it responds to: does it respond to temperature? To user force? To electrical signals? To verbal commands? The <strong>active surface</strong> determines what outputs it produces: does it move? Light up? Produce sound? Display information?</p>
+<p>Designing the prototype-environment interface is designing the experiment. If the prototype's sensory surface does not include temperature sensitivity, then testing will not reveal temperature-related failure modes, even if temperature is critical to the final product's performance. This is why prototype design and test design are inseparable — they are two aspects of the same act of inference.</p>
+<p>The development of Gore-Tex provides an instructive example. Bob Gore discovered that rapidly stretching PTFE created a microporous membrane. But the initial "prototype" — the stretched PTFE film — had a minimal Markov blanket: it interacted with water and air, and its outputs were water transmission rate and air permeability. Only when Gore expanded the prototype's blanket to include real-world conditions (rain, wind, body heat, perspiration, mechanical stress from movement) did the full performance profile of the material become testable. Each expansion of the blanket brought new environmental variables into the prototype's sensory surface and generated new prediction errors that guided further development. The lesson from Gore-Tex is that the prototype-environment interface is not fixed — it should expand deliberately as earlier, simpler tests are passed. An inventor who tests only under ideal conditions has a prototype whose sensory surface excludes exactly the variables most likely to cause real-world failures.</p>
+<p>The principle extends to digital prototypes as well. A software prototype's Markov blanket includes its user interface (sensory/active surface), its backend logic (internal states), and the user plus network environment (external states). A "wizard of Oz" prototype, where a human operator simulates the backend, has the same sensory surface as the real system but different internal states — allowing the team to test user interaction hypotheses without building the actual algorithm.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: The Dyson Cyclone Vacuum — 5,127 Prototypes as Iterative Model Refinement</h3>
+<p>James Dyson's development of the DC01 vacuum cleaner is one of the most documented cases of systematic prototyping in invention history. Beginning in 1979, Dyson spent fifteen years building over 5,000 prototypes, each one a physical generative model encoding specific hypotheses about cyclonic air separation.</p>
+<p>His earliest prototypes had minimal Markov blankets: a cardboard cyclone cone attached to an existing vacuum motor. The internal states were the cone geometry (angle, diameter, length); the sensory surface was the airflow input; the active surface was the dust output. Each prototype generated a prediction (dust of size X will be captured at efficiency Y) and an observation (actual capture rate). The prediction error drove parameter updates — slight changes to cone angle, entry port size, and cyclone diameter.</p>
+<p>As his model became more refined, the blanket expanded to include dual-cyclone architecture, motor integration, filtration stages, and eventually user ergonomics. The key insight from an Active Inference perspective is that Dyson did not attempt to build a complete vacuum from the start. He systematically expanded the generative model's scope as his uncertainty about core mechanisms decreased, always matching prototype fidelity to the current state of knowledge.</p>
+<h3>Case Study 2: The Mars Rover Test Beds — Prototyping for Unreachable Environments</h3>
+<p>NASA's Jet Propulsion Laboratory faced a unique prototyping challenge with the Mars rovers: the prototype's testing environment (Earth) was fundamentally different from its operating environment (Mars). JPL's solution was to build <strong>environmental simulants</strong> — physical models of the Martian environment that could serve as the external states in the prototype's Markov blanket.</p>
+<p>The Mars Yard at JPL replicates Martian terrain features: sand traps, rocky slopes, loose regolith. But it cannot replicate Martian gravity (38% of Earth's), atmosphere (95% CO2 at 0.6% of Earth's pressure), or temperature extremes (-80C to +20C). JPL therefore built separate test rigs for each environmental variable: a gravity offload rig to simulate reduced weight, thermal vacuum chambers for atmospheric conditions, and the Mars Yard for terrain navigation.</p>
+<p>Each test rig defined a different Markov blanket around the rover prototype, allowing engineers to isolate specific environmental interactions. This modular approach to prototype-environment interfaces is a textbook application of the principle that prototype design and test design are two aspects of the same inference problem.</p>
+<p>The Mars Yard approach also illustrates the concept of <strong>environmental fidelity</strong> — the degree to which the testing environment matches the operating environment. Perfect environmental fidelity is often impossible or prohibitively expensive. The inventor's task is to identify which environmental variables are most critical (highest expected free energy reduction) and prioritize environmental fidelity for those variables. For the Mars rovers, terrain interaction was the highest priority (driving over rocks is mechanically complex), so the Mars Yard received the most investment. Gravity simulation was second priority (0.38g affects mobility but is partially predictable through analysis). Atmospheric simulation was lower priority for mobility testing (thin atmosphere has minimal direct effect on driving). This prioritization of environmental fidelity mirrors the prioritization of prototype fidelity — allocate resolution where uncertainty and consequence are highest.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 02 (The Testing Agent)</strong>: The inventor must shift from building the prototype system to evaluating it — becoming an observer of the system rather than its creator.</li>
+<li><strong>Module 03 (Reading the Prototype's Signals)</strong>: The prototype-environment interface determines what signals the inventor can perceive; this module explores how to interpret those signals.</li>
+<li><strong>Module 05 (Iterative Refinement)</strong>: Each prototype iteration is an action in the Active Inference loop; systems thinking determines what the next iteration should change.</li>
+<li><strong>Module 08 (Test Planning Under Uncertainty)</strong>: The choice of what to include in a prototype is determined by test planning; planning determines which Markov blanket will minimize expected free energy.</li>
+</ul>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Prototype Application</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generative Model</td>
+<td>Internal representation predicting observations</td>
+<td>Prototype embodies inventor's hypotheses about how the system works</td>
+</tr>
+<tr>
+<td>Markov Blanket</td>
+<td>Statistical boundary separating internal from external states</td>
+<td>Prototype boundary determining what is included and what is left to the test environment</td>
+</tr>
+<tr>
+<td>Sensory States</td>
+<td>States mediating environmental influence on internal states</td>
+<td>Prototype inputs: user interactions, environmental conditions, power/data feeds</td>
+</tr>
+<tr>
+<td>Active States</td>
+<td>States mediating the system's influence on the environment</td>
+<td>Prototype outputs: movements, displays, sounds, effects</td>
+</tr>
+<tr>
+<td>Model Resolution</td>
+<td>Granularity of the generative model</td>
+<td>Fidelity level: low (coarse, broad priors) to high (fine, narrow priors)</td>
+</tr>
+<tr>
+<td>Expected Free Energy</td>
+<td>Combined epistemic and pragmatic value of an action</td>
+<td>Choosing fidelity that maximizes information gain per unit cost</td>
+</tr>
+<tr>
+<td>Modularity</td>
+<td>Decomposition of a complex blanket into nested sub-blankets</td>
+<td>Building separate prototypes for separate subsystems before integration</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Friston, K. (2010). The free-energy principle: a unified brain theory? <em>Nature Reviews Neuroscience</em>, 11(2), 127-138.</li>
+<li>Dyson, J. (1997). <em>Against the Odds: An Autobiography</em>. Orion Publishing Group.</li>
+<li>Ulrich, K. T., &amp; Eppinger, S. D. (2016). <em>Product Design and Development</em> (6th ed.). McGraw-Hill Education.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Hoover, S. P., Rinderle, J. R., &amp; Finger, S. (1991). Models and abstractions in design. <em>Design Studies</em>, 12(4), 237-245.</li>
+</ol>
+</body>
+</html>

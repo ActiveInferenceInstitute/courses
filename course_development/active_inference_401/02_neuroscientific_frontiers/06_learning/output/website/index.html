@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06_Learning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>06_Learning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>06_Learning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 06: Learning — Synaptic Plasticity as Model Updating</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 401 | <strong>Unit</strong>: Neuroscientific Frontiers | <strong>Audience</strong>: Advanced undergraduates / graduate students</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Analyze how <strong>synaptic plasticity</strong> (LTP, LTD, STDP) implements parameter learning — updating the generative model based on experience.</li>
+<li>Evaluate the evidence for <strong>Bayesian model reduction</strong> in the brain — sleep, pruning, and structure learning.</li>
+<li>Examine <strong>memory consolidation</strong> as the transfer of learned parameters between brain systems.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. Synaptic Plasticity as Parameter Learning</h3>
+<p>In Active Inference, learning is the updating of generative model parameters — the A, B, C, D matrices. Synaptic plasticity is the neural mechanism:</p>
+<p><strong>Long-term potentiation (LTP)</strong>: Strengthening of synaptic connections when pre- and post-synaptic neurons are co-active. In Active Inference terms, LTP implements the strengthening of associations in the generative model — when two states frequently co-occur, the A-matrix entry linking them increases. This is the neural implementation of Dirichlet concentration parameter accumulation.</p>
+<p><strong>Long-term depression (LTD)</strong>: Weakening of synaptic connections. This implements the reduction of unlikely associations — when predicted co-occurrences fail to materialize, the corresponding model parameters decrease. In the cerebellum, LTD at parallel fiber-Purkinje synapses updates the forward model based on motor prediction errors.</p>
+<p><strong>Spike-timing-dependent plasticity (STDP)</strong>: The precise timing of pre- and post-synaptic spikes determines whether LTP or LTD occurs. If pre fires before post (causal), LTP occurs — strengthening the model's causal prediction ("this input predicts this output"). If post fires before pre (acausal), LTD occurs — weakening the incorrect causal link. STDP implements <strong>causal inference</strong> at the synaptic level — learning the temporal structure of the world.</p>
+<h3>2. Prediction Error-Driven Learning</h3>
+<p>Learning in Active Inference is driven by prediction errors — the discrepancy between what the model predicts and what occurs. Several neural learning rules implement this:</p>
+<p><strong>Hebbian learning with a predictive twist</strong>: Classical Hebb: "Neurons that fire together wire together." Predictive refinement: "Neurons that <em>predict</em> each other strengthen their connection; neurons that <em>fail to predict</em> each other weaken their connection." The prediction error modulates the learning signal — large errors produce large updates, small errors produce small updates.</p>
+<p><strong>Reward prediction errors (RPE)</strong>: Phasic dopamine signals from VTA/SNc encode reward prediction errors — the difference between expected and received reward. These RPEs update value estimates in the striatum and PFC, refining the C vector (preferences) and policy evaluations. This is the neural mechanism of preference learning.</p>
+<p><strong>Sensory prediction errors</strong>: Cortical prediction errors (carried by feedforward gamma) drive learning in the sensory hierarchy — updating the A-matrix (observation model). The precision of the error signal determines the learning rate: high-precision errors (salient, reliable) produce faster learning; low-precision errors (noisy, unreliable) produce slower learning.</p>
+<h3>3. Memory Consolidation and Systems Learning</h3>
+<p>Memory consolidation — the transfer of newly learned information from hippocampus to neocortex — is a critical component of generative model updating:</p>
+<p><strong>Hippocampal-cortical dialogue</strong>: During waking experience, the hippocampus rapidly encodes new observations (fast learning rate, high plasticity). During sleep, the hippocampus replays these experiences to the neocortex, which slowly integrates them into its generative model (slow learning rate, gradual parameter updating). This implements a <strong>complementary learning systems</strong> architecture.</p>
+<p><strong>Sharp wave-ripples (SWR)</strong>: During NREM sleep, hippocampal sharp wave-ripples replay compressed versions of waking experiences. These replays are coordinated with neocortical slow oscillations (&lt; 1 Hz) and thalamocortical spindles (12-15 Hz), creating a temporal window for cortical plasticity. This three-way coupling (SWR → spindle → slow oscillation) is the neural mechanism of consolidation.</p>
+<p><strong>Sleep spindles</strong>: Thalamocortical spindles (~12-15 Hz) trigger cortical calcium influx that facilitates LTP. This is the plasticity mechanism through which replayed memories are "written" into cortical synapses. Individual differences in spindle density predict learning ability.</p>
+<h3>4. Bayesian Model Reduction and Synaptic Pruning</h3>
+<p>Bayesian Model Reduction (BMR) — simplifying the generative model by removing unnecessary parameters — has a neural counterpart in <strong>synaptic pruning</strong>:</p>
+<p><strong>Developmental pruning</strong>: The adolescent brain undergoes massive synaptic elimination, reducing the number of synapses by ~40%. This is not random loss — it is the removal of synapses that contribute little to model evidence. The cortical generative model becomes more efficient by eliminating unnecessary parameters.</p>
+<p><strong>Sleep-dependent pruning</strong>: The <strong>synaptic homeostasis hypothesis</strong> (Tononi &amp; Cirelli) proposes that sleep involves global synaptic downscaling — weakening all synapses while preserving relative differences. Active Inference interpretation: sleep implements a form of BMR, pruning weak connections (low-evidence parameters) while maintaining strong ones (high-evidence parameters). This explains why sleep improves generalization — the pruned model overfits less.</p>
+<p><strong>Reconsolidation</strong>: When a memory is reactivated, it temporarily becomes labile (subject to updating or erasure). Active Inference: reactivation opens a window for model revision — the retrieved parameters can be updated in light of new evidence. This has clinical implications for treating PTSD (reconsolidation-based interventions).</p>
+<h3>5. Neurogenesis and Structure Learning</h3>
+<p>Adult hippocampal neurogenesis — the birth of new neurons in the dentate gyrus — may implement <strong>structure learning</strong> — adding new nodes to the generative model:</p>
+<p><strong>New neurons for new contexts</strong>: Newly born neurons are hyperexcitable and hyper-plastic, making them ideal for encoding novel information. They may create new "slots" in the hippocampal generative model for representing new contexts or environments.</p>
+<p><strong>Pattern separation</strong>: New neurons improve the hippocampus's ability to discriminate between similar contexts (pattern separation), reducing interference between overlapping generative model representations.</p>
+<p><strong>Environmental enrichment</strong>: Enriched environments increase neurogenesis, consistent with the idea that structure learning is driven by environmental complexity — new experiences require new model structure.</p>
+<h3>6. Meta-Learning and Learning Rate Optimization</h3>
+<p>Active Inference includes a mechanism for <strong>learning to learn</strong> — optimizing the learning rate itself:</p>
+<p><strong>Dopaminergic precision modulation</strong>: Tonic dopamine levels modulate the precision of prediction errors across the cortical hierarchy. Higher tonic dopamine → higher precision → faster learning from prediction errors. Lower tonic dopamine → lower precision → slower, more conservative updating. This implements a <strong>meta-learning</strong> signal that adjusts the organism's overall sensitivity to new evidence.</p>
+<p><strong>Context-dependent learning rates</strong>: The hippocampus detects environmental change (context shifts) and signals the need for rapid model updating. When the hippocampus detects a novel context (mismatch between current observations and stored representations), it increases learning rates across the cortical hierarchy — enabling rapid adaptation to new environments.</p>
+<p><strong>Cholinergic modulation</strong>: Acetylcholine from the basal forebrain increases the precision of sensory prediction errors relative to prior predictions. High ACh → data-driven learning (the model trusts observations over priors). Low ACh → prior-driven inference (the model trusts its existing model). This implements the explore/exploit dimension of learning: curiosity states (high ACh) versus consolidation states (low ACh).</p>
+<blockquote>
+<p><strong>Clinical Vignette — Alzheimer's Disease and Learning Failure</strong>: Early Alzheimer's selectively damages cholinergic neurons in the basal forebrain and hippocampal circuits. In Active Inference terms, this disrupts both the precision modulation of prediction errors (cholinergic loss) and the rapid encoding of new experiences (hippocampal atrophy). The result: patients cannot update their generative model — they repeat the same predictions despite mounting prediction errors. The characteristic confabulation of Alzheimer's represents a model that can no longer learn, generating predictions from an increasingly outdated generative model. Cholinesterase inhibitors partially restore learning by boosting residual cholinergic signaling.</p>
+<p><strong>Cross-Track Connection — Advanced Theory (Module 06)</strong>: The meta-learning mechanisms here implement the hierarchical Dirichlet process described formally in the Advanced Theory track — learning rates themselves are hyperparameters with their own precision, creating a hierarchy of learning.</p>
+</blockquote>
+<h2>Summary</h2>
+<p>Synaptic plasticity (LTP, LTD, STDP) implements parameter learning in the generative model. Prediction errors drive learning, with different types (sensory, motor, reward) updating different model components. Memory consolidation transfers parameters from hippocampus to neocortex through sleep-dependent replay. Synaptic pruning and sleep-dependent downscaling implement Bayesian Model Reduction. Meta-learning — optimizing the learning rate through dopaminergic and cholinergic modulation — enables adaptive sensitivity to environmental change. Adult neurogenesis may support structure learning — adding new representational capacity to the model.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Friston, K. J. et al. (2016). Active inference and learning. <em>Neuroscience &amp; Biobehavioral Reviews</em>, 68, 862-879.</li>
+<li>Tononi, G. &amp; Cirelli, C. (2014). Sleep and the price of plasticity. <em>Neuron</em>, 81(1), 12-34.</li>
+<li>McClelland, J. L. et al. (1995). Why there are complementary learning systems in the hippocampus and neocortex. <em>Psychological Review</em>, 102(3), 419-457.</li>
+<li>Friston, K. J. et al. (2018). Bayesian model reduction. <em>arXiv preprint</em> arXiv:1805.07092.</li>
+<li>Yu, A. J. &amp; Dayan, P. (2005). Uncertainty, neuromodulation, and attention. <em>Neuron</em>, 46(4), 681-692.</li>
+<li>Hasselmo, M. E. (2006). The role of acetylcholine in learning and memory. <em>Current Opinion in Neurobiology</em>, 16(6), 710-715.</li>
+</ul></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Synaptic Plasticity as Model Updating</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Map neural learning mechanisms to Active Inference parameter and structure learning.</p>
+</blockquote>
+<h2>Part 1: Synaptic Plasticity Rule Mapping</h2>
+<p><strong>Exercise</strong>: Map each plasticity rule to the Active Inference operation it implements:</p>
+<table>
+<thead>
+<tr>
+<th>Plasticity Rule</th>
+<th>Neural Mechanism</th>
+<th>Active Inference Operation</th>
+<th>Matrix Updated</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LTP (Hebbian)</td>
+<td>Co-activation strengthens synapse</td>
+<td>Increase association parameter</td>
+<td>A matrix (observation likelihood)</td>
+<td>"Seeing red co-occurs with seeing an apple" → strengthen red-apple link</td>
+</tr>
+<tr>
+<td>LTD</td>
+<td>Failed co-activation weakens synapse</td>
+<td>Decrease association parameter</td>
+<td>A matrix</td>
+<td>"Expected green but saw red" → weaken green-apple link</td>
+</tr>
+<tr>
+<td>STDP (causal LTP)</td>
+<td>Pre-before-post → strengthen</td>
+<td>Learn causal transition</td>
+<td>B matrix (state transitions)</td>
+<td>"Pressing button causes light" → strengthen button→light transition</td>
+</tr>
+<tr>
+<td>STDP (acausal LTD)</td>
+<td>Post-before-pre → weaken</td>
+<td>Unlearn spurious causation</td>
+<td>B matrix</td>
+<td>"Light doesn't cause button press" → weaken light→button link</td>
+</tr>
+<tr>
+<td>Dopaminergic RPE</td>
+<td>Phasic DA encodes reward PE</td>
+<td>Update value/preference</td>
+<td>C vector (preferences)</td>
+<td>"This food was tastier than expected" → increase food-preference</td>
+</tr>
+<tr>
+<td>Cerebellar LTD</td>
+<td>Climbing fiber PE at PC synapse</td>
+<td>Update forward model</td>
+<td>Forward model parameters</td>
+<td>"My reach was off by 2cm" → adjust reach prediction</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 200-word analysis: How do these different plasticity rules, taken together, enable a complete generative model to be learned from scratch?</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: Memory Consolidation Timeline</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Trace the consolidation process from encoding to long-term storage.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Trace a specific memory (learning someone's name at a party) through the consolidation timeline:</p>
+<table>
+<thead>
+<tr>
+<th>Time Point</th>
+<th>Brain System</th>
+<th>Process</th>
+<th>What Is Happening to the Generative Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T=0 (encoding)</td>
+<td>Hippocampus (CA3/CA1)</td>
+<td>Rapid synaptic change</td>
+<td>New parameter: this face → this name (fast, fragile)</td>
+</tr>
+<tr>
+<td>T=30min</td>
+<td>Hippocampus</td>
+<td>Initial consolidation</td>
+<td>Protein synthesis stabilizes new synapses</td>
+</tr>
+<tr>
+<td>T=8hr (first sleep)</td>
+<td>Hippocampus → Neocortex</td>
+<td>SWR replay + spindle-gated LTP</td>
+<td>Parameter begins transfer to cortical face model</td>
+</tr>
+<tr>
+<td>Days 1-7</td>
+<td>Gradual transfer</td>
+<td>Repeated replay across multiple sleep cycles</td>
+<td>Cortical parameters strengthen; hippocampal trace weakens</td>
+</tr>
+<tr>
+<td>Weeks-months</td>
+<td>Neocortex</td>
+<td>Semantic integration</td>
+<td>Name becomes part of general social knowledge</td>
+</tr>
+<tr>
+<td>Reactivation</td>
+<td>Hippocampus (reconsolidation)</td>
+<td>Memory becomes labile</td>
+<td>Window opens for parameter revision</td>
+</tr>
+</tbody>
+</table>
+<p>What happens at each stage if the process is disrupted (e.g., sleep deprivation at T=8hr)?</p>
+<p>{fill:textarea}</p>
+<h2>Part 3: Sleep as Bayesian Model Reduction</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze how sleep optimizes the generative model.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a student who studies intensely for an exam. Compare their brain state before and after sleep:</p>
+<p><strong>Before sleep</strong>:</p>
+<ul>
+<li>Many new synaptic connections formed during study (high parameter count)</li>
+<li>Some connections encode genuine patterns; others encode noise or irrelevant details</li>
+<li>Model is complex and potentially overfitting</li>
+</ul>
+<p><strong>During sleep</strong>:</p>
+<ol>
+<li>SWR replay selectively reactivates the most important patterns</li>
+<li>Global synaptic downscaling (synaptic homeostasis hypothesis) weakens all connections proportionally</li>
+<li>Connections encoding strong, reliable patterns survive the downscaling</li>
+<li>Connections encoding noise fall below threshold and are effectively pruned</li>
+</ol>
+<p><strong>After sleep</strong>:</p>
+<ul>
+<li>Fewer parameters but better generalization</li>
+<li>The student can answer novel questions (not just memorized ones)</li>
+</ul>
+<p>Write a 300-word analysis: How does this process implement Bayesian Model Reduction? How does it relate to Occam's Razor? Why is sleep deprivation harmful to learning?</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Structure Learning Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze how the brain adds new representational capacity.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a person who moves to a new city. How does the hippocampus create a new "map" (generative model) for the new environment?</p>
+<ol>
+<li><strong>Neurogenesis</strong>: New neurons born in dentate gyrus — what purpose do they serve?</li>
+<li><strong>Place field formation</strong>: How quickly do new place cells form? What drives them?</li>
+<li><strong>Pattern separation</strong>: How does the new map avoid interfering with the old city's map?</li>
+<li><strong>Integration</strong>: How does the new map get integrated into the broader generative model (e.g., knowing both cities and how to navigate between them)?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 5: Experimental Design</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design an experiment testing Active Inference learning predictions.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design an experiment to test whether sleep-dependent synaptic downscaling implements BMR:</p>
+<ol>
+<li><strong>Learning task</strong>: What task would participants learn? (e.g., statistical learning, pattern recognition)</li>
+<li><strong>Measurement</strong>: How would you measure generalization vs. memorization?</li>
+<li><strong>Sleep manipulation</strong>: How would you manipulate sleep? (full sleep, sleep deprivation, targeted memory reactivation)</li>
+<li><strong>Neural measurement</strong>: What brain signals would you record? (spindle density, SWR rate, synaptic markers)</li>
+<li><strong>Predictions</strong>: What specific result would support the BMR hypothesis?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Mechanistic mapping</td>
+<td>Plasticity rules → model updates</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Timeline tracing</td>
+<td>Memory consolidation process</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Theoretical analysis</td>
+<td>Sleep as BMR</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Systems reasoning</td>
+<td>Structure learning</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Experiment design</td>
+<td>Testing the BMR hypothesis</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Learning (Neuroscientific Frontiers)</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em> <strong>Date</strong>: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Part A: Multiple Choice</h2>
+<p><strong>1.</strong> LTP implements which Active Inference operation?
+A) Action selection
+B) Strengthening association parameters in the generative model — increasing the likelihood of observed co-occurrences
+C) Perception
+D) Sleep</p>
+<p><strong>2.</strong> STDP implements causal inference because:
+A) All plasticity is causal
+B) Pre-before-post timing (causal direction) produces LTP, while post-before-pre (acausal) produces LTD — learning temporal causation
+C) Spikes don't have timing
+D) Only inhibitory neurons use STDP</p>
+<p><strong>3.</strong> Memory consolidation involves:
+A) Permanent hippocampal storage
+B) Transfer of parameters from hippocampus (fast learning) to neocortex (slow integration) through sleep-dependent replay
+C) Forgetting everything
+D) Only cortical processing</p>
+<p><strong>4.</strong> Sharp wave-ripples implement:
+A) Dream content
+B) Compressed replay of waking experiences, coordinated with cortical slow oscillations and spindles to facilitate consolidation
+C) Pain signals
+D) Motor commands</p>
+<p><strong>5.</strong> Synaptic pruning during development implements:
+A) Brain damage
+B) Bayesian Model Reduction — removing synapses that contribute little to model evidence, creating a more efficient generative model
+C) Random loss
+D) Growth</p>
+<p><strong>6.</strong> Adult hippocampal neurogenesis may implement:
+A) Memory erasure
+B) Structure learning — adding new representational capacity to encode novel contexts and environments
+C) Emotion
+D) Language</p>
+<p><strong>7.</strong> The precision of prediction errors modulates learning rate through:
+A) Blood flow
+B) Neuromodulation — high-precision errors (salient, reliable) produce faster learning; low-precision errors produce slower learning
+C) Skull thickness
+D) Age alone</p>
+<h2>Part B: Essay Questions</h2>
+<p><strong>1.</strong> Compare three theories of sleep function: (a) synaptic homeostasis hypothesis (Tononi &amp; Cirelli), (b) active systems consolidation (Born &amp; Wilhelm), and (c) Active Inference's BMR interpretation. What does each theory predict about what happens during NREM vs. REM sleep? Can they be unified? (400 words)</p>
+<p><strong>2.</strong> A patient with bilateral hippocampal damage (like patient HM) can no longer form new declarative memories but can still learn motor skills. Explain this dissociation using the Active Inference learning framework. Which learning mechanisms are preserved? Which are lost? How does this support the complementary learning systems view? (400 words)</p>
+<p><strong>3.</strong> Design a computational model that implements Active Inference learning using biologically realistic plasticity rules. Specify: (a) what the generative model represents, (b) which plasticity rule updates which parameters, (c) how prediction errors drive learning, and (d) how a sleep-like consolidation phase would work. This can be schematic/theoretical — no code required, but be specific about the computational operations. (400 words)</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

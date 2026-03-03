@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>64_The Physics Of Sentience By Karl Friston - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>64_The Physics Of Sentience By Karl Friston</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>64_The Physics Of Sentience By Karl Friston</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>The Physics of Sentience by Karl Friston</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=Fwa82X7tkUI">YouTube</a>
+<strong>Playlist</strong>: Active Inference &amp; Free Energy Principle ~ Lectures, Podcasts, Discussions
+<strong>Duration</strong>: 36:45 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>to be able to talk to you thank you very much for inviting me um I'm going to basically tell the same story that Anil and Kevin told yesterday uh but using the language of physics in the first half and Neuroscience in the second half and I should apologize for this because it's going to be um my basic talk or starting from first principles My Hope Is that many of the ideas that I heard you discussing yesterday um are fully licensed and endorsed by this um rather Elemental or basic approach um as seen through the lens of a physicist furthermore the reason that I or my and my colleagues committed this kind of explanation is if you understand the underlying mechanics and the physics of what's going on it allows you to simulate things so I'm justifying some of the technical details in this talk um on the basis that if you can actually write down the kinds of processes and phenomena of Interest then you're now in a position to simulate and provide proof of principle and my hope is that at some point um the agenda the fascinating and challenging agenda that your group is um applying itself to May succumb to this kind of modeling and proof of principle but I think that's going to be for you to decide so this Talk's going to be breathless because I I have to complete it within uh 45 minutes and we're going to cover the statistics of life with a special focus on Markov blankets and how they induce an interpretation of self-organization in terms of inference and a very basal kind of belief updating namely Bayesian belief updating and then we're going to move on to a rehearsal of exactly the same story but from the point of view of neurobiology in terms of predictive coding and how they play out on neuronal networks and then if we have time I want to just speak to the core notion of selfhood um and argue that that may be intimately related to agency and then ask where does agency emerge from the formulation that I will have established in the first two bits of the talk so I'm going to start with a question posed by spreadinger how can events in space and time which take place within the spatial boundary of a living organism be accounted for by physics and chemistry and clearly I'm not going to address that question but what I want to do is just pick out this notion of a spatial boundary and note that in order to talk about anything a particle or a person or a priest you have to be able to distinguish or separate or individuate that thing from everything else in virtue of it possessing a boundary and spreading it would be the first technology that boundary is you know in on in itself a statistical object and I'm going to read that boundary as something called a Markov blanket so for those of you who know who don't know what a Markov blanket is um imagine some Little universe and these are the states of the universe and these states influence each other and these influences are denoted by these areas or edges and imagine we take some states say my States my internal States the Markov blanket is effectively um a set of states that constitute the or constituted by the parents the children and the parents of the children as defined by this causal coupling and in brief the role that the Markov blanket plays is that it provides all the information that I would need about the universe to predict how I am going to change or evolve next technically um conditioned upon these states here the blanket States here the internal states are conditionally independent of the external States and I'm going to make a further move here I'm going to divide these blanket States into sensory States and active states where the sensor States influence but are not influenced by the internal States active States influence but are not influenced by the external States and I motivate this particular partition um in a moment I use the word particular partition deliberately because effect in effect we've just described a particle or something more generally with particular states that constitute or are constituted by the blanket States known as sensory active States and the internal States and this partition Universal um in the sense you can see it wherever you look so here are two of our favorite things at the top there's a brain and the bottom is single cell we can imagine the internal states of the brain everything I need to write down to identify the current state of vibrate its activity it's connectivity the internal states of the brain will influence my autonomic system my active States my actuators which turn in turn change the external states that then couple back to the sensory Space by sensory epithelia that then influence my internal States and so the cycle continues and exactly the same partition or sparse coupling can be found say in a single cell with intracellular States constituting the internal states that influence say the actin filaments that support the cell's surface that is pushed into the external States and the external milia reciprocates by changing say cell surface receptors that change the intracellular space and again establishing this circular causality that I read in terms of an action perception cycle in relation to the brain so that's the basic setup what I want to do now is to do a very brief course in physics and then ask what would happen if we put the Markov blanket back into play so I want to start with the basis of nearly all physics that we know um articulated here classically as a launch van equation or a stochastic differential equation I use the descriptions to cast it deliberately because um yesterday I noticed in the chat Dennis was was asking about fluctuations random fluctuations are kind of itinerancy that is characteristic of biotic self-organization and those fluctuations are Central to this argument they're denoted by Omega here and all we're doing here is just writing down a universe in which the rate of change of any states of this universe is determined by some flow which is a function of where I am plus these itinerant or random fluctuations are just sketched out two states here so this could be um an oscillation in uh one cell of my brain it could be quite heartbeat or it could be me getting up in the morning doing my emails having lunch uh watching television and so on at any temporal scale the kind of systems that we are interested in show this characteristic property that they have characteristic states which they keep on revisiting you can describe this um in terms of inland dynamical systems a pullback attractor you can articulate this in terms of physics in terms of non-equilibrium steady state the key thing is to be something is to have characteristic states that I return to or at least the neighborhood of and thought of like that we can now read this object as the probability that you'll find me in any particular state if you sample me at any random time and that's important it's important because we know a lot about the maths of the relationship between the Dynamics the flow the amplitude of the random fluctuations and this description of the space system in terms of its characteristic States or its pullback attractor um don't worry about the equations I'll just pick out what we need to know this is a very generic equation known as the master equation in some context the scrolling a wave equation or the focal Planck equation most simply just a description of how this probability density changes with time as a function of the amplitude of the random fluctuations gamma and the flows here but we've just said it doesn't change with time because I exist so to use Kevin's notion of persistence I persist in time so we know this probability density doesn't change in time which affords this solution here known as a health decomposition may sound very arbitrary but this is absolutely fundamental and I repeat underwrites most of the physics that we know from classical to Quantum and the the key thing I want to look at though is that it describes what's known as a gradient flow on the log of this probability in other words in order to counter the random fluctuations I have to be flowing towards my artistic States in order to stop the probability density changing and that's the key behavior that I want to pursue for the rest of the talk and so this point let's put the remark of banking back in play and write down that gradient flow in terms of the amplitude the random fluctuations these things denote circular or solenoidal flows that give this kind of itinerancy and life cycles and oscillations and it what what the Markov blanket tells you is that it is subject to the same law and it means that the internal States and the active States will look as if they're trying to increase the log probability of in this instance the sensory part of the Markov blanket and I'm going to interpret that in terms of perception and action respectively and just ask the question how would I then interpret this quantity here well we've just said that the states that I'm most likely to occupy are those are the characteristic of me they are literally the states that constitute my attracting set to which I am attracting so they are valuable for me they have meaning for me um denoted by them here um so one could read this log probability just as value and what could spin off reinforcement learning if you're an engineer optimal control theory if you're an economist expected utility Theory um if you're a free energy theorist the negative variational free energy is just a way of writing down this valued function um if I just multiply this by minus one we have a complementary perspective that people in information Theory will recognize so this is now known as this negative log probability that are now looking as if I'm trying to minimize is known as self-information information ethereum or simply surprising or surprise it's just a measure of the implaus ability that I would sense this given I am me and this is the quantity that is bounded by the free energy leading to things like the informatics principle the principle of minimum redundancy and indeed the free energy principle this is nice because the average of this thing is known as entropy so the expected free energy or self-information is entropy so it'll look as if I'm trying to resist the second law by minimizing the dispersion or the entropy of my sensed States and of course that's the Holy Grail of self-organization in physics and synergetics of the kind described by Hermann haken and indeed if I was a physiologist it would just be a statement of homeostasis and I have to to exist I just have to keep my sensed physiological States within some viable um bounds that are existentially consistent and have meaning for me because they are characteristic states that I occupy the final interpretation which is the one I want to pursue is that which would be given by a statistician a statistician would read this not as the probability of some states given me but me as a model of how my states were generated this is known as model evidence also known as the um the marginal likelihood having marginalized throughout all the external states that cause my Sensations and therefore perception and action will look as if we have uh it is trying to accumulate or increase model evidence and then uh we can read off things like the Bayesian brain evidence accumulation and indeed a predictive uh coding so I just want to um illustrate now and try and demystify that last interpretation with a worked example just to work towards something which I think may be very which may be a useful mathematical image of a system that is sort of self-caring and I'll motivate this using the simulation in the following way what we've done here is is simulate a lot of little macromolecules with strong repulsion and weak electrochemical attraction and their very existence is the metric space means that they're coupling is sparse and that each molecule cannot see um molecules a long way away so because we've written down the Dynamics here we know the coupling we can go into this synthetic soup and identify some internal States on their Markov blanket in essence what we're doing is we're asking the question is there a little particle or thing living in this soup that is identifiable as something in virtue of the fact that it has a Markov blanket and indeed there isn't the synthetic soup uh here the internal states are coded in Blue uh um surrounded by the actor the active States say the active filaments if this was a little viral or cell like structure um that underlie the sensory of the surface states that protrude into the external States in cyan here so now we have a simulation and then silico little thing living at non-equilibrium steady state that we've identified because it's got its Markov blanket the question is what does it mean for it to be self-evidising in the sense that it has to on average increase its Bayesian model evidence or the the evidence for its models of what's causing its sensory inputs and the answer is is it's subtle um simple and I think very interesting simply because of this conditional Independence that exists between the internal States and the external States it means for any given internal State there must exist a probability distribution over the external States given the sensory States or the blanket States more generally so what that means is there's a lawful relationship a manifold or a function relation relating my internal states to the probability distribution over my external States and if I read that conditional distribution as a basic belief what that means is that these these internal States in some sense hold or represent beliefs about the external States and we can actually go in and just look at the nature of these beliefs and what I've done here is articulate them in terms of something called a synchronization manifold where all I've done is just plot the uh some mixture of internal States um along the x-axis and the probability distribution or beliefs about the external States and the actual external States in terms of their mean on the y-axis to show this synchronization manifold here this lawful mapping that just has to exist because there is this Markov blanket this separation between the thing and everything else and in this example what we're doing is asking the question can we numerically demonstrate that the internal States hold Bayesian beliefs about the fluctuations and the flow of patterns in the external States and indeed they do here are the um the estimated or the the beliefs that are held Bayesian beliefs that are held by the intern States and the actual external States show that they lie within the 90 days incredible intervals and these look very much like what you'd see in electric physiology if you just look at fluctuations of the internal um in response to certain events in the external States when these molecules leave their little Superman pulled back in again here the point I want to make with this demonstration is not only that there always exists an interpretation of self-organized or self-evidising systems endowed with the Markov blanket in terms of Elite building beliefs or having a process that looks as if they are tracking the states of the world generating their Sensations um but more generally this is just a description which I'm sure a lot of you'll be very familiar with of self um of self-organization that can be described in terms of generalized synchrony or synchronization of chaos exactly at the start um first noted by klogens in terms of clocks that are suspended from the same beam or wall will ultimately come to synchronize and oscillate in tandem in the synchronous fashion that's all that's happening here and indeed this little drawing by uh Huygens illustrates that from the perspective of the particular partition into Turtle active sensory and external states where the blanket States constitute the beam that's coupling the two penduli here so from our point of view all we're seeing here is uh an inside out to use anil's phrase view of a completely symmetrical synchronization of chaos or generalized synchrony between two sets of States uh um I've never said this before what I will say to you I was just wondering whether now if we replace the external states with something else like me we now have a mathematical image of the synchrony between the character as a dyadic interaction between two people and you can imagine that's being many people or many cells an ensemble of similar kinds of things that are constituted in the uh either Markov blankets but have some isomorphism in their form will in minimizing their joint free energy necessarily show this kind of generalized synchrony in this harmony that can always be read as one particle or person holding the right kind of beliefs about another kind of person having a mutual understanding and implicitly a mutual predictability a shared narrative in the sense that all of this can be described in terms of increasing the evidence for my models my narrative my explanation of what's causing my Sensations because 99 of the time it is you that is causing my sensation and vice versa um so that's the physics part uh just to be to summarize up the existence of a particle implies a partition of this systemic States and states of Any Given system into internal blanket namely sensory inactive and external states that are hidden behind the Markov blanket from the point of view of the internal States and because active States change but are not changed by external States they reduce or the on average look as if they are reducing the energy their blanket States and effectively this means that action the active States will appear to maintain the structural and functional Integrity of the blanket um a very simple form or basal form of self-assembly and one could argue a very simple form of water paresis internal States appear to infer the hidden causes of sensory states by increasing Bayesian model evidence and actively influence those causes and in my world we refer to that as active infants just to highlight The crucial role of actively engaging and establishing and selecting the right kind of data that is necessary to establish this kind of shared dynamic or synchronization I'm going to end now by um rehearsing exactly the same story but using language much more akin to what um the first half of Kevin stock and uh um the second half of anil's talk yesterday so this is the perspective that a psychologist or a neurobiologist might bring to the table or on exactly the same phenomena and this usually starts with the notion of the brain as a fantastic organ generating fantasies or hypotheses explanations on the inside that then are put to sensory Impressions to see whether they are apt to explain what's going on and if they match that's fine if they don't then you'll get some kind of Bayesian belief updating I find this very nicely demonstrated by this 16th century um oil painter Fame for doing still lives that when viewed from a different direction and give you a very different impression oops I caught them the wrong way around so you're meant to see the um the the bowl of fruit first um and then uh after that the the face um and if you do see a face now the point being made here is that you made that face it's something that you had on the inside in your internal states that is a good explanation for the sensory Impressions on your retina or your uh your your epithelia um and then this um notion um you can find throughout history and philosophy I'm not a scholar but um I I find uh beautifully um summarized by helmhuntz for example objects are always imagined as being present in the field of vision as I have to be there in order to produce the same impression on the nervous mechanism so again what it's saying is it has to be on the inside before or you can explain that sensory impression almost exactly the same ideas from people like Richard Gregory um the notion of perception of hypothesis testing ideas used to great effect by people like Jeffrey Hinton and Peter Diane in machine learning who indeed built a helmholtz machine based upon the work of uh or the Bayesian inference and the work of people like Richard Feynman um articulating that mathematically in terms of this minimization of free energy so from our point of view though let's just come back to this notion of Impressions on the nervous mechanism or sensory Impressions on our Markov blanket the sensory part of our Markov blanket so I've cartooned that here in terms of some sensory shadows and not sensory Veil and if this Dynamics if this Bayesian mechanics induced by a Markov blanket is two then what that means is I will look as if I am trying to find expectations for this sensory impression what caused this particular Shadow so what would that look like well we know exactly what it would look like it has to be written down in this form um from the physics so my internal States change in a way that look as if they are trying to minimize this free energy form of this surprisal or self-information here and it transpires that the functional form of this can be universally interpreted as a prediction error so what does that mean it means my internal state so manual activity is changing as a function of my current neural activity plus a prediction error um in if you're an engineer you'd recognize these as the equations behind predictive coding or kelman filtering usually separated into a prediction when I predict the world will do given its currents my expectations about its current state and then an update that is informed by the sensory data that I sample so what's this free energy gradient here this prediction era well imagine that I had this sensory impression here and I had an expectation that Bayesian belief that it was caused by a dog and if I had a generative model that could generate what I would see if I was correct I can then generate the prediction and compare it to the sensation to form a predictionary which is simply the difference and all this fundamental gradient flow is saying this predictive coding or common filtering equation is saying is I'm going to change my mind in the sense of changing my um internal space in my neuronal States until the prediction error has been eliminated and I've minimize my free energy and the gradients have been destroyed so is that plausible in fact it's very plausible it speaks to a picture which we'll see in a second uh where we want to look at um I think both Kevin and anneal showed sort of cartoons of this one can look at um the brain as a hierarchical generative model generating predictions so evaluating the quality of those predictions by evaluating a prediction error the free energy gradients and then revising beliefs doing basic belief updating on the basis of the mismatch now notice at no point well I ever know what's going on out there all I'm doing is finding a sufficiently good explanation in terms of that which minimizes my prediction errors in this instance there's actually a cat and but that's nice because what it means is forget about all physics and just summarize the existential imperative that inherits from the physics in terms of minimizing prediction error and there are two ways of doing that either change our minds to make our predictions more like Sensations or we can act on the World to solicit some more Sensations that are closer to our predictions so we can just realize up predictions actively by changing the configuration of our body for example or in our internal state if we talk about interceptive inference and autonomic reflexes or we can engage motor reflexes or I can look somewhere else until I see what I expect to see and thereby minimizing my prediction errors I won't go through this this is what I would take people through if they did Neuroscience in terms of the hierarchical organization this kind of scheme the basic message behind this architecture is that say for example visual input comes in it's a receipt of top-down predictions from the visual part of the brain it elaborates a prediction error that's then sent forward to revise my beliefs to provide better Elemental descriptions but crucially these expectations are themselves being predicted in a hierarchical sense um with this top-down descending predictions to produce a prediction error that then drives the high level expectations more abstract representations to provide an account of what's going on below this is exactly what Kevin was talking about yesterday in terms of this layer or level of the hierarchy looking at informing and being informed by the level below and so on to any hierarchical depth required the particular twist in this graphic though is that um it incorporates action so here there's another kind of prediction error that comes from the muscles in my eye that I could predict and I could use a prediction error to infer where my eye was currently pointing but there's a much simpler way that I can minimize these prediction errors I can just change the stretch of my muscle to match the predictions of the stretch receptors and what I'm describing here is it's a classical reflex arc in uh motor control if I was doing interceptive inference this would be an autonomic reflex basically actively and reflexively um minimizing prediction errors in relation to deeply hierarchically informed predictions that are generated by my model but I'm trying to maximize the evidence for um so that's um the basic story um I just want to finish the story um with saying well actually not quite before I do that let me just illustrate the kind of active interest and the kind of sort of Engagement with the world and one way of establishing a very simple synchrony with the world that inherits from the architecture I've just shown you um what we did here is basically equip a synthetic subject with a a generative model that had Dynamics autonomy at this kind of itinerancy that was implicitly referred to yesterday in the form of a central patent generator and then map this abstract Dynamic to some point in extra personal space and we told the synthetic subject or part of its generative model was that there was an invisible point that was moving around and there was an invisible spring that was pulling her finger um towards the moving point so that means that this synthetic subject is now expecting to predicting to feel a hand being moved around and see a hand be moved around but because she's also has reflexes then she's going to automatically fulfill these addictions of the hand movements and cause the hand to move thereby fulfilling the visual predictions and with this very simple kind of reflexive setup we can simulate quite realistic biological kinds of motion and also by simply removing the proprioceptive or the movement sensing information we can simulate not just action but what it would be like to observe something very similar performing the same action but just visually without the proprioceptive input so that's kind of simulation rests upon this sort of over architecture that we get some Sensations and that they um are used to our Bayesian belief updating by minimizing this variational free energy or foreign s are then used to generate action and this rests on the um the Markov blanket that I showed right at the beginning of the presentation what I'm going to do now is make one very very simple move and take this sparse coupling that defines this thing from everything else make it slightly sparse in a very simple but very important way I'm going to remove the influence of my active States on my and as soon as I do that then from the point of view of the internal States my active States now become vicarious causes of my sensory States which means that there now exists an interpretation of my internal State as modeling not just the external State as causing or using a model of the external states to predict the sensory States but the external States and the active States now become causes of my Sensations so now I have a model of the causes of my Sensations that include my own actions and it's this particular move um that I'm um suggesting or from the point of view of simulating these kinds of uh this kind of self-organization may be a necessary move to introduce agency in the sense that uh agents will have some notion some oils can be described as having some sense of their own agency the consequences of their own action because the um their own action is now not directly accessible it can only be observed by the sensory consequences that therefore have to be modeled and this takes us into a slightly different and um I think richer world where you now have the notion of a model that incorporates explicitly the consequences of the agent's action I'm not saying at this stage there's any awareness or sentence of that agency but just it is there that is then used to plan into the future um to evaluate the different consequences of different actions so that you are now implicitly introducing the notion of planning and the temporal depth into the Dynamics that then provide the predictions of what I'm actually going to do next I won't go through this in any detail but just use it to make the point that the underlying maths is quite simple and has a telona me or at least an interpretation in terms of things that people statistics machine learning and economics would recognize immediately in terms of things like Risk and ambiguity or accuracy in complexity and intrinsic extrinsic value and where it turns out that all of these quantities that underwrite the panning that ensues from having to have a model of the consequences of my action are well established in different kinds of literature so for example the intrinsic value is just um the quantity used in visual search known as Bayesian surprise it's also exactly the same quantity underwrite something I mentioned earlier which is the principle of Maximum engineering information or the minimum redundancy principle and it is effectively the thing that drives our curiosity it's the uh the thing that minimizes expected Surprise by maximizing Information Gain and I can sort of strip away various sources of uncertainty and get back to expected utility but I really want to focus in the final slide on um this epistemic affordance that falls out and is a necessary consequence of just having a model of the consequences of my actions in the future um that I peed in Taylor degree of planning and if I would say planning to where am I going to look next I'm going to look to the I'm going to make the next eye movement that resolves the greatest amount of uncertainty about the space to Affairs out there because that has the greatest intrinsic value it has the greatest intrinsic motivation it has the greatest epistemic importance it is Salient for me it has meaning for me in terms of what I don't know and about the world beyond my sensorium and you cannot write this down um with particular examples and produce sales maps that do actually describe quite accurately the empirical behavior of people choosing where to look next or indeed you can simulate this in terms of a little agent this particular agent at a very simple universe and she was either in universe that where all her sensory input was being caused by an upright face a sideways phase or an inverted uh face and by carefully choosing where to look next noting that she could only sample a very small part of the visual field with her fovea as indicated by these um images here in this movie here she can choose the best places to look to maximize the space in surprise to maximize or respond to these epistemic affordances and resolve her uncertainty on what is she is looking at and she's indeed correctly inferring she's looking at an upright phase all of that can be much more gracefully summarized by helmholtz and as follows each Movement we make by which we alter the appearance of objects should be thought of as an experiment designed to test whether we've understood correctly the invariant relations of the phenomena before us that is their existence indefinite spatial relations and with that it only remains um for me to thank those people whose ideas I've been talking about and of course to thank you for your attention thank you very much</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

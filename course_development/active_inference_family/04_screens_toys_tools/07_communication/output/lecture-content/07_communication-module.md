@@ -1,0 +1,65 @@
+# Module 07: Communication — Social Media and Sharing
+
+## Learning Objectives
+
+1. Understand that **Communication** combines Words, Pictures, and Emojis.
+2. Learn about **Digital Footprints** (What you share stays forever).
+3. Know that **Kindness** matters online just as much as offline.
+
+## Introduction: The Digital Billboard
+
+Imagine if you wrote a note to your friend...
+But then you pasted it on a giant billboard.
+Everyone could see it.
+Grandma, your teacher, a stranger.
+That is **Social Media**.
+When you post, you are shouting to the world.
+
+## Key Concepts
+
+### 1. The Post (Broadcasting)
+
+In real life, we whisper or talk.
+Online, we "Post."
+A Post travels instantly to thousands of screens.
+Think before you post: "Is this true? Is this helpful? Is this kind?"
+
+### 2. The Feedback (Likes and Comments)
+
+Why do we like getting "Likes"?
+It gives our brain a happy chemical (Dopamine).
+But don't let Likes control you.
+You are awesome even if you get zero likes.
+
+### 3. Cyberbullying (The Mean Screen)
+
+It is easy to be mean when you can't see someone's face.
+But words on a screen still hurt.
+Rule: If you wouldn't say it to their face, don't type it.
+
+## Activities
+
+### Activity 1: The Emoji Decoder
+
+Write a sentence using ONLY emojis.
+😀 🍔 ➡️ 😴
+(I ate a burger and went to sleep).
+Can your parent guess what it means?
+Emojis are a new language of emotion.
+
+### Activity 2: The Toothpaste Tube
+
+Take a tube of toothpaste.
+Squeeze all of it out onto a plate.
+Now... try to put it back in.
+You can't.
+That is like a Post. Once it is out, you can't take it back.
+
+## Summary
+
+The Internet is a powerful microphone. Use your voice to spread kindness, not meanness.
+
+## References
+
+* *The Technology Tail* by Julia Cook
+* *Nerdy Birdy* by Aaron Reynolds

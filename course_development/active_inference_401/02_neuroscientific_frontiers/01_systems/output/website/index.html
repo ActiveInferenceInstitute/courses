@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_Systems - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>01_Systems</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>01_Systems</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 01: Systems — Neural Architecture for Active Inference</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 401 | <strong>Unit</strong>: Neuroscientific Frontiers | <strong>Audience</strong>: Advanced undergraduates / graduate students</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Map the <strong>cortical hierarchical architecture</strong> onto the generative model structure that supports Active Inference.</li>
+<li>Analyze the roles of <strong>feedforward</strong> and <strong>feedback</strong> connections in implementing prediction errors and predictions.</li>
+<li>Evaluate the evidence for <strong>canonical microcircuit</strong> implementations of Active Inference in cortex.</li>
+<li>Integrate subcortical and neuromodulatory systems into a comprehensive neural Active Inference architecture.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Active Inference 101 introduced the computational principles of the FEP. This track asks: How does the brain actually implement these computations? We begin with the fundamental neural architecture — how cortical circuits, subcortical nuclei, and neuromodulatory systems create the hardware for active inference.</p>
+<blockquote>
+<p><strong>Key Insight — The Neural Argument</strong>: Active Inference is not merely a normative theory about what the brain <em>should</em> do — it makes specific claims about <em>how</em> identifiable neural circuits implement free energy minimization. This module maps those claims onto anatomy, providing the basis for empirical testing throughout this track.</p>
+</blockquote>
+<h2>Key Concepts</h2>
+<h3>1. The Cortical Hierarchy as a Generative Model</h3>
+<p>The neocortex is organized as a <strong>hierarchical system</strong> of interconnected regions. This hierarchy maps directly onto the generative model:</p>
+<p><strong>Lower levels</strong> (V1, S1, A1): Represent fine-grained sensory features — edges, textures, tones. These correspond to the lowest level of the generative model, making precise predictions about sensory data.</p>
+<p><strong>Middle levels</strong> (V4, IT, parietal cortex): Represent objects, categories, and spatial relations. These encode intermediate abstractions in the generative model — predictions about what objects are present and where.</p>
+<p><strong>Higher levels</strong> (prefrontal cortex, anterior temporal lobe): Represent abstract concepts, goals, contexts, and narratives. These encode the deepest priors of the generative model — the agent's high-level understanding of its situation.</p>
+<p><strong>The key principle</strong>: Each level generates predictions sent <em>downward</em> to the level below, and receives prediction errors sent <em>upward</em> from the level below. This creates a bidirectional message-passing architecture that implements variational inference.</p>
+<blockquote>
+<p><strong>Cross-Track Connection — Advanced Theory (Module 04)</strong>: The cortical hierarchy implements the deep temporal models discussed in the Advanced Theory track — each level operates at a progressively slower temporal scale, from millisecond-level sensory processing to minute- and hour-level narrative processing. This is the physical instantiation of the mathematical state-space hierarchy.</p>
+</blockquote>
+<h3>2. Feedforward vs. Feedback Connections</h3>
+<p>The asymmetry between ascending (feedforward) and descending (feedback) connections is central:</p>
+<p><strong>Feedforward (bottom-up) connections</strong>: Originate primarily from <strong>superficial pyramidal cells</strong> (layers 2/3). They are <em>driving</em> connections that carry prediction errors — the discrepancy between predictions and observations. They target layer 4 of the higher area.</p>
+<p><strong>Feedback (top-down) connections</strong>: Originate primarily from <strong>deep pyramidal cells</strong> (layers 5/6). They are <em>modulatory</em> connections that carry predictions — the top-down expectations. They target layers 1 and 6 of the lower area, modulating but not driving neural activity.</p>
+<p><strong>Critical evidence</strong>:</p>
+<ul>
+<li>Feedback connections are more diffuse and modulatory, consistent with carrying broad predictive signals</li>
+<li>Feedforward connections are sharper and more driving, consistent with carrying precise error signals</li>
+<li>Lesion studies show that removing feedback connections disrupts perceptual priors while preserving basic sensory responses</li>
+<li>Feedback connections often use NMDA receptors (slower, more modulatory), while feedforward connections use AMPA receptors (faster, more driving)</li>
+<li><strong>Laminar fMRI</strong>: Recent ultra-high-field (7T) fMRI can resolve individual cortical layers, confirming that feedforward activity peaks in layer 4 while feedback activity peaks in layers 1/5/6 (Lawrence et al., 2019)</li>
+<li><strong>Granger causality analysis</strong>: Directed information flow from V1→V4 is predominantly in the gamma band, while V4→V1 flow is predominantly beta — consistent with the oscillatory predictions from Module 03</li>
+</ul>
+<h3>3. The Canonical Microcircuit</h3>
+<p>Bastos et al. (2012) proposed a <strong>canonical microcircuit</strong> for predictive coding that maps Active Inference onto cortical layers:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Cell Type</th>
+<th>Signal</th>
+<th>Role</th>
+<th>Disruption Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Layer 1</td>
+<td>Apical dendrites</td>
+<td>Top-down predictions</td>
+<td>Context modulation</td>
+<td>Loss of contextual priors</td>
+</tr>
+<tr>
+<td>Layer 2/3</td>
+<td>Superficial pyramidal</td>
+<td>Prediction errors</td>
+<td>Forward to next level</td>
+<td>Perceptual learning fails</td>
+</tr>
+<tr>
+<td>Layer 4</td>
+<td>Stellate/spiny</td>
+<td>Feedforward input</td>
+<td>Receives driving input</td>
+<td>Sensory disconnection</td>
+</tr>
+<tr>
+<td>Layer 5</td>
+<td>Deep pyramidal (thick)</td>
+<td>Motor/output</td>
+<td>Action and deep predictions</td>
+<td>Motor paralysis</td>
+</tr>
+<tr>
+<td>Layer 6</td>
+<td>Deep pyramidal (thin)</td>
+<td>Feedback predictions</td>
+<td>Backward to lower level</td>
+<td>Perception becomes bottom-up only</td>
+</tr>
+</tbody>
+</table>
+<p>This canonical circuit is repeated across the entire cortex — each cortical column implements one "node" in the generative model, computing local prediction errors and updating local beliefs.</p>
+<blockquote>
+<p><strong>Clinical Vignette — Charles Bonnet Syndrome</strong>: Patients with macular degeneration who lose bottom-up visual input sometimes experience vivid visual hallucinations — the generative model runs "unopposed" by feedforward evidence. This demonstrates that perception normally requires the interplay of top-down predictions and bottom-up errors. When errors are absent, predictions "hallucinate" a visual world.</p>
+</blockquote>
+<h3>4. Subcortical Contributions</h3>
+<p>The cortex doesn't work alone. Subcortical structures play critical roles:</p>
+<p><strong>Basal ganglia</strong>: Implement <strong>policy selection</strong> — evaluating actions by their expected free energy and selecting the best policy. The striatum encodes expected values, the pallidum implements competition among policies, and dopaminergic signals provide precision-weighted prediction errors about reward. Direct pathway (D1) = "go" for selected policy; indirect pathway (D2) = "no-go" for competing policies; hyperdirect pathway = global "stop" for re-evaluation.</p>
+<p><strong>Cerebellum</strong>: Implements <strong>forward models</strong> for motor control — predicting the sensory consequences of actions before they're executed. Cerebellar prediction errors (climbing fiber signals from the inferior olive) update the forward model. The cerebellum contains more neurons than the rest of the brain combined — a testament to the computational demands of forward modeling.</p>
+<p><strong>Thalamus</strong>: Acts as a <strong>precision gate</strong> — controlling the flow of prediction errors to cortex by modulating their gain. The reticular nucleus of the thalamus gates which prediction errors reach cortical awareness. The pulvinar nucleus specifically gates visual and attentional prediction errors.</p>
+<p><strong>Hippocampus</strong>: Implements <strong>temporal inference</strong> — maintaining an internal model of temporal unfolding and enabling episodic memory. The hippocampal formation maps states to their temporal context, supporting the "where am I in time" component of the generative model. Place cells, grid cells, and time cells create a spatiotemporal scaffold for the generative model.</p>
+<p><strong>Superior colliculus</strong>: Integrates multisensory prediction errors and generates orienting responses — the "what is it?" reflex that directs sensory resources toward unexpected events. This implements a low-level precision reallocation mechanism.</p>
+<h3>5. Precision and Neuromodulation</h3>
+<p>The concept of <strong>precision</strong> (inverse variance of prediction errors) is neurally implemented through neuromodulation:</p>
+<table>
+<thead>
+<tr>
+<th>Neuromodulator</th>
+<th>Source</th>
+<th>Function in Active Inference</th>
+<th>Clinical Deficit</th>
+<th>Clinical Excess</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dopamine</td>
+<td>VTA/SNc</td>
+<td>Precision of reward prediction errors; policy evaluation</td>
+<td>Parkinson's (apathy, indecision)</td>
+<td>Schizophrenia (aberrant salience)</td>
+</tr>
+<tr>
+<td>Norepinephrine</td>
+<td>Locus coeruleus</td>
+<td>Overall arousal; expected precision of environmental volatility</td>
+<td>Inattention, drowsiness</td>
+<td>Panic, hypervigilance</td>
+</tr>
+<tr>
+<td>Acetylcholine</td>
+<td>Basal forebrain</td>
+<td>Precision of sensory prediction errors; attention to input</td>
+<td>Alzheimer's (perceptual confusion)</td>
+<td>Sensory overwhelm</td>
+</tr>
+<tr>
+<td>Serotonin</td>
+<td>Raphe nuclei</td>
+<td>Temporal discounting; precision over longer time horizons</td>
+<td>Impulsivity</td>
+<td>Excessive caution</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Key Insight — The Neuromodulatory Quartet</strong>: These four neuromodulators constitute the brain's "precision control panel." Together they modulate what the brain attends to (ACh), how volatile it believes the world is (NE), how confident it is about its policies (DA), and how far ahead it plans (5-HT). Nearly all psychoactive drugs — therapeutic and recreational — work by modifying these precision parameters.</p>
+</blockquote>
+<h3>6. The Neural Architecture Debate: Open Questions</h3>
+<p>Despite strong evidence, several questions remain unresolved:</p>
+<ol>
+<li><strong>Columnar precision</strong>: Are cortical columns really the fundamental unit of the generative model, or is the relevant scale finer (mini-columns) or coarser (cortical patches)?</li>
+<li><strong>Layer specificity</strong>: Is the layer-by-layer mapping to predictions/errors as strict as the canonical microcircuit assumes, or is computation more distributed across layers?</li>
+<li><strong>Non-hierarchical processing</strong>: How do horizontal (lateral) connections within a cortical level fit into the framework? They may implement precision normalization across the cortical sheet.</li>
+<li><strong>Cerebellar role expansion</strong>: Recent evidence suggests the cerebellum contributes to cognition and emotion, not just motor control — extending the forward model concept beyond movement.</li>
+</ol>
+<h2>Summary</h2>
+<p>The brain implements Active Inference through a cortical hierarchy where feedforward connections carry prediction errors and feedback connections carry predictions. The canonical microcircuit maps each cortical column to a node in the generative model. Subcortical structures handle policy selection (basal ganglia), forward models (cerebellum), precision gating (thalamus), temporal inference (hippocampus), and orienting (superior colliculus). Neuromodulators control the precision of prediction errors, with each neuromodulator tuning a different dimension of inferential precision. Open questions remain about the exact scale and specificity of these mappings.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Bastos, A. M. et al. (2012). Canonical microcircuits for predictive coding. <em>Neuron</em>, 76(4), 695-711.</li>
+<li>Shipp, S. (2016). Neural elements for predictive coding. <em>Frontiers in Psychology</em>, 7, 1792.</li>
+<li>Parr, T. &amp; Friston, K. (2017). The active construction of the visual world. <em>Neuropsychologia</em>, 104, 92-101.</li>
+<li>Pezzulo, G. et al. (2015). Active Inference, homeostatic regulation and adaptive behavioural control. <em>Progress in Neurobiology</em>, 134, 17-35.</li>
+<li>Lawrence, S. J. D. et al. (2019). Laminar fMRI: Applications for cognitive neuroscience. <em>NeuroImage</em>, 197, 785-791.</li>
+</ul></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Neural Architecture for Active Inference</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Map cortical circuitry and subcortical systems onto Active Inference computations, analyzing empirical evidence.</p>
+</blockquote>
+<h2>Part 1: Cortical Hierarchy Mapping</h2>
+<p><strong>Exercise</strong>: For each brain region, specify its level in the generative hierarchy, the type of predictions it generates, and the prediction errors it receives:</p>
+<table>
+<thead>
+<tr>
+<th>Brain Region</th>
+<th>Hierarchy Level</th>
+<th>Predictions Generated (top-down)</th>
+<th>Prediction Errors Received (bottom-up)</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1 (primary visual)</td>
+<td>Lowest visual</td>
+<td>Oriented edge expectations</td>
+<td>Retinal contrast mismatches</td>
+<td>Predicting edge at 45°</td>
+</tr>
+<tr>
+<td>V4 (color/shape)</td>
+<td>Intermediate visual</td>
+<td>Shape and color expectations</td>
+<td>V1 feature-combination errors</td>
+<td>Predicting "round and red"</td>
+</tr>
+<tr>
+<td>Inferior temporal (IT)</td>
+<td>High visual</td>
+<td>Object identity expectations</td>
+<td>V4 shape errors</td>
+<td>Predicting "apple"</td>
+</tr>
+<tr>
+<td>Prefrontal cortex</td>
+<td>Highest</td>
+<td>Goal/context expectations</td>
+<td>IT object relevance errors</td>
+<td>Predicting "kitchen context"</td>
+</tr>
+</tbody>
+</table>
+<p>Now trace a specific percept (e.g., recognizing a friend's face) through this hierarchy. What predictions flow down? What errors flow up? How is the percept "constructed"?</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: Canonical Microcircuit Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze how cortical layers implement predictive coding operations.</p>
+</blockquote>
+<p><strong>Exercise</strong>: For the Bastos et al. (2012) canonical microcircuit, explain the computational role of each layer and how damage to that layer would disrupt Active Inference:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Computation</th>
+<th>Effect of Damage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1 (apical dendrites)</td>
+<td>Receives top-down context modulation</td>
+<td>Loss of contextual modulation; perception becomes context-free</td>
+</tr>
+<tr>
+<td>L2/3 (superficial pyramidal)</td>
+<td>Computes and sends prediction errors upward</td>
+<td>Loss of error signaling; higher levels receive no updates</td>
+</tr>
+<tr>
+<td>L4 (stellate cells)</td>
+<td>Receives feedforward driving input</td>
+<td>Sensory input is disconnected from cortical processing</td>
+</tr>
+<tr>
+<td>L5 (deep pyramidal, thick)</td>
+<td>Generates motor output and deep predictions</td>
+<td>Loss of action generation and deep generative structure</td>
+</tr>
+<tr>
+<td>L6 (deep pyramidal, thin)</td>
+<td>Sends predictions to L4 and L1 of lower area</td>
+<td>Loss of top-down predictions; perception becomes purely bottom-up</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 200-word analysis: What would perception look like if only feedforward connections remained (all feedback removed)? What does this predict about the experience of patients with specific lesion patterns?</p>
+<p>{fill:textarea}</p>
+<h2>Part 3: Subcortical System Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Map subcortical structures to Active Inference computations.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Complete the analysis for each subcortical structure:</p>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Active Inference Function</th>
+<th>Key Neural Circuit</th>
+<th>Clinical Significance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Basal ganglia (striatum)</td>
+<td>Policy evaluation — expected value of actions</td>
+<td>Cortex→Striatum→Pallidum→Thalamus→Cortex</td>
+<td>Parkinson's: impaired policy selection</td>
+</tr>
+<tr>
+<td>Cerebellum</td>
+<td>Forward models for motor prediction</td>
+<td>Pontine nuclei→cerebellum→red nucleus/thalamus</td>
+<td>Ataxia: prediction errors in motor control</td>
+</tr>
+<tr>
+<td>Thalamus (pulvinar)</td>
+<td>Precision gating of prediction errors</td>
+<td>Reticular nucleus inhibition of relay cells</td>
+<td>Neglect syndromes: precision mis-allocation</td>
+</tr>
+<tr>
+<td>Hippocampus</td>
+<td>Temporal inference and episodic memory</td>
+<td>CA3 recurrent collaterals→CA1→entorhinal</td>
+<td>Amnesia: inability to contextualize in time</td>
+</tr>
+</tbody>
+</table>
+<p>For each structure, explain what would happen to Active Inference if it were removed.</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Neuromodulation and Precision</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Analyze how neuromodulators implement precision weighting.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design a simple thought experiment for each neuromodulator:</p>
+<ol>
+<li><strong>Dopamine (too much / too little)</strong>: How does dopamine excess (e.g., schizophrenia) vs. deficiency (e.g., Parkinson's) affect policy selection and reward prediction?</li>
+<li><strong>Norepinephrine (too high / too low)</strong>: How does NE excess (e.g., panic attack) vs. deficiency (e.g., inattention) affect precision of environmental volatility?</li>
+<li><strong>Acetylcholine (too high / too low)</strong>: How does ACh excess vs. deficiency (e.g., Alzheimer's) affect sensory precision?</li>
+<li><strong>Serotonin (too high / too low)</strong>: How does serotonin excess vs. deficiency affect temporal discounting?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 5: Empirical Evidence Evaluation</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Critically assess the evidence for neural Active Inference.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Evaluate three key predictions of neural Active Inference against empirical evidence:</p>
+<table>
+<thead>
+<tr>
+<th>Prediction</th>
+<th>Evidence For</th>
+<th>Evidence Against</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feedforward = errors, feedback = predictions</td>
+<td>Laminar fMRI, electrophysiology, lesion studies</td>
+<td>Some feedback connections seem to carry error signals</td>
+<td></td>
+</tr>
+<tr>
+<td>Cortical columns = generative model nodes</td>
+<td>Anatomical organization, computational modeling</td>
+<td>Column boundaries are less clear than assumed</td>
+<td></td>
+</tr>
+<tr>
+<td>Neuromodulators = precision weighting</td>
+<td>Psychopharmacology data, computational modeling</td>
+<td>Multiple functions of each neuromodulator</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Write a 300-word assessment: Is neural Active Inference well-supported, or is it still largely theoretical?</p>
+<p>{fill:textarea}</p>
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Anatomical mapping</td>
+<td>Cortical hierarchy ↔ generative model</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Circuit analysis</td>
+<td>Canonical microcircuit</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Systems analysis</td>
+<td>Subcortical contributions</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Clinical reasoning</td>
+<td>Neuromodulation and precision</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Evidence evaluation</td>
+<td>Empirical support</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Systems (Neuroscientific Frontiers)</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em> <strong>Date</strong>: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Part A: Multiple Choice</h2>
+<p><strong>1.</strong> In the cortical hierarchy, feedforward connections primarily carry:
+A) Top-down predictions
+B) Bottom-up prediction errors — mismatches between predictions and sensory data
+C) Global modulatory signals
+D) Motor commands</p>
+<p><strong>2.</strong> Feedback connections originate from which cortical layers?
+A) Layers 2/3
+B) Layers 5/6 — deep pyramidal cells generating top-down predictions
+C) Layer 4 only
+D) Layer 1 only</p>
+<p><strong>3.</strong> In the canonical microcircuit, superficial pyramidal cells (L2/3) compute:
+A) Motor commands
+B) Prediction errors — sent feedforward to the next hierarchical level
+C) Top-down expectations
+D) Neuromodulatory signals</p>
+<p><strong>4.</strong> The basal ganglia implement which Active Inference computation?
+A) Sensory prediction errors
+B) Policy selection — evaluating actions by expected value and selecting the best policy
+C) Forward motor models
+D) Episodic memory</p>
+<p><strong>5.</strong> The cerebellum functions as a:
+A) Memory storage system
+B) Forward model for motor control — predicting sensory consequences of actions
+C) Language center
+D) Emotion processor</p>
+<p><strong>6.</strong> Acetylcholine in Active Inference primarily controls:
+A) Reward
+B) Precision of sensory prediction errors — relating to attention and learning rate for new sensory data
+C) Sleep
+D) Motor speed</p>
+<p><strong>7.</strong> The thalamus functions as a:
+A) Simple relay
+B) Precision gate — controlling which prediction errors reach cortex by modulating their gain
+C) Memory store
+D) Motor center</p>
+<h2>Part B: Essay Questions</h2>
+<p><strong>1.</strong> Trace the neural processing of a specific perceptual experience (e.g., hearing your name in a noisy room) through the cortical hierarchy. For each level, specify the predictions generated, the prediction errors computed, and how precision weighting (attention) modulates the process. Include at least one subcortical contribution. (400 words)</p>
+<p><strong>2.</strong> Compare the canonical microcircuit model (Bastos et al., 2012) with alternative neural coding frameworks (e.g., divisive normalization, sparse coding). What unique predictions does the predictive coding canonical microcircuit make? What empirical tests could distinguish these accounts? (400 words)</p>
+<p><strong>3.</strong> Explain how psychiatric conditions can be understood as disorders of precision weighting, using the neuromodulatory framework. Choose two conditions (e.g., schizophrenia, depression, autism, anxiety) and explain each as aberrant precision in a specific neuromodulatory system. What therapeutic interventions does this perspective suggest? (400 words)</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

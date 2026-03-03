@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06_Learning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>06_Learning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>06_Learning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Robotic Learning: Updating Generative Models Through Experience</h1>
+<h2>Executive Summary</h2>
+<p>Learning in robotics is the process by which a robot improves its generative model through interaction with the world. In Active Inference, learning corresponds to updating the parameters and structure of the generative model to reduce long-term prediction error — making the robot's internal model a better approximation of the true dynamics of its body and environment. This module examines how robots learn dynamics models from manipulation experience, adapt perception models to new visual conditions, and tune control policies through trial and error. Unlike offline machine learning, robotic learning must contend with real-time constraints, physical safety requirements, and the cost of acquiring data through actual physical interaction.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Define robotic learning as parameter and structure updates to the generative model driven by accumulated prediction errors.</li>
+<li>Distinguish between parameter learning (adjusting existing model weights) and structure learning (changing the model architecture).</li>
+<li>Analyze the accuracy-complexity trade-off in robotic model learning and its relationship to variational free energy.</li>
+<li>Evaluate the challenges unique to robotic learning: sample efficiency, safety constraints, and sim-to-real transfer.</li>
+<li>Connect robotic learning paradigms (supervised, reinforcement, self-supervised) to Active Inference's free energy minimization.</li>
+</ol>
+<h2>Introduction</h2>
+<p>The previous module on Action examined how robots translate beliefs into physical forces. But what happens when those actions produce unexpected outcomes — when the object slips from the gripper, when the mobile base skids on a wet floor, when the visual detector misidentifies a part? These prediction errors are not just problems to be corrected in the moment; they are learning signals that can improve the robot's generative model for future interactions. In the next module on Communication, we will see how learned knowledge can be shared between robots; here, we focus on the individual robot's learning process.</p>
+<h2>Key Concepts</h2>
+<h3>1. Learning as Free Energy Minimization Over Long Timescales</h3>
+<p>In Active Inference, perception updates beliefs about hidden states on a fast timescale (milliseconds to seconds), while learning updates the parameters of the generative model on a slower timescale (minutes to hours to days). Both processes minimize variational free energy, but at different levels of the model hierarchy.</p>
+<p>When a UR5 manipulator repeatedly fails to grasp objects at the expected location, the immediate perceptual response is to update the belief about the object's current position. But if the offset is systematic — the camera is slightly miscalibrated — then perceptual correction alone is insufficient. The robot needs to learn a new value for the camera extrinsic calibration parameter, adjusting the generative model so that future predictions from camera observations are more accurate. This parameter update is learning: it changes the model itself, not just the current state estimate.</p>
+<p>The variational free energy framework provides a natural objective for learning. Parameters should be updated to reduce the average prediction error across many observations, subject to a complexity penalty that prevents overfitting. A dynamics model with too many parameters might perfectly fit the training data (low accuracy term) but fail on novel situations because it has memorized noise (high complexity term). The free energy objective balances these, guiding the robot toward models that are accurate and parsimonious.</p>
+<h3>2. Parameter Learning in Dynamics Models</h3>
+<p>Dynamics models — predicting how the world evolves given the robot's actions — are central to robotic control and planning. Learning the parameters of these models from experience is one of the most important forms of robotic learning.</p>
+<p>For a manipulator, the dynamics model includes the mass, inertia, and friction parameters of each link and joint. Classical system identification estimates these from carefully designed excitation trajectories. But in Active Inference, learning can be continuous: every motion the robot makes generates prediction errors between expected and actual joint torques, and these errors can be used to incrementally refine the dynamics parameters through gradient descent on the variational free energy.</p>
+<p>For a mobile robot, the dynamics model includes wheel radius, track width, and surface friction coefficients. These parameters change over time — tires wear, floors are waxed, payloads change. An Active Inference robot continuously monitors its prediction errors (the difference between commanded and actual velocities) and updates its dynamics parameters accordingly. If the robot suddenly finds itself slipping on a wet floor, the increased prediction errors drive rapid updates to the friction parameter, which in turn causes the controller to command more conservative velocities.</p>
+<h3>3. Learning Perception Models</h3>
+<p>The observation model — predicting what sensory data the robot should receive given the world state — also requires learning and adaptation.</p>
+<p>A visual object detector trained in one lighting condition may fail when deployed in another. Active Inference frames this as increased prediction error at the observation level: the model predicts one pattern of pixel intensities, but the actual image is systematically different. Learning reduces this error by updating the observation model parameters. Fine-tuning a neural network object detector on images from the deployment environment is parameter learning in the observation model. Training a new detector from scratch for a novel object class is structure learning — adding new states and observation mappings to the generative model.</p>
+<p>Self-supervised learning is particularly natural for robotic perception. A robot that grasps objects learns to associate visual features with grasp success and failure. An object that looks graspable (low prediction error on the observation model) but consistently slips from the gripper (high prediction error on the action outcome model) generates a learning signal that updates the visual model to better predict grasp affordances. This learning loop — act, observe outcome, update model — is exactly the perception-action-learning cycle that Active Inference prescribes.</p>
+<h3>4. Sim-to-Real Transfer and Domain Adaptation</h3>
+<p>One of the major challenges in robotic learning is data efficiency. Physical robot interactions are slow, expensive, and potentially damaging. Simulation offers unlimited, safe, fast data generation — but simulated environments inevitably differ from reality. Sim-to-real transfer addresses this gap.</p>
+<p>In Active Inference terms, sim-to-real transfer is a model adaptation problem. The generative model learned in simulation has systematic prediction errors when applied to the real world — the simulated physics does not perfectly match real physics, the rendered images do not match real camera images. The robot must learn to correct these discrepancies, either by fine-tuning the entire model on real-world data or by learning a "residual" model that captures the sim-to-real gap.</p>
+<p>Domain randomization — systematically varying simulation parameters (friction, lighting, camera noise) during training — forces the learned model to be robust across a range of conditions. In Active Inference terms, this is learning a model with appropriate complexity: rather than overfitting to one specific simulation, the model captures the invariant structure that transfers to reality. The residual prediction errors that remain after sim-to-real transfer drive continued learning in the real environment, progressively closing the gap between the model and reality.</p>
+<h3>5. Safety Constraints on Robotic Learning</h3>
+<p>Unlike learning in virtual environments, robotic learning in the physical world carries real risks. A robot that explores aggressively to learn its dynamics model might collide with objects, damage itself, or injure nearby humans. Safety constraints are essential in robotic learning.</p>
+<p>Active Inference provides a natural framework for safe exploration through the expected free energy objective. The expected free energy includes a risk term — the probability of visiting states that are far from the agent's preferred (safe) states. This risk term penalizes exploratory actions that might lead to dangerous configurations (joint limits, excessive contact forces, proximity to humans) while still allowing the epistemic term to drive learning-oriented exploration in safe regions of the state space.</p>
+<p>In practice, this manifests as constrained exploration strategies. A manipulator learning its payload capacity might explore with small, gradually increasing loads rather than immediately attempting the maximum load. A mobile robot learning to navigate a new environment might first explore open areas before venturing into narrow corridors. These cautious exploration patterns emerge from the expected free energy objective when the preference model encodes appropriate safety margins.</p>
+<h2>Active Inference Connection</h2>
+<p>Learning in Active Inference is the slow minimization of variational free energy with respect to model parameters, as opposed to the fast minimization with respect to hidden states (perception) and actions (control). This three-timescale optimization — fast perception, medium-speed action, slow learning — mirrors the hierarchy of adaptation in robotic systems. Critically, Active Inference provides a unified objective for all three timescales, eliminating the need for separate loss functions for perception, control, and learning. The same prediction error that drives perceptual updates and action corrections also drives model learning, ensuring that the robot's generative model improves wherever its predictions are most inaccurate.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: Online Dynamics Learning for UR5 Manipulation</h3>
+<p>A UR5 manipulator tasked with handling objects of unknown mass demonstrates online dynamics learning. The robot's generative model initially assumes the end-effector is unloaded. When the robot grasps a 2 kg object, the actual joint torques required to execute a trajectory differ significantly from the predicted torques — the prediction error spikes. The learning algorithm (recursive least squares on the dynamics parameters) incrementally updates the estimated payload mass, center of gravity, and inertia tensor over the next several motion cycles. Within five repetitions, the prediction error returns to baseline, and the robot's motions become smooth and accurate for the new payload. When the robot releases the object and grasps a different one, the learning process repeats, adapting to the new payload parameters. This continuous adaptation is parameter learning under the Active Inference framework — the same prediction errors that drive joint-level control also drive model parameter updates on a slower timescale.</p>
+<h3>Case Study 2: Visual Model Adaptation for Mobile Robot Navigation</h3>
+<p>A Clearpath Jackal robot trained to navigate using visual features in a well-lit laboratory is deployed in a dimly lit warehouse. The visual odometry system, which tracks feature points across camera frames, initially fails — prediction errors spike because the observation model (trained on bright, high-contrast images) cannot accurately predict the dark, low-contrast warehouse images. A self-supervised adaptation procedure runs overnight: the robot drives slowly through the warehouse, collecting paired data from its camera (high prediction error) and its lidar (low prediction error, since lidar is unaffected by lighting). Using the lidar-derived motion estimates as ground truth, the visual model's parameters are updated to handle the new lighting conditions. After adaptation, visual odometry prediction errors drop to acceptable levels, and the robot can navigate using vision alone. This is observation model learning driven by cross-modal prediction error — the lidar provides a reliable reference signal that enables the visual model to learn.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 3 (Perception)</strong>: The perceptual prediction errors that serve as learning signals</li>
+<li><strong>Module 5 (Action)</strong>: The action outcomes that generate experience data for learning</li>
+<li><strong>Module 4 (Cognition)</strong>: How learned model improvements enhance cognitive capabilities</li>
+<li><strong>Module 8 (Planning)</strong>: How more accurate learned models enable better planning</li>
+</ul>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parameter Learning</td>
+<td>Updating model weights to reduce prediction error</td>
+<td>Estimating payload mass from joint torque errors</td>
+</tr>
+<tr>
+<td>Structure Learning</td>
+<td>Changing the model architecture to represent new entities or relationships</td>
+<td>Adding a new object class to a visual detector</td>
+</tr>
+<tr>
+<td>Accuracy-Complexity Trade-off</td>
+<td>Balancing model fit against model simplicity</td>
+<td>Domain randomization preventing simulation overfitting</td>
+</tr>
+<tr>
+<td>Sim-to-Real Transfer</td>
+<td>Adapting a simulation-trained model to the real world</td>
+<td>Fine-tuning a grasp policy on a physical UR5 after training in simulation</td>
+</tr>
+<tr>
+<td>Safe Exploration</td>
+<td>Learning through experience while respecting physical safety constraints</td>
+<td>Gradually increasing payload exploration within torque limits</td>
+</tr>
+<tr>
+<td>Self-Supervised Learning</td>
+<td>Learning from prediction errors between different sensory modalities</td>
+<td>Using lidar to supervise visual odometry adaptation</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Nguyen-Tuong, D., &amp; Peters, J. (2011). Model learning for robot control: A survey. <em>Cognitive Processing</em>, 12(4), 319-340.</li>
+<li>Tobin, J., et al. (2017). Domain randomization for transferring deep neural networks from simulation to the real world. <em>IROS</em>.</li>
+<li>Brunke, L., et al. (2022). Safe learning in robotics: From learning-based control to safe reinforcement learning. <em>Annual Review of Control, Robotics, and Autonomous Systems</em>, 5, 411-444.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Adaptive Robotics and Online Learning</h1>
+<h2>Objective</h2>
+<p>Design and analyze learning mechanisms for a robot that must adapt its generative model parameters online. You will compare fixed-model controllers with adaptive controllers, explore sim-to-real transfer challenges, and design a learning architecture that updates model parameters while maintaining stable control.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Understanding of generative models and free energy from Modules 03-05</li>
+<li>Familiarity with parameter estimation concepts</li>
+<li>Basic understanding of gradient-based optimization</li>
+</ul>
+<h2>Part 1: Parameter Learning Scenario</h2>
+<p>A robot arm has learned its dynamics model in simulation but is now deployed on physical hardware where:
+- Joint friction coefficients differ by 20-40% from simulation
+- Link masses have manufacturing tolerances of +/- 5%
+- Motor torque constants vary due to temperature</p>
+<ol>
+<li>Identify which generative model parameters need to be updated for sim-to-real transfer.</li>
+<li>For each parameter, specify: what observations would reveal the mismatch? What prediction errors would signal that learning is needed?</li>
+<li>How does the free energy signal (high free energy = poor model fit) serve as a natural learning trigger?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 2: Online Parameter Adaptation</h2>
+<p>Design an online learning algorithm that updates the robot's dynamics model during operation:</p>
+<ol>
+<li><strong>Learning rule</strong>: Define the parameter update as gradient descent on free energy:</li>
+<li>theta_{t+1} = theta_t - eta * dF/dtheta</li>
+<li>
+<p>Where theta includes friction coefficients, mass parameters, and motor constants</p>
+</li>
+<li>
+<p><strong>Learning rate selection</strong>: What determines the optimal learning rate? How does precision (confidence in current parameters) affect the learning rate?</p>
+</li>
+<li><strong>Stability constraint</strong>: How do you ensure that parameter updates do not destabilize the controller? Describe at least two safeguards.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Sim-to-Real Transfer Analysis</h2>
+<p>Compare three approaches to sim-to-real transfer:</p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Description</th>
+<th>Advantages</th>
+<th>Limitations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Domain randomization</td>
+<td>Train with varied simulation parameters</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>System identification</td>
+<td>Measure physical parameters directly</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Active Inference adaptation</td>
+<td>Online free energy minimization</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<p>For each approach, describe how it handles a specific sim-to-real gap: the simulated floor has friction coefficient 0.8, but the real floor has coefficient 0.4.</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Hierarchical Learning</h2>
+<p>Robots must learn at multiple timescales. Design a hierarchical learning architecture:</p>
+<ol>
+<li><strong>Fast adaptation</strong> (milliseconds): Precision updates -- adjusting confidence in sensor readings based on recent reliability.</li>
+<li><strong>Medium adaptation</strong> (seconds-minutes): Parameter updates -- adjusting dynamics model parameters (friction, mass, motor constants).</li>
+<li><strong>Slow adaptation</strong> (hours-days): Structure learning -- changing the model architecture itself (adding new state variables, changing model topology).</li>
+</ol>
+<p>For each timescale, specify: what is being learned, what drives the learning, and what are the risks of learning too fast or too slow.</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Lifelong Learning Architecture</h2>
+<p>Design a pseudocode architecture for a robot that learns continuously throughout its operational lifetime:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">lifelong_learning_loop</span><span class="p">():</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">operational</span><span class="p">:</span>
+<span class="w">        </span>#<span class="w"> </span><span class="mf">1.</span><span class="w"> </span><span class="n">Perceive</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">act</span><span class="w"> </span><span class="p">(</span><span class="n">standard</span><span class="w"> </span><span class="n">AIF</span><span class="w"> </span><span class="n">loop</span><span class="p">)</span>
+<span class="w">        </span><span class="n">observation</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sense</span><span class="p">()</span>
+<span class="w">        </span><span class="n">belief</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">update_belief</span><span class="p">(</span><span class="n">observation</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">)</span>
+<span class="w">        </span><span class="n">action</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">select_action</span><span class="p">(</span><span class="n">belief</span><span class="p">,</span><span class="w"> </span><span class="nb">preferences</span><span class="p">)</span>
+<span class="w">        </span><span class="n">execute</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="mf">2.</span><span class="w"> </span><span class="n">Monitor</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="n">energy</span><span class="w"> </span><span class="p">(</span><span class="n">learning</span><span class="w"> </span><span class="n">signal</span><span class="p">)</span>
+<span class="w">        </span><span class="n">F</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">compute_free_energy</span><span class="p">(</span><span class="n">belief</span><span class="p">,</span><span class="w"> </span><span class="n">observation</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="mf">3.</span><span class="w"> </span><span class="n">Fast</span><span class="w"> </span><span class="n">adaptation</span><span class="p">:</span><span class="w"> </span><span class="nb">update</span><span class="w"> </span><span class="n">precisions</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold_fast</span><span class="p">:</span>
+<span class="w">            </span><span class="n">update_precisions</span><span class="p">(</span><span class="n">observation_history</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="mf">4.</span><span class="w"> </span><span class="n">Medium</span><span class="w"> </span><span class="n">adaptation</span><span class="p">:</span><span class="w"> </span><span class="nb">update</span><span class="w"> </span><span class="n">parameters</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold_medium</span><span class="w"> </span><span class="n">over</span><span class="w"> </span><span class="n">window</span><span class="p">:</span>
+<span class="w">            </span><span class="n">update_parameters</span><span class="p">(</span><span class="n">gradient_F</span><span class="p">,</span><span class="w"> </span><span class="n">learning_rate</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="mf">5.</span><span class="w"> </span><span class="n">Slow</span><span class="w"> </span><span class="n">adaptation</span><span class="p">:</span><span class="w"> </span><span class="n">consider</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="n">structure</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold_slow</span><span class="w"> </span><span class="n">over</span><span class="w"> </span><span class="n">long_window</span><span class="p">:</span>
+<span class="w">            </span><span class="n">propose_model_revision</span><span class="p">()</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="mf">6.</span><span class="w"> </span><span class="n">Consolidation</span><span class="p">:</span><span class="w"> </span><span class="n">periodic</span><span class="w"> </span><span class="n">review</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">time_for_consolidation</span><span class="p">:</span>
+<span class="w">            </span><span class="n">consolidate_learned_parameters</span><span class="p">()</span>
+</code></pre></div>
+
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Learning Type</th>
+<th>Timescale</th>
+<th>What Changes</th>
+<th>Free Energy Signal</th>
+<th>Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Precision updating</td>
+<td>Milliseconds</td>
+<td>Sensor confidence</td>
+<td>Prediction error variance</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Parameter learning</td>
+<td>Seconds-minutes</td>
+<td>Model parameters</td>
+<td>Persistent prediction errors</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Structure learning</td>
+<td>Hours-days</td>
+<td>Model architecture</td>
+<td>Irreducible free energy</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ul>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Nguyen, S. M., &amp; Oudeyer, P. Y. (2013). Active choice of teachers, learning strategies and goals for a socially guided intrinsic motivation learner. <em>Paladyn</em>, 3(3), 136-146.</li>
+<li>Tobin, J., et al. (2017). Domain randomization for transferring deep neural networks from simulation to the real world. <em>IEEE IROS</em>.</li>
+</ul></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Learning in Robotic Systems</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>In Active Inference, learning in a robotic system is best described as:
+A) Downloading new software updates from the manufacturer
+B) Updating the parameters of the generative model to reduce long-term prediction error -- changing the model itself, not just beliefs about current states
+C) Memorizing a fixed set of sensor readings
+D) Increasing the robot's processing speed</li>
+</ol>
+<p><strong>Answer: B</strong> -- Learning is distinct from perception (which updates beliefs about hidden states) in that it updates the parameters of the generative model itself. After learning, the robot has a structurally different model that makes better predictions about its body and environment.</p>
+<ol>
+<li>A robot arm learns the mass of a new tool attached to its end-effector by observing the torques needed during several movements. This is an example of:
+A) Perceptual inference (state estimation)
+B) Parameter learning -- updating the robot's body model (proprioceptive generative model) based on accumulated prediction errors
+C) Planning
+D) Communication</li>
+</ol>
+<p><strong>Answer: B</strong> -- The robot starts with an inaccurate mass parameter in its dynamics model. Repeated movements produce systematic prediction errors (predicted torques differ from required torques). Over multiple trials, the mass parameter is updated to minimize these errors -- this is parameter learning.</p>
+<ol>
+<li>The exploration-exploitation dilemma in robot learning is resolved in Active Inference by:
+A) Always exploring and never exploiting
+B) Always exploiting and never exploring
+C) The expected free energy objective, which automatically balances epistemic value (information gain from exploration) with pragmatic value (task achievement from exploitation)
+D) Flipping a coin to decide</li>
+</ol>
+<p><strong>Answer: C</strong> -- Expected free energy decomposes into epistemic and pragmatic terms. When model uncertainty is high, the epistemic term drives exploration. As the model improves, the pragmatic term dominates, shifting behavior toward task exploitation. This transition is automatic and principled.</p>
+<ol>
+<li>Sim-to-real transfer in robot learning involves:
+A) Moving a robot from one room to another
+B) Training a generative model in simulation and deploying it on a physical robot, where the real world reveals model inaccuracies through prediction errors
+C) Simulating that the robot has already learned
+D) Transferring the robot's battery to a simulator</li>
+</ol>
+<p><strong>Answer: B</strong> -- Models trained in simulation often have systematic prediction errors when deployed on real hardware due to the reality gap (unmodeled friction, sensor noise, dynamic effects). Active Inference provides a natural framework for adapting the simulated model through real-world prediction error minimization.</p>
+<ol>
+<li>What distinguishes structure learning from parameter learning in robotics?
+A) There is no distinction
+B) Parameter learning adjusts existing model weights, while structure learning changes the topology of the generative model -- adding new variables, states, or causal relationships
+C) Structure learning is only relevant for buildings, not robots
+D) Parameter learning requires more data than structure learning</li>
+</ol>
+<p><strong>Answer: B</strong> -- Parameter learning tunes existing model parameters (e.g., link masses, friction coefficients). Structure learning changes the model architecture itself -- for example, a robot discovering that an object in its workspace is articulated (has a joint) rather than rigid, requiring a new state variable in the generative model.</p>
+<ol>
+<li>A mobile robot learns a navigation policy through repeated trials in a warehouse. After learning, what has changed in its Active Inference model?
+A) Only the robot's hardware
+B) The habit strengths (policy priors) in the generative model -- frequently successful policies acquire higher prior probability, making them more likely to be selected in similar future situations
+C) The warehouse layout itself
+D) The robot's serial number</li>
+</ol>
+<p><strong>Answer: B</strong> -- Through experience, the robot's prior beliefs about which policies are effective become more accurate. Policies that consistently led to low free energy acquire stronger priors, enabling faster and more reliable action selection in familiar contexts.</p>
+<ol>
+<li>Curiosity-driven learning in a robot exploring a novel environment is explained by Active Inference as:
+A) Random motion with no purpose
+B) Seeking states with high expected information gain -- moving to locations where the robot's generative model is most uncertain, thereby maximally reducing model uncertainty per action
+C) Avoiding all novel stimuli
+D) Learning only from human demonstrations</li>
+</ol>
+<p><strong>Answer: B</strong> -- The epistemic component of expected free energy drives the robot toward states where its model is most uncertain. Observing these states provides maximum information gain, efficiently improving the generative model across the state space.</p>
+<ol>
+<li>A robot learning to grasp objects of different shapes adapts its grasp strategy over time. In terms of the generative model, what is being updated?
+A) Only the robot's color sensors
+B) The mapping between observed object features (visual shape, estimated size) and the grasp parameters (finger positions, approach angle, grip force) that minimize expected free energy
+C) The robot's serial communication protocol
+D) The ambient room temperature model</li>
+</ol>
+<p><strong>Answer: B</strong> -- The robot learns a generative model that relates visual object features to the proprioceptive and tactile outcomes of different grasp strategies. Over trials, the model parameters are refined so that the robot can predict which grasp approach will succeed for each object category.</p>
+<ol>
+<li>Why is learning rate (the speed of parameter updates) important in robotic Active Inference?
+A) It only affects the robot's travel speed
+B) Too fast and the model overfits to noise or recent experiences; too slow and the model fails to adapt to genuine changes -- the learning rate governs the balance between stability and plasticity
+C) Learning rate is irrelevant in Active Inference
+D) Higher learning rates always produce better results</li>
+</ol>
+<p><strong>Answer: B</strong> -- This is the stability-plasticity dilemma. In Active Inference, the learning rate corresponds to the relative precision assigned to new observations versus existing model parameters. High precision on new data yields fast but potentially unstable learning; low precision yields slow but robust learning.</p>
+<ol>
+<li>Domain randomization in simulation-based robot training is analogous to which Active Inference concept?
+A) Minimizing the complexity term of free energy -- the robot learns a model that is robust to parameter variation, implicitly encoding broad prior distributions over environmental conditions
+B) Maximizing surprise
+C) Eliminating all model parameters
+D) Training on a single, perfectly accurate simulation</li>
+</ol>
+<p><strong>Answer: A</strong> -- Domain randomization exposes the learner to many variations of physics parameters, textures, and dynamics. The resulting model encodes broad priors, reducing complexity and improving generalization -- mirroring how free energy minimization penalizes overly specific models.</p>
+<h2>Part B: Short Answer and Design Prompts</h2>
+<ol>
+<li>
+<p>Design a learning curriculum for a robot arm that must learn to manipulate five different tool types (screwdriver, wrench, pliers, hammer, paintbrush). How would you structure the learning progression using Active Inference principles? What would the generative model learn at each stage?</p>
+</li>
+<li>
+<p>A quadruped robot is deployed in a new environment with terrain types it has never encountered (e.g., ice, deep sand). Describe how Active Inference drives the robot to learn appropriate gait parameters for each terrain. What prediction errors drive the learning, and what parameters are updated?</p>
+</li>
+<li>
+<p>Explain the difference between a robot that has learned to navigate a specific building and a robot that has learned to navigate buildings in general. How does the structure of the generative model differ, and what kind of learning produced each?</p>
+</li>
+<li>
+<p>How could a team of robots share learned generative model parameters so that one robot's experience benefits others? Describe an Active Inference framework for multi-robot collaborative learning in a warehouse setting.</p>
+</li>
+<li>
+<p>A robot's learned manipulation model suddenly produces high prediction errors after a mechanical component degrades (e.g., a joint develops increased friction). Describe how the robot would detect this change, distinguish it from environmental change, and adapt its model.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

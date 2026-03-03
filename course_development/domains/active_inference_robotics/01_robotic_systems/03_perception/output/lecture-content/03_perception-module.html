@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Robotic Perception: From Raw Sensors to Bayesian Beliefs</h1>
+<h2>Executive Summary</h2>
+<p>Perception is the process by which a robot transforms raw sensor data into beliefs about the state of the world. In Active Inference, perception is not passive data processing but active Bayesian inference — the robot uses its generative model to predict what it should observe, compares these predictions with actual sensor readings, and updates its beliefs to minimize prediction error. This module examines how robotic perception systems — from lidar point clouds and IMU readings to camera images and joint encoders — implement this inferential process. Understanding perception as inference rather than mere signal processing reveals why sensor fusion works, why perception fails in predictable ways, and how robots can actively seek information to resolve uncertainty.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Frame robotic perception as approximate Bayesian inference — the inversion of a generative model from sensory observations.</li>
+<li>Analyze specific sensor modalities (lidar, IMU, cameras, joint encoders) as information channels with characteristic noise models and bandwidth.</li>
+<li>Explain sensor fusion as the combination of multiple likelihood functions within a single generative model.</li>
+<li>Identify how prediction error drives belief updates in robotic state estimation.</li>
+<li>Distinguish between passive perception and active perception (epistemic foraging) in robotic systems.</li>
+</ol>
+<h2>Introduction</h2>
+<p>In the previous module on Agents, we established that a robot's agency depends on the quality of its generative model. That model is only as good as the perceptual processes that keep it calibrated to reality. A robot with perfect actuators but degraded perception is blind — it will act on stale or incorrect beliefs, leading to collision, task failure, or damage. Perception is the sensory half of the Markov blanket in action, the process by which information flows from the external world into the robot's internal states. In the next module on Cognition, we will examine how these perceptual inputs are integrated and maintained over time; here, we focus on the front-end: how raw sensor data becomes belief.</p>
+<h2>Key Concepts</h2>
+<h3>1. Perception as Generative Model Inversion</h3>
+<p>In classical robotics, perception is often treated as a feed-forward pipeline: sensor data goes in, features are extracted, objects are detected, and a world model is output. Active Inference reconceptualizes this as model inversion. The robot has a generative model that predicts sensory data given the world state: P(observations | world state). Perception is the process of inverting this model to obtain P(world state | observations) — inferring the most probable world state given what was observed.</p>
+<p>This inversion is typically intractable for complex generative models, so robots use approximate inference methods. The Extended Kalman Filter (EKF) approximates the posterior with a Gaussian distribution, propagating mean and covariance through linearized dynamics. Particle filters represent the posterior with a set of weighted samples, handling multimodal distributions that Gaussian methods cannot. Factor graph optimization (as used in GTSAM and Ceres) frames perception as nonlinear least-squares minimization over a graph of variable nodes and factor nodes. Each of these methods can be understood as a particular approximation scheme for variational free energy minimization.</p>
+<p>The key insight is that perception is always model-dependent. A robot's lidar scan does not have an "objective" interpretation — its meaning depends on the generative model. If the model predicts a flat floor ahead and the lidar reports returns at varying heights, the prediction error drives a belief update: "the floor is not flat; there is an obstacle." But if the model includes a ramp, the same lidar returns generate no surprise. What the robot "perceives" is determined by what it expects.</p>
+<h3>2. Sensor Modalities as Information Channels</h3>
+<p>Each sensor on a robot constitutes a distinct information channel with characteristic properties that constrain what the robot can perceive.</p>
+<p><strong>Lidar</strong> (Light Detection and Ranging) emits laser pulses and measures time-of-flight to determine distances. A Velodyne VLP-16 produces approximately 300,000 points per second across 16 vertical channels, providing dense 3D geometry of the environment. Lidar's generative model is straightforward: given a hypothesized surface at distance d along beam direction theta, the expected return time is 2d/c. Lidar provides precise range measurements (typically plus or minus 3 cm) but no color or texture information. Its noise model is well-characterized and approximately Gaussian, making it well-suited to Kalman-filter-based fusion.</p>
+<p><strong>Inertial Measurement Units (IMUs)</strong> contain accelerometers and gyroscopes that measure linear acceleration and angular velocity. They provide high-rate proprioceptive data (often 200-1000 Hz) but suffer from drift — small biases in the gyroscope integrate into growing orientation errors over time. The generative model for an IMU includes gravity (a constant acceleration the accelerometer always observes) and the relationship between angular velocity and orientation change. IMU perception involves estimating the current orientation and velocity by integrating these measurements while accounting for known bias and noise characteristics.</p>
+<p><strong>Cameras</strong> produce rich, high-dimensional observations (millions of pixels at 30-60 Hz) but with complex, nonlinear generative models. Interpreting a camera image requires modeling scene geometry, lighting, material properties, and the camera's projection model. This makes camera-based perception computationally expensive but informationally rich — cameras can perceive color, texture, shape, and semantic content that geometric sensors like lidar cannot.</p>
+<p><strong>Joint encoders</strong> are proprioceptive sensors that report the angular position of each joint in a manipulator. They are direct, low-noise measurements of the robot's own body configuration. Their generative model is trivially simple: the observed encoder reading equals the true joint angle plus a small Gaussian noise. This simplicity makes encoder-based proprioception the most reliable perceptual channel available to a manipulator.</p>
+<h3>3. Sensor Fusion as Unified Inference</h3>
+<p>Sensor fusion — combining data from multiple sensors to achieve more accurate state estimates — is naturally explained by Active Inference. Each sensor provides a likelihood function: the probability of the observed data given the hypothesized world state. Bayes' rule combines these likelihoods with a prior to produce a posterior belief. Sensor fusion is simply Bayesian inference with multiple likelihood terms.</p>
+<p>Consider a mobile robot estimating its position using wheel odometry, an IMU, and lidar scan matching. The wheel odometry provides a likelihood function over position based on integrated wheel rotations (high drift, smooth trajectory). The IMU provides a likelihood over orientation based on integrated angular velocity (high-rate, drifting). The lidar scan matching provides a likelihood over position by comparing the current scan to a stored map (accurate but intermittent, sensitive to feature availability). The Kalman filter or factor graph optimizer combines these three likelihoods with a dynamics prior (the robot cannot teleport; its position changes smoothly) to produce a fused state estimate that is more accurate than any single sensor alone.</p>
+<p>The Active Inference perspective adds a crucial insight: the relative influence of each sensor should be weighted by its precision (inverse variance). When driving on a smooth floor, wheel odometry is precise and should be weighted highly. When driving on gravel, odometry precision drops and lidar should dominate. This precision-weighting is exactly what Kalman filters and related methods implement — and it is precisely what Active Inference prescribes through the precision-weighted prediction error terms in the free energy functional.</p>
+<h3>4. Active Perception and Epistemic Foraging</h3>
+<p>Passive perception waits for sensor data to arrive and processes it. Active perception — epistemic foraging in Active Inference terminology — selects actions specifically to reduce perceptual uncertainty. This is a distinctive feature of Active Inference agents: they do not just passively observe the world but actively seek information to improve their generative models.</p>
+<p>A robot arm reaching toward an object whose position is uncertain might first move its wrist camera to a viewpoint that resolves the ambiguity before committing to a grasp trajectory. A mobile robot approaching a T-intersection where its map is uncertain might slow down and sweep its lidar across a wider arc. In both cases, the robot selects actions not to achieve an immediate task goal but to gather information — to reduce the entropy of its posterior beliefs.</p>
+<p>This behavior emerges naturally from the expected free energy objective in Active Inference. Expected free energy decomposes into a pragmatic term (achieving preferred outcomes) and an epistemic term (reducing uncertainty about hidden states). When uncertainty is high, the epistemic term dominates, driving the agent to explore and gather information before exploiting its knowledge for task completion. This provides a principled, automatic mechanism for trading off exploration and exploitation — one of the fundamental challenges in robotic decision-making.</p>
+<h3>5. Perceptual Failures and Their Causes</h3>
+<p>Understanding perception as model-dependent inference reveals systematic failure modes. Perceptual failures occur when the generative model's assumptions are violated.</p>
+<p><strong>Model mismatch</strong> occurs when the world deviates from the generative model's assumptions. A lidar-based navigation system that models the world as static will fail when encountering moving objects — the prediction errors caused by dynamic objects will be misinterpreted as jumps in the robot's own position. A visual object detector trained on objects in normal lighting will fail when lighting conditions change dramatically.</p>
+<p><strong>Sensor degradation</strong> occurs when the noise characteristics of a sensor change unexpectedly. A lidar operating in fog or rain produces spurious returns that violate the clean Gaussian noise model. An IMU experiencing vibration from a nearby motor exhibits increased noise that, if not modeled, degrades the state estimate.</p>
+<p><strong>Perceptual aliasing</strong> occurs when different world states produce identical sensory observations. A robot navigating a corridor with identical-looking intersections cannot distinguish its location from visual appearance alone — the generative model maps multiple states to the same observation. Resolving aliasing requires either additional sensory modalities or temporal context (path integration).</p>
+<h2>Active Inference Connection</h2>
+<p>Perception in Active Inference is the process of minimizing free energy with respect to beliefs about hidden states, holding actions fixed. The robot's generative model predicts sensory observations; the difference between predictions and actual observations is the prediction error. Perception updates beliefs to reduce this prediction error, weighted by the precision of each sensory channel. This framework unifies classical methods — Kalman filtering, particle filtering, MAP estimation — under a single theoretical umbrella, while adding the distinctive concept of active perception: choosing actions that maximize information gain. For robotics, this means that perception and action are not separate stages in a pipeline but interleaved processes that jointly minimize free energy.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: Lidar-IMU Fusion for Mobile Robot Localization</h3>
+<p>A Clearpath Husky mobile robot equipped with a Velodyne VLP-16 lidar and a MicroStrain 3DM-GX5 IMU implements perception as multi-sensor Bayesian inference. The IMU provides high-rate (200 Hz) predictions of the robot's motion between lidar scans through dead reckoning, serving as the dynamics model. Every 100 ms, a new lidar scan arrives, and the Normal Distributions Transform (NDT) algorithm computes a likelihood by matching the scan to a pre-built 3D map. The EKF fuses these two information sources, weighting the IMU-predicted position by its accumulated drift uncertainty and the lidar match by its alignment quality score. When the robot traverses a featureless hallway, lidar matching precision drops (few distinctive features), and the IMU dominates the estimate. When the robot enters a feature-rich room, lidar precision increases and corrects the accumulated drift. This automatic precision-weighting is exactly the mechanism Active Inference prescribes.</p>
+<h3>Case Study 2: Wrist-Camera Active Perception for Manipulation</h3>
+<p>A UR5 manipulator equipped with an Intel RealSense D435 wrist camera demonstrates active perception in manipulation. When tasked with grasping a small bolt from a cluttered bin, the robot first moves its wrist camera to a position directly above the bin to obtain an overhead depth image. The object detection model identifies candidate bolt locations, but depth uncertainty at this distance is approximately 5 mm — too imprecise for reliable grasping. The robot then autonomously moves the camera closer to the best candidate, reducing depth uncertainty to under 1 mm, and confirms the bolt's pose. Only then does it commit to a grasp trajectory. This two-phase perception strategy — coarse observation followed by targeted close inspection — emerges naturally when an Active Inference agent optimizes the expected free energy that balances pragmatic value (grasp the bolt) with epistemic value (reduce pose uncertainty below the threshold needed for reliable grasping).</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 1 (Systems)</strong>: The sensor suite that defines the perceptual boundary of the system</li>
+<li><strong>Module 2 (Agents)</strong>: How perception feeds into the agent's generative model and decision-making</li>
+<li><strong>Module 4 (Cognition)</strong>: How perceived information is integrated, maintained, and updated over time</li>
+<li><strong>Module 6 (Learning)</strong>: How the perceptual generative model is improved through experience</li>
+</ul>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generative Model Inversion</td>
+<td>Inferring world state from observations using Bayes' rule</td>
+<td>EKF estimating robot pose from lidar and odometry</td>
+</tr>
+<tr>
+<td>Sensor Likelihood</td>
+<td>Probability of sensor data given hypothesized world state</td>
+<td>Lidar range return given surface distance and beam angle</td>
+</tr>
+<tr>
+<td>Sensor Fusion</td>
+<td>Combining multiple sensor likelihoods in a single inference</td>
+<td>IMU + lidar + odometry fusion for localization</td>
+</tr>
+<tr>
+<td>Precision Weighting</td>
+<td>Weighting prediction errors by sensor reliability</td>
+<td>Downweighting odometry on slippery surfaces</td>
+</tr>
+<tr>
+<td>Active Perception</td>
+<td>Selecting actions to reduce perceptual uncertainty</td>
+<td>Moving a wrist camera closer to reduce depth uncertainty</td>
+</tr>
+<tr>
+<td>Perceptual Aliasing</td>
+<td>Different world states producing identical observations</td>
+<td>Identical-looking corridor intersections confusing a visual navigator</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Thrun, S., Burgard, W., &amp; Fox, D. (2005). <em>Probabilistic Robotics</em>. MIT Press.</li>
+<li>Bajcsy, R., Aloimonos, Y., &amp; Tsotsos, J. K. (2018). Revisiting active perception. <em>Autonomous Robots</em>, 42(2), 177-196.</li>
+<li>Lanillos, P., &amp; Cheng, G. (2018). Adaptive robot body perception and action through active inference. <em>arXiv preprint arXiv:1806.01671</em>.</li>
+</ol>
+</body>
+</html>

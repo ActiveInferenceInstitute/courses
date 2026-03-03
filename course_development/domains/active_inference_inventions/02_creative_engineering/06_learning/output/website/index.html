@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06_Learning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>06_Learning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>06_Learning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Learning to Invent: Deliberate Practice, Patent Mining, and Biomimicry as Learning From Nature's Generative Models</h1>
+<h2>Executive Summary</h2>
+<p>Invention is a skill, and skills are learned. This module examines how inventors develop their generative models over time — acquiring the perceptual sensitivity, cognitive strategies, action repertoires, and domain knowledge that enable creative output. Through the Active Inference lens, learning to invent involves three distinct but interacting processes: parameter learning (adjusting the weights and connections within an existing model), structure learning (discovering new model architectures that better explain the world), and policy learning (expanding the repertoire of available actions). We explore three powerful learning strategies for inventors: deliberate practice (systematically strengthening specific aspects of the inventive skill), patent database mining (learning from the accumulated record of human invention), and biomimicry (learning from the generative models that natural selection has refined over billions of years).</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Distinguish between parameter learning, structure learning, and policy learning in the context of inventive skill development</li>
+<li>Design a deliberate practice regimen for invention that targets specific weaknesses in the inventor's generative model</li>
+<li>Extract inventive principles from patent databases using Active Inference concepts to identify the generative models behind successful inventions</li>
+<li>Analyze biomimicry as learning from nature's generative models and apply biological principles to engineering challenges</li>
+<li>Develop a personal learning plan that systematically expands your inventive capacity across perception, cognition, and action</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. Three Modes of Learning in Active Inference</h3>
+<p>Active Inference distinguishes three modes of learning, each of which plays a distinct role in inventive skill development.</p>
+<p><strong>Parameter learning</strong> adjusts the values within an existing model structure. For an inventor, this means becoming more accurate within an established framework: learning the exact yield strength of a new alloy, calibrating intuitions about user preferences through experience, or refining the precision of cost estimates through practice. Parameter learning makes an inventor better at using the model they already have. It is analogous to improving the resolution of an existing map.</p>
+<p><strong>Structure learning</strong> changes the model itself — adding new variables, discovering new causal relationships, or reorganizing how components relate to each other. For an inventor, this means developing fundamentally new ways of thinking about problems: learning to see thermal management as a fluid dynamics problem rather than a materials problem, or understanding that user behavior is driven by social norms rather than individual preferences. Structure learning is analogous to discovering that the map needs a third dimension.</p>
+<p><strong>Policy learning</strong> expands the repertoire of available actions. For an inventor, this means acquiring new skills: learning to solder, to code, to machine parts, to run experiments, to interview users, or to write patent claims. Policy learning does not change how the inventor models the world; it changes what the inventor can do about it. It is analogous to learning to swim when you previously could only walk.</p>
+<p>The most effective inventive learning combines all three modes. Anders Ericsson's research on deliberate practice shows that expert performance in any domain requires not just repetition (parameter learning) but the deliberate targeting of weaknesses that requires structural reorganization of the skill (structure learning) and the expansion of the performance repertoire (policy learning).</p>
+<h3>2. Deliberate Practice for Inventors</h3>
+<p>Deliberate practice — the systematic, effortful improvement of specific skills through targeted exercises with feedback — is the primary mechanism by which human beings develop expertise. In Active Inference terms, deliberate practice is the intentional generation of prediction errors in areas where the agent's model is weak, combined with sufficient repetitions to update the model effectively.</p>
+<p>For inventors, deliberate practice has several distinctive features:</p>
+<p><strong>Problem framing practice</strong>: Regularly practice reframing the same problem from multiple perspectives (different scales, different stakeholders, different domains). This develops the perceptual flexibility discussed in Module 03 and strengthens the inventor's capacity for creative perception.</p>
+<p><strong>Analogical reasoning practice</strong>: Collect examples of inventive analogies from patent literature and innovation case studies. Practice identifying the structural mappings that made each analogy productive. Over time, this builds a rich library of transferable structural patterns.</p>
+<p><strong>Prototyping practice</strong>: Build prototypes for problems you do not care about solving. The goal is not the prototype but the skill of rapid externalization — translating ideas into physical or functional form quickly and cheaply. Makers who prototype frequently develop embodied skills (material intuition, spatial reasoning, assembly sequencing) that cannot be acquired through study alone.</p>
+<p><strong>Failure analysis practice</strong>: Study failed inventions systematically. For each failure, identify the generative model error that caused it — was it a wrong assumption about physics, user behavior, market timing, or manufacturing feasibility? This builds a library of common failure modes that the inventor can use as a diagnostic checklist.</p>
+<p>Thomas Edison understood deliberate practice intuitively. His notebooks reveal a systematic approach to inventive skill development: he assigned himself daily quotas of experiments, maintained detailed records of results, and explicitly identified the principles behind both successes and failures. His famous quip — "I have not failed; I have found 10,000 ways that won't work" — is a precise description of parameter learning through deliberate practice.</p>
+<h3>3. Learning From Patent Databases</h3>
+<p>The global patent database is arguably the largest structured repository of inventive knowledge ever created. It contains over 100 million documents, each describing a problem, a solution, and the causal model connecting them. For inventors learning their craft, patent databases are a vast training set for the generative model.</p>
+<p>Reading patents as Active Inference artifacts reveals their underlying structure. Every patent describes:</p>
+<p><strong>The prior model</strong>: The "Background of the Invention" section describes the state of knowledge before the invention — the generative model that existing solutions were based on. This reveals the assumptions that the inventor challenged.</p>
+<p><strong>The prediction error</strong>: The "Problem to be Solved" or "Objects of the Invention" section identifies the specific failure of the prior model — the prediction error that motivated the invention.</p>
+<p><strong>The updated model</strong>: The "Detailed Description" and claims describe the new generative model — the updated understanding that resolves the prediction error.</p>
+<p>By reading patents in this way, inventors can extract the structural principles of inventive thinking: how inventors identified the limitations of existing models, what types of model transformations they applied, and how they validated the updated model. This is structure learning at the meta-level — learning how to learn about invention by studying examples of successful model updating.</p>
+<p>TRIZ, discussed in Module 04, was originally developed through exactly this kind of patent analysis. Altshuller and his colleagues read thousands of patents, identified recurring contradiction-resolution patterns, and codified them into 40 inventive principles. Any inventor can continue this practice, building personal libraries of solution patterns extracted from patent databases in their specific domain.</p>
+<p>Modern computational tools make this practice scalable. Patent classification systems (CPC, IPC) organize inventions by technical domain, making it possible to systematically survey the solution space in a target area. Patent citation networks reveal how inventions build on each other, providing a map of the evolutionary trajectory of technology in any domain.</p>
+<h3>4. Biomimicry: Learning From Nature's Generative Models</h3>
+<p>Natural selection has been refining generative models for 3.8 billion years. Every living organism embodies a solution to a set of environmental challenges — managing energy, maintaining structure, processing information, adapting to change, and reproducing successfully. Biomimicry is the practice of learning from these biological generative models and applying their principles to engineering challenges.</p>
+<p>In Active Inference terms, biomimicry is a specific form of analogical reasoning where the source domain is biology and the target domain is engineering. The structural principles that transfer include:</p>
+<p><strong>Self-healing</strong>: Biological materials (bone, skin, tree bark) repair themselves after damage. The principle — embedded repair agents that are released by damage itself — has been applied to self-healing concrete (bacteria that produce limestone when exposed to water through cracks) and self-healing polymers (microcapsules of adhesive that rupture when the material cracks).</p>
+<p><strong>Distributed sensing</strong>: Biological organisms like octopi have distributed nervous systems with local processing capabilities. This principle has informed the design of sensor networks that process data locally before transmitting, reducing communication bandwidth and latency.</p>
+<p><strong>Hierarchical structure</strong>: Biological materials achieve remarkable performance through hierarchical organization — structures that have different features at different length scales. Nacre (mother-of-pearl) is 3,000 times more fracture-resistant than the mineral it is made from because of its brick-and-mortar microstructure. This principle has inspired the design of composite materials and impact-resistant surfaces.</p>
+<p><strong>Adaptive morphology</strong>: Biological organisms change shape in response to environmental conditions. Pine cones open when dry and close when wet — a mechanical response requiring no energy input. This principle has been applied to responsive architectural facades that open and close with humidity, providing ventilation without mechanical systems.</p>
+<p>Janine Benyus, who popularized the term "biomimicry," emphasizes that the most valuable biological principles are functional rather than morphological. Copying the shape of a bird wing is morphological mimicry and often fails. Understanding the aerodynamic principles that bird wings exploit is functional mimicry and transfers robustly. The distinction maps directly to the Active Inference concept of structural versus surface feature transfer in analogical reasoning.</p>
+<h3>5. The Learning Spiral: Perception-Cognition-Action-Learning</h3>
+<p>Inventive learning is not linear — it is spiral. Each cycle of perception (noticing something new), cognition (reasoning about what it means), action (building something to test the reasoning), and learning (updating the model based on the test results) raises the inventor to a higher level of capability. The spiral ascends because each cycle's learning changes the subsequent cycle's perception: you see more because you know more, and you know more because you built and tested.</p>
+<p>This spiral structure has important implications for learning strategy. First, all four phases are necessary — learning that skips action (reading without building) or skips cognition (building without reasoning) is incomplete. Second, the spiral should begin early and cycle rapidly — waiting until you "know enough" to start building is a strategy that delays the learning that building provides. Third, the spiral should be intentionally managed — the inventor should regularly ask "what phase am I in?" and ensure they are not getting stuck in a single phase.</p>
+<p>The Japanese concept of "kaizen" (continuous improvement) captures the spirit of the learning spiral applied to manufacturing. Toyota's production system, perhaps the most successful inventive learning system in manufacturing history, is built on the principle that every worker is also a learner — continuously observing (perception), analyzing (cognition), experimenting (action), and standardizing improvements (learning). The result is not a single breakthrough but a continuous accumulation of small innovations that together transform the production system.</p>
+<p>For individual inventors, maintaining a learning journal that tracks all four phases — observations, interpretations, experiments, and model updates — provides the feedback mechanism that keeps the spiral ascending. Without explicit tracking, the learning spiral tends to flatten into comfortable repetition of activities the inventor already knows how to do, producing parameter learning without structure learning or policy expansion.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: The Biomimicry of Eastgate Centre, Harare</h3>
+<p>The Eastgate Centre in Harare, Zimbabwe, designed by architect Mick Pearce, is a shopping center and office building that maintains comfortable indoor temperatures without conventional air conditioning — in a tropical climate. The design was learned from termite mounds.</p>
+<p><strong>The biological generative model</strong>: Termite mounds in Zimbabwe maintain internal temperatures between 31 and 36 degrees Celsius despite external temperatures ranging from 3 to 42 degrees. They achieve this through a system of vents, channels, and chambers that exploit convection currents: warm air rises through central channels and exits at the top, drawing cool air in through lower openings. The mound's thermal mass (thick walls) buffers temperature swings.</p>
+<p><strong>The transfer</strong>: Pearce studied termite mound architecture and extracted the structural principles: passive ventilation driven by temperature differentials, thermal mass for buffering, and a chimney-effect design that moves air without mechanical systems. He applied these principles to the Eastgate Centre, designing a building with thick concrete walls (thermal mass), central chimneys (convection-driven ventilation), and perforated facades (air intake).</p>
+<p><strong>Learning process</strong>: This was not a simple copy. Pearce had to learn the underlying physics (thermodynamics, fluid dynamics of convection, thermal mass calculations) well enough to translate biological principles into architectural specifications. The learning spiral involved multiple iterations: studying biology (perception), extracting engineering principles (cognition), building and testing scale models (action), and refining the design based on thermal performance data (learning).</p>
+<p><strong>Outcome</strong>: The Eastgate Centre uses 90% less energy for ventilation than comparable conventional buildings. It saved $3.5 million in air conditioning equipment costs and continues to save on operating costs. The design has been studied worldwide as a model for sustainable architecture.</p>
+<h3>Case Study 2: Edison's Invention Factory as a Learning System</h3>
+<p>Thomas Edison's Menlo Park laboratory (1876-1882) was deliberately designed not just as a place to invent but as a place to learn to invent. Edison's systematic approach to inventive learning prefigured modern deliberate practice research by a century.</p>
+<p><strong>Parameter learning</strong>: Edison maintained meticulous experimental notebooks, recording the exact conditions and results of every experiment. This allowed systematic parameter optimization — adjusting one variable at a time while holding others constant. His light bulb filament research tested over 3,000 materials, each trial updating his model of which material properties (resistance, durability, cost) correlated with successful performance.</p>
+<p><strong>Structure learning</strong>: Edison periodically reorganized his understanding of entire domains. His work on the phonograph required him to build a new generative model of acoustic-mechanical transduction — converting sound waves to physical motion to recorded grooves and back. This was not an adjustment of parameters within an existing model but the construction of a new model with new variables and new causal relationships.</p>
+<p><strong>Policy learning</strong>: Edison systematically acquired new action capabilities. He learned glassblowing to make vacuum tubes, chemistry to develop new materials, and machining to fabricate precision components. Each new skill expanded his action space, making previously impossible experiments feasible.</p>
+<p><strong>The daily routine</strong>: Edison required his staff to conduct a set number of experiments per day, regardless of whether the previous day's experiments had succeeded. This discipline of daily deliberate practice ensured continuous cycling of the perception-action-learning loop, preventing the stagnation that occurs when inventors wait for inspiration rather than generating it through systematic effort.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 02 (Creative Agent)</strong>: Learning changes the agent's generative model over time, potentially shifting between archetypes</li>
+<li><strong>Module 03 (Creative Perception)</strong>: Learning expands what the inventor can perceive by enriching the generative model's predictions</li>
+<li><strong>Module 04 (Inventive Cognition)</strong>: Analogical reasoning and TRIZ are themselves learned cognitive skills that improve with deliberate practice</li>
+<li><strong>Module 05 (Creative Action)</strong>: Action generates the prediction errors from which learning occurs; learning without action is incomplete</li>
+<li><strong>Section 3, Module 06 (Learning from Prototypes)</strong>: Extends learning concepts to the specific context of prototype testing and iteration</li>
+</ul>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Active Inference Term</th>
+<th>Invention Application</th>
+<th>Key Insight</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Getting better at existing skills</td>
+<td>Parameter learning</td>
+<td>Refining estimates, calibrating intuitions</td>
+<td>Improves accuracy within the current model</td>
+</tr>
+<tr>
+<td>Developing new frameworks</td>
+<td>Structure learning</td>
+<td>Discovering new causal relationships, new problem framings</td>
+<td>Changes the model itself, enabling new perceptions</td>
+</tr>
+<tr>
+<td>Acquiring new capabilities</td>
+<td>Policy learning</td>
+<td>Learning to code, solder, interview, write patents</td>
+<td>Expands what the inventor can DO, not just think</td>
+</tr>
+<tr>
+<td>Systematic skill development</td>
+<td>Deliberate practice</td>
+<td>Targeted exercises with feedback</td>
+<td>Target weaknesses, not strengths</td>
+</tr>
+<tr>
+<td>Patent study</td>
+<td>Learning from recorded inventions</td>
+<td>Extracting structural principles from patent databases</td>
+<td>Patents document the prior model, prediction error, and model update</td>
+</tr>
+<tr>
+<td>Biomimicry</td>
+<td>Learning from biological generative models</td>
+<td>Termite mounds to building ventilation</td>
+<td>3.8 billion years of R&amp;D in nature's solutions</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Ericsson, K. A., &amp; Pool, R. (2016). <em>Peak: Secrets from the New Science of Expertise</em>. Houghton Mifflin Harcourt.</li>
+<li>Benyus, J. M. (1997). <em>Biomimicry: Innovation Inspired by Nature</em>. William Morrow.</li>
+<li>Altshuller, G. (1996). <em>And Suddenly the Inventor Appeared</em>. Technical Innovation Center.</li>
+<li>Israel, P. (1998). <em>Edison: A Life of Invention</em>. John Wiley &amp; Sons.</li>
+<li>Liker, J. K. (2004). <em>The Toyota Way</em>. McGraw-Hill.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Building Your Inventive Learning Plan</h1>
+<h2>Objective</h2>
+<p>Assess your current inventive skill profile across perception, cognition, action, and learning. Then design a personalized deliberate practice plan, conduct a mini patent analysis exercise, and explore one biomimicry connection to your invention idea. By the end of this lab, you will have a concrete, actionable plan for systematically improving your inventive capacity.</p>
+<h2>Materials / Prerequisites</h2>
+<ul>
+<li>Your own invention idea or project</li>
+<li>Internet access (for patent search)</li>
+<li>Paper and pen</li>
+<li>A timer</li>
+<li>Completed reading of Module 06: Learning to Invent</li>
+</ul>
+<h2>Part 1: Inventive Skill Self-Assessment (12 minutes)</h2>
+<p><strong>Step 1 (8 min):</strong> Rate your current skill level in each inventive competency area. Be honest — the goal is to identify where deliberate practice will have the highest impact.</p>
+<table>
+<thead>
+<tr>
+<th>Skill Area</th>
+<th>Specific Competency</th>
+<th>Rating (1-10)</th>
+<th>Evidence for This Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Perception</strong></td>
+<td>Noticing prediction errors / seeing what others miss</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td><strong>Perception</strong></td>
+<td>Cross-domain pattern recognition</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td><strong>Perception</strong></td>
+<td>Detecting latent user needs</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td><strong>Cognition</strong></td>
+<td>Analogical reasoning</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td><strong>Cognition</strong></td>
+<td>Generating multiple alternatives (cognitive fluency)</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td><strong>Cognition</strong></td>
+<td>Systematic problem solving (TRIZ or similar)</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td><strong>Action</strong></td>
+<td>Rapid prototyping / building quickly</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td><strong>Action</strong></td>
+<td>Sketch modeling / physical externalization</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td><strong>Action</strong></td>
+<td>Testing / running experiments</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td><strong>Learning</strong></td>
+<td>Extracting lessons from failures</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td><strong>Learning</strong></td>
+<td>Studying others' inventions</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td><strong>Learning</strong></td>
+<td>Maintaining a learning journal</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2 (4 min):</strong> Identify your three strongest competencies and your three weakest:</p>
+<p>Strongest:
+1. {fill:textarea}
+2. {fill:textarea}
+3. {fill:textarea}</p>
+<p>Weakest:
+1. {fill:textarea}
+2. {fill:textarea}
+3. {fill:textarea}</p>
+<p fill:textarea="fill:textarea">What type of learning does each weakness require (parameter, structure, or policy)?</p>
+<h2>Part 2: Patent Analysis Exercise (15 minutes)</h2>
+<p>The global patent database contains over 100 million documents, each one a structured record of an inventive insight. Reading patents through the Active Inference lens transforms them from dry legal documents into rich case studies of how inventors identified the limitations of existing models and constructed better ones. This exercise gives you practice with a skill that will serve you throughout your inventive career: the ability to extract structural principles from specific inventive solutions and add them to your own cognitive toolkit.</p>
+<p><strong>Step 1 (5 min):</strong> Search for a patent related to your invention domain. You can use Google Patents (patents.google.com), the USPTO (patft.uspto.gov), or any other patent database. Find one patent that is relevant to the problem your invention addresses.</p>
+<p>Patent number or title: {fill:textarea}
+Inventor(s): {fill:textarea}
+Year: {fill:textarea}</p>
+<p><strong>Step 2 (5 min):</strong> Read the patent through the Active Inference lens and extract the following:</p>
+<p fill:textarea="fill:textarea"><strong>The prior model</strong> (Background of the Invention) — What was the state of knowledge before this invention? What generative model did existing solutions assume?</p>
+<p fill:textarea="fill:textarea"><strong>The prediction error</strong> (Problem to be Solved) — What failure of the prior model motivated this invention? What did the prior model predict incorrectly?</p>
+<p fill:textarea="fill:textarea"><strong>The updated model</strong> (Solution) — What new generative model does this invention embody? How does it resolve the prediction error?</p>
+<p><strong>Step 3 (5 min):</strong> Extract the inventive principle underlying this patent. State it as a general rule that could apply beyond this specific domain:</p>
+<p fill:textarea="fill:textarea">The inventive principle:</p>
+<p fill:textarea="fill:textarea">One other domain where this principle could apply:</p>
+<p fill:textarea="fill:textarea">What did you learn about inventive thinking from analyzing this patent?</p>
+<h2>Part 3: Biomimicry Exploration (12 minutes)</h2>
+<p>Nature has been solving engineering problems for 3.8 billion years through the iterative process of natural selection — a process that is, at its core, a form of Active Inference operating at evolutionary timescales. Every organism represents a refined generative model for surviving in its environment. Biomimicry taps into this vast library of tested solutions by identifying structural analogies between biological and engineering challenges. The key is to think in functional terms: do not ask "What animal looks like my invention?" but rather "What organism faces the same functional challenge as my invention?"</p>
+<p><strong>Step 1 (4 min):</strong> Describe the core challenge of your invention in functional terms (what it needs to DO, not what it needs to BE):</p>
+<p fill:textarea="fill:textarea">Functional challenge:</p>
+<p><strong>Step 2 (4 min):</strong> Identify at least two biological organisms or natural systems that face a structurally similar functional challenge:</p>
+<table>
+<thead>
+<tr>
+<th>Organism / Natural System</th>
+<th>The Similar Functional Challenge</th>
+<th>How Nature Solves It</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3 (4 min):</strong> Select the most promising biological analogy and describe how the biological principle could be applied to your invention:</p>
+<p>Selected organism/system: {fill:textarea}</p>
+<p>The structural principle (not the surface form): {fill:textarea}</p>
+<p fill:textarea="fill:textarea">How this principle could be applied to my invention:</p>
+<p fill:textarea="fill:textarea">What would my invention look like if it worked the way this organism works?</p>
+<h2>Part 4: Design Your Learning Plan (15 minutes)</h2>
+<p>A learning plan for invention is fundamentally different from a learning plan for academic study. Academic learning optimizes for knowledge acquisition — absorbing and retaining information. Inventive learning optimizes for capability expansion — being able to do things you could not do before. This requires all three modes: parameter learning (getting better at what you already do), structure learning (developing new ways of understanding problems), and policy learning (acquiring new hands-on skills). The most common learning imbalance among inventors is over-emphasis on parameter learning (refinining existing expertise) at the expense of structure learning (developing new frameworks) and policy learning (acquiring new practical skills).</p>
+<p><strong>Step 1 (5 min):</strong> Based on your self-assessment in Part 1, select one weakness from each category (perception, cognition, action) to focus on:</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Weakness to Address</th>
+<th>Type of Learning Needed</th>
+<th>Why This Matters for My Invention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Perception</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Cognition</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Action</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2 (5 min):</strong> Design a specific deliberate practice exercise for each weakness:</p>
+<p fill:textarea="fill:textarea"><strong>Perception practice</strong> (what you will do, how often, how you will get feedback):</p>
+<p fill:textarea="fill:textarea"><strong>Cognition practice</strong> (what you will do, how often, how you will get feedback):</p>
+<p fill:textarea="fill:textarea"><strong>Action practice</strong> (what you will do, how often, how you will get feedback):</p>
+<p><strong>Step 3 (5 min):</strong> Create a weekly learning schedule:</p>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Activity</th>
+<th>Duration</th>
+<th>What I Will Learn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Monday</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Tuesday</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Wednesday</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Thursday</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Friday</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p fill:textarea="fill:textarea">How will you track your progress? What will you use as a learning journal?</p>
+<h2>Part 5: The Learning Spiral Check (6 minutes)</h2>
+<p>The learning spiral — perception, cognition, action, learning — must cycle continuously for inventive skill to develop. Most inventors have a preferred phase where they spend disproportionate time: some love reading and researching (perception), others love analyzing and planning (cognition), others love building (action), and some love reflecting and writing (learning). The phase you neglect is often the one that would contribute most to your growth, precisely because it exercises cognitive capacities your preferred phase does not engage. This brief self-assessment identifies your imbalance and prescribes a corrective action.</p>
+<p><strong>Step 1 (3 min):</strong> Reflect on your recent inventive work. Which phase of the learning spiral (perception, cognition, action, learning) do you spend the most time in? Which do you neglect?</p>
+<p>Phase I spend most time in: {fill:textarea}
+Phase I neglect: {fill:textarea}
+Why: {fill:textarea}</p>
+<p><strong>Step 2 (3 min):</strong> Describe one specific step you will take this week to activate the neglected phase:</p>
+<p>{fill:textarea}</p>
+<h2>Discussion / Debrief Questions</h2>
+<ol>
+<li>
+<p>Which of the three learning modes (parameter, structure, policy) is most important for your current inventive work? Why? Is it the same mode you naturally practice, or do you need to deliberately shift?</p>
+</li>
+<li>
+<p>The patent analysis exercise asks you to read patents as Active Inference artifacts. Did this framing change how you read the patent? What did you learn about the inventor's thinking process that a conventional reading would have missed?</p>
+</li>
+<li>
+<p>Biomimicry requires translating biological principles to engineering. Did you find it easy or difficult to identify biological analogies for your invention challenge? What does this tell you about the breadth of your current generative model?</p>
+</li>
+<li>
+<p>Deliberate practice requires targeting weaknesses, which is inherently uncomfortable. How will you motivate yourself to practice skills you are bad at rather than skills you enjoy?</p>
+</li>
+<li>
+<p>Edison maintained daily experiment quotas. What is the equivalent for your inventive practice? How many learning cycles (perception-cognition-action-learning) per week would constitute adequate practice?</p>
+</li>
+</ol></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Learning to Invent</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>In Active Inference, parameter learning for inventors involves:
+   A) Constructing entirely new frameworks for understanding problems
+   B) Adjusting values within an existing model to improve accuracy
+   C) Learning new physical skills like soldering or machining
+   D) Abandoning the current model and starting over</p>
+</li>
+<li>
+<p>Structure learning differs from parameter learning in that:
+   A) It is faster and requires less effort
+   B) It changes the model itself rather than adjusting values within the existing model
+   C) It only applies to mathematical models, not physical inventions
+   D) It is impossible for experienced inventors</p>
+</li>
+<li>
+<p>Deliberate practice for invention is characterized by:
+   A) Repeating comfortable activities until they become automatic
+   B) Practicing only on real invention projects, never on exercises
+   C) Targeted exercises addressing specific weaknesses, with feedback
+   D) Spending equal time on all skill areas regardless of proficiency</p>
+</li>
+<li>
+<p>When reading a patent as an Active Inference artifact, the "Background of the Invention" section corresponds to:
+   A) The updated generative model incorporating the invention
+   B) The prediction error that motivated the invention
+   C) The prior generative model — the state of knowledge before the invention
+   D) The experimental validation of the invention</p>
+</li>
+<li>
+<p>Biomimicry is most effective when it transfers:
+   A) The exact morphology (shape) of biological organisms to engineering
+   B) Functional principles (structural relationships) rather than surface forms
+   C) Only ideas from organisms closely related to the engineering domain
+   D) Complete biological systems without modification</p>
+</li>
+<li>
+<p>The "learning spiral" in inventive practice consists of:
+   A) Reading, writing, presenting, and publishing
+   B) Perception, cognition, action, and learning — cycling repeatedly with each cycle building on the last
+   C) Planning, executing, measuring, and reporting
+   D) Ideation, prototyping, testing, and launching</p>
+</li>
+<li>
+<p>Edison's systematic approach to inventive learning included:
+   A) Waiting for inspiration to strike before beginning work
+   B) Working exclusively on one invention at a time until completion
+   C) Daily experiment quotas, detailed notebooks, and systematic extraction of principles from both successes and failures
+   D) Hiring the best experts and delegating all experimental work</p>
+</li>
+</ol>
+<h2>Part B: Short Answer / Analysis</h2>
+<ol>
+<li>
+<p>An inventor has spent two years refining their expertise in 3D printing for product prototyping. They are excellent at creating detailed prototypes but consistently struggle with identifying what to prototype — their problem framing and need-finding skills are weak. Using the three modes of learning (parameter, structure, policy), diagnose their learning imbalance. What type of learning have they been doing, what type have they neglected, and what specific deliberate practice activities would address the gap?</p>
+</li>
+<li>
+<p>The Eastgate Centre in Harare was designed by learning from termite mound thermodynamics. The architect had to translate a biological principle (passive ventilation via convection) into an architectural specification (chimney design, wall thickness, opening placement). Analyze this translation process using Active Inference. What did the architect need to learn beyond what the biological analogy directly provided? What was the role of the learning spiral (perception of termite mounds, cognition about thermodynamics, action in building scale models, learning from thermal performance data)?</p>
+</li>
+<li>
+<p>You want to improve your inventive skills over the next three months. Design a structured learning plan that includes: (a) one parameter learning activity (improving accuracy within your current domain knowledge), (b) one structure learning activity (developing a fundamentally new way of thinking about your invention problem), and (c) one policy learning activity (acquiring a new hands-on skill). For each activity, specify what you will do, how often, how you will measure progress, and how it connects to your current invention project.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

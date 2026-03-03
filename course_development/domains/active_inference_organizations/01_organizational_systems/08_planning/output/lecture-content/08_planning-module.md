@@ -1,0 +1,116 @@
+# Strategic Planning and Organizational Resilience: Planning Under Uncertainty
+
+## Executive Summary
+
+How does an organization plan for an uncertain future? Under Active Inference, planning is **policy selection** — choosing sequences of actions that minimize **expected free energy** over an extended time horizon. This is not forecasting (predicting one future) but rather evaluating how well different strategies perform across multiple possible futures. This module covers strategic planning as temporal depth in organizational inference, scenario planning as multi-model evaluation, and resilience as the capacity to maintain identity under perturbation.
+
+---
+
+## Learning Objectives
+
+1. Frame strategic planning as **policy selection** under expected free energy
+2. Apply **temporal depth** — how far into the future the organization's generative model extends
+3. Use **scenario planning** as multi-model evaluation for robust strategy
+4. Understand organizational **resilience** as the capacity to absorb surprise while maintaining identity
+5. Design planning processes that balance commitment with adaptability
+
+---
+
+## Key Concepts
+
+### 1. Planning as Policy Selection
+
+In Active Inference, planning means evaluating alternative action sequences (policies) based on their **expected free energy** — combining goal achievement with uncertainty reduction:
+
+| Planning Question | Active Inference Translation |
+|------------------|---------------------------|
+| "What should we do?" | Policy selection — which action sequence minimizes EFE? |
+| "What could go wrong?" | High-EFE scenarios — which hidden states would increase surprise? |
+| "How do we hedge?" | Choosing policies that perform well across multiple models |
+| "When should we revisit?" | Setting temporal horizons for model updating |
+
+### 2. Temporal Depth: How Far Ahead Can the Organization See?
+
+**Temporal depth** is the time horizon over which the organization's generative model makes meaningful predictions:
+
+| Industry | Typical Temporal Depth | Implication |
+|----------|----------------------|-------------|
+| High-frequency trading | Milliseconds to hours | Extremely rapid policies, no long-term planning |
+| Consumer tech | 1–3 years | Product roadmaps, platform evolution |
+| Pharmaceuticals | 10–15 years | Drug development pipelines, patent cliffs |
+| Energy infrastructure | 20–50 years | Capital investment in generation assets |
+
+**Case Study — Shell Scenario Planning**: Shell pioneered organizational scenario planning in the 1970s. Rather than predicting a single future oil price, Shell's planners constructed multiple scenarios (oil embargo, technology disruption, demand collapse) and asked: "Which strategies remain viable across all scenarios?" This multi-model approach — evaluating policies against multiple generative models — is precisely what expected free energy optimization does formally.
+
+### 3. Scenario Planning as Multi-Model Evaluation
+
+Scenario planning maps directly onto Active Inference:
+
+1. **Construct multiple generative models** (scenarios) of the future environment
+2. **Evaluate each policy** against each scenario
+3. **Select robust policies** — those that perform well (low EFE) across multiple scenarios
+4. **Identify trigger signals** — observations that would tell you which scenario is unfolding
+5. **Design contingent actions** — pre-planned responses if a specific scenario materializes
+
+### 4. Resilience: Absorbing Surprise
+
+Resilience is the organization's capacity to maintain its identity and functioning when confronted with unexpected perturbation:
+
+| Resilience Component | Description | Organizational Practice |
+|---------------------|-------------|----------------------|
+| **Absorptive capacity** | Ability to withstand shock without structural change | Cash reserves, diversified revenue, talent bench |
+| **Adaptive capacity** | Ability to modify structure in response to sustained pressure | Organizational learning, flexible processes |
+| **Transformative capacity** | Ability to fundamentally change identity when required | Strategic repositioning, business model innovation |
+
+**Anti-fragility** (Nassim Taleb) goes beyond resilience: the organization actually *improves* from perturbation, using shocks as learning opportunities to strengthen its generative model.
+
+### 5. The Commitment-Adaptability Paradox
+
+Strategic planning requires **commitment** (investing in particular capabilities and directions) while maintaining **adaptability** (being ready to change course):
+
+- **Too much commitment**: The organization cannot pivot when the environment changes (the Kodak trap)
+- **Too much adaptability**: The organization never builds deep capabilities (the "strategy of the month" problem)
+
+Active Inference resolves this through the **expected free energy** framework: commit to policies with high pragmatic value when uncertainty is low; maintain optionality and exploration when uncertainty is high.
+
+---
+
+## Applications
+
+### Strategic plan audit: Is your plan robust?
+
+| Test | Question | Your Plan |
+|------|----------|-----------|
+| **Multi-scenario** | Does the plan perform well under at least 3 different scenarios, not just the base case? | |
+| **Trigger signals** | Have you identified specific signals that would cause you to revise the plan? | |
+| **Temporal matching** | Does the plan's time horizon match your industry's temporal depth? | |
+| **Exploration** | Does the plan allocate resources to uncertainty reduction, or only to exploitation? | |
+| **Resilience** | Can the organization survive if the plan's key assumptions are wrong? | |
+
+---
+
+## Cross-References
+
+- For collective roadmapping and participatory futures, see [Collective Intelligence: Planning](../../02_collective_intelligence/08_planning/module.md)
+- For risk management and scenario analysis, see [Strategic Modeling: Planning](../../03_strategic_modeling/08_planning/module.md)
+- For digital roadmapping, see [Digital Transformation: Planning](../../04_digital_transformation/08_planning/module.md)
+
+---
+
+## Summary
+
+| Concept | Organizational Meaning |
+|---------|----------------------|
+| Planning | Policy selection — choosing action sequences that minimize expected free energy |
+| Temporal depth | How far into the future the model extends |
+| Scenario planning | Evaluating strategies against multiple possible futures |
+| Resilience | Capacity to absorb surprise and maintain identity |
+| Commitment-adaptability | Balancing deep investment with strategic flexibility |
+
+---
+
+## References
+
+- Schwartz, P. (1991). *The Art of the Long View*. Doubleday.
+- Taleb, N. N. (2012). *Antifragile: Things That Gain from Disorder*. Random House.
+- Parr, T., Pezzulo, G., & Friston, K. J. (2022). *Active Inference*. MIT Press.

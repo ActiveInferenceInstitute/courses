@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06_Learning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>06_Learning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>06_Learning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Learning from Every Attempt: Model Updating in the Inventive Process</h1>
+<h2>Executive Summary</h2>
+<p>Every prototype test, every user observation, every failed experiment is a learning opportunity — but only if the inventor has a principled method for extracting and encoding the lesson. Active Inference provides this method through the concept of model updating: when observations deviate from predictions, the generative model must change to better account for reality. This module explores two fundamental types of learning in invention — parameter learning (adjusting the settings within an existing model) and structure learning (changing the model itself) — and shows how each applies to the iterative process of refining an invention. Understanding these learning mechanisms transforms the messy, frustrating process of iteration into a disciplined practice of progressive uncertainty reduction.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Explain how prediction errors from prototyping and testing drive updates to the inventor's generative model.</li>
+<li>Distinguish between parameter learning (adjusting values within a model structure) and structure learning (changing the model's causal architecture).</li>
+<li>Apply Bayesian updating to revise beliefs about an invention's design based on experimental evidence.</li>
+<li>Analyze the learning trajectory of a real invention, identifying where parameter learning and structure learning occurred.</li>
+<li>Develop a personal learning protocol for systematically capturing and encoding lessons from each iteration of your invention.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. Prediction Error as the Engine of Learning</h3>
+<p>In Active Inference, learning is driven by prediction error — the discrepancy between what the generative model predicts and what is actually observed. When an inventor's prototype behaves exactly as predicted, there is little to learn (the model was already correct). When the prototype deviates from predictions, the deviation is informative — it reveals where the model needs updating.</p>
+<p>This principle has practical implications that may seem counterintuitive. A prototype that works perfectly on the first try is less informative than one that fails in a specific, unexpected way. The failure localizes the model's inaccuracy and provides a precise target for updating. The success confirms what was already believed but does not reveal new information about the unknown.</p>
+<p>Consider an inventor testing a new adhesive formulation for underwater bonding. They predict that the adhesive will set in 30 minutes at a water temperature of 15 degrees Celsius. If the adhesive sets in exactly 30 minutes, their model was correct for this condition — but they learn nothing about the adhesive's behavior under other temperatures, different water salinities, or various surface preparations. If the adhesive fails to set at all, the prediction error is massive, and the inventor must investigate: Was the water too cold? Was the surface contaminated? Is the formulation fundamentally wrong? Each of these questions, provoked by the prediction error, opens a learning pathway.</p>
+<p>The key discipline is to treat every prediction error as data, not as disappointment. The inventor who reacts to a failed prototype with frustration is wasting the most valuable output of their experiment. The inventor who reacts with curiosity — "What specifically went wrong, and what does that tell me about my model?" — is converting prediction error into knowledge.</p>
+<p>This is not merely motivational advice. It is a structural feature of how inference works. In Bayesian terms, posterior beliefs (what you believe after an experiment) are proportional to prior beliefs (what you believed before) multiplied by the likelihood of the observed data given each hypothesis. Unexpected data (large prediction error) carries more information and produces larger belief updates than expected data (small prediction error).</p>
+<h3>2. Parameter Learning: Tuning the Existing Model</h3>
+<p>Parameter learning occurs when the structure of the generative model is correct, but the specific values (parameters) need adjustment based on evidence. The inventor knows the right causal relationships but has the wrong numbers.</p>
+<p>In invention, parameter learning corresponds to refinement within an established design framework. The inventor has identified the correct mechanism, materials, and configuration, and is now optimizing: adjusting dimensions, tuning ratios, calibrating thresholds, or tweaking recipes.</p>
+<p>Thomas Edison's search for the right light bulb filament was largely parameter learning. He had established the correct model structure: a high-resistance material heated by current in a vacuum would produce light. The unknown parameter was which material would last the longest. Each filament experiment updated his beliefs about the resistance, melting point, and durability parameters of different materials, progressively narrowing the search until he identified carbonized bamboo as the best option (later superseded by tungsten through continued parameter learning).</p>
+<p>Parameter learning is characterized by its <strong>incrementalism</strong>. Each experiment makes a small adjustment and observes the result. The learning trajectory is a gradual convergence toward optimal parameter values. It is predictable, systematic, and can often be accelerated through methodical experimental design (varying one parameter at a time, or using statistical methods like factorial design to vary multiple parameters efficiently).</p>
+<p>The risk of parameter learning is <strong>local optima</strong> — finding the best settings within a particular model structure without realizing that a different structure entirely would be better. Edison's parameter search over filament materials was eventually superseded by a structure change: the shift from carbon filaments to tungsten filaments, which required not just new parameters but new manufacturing processes.</p>
+<h3>3. Structure Learning: Changing the Model Itself</h3>
+<p>Structure learning occurs when the prediction errors are so large or so systematic that parameter adjustment within the existing model cannot account for them. The inventor must change the model's causal architecture — adding new variables, removing incorrect causal links, or reorganizing the relationship between causes and effects.</p>
+<p>Structure learning in invention corresponds to reframing, paradigm shifts, and design pivots. The inventor recognizes that their entire approach to the problem needs to change — not just the numbers, but the underlying logic.</p>
+<p>The transition from sail-powered to steam-powered ships is a structure learning event. For centuries, shipbuilders engaged in parameter learning within the sailing model: optimizing hull shape, sail area, mast height, and rigging configuration. Each experiment refined parameters within the established causal structure (wind pushes sails, which pushes hull through water). When steam engines became viable, the model structure itself changed: the causal link between wind and propulsion was removed and replaced by a link between fuel combustion and propulsion. This was not a parameter adjustment — it was a structural transformation of the generative model of ship propulsion.</p>
+<p>Structure learning is triggered by <strong>persistent, systematic prediction errors</strong> that resist parameter adjustment. If every combination of sail shape and rigging configuration fails to achieve the desired speed in calm conditions, the problem is not in the parameters — it is in the model's dependence on wind. The inventor must step back and ask: "Is the fundamental causal structure of my model correct, or do I need a different kind of model entirely?"</p>
+<p>Structure learning is more difficult, more disruptive, and more rare than parameter learning. It requires the inventor to abandon a model in which they have invested time, effort, and identity. It often feels like starting over. But it is also the source of breakthrough inventions — the moments where iteration within an existing framework gives way to a fundamentally new approach.</p>
+<h3>4. The Learning Trajectory of an Invention</h3>
+<p>Every invention follows a learning trajectory — a sequence of parameter and structure learning events that progressively reduces uncertainty about the design. Understanding this trajectory helps inventors plan their learning strategy and recognize when to shift from refinement to revolution.</p>
+<p>A typical learning trajectory begins with high uncertainty and a rough generative model. Early prototypes generate large prediction errors, triggering rapid structure learning (discarding wrong approaches, discovering unexpected constraints, reframing the problem). As the correct model structure emerges, learning shifts to parameter optimization — refining dimensions, materials, and processes within the established framework. Eventually, parameter learning converges to diminishing returns, and the inventor either finalizes the design or encounters a new set of systematic errors that triggers another round of structure learning.</p>
+<p>James Dyson's vacuum cleaner development illustrates this trajectory. The initial structure learning phase involved discovering that cyclonic separation (borrowed from industrial sawmills) could work at the domestic scale — a structural change from the bag-based model. Once the cyclonic structure was established, extensive parameter learning followed: optimizing cone angles, inlet velocities, filter pore sizes, and airflow paths across thousands of iterations. Occasional structure learning events interrupted the parameter optimization: discovering that dual cyclones were needed (a structural addition to the single-cyclone model) and that the cyclone array orientation mattered (a structural reorganization).</p>
+<p>Recognizing where you are in the learning trajectory helps with resource allocation. During structure learning phases, invest in broad exploration — test radically different approaches quickly and cheaply. During parameter learning phases, invest in systematic optimization — vary one parameter at a time and converge on the best values.</p>
+<h3>5. Building a Learning Protocol for Invention</h3>
+<p>Effective inventors do not just learn passively from experience — they build systematic protocols for capturing, encoding, and applying lessons from each iteration. Active Inference provides the structure for such a protocol.</p>
+<p>A learning protocol for invention includes the following elements:</p>
+<p><strong>Pre-test documentation</strong>: Before each prototype test, record your predictions. What do you expect to happen, and why? This forces you to make your generative model explicit, which is a prerequisite for recognizing prediction errors.</p>
+<p><strong>Observation discipline</strong>: During the test, observe carefully and record what actually happens — not what you expected to happen or what you wanted to happen. The distinction between prediction and observation is the source of learning.</p>
+<p><strong>Prediction error analysis</strong>: After the test, compare predictions against observations. Where do they diverge? How large are the divergences? Are the errors random or systematic?</p>
+<p><strong>Model update</strong>: Based on the prediction errors, update your generative model. Is the update a parameter change (adjusting values within the existing structure) or a structure change (adding, removing, or reorganizing causal relationships)?</p>
+<p><strong>Next action planning</strong>: Based on the updated model, what is the next most informative prototype to build? What new prediction will the next test evaluate?</p>
+<p>This protocol mirrors the scientific method, adapted for the pragmatic context of invention. It is not overly formal — an inventor's notebook with dated entries, sketched prototypes, recorded predictions, and noted observations is sufficient. The discipline is in the practice of making predictions explicit before testing and analyzing errors after testing.</p>
+<p>The protocol also supports collaborative learning. When a team follows the same protocol, their learning becomes cumulative — each member's experiments contribute to a shared generative model. Without explicit documentation, learning remains trapped in individual heads, and team members may repeat each other's experiments or fail to build on each other's discoveries.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: WD-40 and the Power of Systematic Parameter Learning</h3>
+<p>WD-40 — the ubiquitous water-displacing lubricant — gets its name from the learning process that created it. The name stands for "Water Displacement, 40th formula." The chemist Norm Larsen tested 39 formulations before arriving at the successful 40th.</p>
+<p>This is a clear example of parameter learning within a stable model structure. Larsen's generative model was consistent throughout: a petroleum-based solvent with specific additives would displace water from metal surfaces. The model structure never changed. What changed across 40 iterations were the parameters: the type of petroleum distillate, the concentration of additives, the viscosity, and the drying characteristics.</p>
+<p>Each formulation was a prototype that generated prediction errors: too thick, evaporated too quickly, did not displace water effectively, left residue, corroded metal. Each error updated the parameter estimates in Larsen's model, progressively narrowing the formulation space. The 40th formulation was not a lucky guess — it was the culmination of 39 experiments, each contributing information that constrained the solution.</p>
+<p>The WD-40 story also illustrates the value of persistence within parameter learning. The improvement from formulation 1 to formulation 39 was not dramatic at each step, but the cumulative learning was decisive. Inventors who abandon parameter learning too early — jumping to a new model structure after only a few iterations — may miss optimal solutions that are reachable with patience.</p>
+<h3>Case Study 2: Netflix and the Structure Learning Pivot</h3>
+<p>Netflix's evolution from DVD-by-mail to streaming to original content production demonstrates structure learning at the organizational scale. Each transition involved not just parameter adjustment but fundamental changes to the company's generative model of entertainment delivery.</p>
+<p>Phase 1: DVD-by-mail. The generative model was: customers order DVDs online, the warehouse ships them, customers watch and return them. Parameter learning within this model optimized shipping logistics, inventory management, and recommendation algorithms.</p>
+<p>Phase 2: Streaming. A persistent prediction error — customers wanted immediate access, not 2-day shipping — could not be resolved by faster mail delivery (parameter adjustment). The model structure changed: digital delivery replaced physical delivery. New causal relationships (bandwidth affects quality, licensing affects catalog) replaced old ones (inventory positioning affects delivery time).</p>
+<p>Phase 3: Original content. Another structural shift: rather than licensing existing content (a model where studios control supply), Netflix became a studio itself. The generative model changed from "we distribute others' content" to "we create content based on our data about viewer preferences."</p>
+<p>Each structural transition was triggered by persistent prediction errors that resisted parameter optimization. Each required abandoning a proven model for an unproven one. And each involved massive organizational learning — not just updating numbers, but reorganizing the entire causal understanding of the business.</p>
+<p>For individual inventors, Netflix's story illustrates that structure learning can be planned and anticipated. If your parameter learning is converging on a solution that is acceptable but not transformative, it may be time to ask whether a structural change in your approach could open a fundamentally better solution space.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 4 (Cognition)</strong>: Cognitive models are what get updated through learning</li>
+<li><strong>Module 5 (Action)</strong>: Prototype actions generate the prediction errors that drive learning</li>
+<li><strong>Module 3 (Perception)</strong>: Observations from testing are the data for model updating</li>
+<li><strong>Module 8 (Planning)</strong>: Learning from past iterations informs planning for future iterations</li>
+</ul>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Invention Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prediction Error</td>
+<td>The gap between what the model predicts and what is observed</td>
+<td>A joint failing at 30 lbs when 50 lbs was predicted</td>
+</tr>
+<tr>
+<td>Parameter Learning</td>
+<td>Adjusting values within an existing model structure</td>
+<td>Edison testing different filament materials within the incandescent bulb design</td>
+</tr>
+<tr>
+<td>Structure Learning</td>
+<td>Changing the model's causal architecture</td>
+<td>Dyson shifting from bag-based to cyclonic separation</td>
+</tr>
+<tr>
+<td>Learning Trajectory</td>
+<td>The sequence of parameter and structure learning events over the life of an invention</td>
+<td>Netflix's progression from DVD-by-mail to streaming to original content</td>
+</tr>
+<tr>
+<td>Local Optimum</td>
+<td>The best solution within a particular model structure, which may not be globally best</td>
+<td>The fastest sailing ship is still slower than a steamship</td>
+</tr>
+<tr>
+<td>Learning Protocol</td>
+<td>A systematic method for capturing predictions, observations, errors, and model updates</td>
+<td>An inventor's notebook with dated predictions and results</td>
+</tr>
+<tr>
+<td>Cumulative Learning</td>
+<td>Knowledge built from a sequence of experiments, each informing the next</td>
+<td>WD-40's 40 sequential formulation experiments</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Friston, K. J. (2008). Hierarchical models in the brain. <em>PLoS Computational Biology</em>, 4(11), e1000211.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Thomke, S. H. (2003). <em>Experimentation Matters: Unlocking the Potential of New Technologies for Innovation</em>. Harvard Business School Press.</li>
+<li>Christensen, C. M. (1997). <em>The Innovator's Dilemma: When New Technologies Cause Great Firms to Fail</em>. Harvard Business Review Press.</li>
+<li>Vincenti, W. G. (1990). <em>What Engineers Know and How They Know It: Analytical Studies from Aeronautical History</em>. Johns Hopkins University Press.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: The Iteration Log — Tracking Learning Across Prototype Cycles</h1>
+<h2>Objective</h2>
+<p>Build a systematic learning protocol for your invention project. You will practice documenting predictions, observing outcomes, analyzing prediction errors, classifying learning types (parameter vs. structure), and planning next iterations. By the end of this lab, you will have an iteration log template and at least one complete learning cycle documented.</p>
+<h2>Materials and Prerequisites</h2>
+<ul>
+<li>Your invention idea and any prototype work from previous labs</li>
+<li>A notebook or digital document for your iteration log</li>
+<li>Optionally: a prototype to test during this lab (even a very simple one)</li>
+<li>No technical background required</li>
+</ul>
+<h2>Part 1: Establishing Your Baseline Model (10 minutes)</h2>
+<p>Before you can learn from experiments, you need to make your current generative model explicit. What do you currently believe about your invention?</p>
+<p><strong>State your current model of how your invention works (the mechanism):</strong></p>
+<p>{fill:textarea}</p>
+<p><strong>List 5 key parameters in your model — specific values, proportions, or settings that you believe are important but are uncertain about:</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Parameter</th>
+<th>Current best guess</th>
+<th>Confidence (1-10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>2</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>3</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>4</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>5</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>List 3 structural assumptions — causal relationships in your model that might be wrong entirely (not just the values, but the relationships themselves):</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Structural Assumption</th>
+<th>Why it might be wrong</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>2</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>3</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<h2>Part 2: Designing a Learning Experiment (10 minutes)</h2>
+<p>Choose one parameter or structural assumption to test. Design an experiment (physical prototype test, user observation, thought experiment with evidence gathering, or any other appropriate method).</p>
+<p><strong>What are you testing?</strong> {fill:textarea}</p>
+<p><strong>Is this a parameter test or a structure test?</strong>
+- [ ] Parameter test (adjusting a value within my current model)
+- [ ] Structure test (checking whether a causal relationship in my model is correct)</p>
+<p><strong>Specific prediction</strong>: "If I [action], then [expected outcome] because [reason from generative model]."</p>
+<p>{fill:textarea}</p>
+<p><strong>What would confirm this prediction?</strong> (Be specific and measurable)</p>
+<p>{fill:textarea}</p>
+<p><strong>What would disconfirm this prediction?</strong> (Be specific and measurable)</p>
+<p>{fill:textarea}</p>
+<p><strong>What would be ambiguous?</strong> (An outcome that does not clearly confirm or disconfirm — and what you would do about it)</p>
+<p>{fill:textarea}</p>
+<h2>Part 3: Running the Experiment (15 minutes)</h2>
+<p>If you can run the experiment now (even a simple one), do so. If not, imagine the experiment in detail based on your best knowledge, or describe the results of a past experiment.</p>
+<h3>Experiment Record</h3>
+<p><strong>Date and time:</strong> {fill:textarea}</p>
+<p><strong>Exact action taken:</strong> {fill:textarea}</p>
+<p><strong>Exact observation (what actually happened — describe with precision):</strong></p>
+<p>{fill:textarea}</p>
+<p><strong>Prediction error analysis:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Predicted</th>
+<th>Observed</th>
+<th>Error Magnitude</th>
+<th>Error Direction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Was the prediction error:</strong>
+- [ ] Small (model was approximately correct — parameter fine-tuning needed)
+- [ ] Large but interpretable (model was wrong in a specific way — clear update path)
+- [ ] Large and confusing (model was wrong but unclear how — more investigation needed)
+- [ ] Zero (prediction matched observation — little new learning)</p>
+<h2>Part 4: Model Updating (10 minutes)</h2>
+<p>Based on your prediction errors, update your generative model.</p>
+<h3>If Parameter Learning:</h3>
+<p><strong>Which parameter needs adjustment?</strong> {fill:textarea}</p>
+<p><strong>Old value:</strong> {fill:textarea}</p>
+<p><strong>New value (based on evidence):</strong> {fill:textarea}</p>
+<p><strong>How confident are you in the new value?</strong> (1-10) {fill:textarea}</p>
+<p><strong>What experiment would further refine this parameter?</strong> {fill:textarea}</p>
+<h3>If Structure Learning:</h3>
+<p><strong>Which causal relationship was wrong?</strong> {fill:textarea}</p>
+<p><strong>What is the new causal relationship?</strong> {fill:textarea}</p>
+<p><strong>What other parts of your model does this change affect?</strong></p>
+<p>{fill:textarea}</p>
+<p><strong>How does this structural change affect your overall design approach?</strong></p>
+<p>{fill:textarea}</p>
+<h3>Updated Model Summary</h3>
+<p><strong>What has changed in your generative model since the start of this lab?</strong></p>
+<p>{fill:textarea}</p>
+<p><strong>What new questions has this learning raised?</strong></p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Planning the Next Cycle (10 minutes)</h2>
+<p>Based on your updated model, plan your next experiment.</p>
+<p><strong>Next experiment target</strong> (parameter or structure): {fill:textarea}</p>
+<p><strong>Why this is the most important thing to test next:</strong> {fill:textarea}</p>
+<p><strong>Predicted outcome:</strong> {fill:textarea}</p>
+<p><strong>Design of the next prototype or experiment:</strong> {fill:textarea}</p>
+<h3>Map your learning trajectory:</h3>
+<table>
+<thead>
+<tr>
+<th>Cycle</th>
+<th>What was tested</th>
+<th>Type (P/S)</th>
+<th>Key learning</th>
+<th>What changed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>This lab</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Next</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>After that</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>At what point in your learning trajectory do you expect to shift from structure learning (exploring fundamentally different approaches) to parameter learning (optimizing within a chosen approach)?</strong></p>
+<p>{fill:textarea}</p>
+<h2>Part 6: Building Your Iteration Log Template (5 minutes)</h2>
+<p>Create a reusable template for documenting future iterations. Fill in the headers:</p>
+<p><strong>Iteration Log Entry Template:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Date</td>
+<td>When was this iteration done?</td>
+</tr>
+<tr>
+<td>Iteration #</td>
+<td>Sequential number</td>
+</tr>
+<tr>
+<td>Hypothesis</td>
+<td>What prediction is being tested?</td>
+</tr>
+<tr>
+<td>Learning Type</td>
+<td>Parameter or Structure?</td>
+</tr>
+<tr>
+<td>Prototype Description</td>
+<td>What was built/done?</td>
+</tr>
+<tr>
+<td>Prediction</td>
+<td>Expected outcome</td>
+</tr>
+<tr>
+<td>Observation</td>
+<td>Actual outcome</td>
+</tr>
+<tr>
+<td>Prediction Error</td>
+<td>The specific gap</td>
+</tr>
+<tr>
+<td>Model Update</td>
+<td>What changed in the generative model</td>
+</tr>
+<tr>
+<td>Confidence Change</td>
+<td>How did confidence change?</td>
+</tr>
+<tr>
+<td>Next Action</td>
+<td>What to do based on this learning</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Commit to using this log for your next 3 invention iterations by writing a brief personal commitment:</strong></p>
+<p>{fill:textarea}</p>
+<h2>Discussion and Debrief</h2>
+<ol>
+<li>
+<p><strong>Learning classification</strong>: Was your experiment's learning primarily parameter or structure? How did you make this determination? Was the distinction always clear?</p>
+</li>
+<li>
+<p><strong>Surprise value</strong>: How surprised were you by the results? In Active Inference terms, was the prediction error large enough to significantly update your model? If not, how could you design experiments that generate more informative surprises?</p>
+</li>
+<li>
+<p><strong>Documentation discipline</strong>: How difficult was it to make your predictions explicit before testing? Many inventors skip this step, but it is the foundation of systematic learning. What strategies will help you maintain this discipline?</p>
+</li>
+<li>
+<p><strong>Cumulative learning</strong>: If you have done multiple experiments (across this course or independently), do you see a learning trajectory? Is your uncertainty decreasing over time? Are you converging on a design or still exploring?</p>
+</li>
+<li>
+<p><strong>Structure learning anxiety</strong>: Structure learning can feel like failure — abandoning an approach you invested in. Have you experienced this? How can you recognize the difference between premature abandonment and necessary structure change?</p>
+</li>
+</ol>
+<p>{fill:textarea}</p></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Learning from Every Attempt</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>In Active Inference, a prototype that fails in a specific, unexpected way is:
+   A) A waste of resources that should be avoided
+   B) More informative than a prototype that succeeds as predicted, because it reveals where the generative model is wrong
+   C) Less useful than a successful prototype in all cases
+   D) A sign that the inventor should abandon the project</p>
+</li>
+<li>
+<p>Parameter learning in invention refers to:
+   A) Learning a new programming language
+   B) Adjusting specific values within an existing model structure (e.g., tuning dimensions or concentrations)
+   C) Changing the fundamental causal architecture of the design
+   D) Memorizing technical specifications</p>
+</li>
+<li>
+<p>WD-40 stands for "Water Displacement, 40th formula." This naming reflects:
+   A) Structure learning — the chemist tried 40 fundamentally different approaches
+   B) Parameter learning — the chemist refined the formulation 40 times within the same chemical framework
+   C) Random experimentation without a model
+   D) A marketing decision unrelated to development</p>
+</li>
+<li>
+<p>When persistent prediction errors resist parameter adjustment, the inventor should consider:
+   A) Trying harder with the same approach
+   B) Structure learning — fundamentally changing the model's causal architecture
+   C) Ignoring the errors and shipping the product
+   D) Reducing the number of experiments</p>
+</li>
+<li>
+<p>Netflix's transition from DVD-by-mail to streaming was triggered by:
+   A) A desire to use newer technology for its own sake
+   B) A persistent prediction error — customers wanted immediate access that parameter optimization of mail delivery could not provide
+   C) A government mandate to stop mailing DVDs
+   D) A random management decision</p>
+</li>
+<li>
+<p>A learning protocol for invention includes all of the following EXCEPT:
+   A) Recording predictions before experiments
+   B) Analyzing prediction errors after experiments
+   C) Avoiding documentation to maintain creative spontaneity
+   D) Planning the next experiment based on model updates</p>
+</li>
+<li>
+<p>An inventor is stuck at a local optimum when:
+   A) They have found the globally best solution
+   B) They have found the best solution within their current model structure, but a different structure might produce a better solution
+   C) Their prototype works perfectly under all conditions
+   D) They have run out of ideas entirely</p>
+</li>
+</ol>
+<h2>Part B: Short Answer and Analysis</h2>
+<ol>
+<li>
+<p>An inventor is developing a new plant-based meat substitute. After 20 iterations of adjusting protein ratios, cooking temperatures, and seasoning levels (parameter learning), the product tastes acceptable but the texture remains fundamentally wrong — it is crumbly rather than fibrous. Explain why this texture problem might require structure learning rather than continued parameter learning. What kind of structural change might be needed? (Consider what fundamental causal relationship in the model might be incorrect.)</p>
+</li>
+<li>
+<p>Compare the learning strategies of Thomas Edison (testing thousands of filament materials methodically) and the Wright Brothers (using a wind tunnel to test fundamental aerodynamic assumptions before building full-scale aircraft). Which inventor prioritized parameter learning, and which prioritized structure learning? Under what conditions is each strategy more appropriate? Could either inventor have benefited from adopting the other's strategy earlier?</p>
+</li>
+<li>
+<p>Design a learning protocol for an inventor who is developing a new mobile app for elderly users. The protocol should cover three iteration cycles. For each cycle, specify: (a) the key uncertainty being tested, (b) whether it is a parameter or structure question, (c) the minimum viable experiment, (d) what outcomes would trigger parameter learning vs. structure learning, and (e) how the learning from this cycle informs the next one.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

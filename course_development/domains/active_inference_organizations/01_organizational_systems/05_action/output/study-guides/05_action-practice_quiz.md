@@ -1,0 +1,59 @@
+# Practice Quiz: Organizational Systems — Module 05: Action
+
+**Name**: ______________________ **Date**: ______________________
+
+---
+
+## Part A: Multiple Choice
+
+1. **Active inference** in an organizational context means:
+A) Thinking about what to do
+B) Changing the external environment to match the organization's predictions
+C) Collecting market data
+D) Writing a strategic plan
+
+2. **Epistemic action** (exploration) differs from **pragmatic action** (exploitation) in that:
+A) Epistemic action costs more
+B) Epistemic action's primary goal is to reduce uncertainty, not achieve a known objective
+C) Pragmatic action is always better
+D) Epistemic action doesn't produce any results
+
+3. AWS began as an epistemic action and transitioned to pragmatic action. This transition occurred when:
+A) Amazon ran out of ideas
+B) Sufficient uncertainty was resolved to justify large-scale investment in the validated model
+C) The CEO changed his mind
+D) Competitors copied the idea
+
+4. **Expected free energy (EFE)** combines:
+A) Revenue and cost
+B) Pragmatic value (goal achievement) and epistemic value (uncertainty reduction)
+C) Risk and return
+D) Supply and demand
+
+5. An execution failure where the organization continued a strategy despite negative signals is best diagnosed as:
+A) Bad luck
+B) High precision on the plan (prior) with low precision on feedback (sensory evidence)
+C) Insufficient budget
+D) Competitor sabotage
+
+6. **Pure exploitation** (only doing what has worked before) is risky because:
+A) It is boring
+B) The organization becomes optimally adapted to a specific environment, but fragile if that environment changes
+C) It costs too much
+D) Employees become too skilled
+
+7. The exploitation-exploration trade-off is fundamentally about:
+A) Hiring strategy
+B) Allocating organizational effort between leveraging proven models and developing new ones
+C) Budget cuts
+D) Time management
+
+---
+
+## Part B: Short Analysis
+
+1. Your company has three strategic options: (A) expand the core product into three new geographies, (B) acquire a small company in an adjacent market, (C) invest in a radically new technology platform. Evaluate each using the pragmatic value + epistemic value framework. Which has the highest expected free energy (worst)? Which has the lowest (best)? Defend your reasoning.
+
+2. A pharmaceutical company spends 90% of its R&D budget on incremental improvements to existing drugs (exploitation) and 10% on exploratory research into novel mechanisms (exploration). The CEO wants to shift to 70/30. Using the Active Inference framework, design the transition: What epistemic actions should the additional 20% fund? How would you measure their value when they may take years to produce results?
+
+3. Your organization's annual strategic plan was finalized in January. By June, a major competitor has launched a disruptive product. Your leadership is debating: "Stick to the plan" vs. "Pivot immediately." Frame this debate in Active Inference terms and propose a structured decision process.

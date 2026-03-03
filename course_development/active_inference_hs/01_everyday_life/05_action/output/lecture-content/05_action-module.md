@@ -1,0 +1,56 @@
+# Module 05: Action -- Making Decisions Under Uncertainty
+
+## Learning Objectives
+
+1. Explain how Active Inference frames **action** as a process of changing the world to match your brain's predictions, complementing perception's role of changing predictions to match the world.
+2. Define **expected free energy** and describe how it guides decision-making by balancing information-seeking (exploration) with goal-pursuit (exploitation).
+3. Analyze everyday decisions -- from what to wear to where to apply to college -- as instances of free energy minimization.
+4. Recognize the role of **habits** as automated action policies that minimize free energy with minimal cognitive cost.
+
+## Introduction
+
+Every day, you make hundreds of decisions. Some are trivial: what to eat for breakfast, which route to take to school. Some carry weight: whether to speak up in class, how to respond to a conflict, which colleges to apply to. Some feel agonizing: whether to end a friendship, how to handle a family crisis, what to do when your values conflict.
+
+What all these decisions share, according to Active Inference, is a common underlying logic. You are not simply choosing the option that feels best in the moment. You are selecting the action that your generative model predicts will minimize **expected free energy** -- the action that will, over time, bring the world into closer alignment with your predictions and reduce your uncertainty about things that matter.
+
+## Key Concepts
+
+### 1. Action as the Other Half of Inference
+
+Perception updates your model to match the world. Action updates the world to match your model. These two processes are complementary sides of the same coin. When you feel cold, you can either update your belief about the temperature (perception: "it is not that cold") or put on a jacket (action: change the world to match your prediction of being warm). Active Inference says both are forms of free energy minimization -- one internal, one external.
+
+### 2. Expected Free Energy and Decision-Making
+
+When choosing between actions, your brain evaluates each option in terms of **expected free energy** -- a quantity that combines two factors. First, **pragmatic value**: will this action bring about outcomes I prefer? Second, **epistemic value**: will this action reduce my uncertainty about something important? The best actions score well on both dimensions. Choosing a college, for example, involves both pragmatic considerations (career outcomes, financial cost) and epistemic ones (will I discover what I am passionate about?).
+
+### 3. Exploration vs. Exploitation
+
+The dual nature of expected free energy naturally explains the tension between **exploration** (trying new things to gain information) and **exploitation** (sticking with what works to maximize known rewards). A student who always takes classes in their comfort zone is exploiting. A student who tries a completely unfamiliar subject is exploring. Active Inference predicts that the optimal balance shifts with context: when uncertainty is high, exploration is more valuable; when uncertainty is low, exploitation makes more sense.
+
+### 4. Habits as Compiled Policies
+
+Many of your daily actions are not deliberate decisions but **habits** -- automatic behavioral patterns triggered by specific contexts. Active Inference explains habits as action policies that have been optimized through repeated experience until they minimize free energy so efficiently that conscious deliberation is no longer needed. Checking your phone when you wake up, taking the same route to school, reaching for junk food when stressed -- these are habitual policies. They persist because, at some point, they minimized free energy. They become problematic when the environment changes but the habit does not.
+
+### 5. The Courage to Act Under Uncertainty
+
+Many of the most important actions in life must be taken before all the information is in. Applying to college, asking someone out, standing up against injustice -- these require acting despite substantial uncertainty. Active Inference clarifies that waiting for certainty is itself an action (one that avoids short-term prediction error but may increase long-term free energy). Sometimes the action that minimizes expected free energy is the one that feels scariest, because it involves deliberately seeking out prediction error in the service of long-term model improvement.
+
+## Active Inference Connection
+
+The free energy principle states that agents select actions to minimize **expected free energy** -- the predicted free energy over future time steps, given a particular action policy. Formally, this means evaluating each possible action by simulating its consequences in your generative model and choosing the action whose predicted trajectory leads to the lowest overall free energy. This is not a conscious calculation; it is the computational logic that your brain implements beneath awareness. The subjective experience is simply that some options "feel right" and others do not.
+
+## Applications
+
+* **Case Study 1 -- The College Application Dilemma**: A senior must choose between applying to a "safe" school (low uncertainty, moderate pragmatic value) and a "reach" school (high uncertainty, high potential pragmatic value). Active Inference frames this as an expected free energy calculation. The reach school has higher epistemic value (you will learn something about yourself regardless of outcome) but also higher risk of prediction error (rejection). The optimal strategy often involves a portfolio approach: multiple applications that balance exploration and exploitation across the uncertainty landscape.
+
+* **Case Study 2 -- Breaking a Bad Habit**: A student wants to stop scrolling social media before bed but finds it nearly impossible. The habitual policy (scroll when in bed) was compiled through hundreds of repetitions and minimizes short-term free energy (reduces boredom, provides social information). Breaking it requires either changing the environment (charging the phone in another room, which removes the trigger) or building a competing policy that offers lower expected free energy (reading a book that is genuinely engaging). Active Inference predicts that willpower alone is insufficient -- you must restructure the inference problem itself.
+
+## Discussion Questions
+
+1. Think of a major decision you are facing or have recently faced. Can you identify both the pragmatic and epistemic components of the options? Which mattered more to you?
+2. Why are habits so hard to break even when you consciously know they are harmful? How does the Active Inference account of habits suggest better strategies than "just try harder"?
+3. Is there a difference between being "decisive" and being "impulsive" from an Active Inference perspective? What distinguishes good fast decisions from bad ones?
+
+## Summary
+
+Action, in Active Inference, is not separate from thought -- it is the external complement of internal inference. Decisions are made by evaluating expected free energy, which balances the desire for preferred outcomes with the value of reducing uncertainty. Habits are efficient but potentially rigid compiled policies. And the most important decisions often require the courage to act before all uncertainty is resolved. In Module 06, we examine **learning** -- the long-term process by which your generative model improves through the accumulation of experience and prediction error.

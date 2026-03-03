@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08_Planning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>08_Planning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>08_Planning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 08: Planning — The Body's Anticipatory Wisdom</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Explain how <strong>embodied planning</strong> draws on the felt sense to evaluate future scenarios through somatic simulation rather than purely abstract calculation.</li>
+<li>Describe the concept of <strong>allostatic anticipation</strong> — the body's proactive preparation for expected future demands — as a form of interoceptive planning.</li>
+<li>Analyze the role of <strong>expected free energy</strong> in guiding the felt sense of which futures feel viable, desirable, or threatening.</li>
+<li>Recognize the integration of somatic and cognitive planning as the culmination of the felt sense module sequence.</li>
+</ol>
+<h2>Introduction</h2>
+<p>You are considering a major life decision — a move to a new city, a career change, an ending of a relationship. You have made lists of pros and cons, consulted friends, analyzed the practical details. But what finally tips the decision is something else: when you imagine living in the new city, your chest opens and your breathing deepens. When you imagine staying, your shoulders hunch and your stomach tightens. The body has planned its future before the mind has finished deliberating.</p>
+<p>Planning, in the felt sense framework, is not a purely cognitive operation performed in the prefrontal cortex. It is an embodied process in which the body simulates future states and evaluates them through interoceptive prediction. The felt sense of a future — its felt viability, its felt rightness — provides information that no amount of abstract reasoning can replicate. Active inference formalizes this: planning is the evaluation of possible action policies based on their <strong>expected free energy</strong> — the predicted surprise, uncertainty, and distance from preferred states that each policy would produce. The body's felt response to an imagined future is the phenomenology of this evaluation.</p>
+<h2>Key Concepts</h2>
+<h3>1. Somatic Simulation of Future States</h3>
+<p>When you imagine a future scenario, your body does not merely think about it — it partially enacts it. Imagining a stressful meeting produces a measurable stress response: elevated cortisol, increased heart rate, muscular tension. Imagining a peaceful scene produces relaxation: slower breathing, reduced blood pressure, muscular release. These somatic simulations are the body's way of previewing the interoceptive consequences of future states. In active inference, this preview is the evaluation of expected free energy: the generative model runs forward in time, predicting the interoceptive states that each possible future would produce, and the felt sense registers the result.</p>
+<h3>2. Allostatic Anticipation</h3>
+<p>The body does not merely react to current conditions — it <strong>anticipates</strong> future demands and adjusts its internal states proactively. Before a marathon, the body increases glycogen stores. Before a stressful exam, cortisol rises. Before an anticipated social encounter, the autonomic nervous system shifts toward the appropriate state of arousal. This allostatic anticipation is planning at the most basic, visceral level: the generative model predicts future interoceptive demands and adjusts current physiology to minimize the expected free energy of the upcoming state transition.</p>
+<h3>3. The Felt Sense of Temporal Horizon</h3>
+<p>Different plans have different temporal horizons, and the felt sense registers this difference somatically. An immediate plan (reaching for a glass) produces a crisp, localized somatic anticipation — the proprioceptive readiness of the reaching arm. A medium-term plan (preparing for a presentation next week) produces a more diffuse, ongoing somatic tone — a background state of engagement tinged with apprehension. A long-term plan (imagining retirement) produces a vague, atmospheric felt quality — a bodily mood that colors the present without specifying any particular action. In active inference, these differences correspond to the depth of temporal inference in the generative model's hierarchical structure.</p>
+<h3>4. Intuitive Planning and the Wisdom of the Body</h3>
+<p>Gendlin and others in the Focusing tradition emphasize that the body often knows the right direction before the mind catches up. The felt sense of a good plan — the opening, the forward-leaning energy, the sense of "yes" — and the felt sense of a bad plan — the constriction, the pulling back, the sense of "not quite" — provide a rapid, holistic evaluation that integrates more information than conscious deliberation can hold. In active inference, this intuitive planning reflects the generative model's capacity to evaluate expected free energy across many dimensions simultaneously, compressing the result into a single interoceptive signal.</p>
+<h3>5. Planning Across Time: The Integration of Past, Present, and Future</h3>
+<p>Embodied planning is not only forward-looking. It integrates <strong>past experience</strong> (somatic memory of how similar situations unfolded), <strong>present state</strong> (the body's current interoceptive condition), and <strong>anticipated future</strong> (the simulated interoceptive consequences of planned actions). This temporal integration occurs within the generative model's hierarchical structure, where priors from past learning constrain predictions about the future, and the present felt sense provides the evaluative anchor. Planning, in this framework, is the body's way of weaving a coherent temporal narrative through the fabric of its own sensation.</p>
+<h2>Active Inference Connection</h2>
+<p>In active inference, planning is formalized as the selection of action policies that minimize <strong>expected free energy</strong> — a quantity that balances the drive to reduce uncertainty (epistemic value) with the drive to fulfill preferences (pragmatic value). The felt sense is the phenomenological expression of this evaluation: the body's somatic response to a planned future is its report on the expected free energy of that future. Plans that minimize expected free energy feel right — viable, attractive, energizing. Plans that increase expected free energy feel wrong — threatening, depleting, aversive. The body is not merely executing plans devised by the mind; it is actively participating in their evaluation and selection.</p>
+<h2>Experiential Applications</h2>
+<ul>
+<li>
+<p><strong>Practice — Felt Sense Decision-Making</strong>: When facing a choice between two options, close your eyes and vividly imagine living with Option A for the next year. Attend to the felt sense that arises in your body — its quality, location, and energy. Then do the same with Option B. The somatic difference between the two simulations contains information that your lists of pros and cons cannot capture. You are comparing the expected free energy of two possible futures through your body's own evaluative system.</p>
+</li>
+<li>
+<p><strong>Case Study — Pre-Competition Somatic Preparation in Athletes</strong>: Elite athletes report extensive pre-performance planning that is more somatic than cognitive. A diver visualizes and physically feels each twist and rotation before stepping onto the board. A basketball player's pre-shot routine engages the felt sense of the arc, the release, the follow-through. This somatic rehearsal is not mere visualization — it is active inference in the planning register, the generative model running forward simulations that calibrate proprioceptive predictions and motor precision before the action itself begins.</p>
+</li>
+</ul>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 07 (Communication)</strong>: Communicating plans requires translating felt sense evaluations into shareable language.</li>
+<li><strong>Module 01 (Systems)</strong>: The body's systemic integrity constrains and enables all planning — you can only plan what your body can sustain.</li>
+<li><strong>Unit 03 (Intuitive Knowing)</strong>: Intuitive planning draws on the tacit expertise that accumulated felt sense provides.</li>
+</ul>
+<h2>Summary</h2>
+<p>Planning in the felt sense framework is the body's anticipatory wisdom — its capacity to simulate future states, evaluate them somatically, and guide action selection through the felt quality of imagined outcomes. Allostatic anticipation, somatic simulation, and the intuitive evaluation of temporal horizons all contribute to an embodied planning process that integrates more information, across more dimensions, than conscious deliberation alone can manage. Active inference reveals planning as expected free energy minimization: the body evaluating possible futures by predicting their interoceptive consequences and selecting the paths that feel most viable. This module completes the felt sense sequence, showing how interoceptive intelligence — from systems through agents, perception, cognition, action, learning, and communication — culminates in the body's capacity to orient toward the future it most wants to inhabit.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Listening to What Wants to Happen</h1>
+<h2>Objective</h2>
+<p>Explore planning as an embodied process of anticipation and readiness through exercises that reveal how the body prepares for action, evaluates possible futures through felt sense, and trusts emergent movement. This lab demonstrates that planning begins in the body before it reaches conscious deliberation.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>A space where you can stand and move for 25 minutes</li>
+<li>No special equipment required</li>
+<li>No prior experience required</li>
+</ul>
+<h2>Part 1: Bodily Anticipation (5 minutes)</h2>
+<ol>
+<li>Stand at the edge of a doorway. Intend to walk through it, but do not walk yet. Hold the intention. Notice: What is your body already doing? Weight shifting? Foot angling? Gaze directing? The body is planning -- preparing the musculature, adjusting posture, predicting the sensory consequences of the upcoming movement.</li>
+<li>Now intend to sit down (near a chair), but do not sit. Hold the intention. What preparatory adjustments does the body make?</li>
+<li>Intend to reach for something on a high shelf (real or imagined). Do not reach. What happens in your body?</li>
+</ol>
+<p>In Active Inference, planning is the evaluation of action policies by simulating their expected sensory outcomes. The body does this pre-reflectively: muscles activate, posture shifts, and autonomic tone adjusts before any conscious decision is made.</p>
+<p>{fill:textarea}(For each intention, describe the preparatory changes you noticed. Where in the body does planning live?)</p>
+<h2>Part 2: Felt Evaluation of Futures (7 minutes)</h2>
+<p>Think of two possible activities for later today (e.g., going for a walk versus reading a book, cooking versus ordering food).</p>
+<ol>
+<li><strong>Future A</strong>: Close your eyes and vividly imagine doing the first activity. Do not think about it analytically -- let the body simulate it. What happens in your chest, belly, and limbs? Does the body lean toward this future or pull away?</li>
+<li><strong>Future B</strong>: Now imagine the second activity with the same bodily attention. What shifts?</li>
+<li><strong>Comparison</strong>: Which future did the body prefer? Was this different from what your analytical mind would have chosen?</li>
+</ol>
+<p>This exercise demonstrates expected free energy evaluation through the body. The body simulates possible futures and generates a felt evaluation -- a somatic marker -- that guides the selection of action policies.</p>
+<p>{fill:textarea}(Describe the bodily response to each imagined future. Did your body have a clear preference? How did this compare to your intellectual preference?)</p>
+<h2>Part 3: Emergent Movement (5 minutes)</h2>
+<p>Stand in the center of your space. Close your eyes. Rather than deciding what to do, ask the body: What wants to happen next?</p>
+<p>Wait. Be patient. A movement will emerge -- perhaps a stretch, a sway, a reaching, a folding. Follow it without directing it. Let one movement flow into the next for three minutes.</p>
+<p>This is planning without a plan. In Active Inference, the body is selecting action policies based on the expected reduction of free energy in real time, without explicit deliberation. The movement that emerges is the body's answer to the question: What will bring me closer to my predicted (preferred) state?</p>
+<p>{fill:textarea}(What emerged? Describe the sequence of movements. Was there a sense of rightness or flow? Where did the body want to go?)</p>
+<h2>Part 4: Allostatic Planning (5 minutes)</h2>
+<p>Observe your body's anticipatory regulation:</p>
+<ol>
+<li>Think about your next meal. Notice: does your mouth water? Does your belly shift? The body is already planning its digestive response.</li>
+<li>Think about an upcoming challenging event (a meeting, an exam, a difficult conversation). Notice: does your heart rate change? Does your breathing shift? Muscles tense? The body is already mobilizing resources.</li>
+<li>Think about rest -- lying in bed, drifting to sleep. Notice the settling, the softening.</li>
+</ol>
+<p>This is allostatic planning: the body predicts future regulatory demands and begins adjusting before the event occurs. It is planning at the most fundamental biological level.</p>
+<p>{fill:textarea}(Describe the bodily shifts for each imagined scenario. How does the body prepare differently for nourishment, challenge, and rest?)</p>
+<h2>Part 5: Reflection</h2>
+<p>{fill:textarea}(What does it mean to plan with the body rather than the mind? How might you use this embodied approach to planning in your daily life?)</p>
+<h2>Reflection Table</h2>
+<table>
+<thead>
+<tr>
+<th>Planning Dimension</th>
+<th>What I Felt</th>
+<th>Active Inference Connection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bodily anticipation</td>
+<td>{fill:text}</td>
+<td>Pre-reflective action policy preparation</td>
+</tr>
+<tr>
+<td>Felt future evaluation</td>
+<td>{fill:text}</td>
+<td>Expected free energy as somatic marker</td>
+</tr>
+<tr>
+<td>Emergent movement</td>
+<td>{fill:text}</td>
+<td>Real-time policy selection</td>
+</tr>
+<tr>
+<td>Allostatic planning</td>
+<td>{fill:text}</td>
+<td>Predictive regulation of future states</td>
+</tr>
+<tr>
+<td>Trusting the body</td>
+<td>{fill:text}</td>
+<td>Habitual body as planning resource</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Planning</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>What is the primary role of <strong>Planning</strong> in Active Inference?
+A) To maximize reward
+B) To minimize variational free energy
+C) To increase entropy
+D) To eliminate the Markov Blanket</p>
+</li>
+<li>
+<p>In Embodied, Planning is best described as:
+A) A static property
+B) A dynamic process
+C) An external state
+D) A random variable</p>
+</li>
+<li>
+<p>Which mathematical quantity is most central to Planning?
+A) The Lagrangian
+B) The expected free energy
+C) The surprisal
+D) The precision</p>
+</li>
+<li>
+<p>How does Planning relate to the concept of the Generative Model?
+A) It is separate from the model
+B) It is a component of the model
+C) It destroys the model
+D) It is only relevant for the environment</p>
+</li>
+<li>
+<p>A failure in Planning would likely result in:
+A) Perfect prediction
+B) Generalized surprise
+C) Immediate death of the agent
+D) Zero entropy</p>
+</li>
+<li>
+<p>Which scale is most relevant for analyzing Planning in this course?
+A) Quantum
+B) Neural
+C) Social
+D) All of the above</p>
+</li>
+<li>
+<p>Planning connects directly to which other component?
+A) The step before it
+B) The step after it
+C) Both A and B
+D) None of the above</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>Explain how <strong>Planning</strong> facilitates the minimization of prediction error.</li>
+<li>Provide a concrete example of Planning failing in a Embodied scenario.</li>
+<li>How would you model Planning using a POMDP (Partially Observable Markov Decision Process)?</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

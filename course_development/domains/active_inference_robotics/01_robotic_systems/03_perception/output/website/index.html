@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_Perception - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>03_Perception</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>03_Perception</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Robotic Perception: From Raw Sensors to Bayesian Beliefs</h1>
+<h2>Executive Summary</h2>
+<p>Perception is the process by which a robot transforms raw sensor data into beliefs about the state of the world. In Active Inference, perception is not passive data processing but active Bayesian inference — the robot uses its generative model to predict what it should observe, compares these predictions with actual sensor readings, and updates its beliefs to minimize prediction error. This module examines how robotic perception systems — from lidar point clouds and IMU readings to camera images and joint encoders — implement this inferential process. Understanding perception as inference rather than mere signal processing reveals why sensor fusion works, why perception fails in predictable ways, and how robots can actively seek information to resolve uncertainty.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Frame robotic perception as approximate Bayesian inference — the inversion of a generative model from sensory observations.</li>
+<li>Analyze specific sensor modalities (lidar, IMU, cameras, joint encoders) as information channels with characteristic noise models and bandwidth.</li>
+<li>Explain sensor fusion as the combination of multiple likelihood functions within a single generative model.</li>
+<li>Identify how prediction error drives belief updates in robotic state estimation.</li>
+<li>Distinguish between passive perception and active perception (epistemic foraging) in robotic systems.</li>
+</ol>
+<h2>Introduction</h2>
+<p>In the previous module on Agents, we established that a robot's agency depends on the quality of its generative model. That model is only as good as the perceptual processes that keep it calibrated to reality. A robot with perfect actuators but degraded perception is blind — it will act on stale or incorrect beliefs, leading to collision, task failure, or damage. Perception is the sensory half of the Markov blanket in action, the process by which information flows from the external world into the robot's internal states. In the next module on Cognition, we will examine how these perceptual inputs are integrated and maintained over time; here, we focus on the front-end: how raw sensor data becomes belief.</p>
+<h2>Key Concepts</h2>
+<h3>1. Perception as Generative Model Inversion</h3>
+<p>In classical robotics, perception is often treated as a feed-forward pipeline: sensor data goes in, features are extracted, objects are detected, and a world model is output. Active Inference reconceptualizes this as model inversion. The robot has a generative model that predicts sensory data given the world state: P(observations | world state). Perception is the process of inverting this model to obtain P(world state | observations) — inferring the most probable world state given what was observed.</p>
+<p>This inversion is typically intractable for complex generative models, so robots use approximate inference methods. The Extended Kalman Filter (EKF) approximates the posterior with a Gaussian distribution, propagating mean and covariance through linearized dynamics. Particle filters represent the posterior with a set of weighted samples, handling multimodal distributions that Gaussian methods cannot. Factor graph optimization (as used in GTSAM and Ceres) frames perception as nonlinear least-squares minimization over a graph of variable nodes and factor nodes. Each of these methods can be understood as a particular approximation scheme for variational free energy minimization.</p>
+<p>The key insight is that perception is always model-dependent. A robot's lidar scan does not have an "objective" interpretation — its meaning depends on the generative model. If the model predicts a flat floor ahead and the lidar reports returns at varying heights, the prediction error drives a belief update: "the floor is not flat; there is an obstacle." But if the model includes a ramp, the same lidar returns generate no surprise. What the robot "perceives" is determined by what it expects.</p>
+<h3>2. Sensor Modalities as Information Channels</h3>
+<p>Each sensor on a robot constitutes a distinct information channel with characteristic properties that constrain what the robot can perceive.</p>
+<p><strong>Lidar</strong> (Light Detection and Ranging) emits laser pulses and measures time-of-flight to determine distances. A Velodyne VLP-16 produces approximately 300,000 points per second across 16 vertical channels, providing dense 3D geometry of the environment. Lidar's generative model is straightforward: given a hypothesized surface at distance d along beam direction theta, the expected return time is 2d/c. Lidar provides precise range measurements (typically plus or minus 3 cm) but no color or texture information. Its noise model is well-characterized and approximately Gaussian, making it well-suited to Kalman-filter-based fusion.</p>
+<p><strong>Inertial Measurement Units (IMUs)</strong> contain accelerometers and gyroscopes that measure linear acceleration and angular velocity. They provide high-rate proprioceptive data (often 200-1000 Hz) but suffer from drift — small biases in the gyroscope integrate into growing orientation errors over time. The generative model for an IMU includes gravity (a constant acceleration the accelerometer always observes) and the relationship between angular velocity and orientation change. IMU perception involves estimating the current orientation and velocity by integrating these measurements while accounting for known bias and noise characteristics.</p>
+<p><strong>Cameras</strong> produce rich, high-dimensional observations (millions of pixels at 30-60 Hz) but with complex, nonlinear generative models. Interpreting a camera image requires modeling scene geometry, lighting, material properties, and the camera's projection model. This makes camera-based perception computationally expensive but informationally rich — cameras can perceive color, texture, shape, and semantic content that geometric sensors like lidar cannot.</p>
+<p><strong>Joint encoders</strong> are proprioceptive sensors that report the angular position of each joint in a manipulator. They are direct, low-noise measurements of the robot's own body configuration. Their generative model is trivially simple: the observed encoder reading equals the true joint angle plus a small Gaussian noise. This simplicity makes encoder-based proprioception the most reliable perceptual channel available to a manipulator.</p>
+<h3>3. Sensor Fusion as Unified Inference</h3>
+<p>Sensor fusion — combining data from multiple sensors to achieve more accurate state estimates — is naturally explained by Active Inference. Each sensor provides a likelihood function: the probability of the observed data given the hypothesized world state. Bayes' rule combines these likelihoods with a prior to produce a posterior belief. Sensor fusion is simply Bayesian inference with multiple likelihood terms.</p>
+<p>Consider a mobile robot estimating its position using wheel odometry, an IMU, and lidar scan matching. The wheel odometry provides a likelihood function over position based on integrated wheel rotations (high drift, smooth trajectory). The IMU provides a likelihood over orientation based on integrated angular velocity (high-rate, drifting). The lidar scan matching provides a likelihood over position by comparing the current scan to a stored map (accurate but intermittent, sensitive to feature availability). The Kalman filter or factor graph optimizer combines these three likelihoods with a dynamics prior (the robot cannot teleport; its position changes smoothly) to produce a fused state estimate that is more accurate than any single sensor alone.</p>
+<p>The Active Inference perspective adds a crucial insight: the relative influence of each sensor should be weighted by its precision (inverse variance). When driving on a smooth floor, wheel odometry is precise and should be weighted highly. When driving on gravel, odometry precision drops and lidar should dominate. This precision-weighting is exactly what Kalman filters and related methods implement — and it is precisely what Active Inference prescribes through the precision-weighted prediction error terms in the free energy functional.</p>
+<h3>4. Active Perception and Epistemic Foraging</h3>
+<p>Passive perception waits for sensor data to arrive and processes it. Active perception — epistemic foraging in Active Inference terminology — selects actions specifically to reduce perceptual uncertainty. This is a distinctive feature of Active Inference agents: they do not just passively observe the world but actively seek information to improve their generative models.</p>
+<p>A robot arm reaching toward an object whose position is uncertain might first move its wrist camera to a viewpoint that resolves the ambiguity before committing to a grasp trajectory. A mobile robot approaching a T-intersection where its map is uncertain might slow down and sweep its lidar across a wider arc. In both cases, the robot selects actions not to achieve an immediate task goal but to gather information — to reduce the entropy of its posterior beliefs.</p>
+<p>This behavior emerges naturally from the expected free energy objective in Active Inference. Expected free energy decomposes into a pragmatic term (achieving preferred outcomes) and an epistemic term (reducing uncertainty about hidden states). When uncertainty is high, the epistemic term dominates, driving the agent to explore and gather information before exploiting its knowledge for task completion. This provides a principled, automatic mechanism for trading off exploration and exploitation — one of the fundamental challenges in robotic decision-making.</p>
+<h3>5. Perceptual Failures and Their Causes</h3>
+<p>Understanding perception as model-dependent inference reveals systematic failure modes. Perceptual failures occur when the generative model's assumptions are violated.</p>
+<p><strong>Model mismatch</strong> occurs when the world deviates from the generative model's assumptions. A lidar-based navigation system that models the world as static will fail when encountering moving objects — the prediction errors caused by dynamic objects will be misinterpreted as jumps in the robot's own position. A visual object detector trained on objects in normal lighting will fail when lighting conditions change dramatically.</p>
+<p><strong>Sensor degradation</strong> occurs when the noise characteristics of a sensor change unexpectedly. A lidar operating in fog or rain produces spurious returns that violate the clean Gaussian noise model. An IMU experiencing vibration from a nearby motor exhibits increased noise that, if not modeled, degrades the state estimate.</p>
+<p><strong>Perceptual aliasing</strong> occurs when different world states produce identical sensory observations. A robot navigating a corridor with identical-looking intersections cannot distinguish its location from visual appearance alone — the generative model maps multiple states to the same observation. Resolving aliasing requires either additional sensory modalities or temporal context (path integration).</p>
+<h2>Active Inference Connection</h2>
+<p>Perception in Active Inference is the process of minimizing free energy with respect to beliefs about hidden states, holding actions fixed. The robot's generative model predicts sensory observations; the difference between predictions and actual observations is the prediction error. Perception updates beliefs to reduce this prediction error, weighted by the precision of each sensory channel. This framework unifies classical methods — Kalman filtering, particle filtering, MAP estimation — under a single theoretical umbrella, while adding the distinctive concept of active perception: choosing actions that maximize information gain. For robotics, this means that perception and action are not separate stages in a pipeline but interleaved processes that jointly minimize free energy.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: Lidar-IMU Fusion for Mobile Robot Localization</h3>
+<p>A Clearpath Husky mobile robot equipped with a Velodyne VLP-16 lidar and a MicroStrain 3DM-GX5 IMU implements perception as multi-sensor Bayesian inference. The IMU provides high-rate (200 Hz) predictions of the robot's motion between lidar scans through dead reckoning, serving as the dynamics model. Every 100 ms, a new lidar scan arrives, and the Normal Distributions Transform (NDT) algorithm computes a likelihood by matching the scan to a pre-built 3D map. The EKF fuses these two information sources, weighting the IMU-predicted position by its accumulated drift uncertainty and the lidar match by its alignment quality score. When the robot traverses a featureless hallway, lidar matching precision drops (few distinctive features), and the IMU dominates the estimate. When the robot enters a feature-rich room, lidar precision increases and corrects the accumulated drift. This automatic precision-weighting is exactly the mechanism Active Inference prescribes.</p>
+<h3>Case Study 2: Wrist-Camera Active Perception for Manipulation</h3>
+<p>A UR5 manipulator equipped with an Intel RealSense D435 wrist camera demonstrates active perception in manipulation. When tasked with grasping a small bolt from a cluttered bin, the robot first moves its wrist camera to a position directly above the bin to obtain an overhead depth image. The object detection model identifies candidate bolt locations, but depth uncertainty at this distance is approximately 5 mm — too imprecise for reliable grasping. The robot then autonomously moves the camera closer to the best candidate, reducing depth uncertainty to under 1 mm, and confirms the bolt's pose. Only then does it commit to a grasp trajectory. This two-phase perception strategy — coarse observation followed by targeted close inspection — emerges naturally when an Active Inference agent optimizes the expected free energy that balances pragmatic value (grasp the bolt) with epistemic value (reduce pose uncertainty below the threshold needed for reliable grasping).</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 1 (Systems)</strong>: The sensor suite that defines the perceptual boundary of the system</li>
+<li><strong>Module 2 (Agents)</strong>: How perception feeds into the agent's generative model and decision-making</li>
+<li><strong>Module 4 (Cognition)</strong>: How perceived information is integrated, maintained, and updated over time</li>
+<li><strong>Module 6 (Learning)</strong>: How the perceptual generative model is improved through experience</li>
+</ul>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generative Model Inversion</td>
+<td>Inferring world state from observations using Bayes' rule</td>
+<td>EKF estimating robot pose from lidar and odometry</td>
+</tr>
+<tr>
+<td>Sensor Likelihood</td>
+<td>Probability of sensor data given hypothesized world state</td>
+<td>Lidar range return given surface distance and beam angle</td>
+</tr>
+<tr>
+<td>Sensor Fusion</td>
+<td>Combining multiple sensor likelihoods in a single inference</td>
+<td>IMU + lidar + odometry fusion for localization</td>
+</tr>
+<tr>
+<td>Precision Weighting</td>
+<td>Weighting prediction errors by sensor reliability</td>
+<td>Downweighting odometry on slippery surfaces</td>
+</tr>
+<tr>
+<td>Active Perception</td>
+<td>Selecting actions to reduce perceptual uncertainty</td>
+<td>Moving a wrist camera closer to reduce depth uncertainty</td>
+</tr>
+<tr>
+<td>Perceptual Aliasing</td>
+<td>Different world states producing identical observations</td>
+<td>Identical-looking corridor intersections confusing a visual navigator</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Thrun, S., Burgard, W., &amp; Fox, D. (2005). <em>Probabilistic Robotics</em>. MIT Press.</li>
+<li>Bajcsy, R., Aloimonos, Y., &amp; Tsotsos, J. K. (2018). Revisiting active perception. <em>Autonomous Robots</em>, 42(2), 177-196.</li>
+<li>Lanillos, P., &amp; Cheng, G. (2018). Adaptive robot body perception and action through active inference. <em>arXiv preprint arXiv:1806.01671</em>.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Sensor Fusion and Bayesian State Estimation</h1>
+<h2>Objective</h2>
+<p>Implement and compare sensor fusion approaches for a mobile robot, framing multi-sensor integration as variational inference under a generative model. You will design observation models for multiple sensor modalities, implement precision-weighted fusion, and analyze how Active Inference naturally handles sensor degradation.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Understanding of Bayesian state estimation (prior, likelihood, posterior)</li>
+<li>Familiarity with common robotic sensors (LIDAR, cameras, IMUs, encoders)</li>
+<li>Basic linear algebra and probability theory</li>
+</ul>
+<h2>Part 1: Sensor Observation Models</h2>
+<p>For a mobile robot navigating an indoor environment, specify the observation model for each sensor:</p>
+<ol>
+<li><strong>Wheel encoders</strong>: Model the relationship between encoder ticks and robot displacement. Include systematic errors (wheel slip, diameter mismatch) and random noise.</li>
+<li><strong>2D LIDAR</strong>: Model range measurements as a function of robot pose and map geometry. Include beam noise, max-range returns, and short-range reflections.</li>
+<li><strong>IMU</strong>: Model accelerometer and gyroscope readings. Distinguish between bias drift (slowly varying) and white noise components.</li>
+<li><strong>RGB camera</strong>: Describe qualitatively how visual features (corners, edges) provide position information. What is the observation model structure?</li>
+</ol>
+<p>For each sensor, specify: measurement rate, noise characteristics, and failure modes.</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: Precision Weighting and Sensor Reliability</h2>
+<p>In Active Inference, each sensor channel has an associated precision (inverse variance) that determines its influence on belief updates.</p>
+<ol>
+<li>Design a scenario where the robot traverses three zones:</li>
+<li><strong>Zone A</strong>: Well-lit, textured hallway (camera reliable, LIDAR reliable)</li>
+<li><strong>Zone B</strong>: Glass-walled corridor (LIDAR unreliable due to specular reflections, camera reliable)</li>
+<li>
+<p><strong>Zone C</strong>: Dark warehouse section (camera unreliable, LIDAR reliable)</p>
+</li>
+<li>
+<p>For each zone, specify qualitative precision values for each sensor and explain how the Active Inference agent automatically adjusts its reliance on different modalities.</p>
+</li>
+<li>
+<p>How does this compare to a fixed-gain Kalman filter that cannot adjust sensor weights online?</p>
+</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Prediction Error Analysis</h2>
+<p>Trace a perception cycle for the robot entering Zone B (glass corridor):</p>
+<ol>
+<li><strong>Prior belief</strong>: Robot at position (5.0, 2.0) with heading 0 rad, low uncertainty.</li>
+<li><strong>Predicted observations</strong>: Expected LIDAR ranges based on wall map; expected camera features based on hallway model.</li>
+<li><strong>Actual observations</strong>: LIDAR returns maximum range (beams pass through glass); camera sees corridor features normally.</li>
+<li><strong>Prediction errors</strong>: Compute qualitative errors for each sensor channel.</li>
+<li><strong>Belief update</strong>: How does the agent resolve the conflict? What role does precision play?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Active Perception</h2>
+<p>Design a scenario where the robot actively moves to reduce perceptual uncertainty:</p>
+<ol>
+<li>The robot detects an ambiguous object at the edge of its LIDAR range. Two hypotheses: (a) it is a person, (b) it is a pillar.</li>
+<li>What actions could the robot take to disambiguate? (e.g., move closer, change viewpoint, activate a different sensor)</li>
+<li>Frame this as expected free energy minimization: which action is predicted to yield the greatest reduction in uncertainty (epistemic value)?</li>
+<li>Write pseudocode for an active perception routine:</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">active_perception</span><span class="p">(</span>belief, hypotheses, available_actions<span class="p">):</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">action</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">available_actions</span><span class="p">:</span>
+<span class="w">        </span>#<span class="w"> </span><span class="n">Compute</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">observation</span><span class="w"> </span><span class="n">under</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">hypothesis</span>
+<span class="w">        </span>#<span class="w"> </span><span class="n">Compute</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">information</span><span class="w"> </span><span class="n">gain</span>
+<span class="w">    </span><span class="n">select</span><span class="w"> </span><span class="n">action</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">highest</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">information</span><span class="w"> </span><span class="n">gain</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">selected_action</span>
+</code></pre></div>
+
+<p>{fill:textarea}</p>
+<h2>Part 5: Sensor Fusion Algorithm Design</h2>
+<p>Write pseudocode for a complete perception update step that fuses all four sensor modalities:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">perception_update</span><span class="p">(</span>prior_belief, observations, precisions, model<span class="p">):</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">1.</span><span class="w"> </span><span class="n">Generate</span><span class="w"> </span><span class="n">predictions</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">prior</span><span class="w"> </span><span class="n">belief</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">2.</span><span class="w"> </span><span class="n">Compute</span><span class="w"> </span><span class="n">prediction</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">sensor</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">3.</span><span class="w"> </span><span class="n">Weight</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">sensor</span><span class="w"> </span><span class="n">precisions</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">4.</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">belief</span><span class="w"> </span><span class="p">(</span><span class="nb">gradient</span><span class="w"> </span><span class="n">descent</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="n">energy</span><span class="p">)</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">5.</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">precision</span><span class="w"> </span><span class="n">estimates</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">:</span><span class="w"> </span><span class="n">learn</span><span class="w"> </span><span class="n">sensor</span><span class="w"> </span><span class="n">reliability</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">posterior_belief</span>
+</code></pre></div>
+
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Sensor</th>
+<th>Observation Model</th>
+<th>Typical Precision</th>
+<th>Failure Mode</th>
+<th>AI Adaptation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wheel encoders</td>
+<td>Odometry integration</td>
+<td>{fill}</td>
+<td>Wheel slip</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>2D LIDAR</td>
+<td>Range-bearing model</td>
+<td>{fill}</td>
+<td>Specular reflection</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>IMU</td>
+<td>Inertial kinematics</td>
+<td>{fill}</td>
+<td>Bias drift</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>RGB Camera</td>
+<td>Feature projection</td>
+<td>{fill}</td>
+<td>Low light</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ul>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Thrun, S., Burgard, W., &amp; Fox, D. (2005). <em>Probabilistic Robotics</em>. MIT Press, Chapters 2-7.</li>
+</ul></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Perception in Robotic Systems</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>In Active Inference, robotic perception is best understood as:
+A) Passive data recording from sensors
+B) Active Bayesian inference -- inverting a generative model to infer world states from sensory observations
+C) Simply converting analog signals to digital values
+D) Transmitting raw sensor data to a cloud server</li>
+</ol>
+<p><strong>Answer: B</strong> -- Perception is generative model inversion: given observations, the robot infers the most probable world state. This is fundamentally Bayesian -- combining prior beliefs with sensor likelihoods to produce posterior beliefs about the environment.</p>
+<ol>
+<li>A Velodyne VLP-16 lidar produces approximately 300,000 points per second. What makes lidar well-suited for Kalman-filter-based fusion?
+A) Its high cost
+B) Its well-characterized, approximately Gaussian noise model and precise range measurements
+C) Its ability to measure temperature
+D) Its inability to detect obstacles</li>
+</ol>
+<p><strong>Answer: B</strong> -- Lidar's noise model is well-characterized and approximately Gaussian (typically +/- 3 cm), making it naturally compatible with Kalman filter assumptions. Its direct range measurements provide precise geometric information about the environment.</p>
+<ol>
+<li>Why do IMU-based orientation estimates drift over time?
+A) The IMU battery runs out
+B) Small biases in the gyroscope integrate into growing orientation errors
+C) The accelerometer measures color instead of acceleration
+D) Drift is a feature, not a bug</li>
+</ol>
+<p><strong>Answer: B</strong> -- Gyroscope biases, even when very small, accumulate through integration over time. This is why IMUs must be fused with other sensors (lidar, visual odometry) that provide absolute reference corrections.</p>
+<ol>
+<li>Sensor fusion in Active Inference is accomplished by:
+A) Physically connecting sensors with wires
+B) Combining multiple sensor likelihood functions with a prior using Bayes' rule, weighted by each sensor's precision
+C) Choosing the single best sensor and ignoring others
+D) Averaging all sensor readings equally regardless of reliability</li>
+</ol>
+<p><strong>Answer: B</strong> -- Each sensor provides a likelihood function over the world state. Bayes' rule combines these likelihoods, weighted by their precision (inverse variance), with a dynamics prior. Sensors with higher precision exert more influence on the fused estimate.</p>
+<ol>
+<li>Active perception (epistemic foraging) in robotics refers to:
+A) Perceiving only when the battery is fully charged
+B) Selecting actions specifically to reduce perceptual uncertainty before committing to task execution
+C) Using only active sensors like lidar, never passive sensors like cameras
+D) Perceiving the environment only once at startup</li>
+</ol>
+<p><strong>Answer: B</strong> -- An Active Inference agent selects actions to reduce uncertainty when the epistemic term of expected free energy dominates. For example, a manipulator moves its wrist camera closer to an object to reduce depth uncertainty before attempting a grasp.</p>
+<ol>
+<li>Perceptual aliasing occurs when:
+A) A sensor produces readings above its maximum range
+B) Different world states produce identical sensory observations, making them indistinguishable
+C) Two sensors are manufactured by the same company
+D) The robot has too many sensors</li>
+</ol>
+<p><strong>Answer: B</strong> -- A robot navigating a corridor with identical-looking intersections cannot distinguish its location from visual appearance alone. The generative model maps multiple distinct positions to the same observation, requiring additional modalities or temporal context to resolve.</p>
+<ol>
+<li>When a mobile robot drives from a smooth floor onto gravel, how should precision weighting change?
+A) All sensors should be weighted equally regardless of conditions
+B) Wheel odometry precision drops (more slip), so lidar should receive higher weighting
+C) Lidar precision drops, so odometry should receive higher weighting
+D) Both sensors should be turned off</li>
+</ol>
+<p><strong>Answer: B</strong> -- On gravel, wheel slip increases odometry noise, reducing its precision. The Kalman filter (or Active Inference agent) should automatically downweight odometry and upweight lidar scan matching, which remains accurate regardless of terrain.</p>
+<ol>
+<li>What causes model mismatch failures in robotic perception?
+A) Using too many sensors simultaneously
+B) The world deviating from the generative model's assumptions -- e.g., a static-world model encountering moving objects
+C) Having perfectly calibrated sensors
+D) Using the most expensive sensors available</li>
+</ol>
+<p><strong>Answer: B</strong> -- A lidar navigation system that models the world as static will misinterpret moving objects (people, forklifts) as jumps in the robot's own position, because the prediction errors violate the model's stationarity assumption.</p>
+<ol>
+<li>In the expected free energy decomposition, what drives a robot to gather information before acting?
+A) The pragmatic term (achieving preferred outcomes)
+B) The epistemic term (reducing uncertainty about hidden states)
+C) The robot's preference for expensive sensors
+D) External commands from a human operator</li>
+</ol>
+<p><strong>Answer: B</strong> -- When uncertainty is high, the epistemic term dominates expected free energy, driving the agent to explore and gather information. This provides a principled mechanism for balancing exploration (reducing uncertainty) and exploitation (achieving goals).</p>
+<ol>
+<li>An Extended Kalman Filter (EKF) used for robot localization is, from an Active Inference perspective:
+A) Completely unrelated to free energy minimization
+B) A specific approximation scheme for variational free energy minimization using Gaussian posteriors and linearized dynamics
+C) Superior to Active Inference in all respects
+D) Only applicable to biological systems</li>
+</ol>
+<p><strong>Answer: B</strong> -- The EKF approximates the posterior with a Gaussian distribution and propagates it through linearized dynamics. This is a specific case of variational inference where the approximate posterior family is Gaussian -- a particular scheme for minimizing variational free energy.</p>
+<h2>Part B: Short Answer and Design Prompts</h2>
+<ol>
+<li>
+<p>Design a sensor suite for an agricultural robot that must navigate between rows of crops, identify ripe fruit, and avoid irrigation equipment. For each sensor, describe its generative model (what it predicts) and its characteristic noise properties.</p>
+</li>
+<li>
+<p>A mobile robot's lidar-based localization system works well in a structured office but fails in a large, featureless parking garage. Using Active Inference concepts, explain why the failure occurs and propose a multi-sensor solution.</p>
+</li>
+<li>
+<p>Explain how a robot arm performing bin picking could use active perception (epistemic foraging) to resolve ambiguity about overlapping objects. What sequence of camera viewpoints would minimize expected free energy?</p>
+</li>
+<li>
+<p>Compare factor graph optimization (as used in SLAM systems) with the Extended Kalman Filter as approximation methods for variational free energy minimization. What are the strengths and limitations of each?</p>
+</li>
+<li>
+<p>How would an Active Inference robot handle sensor degradation -- for example, a camera becoming partially occluded by mud during outdoor operation? Describe the expected behavior in terms of precision weighting and model updating.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

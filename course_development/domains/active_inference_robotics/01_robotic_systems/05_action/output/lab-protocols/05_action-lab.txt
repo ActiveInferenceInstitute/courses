@@ -1,0 +1,82 @@
+Lab: Active Inference Control vs. Classical Motor Control
+
+Objective
+
+Compare PID control, Model Predictive Control (MPC), and Active Inference control for a robotic manipulator task. You will design controllers for a 2-DOF planar arm performing a reaching task, analyze their behavior under perturbation, and evaluate how Active Inference unifies perception and action in a single objective.
+
+Prerequisites
+
+Understanding of basic control theory (PID, feedback loops)
+Familiarity with robot kinematics (forward/inverse kinematics)
+Module 04: Cognition (world models that support action selection)
+
+Part 1: Task Specification
+
+A 2-DOF planar robot arm must reach from an initial configuration (q1=0, q2=0) to a target end-effector position (xtarget=0.5m, ytarget=0.3m). The arm has link lengths L1=0.4m and L2=0.3m.
+
+Write the forward kinematics equations mapping joint angles (q1, q2) to end-effector position (x, y).
+Compute the target joint angles using inverse kinematics.
+Define the observation model: the robot observes joint angles via encoders (with noise sigmaq = 0.01 rad) and end-effector position via a camera (with noise sigmaxy = 0.005 m).
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 2: PID Controller Design
+
+Design a joint-space PID controller for the reaching task:
+
+Specify the error signal: e(t) = qtarget - qmeasured.
+Choose PID gains (Kp, Ki, Kd) and justify your choices.
+Describe the controller output: torque commands tau = Kpe + Kiintegral(e) + Kdde/dt.
+What happens if an unexpected load is placed on the end-effector during the reach? How does the PID controller respond?
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 3: Active Inference Controller Design
+
+Design an Active Inference controller for the same reaching task:
+
+Generative model: Specify prior preferences over observations (desired joint angles and end-effector position).
+Prediction errors: Define sensory prediction errors (difference between predicted and observed joint angles) and active prediction errors (difference between desired and predicted proprioceptive states).
+Action as reflex arc: In Active Inference, motor commands arise from proprioceptive prediction errors -- the arm moves to fulfill its own predictions. Write the update equation:
+   - u = -dF/da (action minimizes free energy by changing sensory input)
+How does the Active Inference controller handle the unexpected load? Compare with PID.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 4: Perturbation Analysis
+
+Compare all three controllers (PID, MPC, Active Inference) under three perturbation scenarios:
+
+| Scenario | PID Response | MPC Response | Active Inference Response |
+| --- | --- | --- | --- |
+| External force on end-effector | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+| Encoder noise increases 10x | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+| Joint 2 motor loses 50% torque | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+
+For each scenario, describe qualitatively how the controller adapts (or fails to adapt).
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 5: Unified Perception-Action Pseudocode
+
+Write pseudocode for a complete Active Inference control loop that unifies perception and action:
+
+Extend this pseudocode to handle the perturbation scenarios from Part 4.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Summary Table
+
+| Feature | PID | MPC | Active Inference |
+| --- | --- | --- | --- |
+| Objective function | Error minimization | Cost over horizon | Free energy minimization |
+| Perception integration | None (assumes known state) | State estimator separate | Unified with control |
+| Adaptation | Requires gain scheduling | Requires model updates | Precision learning |
+| Computational cost | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+| Robustness to noise | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> |
+
+References
+
+Pio-Lopez, L., Nizard, A., Friston, K., & Pezzulo, G. (2016). Active Inference and robot control. Journal of the Royal Society Interface, 13(122).
+Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. Frontiers in Neurorobotics.
+Oliver, G., Lanillos, P., & Cheng, G. (2021). An empirical study of active inference on a humanoid robot. IEEE Transactions on Cognitive and Developmental Systems*.

@@ -1,0 +1,138 @@
+Lab: Research Frontiers and Course Capstone
+
+> Learning Goal: Synthesize all 401 course content into a research proposal and demonstrate mastery of Active Inference research methods.
+
+Part 1: Frontier Analysis
+
+Exercise: For each frontier, assess the current state and identify the most impactful next experiment:
+
+| Frontier | Maturity (1-10) | Strongest Evidence | Biggest Gap | Next Key Experiment |
+|----------|----------------|-------------------|-------------|-------------------|
+| Neuroscience (brain implementation) | 7 | DCM connectivity studies, MMN precision effects | Laminar-level validation of canonical microcircuit | Multi-electrode laminar recordings during prediction paradigm |
+| Computational psychiatry | 5 | Schizophrenia precision models, depression computational phenotyping | Lack of treatment trials using computational enrichment | RCT with computational phenotype-based patient selection |
+| AI and robotics | 4 | pymdp/RxInfer implementations, simple robot demos | Scalability to real-world complexity | Active Inference agent competing on standard RL benchmarks |
+| Consciousness | 3 | Self-modeling theory, depth predictions | No operational test distinguishing AI predictions | Paradigm generating consciousness-specific Active Inference prediction |
+| Biology/morphogenesis | 2 | Theoretical papers on FEP and development | Almost no empirical biological validation | In vitro cell system testing FEP morphogenesis predictions |
+
+Choose one frontier and write a 200-word research vision.
+
+> Exemplar (AI and Robotics frontier): Active Inference offers a principled alternative to reinforcement learning for autonomous systems, yet current implementations remain confined to toy domains. The next five years should focus on three priorities. First, scalable inference algorithms: variational message passing on deep generative models must handle the high-dimensional, continuous state spaces of real-world robotics without prohibitive compute. Projects like RxInfer.jl show that reactive message passing can achieve real-time inference, but this needs validation on manipulation tasks with 10+ degrees of freedom. Second, benchmarking against RL: the field must move beyond proof-of-concept demos and evaluate Active Inference agents on standard benchmarks (MuJoCo, Atari, ProcGen) to identify where the framework genuinely outperforms model-free methods and where engineering gaps remain. Third, multi-agent coordination: Active Inference's natural account of shared generative models makes it a candidate for human-robot teaming, but empirical studies of mutual prediction in dyadic tasks are almost nonexistent. Achieving these goals would transform Active Inference from a theoretically elegant but practically limited framework into a credible engineering methodology for autonomous systems operating under uncertainty.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 2: Research Proposal
+
+> Learning Goal: Write the Specific Aims page for a research proposal.
+
+Exercise: Write a 1-page Specific Aims for an Active Inference research proposal:
+
+Template:
+
+Title: [Your title]
+
+Background: [2-3 sentences on the problem and significance]
+
+Overall objective: [1 sentence stating the overarching goal]
+
+Central hypothesis: [1 sentence stating the key hypothesis, grounded in Active Inference]
+
+Rationale: [2-3 sentences explaining why Active Inference is the right framework and what evidence supports feasibility]
+
+Specific Aim 1: [Title] — [1-2 sentences describing the aim, approach, and expected outcome]
+
+Specific Aim 2: [Title] — [1-2 sentences]
+
+Specific Aim 3: [Title] — [1-2 sentences]
+
+Expected outcomes and impact: [2-3 sentences on what success looks like and why it matters]
+
+> Exemplar Specific Aims page:
+>
+> ---
+>
+> Title: Computational Phenotyping of Prediction Error Precision in First-Episode Psychosis
+>
+> Background: First-episode psychosis (FEP) is a critical intervention window, yet clinical outcomes vary widely because patients with similar symptoms may have distinct computational mechanisms. Active Inference models propose that psychotic symptoms arise from aberrant precision weighting of prediction errors, but this has not been used prospectively to stratify patients or predict treatment response.
+>
+> Overall objective: To develop and validate a computational phenotyping pipeline that uses Active Inference generative models to stratify FEP patients by their precision-weighting profiles and predict 6-month treatment outcomes.
+>
+> Central hypothesis: Individual differences in sensory and prior precision parameters, estimated via hierarchical Active Inference models of behavioral and EEG data, will predict antipsychotic treatment response better than symptom-based classification alone.
+>
+> Rationale: Active Inference provides a mathematically rigorous framework for estimating latent precision parameters from observable behavior. Pilot data from our lab show that mismatch negativity amplitude (an EEG index of prediction error) correlates with model-derived sensory precision in healthy adults (r = 0.62, n = 40), establishing feasibility. Extending this to clinical populations can bridge the gap between computational theory and treatment selection.
+>
+> Specific Aim 1: Develop a hierarchical Active Inference generative model of auditory oddball processing -- We will fit a three-level generative model to combined behavioral (reaction time, accuracy) and EEG (MMN, P300) data from 80 FEP patients, estimating individual sensory precision, prior precision, and learning rate parameters.
+>
+> Specific Aim 2: Identify computational phenotype clusters and their clinical correlates -- Using the estimated parameters from Aim 1, we will apply clustering analyses to identify 2-4 computational subtypes of FEP and characterize their associations with symptom profiles, cognitive function, and neuroimaging measures.
+>
+> Specific Aim 3: Prospectively validate computational phenotypes as predictors of treatment response -- We will follow the 80 patients for 6 months, testing whether computational phenotype membership at baseline predicts PANSS symptom reduction, functional outcome, and medication adherence beyond conventional clinical predictors.
+>
+> Expected outcomes and impact: We expect to identify at least two computationally distinct FEP subtypes with different treatment trajectories, providing proof-of-concept for precision psychiatry grounded in Active Inference. Success would establish a scalable, EEG-based pipeline for computational patient stratification that could be deployed in standard clinical settings, moving Active Inference from theoretical neuroscience into actionable clinical decision-making.
+>
+> ---
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 3: Methods Integration
+
+> Learning Goal: Demonstrate ability to combine methods from multiple course modules.
+
+Exercise: Design a study that uses methods from at least 4 of the 8 Research Methods modules:
+
+| Module Used | Method | Its Role in Your Study |
+|------------|--------|----------------------|
+| 01 (DCM) | Dynamic Causal Modelling | Estimate effective connectivity changes |
+| 02 (Phenotyping) | Computational phenotyping | Characterize individual computational profiles |
+| 03 (Electrophysiology) | EEG/MMN | Measure precision-weighted prediction errors |
+| 04 (Behavioral) | Reversal learning task | Dissociate learning rate and volatility estimates |
+| 05 (Robotics) | pymdp simulation | Generate model predictions for comparison |
+| 06 (Clinical) | Clinical translation | Apply to patient population |
+| 07 (Interdisciplinary) | Open science practices | Pre-register, share data, open-source code |
+| 08 (Frontiers) | Novel frontier | Apply to emerging domain |
+
+Describe how these methods integrate into a coherent study design.
+
+> Exemplar integration (using modules 01, 02, 03, 07): This study investigates aberrant precision weighting in first-episode psychosis (FEP) using a multi-method Active Inference approach. EEG/MMN (Module 03) provides the primary data: 64-channel recordings during a roving auditory oddball paradigm, yielding trial-by-trial mismatch negativity as a neural index of prediction error magnitude. DCM (Module 01) is applied to the EEG data to estimate effective connectivity within the fronto-temporal network (A1, STG, IFG), with precision parameters modeled as modulatory (B-matrix) effects of stimulus repetition. Computational phenotyping (Module 02) takes the DCM-estimated parameters -- sensory precision, prior precision, and learning rate -- as a feature vector for each participant, then applies Gaussian mixture modeling to identify computational subtypes across 80 FEP patients and 40 controls. Open science practices (Module 07) structure the entire workflow: the study is pre-registered on OSF with specific predictions about the number of clusters and their clinical correlates, all analysis code is shared via GitHub, and the anonymized EEG dataset is deposited in OpenNeuro. The integration logic is sequential: raw EEG feeds into DCM for parameter estimation, DCM parameters feed into phenotyping for classification, and open science practices govern every stage to ensure reproducibility. This design demonstrates how Active Inference methods compose naturally -- DCM provides the generative model, EEG provides the data, phenotyping provides the clinical bridge, and open science provides the methodological rigor.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 4: Critical Evaluation
+
+> Learning Goal: Demonstrate ability to critically evaluate Active Inference research.
+
+Exercise: Read the following claim and write a 300-word critical evaluation:
+
+Claim: "Active Inference will replace reinforcement learning as the dominant framework for artificial intelligence because it provides a mathematically principled account of exploration, model-based reasoning, and multi-agent coordination that RL lacks."
+
+Evaluate by addressing: (a) In what respects is this claim supported? (b) In what respects is it overconfident? (c) What would need to be demonstrated empirically for this claim to be credible? (d) What are RL's genuine advantages that Active Inference currently lacks?
+
+> Exemplar critical evaluation (abbreviated): The claim has partial support. Active Inference does provide a principled account of exploration via epistemic value (expected information gain), which is mathematically derived rather than heuristically bolted on as in epsilon-greedy or UCB methods. Its model-based structure naturally supports planning via expected free energy over policies, and its generative model framework extends to multi-agent settings through shared generative models. However, the claim is overconfident in several respects: "replace" implies a zero-sum competition, when the frameworks may be complementary for different problem classes; current Active Inference implementations have not demonstrated competitive performance on any standard RL benchmark; and the mathematical elegance of the theory does not automatically translate to engineering practicality. For the claim to be credible, the field would need to demonstrate (1) an Active Inference agent matching or exceeding state-of-the-art RL on at least one standard benchmark, (2) superior sample efficiency in a complex domain, and (3) successful transfer learning enabled by the generative model structure. RL's genuine advantages include massive engineering investment (optimized libraries, hardware acceleration), proven scalability to high-dimensional problems (Go, StarCraft, robotics), model-free methods that work without specifying a generative model, and a mature theoretical understanding of convergence guarantees. Active Inference's theoretical advantages remain largely unrealized in practice.
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Part 5: Course Capstone Reflection
+
+Exercise: Write a 500-word essay reflecting on the entire 401 course. Address:
+
+What is Active Inference? After all four tracks, how do you define it — a theory, framework, principle, mathematical language, research program, or something else?
+
+What have you learned? What is the single most important insight from each track?
+   - Philosophical Foundations: __
+   - Neuroscientific Frontiers: 
+   - Advanced Theory: 
+   - Research Methods: __
+
+What are the limits? What are Active Inference's three biggest weaknesses or unsolved problems?
+
+What will you do next? How will you apply what you've learned? What research question will you pursue?
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+Lab Summary
+
+| Part | Skill Practiced | Key Concept |
+|------|----------------|-------------|
+| 1 | Frontier analysis | Research landscape assessment |
+| 2 | Proposal writing | Specific Aims development |
+| 3 | Methods integration | Multi-modal study design |
+| 4 | Critical evaluation | Balanced assessment of claims |
+| 5 | Course synthesis | 401 capstone reflection |

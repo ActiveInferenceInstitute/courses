@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>practice_quiz</title>
+</head>
+<body>
+<h1>Practice Quiz: Learning (Implementation)</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em> <strong>Date</strong>: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Part A: Multiple Choice</h2>
+<p><strong>1.</strong> Dirichlet concentration parameters encode:
+A) The exact probability values
+B) Pseudo-counts that represent accumulated experience — more counts = more confidence
+C) The number of states
+D) The temperature of the system</p>
+<p><strong>2.</strong> The Dirichlet mean E[θ_i] = α_i / Σα gives:
+A) The mode of the distribution
+B) The expected probability for each outcome, computed from concentration parameters
+C) The variance
+D) A random sample</p>
+<p><strong>3.</strong> The <code>update_A</code> method increments concentration parameters by:
+A) A fixed learning rate
+B) The outer product of the observation vector and state beliefs
+C) One everywhere
+D) A random amount</p>
+<p><strong>4.</strong> Learning rate decreases because:
+A) We manually reduce it
+B) Each new observation contributes 1/N to the total, where N grows with experience
+C) The agent gets tired
+D) Python slows down</p>
+<p><strong>5.</strong> A strong Dirichlet prior (large α):
+A) Learns from every observation equally
+B) Changes slowly because each new observation is a small fraction of total experience
+C) Is always better
+D) Cannot be overridden</p>
+<p><strong>6.</strong> To implement "forgetting," you would:
+A) Delete the agent
+B) Reset concentration parameters to smaller values, reducing accumulated experience
+C) Increase gamma
+D) Clear the observation log</p>
+<p><strong>7.</strong> <code>update_B</code> needs both previous and current beliefs because:
+A) B has 3 dimensions
+B) It's learning P(s_t | s_{t-1}, a) — the transition from previous to current state
+C) It updates faster that way
+D) NumPy requires two arrays</p>
+<h2>Part B: Short Answer</h2>
+<p><strong>1.</strong> Start with A_prior = [[2, 2], [2, 2]]. After observing state 0 produce observation 0 five times and observation 1 twice, compute the updated A_prior and the new A matrix (Dirichlet mean).</p>
+<p><strong>2.</strong> Explain why a "weak prior" agent learns faster but is initially less accurate, while a "strong prior" agent learns slower but may be initially more accurate. When would you prefer each?</p>
+<p><strong>3.</strong> Design a test to verify your learning implementation: what properties should the learned A matrix have after sufficient observations from a known environment?</p>
+</body>
+</html>

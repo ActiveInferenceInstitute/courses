@@ -1,0 +1,31 @@
+# Practice Quiz: Collective Intelligence — Module 08: Planning
+
+**Name**: ______________________ **Date**: ______________________
+
+---
+
+## Part A: Multiple Choice
+
+1. **Emergent strategy** (Mintzberg) is: A) A carefully planned strategy B) Strategy that arises from bottom-up patterns of local decisions rather than top-down planning C) A failed strategy D) A strategy that appears suddenly
+
+2. Toyota's **A3 process** exemplifies: A) Top-down management B) Bottom-up intelligence — frontline workers proposing and implementing improvements through structured one-page documents C) Outsourced planning D) Automated planning
+
+3. The **Delphi method** aggregates expert judgment through: A) Open debate B) Multiple rounds of anonymous expert input with feedback, reducing social pressure effects C) Voting D) Executive decision
+
+4. **Backcasting** is valuable because it: A) Predicts the past B) Starts from a desired future state and works backward, overcoming anchoring on present conditions C) Uses hindsight D) Reverses decisions
+
+5. Effective collective planning requires: A) Only executive input B) Diverse inputs, structured aggregation, iterative refinement, and clear decision rights C) Maximum democracy on every decision D) Eliminating all hierarchy
+
+6. The gap between deliberate strategy and realized strategy reveals: A) Management failure B) The role of emergent strategy — the patterns that arose from distributed local decisions C) Nothing important D) Intentional deception
+
+7. **Planning cells** (random employee groups deliberating on strategic issues) improve planning by: A) Reducing costs B) Incorporating perspectives and knowledge that executives may lack C) Following regulation D) Avoiding responsibility
+
+---
+
+## Part B: Short Analysis
+
+1. Your organization's formal strategy emphasizes "innovation" but actual resource allocation shows 95% going to maintaining existing products. Use the deliberate-vs-emergent strategy framework to diagnose this gap and propose methods to align realized strategy with stated strategy.
+
+2. Design a participatory planning process for an organization of 200 people that must set strategic priorities for the next year. Specify pre-work, workshop structure, aggregation method, and how diverse inputs translate into concrete decisions.
+
+3. A CEO believes that strategy should be set exclusively by the executive team and communicated downward. A VP argues that frontline insights are critical for strategy quality. Using concepts from this module (emergent strategy, bottom-up intelligence, participatory foresight), construct a balanced argument and propose a planning architecture that integrates both perspectives.

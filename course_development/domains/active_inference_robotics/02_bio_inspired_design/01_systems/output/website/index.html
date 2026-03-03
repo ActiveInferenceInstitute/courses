@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_Systems - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>01_Systems</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>01_Systems</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Biological Systems as Design Templates: Organism Boundaries and Robotic Architecture</h1>
+<h2>Executive Summary</h2>
+<p>Biological organisms are the original Active Inference agents — systems that maintain their structural integrity and functional coherence through continuous sensing, acting, and model-based prediction. Every organism, from a bacterium to a whale, exists within a Markov blanket defined by its body surface, sensory organs, and motor effectors. This module examines how the system architecture of biological organisms — their boundaries, nested subsystems, and multi-scale organization — provides design templates for robotic systems. By understanding how evolution has solved the problem of maintaining system identity in uncertain, dynamic environments, roboticists can design more robust, adaptive, and efficient machines.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Characterize biological organisms as systems with Markov blankets defined by their sensory surfaces and motor effectors.</li>
+<li>Analyze how biological system boundaries differ from engineered boundaries — permeable, adaptive, and multi-scale.</li>
+<li>Identify nested subsystem architectures in biological organisms and map them to robotic system decomposition.</li>
+<li>Apply the biological principle of homeostasis to robotic system design as an instance of free energy minimization.</li>
+<li>Evaluate how biological multi-scale organization (molecular, cellular, tissue, organ, organism) informs hierarchical robotic architecture.</li>
+</ol>
+<h2>Introduction</h2>
+<p>This module begins the Bio-Inspired Design unit by examining the most fundamental question: what makes a biological organism a coherent system, and how can those organizational principles inform robotic design? In the Robotic Systems unit, we defined system boundaries through sensors and actuators — joint encoders and motors, lidar and wheels. Biological systems use fundamentally different boundary strategies: permeable membranes that selectively admit molecules, distributed sensor arrays that cover the entire body surface, and motor systems that range from flagella to limbs. In the next module on Agents, we will examine how these biological systems exhibit agency; here, we focus on the system architecture itself.</p>
+<h2>Key Concepts</h2>
+<h3>1. The Biological Markov Blanket</h3>
+<p>Every living organism maintains a Markov blanket — a boundary that separates its internal states from the external environment. In a single-celled organism like E. coli, this boundary is literally the cell membrane: a lipid bilayer studded with receptor proteins (sensory states) and flagellar motors (active states). The internal states are the cytoplasmic biochemistry — the concentration of metabolites, the activity of enzymes, the state of the genome. The external states are the chemical concentrations, temperature, and physical forces of the surrounding medium.</p>
+<p>What makes the biological Markov blanket remarkable — and instructive for roboticists — is that it is not a rigid barrier but a dynamic, adaptive interface. The cell membrane continuously adjusts its permeability, inserts or removes receptor proteins, and modulates its motor activity in response to environmental conditions. This adaptive boundary contrasts with the fixed sensor suites and actuator configurations of most robotic systems, suggesting a design principle: robotic Markov blankets should be reconfigurable, with the ability to add, remove, or modify sensory and active channels as task demands change.</p>
+<h3>2. Distributed Sensing in Biological Systems</h3>
+<p>Unlike robots that concentrate their sensors in discrete locations (a camera on the head, a lidar on the roof), biological organisms distribute sensing across their entire body surface. The skin of a human hand contains approximately 17,000 mechanoreceptors providing continuous tactile information. A rat's whisker array (mystacial vibrissae) consists of approximately 30 whiskers on each side of the snout, each individually innervated and capable of detecting deflections as small as a few micrometers.</p>
+<p>This distributed sensing architecture has profound implications for system design. Each whisker in a rat's array functions as an independent sensor subsystem with its own Markov blanket: the whisker shaft senses contact forces (sensory state), the follicle muscles actively position the whisker (active state), and the trigeminal ganglion neurons process the resulting signals (internal state). The array as a whole functions as a higher-level system whose sensory boundary is the ensemble of all whisker contacts.</p>
+<p>Bio-inspired robotic whisker arrays have been developed by researchers at multiple institutions, demonstrating that the biological principle of distributed, active tactile sensing can be implemented in engineered systems. These arrays enable robots to navigate in darkness, estimate object shape and texture, and detect contacts that would be invisible to cameras and lidar — exactly the capabilities that biological whiskers provide to nocturnal rodents.</p>
+<h3>3. Nested Biological Subsystems</h3>
+<p>Biological organisms exhibit a depth of nested system organization that far exceeds typical robotic architectures. A human arm, for example, is organized at multiple levels: motor units (individual motor neurons and their muscle fibers), muscles (bundles of motor units with shared tendons), joints (articulations with proprioceptive sensors), limb segments (bones with attached muscles), and the full arm (a kinematic chain from shoulder to fingertips). Each level maintains its own form of Markov blanket, and the dynamics at each level emerge from the interactions at the level below.</p>
+<p>The cockroach provides a particularly instructive example. Its locomotion system is organized into six semi-autonomous leg modules, each containing local central pattern generators (CPGs) that produce rhythmic stepping patterns. Each leg module has its own sensory feedback (campaniform sensilla detecting cuticular strain, hair plates sensing joint angles) and its own motor outputs (dozens of muscles controlling multiple joints). The six leg modules are coordinated through inter-segmental neural connections, but each module can produce basic stepping movements independently. This architecture — semi-autonomous subsystems with local sensing and actuation, loosely coordinated through inter-module communication — is strikingly similar to the ROS2 node architecture described in Unit 01, but arrived at through 350 million years of evolution rather than software engineering.</p>
+<h3>4. Homeostasis as Free Energy Minimization</h3>
+<p>The biological concept of homeostasis — maintaining internal states within viable bounds despite environmental perturbation — is a direct instance of free energy minimization. An organism's generative model encodes the range of internal states compatible with continued life (body temperature between 36-38 degrees Celsius, blood glucose between 4-8 mmol/L, and so on). When internal states deviate from these bounds, prediction error increases, driving corrective action: shivering to raise body temperature, insulin release to lower blood glucose, or seeking shade to avoid overheating.</p>
+<p>For robotic systems, the homeostatic principle suggests designing generative models that explicitly encode the robot's own operational requirements — battery voltage, motor temperature, joint limits, communication link quality — as preferred states. When these internal states deviate from their preferred ranges, the resulting prediction error should automatically trigger corrective behavior, just as biological homeostasis triggers autonomic responses. This design pattern creates robots that actively maintain their own operational health, rather than relying on external monitoring systems.</p>
+<h3>5. Multi-Scale Organization and Hierarchical Generative Models</h3>
+<p>Biological systems operate across spatial scales spanning many orders of magnitude — from nanometer-scale molecular interactions to meter-scale body movements — and across temporal scales from millisecond neural spikes to year-long developmental processes. This multi-scale organization is implemented through hierarchical generative models where each level predicts and constrains the dynamics at the level below.</p>
+<p>The octopus provides a dramatic example. Its nervous system is organized into a central brain (containing approximately 40 million neurons) and a peripheral nervous system distributed across eight arms (containing approximately 320 million neurons). Each arm segment maintains semi-autonomous control of its local muscles, with the central brain providing high-level goals rather than detailed motor commands. This distributed, hierarchical architecture allows the octopus to control its hyper-redundant body (effectively infinite degrees of freedom) without the central brain needing to compute the trajectory of every muscle fiber.</p>
+<p>This biological architecture directly inspires soft robotic systems with distributed control. Rather than computing the full deformation state of a soft actuator centrally, bio-inspired soft robots use local sensing and actuation to achieve compliant, adaptive behavior that emerges from the interaction of many simple local controllers — each minimizing free energy within its own Markov blanket.</p>
+<h2>Active Inference Connection</h2>
+<p>Biological organisms are the existence proof that Active Inference works. Every living system maintains itself through the continuous process described by the Free Energy Principle: sensing the environment, predicting sensory inputs from a generative model, acting to minimize the discrepancy between prediction and reality, and updating the model when predictions consistently fail. The evolutionary process that shaped biological systems can be understood as long-timescale learning — updating the generative model (encoded in the genome) to minimize free energy across generations. Bio-inspired robotics, at its best, imports these evolved generative models into engineered systems, accelerating the design process by leveraging billions of years of biological optimization.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: Whisker-Inspired Tactile Sensing for Navigation</h3>
+<p>Researchers at the University of Sheffield developed a robotic whisker array inspired by the rat mystacial pad. The array consists of 18 actuated artificial whiskers, each equipped with a strain gauge at its base to measure deflection forces. Like biological whiskers, the artificial whiskers are actively swept back and forth (whisking), and the temporal pattern of contacts during a whisk cycle encodes information about object distance, shape, and texture. The system's Markov blanket is defined by the strain gauge signals (sensory states) and the whisker positioning motors (active states). Internal states include algorithms that decode contact patterns into object features. When deployed on a mobile robot, the whisker array enables navigation in complete darkness — following walls, detecting gaps, and classifying surface textures — capabilities that directly parallel the behavior of real rats in their nocturnal burrow environments. This demonstrates the power of importing not just the sensor morphology but the active sensing strategy from biology.</p>
+<h3>Case Study 2: Cockroach-Inspired Hexapod Locomotion Architecture</h3>
+<p>The RHex hexapod robot, developed at the University of Michigan, demonstrates cockroach-inspired locomotion principles. Rather than replicating the cockroach's complex musculoskeletal system, RHex captures the key system architecture: six semi-autonomous legs with compliant C-shaped elements that passively adapt to terrain irregularities (morphological computation), coordinated through simple inter-leg timing rules derived from insect central pattern generators. Each leg is a subsystem with its own motor (active state) and encoder (sensory state), and the coordination controller operates at a higher level. The result is a robot that can traverse rough terrain, climb stairs, and even swim — not because it has a detailed model of each surface, but because its mechanical design and coordination architecture embody the same free energy minimization principles that cockroach evolution discovered: compliant body structures that absorb surprises, fast rhythmic controllers that maintain stable locomotion, and minimal centralized planning that lets local adaptation handle terrain variability.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 2 (Agents)</strong>: How biological system architecture gives rise to different levels of agency</li>
+<li><strong>Module 3 (Perception)</strong>: The distributed biological sensing systems that process environmental information</li>
+<li><strong>Module 5 (Action)</strong>: How biological body structures and motor systems implement action</li>
+<li><strong>Module 7 (Communication)</strong>: How inter-subsystem communication coordinates biological behavior</li>
+</ul>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Bio-Inspired Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Biological Markov Blanket</td>
+<td>Adaptive boundary between organism and environment</td>
+<td>Artificial skin with reconfigurable sensor arrays</td>
+</tr>
+<tr>
+<td>Distributed Sensing</td>
+<td>Sensory coverage across the entire body surface</td>
+<td>Robotic whisker arrays for tactile navigation</td>
+</tr>
+<tr>
+<td>Nested Subsystems</td>
+<td>Semi-autonomous units coordinated within a larger system</td>
+<td>Hexapod legs with local CPGs and inter-leg coordination</td>
+</tr>
+<tr>
+<td>Homeostasis</td>
+<td>Maintaining internal states within viable bounds</td>
+<td>Robot that actively manages battery and motor temperature</td>
+</tr>
+<tr>
+<td>Multi-Scale Organization</td>
+<td>Hierarchical structure from molecular to organismal levels</td>
+<td>Soft robot with distributed local controllers</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Friston, K. (2013). Life as we know it. <em>Journal of the Royal Society Interface</em>, 10(86), 20130475.</li>
+<li>Prescott, T. J., et al. (2009). Whisking with robots: From rat vibrissae to biomimetic technology. <em>IEEE Robotics &amp; Automation Magazine</em>, 16(3), 42-50.</li>
+<li>Saranli, U., Buehler, M., &amp; Koditschek, D. E. (2001). RHex: A simple and highly mobile hexapod robot. <em>International Journal of Robotics Research</em>, 20(7), 616-631.</li>
+<li>Pfeifer, R., Lungarella, M., &amp; Iida, F. (2007). Self-organization, embodiment, and biologically inspired robotics. <em>Science</em>, 318(5853), 1088-1093.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Bio-Inspired System Architecture Design</h1>
+<h2>Objective</h2>
+<p>Analyze biological organisms as Active Inference systems and design bio-inspired robotic architectures. You will compare the Markov blanket structure of biological systems (insects, mammals, cephalopods) with robotic systems and propose design principles that transfer biological organizational patterns to robotic hardware.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Completion of the corresponding module.md lecture material</li>
+<li>Familiarity with Active Inference concepts (generative models, free energy, prediction errors)</li>
+<li>Basic pseudocode and diagram skills</li>
+</ul>
+<h2>Part 1: Biological System Analysis</h2>
+<p>Select a biological organism (e.g., ant, octopus, honeybee) and identify its system architecture:</p>
+<ol>
+<li>Map the organism's sensory systems (eyes, antennae, mechanoreceptors) to robotic sensor equivalents.</li>
+<li>Map the organism's motor systems (muscles, cilia, jet propulsion) to robotic actuator equivalents.</li>
+<li>Identify the Markov blanket: what constitutes internal states (nervous system), sensory states, active states, and external states?</li>
+<li>How does the organism's body plan (segmented, radial, bilateral) affect its generative model structure?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 2: Biomimetic Design Transfer</h2>
+<p>For your chosen organism, design a robotic system that mimics its architecture:</p>
+<ol>
+<li>Sensor placement: How does the biological sensor layout (e.g., compound eyes, distributed mechanoreceptors) inspire your robot's sensor configuration?</li>
+<li>Actuator design: What biological motor principles (antagonistic muscles, hydrostatic skeletons, peristalsis) could improve your robot's actuation?</li>
+<li>Nervous system architecture: How does the organism's neural organization (centralized brain vs. distributed ganglia) inform your computational architecture?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Scaling Laws and Constraints</h2>
+<p>Biological systems obey physical scaling laws that constrain their design. Analyze:</p>
+<ol>
+<li>How does body size affect sensor resolution, actuator force, and neural processing time in biology?</li>
+<li>What scaling challenges arise when transferring insect-scale designs to human-scale robots (or vice versa)?</li>
+<li>How does the free energy principle explain why organisms at different scales converge on similar architectural patterns?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Design Challenge Comparison</h2>
+<p>Compare three bio-inspired architectures for a search-and-rescue robot:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Insect-Inspired</th>
+<th>Mammal-Inspired</th>
+<th>Octopus-Inspired</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Body plan</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Sensor strategy</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Locomotion</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Control architecture</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Generative model depth</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Classical Robotics</th>
+<th>Active Inference</th>
+<th>Your Design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core mechanism</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Uncertainty handling</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Adaptation</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Key advantage</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ul>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press.</li>
+<li>Pio-Lopez, L., Nizard, A., Friston, K., &amp; Pezzulo, G. (2016). Active Inference and robot control. <em>Journal of the Royal Society Interface</em>, 13(122).</li>
+</ul></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Systems</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>What is the primary role of <strong>Systems</strong> in Active Inference?
+A) To maximize reward
+B) To minimize variational free energy
+C) To increase entropy
+D) To eliminate the Markov Blanket</p>
+</li>
+<li>
+<p>In Robotics, Systems is best described as:
+A) A static property
+B) A dynamic process
+C) An external state
+D) A random variable</p>
+</li>
+<li>
+<p>Which mathematical quantity is most central to Systems?
+A) The Lagrangian
+B) The expected free energy
+C) The surprisal
+D) The precision</p>
+</li>
+<li>
+<p>How does Systems relate to the concept of the Generative Model?
+A) It is separate from the model
+B) It is a component of the model
+C) It destroys the model
+D) It is only relevant for the environment</p>
+</li>
+<li>
+<p>A failure in Systems would likely result in:
+A) Perfect prediction
+B) Generalized surprise
+C) Immediate death of the agent
+D) Zero entropy</p>
+</li>
+<li>
+<p>Which scale is most relevant for analyzing Systems in this course?
+A) Quantum
+B) Neural
+C) Social
+D) All of the above</p>
+</li>
+<li>
+<p>Systems connects directly to which other component?
+A) The step before it
+B) The step after it
+C) Both A and B
+D) None of the above</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>Explain how <strong>Systems</strong> facilitates the minimization of prediction error.</li>
+<li>Provide a concrete example of Systems failing in a Robotics scenario.</li>
+<li>How would you model Systems using a POMDP (Partially Observable Markov Decision Process)?</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

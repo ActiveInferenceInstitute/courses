@@ -1,0 +1,67 @@
+# Lab: Feeling the Boundary Through Breath
+
+## Objective
+
+Experience the system boundary as a rhythmic, breathing membrane through mindfulness practices that explore how the breath defines, crosses, and maintains the boundary between self and world.
+
+## Prerequisites
+
+- A quiet space for 25 minutes
+- Comfortable seating
+- No prior experience required
+
+## Part 1: The Breathing Boundary (5 minutes)
+
+Sit with your eyes closed. Follow your breath. Notice: with each inhale, the world (air, molecules, atmosphere) enters you. With each exhale, you release yourself into the world. The boundary is not fixed -- it pulses, opens and closes, with each breath cycle.
+
+In Active Inference, the Markov blanket is the system boundary. Your breath shows that this boundary is not a wall but a living membrane that selectively allows exchange.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(Describe the felt quality of the boundary as it opens with inhale and closes with exhale. Is there a moment between breaths when the boundary feels most defined?)
+
+## Part 2: Where Does Air Become You? (5 minutes)
+
+Follow the breath inward. Air enters your nostrils, moves through the throat, fills the lungs. At some point, oxygen crosses into your blood. Where does the outside world become the inside of you?
+
+This is the Markov blanket in action: the respiratory membrane where external states (atmospheric oxygen) become internal states (blood oxygen). The boundary is precise yet permeable.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(Where in the journey of breath did you sense the transition from outside to inside? What was the quality of that transition?)
+
+## Part 3: Body Temperature and the Boundary (7 minutes)
+
+1. Notice the temperature of the air entering your nostrils -- cool on the inhale. Notice the temperature of the air leaving -- warm on the exhale. The body has heated the air. Energy has crossed the boundary.
+2. Now notice your skin temperature. Where does your body's warmth meet the ambient temperature? The thermal boundary is another expression of the system's edge.
+3. If possible, move to a slightly cooler or warmer spot. Notice how the boundary sensation intensifies. Temperature difference makes the boundary vivid.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(Describe the thermal boundary you sensed. How does temperature change make the system boundary more or less noticeable?)
+
+## Part 4: Sounds Crossing the Boundary (5 minutes)
+
+Keep your eyes closed. Attend to sounds. Notice that sounds arrive from outside your boundary (exteroception). But you also hear sounds from inside: breath, heartbeat, stomach. The boundary separates two acoustic worlds.
+
+Now notice: some sounds are ambiguous -- is the ringing in your ears inside or outside? Where exactly is the boundary for hearing?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(List sounds from outside and from inside. Were there any sounds where the boundary was ambiguous? What does this tell you about the nature of system boundaries?)
+
+## Part 5: Reflection
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(How does the breath change your understanding of what a system boundary is? Is it more like a wall or more like a conversation?)
+
+## Reflection Table
+
+| Boundary Dimension | What I Noticed | Active Inference Connection |
+| --- | --- | --- |
+| Breathing boundary | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Pulsing Markov blanket |
+| Air becoming self | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | External states becoming internal states |
+| Thermal boundary | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Energy exchange across the blanket |
+| Acoustic boundary | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Sensory observation at the boundary |
+| Ambiguous boundary | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Boundary as process, not fixed line |

@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_Communication - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>07_Communication</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>07_Communication</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Sharing the Vision: Communicating Inventive Ideas Across Minds</h1>
+<h2>Executive Summary</h2>
+<p>An invention that exists only in the inventor's mind changes nothing. To have impact, inventive ideas must cross the boundary between one mind and another — from inventor to collaborator, from designer to manufacturer, from seller to buyer, from creator to user. Active Inference frames communication as the alignment of generative models between agents: the communicator constructs a message that will update the receiver's model to more closely match the communicator's model, reducing the divergence between their predictions about the world. This module explores how inventors communicate their visions through pitching, documentation, demonstration, and instruction, revealing that effective communication is itself a form of active inference — acting on other minds to bring them into alignment with your own understanding.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Explain communication as generative model alignment — reducing the divergence between the inventor's model and the audience's model.</li>
+<li>Apply the precision-weighting concept to craft messages that are appropriately weighted for different audiences (technical experts, investors, end users, regulators).</li>
+<li>Design invention documentation that externalizes the generative model — making the invention's causal logic legible to others.</li>
+<li>Analyze how demonstration and prototyping function as communication tools — providing shared sensory evidence that aligns models more effectively than words alone.</li>
+<li>Develop user instruction strategies that build the correct generative model in the user's mind for effective use of the invention.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. Communication as Generative Model Alignment</h3>
+<p>When an inventor communicates about their invention, they are trying to do something precise: update the listener's generative model so that it includes the same causal relationships, predictions, and preferences that the inventor's model contains. The listener begins with their own model of the world — their existing knowledge, assumptions, and expectations. The inventor's message must bridge the gap between the listener's current model and the model needed to understand, evaluate, support, or use the invention.</p>
+<p>This framing reveals why communication is so often the hardest part of invention. The gap between the inventor's model and the audience's model can be enormous. An inventor who has spent months building a deep understanding of their invention's mechanism, context, and potential is communicating with people who may have none of that background. The inventor must construct their message not from their own model but from the listener's model — predicting what the listener already knows, what they do not know, and what sequence of information will most efficiently update their beliefs.</p>
+<p>This is itself an inference problem. The inventor must infer the listener's current generative model (what do they already know?), predict how the listener's model will respond to different messages (what framing will make sense to them?), and select the message that minimizes the divergence between models (what should I say to create the best understanding?).</p>
+<p>Effective inventors are effective communicators because they practice this inference routinely. They learn to read their audience, adjust their vocabulary, choose their examples, and sequence their explanations based on a model of the listener's model. Poor communicators treat every audience the same way — they dump their own model's contents without considering the listener's starting point.</p>
+<h3>2. Pitching: Compressing the Model for Decision-Makers</h3>
+<p>Pitching an invention — to investors, partners, employers, or competition judges — is one of the most compressed forms of communication. The inventor must convey the essence of their invention's generative model in a few minutes, providing enough information for the listener to update their own model and make a decision.</p>
+<p>Effective pitches work by aligning four specific components of the listener's model:</p>
+<p><strong>Problem recognition</strong>: The pitch must first establish that a problem exists and matters. This requires creating a prediction error in the listener's model — showing them that the current state of the world deviates from how it should be. "Did you know that 30% of food in American households is wasted because people cannot see what is in the back of their refrigerator?" This statement creates a prediction error (the listener probably did not know this statistic) that motivates attention.</p>
+<p><strong>Solution plausibility</strong>: The pitch must then present a solution and make the listener's model accept that it could work. This requires providing enough causal detail for the listener to run a mental simulation of the solution and verify that the cause-effect chain is plausible. Too little detail, and the listener cannot simulate it. Too much detail, and the listener loses the thread.</p>
+<p><strong>Value proposition</strong>: The pitch must update the listener's preference model — making them want this solution to exist. This connects the invention to the listener's own goals: profit for an investor, convenience for a user, mission alignment for a foundation.</p>
+<p><strong>Credibility</strong>: The pitch must establish that the inventor is a reliable source — that their generative model is trustworthy. This is about precision weighting: the listener must assign high precision to the inventor's claims, which requires evidence of competence, track record, or prototype results.</p>
+<p>The classic pitch failure is the inventor who leads with technical details (causal mechanisms) before establishing the problem (prediction error in the listener's model). Without the problem frame, the listener has no context for the technical details and cannot integrate them into a coherent model.</p>
+<h3>3. Documentation: Externalizing the Generative Model</h3>
+<p>Invention documentation — patents, technical specifications, design files, user manuals — serves as an externalized generative model. It captures the causal relationships, parameter values, and operating conditions of the invention in a form that other people can read, understand, and use to reconstruct the inventor's model in their own minds.</p>
+<p>Good documentation anticipates the reader's model and builds from it. A patent application constructs the invention's model for a patent examiner who is technically literate but not domain-expert. It begins with "prior art" — the reader's existing model — and then shows how the invention departs from prior art (the prediction error that motivated the invention). It describes the mechanism in enough detail for a "person of ordinary skill in the art" to reproduce it — an explicit model of the intended reader's capabilities.</p>
+<p>Technical specifications externalize the parameter values of the model: dimensions, materials, tolerances, operating ranges. They allow a manufacturer to build the invention without having the inventor's entire mental model — just the parameter subset needed for production.</p>
+<p>Design files (CAD models, circuit schematics, software code) externalize the structural model at a level of detail that supports direct implementation. They are the most complete externalization of the generative model, but they are also the least accessible to non-specialists.</p>
+<p>The challenge of documentation is choosing the right level of model externalization for each audience. An investor needs a high-level causal story. A patent examiner needs a complete mechanism description. A manufacturer needs precise specifications. A user needs an operational model — enough to use the invention correctly without understanding its internal mechanism. Each document type externalizes a different slice of the same underlying generative model.</p>
+<h3>4. Demonstration: Shared Sensory Evidence</h3>
+<p>Sometimes the most effective communication is showing rather than telling. A demonstration provides the audience with direct sensory evidence that updates their model through perception rather than through verbal description.</p>
+<p>In Active Inference terms, a demonstration creates a shared prediction error. The demonstrator shows the audience something that violates their current expectations — the invention working in a way they did not predict — and the sensory evidence forces a model update that words alone might not achieve.</p>
+<p>Steve Jobs was a master of this technique. When he introduced the iPhone in 2007, he could have described its features verbally. Instead, he demonstrated them — scrolling through a contact list, pinching to zoom on a photograph, sliding to unlock the screen. The audience's existing generative model of phones (physical keyboards, stylus interaction, menu-driven interfaces) generated massive prediction errors when they saw these gestures, and those prediction errors created instant, deep model updating. The audience did not just understand the iPhone — they felt its novelty through their own perceptual system.</p>
+<p>Demonstration is particularly effective when the invention's value is experiential — when it must be felt rather than explained. A new musical instrument, a new material texture, a new food preparation method, a new user interface paradigm — all of these communicate their value more effectively through demonstration than description.</p>
+<p>For inventors with early-stage prototypes, demonstration serves a dual purpose: it communicates to the audience, and it generates prediction errors in the inventor's own model. Watching someone interact with your prototype for the first time is one of the most informative observations you can make — their confusion, their delight, their unexpected behaviors all reveal gaps between your model and reality.</p>
+<h3>5. User Instruction: Building the Right Model in Another Mind</h3>
+<p>The ultimate communication challenge for an inventor is user instruction: building a generative model in the user's mind that enables them to use the invention correctly, safely, and effectively. Unlike pitching (which aims for belief) or documentation (which aims for reconstruction), instruction aims for competence — the user must be able to act appropriately based on the model you give them.</p>
+<p>Active Inference suggests that effective instruction builds the user's model incrementally, starting from their prior knowledge and adding new causal relationships one at a time. Each new piece of information should create a manageable prediction error — enough novelty to update the model, but not so much that it overwhelms the user's ability to integrate.</p>
+<p>This is why good instruction manuals use a tutorial structure: "First, do X. Observe what happens. Now do Y. Notice how the result changes." Each step creates a small prediction error (the user sees the result and updates their model) and prepares the ground for the next step. Poor instruction dumps all information at once, creating a prediction error too large for the user to process.</p>
+<p>The concept of affordances — design features that communicate their function through their form — represents the deepest integration of communication into invention. A door handle that visually and physically communicates "pull" through its shape eliminates the need for verbal instruction. A software button that looks pressable communicates its function through visual affordance. When the invention's design itself builds the right model in the user's mind, the communication challenge is solved at the most fundamental level.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: The Salk Vaccine and Public Communication</h3>
+<p>Jonas Salk's development of the polio vaccine in the 1950s illustrates the critical role of communication in bringing an invention to impact. Salk's scientific achievement — developing an effective killed-virus vaccine — was only half the challenge. The other half was communicating its safety and efficacy to a terrified public whose generative model of polio included vivid images of paralyzed children.</p>
+<p>Salk understood that the public's model needed updating at multiple levels. At the factual level: the vaccine works. At the causal level: a killed virus can trigger immunity without causing disease. At the emotional level: this is safe for your children. At the trust level: the inventor and the medical establishment are credible.</p>
+<p>Salk's communication strategy was masterful. He began with the largest clinical trial in history (1.8 million children), providing overwhelming statistical evidence that updated the factual model. He explained the mechanism in accessible terms, giving the public a simplified but accurate causal model. He vaccinated his own children on camera, providing a powerful affordance of trust. And he refused to patent the vaccine, asking "Could you patent the sun?" — a statement that aligned his generative model of public health with the public's values.</p>
+<p>The lesson for inventors: technical achievement is necessary but not sufficient. The invention must be communicated in a way that updates the relevant models of all stakeholders — users, regulators, funders, and the general public. The communication strategy is as much a part of the invention as the mechanism itself.</p>
+<h3>Case Study 2: IKEA's Instruction Design</h3>
+<p>IKEA's wordless assembly instructions represent one of the most successful user instruction systems ever designed. Serving customers in dozens of countries who speak different languages, IKEA developed an instruction format that builds the correct generative model through visual sequences rather than text.</p>
+<p>Each instruction page shows a single step: a component, an action (indicated by an arrow or hand icon), and the result. The user's model is updated incrementally — one causal relationship at a time. The small prediction error at each step (the furniture looks slightly different after each action) keeps the user's model calibrated and prevents the overwhelming confusion that arises from trying to process the entire assembly at once.</p>
+<p>IKEA's instructions also use visual affordances extensively. A crossed-out phone icon means "do not call customer service yet — keep going." A face icon showing distress next to a complex step acknowledges the user's emotional state and signals that difficulty is expected (calibrating the precision of the user's prediction errors). Two-person icons indicate steps requiring help.</p>
+<p>The system works because it respects the Active Inference principle: build the user's model from their current state (an unassembled pile of parts) toward the goal state (assembled furniture) through a sequence of manageable prediction errors, each one adding one new causal relationship to the model.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 2 (Agents)</strong>: Multi-agent invention requires generative model alignment through communication</li>
+<li><strong>Module 3 (Perception)</strong>: Demonstrations use shared perception to align models</li>
+<li><strong>Module 4 (Cognition)</strong>: Communication externalizes the causal model that cognition constructs</li>
+<li><strong>Module 8 (Planning)</strong>: Communicating plans requires translating planning models into stakeholder language</li>
+</ul>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Invention Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model Alignment</td>
+<td>Reducing divergence between communicator's and receiver's generative models</td>
+<td>A pitch that updates an investor's understanding of a market problem</td>
+</tr>
+<tr>
+<td>Precision Weighting for Audience</td>
+<td>Adjusting message detail and emphasis based on what the audience needs</td>
+<td>Technical detail for engineers vs. value propositions for investors</td>
+</tr>
+<tr>
+<td>Externalized Model</td>
+<td>Documentation that captures the invention's causal structure for others</td>
+<td>A patent application describing mechanism and prior art</td>
+</tr>
+<tr>
+<td>Demonstration</td>
+<td>Providing shared sensory evidence that forces model updating</td>
+<td>Steve Jobs scrolling on the first iPhone touchscreen</td>
+</tr>
+<tr>
+<td>Affordance</td>
+<td>Design features that communicate function through form</td>
+<td>A door handle that visually communicates "pull"</td>
+</tr>
+<tr>
+<td>Incremental Instruction</td>
+<td>Building the user's model one step at a time through manageable prediction errors</td>
+<td>IKEA's wordless, step-by-step assembly instructions</td>
+</tr>
+<tr>
+<td>Pitch as Prediction Error</td>
+<td>Creating a gap in the listener's model that the invention fills</td>
+<td>"30% of household food is wasted because people cannot see the back of their fridge"</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Friston, K. J., &amp; Frith, C. D. (2015). A duet for one. <em>Consciousness and Cognition</em>, 36, 390-405.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Oshinsky, D. M. (2005). <em>Polio: An American Story</em>. Oxford University Press.</li>
+<li>Norman, D. A. (2013). <em>The Design of Everyday Things: Revised and Expanded Edition</em>. Basic Books.</li>
+<li>Duarte, N. (2010). <em>Resonate: Present Visual Stories that Transform Audiences</em>. Wiley.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Communicating Your Invention Across Audiences</h1>
+<h2>Objective</h2>
+<p>Practice adapting your invention communication for different audiences by modeling what each audience already knows and what they need to learn. You will craft a pitch, a technical description, and a user instruction sequence, each tailored to align a different audience's generative model with your invention's core value.</p>
+<h2>Materials and Prerequisites</h2>
+<ul>
+<li>Your invention idea from previous labs</li>
+<li>A listener (optional but highly recommended — a friend, family member, or classmate)</li>
+<li>Paper for sketching (or a digital drawing tool)</li>
+<li>A timer</li>
+</ul>
+<h2>Part 1: Modeling Your Audience (10 minutes)</h2>
+<p>Before you communicate, you must model the listener. What does each audience already know? What do they care about? What language do they use?</p>
+<p><strong>Audience 1: A potential investor or supporter</strong> (someone who has resources but no technical knowledge of your domain)</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Your Best Guess</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What they already know about your problem domain</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>What they care about most</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Technical vocabulary they are comfortable with</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>What would make them skeptical</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>What would make them excited</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Audience 2: A technical collaborator</strong> (someone with expertise in a relevant field)</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Your Best Guess</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What they already know about your problem domain</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>What they care about most</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Technical vocabulary they are comfortable with</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>What would make them skeptical</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>What would make them excited</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Audience 3: An end user</strong> (someone who will use your invention)</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Your Best Guess</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What they already know about your problem domain</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>What they care about most</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Technical vocabulary they are comfortable with</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>What would make them skeptical</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>What would make them excited</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<h2>Part 2: Crafting a 60-Second Pitch (15 minutes)</h2>
+<p>Write a pitch for Audience 1 (the investor/supporter). Your pitch should follow the model alignment structure:</p>
+<p><strong>Step 1 — Create the prediction error (the problem):</strong>
+Write one sentence that reveals a surprising problem.</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 2 — Present the solution:</strong>
+Write 2-3 sentences explaining what your invention does and why it works.</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 3 — Establish value:</strong>
+Write one sentence connecting your invention to what this audience cares about.</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 4 — Establish credibility:</strong>
+Write one sentence explaining why you are the right person to build this.</p>
+<p>{fill:textarea}</p>
+<p><strong>Full pitch (combine steps 1-4 into a flowing paragraph):</strong></p>
+<p>{fill:textarea}</p>
+<p><strong>If you have a listener, deliver the pitch out loud. Then answer:</strong></p>
+<p>What questions did the listener ask? {fill:textarea}</p>
+<p>What parts of your pitch did they seem to understand immediately? {fill:textarea}</p>
+<p>What parts required additional explanation? {fill:textarea}</p>
+<p>What would you change for next time? {fill:textarea}</p>
+<h2>Part 3: Writing a Technical Description (10 minutes)</h2>
+<p>Write a technical description for Audience 2 (the collaborator). This should externalize the causal model of your invention.</p>
+<p><strong>Mechanism description</strong> (how the invention works, using appropriate technical vocabulary):</p>
+<p>{fill:textarea}</p>
+<p><strong>Key parameters</strong> (specific values, ranges, or specifications):</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value/Range</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Open questions</strong> (what you do not yet know and would want a collaborator to help with):</p>
+<p>{fill:textarea}</p>
+<p><strong>How does this description differ from the pitch you wrote in Part 2?</strong></p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Designing User Instructions (15 minutes)</h2>
+<p>Design a step-by-step instruction sequence for Audience 3 (the end user). Follow the IKEA principle: build the user's model incrementally, one step at a time.</p>
+<p><strong>Step 0: What the user sees before they start</strong> (the initial state):</p>
+<p>{fill:textarea}</p>
+<p><strong>Instructions (write 5-8 steps, each with one action and one observable result):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Action (what the user does)</th>
+<th>Result (what they observe)</th>
+<th>Why this step matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>2</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>3</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>4</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>5</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>6</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>7</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>8</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Common mistakes</strong> (what might go wrong if the user's model is not correctly calibrated):</p>
+<p>{fill:textarea}</p>
+<p><strong>Affordances</strong> (features of the design itself that communicate how to use it without written instructions):</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Reflection on Communication as Active Inference (10 minutes)</h2>
+<p><strong>How did your message change across the three audiences?</strong> What stayed the same, and what transformed?</p>
+<p>{fill:textarea}</p>
+<p><strong>Which audience was hardest to communicate with?</strong> What made it hard — the model gap, the vocabulary gap, or the priority gap?</p>
+<p>{fill:textarea}</p>
+<p><strong>What is the biggest gap between your understanding of your invention and what you can currently communicate?</strong> What knowledge is still trapped in your head and has not been externalized?</p>
+<p>{fill:textarea}</p>
+<p><strong>If your invention communicated its own function through its design (affordances), which written instructions could be eliminated?</strong></p>
+<p>{fill:textarea}</p>
+<h2>Discussion and Debrief</h2>
+<ol>
+<li>
+<p><strong>Model inference</strong>: How accurately did you model each audience? If you delivered the pitch to a real person, did their questions reveal that your model of their knowledge was wrong in specific ways?</p>
+</li>
+<li>
+<p><strong>Compression vs. completeness</strong>: The pitch compressed your model heavily; the technical description expanded it. At what point does compression lose essential information? At what point does completeness overwhelm the listener?</p>
+</li>
+<li>
+<p><strong>The demonstration question</strong>: Which aspects of your invention would communicate best through demonstration rather than description? If you had the chance to show rather than tell, what would you show?</p>
+</li>
+<li>
+<p><strong>Affordance design</strong>: How many of your written instructions could be eliminated if the invention's design itself communicated its function? What design changes would create clearer affordances?</p>
+</li>
+<li>
+<p><strong>Communication as invention</strong>: In what sense is the communication artifact (the pitch, the document, the instruction) itself an invention — a designed system with a purpose, constraints, and iterative improvement potential?</p>
+</li>
+</ol>
+<p>{fill:textarea}</p></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Sharing the Vision</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>In Active Inference, communication between an inventor and an audience is best understood as:
+   A) The inventor transmitting information into the audience's passive brain
+   B) The inventor aligning the audience's generative model with their own by creating targeted prediction errors and providing model updates
+   C) The inventor and audience simultaneously forgetting their prior knowledge
+   D) A one-way transfer of data with no feedback</p>
+</li>
+<li>
+<p>The most effective structure for pitching an invention to a non-technical audience begins with:
+   A) Detailed technical specifications of the mechanism
+   B) The inventor's biographical background
+   C) A problem statement that creates a prediction error in the listener's model
+   D) The price and delivery timeline</p>
+</li>
+<li>
+<p>IKEA's wordless assembly instructions work because they:
+   A) Eliminate all useful information to save paper
+   B) Build the user's generative model incrementally, one causal step at a time, through manageable prediction errors
+   C) Assume the user already knows how to assemble furniture
+   D) Use only text in a universal language</p>
+</li>
+<li>
+<p>An affordance is:
+   A) The price the consumer can afford to pay
+   B) A design feature that communicates its function through its form, reducing the need for verbal instruction
+   C) A financial discount on the invention
+   D) The inventor's salary</p>
+</li>
+<li>
+<p>Steve Jobs demonstrated the iPhone rather than just describing it because:
+   A) He did not have good public speaking skills
+   B) Shared sensory evidence creates direct prediction errors that update the audience's model more effectively than verbal description alone
+   C) Apple had no written documentation
+   D) The audience could not understand English</p>
+</li>
+<li>
+<p>Patent documentation externalizes the invention's generative model for:
+   A) The general public with no technical background
+   B) A patent examiner who is technically literate and needs to understand how the invention differs from prior art
+   C) Children who might want to build the invention at home
+   D) Competing companies who want to copy the design</p>
+</li>
+<li>
+<p>When a user misuses an invention due to unclear instructions, the Active Inference diagnosis is:
+   A) The user is unintelligent
+   B) The user's generative model of the invention was not correctly built — there is a specific model misalignment that the design or instructions failed to prevent
+   C) The invention is fundamentally flawed
+   D) All users will always misuse all inventions</p>
+</li>
+</ol>
+<h2>Part B: Short Answer and Analysis</h2>
+<ol>
+<li>
+<p>An inventor has created a novel food preservation device that uses UV light to sterilize the surface of fruits and vegetables, extending their shelf life. Write two different opening sentences for a pitch — one for a grocery store chain executive and one for a consumer at a farmers' market. For each, explain what prediction error you are creating in the listener's model and why this specific error is effective for that audience.</p>
+</li>
+<li>
+<p>You are designing user instructions for a new type of bicycle lock that uses a combination of physical key and smartphone Bluetooth authentication. The user has never seen this type of lock before. Design the first five instruction steps, following the "incremental model building" principle. For each step, identify the specific causal relationship you are adding to the user's model.</p>
+</li>
+<li>
+<p>Jonas Salk communicated the polio vaccine's value at four levels: factual (it works), causal (how it works), emotional (it is safe for your children), and trust (I vaccinated my own children). Choose your own invention and design a four-level communication strategy using the same framework. For each level, identify the specific model update you are trying to achieve and the evidence you would provide.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

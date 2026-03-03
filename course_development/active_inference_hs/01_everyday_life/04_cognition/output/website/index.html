@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04_Cognition - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>04_Cognition</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>04_Cognition</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 04: Cognition -- The Models Inside Your Head</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Describe a <strong>generative model</strong> as the brain's internal representation of the causal structure of the world, including beliefs, expectations, and assumed relationships.</li>
+<li>Explain how cognitive biases emerge naturally from efficient but sometimes inaccurate generative models.</li>
+<li>Analyze the difference between <strong>model updating</strong> (changing beliefs to fit evidence) and <strong>active inference</strong> (changing the world to fit beliefs).</li>
+<li>Evaluate the role of emotions as signals about the state of your generative model -- indicators of prediction error, uncertainty, and model confidence.</li>
+</ol>
+<h2>Introduction</h2>
+<p>You carry a model of the world inside your head. It is not a perfect copy -- it is a simplified, compressed representation of the patterns your brain considers most important. This model predicts what will happen when you walk into a room, what a friend means by a certain look, what grade you will get on a test, and what kind of future awaits you. It runs continuously, mostly below conscious awareness, shaping your thoughts, feelings, and decisions.</p>
+<p>In Active Inference, this internal model is called a <strong>generative model</strong> because it <em>generates</em> predictions about sensory experience. Cognition, in this framework, is the process of maintaining, running, and updating this model. Understanding your own generative model is perhaps the most powerful form of self-knowledge available.</p>
+<h2>Key Concepts</h2>
+<h3>1. What Is a Generative Model?</h3>
+<p>A generative model is your brain's theory of how the world works -- specifically, a theory of how <em>causes</em> in the world produce the <em>effects</em> you observe. It includes beliefs about physical laws (dropped objects fall), social dynamics (people who smile are friendly), and personal patterns (I perform well under pressure). The model is "generative" because it can produce simulated sensory data: you can imagine what a conversation will look like before it happens, which means your model is generating predicted experience.</p>
+<h3>2. Beliefs as Model Parameters</h3>
+<p>In Active Inference, a <strong>belief</strong> is not an opinion you consciously hold -- it is a parameter in your generative model that shapes predictions. Many beliefs operate below awareness. You believe that solid floors will support your weight (which is why you do not test the floor before each step). You believe that your name, when called, refers to you. These implicit beliefs are the backbone of your generative model, and they are only noticed when they produce prediction errors -- when the floor gives way or someone uses your name to address someone else.</p>
+<h3>3. Cognitive Biases as Model Features</h3>
+<p>Cognitive biases -- confirmation bias, anchoring, availability heuristic -- are often taught as errors in thinking. Active Inference reframes them as <em>features</em> of an efficient generative model. Confirmation bias (seeking evidence that supports existing beliefs) is a consequence of the fact that your model assigns high prior probability to its own predictions. Anchoring (over-relying on the first piece of information) is a consequence of strong priors dominating weak evidence. These are not bugs; they are how an efficient inference engine operates under limited time and energy. But they <em>can</em> lead to persistent errors.</p>
+<h3>4. Emotions as Model Diagnostics</h3>
+<p>Why do you feel anxious before a big test? Why does rejection sting? Active Inference suggests that emotions are <strong>signals about the state of your generative model</strong>. Anxiety signals high expected prediction error -- your model is uncertain about what will happen and predicts potential threats. Sadness signals a significant model update -- something important in your model (a relationship, an expectation about the future) has been proven wrong. Joy signals low prediction error in domains you care about -- things are going as predicted or better. Emotions are not irrational disruptions; they are informative readouts from your inference machinery.</p>
+<h3>5. The Depth of the Model</h3>
+<p>Your generative model is not flat; it is <strong>hierarchical</strong>. Surface-level predictions (what the next word in this sentence will be) are generated by mid-level models (what this paragraph is about), which are generated by high-level models (what this module is trying to teach). Similarly, your prediction about how a conversation will go is nested within your model of the relationship, which is nested within your model of social dynamics in general. Deeper levels of the model change more slowly and have wider-reaching consequences when they do change.</p>
+<h2>Active Inference Connection</h2>
+<p>Cognition, in the Active Inference framework, is the process of optimizing internal states (beliefs) to minimize variational free energy. This optimization has two components: <strong>perceptual inference</strong> (updating beliefs to better explain current evidence) and <strong>active inference</strong> (selecting actions to bring the world into alignment with existing beliefs). The balance between these two strategies is central to mental life. Excessive perceptual inference means changing your beliefs at every challenge, leading to instability. Excessive active inference means rigidly trying to make the world match your expectations, leading to inflexibility. Healthy cognition balances both.</p>
+<h2>Applications</h2>
+<ul>
+<li>
+<p><strong>Case Study 1 -- Why Changing Your Mind Feels Uncomfortable</strong>: When you encounter strong evidence against a deeply held belief -- a political view, a conviction about a friend's character, a career aspiration -- the resulting prediction error propagates up through your hierarchical model. Updating a deep belief is costly because it ripples through many dependent predictions. This is why people often resist changing their minds even in the face of clear evidence: the free energy cost of a deep model revision can be enormous. Understanding this through Active Inference does not make it easier, but it makes the discomfort intelligible.</p>
+</li>
+<li>
+<p><strong>Case Study 2 -- Rumination and Anxiety Loops</strong>: Rumination -- going over the same worrying thoughts repeatedly -- can be understood as a generative model that is stuck in a local minimum. The model predicts threat, this prediction generates anxiety, and the anxiety increases precision weighting on threat-related information, which confirms the prediction. The model is minimizing free energy locally (its predictions match the anxiety-filtered evidence it attends to) but failing globally (the overall level of free energy remains high). Breaking out of this loop often requires external intervention that introduces new evidence the model cannot dismiss.</p>
+</li>
+</ul>
+<h2>Discussion Questions</h2>
+<ol>
+<li>Identify a belief you hold that operates below conscious awareness -- something so basic you never question it. What would happen if it turned out to be wrong?</li>
+<li>If emotions are signals about the state of your generative model, how might understanding this change the way you respond to feelings of anxiety or sadness?</li>
+<li>Why might it be more difficult to change a deep-level belief (like your political identity) than a surface-level one (like your opinion of a movie)?</li>
+</ol>
+<h2>Summary</h2>
+<p>Cognition is the maintenance and operation of your generative model -- the internal representation of reality that drives your predictions, shapes your perceptions, and gives rise to your emotions. Cognitive biases are features of efficient inference, not character flaws, though they can lead to persistent errors. Emotions serve as diagnostic signals about model states. Understanding your own cognition through Active Inference gives you a vocabulary for self-reflection that is both precise and deeply practical. In Module 05, we turn from internal models to external behavior: <strong>action</strong> -- how your generative model drives the decisions you make.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Memory Map -- How Your Brain Builds Models of the World</h1>
+<h2>Objective</h2>
+<p>Explore how your brain constructs and maintains <strong>generative models</strong> (mental maps) of the world, and discover how cognitive biases reveal the limits and shortcuts of those models.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Completed modules on Systems, Agents, and Perception</li>
+<li>Read the module on Mental Models</li>
+</ul>
+<h2>Part 1: Draw Your Mental Map</h2>
+<p><strong>Goal</strong>: Reveal the generative model your brain has built of a familiar place.</p>
+<p>Without looking at any references, draw a map of your school from memory. Include hallways, classrooms, the cafeteria, exits, and anything else you remember.</p>
+<p>After drawing, compare your map to the actual layout (use a school map or walk the route). Answer:</p>
+<ol>
+<li>What parts of your map were accurate?</li>
+<li>What parts were distorted, missing, or exaggerated?</li>
+<li>Why do you think your brain emphasized some areas and ignored others?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 2: The Bias Spotter</h2>
+<p><strong>Goal</strong>: Identify cognitive biases as "rigid priors" in your mental models.</p>
+<p>Read each scenario and identify which cognitive bias is at work. Then explain how it connects to Active Inference.</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Bias Name</th>
+<th>How It Relates to Generative Models</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>You study only information that confirms what you already believe about a topic.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>You think a coin that landed heads five times in a row is "due" for tails.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>You judge a restaurant as bad because of one bad meal, ignoring ten good ones.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>After hearing the answer to a question, you think "I knew that all along."</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea}</p>
+<h2>Part 3: Latent States -- What Is Hidden?</h2>
+<p><strong>Goal</strong>: Practice identifying latent (hidden) states that your brain infers but cannot directly observe.</p>
+<p>For each situation, identify what is hidden (latent) and what is directly observable (sensory):</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Observable Sensory Data</th>
+<th>Latent States (What Your Brain Infers)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A friend is frowning</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>You smell smoke in a building</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Your phone buzzes in your pocket</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>A teacher pauses mid-sentence</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea}</p>
+<h2>Part 4: Updating Your Model</h2>
+<p><strong>Goal</strong>: Practice Bayesian updating in everyday reasoning.</p>
+<p>Think of a belief you held that changed when you got new evidence. Walk through the update:</p>
+<ol>
+<li><strong>Prior belief</strong>: What did you believe before?</li>
+<li><strong>New evidence</strong>: What information did you receive?</li>
+<li><strong>Updated belief (posterior)</strong>: How did your belief change?</li>
+<li><strong>Precision</strong>: How confident were you in the new evidence? Did that affect how much you updated?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Discussion Questions</h2>
+<ol>
+<li>Why is the phrase "the map is not the territory" important for understanding cognition?</li>
+<li>Can a cognitive bias ever be helpful? Give an example.</li>
+<li>How is a generative model different from a simple memory?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Your Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generative Model</td>
+<td>The brain's internal theory of how the world produces sensory data</td>
+<td></td>
+</tr>
+<tr>
+<td>Latent States</td>
+<td>Hidden variables the brain infers but cannot directly observe</td>
+<td></td>
+</tr>
+<tr>
+<td>Cognitive Bias</td>
+<td>A systematic shortcut in the generative model that can lead to errors</td>
+<td></td>
+</tr>
+<tr>
+<td>Bayesian Updating</td>
+<td>Revising beliefs in light of new evidence</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Cognition -- The Models Inside Your Head</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>A <strong>generative model</strong> in Active Inference is best described as:
+A) A perfect copy of reality stored in your brain
+B) Your brain's simplified, compressed theory of how causes in the world produce the effects you observe
+C) A textbook you have memorized
+D) A model that only works for physical objects</li>
+</ol>
+<p><strong>Answer: B.</strong> The generative model is a theory of causal structure that generates predictions, not a perfect replica of reality.</p>
+<ol>
+<li>In Active Inference, a <strong>belief</strong> is:
+A) An opinion you consciously argue for
+B) A parameter in your generative model that shapes predictions, often operating below awareness
+C) Something you only hold about religion or politics
+D) A feeling with no connection to prediction</li>
+</ol>
+<p><strong>Answer: B.</strong> Many beliefs are implicit (like trusting that floors support your weight) and only noticed when they produce prediction errors.</p>
+<ol>
+<li>Confirmation bias -- seeking evidence that supports existing beliefs -- is best understood as:
+A) A character flaw showing laziness
+B) A feature of an efficient generative model that assigns high prior probability to its own predictions
+C) A rare disorder
+D) Something only unintelligent people do</li>
+</ol>
+<p><strong>Answer: B.</strong> Confirmation bias is how an efficient inference engine works under limited time and energy, though it can cause persistent errors.</p>
+<ol>
+<li>Active Inference suggests that <strong>emotions</strong> are:
+A) Irrational disruptions that interfere with thinking
+B) Signals about the state of your generative model -- indicators of prediction error, uncertainty, and confidence
+C) Completely random chemical reactions
+D) Only useful for artistic expression</li>
+</ol>
+<p><strong>Answer: B.</strong> Anxiety signals high expected prediction error; sadness signals a significant model update; joy signals low prediction error in valued domains.</p>
+<ol>
+<li>Your generative model is <strong>hierarchical</strong>, meaning:
+A) It only has one level
+B) Surface-level predictions are nested within mid-level models, which are nested within deep models -- with deeper levels changing more slowly
+C) Higher levels are always more accurate
+D) It can only process visual information</li>
+</ol>
+<p><strong>Answer: B.</strong> The model has layers of depth, and updating deep beliefs ripples through many dependent predictions.</p>
+<ol>
+<li>People resist changing deeply held beliefs even with clear evidence because:
+A) They are stubborn by nature
+B) Deep model revisions propagate through many dependent predictions, making the free energy cost enormous
+C) Evidence is always unreliable
+D) Beliefs cannot change after age 18</li>
+</ol>
+<p><strong>Answer: B.</strong> The deeper the belief in the hierarchy, the more predictions depend on it, and the costlier the revision.</p>
+<ol>
+<li><strong>Rumination</strong> (going over the same worrying thoughts repeatedly) can be understood as:
+A) A healthy thinking strategy
+B) A generative model stuck in a local minimum where anxiety-filtered evidence confirms its own threat predictions
+C) A sign of high intelligence
+D) Something that only happens to adults</li>
+</ol>
+<p><strong>Answer: B.</strong> The model minimizes free energy locally (predictions match anxiety-filtered evidence) but fails globally.</p>
+<ol>
+<li>When you feel anxious before a big test, Active Inference explains this as:
+A) Your body trying to make you fail
+B) Your generative model signaling high expected prediction error and uncertainty about what will happen
+C) Proof that you did not study enough
+D) A random emotional response with no meaning</li>
+</ol>
+<p><strong>Answer: B.</strong> Anxiety is an informative readout from your inference machinery about expected future surprises.</p>
+<ol>
+<li>The balance between <strong>perceptual inference</strong> (changing beliefs to fit evidence) and <strong>active inference</strong> (changing the world to fit beliefs) is central to healthy cognition because:
+A) You should always change your beliefs
+B) Excessive belief-updating causes instability while excessive world-changing causes inflexibility
+C) Only one strategy ever works
+D) The balance does not matter</li>
+</ol>
+<p><strong>Answer: B.</strong> Healthy cognition requires flexibility to update beliefs AND agency to shape the world.</p>
+<ol>
+<li>When someone resolves cognitive dissonance by saying "they deserved it" rather than updating their self-model, they are:
+A) Being honest
+B) Reinterpreting evidence to preserve existing beliefs rather than performing genuine model updating
+C) Always making the right choice
+D) Eliminating all prediction error permanently</li>
+</ol>
+<p><strong>Answer: B.</strong> Both strategies minimize free energy, but only genuine model updating leads to a more accurate generative model.</p>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Identify a belief you hold that operates below conscious awareness -- something so basic you never question it. What would happen to your daily predictions if it turned out to be wrong?</p>
+</li>
+<li>
+<p>Explain how understanding emotions as "model diagnostics" might change how you respond to feelings of anxiety before a presentation or test.</p>
+</li>
+<li>
+<p>Give an example from your life where changing a deep belief (about yourself, a relationship, or the future) was much harder than changing a surface-level opinion. Why does Active Inference predict this difficulty?</p>
+</li>
+<li>
+<p>Describe a situation where someone you know seemed trapped in a rumination loop. Using Active Inference, explain what might help break the cycle.</p>
+</li>
+<li>
+<p>How might cognitive biases like anchoring or the availability heuristic actually be useful in everyday decision-making, even though they sometimes lead to errors?</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

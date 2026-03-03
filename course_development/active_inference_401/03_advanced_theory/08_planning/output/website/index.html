@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08_Planning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>08_Planning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>08_Planning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 08: Planning — Grand Unification: Active Inference as Universal Theory</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 401 | <strong>Unit</strong>: Advanced Theory | <strong>Audience</strong>: Graduate students / researchers</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Evaluate the <strong>scope and limits</strong> of Active Inference as a universal theory of adaptive systems.</li>
+<li>Analyze the connections between Active Inference and other major theoretical frameworks.</li>
+<li>Synthesize the Advanced Theory track into a unified understanding of the formal foundations.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. The Unification Claim</h3>
+<p>Active Inference claims to unify multiple theoretical frameworks under a single variational principle:</p>
+<p><strong>Perception, action, learning, and planning</strong> are all aspects of free energy minimization:</p>
+<ul>
+<li>Perception = updating beliefs about hidden states (minimizing F w.r.t. q)</li>
+<li>Action = changing sensory states to match predictions (minimizing F w.r.t. a)</li>
+<li>Learning = updating model parameters (minimizing F w.r.t. θ)</li>
+<li>Planning = selecting policies that minimize expected free energy (minimizing G w.r.t. π)</li>
+</ul>
+<p><strong>The deep claim</strong>: These are not four separate processes with a superficial mathematical similarity. They are literally the same process — variational free energy minimization — operating on different variables at different timescales:</p>
+<ul>
+<li>Perception: fastest (milliseconds), operates on sufficient statistics of q</li>
+<li>Action: fast (hundreds of milliseconds), operates on active states a</li>
+<li>Attention: medium (seconds), operates on precision parameters γ</li>
+<li>Learning: slow (hours to days), operates on model parameters θ</li>
+<li>Development: slowest (years), operates on model structure m</li>
+</ul>
+<h3>2. Active Inference and Control Theory</h3>
+<p>Active Inference subsumes classical control theory:</p>
+<p><strong>PID control as special case</strong>: The proportional-integral-derivative controller is a limiting case of Active Inference where:</p>
+<ul>
+<li>Proportional: current prediction error (PE)</li>
+<li>Integral: accumulated PE (parameter learning)</li>
+<li>Derivative: rate of change of PE (hierarchical prediction)</li>
+</ul>
+<p><strong>Optimal control</strong>: The expected free energy G(π) generalizes the cost function in optimal control. The difference: G includes both pragmatic value (reaching preferred states) and epistemic value (reducing uncertainty). Classical optimal control only considers pragmatic value.</p>
+<p><strong>Model predictive control (MPC)</strong>: MPC plans by simulating forward and selecting the best action sequence. This is exactly what policy selection in Active Inference does — except Active Inference additionally accounts for uncertainty in the forward simulation.</p>
+<h3>3. Active Inference and Reinforcement Learning</h3>
+<p>Active Inference provides a principled alternative to reinforcement learning:</p>
+<p><strong>Key distinction</strong>: RL learns a reward function or value function from experience. Active Inference specifies preferences as priors (the C vector) and derives behavior from inference about how to fulfill those preferences.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Reinforcement Learning</th>
+<th>Active Inference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reward</td>
+<td>External signal</td>
+<td>Prior preferences (C vector)</td>
+</tr>
+<tr>
+<td>Exploration</td>
+<td>ε-greedy, UCB, curiosity bonuses</td>
+<td>Epistemic value (built-in)</td>
+</tr>
+<tr>
+<td>Exploitation</td>
+<td>Value function maximization</td>
+<td>Pragmatic value</td>
+</tr>
+<tr>
+<td>Model</td>
+<td>Model-free or model-based</td>
+<td>Always model-based</td>
+</tr>
+<tr>
+<td>Learning</td>
+<td>Policy gradient, TD learning</td>
+<td>Free energy minimization</td>
+</tr>
+<tr>
+<td>Planning</td>
+<td>Rollouts, tree search</td>
+<td>Expected free energy evaluation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Advantage of Active Inference</strong>: Exploration emerges naturally from the epistemic component of G, without requiring ad-hoc exploration bonuses. Intrinsic motivation is built into the framework rather than bolted on.</p>
+<h3>4. Active Inference and Thermodynamics</h3>
+<p>The connections to thermodynamics are deep, not merely analogical:</p>
+<p><strong>Free energy in physics</strong>: The Helmholtz free energy F = U - TS (internal energy minus temperature × entropy) governs the equilibrium of thermodynamic systems. The system minimizes F by balancing energetic stability (U) against entropic disorder (TS).</p>
+<p><strong>Variational free energy</strong>: F = Energy - Entropy, with the same structure. The "energy" is the negative log-joint probability; the "entropy" is the entropy of the approximate posterior. The formal analogy is:</p>
+<table>
+<thead>
+<tr>
+<th>Thermodynamics</th>
+<th>Active Inference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Internal energy U</td>
+<td>E_q[-ln p(o, s)]</td>
+</tr>
+<tr>
+<td>Temperature T</td>
+<td>1 (or precision⁻¹)</td>
+</tr>
+<tr>
+<td>Entropy S</td>
+<td>H[q]</td>
+</tr>
+<tr>
+<td>Free energy F = U - TS</td>
+<td>F = Energy - Entropy</td>
+</tr>
+<tr>
+<td>Equilibrium</td>
+<td>Steady-state beliefs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Second law</strong>: The second law of thermodynamics (entropy of an isolated system increases) has an analogue: over time, an Active Inference agent's free energy cannot systematically increase, because the dynamics are (approximately) gradient descent on F.</p>
+<h3>5. Active Inference and Information Theory</h3>
+<p>Active Inference connects deeply to information-theoretic concepts:</p>
+<p><strong>Mutual information</strong>: The epistemic component of expected free energy equals the expected information gain — the expected reduction in uncertainty about hidden states:</p>
+<p>Epistemic value = E_π[I(s; o)] = mutual information between states and observations under policy π</p>
+<p><strong>Rate-distortion theory</strong>: The complexity cost D_KL[q || p] in free energy corresponds to the rate in rate-distortion theory — how many "bits" the posterior uses beyond what the prior provides. This formalizes the cost of information processing.</p>
+<p><strong>Minimum entropy production</strong>: Active Inference agents that achieve NESS produce the minimum entropy necessary to maintain their far-from-equilibrium organization. This connects to Prigogine's dissipative structures.</p>
+<h3>6. Open Questions and Future Directions</h3>
+<p>Despite its power, significant open questions remain:</p>
+<p><strong>Consciousness</strong>: Active Inference provides necessary conditions for consciousness (deep temporal models, self-models, metacognition) but not sufficient conditions. What additional constraints yield subjective experience?</p>
+<p><strong>Scalability</strong>: Current implementations handle small state spaces. How do we scale to the complexity of real brains (10¹¹ neurons)?</p>
+<p><strong>Emergence</strong>: How do genuine novelty and creativity emerge from a system whose dynamics are (approximately) gradient descent? Is free energy minimization fundamentally conservative?</p>
+<p><strong>Empirical falsification</strong>: What experimental result would definitively falsify Active Inference? The framework's generality makes this difficult but essential for scientific credibility.</p>
+<p><strong>Artificial General Intelligence</strong>: Can Active Inference provide the blueprint for AGI? What's needed beyond the current mathematical framework?</p>
+<h2>Summary</h2>
+<p>Active Inference provides a unified framework connecting perception, action, learning, and planning through variational free energy minimization. It subsumes classical control theory, provides a principled alternative to reinforcement learning, connects to thermodynamics through formal analogy of free energy, and links to information theory through mutual information and rate-distortion theory. Open questions remain about consciousness, scalability, emergence, falsifiability, and AGI.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Friston, K. J. et al. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Millidge, B. et al. (2021). Whence the expected free energy? <em>Neural Computation</em>, 33(2), 447-482.</li>
+<li>Da Costa, L. et al. (2020). Active inference on discrete state-spaces: A synthesis. <em>Journal of Mathematical Psychology</em>, 99, 102447.</li>
+<li>Sajid, N. et al. (2021). Active inference: demystified and compared. <em>Neural Computation</em>, 33(3), 674-712.</li>
+</ul></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Grand Unification — Active Inference as Universal Theory</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Synthesize the entire Advanced Theory track through comparative analysis, integration exercises, and critical evaluation.</p>
+</blockquote>
+<h2>Part 1: Framework Comparison Table</h2>
+<p><strong>Exercise</strong>: Complete this comprehensive comparison:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Active Inference</th>
+<th>Reinforcement Learning</th>
+<th>Optimal Control</th>
+<th>Bayesian Brain Hypothesis</th>
+<th>Thermodynamics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core principle</td>
+<td>Free energy minimization</td>
+<td>Reward maximization</td>
+<td>Cost minimization</td>
+<td>Posterior updating</td>
+<td>Free energy minimization</td>
+</tr>
+<tr>
+<td>Exploration</td>
+<td>Epistemic value (built-in)</td>
+<td>ε-greedy, UCB</td>
+<td>Not inherent</td>
+<td>Not directly addressed</td>
+<td>Fluctuations</td>
+</tr>
+<tr>
+<td>Model</td>
+<td>Generative model (required)</td>
+<td>Optional (model-free exists)</td>
+<td>Forward model</td>
+<td>Generative model</td>
+<td>Partition function</td>
+</tr>
+<tr>
+<td>Learning</td>
+<td>Parameter/structure update via F</td>
+<td>TD learning, policy gradient</td>
+<td>System identification</td>
+<td>Parameter updating</td>
+<td>Relaxation</td>
+</tr>
+<tr>
+<td>Action</td>
+<td>Minimize F w.r.t. active states</td>
+<td>Maximize value function</td>
+<td>Minimize cost-to-go</td>
+<td>Usually not addressed</td>
+<td>Entropy production</td>
+</tr>
+<tr>
+<td>Uncertainty</td>
+<td>Full posterior over states</td>
+<td>Point estimates typically</td>
+<td>Kalman filtering</td>
+<td>Full posterior</td>
+<td>Boltzmann distribution</td>
+</tr>
+<tr>
+<td>Multi-agent</td>
+<td>Shared models, recursive inference</td>
+<td>Multi-agent RL</td>
+<td>Differential games</td>
+<td>Independent agents</td>
+<td>Statistical mechanics</td>
+</tr>
+</tbody>
+</table>
+<p>Write a 200-word analysis: Which framework handles each domain best? Where does Active Inference uniquely excel?</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: Cross-Track Integration</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Connect mathematical tools across the entire Advanced Theory track.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Show how the tools from each module connect:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Tool</th>
+<th>How It Connects to Other Modules</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01 Systems</td>
+<td>Variational calculus</td>
+<td>Foundation for ALL subsequent analysis — defines F</td>
+</tr>
+<tr>
+<td>02 Agents</td>
+<td>Information geometry</td>
+<td>Provides the metric for belief dynamics (used in Module 04 for belief updating efficiency)</td>
+</tr>
+<tr>
+<td>03 Perception</td>
+<td>Bayesian mechanics</td>
+<td>Connects F to physics — explains WHY free energy minimization occurs (Module 05 RG, Module 08 thermo)</td>
+</tr>
+<tr>
+<td>04 Cognition</td>
+<td>Deep temporal models</td>
+<td>Temporal depth enables planning (Module 08) and hierarchical learning (Module 06)</td>
+</tr>
+<tr>
+<td>05 Action</td>
+<td>Renormalization group</td>
+<td>Provides multi-scale framework — connects to BMS (Module 06) and multi-agent (Module 07)</td>
+</tr>
+<tr>
+<td>06 Learning</td>
+<td>BMS/BMR</td>
+<td>Model selection implements the "Occam" term in F (Module 01 decomposition)</td>
+</tr>
+<tr>
+<td>07 Communication</td>
+<td>Multi-agent</td>
+<td>Extends single-agent framework to societies — connects to scale-free RG (Module 05)</td>
+</tr>
+<tr>
+<td>08 Planning</td>
+<td>Unification</td>
+<td>Synthesizes all the above into a coherent whole</td>
+</tr>
+</tbody>
+</table>
+<p>Draw (or describe) an integration diagram showing the connections between all modules.</p>
+<p>{fill:textarea}</p>
+<h2>Part 3: Active Inference vs. RL Deep Dive</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Rigorously compare Active Inference and Reinforcement Learning on a specific task.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Consider a foraging task: an agent must explore a grid world to find food while avoiding predators.</p>
+<p><strong>RL approach</strong>:</p>
+<ol>
+<li>Define reward: +10 for food, -100 for predator, -1 per step</li>
+<li>Learn value function V(s) or Q(s, a) through experience</li>
+<li>Exploration: ε-greedy (with ε decay)</li>
+<li>Result: agent learns to exploit known food locations</li>
+</ol>
+<p><strong>Active Inference approach</strong>:</p>
+<ol>
+<li>Define preferences (C): high probability of food states, low probability of predator states</li>
+<li>Define generative model: beliefs about food/predator locations, transition dynamics</li>
+<li>Policy selection: minimize G(π) = pragmatic value (reach food) + epistemic value (explore uncertain locations)</li>
+<li>Result: agent naturally explores uncertain regions while moving toward preferred states</li>
+</ol>
+<p>Write a 300-word comparative analysis: (a) Which approach discovers food faster? (b) Which adapts better to environmental changes? (c) Which handles partial observability better? (d) What does each lose?</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Open Problem Analysis</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Identify and analyze the most important unsolved problems.</p>
+</blockquote>
+<p><strong>Exercise</strong>: For each open problem, assess its severity:</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Severity (1-10)</th>
+<th>Most Promising Resolution</th>
+<th>Your Analysis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consciousness: FEP provides necessary but not sufficient conditions</td>
+<td>8</td>
+<td>Integrated Information Theory + FEP hybrid?</td>
+<td></td>
+</tr>
+<tr>
+<td>Scalability: Current models handle tiny state spaces</td>
+<td>9</td>
+<td>Amortized inference, deep learning integration</td>
+<td></td>
+</tr>
+<tr>
+<td>Emergence: Can gradient descent produce genuine novelty?</td>
+<td>7</td>
+<td>Solenoidal flow + stochastic exploration</td>
+<td></td>
+</tr>
+<tr>
+<td>Falsifiability: What would disprove FEP?</td>
+<td>8</td>
+<td>Identify specific empirical predictions that fail</td>
+<td></td>
+</tr>
+<tr>
+<td>AGI: Can Active Inference build general intelligence?</td>
+<td>9</td>
+<td>Structure learning + deep temporal models + social cognition</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Write a 200-word assessment of the single most important open problem and your proposed research direction.</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Capstone Synthesis</h2>
+<p><strong>Exercise</strong>: Write a 500-word essay synthesizing the entire Advanced Theory track. Address:</p>
+<ol>
+<li>How does variational calculus (Module 01) provide the mathematical foundation?</li>
+<li>How does information geometry (Module 02) optimize that foundation?</li>
+<li>How does Bayesian mechanics (Module 03) connect it to physics?</li>
+<li>How do deep temporal models (Module 04) extend it through time?</li>
+<li>How does the renormalization group (Module 05) extend it across scales?</li>
+<li>How does BMS/BMR (Module 06) enable scientific model comparison?</li>
+<li>How does multi-agent theory (Module 07) extend it to social systems?</li>
+<li>How does this module's unification (Module 08) connect it to other frameworks?</li>
+</ol>
+<p>Conclude: What is Active Inference? Is it a theory, a framework, a principle, a mathematical language, or something else entirely?</p>
+<p>{fill:textarea}</p>
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Comparative analysis</td>
+<td>Framework comparison</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Integration</td>
+<td>Cross-module connections</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Deep comparison</td>
+<td>Active Inference vs. RL</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Problem identification</td>
+<td>Open research questions</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Track synthesis</td>
+<td>Grand unification</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Planning / Grand Unification (Advanced Theory)</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em> <strong>Date</strong>: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Part A: Multiple Choice</h2>
+<p><strong>1.</strong> Active Inference unifies perception, action, learning, and planning because:
+A) They are unrelated processes
+B) All four are aspects of variational free energy minimization operating on different variables at different timescales
+C) They are all reward-based
+D) They are all deterministic</p>
+<p><strong>2.</strong> Active Inference subsumes PID control because:
+A) PID is more general
+B) The proportional, integral, and derivative terms correspond to prediction error, accumulated PE (learning), and PE rate of change (hierarchical prediction) — which emerge as special cases of free energy minimization
+C) PID and Active Inference are unrelated
+D) PID handles uncertainty better</p>
+<p><strong>3.</strong> The key advantage of Active Inference over Reinforcement Learning for exploration is:
+A) Active Inference avoids exploration
+B) Epistemic value (information gain) is built into the expected free energy — exploration emerges naturally without ad-hoc bonuses
+C) Active Inference uses more data
+D) Active Inference is simpler</p>
+<p><strong>4.</strong> The formal analogy between Helmholtz free energy and variational free energy shows:
+A) They are coincidental
+B) Both balance energy against entropy — F = U - TS in thermodynamics, F = Energy - Entropy in Active Inference
+C) Only one is real
+D) Temperature is irrelevant</p>
+<p><strong>5.</strong> The second law analogue in Active Inference is:
+A) Free energy always increases
+B) An agent's free energy cannot systematically increase over time — dynamics are approximately gradient descent on F
+C) Entropy must decrease
+D) Information is always lost</p>
+<p><strong>6.</strong> The biggest open problem for Active Inference is arguably:
+A) It's well-understood
+B) Scalability and falsifiability — can the framework handle brain-scale systems, and can it be empirically tested in a way that could fail?
+C) It's too simple
+D) It conflicts with physics</p>
+<p><strong>7.</strong> Rate-distortion theory connects to Active Inference by:
+A) Being unrelated
+B) The complexity cost D_KL[q || p] measures the "rate" — how many bits the posterior uses beyond the prior — formalizing information processing costs
+C) Distortion maximization
+D) Rate always equals zero</p>
+<h2>Part B: Capstone Essay Questions</h2>
+<p><strong>1.</strong> Write a comprehensive comparison of Active Inference and deep reinforcement learning for a complex task (autonomous driving, robotic manipulation, or game playing). Address: (a) how each handles state estimation, (b) exploration-exploitation, (c) model learning, (d) safety constraints, (e) multi-agent scenarios. Which approach is more promising, and under what conditions? (600 words)</p>
+<p><strong>2.</strong> Write a critical appraisal of the Free Energy Principle's claim to be a universal theory of adaptive systems. Consider: (a) What does "universal" mean? (b) How does this compare to other universal principles (e.g., conservation of energy, principle of least action, natural selection)? (c) What is the relationship between mathematical generality and explanatory power? (d) Is the FEP more like a law, a principle, a framework, a language, or a tautology? Defend your position. (500 words)</p>
+<p><strong>3.</strong> <strong>Track capstone</strong>: Synthesize the entire Advanced Theory track. For each module (01-08), state the key mathematical tool introduced, how it contributes to the overall framework, and what it explains that no other module explains. Then identify the three most important open questions that the framework, as currently developed, cannot answer. Propose a research program to address one of them. (600 words)</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

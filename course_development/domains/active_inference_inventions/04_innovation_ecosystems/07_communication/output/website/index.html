@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_Communication - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>07_Communication</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>07_Communication</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Innovation Communication — Sharing Models in the Innovation Ecosystem</h1>
+<h2>Executive Summary</h2>
+<p>Innovation communication is the process by which inventors share their generative models with the world — with customers, investors, regulators, collaborators, and the public. In Active Inference, communication is the alignment of generative models between agents: when two agents share a model, they can make consistent predictions and coordinate action. This module examines marketing, branding, investor relations, scientific publication, open source development, and standards-setting as forms of generative model sharing. Effective innovation communication does not merely transmit information — it restructures the recipient's generative model to incorporate the invention's value proposition, creating shared understanding that enables adoption, investment, collaboration, and societal integration.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Frame marketing and branding as the process of constructing shared generative models between the invention and its target audience.</li>
+<li>Design investor communication that systematically addresses the investor's evidence hierarchy, updating their model of your invention's viability.</li>
+<li>Analyze scientific publication and intellectual property communication as formal mechanisms for model sharing within professional communities.</li>
+<li>Evaluate open source development as a communication strategy that creates transparency-based shared generative models.</li>
+<li>Design standards and interoperability communication that positions your invention within ecosystem-level shared models.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. Marketing as Generative Model Transmission</h3>
+<p>Marketing, at its core, is the process of transmitting a generative model from the inventor to potential adopters. The inventor has a model of how the world works with their invention in it — how it solves problems, creates value, and improves lives. The potential adopter has a different model — one that may not include the invention at all, or that includes misconceptions about it. Marketing bridges this gap by providing the adopter with sufficient information to construct their own version of the inventor's model.</p>
+<p>In Active Inference terms, effective marketing reduces the free energy of the potential adopter by offering a model that generates better predictions about their world than their current model. A well-crafted marketing message is essentially a compressed generative model: it describes a problem (the current state of the world), a solution (how the invention changes that state), and evidence (why the adopter should believe the solution works).</p>
+<p>Apple's marketing exemplifies generative model transmission at its most refined. Apple's product launches do not merely list features — they construct a narrative model of the user's life with the product. Steve Jobs' iPhone launch presented a coherent model: "You currently carry three devices — a phone, a music player, and a web device. We have combined them into one." This model made a specific prediction (carrying one device is better than carrying three) and provided evidence (live demonstrations of each function). The audience could immediately assess whether this model generated better predictions about their daily life than their current model.</p>
+<p>Content marketing, exemplified by companies like HubSpot and Salesforce, takes a longer-form approach to model transmission. By publishing educational content about the problem space (not just the product), these companies gradually construct a shared generative model with their audience. The audience learns to model their business challenges through the framework the company provides, and within that framework, the company's product naturally appears as the solution. This is model-level persuasion rather than feature-level persuasion.</p>
+<p>The precision of marketing communication matters enormously. Vague claims ("We are innovative!") provide low-precision evidence that does not significantly update the adopter's model. Specific claims with supporting evidence ("Our batteries last 40% longer, as verified by Consumer Reports testing") provide high-precision evidence that enables meaningful model updating. The most effective marketing combines emotional resonance (aligning with the adopter's values and identity model) with evidential precision (providing testable claims about product performance).</p>
+<h3>2. Branding as Compressed Generative Model</h3>
+<p>A brand is a compressed generative model stored in the minds of the public. When you encounter a brand — Apple, Toyota, Patagonia, Pfizer — you instantly activate a generative model that predicts the quality, values, price range, and experience associated with that brand's products. This compression is enormously valuable because it reduces the free energy of purchasing decisions: rather than evaluating each product from scratch, the consumer can rely on the brand's generative model to make rapid predictions.</p>
+<p>Brand building is the process of constructing and maintaining this compressed model in the public consciousness. Consistency is critical — the model must generate accurate predictions every time it is activated. If the brand promises reliability and a product fails, the prediction error damages the brand model. This is why brand crises are so costly: a single large prediction error can restructure or destroy a model that took decades to build.</p>
+<p>Patagonia's brand demonstrates deliberate generative model construction around environmental values. Every communication — product design, marketing campaigns, supply chain decisions, the famous "Don't Buy This Jacket" advertisement — reinforces the same model: Patagonia products are high-quality, environmentally responsible, and built to last. This model enables customers to predict that any Patagonia purchase will align with their environmental values, reducing the free energy of purchasing decisions for value-aligned consumers.</p>
+<p>Brand extension — launching new products under an existing brand — is a strategic application of generative model transfer. When Amazon launches a new service (Amazon Fresh, Amazon Pharmacy), the Amazon brand model transfers predictions about convenience, selection, and competitive pricing to the new category. However, brand extension is risky when the new category violates the brand model's predictions — luxury brands, for example, risk diluting their exclusivity model by extending to mass-market products.</p>
+<h3>3. Investor Communication as Evidence-Structured Persuasion</h3>
+<p>Investor communication — pitch decks, board presentations, quarterly reports, earnings calls — is a structured form of evidence presentation designed to update the investor's generative model of the company's value and trajectory. Effective investor communication follows the investor's evidence hierarchy, providing the right evidence at the right precision level for each model component.</p>
+<p>The pitch deck is the canonical form of investor communication for startups. A well-structured pitch deck follows the investor's inference process: Problem (what prediction error exists in the world?), Solution (what generative model resolves it?), Market (how many agents face this prediction error?), Product (what has been built?), Traction (what evidence validates the model?), Team (who is performing the inference?), Business Model (how does value flow?), and Ask (what resources are needed for the next evidence-generating action?).</p>
+<p>Each slide should address a specific component of the investor's model and provide evidence at the appropriate precision level. For early-stage companies, team evidence should be highest-precision (detailed backgrounds, relevant accomplishments). For later-stage companies, financial evidence becomes primary (revenue growth, unit economics, path to profitability).</p>
+<p>Warren Buffett's annual letters to Berkshire Hathaway shareholders exemplify high-precision investor communication. Buffett explicitly states his generative model of each investment, describes the evidence that supports or challenges that model, acknowledges prediction errors from previous letters, and provides updated predictions with explicit uncertainty estimates. This transparent model-sharing builds investor trust by demonstrating that the communicator's model is honest, well-calibrated, and responsive to evidence.</p>
+<p>Contrast this with companies that communicate through vague optimism ("We are excited about our growth trajectory") without providing the evidence structure that would allow investors to update their models. This low-precision communication forces investors to rely on their own priors, which may be unfavorable.</p>
+<h3>4. Open Source as Transparent Model Sharing</h3>
+<p>Open source development represents the most radical form of innovation communication — making the invention's complete generative model (source code, documentation, development process) publicly visible. This transparency creates a form of trust that proprietary development cannot match, because adopters can directly inspect the model rather than relying on the inventor's claims about it.</p>
+<p>In Active Inference terms, open source dramatically reduces the free energy of adoption for technically sophisticated users. They do not need to trust that the software works — they can verify it. They do not need to predict whether it will meet their needs — they can inspect the code and confirm. They do not need to worry about vendor lock-in — they can fork the project if the maintainer's priorities diverge from theirs.</p>
+<p>Linux's success demonstrates the power of transparent model sharing. System administrators who adopt Linux can inspect every line of the operating system, contribute fixes for bugs they discover, and verify that the system behaves as documented. This transparency builds a level of trust that no marketing message could achieve. The Linux Foundation's governance model ensures that the shared generative model evolves in response to community input rather than a single company's priorities.</p>
+<p>Open source also functions as a talent acquisition and community building strategy. By making the development process transparent, open source projects attract contributors whose expertise and values align with the project. Red Hat built a billion-dollar business by providing enterprise support for open source software — essentially charging for the precision (guaranteed response times, certified configurations) that the open source model itself provides.</p>
+<p>The tension in open source communication is between openness and competitive advantage. Some companies (like Meta with PyTorch or Google with TensorFlow) open source strategic technologies to establish their frameworks as ecosystem standards, accepting the loss of proprietary advantage in exchange for ecosystem influence. Others maintain proprietary cores with open source peripherals. The Active Inference framework clarifies this trade-off: open source creates shared generative models that reduce ecosystem-wide free energy, but may also reduce the inventor's ability to capture value from that reduction.</p>
+<h3>5. Standards and Interoperability Communication</h3>
+<p>Standards communication — participating in standards bodies, publishing technical specifications, advocating for interoperability protocols — is a form of ecosystem-level model sharing. Standards establish shared expectations about how technologies will interact, reducing the uncertainty that inhibits adoption and investment.</p>
+<p>The Internet's success is fundamentally a story of standards communication. TCP/IP, HTTP, HTML, and subsequent web standards created shared generative models that enabled millions of independent developers to build interoperable systems. The W3C, IETF, and other standards bodies maintain these shared models through a deliberative process that balances technical rigor with practical adoption considerations.</p>
+<p>For inventors, standards communication serves multiple strategic functions. Contributing to standards can shape the shared model in ways favorable to your technology — as Qualcomm did with cellular standards, embedding its patented technology into essential specifications. Adopting existing standards reduces the uncertainty that potential customers face — if your product conforms to established standards, customers can predict that it will work with their existing infrastructure. Publishing specifications enables an ecosystem of complementary products to emerge around your invention.</p>
+<p>The HTML5 standard development illustrates how standards communication shapes ecosystem evolution. The competition between Adobe Flash and open web standards was fundamentally a battle between competing generative models of web content delivery. Flash offered a proprietary model with high capability but vendor dependence. HTML5 offered an open model with initially lower capability but no vendor dependence. Steve Jobs' 2010 "Thoughts on Flash" was a strategic communication that advocated for the HTML5 model, and Apple's refusal to support Flash on iOS was an action that shifted the ecosystem toward the open standard.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: Tesla's Communication Strategy — Model Sharing Across Stakeholders</h3>
+<p>Tesla's communication strategy demonstrates simultaneous model sharing across multiple stakeholder types — consumers, investors, regulators, and competitors — each requiring a different communication approach.</p>
+<p><strong>Consumer communication</strong>: Tesla's marketing is almost entirely earned media and word-of-mouth. Rather than traditional advertising, Tesla relies on the product experience itself as the primary communication vehicle. The Autopilot demonstration, the "Ludicrous Mode" acceleration feature, and the over-the-air software update model all generate stories that customers share. In Active Inference terms, Tesla designs product experiences that create positive prediction errors — moments of surprise that motivate customers to share their updated model with others.</p>
+<p><strong>Investor communication</strong>: Elon Musk's communication with investors is notably transparent about both ambitions and challenges. Tesla's quarterly earnings calls include explicit statements about production targets, missed deadlines, and revised forecasts. While this transparency creates short-term stock volatility, it builds a long-term investor model that accounts for Tesla's actual operating style — ambitious targets with frequent adjustments.</p>
+<p><strong>Regulatory communication</strong>: Tesla has lobbied for electric vehicle subsidies, direct-to-consumer sales laws, and autonomous driving regulations. Each lobbying effort is an attempt to shape the regulatory generative model in ways favorable to Tesla's business model.</p>
+<p><strong>Competitor communication</strong>: Tesla's 2014 announcement that it would make its patent portfolio available for use by other companies was a strategic communication designed to shape competitor models. By reducing the IP barrier to EV development, Tesla signaled that it expected (and welcomed) ecosystem growth — positioning itself as the ecosystem leader rather than a jealous monopolist.</p>
+<h3>Case Study 2: Wikipedia — Open Communication as Organizational Model</h3>
+<p>Wikipedia represents perhaps the most ambitious experiment in open innovation communication. The encyclopedia's model — anyone can edit, all content is freely available, consensus-based editorial governance — creates a shared generative model of human knowledge that is continuously updated by millions of contributors.</p>
+<p>In Active Inference terms, Wikipedia is a massive, distributed model updating system. Each article represents the community's current generative model of a topic. Each edit is a model update — adding evidence, correcting errors, refining language. The "Talk" pages function as explicit model comparison forums where contributors debate which model of a topic best fits the available evidence. The citation requirement ensures that model updates are grounded in high-precision evidence rather than opinion.</p>
+<p>Wikipedia's communication model has profound implications for invention communication. The radical transparency — every edit is logged, every discussion is public, every dispute is visible — creates a level of trust that proprietary knowledge sources struggle to match. The model's accuracy is maintained not by central authority but by distributed error correction: when a prediction error is detected (an inaccuracy in an article), any knowledgeable reader can correct it.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 02 (Agents)</strong>: Stakeholders whose generative models communication must address</li>
+<li><strong>Module 03 (Perception)</strong>: How market sensing informs communication strategy</li>
+<li><strong>Module 04 (Cognition)</strong>: Strategic thinking that guides communication positioning</li>
+<li><strong>Module 05 (Action)</strong>: Marketing and communication as active states in the market</li>
+<li><strong>Module 06 (Learning)</strong>: Feedback from communication effectiveness driving model updates</li>
+<li><strong>Section 1, Module 07 (Communication)</strong>: Foundation-level communication concepts applied at ecosystem scale</li>
+</ul>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Communication Type</th>
+<th>Active Inference Function</th>
+<th>Key Mechanism</th>
+<th>Strategic Consideration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Marketing</td>
+<td>Transmit generative model to adopters</td>
+<td>Precision of evidence, emotional resonance</td>
+<td>Match message precision to adoption stage</td>
+</tr>
+<tr>
+<td>Branding</td>
+<td>Build compressed model in public consciousness</td>
+<td>Consistency, prediction accuracy</td>
+<td>Every interaction confirms or damages the model</td>
+</tr>
+<tr>
+<td>Investor Relations</td>
+<td>Update investor model with structured evidence</td>
+<td>Evidence hierarchy, calibrated uncertainty</td>
+<td>Match evidence to investor's inference stage</td>
+</tr>
+<tr>
+<td>Open Source</td>
+<td>Enable direct model inspection by adopters</td>
+<td>Transparency, community contribution</td>
+<td>Balance openness with value capture</td>
+</tr>
+<tr>
+<td>Standards</td>
+<td>Shape ecosystem-level shared models</td>
+<td>Interoperability, coordination</td>
+<td>Participate to influence or adopt to reduce uncertainty</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Friston, K. J., &amp; Frith, C. D. (2015). Active inference, communication and hermeneutics. <em>Cortex</em>, 68, 129-143.</li>
+<li>Keller, K. L. (2013). <em>Strategic Brand Management: Building, Measuring, and Managing Brand Equity</em> (4th ed.). Pearson.</li>
+<li>Raymond, E. S. (1999). <em>The Cathedral and the Bazaar: Musings on Linux and Open Source by an Accidental Revolutionary</em>. O'Reilly Media.</li>
+<li>Kawasaki, G. (2015). <em>The Art of the Start 2.0</em>. Portfolio/Penguin.</li>
+<li>Shannon, C. E. (1948). A mathematical theory of communication. <em>Bell System Technical Journal</em>, 27(3), 379-423.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Innovation Communication Design</h1>
+<h2>Objective</h2>
+<p>Design a multi-stakeholder communication strategy for your invention, crafting messages that transmit your generative model to different audiences with appropriate precision, evidence, and emotional resonance. You will practice writing marketing copy, structuring investor pitches, and designing brand narratives — all grounded in Active Inference communication theory.</p>
+<h2>Materials and Prerequisites</h2>
+<ul>
+<li>Your invention concept and all previous analyses from Modules 01-06</li>
+<li>Understanding of Active Inference communication from Section 1</li>
+</ul>
+<h2>Part 1: Core Model Articulation (10 minutes)</h2>
+<p>Before you can communicate your model to others, you must articulate it clearly for yourself.</p>
+<p><strong>Step 1</strong>: Describe your invention's generative model in three sentences: (1) the problem (what prediction error exists in the world), (2) the solution (how your invention resolves it), and (3) the evidence (why someone should believe your solution works).</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 2</strong>: Compress your model into a single sentence — your "elevator pitch."</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 3</strong>: Now express your model as a before/after transformation. What does the world look like without your invention? What does it look like with it?</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Before (Without Invention)</th>
+<th>After (With Invention)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The problem experience</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>The current solution</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>The cost/effort</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>The uncertainty level</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>The emotional state</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>Part 2: Marketing Communication Design (15 minutes)</h2>
+<p><strong>Step 1</strong>: Identify your primary target audience and describe their current generative model — what they believe about the problem space and existing solutions.</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 2</strong>: Design three marketing messages at different precision levels.</p>
+<p><strong>Low precision (awareness-stage)</strong>: A headline or tagline that introduces the concept and creates curiosity. What prediction error does it generate in the reader's mind?</p>
+<p>{fill:textarea}</p>
+<p><strong>Medium precision (consideration-stage)</strong>: A paragraph that explains the value proposition with specific claims. What evidence does it provide for each claim?</p>
+<p>{fill:textarea}</p>
+<p><strong>High precision (decision-stage)</strong>: A detailed comparison or case study that provides testable evidence. How does this help the reader update their model with confidence?</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 3</strong>: Evaluate your messages against the Apple standard: does each message construct a narrative model of the user's life, or does it merely list features? Revise if necessary.</p>
+<p>{fill:textarea}</p>
+<h2>Part 3: Investor Pitch Structure (15 minutes)</h2>
+<p>Design a pitch that follows the investor's evidence hierarchy.</p>
+<p><strong>Step 1</strong>: Structure your pitch across the standard investor inference framework.</p>
+<table>
+<thead>
+<tr>
+<th>Pitch Element</th>
+<th>Your Content</th>
+<th>Evidence Precision</th>
+<th>What Model Component It Updates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Problem</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Solution</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Market Size</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Product/Demo</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Traction</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Team</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Business Model</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Ask</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2</strong>: What is your strongest evidence point? (The evidence that would most significantly update the investor's model in your favor.)</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 3</strong>: What is the investor's most likely objection? (The prediction in your model that the investor's priors would most resist.) How do you address it?</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 4</strong>: Write the first 60 seconds of your pitch — the opening that must capture attention and establish the prediction error your invention resolves.</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Brand Architecture (10 minutes)</h2>
+<p>Design the compressed generative model that will become your brand.</p>
+<p><strong>Step 1</strong>: Define your brand's core attributes — the predictions that anyone encountering your brand should be able to make.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>What People Should Predict</th>
+<th>How You Will Reinforce This</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quality level</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Values/mission</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Price positioning</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>User experience</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Personality/tone</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2</strong>: Design a consistency test. List three brand touchpoints (e.g., website, packaging, customer support) and verify that each reinforces the same generative model.</p>
+<table>
+<thead>
+<tr>
+<th>Touchpoint</th>
+<th>Message/Experience</th>
+<th>Consistent with Brand Model?</th>
+<th>Adjustment Needed?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2.</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3.</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3</strong>: What is the one brand promise that, if broken, would generate the most damaging prediction error? How do you ensure it is never broken?</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Communication Strategy Integration (10 minutes)</h2>
+<p>Synthesize your communication across all stakeholder types.</p>
+<p><strong>Step 1</strong>: Map your communication strategy across stakeholders.</p>
+<table>
+<thead>
+<tr>
+<th>Stakeholder</th>
+<th>Key Message</th>
+<th>Channel</th>
+<th>Evidence Type</th>
+<th>Frequency</th>
+<th>Success Metric</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Customers</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Investors</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Partners</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Media</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Regulators</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2</strong>: Identify any conflicts between messages to different stakeholders. Can you tell investors about aggressive growth plans without alarming regulators? Can you promise customers low prices while convincing investors of high margins?</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 3</strong>: What communication action should you prioritize in the next 30 days? Why is this the highest-value communication investment at your current stage?</p>
+<p>{fill:textarea}</p>
+<h2>Discussion and Debrief</h2>
+<ol>
+<li>
+<p>How did articulating your core model change your understanding of what you are communicating? Was the compression exercise (three sentences to one sentence) difficult? What got lost?</p>
+</li>
+<li>
+<p>Compare your marketing messages at the three precision levels. How does precision level change the type of adopter you are addressing?</p>
+</li>
+<li>
+<p>How did structuring your pitch around the investor's inference framework change your approach compared to presenting information in the order you find most compelling?</p>
+</li>
+<li>
+<p>What was the hardest part of designing brand consistency? Where are the most likely points of inconsistency in your actual operations?</p>
+</li>
+<li>
+<p>Did you identify any stakeholder communication conflicts? How would you resolve them without being dishonest to any stakeholder?</p>
+</li>
+</ol></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz — Innovation Communication</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>Marketing functions in Active Inference primarily as:</li>
+</ol>
+<p>A) Persuading customers to buy products they do not need
+B) Transmitting a generative model from the inventor to potential adopters so they can make better predictions
+C) Creating brand awareness through repetition
+D) Gathering market research data from potential customers</p>
+<ol>
+<li>A brand functions as a compressed generative model because:</li>
+</ol>
+<p>A) Brands are registered trademarks with legal protection
+B) Encountering a brand instantly activates predictions about quality, values, and experience, reducing the free energy of purchasing decisions
+C) Brands are designed by professional graphic designers
+D) Brands increase the price customers are willing to pay</p>
+<ol>
+<li>Why does brand consistency matter from an Active Inference perspective?</li>
+</ol>
+<p>A) Consistency is required by advertising regulations
+B) Each interaction must reinforce the same predictive model; inconsistency generates prediction errors that damage the brand
+C) Consistent brands are cheaper to maintain
+D) Customers prefer brands that do not change</p>
+<ol>
+<li>Warren Buffett's investor letters are effective because:</li>
+</ol>
+<p>A) They are written by a famous person
+B) They explicitly share his generative model, acknowledge prediction errors, and provide calibrated uncertainty — enabling investors to update their own models
+C) They are longer than typical corporate communications
+D) They avoid discussing negative outcomes</p>
+<ol>
+<li>Open source development reduces adoption free energy by:</li>
+</ol>
+<p>A) Making software free of charge
+B) Enabling adopters to directly inspect the model (source code) rather than relying on vendor claims
+C) Eliminating the need for documentation
+D) Automatically ensuring high software quality</p>
+<ol>
+<li>Steve Jobs' refusal to support Flash on iOS was a form of:</li>
+</ol>
+<p>A) Technical incompetence
+B) Strategic standards communication — advocating for the HTML5 shared generative model over Flash's proprietary model
+C) Cost reduction
+D) Partnership with Adobe's competitors</p>
+<ol>
+<li>Content marketing (HubSpot, Salesforce) works as innovation communication because:</li>
+</ol>
+<p>A) It generates more clicks than traditional advertising
+B) It gradually constructs a shared generative model of the problem space within which the company's product is the natural solution
+C) It is cheaper than paid advertising
+D) It satisfies search engine optimization requirements</p>
+<h2>Part B: Short Answer and Analysis</h2>
+<ol>
+<li>
+<p>Tesla does not use traditional advertising. Analyze how Tesla's communication strategy — relying on product experience, earned media, and executive social media presence — functions as generative model transmission. What are the advantages and risks of this approach compared to traditional advertising?</p>
+</li>
+<li>
+<p>You are launching a healthcare device that requires both FDA approval and consumer adoption. Design a communication strategy that addresses three audiences simultaneously: (a) regulators (who need evidence of safety and efficacy), (b) healthcare providers (who need evidence of clinical value), and (c) patients (who need evidence of improved quality of life). How do you maintain message consistency while adapting precision and evidence type for each audience?</p>
+</li>
+<li>
+<p>Wikipedia demonstrates how radical transparency in communication can build trust. Analyze Wikipedia's editorial model as an Active Inference communication system: how do edits function as model updates, how do Talk pages function as model comparison forums, and how does the citation requirement ensure update precision? What can inventors learn from this model about communicating their inventions?</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

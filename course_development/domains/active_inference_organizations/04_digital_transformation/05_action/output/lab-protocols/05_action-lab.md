@@ -1,0 +1,76 @@
+# Lab: Automation Readiness Assessment
+
+## Objectives
+>
+> **Learning Goal:** Evaluate and prioritize processes for automation in your organization.
+
+---
+
+## Part 1: Process Inventory (10 min)
+
+| Process | Volume (H/M/L) | Rule-Based? | Stability | Error Impact | Human Judgment Needed? |
+|---------|----------------|------------|----------|-------------|----------------------|
+| | | Y/N | H/M/L | H/M/L | H/M/L |
+| | | | | | |
+| | | | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 2: Automation Readiness Scoring (15 min)
+
+| Process | Volume Score (1-5) | Rule Score (1-5) | Stability (1-5) | Total | Rank |
+|---------|-------------------|-----------------|-----------------|-------|------|
+| | | | | | |
+| | | | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 3: Pilot Design (15 min)
+
+For the top-ranked candidate:
+
+| Element | Design |
+|---------|--------|
+| Process scope | |
+| Automation approach (RPA/intelligent/hybrid) | |
+| Human-in-the-loop design | |
+| Exception handling | |
+| Success metrics | |
+| Timeline | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Part 4: Change Impact (10 min)
+
+| Impact Area | Current State | Post-Automation State | Transition Plan |
+|------------|--------------|----------------------|----------------|
+| People/roles | | | |
+| Process flow | | | |
+| Skills needed | | | |
+| Monitoring | | | |
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+---
+
+## Summary
+
+| Finding | Detail |
+|---------|--------|
+| Top automation candidate | |
+| Expected ROI | |
+| Biggest implementation risk | |

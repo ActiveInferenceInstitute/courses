@@ -5,6 +5,7 @@ Learning Objectives
 Formalize communication as coupled inference: two agents mutually predicting each other's behavior.
 Derive the multi-agent free energy and show how it decomposes into individual and interaction terms.
 Develop the mathematics of generalized synchrony between coupled dynamical systems.
+Connect multi-agent Active Inference to information-theoretic measures of communication.
 
 Introduction
 
@@ -48,12 +49,53 @@ For coupled Active Inference agents, generalized synchrony means the agents' int
 
 The synchronization manifold is stabilized when the coupling strength exceeds the Lyapunov exponent of the uncoupled systems — a condition analogous to "paying enough attention to each other."
 
+Information-Theoretic Communication Measures
+
+Communication between Active Inference agents can be quantified using information-theoretic measures:
+
+Mutual information: I(sA; sB | o) measures how much knowing one agent's states tells us about the other's states, given the shared observations. Successful communication maximizes this quantity.
+Transfer entropy: TE(A→B) = H(sBfuture | sBpast) - H(sBfuture | sBpast, sApast) measures the directed flow of information from A to B — how much A's past states reduce uncertainty about B's future states.
+Channel capacity: The maximum rate at which agents can communicate is bounded by the mutual information between their action and observation channels: C = max I(aA; oB), where the maximum is over the distribution of A's actions.
+
+Worked Example: Two Coupled Gaussian Agents
+
+Consider two agents with scalar states and linear coupling:
+
+Agent A: dsA/dt = -κA · sA + cAB · sB + ξA (where ξA ~ N(0, σA²))
+Agent B: dsB/dt = -κB · sB + cBA · sA + ξB (where ξB ~ N(0, σB²))
+
+The joint free energy under mean-field approximation:
+
+Fjoint = ½πA · (oA - μA)² + ½πB · (oB - μB)² + ½λA · (μA - cAB · μB)² + ½λB · (μB - cBA · μA)² + ...
+
+At steady state, the belief updates satisfy:
+
+*μA = (πA · oA + λA · cAB · μB) / (πA + λA)
+μB = (πB · oB + λB · cBA · μA) / (πB + λB)
+
+Each agent's belief is a precision-weighted combination of its own sensory evidence and its prediction of the other agent. The coupling precisions λA and λB control "how much each agent listens to the other."
+
+Scaling to Multi-Agent Systems
+
+For N > 2 agents, the mathematics generalizes through mean field factorization:
+
+q(s₁, ..., sN) ≈ ∏ᵢ qi(sᵢ)
+
+Each agent infers only its own states and a summary of the population. This yields tractable inference even in large groups and connects to collective behavior: flocking, herding, and social norms emerge as attracting solutions of coupled free energy minimization (Friston & Frith, 2015).
+
 Derivation Exercises
 
 For two coupled Gaussian agents, derive the joint free energy Fjoint and show how it separates into individual and interaction terms.
 Derive the condition for generalized synchrony: when does the synchronization manifold become an attractor?
 Show that communication minimizes joint free energy by aligning the agents' generative models.
+Compute the transfer entropy TE(A→B) for the two coupled linear-Gaussian agents and show it depends on the coupling strength cBA.
 
 Conclusion
 
-Communication is coupled inference — two agents minimizing their joint free energy through reciprocal prediction. The mathematics of generalized synchrony provides the formal framework for understanding how mutual understanding emerges from the dynamics of interacting generative models. Module 08 completes the mathematical framework with planning and sophisticated inference.
+Communication is coupled inference — two agents minimizing their joint free energy through reciprocal prediction. The mathematics of generalized synchrony and information theory provides the formal framework for understanding how mutual understanding emerges from the dynamics of interacting generative models. Module 08 completes the mathematical framework with planning and sophisticated inference.
+
+Further Reading
+
+Friston, K. & Frith, C. (2015). A duet for one. Consciousness and Cognition, 36, 390-405.
+Schreiber, T. (2000). Measuring information transfer. Physical Review Letters, 85(2), 461.
+Vasil, J. et al. (2020). A world unto itself: Human communication as active inference. Frontiers in Psychology*, 11, 417.

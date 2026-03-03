@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 01: Systems — Setting Up the Active Inference Toolkit</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 101 | <strong>Unit</strong>: Implementation | <strong>Audience</strong>: First-semester undergraduates</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Set up a <strong>Python environment</strong> for implementing Active Inference agents.</li>
+<li>Understand the basic <strong>data structures</strong> needed: probability distributions, matrices, and vectors.</li>
+<li>Implement a simple <strong>generative model</strong> from scratch using NumPy.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Across Cognitive Science, Computational Neuroscience, and Mathematical Frameworks, we've built a conceptual and mathematical foundation for Active Inference. Now we <em>implement</em> it — turning equations into working code. This module sets up the toolkit.</p>
+<h2>Key Concepts</h2>
+<h3>1. Why Python?</h3>
+<p>Python is the standard language for scientific computing:</p>
+<ul>
+<li><strong>NumPy</strong> for fast matrix operations (A, B, C, D matrices)</li>
+<li><strong>SciPy</strong> for optimization (free energy minimization)</li>
+<li><strong>Matplotlib</strong> for visualization (plotting beliefs, free energies)</li>
+<li><strong>pymdp</strong> — an open-source Python library specifically for Active Inference</li>
+</ul>
+<h3>2. Core Data Structures</h3>
+<p>Every POMDP component maps to a Python data structure:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># A matrix: P(o | s) — observation model</span>
+<span class="c1"># Shape: (num_observations, num_states)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>    <span class="c1"># P(o=0 | s)</span>
+              <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]])</span>    <span class="c1"># P(o=1 | s)</span>
+
+<span class="c1"># B matrix: P(s_t | s_{t-1}, a) — transition model</span>
+<span class="c1"># Shape: (num_states, num_states, num_actions)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">B</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]])</span>  <span class="c1"># action 0: stay</span>
+<span class="n">B</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]])</span>  <span class="c1"># action 1: switch</span>
+
+<span class="c1"># C vector: log P(o) — preferences</span>
+<span class="c1"># Shape: (num_observations,)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>  <span class="c1"># prefer observation 0</span>
+
+<span class="c1"># D vector: P(s_1) — initial state prior</span>
+<span class="c1"># Shape: (num_states,)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>  <span class="c1"># uniform prior</span>
+</code></pre></div>
+
+<h3>3. Probability Distributions in Code</h3>
+<p>Key operations on categorical distributions:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">normalize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize a vector to sum to 1 (make it a valid distribution).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">log_stable</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-16</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Numerically stable log — avoids log(0) = -inf.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert log-probabilities to probabilities.&quot;&quot;&quot;</span>
+    <span class="n">e_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>  <span class="c1"># subtract max for numerical stability</span>
+    <span class="k">return</span> <span class="n">e_x</span> <span class="o">/</span> <span class="n">e_x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">entropy</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute entropy H(p) = -Σ p log p.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">log_stable</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kl_divergence</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute KL divergence D_KL(q || p).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="p">(</span><span class="n">log_stable</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">-</span> <span class="n">log_stable</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</code></pre></div>
+
+<h3>4. Building a Generative Model Class</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">GenerativeModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A simple Active Inference generative model.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">A</span>  <span class="c1"># observation model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">B</span>  <span class="c1"># transition model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">C</span>  <span class="c1"># preferences (log probabilities)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">D</span>  <span class="c1"># initial state prior</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_states</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_observations</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_actions</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return P(o | s) for a specific observation.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">observation</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">transition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return P(s_t | s_{t-1}) for a specific action.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">action</span><span class="p">]</span>
+</code></pre></div>
+
+<h3>5. Validating the Model</h3>
+<p>Important checks to ensure your model is well-formed:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate_model</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that the model matrices are valid probability distributions.&quot;&quot;&quot;</span>
+    <span class="c1"># A columns must sum to 1</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">),</span> <span class="s2">&quot;A columns must sum to 1&quot;</span>
+    <span class="c1"># B columns must sum to 1 for each action</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">B</span><span class="p">[:,:,</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;B[:,</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">] columns must sum to 1&quot;</span>
+    <span class="c1"># D must sum to 1</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="mf">1.0</span><span class="p">),</span> <span class="s2">&quot;D must sum to 1&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model valid!&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2>Summary</h2>
+<p>The Implementation track translates Active Inference mathematics into Python code. The core data structures are NumPy arrays representing the A (observation), B (transition), C (preference), and D (initial belief) components. Utility functions for normalization, softmax, entropy, and KL divergence provide the mathematical building blocks.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>pymdp documentation: <a href="https://pymdp-rtd.readthedocs.io/">https://pymdp-rtd.readthedocs.io/</a></li>
+<li>NumPy documentation: <a href="https://numpy.org/doc/">https://numpy.org/doc/</a></li>
+<li>Heins, C. et al. (2022). pymdp: A Python library for active inference in discrete state spaces. <em>JOSS</em>, 7(73), 4098.</li>
+</ul>
+</body>
+</html>

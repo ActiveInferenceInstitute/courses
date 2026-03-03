@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_Communication - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>07_Communication</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>07_Communication</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Robotic Communication: Extending the Markov Blanket Through Information Exchange</h1>
+<h2>Executive Summary</h2>
+<p>Communication extends a robot's effective Markov blanket beyond its physical sensors and actuators. Through communication, a robot can access information gathered by other robots, receive instructions from human operators, and share its own beliefs and intentions with collaborators. In Active Inference, communication is understood as the alignment of generative models between agents — when two robots communicate successfully, their internal models of the shared environment become more consistent, reducing collective free energy. This module examines the communication architectures used in robotic systems, from ROS2 middleware to human-robot interaction interfaces, and analyzes how these information channels shape the robot's capacity for coordinated action and collective intelligence.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Define robotic communication as the exchange of information that aligns generative models between agents or between a robot and a human operator.</li>
+<li>Analyze ROS2 middleware architectures (topics, services, actions) as formalized communication channels with defined bandwidth and reliability.</li>
+<li>Evaluate how communication extends the effective Markov blanket of a robotic system beyond its physical sensors.</li>
+<li>Identify the challenges of human-robot communication, including shared mental models, intent inference, and feedback modalities.</li>
+<li>Connect robotic communication to the Active Inference framework through the lens of collective free energy minimization.</li>
+</ol>
+<h2>Introduction</h2>
+<p>The previous module on Learning addressed how individual robots improve their generative models through experience. But robots rarely operate in isolation. Industrial manipulators communicate with programmable logic controllers and manufacturing execution systems. Mobile robots communicate with fleet management servers and human supervisors. Collaborative robots communicate with human partners through speech, gestures, and shared displays. In the next module on Planning, we will see how communicated information supports long-horizon decision making; here, we focus on the communication mechanisms themselves and their role in extending the robot's cognitive reach.</p>
+<h2>Key Concepts</h2>
+<h3>1. Communication as Generative Model Alignment</h3>
+<p>In Active Inference, communication between agents serves to align their generative models — to bring their beliefs about the shared world into closer agreement. When a mobile robot transmits its position estimate to a fleet management server, both the robot and the server update their models to reflect the shared information, reducing the divergence between their respective beliefs. When a human operator points at an object and says "pick that up," the human's generative model (which includes the intent and the object identity) is partially transmitted to the robot through the pointing gesture and speech, enabling the robot to update its own model to include the task goal.</p>
+<p>This perspective reveals that communication is never a simple data transfer. It is a process of inference: the receiver must interpret the message through its own generative model, extracting meaning from the signal. The effectiveness of communication depends on the degree to which the sender's and receiver's generative models share common structure. A ROS2 message of type geometry_msgs/PoseStamped communicates effectively between nodes that share the same coordinate frame conventions and message format. A human gesture communicates effectively only if the robot has a model of human gestures and their meanings.</p>
+<p>Failed communication — dropped messages, misunderstood gestures, ambiguous instructions — corresponds to increased free energy: the receiver's model cannot account for the received signal, generating prediction errors that indicate a breakdown in the communication channel or a mismatch between sender and receiver models.</p>
+<h3>2. ROS2 Middleware as a Communication Architecture</h3>
+<p>The Robot Operating System 2 (ROS2) provides a standardized communication architecture for robotic systems. Its three primary communication patterns — topics, services, and actions — implement different information exchange paradigms.</p>
+<p><strong>Topics</strong> implement publish-subscribe communication. A node publishes messages to a named topic, and any node that subscribes to that topic receives the messages asynchronously. This pattern is used for continuous data streams: sensor data (sensor_msgs/LaserScan for lidar, sensor_msgs/Image for cameras), state estimates (nav_msgs/Odometry), and control commands (geometry_msgs/Twist). In Active Inference terms, topic subscriptions are sensory states of a node's Markov blanket — they carry information inward — while topic publications are active states — they transmit information outward to influence other nodes.</p>
+<p><strong>Services</strong> implement synchronous request-response communication. A client node sends a request and blocks until the server node returns a response. This pattern is used for discrete queries: requesting a map update, querying the status of a subsystem, or commanding a mode change. Services correspond to deliberate, transactional information exchanges rather than continuous streams.</p>
+<p><strong>Actions</strong> implement long-running asynchronous tasks with feedback. A client sends a goal to an action server, which executes the goal over time and provides periodic feedback and a final result. The ROS2 Navigation2 stack uses actions for path following — the behavior tree sends a navigation goal, and the controller server provides continuous feedback on progress. Actions implement the temporal extension of Active Inference's action selection: a goal is set (preferred future state), execution proceeds with monitoring (ongoing prediction error checking), and the result is reported (final state assessment).</p>
+<p>The DDS (Data Distribution Service) layer beneath ROS2 provides quality-of-service (QoS) configuration: message reliability, delivery deadline, history depth, and durability. These QoS settings define the information-theoretic properties of each communication channel — its bandwidth, latency, and reliability — which in turn constrain what kind of free energy minimization is possible across the channel.</p>
+<h3>3. Human-Robot Communication</h3>
+<p>Communication between robots and humans presents unique challenges because human and robot generative models differ fundamentally in structure, complexity, and representation.</p>
+<p><strong>Speech-based communication</strong> leverages natural language — the richest and most flexible human communication modality. A voice command like "move the red block to the left of the blue cylinder" requires the robot to parse natural language, ground referring expressions ("the red block") in its perceptual model, interpret spatial relations ("to the left of"), and generate a motor plan. Each step involves inference under the robot's generative model, and failures at any step result in communication breakdown.</p>
+<p><strong>Gesture-based communication</strong> includes pointing, demonstrating, and guiding. A human operator physically guiding a UR5 arm through a desired trajectory (kinesthetic teaching) is a direct physical communication channel — the human's intended trajectory is transmitted through force and position signals at the robot's joints. The robot's generative model must interpret these signals as demonstrations of desired behavior rather than as disturbances to be resisted. This requires switching the robot's control mode from stiff position control to compliant gravity compensation — in Active Inference terms, reducing the precision of proprioceptive position predictions so that external forces (the human's guidance) can dominate.</p>
+<p><strong>Visual feedback displays</strong> communicate the robot's internal state to humans. Status lights, dashboard interfaces, and augmented reality overlays help humans understand what the robot believes, intends, and is about to do. This outward communication from robot to human helps align the human's generative model of the robot with the robot's actual internal state, reducing the human's uncertainty and enabling more effective collaboration.</p>
+<h3>4. Communication Bandwidth and Information Bottlenecks</h3>
+<p>Every communication channel has finite bandwidth — a maximum rate at which information can be transmitted reliably. These bandwidth limits create information bottlenecks that shape the design of robotic systems.</p>
+<p>A Velodyne VLP-16 lidar generates approximately 100 MB/s of raw point cloud data. Transmitting this over a standard WiFi connection (theoretical maximum 50-150 MB/s, practical throughput often 10-30 MB/s) is feasible but consumes most of the available bandwidth, leaving little room for other communication. Robotic systems therefore compress, downsample, or process sensor data before transmitting it — sending extracted features rather than raw data, occupancy grid updates rather than full point clouds, or detected object poses rather than images.</p>
+<p>This compression is itself an inference process. The sending node must decide what information is relevant — what aspects of the raw data are needed by the receiver to update its generative model. Transmitting a detected object's pose (6 numbers) rather than the full point cloud (300,000 3D points) represents a massive information compression, justified by the assumption that the receiver needs only the object-level abstraction, not the raw geometry. When this assumption is correct, the communication is efficient. When it is wrong — when the receiver actually needs the fine geometric details — the compression introduces information loss that degrades the receiver's state estimate.</p>
+<h3>5. Communication Failures and Robustness</h3>
+<p>Communication failures — dropped messages, delayed transmissions, corrupted data — are inevitable in real robotic systems. Robust robot design must anticipate and mitigate these failures.</p>
+<p>In Active Inference terms, a communication failure means that a sensory channel (the subscription to another node's output) goes silent. The robot's cognitive system must detect this failure (the expected message does not arrive within its deadline) and respond appropriately. Options include: degrading gracefully by relying on other sensory channels (if lidar messages stop, rely more heavily on odometry), increasing uncertainty in the affected states (if the fleet server stops sending updated maps, widen the uncertainty on obstacle locations), or taking protective action (if safety-critical communication fails, stop moving).</p>
+<p>The ROS2 lifecycle management system provides mechanisms for detecting and responding to communication failures. Nodes can monitor the health of their subscriptions and take corrective action when expected messages stop arriving. QoS settings like "deadline" and "liveliness" allow nodes to specify their communication requirements and be notified when those requirements are violated.</p>
+<h2>Active Inference Connection</h2>
+<p>Communication in Active Inference serves to extend the effective Markov blanket of an agent. A robot that receives position estimates from another robot effectively expands its sensory reach — it can now perceive (through communication) what the other robot can observe directly. A robot that transmits commands to other robots expands its active reach — it can influence (through communication) parts of the world beyond its own actuators' range. This extension of the Markov blanket through communication is what enables multi-robot systems, human-robot collaboration, and the integration of robots into larger industrial systems. The quality and reliability of communication channels determine the extent and fidelity of this extended blanket, directly affecting the robot's capacity for coordinated free energy minimization.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: ROS2 Navigation Stack Communication Architecture</h3>
+<p>The ROS2 Navigation2 stack demonstrates a carefully designed communication architecture for mobile robot autonomy. The behavior tree server communicates with the planner server through the ComputePathToPose action interface, sending goal poses and receiving planned paths. The planner server subscribes to the costmap topic (sensor_msgs/OccupancyGrid) to receive updated obstacle information. The controller server subscribes to the planned path and publishes velocity commands (geometry_msgs/Twist) to the base driver. Each communication channel has appropriate QoS settings: the costmap uses reliable delivery with a short deadline to ensure the planner always has current obstacle data, while the velocity command uses best-effort delivery with a tight deadline to prioritize low latency over guaranteed delivery. This architecture demonstrates how communication channel design — message types, QoS policies, topic naming — formalizes the information flow across subsystem Markov blankets.</p>
+<h3>Case Study 2: Kinesthetic Teaching for UR5 Task Programming</h3>
+<p>A human operator programs a UR5 collaborative robot through kinesthetic teaching — physically guiding the robot through desired trajectories while the robot records joint positions at 125 Hz. The communication channel is the robot's own joint sensors: the human applies forces, the joints move, and the encoders record the resulting trajectory. The robot's controller switches to gravity compensation mode (near-zero stiffness), allowing the human's guidance to dominate joint motion. After recording, the robot replays the learned trajectory under position control (high stiffness). This physical communication loop — human intent transmitted through force, robot state perceived through encoders — is a direct, embodied communication channel that bypasses the ambiguities of speech and gesture. It works because the generative models of human and robot share a common representation: joint-space trajectories. The limitation is that only trajectory-level information is communicated — the human's higher-level intent (why this trajectory, what it achieves) is not captured, limiting generalization to new situations.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 1 (Systems)</strong>: Communication channels as extensions of the system's Markov blanket</li>
+<li><strong>Module 2 (Agents)</strong>: How communicated information supports agency in collaborative scenarios</li>
+<li><strong>Module 6 (Learning)</strong>: How learned models can be shared through communication</li>
+<li><strong>Module 8 (Planning)</strong>: How communicated constraints and goals shape planning processes</li>
+</ul>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model Alignment</td>
+<td>Communication that reduces divergence between agents' generative models</td>
+<td>Two robots sharing position estimates to agree on relative locations</td>
+</tr>
+<tr>
+<td>Topic Communication</td>
+<td>Asynchronous publish-subscribe data stream</td>
+<td>Lidar node publishing sensor_msgs/LaserScan to the costmap node</td>
+</tr>
+<tr>
+<td>Service Communication</td>
+<td>Synchronous request-response exchange</td>
+<td>Requesting a map update from the map server</td>
+</tr>
+<tr>
+<td>Human-Robot Communication</td>
+<td>Information exchange between humans and robots</td>
+<td>Kinesthetic teaching through physical guidance of a UR5</td>
+</tr>
+<tr>
+<td>Bandwidth Bottleneck</td>
+<td>Finite information capacity of a communication channel</td>
+<td>WiFi throughput limiting point cloud transmission rate</td>
+</tr>
+<tr>
+<td>Communication Failure</td>
+<td>Loss or degradation of an information channel</td>
+<td>Dropped messages causing a robot to rely on stale obstacle data</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Macenski, S., et al. (2022). Robot Operating System 2: Design, architecture, and uses in the wild. <em>Science Robotics</em>, 7(66).</li>
+<li>Goodrich, M. A., &amp; Schultz, A. C. (2008). Human-robot interaction: A survey. <em>Foundations and Trends in Human-Computer Interaction</em>, 1(3), 203-275.</li>
+<li>Friston, K., &amp; Frith, C. (2015). A duet for one. <em>Consciousness and Cognition</em>, 36, 390-405.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Multi-Robot Communication and Coordination</h1>
+<h2>Objective</h2>
+<p>Design communication protocols for a multi-robot team, framing inter-robot communication as generative model alignment through shared prediction errors. You will analyze how robots can share beliefs, coordinate actions, and achieve consensus using Active Inference principles.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Understanding of Active Inference agents from Modules 02 and 05</li>
+<li>Familiarity with basic networking concepts (publish-subscribe, message passing)</li>
+<li>Module 06: Learning (how shared experience accelerates adaptation)</li>
+</ul>
+<h2>Part 1: Communication as Generative Model Alignment</h2>
+<p>Consider a team of three warehouse robots that must coordinate to avoid collisions and distribute pick tasks efficiently.</p>
+<ol>
+<li>Each robot maintains its own generative model of the warehouse. What information should robots share to align their models?</li>
+<li>Position beliefs (where am I?)</li>
+<li>Task status (what am I doing?)</li>
+<li>Environmental updates (obstacle detected at location X)</li>
+<li>
+<p>Model parameters (learned friction coefficients)</p>
+</li>
+<li>
+<p>Frame inter-robot communication as prediction error sharing: Robot A sends a message to Robot B. In what sense is this message a prediction error that updates Robot B's generative model?</p>
+</li>
+<li>
+<p>What is the Active Inference interpretation of a communication failure (lost message, delayed transmission)?</p>
+</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 2: ROS2 Topic Architecture Design</h2>
+<p>Design a ROS2-compatible message-passing architecture for the multi-robot team:</p>
+<ol>
+<li>Define the topic structure:</li>
+<li><code>/robot_i/belief/pose</code> -- robot i's belief about its own pose</li>
+<li><code>/robot_i/belief/task_status</code> -- current task state</li>
+<li><code>/shared/environment_updates</code> -- map updates from any robot</li>
+<li>
+<p><code>/shared/coordination</code> -- task allocation and conflict resolution</p>
+</li>
+<li>
+<p>For each topic, specify: message type, publication rate, and which robots subscribe.</p>
+</li>
+<li>How does this architecture map to the Markov blanket structure of the multi-agent system? Each robot has its own blanket, and communication channels form the sensory/active states between robot blankets.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Consensus as Collective Free Energy Minimization</h2>
+<p>Design a consensus algorithm where robots agree on a shared world model:</p>
+<ol>
+<li>Each robot has a belief about the location of a movable obstacle: Robot A believes (3.0, 2.0), Robot B believes (3.2, 1.8), Robot C believes (2.9, 2.1).</li>
+<li>Define a consensus update rule based on precision-weighted averaging:</li>
+<li>mu_consensus = sum(Pi_i * mu_i) / sum(Pi_i)</li>
+<li>Where Pi_i is robot i's confidence in its estimate</li>
+<li>Trace three rounds of consensus updates. Do the robots converge? What happens if one robot has much higher precision than the others?</li>
+<li>How does this relate to minimizing the collective free energy of the multi-agent system?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Communication Bandwidth and Information Content</h2>
+<p>Analyze the trade-off between communication bandwidth and coordination quality:</p>
+<table>
+<thead>
+<tr>
+<th>Communication Level</th>
+<th>Bandwidth</th>
+<th>Information Shared</th>
+<th>Coordination Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No communication</td>
+<td>0</td>
+<td>Nothing</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Position only</td>
+<td>Low</td>
+<td>Pose estimates</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Beliefs + uncertainty</td>
+<td>Medium</td>
+<td>Poses + covariances</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Full generative model</td>
+<td>High</td>
+<td>All parameters + beliefs</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>For each level, describe a scenario where coordination succeeds or fails.</li>
+<li>What is the minimum communication needed to avoid collisions?</li>
+<li>Frame bandwidth constraints as a cost term in the expected free energy of communication actions.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 5: Distributed Active Inference Pseudocode</h2>
+<p>Write pseudocode for a distributed Active Inference loop where each robot runs locally but communicates with neighbors:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">distributed_AIF_step</span><span class="p">(</span>robot_id, belief, neighbors<span class="p">):</span>
+<span class="w">    </span>#<span class="w"> </span><span class="mf">1.</span><span class="w"> </span><span class="n">Local</span><span class="w"> </span><span class="n">perception</span><span class="o">-</span><span class="n">action</span><span class="w"> </span><span class="n">cycle</span>
+<span class="w">    </span><span class="n">observation</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">sense</span><span class="p">()</span>
+<span class="w">    </span><span class="n">belief</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">update_belief</span><span class="p">(</span><span class="n">observation</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">)</span>
+<span class="w">    </span><span class="n">action</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">select_action</span><span class="p">(</span><span class="n">belief</span><span class="p">,</span><span class="w"> </span><span class="nb">preferences</span><span class="p">)</span>
+
+<span class="w">    </span>#<span class="w"> </span><span class="mf">2.</span><span class="w"> </span><span class="n">Communication</span><span class="p">:</span><span class="w"> </span><span class="n">send</span><span class="w"> </span><span class="n">belief</span><span class="w"> </span><span class="nb">summary</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="nb">neighbors</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">neighbor</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nb">neighbors</span><span class="p">:</span>
+<span class="w">        </span><span class="n">send</span><span class="p">(</span><span class="n">robot_id</span><span class="p">,</span><span class="w"> </span><span class="n">belief</span><span class="p">.</span><span class="n">summary</span><span class="p">(),</span><span class="w"> </span><span class="n">neighbor</span><span class="p">)</span>
+
+<span class="w">    </span>#<span class="w"> </span><span class="mf">3.</span><span class="w"> </span><span class="n">Receive</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">integrate</span><span class="w"> </span><span class="n">neighbor</span><span class="w"> </span><span class="n">beliefs</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">receive_all</span><span class="p">():</span>
+<span class="w">        </span><span class="n">belief</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">integrate_neighbor_belief</span><span class="p">(</span><span class="n">belief</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span>
+
+<span class="w">    </span>#<span class="w"> </span><span class="mf">4.</span><span class="w"> </span><span class="n">Coordination</span><span class="p">:</span><span class="w"> </span><span class="n">adjust</span><span class="w"> </span><span class="n">action</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">conflict</span><span class="w"> </span><span class="n">detected</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">collision_predicted</span><span class="p">(</span><span class="n">belief</span><span class="p">,</span><span class="w"> </span><span class="n">neighbor_beliefs</span><span class="p">):</span>
+<span class="w">        </span><span class="n">action</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">resolve_conflict</span><span class="p">(</span><span class="n">action</span><span class="p">,</span><span class="w"> </span><span class="n">neighbor_beliefs</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">execute</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">belief</span>
+</code></pre></div>
+
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Communication Aspect</th>
+<th>Classical Multi-Robot</th>
+<th>Active Inference Multi-Robot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Message content</td>
+<td>State estimates</td>
+<td>Beliefs + precisions (prediction errors)</td>
+</tr>
+<tr>
+<td>Coordination mechanism</td>
+<td>Centralized planner or auction</td>
+<td>Collective free energy minimization</td>
+</tr>
+<tr>
+<td>Conflict resolution</td>
+<td>Priority rules</td>
+<td>Precision-weighted consensus</td>
+</tr>
+<tr>
+<td>Adaptation to failures</td>
+<td>Timeout + fallback</td>
+<td>Reduced precision for silent agents</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ul>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Friston, K., &amp; Frith, C. (2015). A duet for one. <em>Consciousness and Cognition</em>, 36, 390-405.</li>
+<li>Ren, W., &amp; Beard, R. W. (2008). <em>Distributed Consensus in Multi-vehicle Cooperative Control</em>. Springer.</li>
+</ul></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Communication in Robotic Systems</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>Communication in a robotic Active Inference framework is best understood as:
+A) Only verbal speech between robots and humans
+B) The exchange of information between agents (robots, humans, or subsystems) that enables alignment of generative models and coordinated action
+C) The physical wiring connecting robot components
+D) Broadcasting raw sensor data to the internet</li>
+</ol>
+<p><strong>Answer: B</strong> -- Communication in Active Inference extends beyond data transmission to encompass the alignment of generative models between agents. When a robot signals its intended trajectory to a human coworker, it is helping the human update their model of the robot's future states, reducing mutual surprise.</p>
+<ol>
+<li>In a multi-robot system, why is communication essential from an Active Inference perspective?
+A) Robots enjoy social interaction
+B) Each robot has a limited Markov blanket and cannot directly observe other robots' internal states; communication extends the effective sensory boundary to include information about other agents' beliefs and intentions
+C) Communication increases power consumption, which is always desirable
+D) It is not essential -- robots should always work independently</li>
+</ol>
+<p><strong>Answer: B</strong> -- Each robot's Markov blanket limits what it can directly observe. Communication acts as an extended sensory channel, allowing robots to share state estimates, predictions, and goals. This reduces collective free energy by enabling coordinated behavior.</p>
+<ol>
+<li>A collaborative robot signals its intended motion to a human coworker through LED indicators and projected workspace boundaries. This is an example of:
+A) The robot decorating its workspace
+B) Legibility -- making the robot's predictions and intentions observable to the human, enabling the human to update their generative model of the robot's behavior
+C) The robot wasting energy on lights
+D) Communication that serves no functional purpose</li>
+</ol>
+<p><strong>Answer: B</strong> -- Legible robot behavior reduces the human's prediction error about what the robot will do next. Projected trajectories and LED state indicators externalize the robot's internal states, helping the human maintain an accurate model of the robot's plans.</p>
+<ol>
+<li>In the ROS2 middleware, the DDS (Data Distribution Service) quality-of-service policies shape communication between nodes. In Active Inference terms, these policies define:
+A) The color scheme of the user interface
+B) The precision, reliability, and temporal characteristics of information flow across the Markov blankets of communicating subsystems
+C) The physical location of each node
+D) The robot's favorite communication protocol</li>
+</ol>
+<p><strong>Answer: B</strong> -- QoS policies (reliability, deadline, liveliness, history depth) determine how faithfully and quickly information flows between nodes. These correspond to the precision and bandwidth of the communication channel -- high reliability and low latency yield high-precision inter-subsystem information exchange.</p>
+<ol>
+<li>When two mobile robots share their local occupancy grid maps over a communication channel, this is:
+A) Map merging -- combining partial generative models from different agents to form a more complete joint model with lower collective uncertainty
+B) A waste of bandwidth
+C) Only possible with identical robots
+D) An example of competitive behavior</li>
+</ol>
+<p><strong>Answer: A</strong> -- Each robot has built a partial map (local generative model) from its own observations. Sharing and merging these maps reduces both robots' uncertainty about the environment, lowering collective free energy -- a form of collaborative inference.</p>
+<ol>
+<li>A human operator uses a joystick to teleoperate a robot in a hazardous environment. The communication channel here transmits:
+A) Only the robot's entertainment preferences
+B) Compressed action commands from the human's generative model to the robot's motor system, with video feedback returning sensory observations to the human -- forming a distributed perception-action loop across the communication channel
+C) Random signals
+D) Nothing useful</li>
+</ol>
+<p><strong>Answer: B</strong> -- Teleoperation creates a distributed Active Inference loop: the human's brain is the generative model, the communication channel bridges the human's decisions and the robot's sensors, and the video feed closes the sensory loop. Latency and bandwidth limitations in the channel directly impact control performance.</p>
+<ol>
+<li>Stigmergic communication -- where robots leave physical traces (markers, modified terrain) for other robots -- is analogous to:
+A) Littering
+B) Modifying the shared environment so that future sensory observations of other agents carry information, effectively using the world as a communication medium within the Active Inference framework
+C) Destroying the environment
+D) Communication that only works with humans</li>
+</ol>
+<p><strong>Answer: B</strong> -- Stigmergy (e.g., ants leaving pheromone trails) allows agents to communicate by modifying the external states that fall within other agents' Markov blankets. A robot marking a explored area with a physical tag changes what future robots will observe, indirectly transmitting information.</p>
+<ol>
+<li>Communication bandwidth limitations affect Active Inference multi-robot systems by:
+A) Having no effect on system performance
+B) Constraining the precision of shared information, forcing robots to compress, prioritize, and selectively transmit the most informative aspects of their generative models
+C) Improving all aspects of coordination
+D) Only affecting audio communication</li>
+</ol>
+<p><strong>Answer: B</strong> -- Limited bandwidth means robots cannot share full state estimates. They must compress information (transmitting sufficient statistics rather than raw data), prioritize (sharing the most uncertain or decision-relevant variables first), and accept reduced precision on shared beliefs.</p>
+<ol>
+<li>A robot asking a human "Should I pick up the red object or the blue one?" is an example of:
+A) The robot being indecisive without purpose
+B) Active communication to resolve ambiguity -- the robot's generative model cannot distinguish between two equally viable actions, so it seeks information from the human to reduce expected free energy
+C) The robot testing the human's color vision
+D) A programming error</li>
+</ol>
+<p><strong>Answer: B</strong> -- When the robot's policy evaluation produces a tie (equal expected free energy for multiple actions), querying the human provides additional preference information that disambiguates the decision. This is epistemic action through the communication channel.</p>
+<ol>
+<li>Natural language communication between a human and a robot requires:
+A) The robot to have a generative model of the human's language, including how words map to world states, actions, and intentions -- essentially a shared generative model at the linguistic level
+B) Only a microphone and speaker
+C) The robot to understand every human language simultaneously
+D) No generative model of any kind</li>
+</ol>
+<p><strong>Answer: A</strong> -- Language understanding is generative model inversion: the robot must infer the speaker's intended meaning (hidden state) from the observed utterance (sensory data). This requires a generative model of how communicative intentions produce language, grounded in the shared physical and task context.</p>
+<h2>Part B: Short Answer and Design Prompts</h2>
+<ol>
+<li>
+<p>Design a communication protocol for a team of three warehouse robots that must coordinate to avoid collisions while fulfilling orders. What information should each robot share, at what frequency, and how does this reduce collective free energy?</p>
+</li>
+<li>
+<p>A robot arm and a human worker share a workbench. The robot must communicate its planned movements to the human. Compare three modalities: visual projection of planned trajectories, auditory beeps indicating movement onset, and haptic resistance when the human's hand enters the robot's planned path. Which provides the highest-precision information for the human's generative model?</p>
+</li>
+<li>
+<p>Explain how communication latency in a teleoperation scenario increases free energy in the distributed human-robot system. What strategies (prediction displays, model-based compensation) can mitigate this?</p>
+</li>
+<li>
+<p>How would you design a communication system for an underwater robot team where acoustic communication is available but severely bandwidth-limited? What aspects of the generative model should be prioritized for transmission?</p>
+</li>
+<li>
+<p>A search-and-rescue robot encounters a survivor but cannot determine the best extraction path. Design an Active Inference communication strategy where the robot queries a remote human operator, incorporating the operator's response into its planning generative model.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>86_Actinf Gueststream 081 1 Hannah Biddell Ruben Laukkonen - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>86_Actinf Gueststream 081 1 Hannah Biddell Ruben Laukkonen</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>86_Actinf Gueststream 081 1 Hannah Biddell Ruben Laukkonen</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf GuestStream 081.1 Hannah Biddell, Ruben Laukkonen: Arousal coherence, uncertainty, well-being</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=Q-_YCWfO0b0">YouTube</a>
+<strong>Playlist</strong>: GuestStreams
+<strong>Duration</strong>: 59:06 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello and welcome this is active inference guest stream 81.1 it is April 23rd or 24th depending on where you are and we're here with Hannah Bedell discussing feeling our way through uncertainty thank you for joining Hannah we'll have a presentation followed by a discussion second so looking forward to anyone's questions in the live chat and thanks again for joining and looking forward to it thanks so much Daniel I'm really looking forward to it too um like I said before been a big fan of the YouTube channel for a long time so it's really nice to be here um so today I'm going to talk about uh some of my work in my PhD uh which is about arousal coherence um which will make more sense in a moment the basic uh topic is how we might feel our way through uncertainty through the link between affect and interception uh so me one minute all right so I'm going to be talking about uh this paper that I wrote with Mark Helen slaga and Ruben linan so in um Neuroscience of Consciousness recently uh and we'll talk about it kind of Step by Step um I will note at the get-go that there's no formal modeling yet for this concept so this talk and the paper um is basically a series of claims um which I kind of back up with other people's experiments models and simulations so I'm just piecing together some prior ideas basically and looking at where those might lead um in particular interceptive self- inference deep affective inference uh and excuse me um AFF in terms of precision optimization and if those aren't clear yet they might be soon hopefully uh so these are the basic claims that I'm going to make and it's going to be quite a quick talk because there's only five so firstly that your autonomic arousal States track with changes and uncertainty and that means multiple things um I'll break down uh some of those in the next slide uh that accurately inferring autonomic arousal is important for the way that our brains estimate uncertainty and that effective arousal um might optimize the way that how confident we are in autonomic prediction errors so it's going to effective arousal will also impact potentially the accuracy of our interceptive autonomic inferences um which will lead me to the kind of point of the paper which is arousal coherence so that is uh you can kind of see here this is a very simple depiction oversimplified depiction of what arousal coherence would look like so we have changes in autonomic arousal across time increases and decreases coherent effective arousal would be changing with the autonomic arousal and disc coherent effec of arousal would be dissociated from changes in autonomic arousal and it is not very simple obviously um there layers of depth to change so the simple time axis is an oversimplification but this is a basic idea of arousal coherence and I think and have argued in this paper that it impacts and reflects our capacity to adapt to changes in uncertainty um of multiple different kinds and uh final point is meta awareness of arousal so knowing your arousal or having a higher order representation of of your arousal I might enhance arousal coherence and I'll talk about some of the benefits associated with higher arousal coherence to um just quickly to mention the way that I am conceiving effec of arousal is a lower order uh prediction so it's not the same as emotion um like stress anxiety excitement but uh High arousal is common across those kinds of emotions whereas a relaxing state for instance would be a low arousal and if I we're talking about autonomic arousal um I'd like to clarify that I'm not being very specific here about whether we're talking about sympathetic arousal sympathetic activation or parasympathetic or the balance between those just broadly increases of autonomic arousal or decreases um conceived through things like heart rate increase or changes in pupil dilation um okay so um I I have not included as yet a uh a primer on active inference given the audience and given the channel um basic concepts uh would be that I'm conceiving of action and perception as inferences um in a loop kind of inseparable um also looking at inferences as deep so uh one layer of inference H can be nested within other layers of inference and that will come up especially as we start talking about aect and a third concept from the active literature is the idea of precision as an inverse uncertainty estimate and so confidence in signals or confidence in beliefs um so if anything that is is unclear about what I'm talking about especially with these terms please just jump right in um and I also just want to take this chance to say if anyone wants to talk about formal modeling please let me know offline I'd love to talk about it um okay so I'm just going to dive straight into the first claim unless there's any questions Daniel cool first claim pretty simple um autonomic States track with changes and uncertainty there's a number of different um lines of evidence that support this and they date back quite a while um the work of um Y and Dian comes to mind in particular there was a lot of work in the early 2000s where they looked at different neurom modulators of autonomic arousal um in particular adrenaline or neurop nephrine and changes in pupil dilation that relate to that that track with changes in uncertainty uh we can also talk about their changes in volatility changes in Surprise violations of precise expectations so we see these embodied changes in response to small changes in environment in uncertainty in the environment um I won't call it environmental uncertainty because it's not necessarily precise uh one of my favorite papers in this area was by debka and his colleagues at UCL and they had a task a probabilistic learning task uh so two rocks under one of the Rocks there's a snake if there's a snake you get an electric shock and uh they manipulated the probability that each Rock would have a snake underneath it and looked at people whether people were able to learn the associations as those associations changed over the course of the experiment and they found that people whose autonomic arousal responses changed with the irreducible uncertainty uh we're better able to learn those probabilistic relationships so it's not as simple as this is some epiphenomena or the the way that your body tracks with changes and uncertainty seems to have very important impacts on how well you track uncertainty and how well you can use that information another piece of evidence there is that um I can't remember the chemicals name there f propol I think is the name of it um suppressing your autonomic arousal responses so your pupilary and cardiac arousal reduces learning when the environment changes so you you it looks like the effects of Prior beliefs increases so you're not updating your uncertainty as well when you don't have these embodied changes um that track with uncertainty so that's the first claim there autonomic arousal States track with changes and uncertainty and it matters that they do second claim is that inferring our autonomic arousal States informs uncertainty estimates so here I'm drawing pretty heavily on the work of mik Allen I really enjoy this interceptive self- inference idea um which is that by inferring our autonomic arousal States we can better estimate changes in expected uncertainty so at the simplest level things like your heartbeat come with changes in sensory noise so um for example you get pulsatile blood flow across your retina and you can't see in that instance as well so by anticipating those changes in your heartbeat uh the brain can or by intercep self- inferring them the brain can adjust expected Precision accordingly um and then we can extend that to uh different layers of temporal depth so if your heartbeat is going to impact Precision then your heart rate over time will also have some impact on uncertainty there um by extension so there's different levels when we're talking about autonomic States um in terms of the actual State and then we have rhythms and Etc um another interesting thing to note with this idea of interceptive self- inference is that if the brain can infer these expected States uh it can likely also control uh these states so using the body to control Precision trajectories so um depending on uh the contextual need in the environment the body can change depending on uncertainty so so we saw some indication of this in the previous slide these changes where the body is tracking with uncertainty maybe operating through a basic inactive interceptive self- inference another example is that um with perceptual uncertainty your heart rate slows um which increases the amount of time and predictability um of the diol aspect of your heart beat and therefore um High predictability of and opportunities for high Precision sensory sampling so uh anyway that's interceptive self- inference um I think it's a fantastic idea and I want to basically with this just just layer up and look at um what might be impacting interceptive self- inference and in particular interceptive Precision so to in order to infer these interceptive conditions uh we need to be able to adapt interceptive Precision when things change so typically interceptive Precision would be considered quite High you have a lot of homeostatic states that you need to stay in you need your heartbeat within a certain range in order to survive for example but things do change and you need to be able to adapt how confident you are in your interceptive beliefs and interceptive errors and this seems to have pretty big implications for health so um Ryan Smith's work recently on this I found really interesting um they gave people a uh heartbeat tapping task um so just trying to detect their heartbeat during um interceptive perturbation so holding their breath and their modeling showed that where healthy individuals change their interceptive Precision when things change um people with an symptoms of anxiety depression substance disorders and eating disorders didn't change their Precision estimates from resting levels okay so uh that's claim two we can use autonomic states to inform our uncertainty estimates claim three and this is a based on a kind of just adult of work in affective inference so there's a lot of people uh working on veillance in this area and I've seen some really beautiful work and in particular I I really like um Casper hesp at Al's paper on this um considering higher order or affect as a deeper or a um TR to think the opposite of nested an embedding of lower order inferences so representing changes in lower level uncertainty at a higher level as a kind of abstraction and that is what affect is uh we can talk more about the specifics of veillance after but um the key that I want to draw attention to here is that uh deviations in this uncertainty a lower level uncertainty or lower level errors some people call it some people talk about specifically interceptive errors some people talk about homeostatic errors regardless the just Del is that people are talking about changes or unexpected deviations ascending from that lower level to a higher level of effective inference and that's where arousal seems to be key so it's an orienting towards signals that are expected to resolve future uncertainty this links in nicely with um some old ideas I know SS and fit priston referred to them earlier um faf in 2006 talks about cortical arousal and Information Gain there's also a really nice research group uh Yana sagala in Japan who talks about uh effective arousal of stimuli relating to novelty and Information Gain obeys the Enterprise so there's a pretty consistent IDE here that arousal is relating to orienting towards valuable information akin to uh attentional selection but more specific to effective information um and a final piece here is a lovely study um by Candia Rivera and colleagues um um and they looked at heart brain coupling during emotional experiences it's another reason I'm thinking affective arousal in particular is important for optimizing interceptive precision and they had people undergo emotional elicitation watching videos and within the first few seconds they found that the emotional stimuli were modulating or activating heartbeat activity which in turn uh led to kind of arousal specific cortical response and then there was a bidirectional processing which is what we kind of know about emotions affect in the body right it's bidirectional but the key thing here for me was that the afferent information from the body to the brain in that coupling that information flow was modulated by asec of arousal particular uh and not bance or anything else so how aroused you said you felt was modulating how much information was kind of coming up to your brain from your body after the initial kind of activation um thank you doie apologize this one's a bit text Heavy um but we're almost at the end so uh this is where arousal coherence comes in again the relationship between or correlation between autonomic arousal and affective arousal within a person across time so uh recapping a little bit if affective States recruit bodily signals or or specifically the outcomes of interceptive inferences errors or not um to model the current Estates of Affairs and changes in autonomic arousal reflect an enact changes in uncertainty and precision then affective arousal I'm suggesting might reflect this minimally metacognitive to to quote p a mechanism through which the Precision of interceptive self inference can be regulated and represented at a conscious level and I think that this is important and ties back potentially to the work with uh Ryan Smith and this um I think that's the this page here so the failure to adapt inter receptive Precision in response to autonomic changes I think this is where uh effective arousal comes in and this coherence is the capacity to adapt into receptive Precision according to changes in autonomic States and I think based on the relationship between autonomic arousal and uncertainty then that arousal coherence might shape the responsiveness especially at this uh conscious level to changing levels of uncertainty so through the body in into the environment um and then if we can monitor and track the changing uncertainty then we can better use it to shape our learning and so we'll see better adaptation to the environment we'll see better mental wellbeing Etc and there is some uh evidence for that although with the caveat that most of the research that's looked at what I'm calling arousal coherence here we'll pick a autonomic marker so heart rate pupil dilation something like that um and then usually it's a emotion that is used to track so stress anxiety excitement regardless of veilance some emotion so there's a slight cavey out there in the in the methodological domain that we're talking about effective arousal and not emot exactly but there is quite a a decent literature now showing that something like arousal coherence is linked to better emotional awareness better self-regulation better well-being lower anxiety lower depression lower inflammatory biomarkers Etc so there is a there's some research they're pointing towards this being potentially the case and I'll I'll talk about some my empirical stuff which will come later um final claim um I mean these two these last two are not in any particular order but meta awareness of arousal I think is a really important concept here um I'm I'm drawing on the work of sandid Smith um and their paper of met awareness or meta control of attention I think arousal is some somewhat similarly to attention so it fits reasonably well but met awareness of arousal I'm treating as a higher order monitoring and control over these lower order arousal processes in particular so um it this meta awareness I think will shape the responsiveness of these lower order sources of arousal to errors including interceptive errors ordonomic errors unexpected conditions in the body and there's also some evidence that training this meta awareness of arousal can increase cerence so um at Al uh they found that um meditators had a higher coherence arousal coherence so basically sitting with arousal like during meditation potentially also during like comatic practices like having an ice paath or Brea breath work or things like this and might train the capacity to learn about arousal basically rather than the default regulation strategies that we might have like flee um so facilitate learning about arousal and you have that higher order uh learning you can also use that regulate um so if I put all of those claims together it kind of looks like the figure that we had in the paper um again this is not exactly precise because trying to um present different levels of temporal depth within this image I found rather difficult uh but the basic idea kind of in the claims autonomic arousal is um tracking changes in uncertainty and unexpected changes there can inform future Precision estimates above that effective arousal at I'm I'm saying a higher level of temporal and Abstract depth effective arousal um has expectations of interceptive conditions and also uh Precision over interceptive conditions that is determined there uh optimized by effective arousal and then at a higher level um meta arousal can learn about the Precision waiting errors in effective arousal so when effective arousal might be uh might have more noise coming from the autonomic level for instance so by being meta aware of your feelings of effective arousal you may become more aware that for instance your heart rate is not matching with your feeling of stress a simple level um and increasing arousal coherence basically facilitates the information about changing uncertainty from the autonomic level up into the conscious level um yeah she just returning to the those basic claims maybe I have a couple of future directions um that I'd like to talk about and we can talk about these more in a discussion I have I have 50 million things that I would like to do with this uh concept and measurement next I'm really excited because it's so easily measured um even though there are constraints so I'm expecting and and testing whether arousal coherence is associated with more adaptive updating of uncertainty estimates um the paper by De Burker and colleagues that I spoke about at the very beginning the probabilistic learning paper they have kindly shared their data with me so been able to have a look at how coherence might relate to that I think it's bad form to talk about results before there written up so maybe I won't but I um I'll dangle that there there's there's something with probabilistic learning um I'm also looking at how arousal coherence relates with emotional awareness and emotional um self-regulation again so extending on prior work by people like Sasha selt and Richie Davis um they've kind of already found these well-being links but I am wanting to look specifically if it has to do with higher order effective like updating higher order affected representations and and not getting stuck um and then another direction would be that interventions increasing better awareness of arousal so mindfulness homic practices things like ice baths breath work would lead to increased arousal coherence um excuse me um and basically that cultivating arousal coherence will help us to navigate on certainty that's that's the key we can fill our way through it um just two additional things to note um one this data is readily available pretty much everywhere so there's there's so many papers out there that have looked at uh High arousal emotions or just affective arousal in conjunction with some measure of autonomic arousal across time and some simple linear mix modeling you can look at arousal coherence in relationship various indicators which is what I've done my entire PhD is secondary data um so if you have some of that data and you want to look at it let me know and uh you know actually I think I'll leave it there because uh the other things I imagine might come up in the when we chat anyway while I have a chance just another opportunity to say thanks to these Legends it was so delightful to get to work with Ruben Helen and mark on my first first Au paper um what a treat and also two very helpful reviewers who gave much more feedback and much more helpful feedback than I had been led to expect by all the reviewer two memes and that's it co thank you um you could leave the slides up and yeah let's discuss and if anyone has questions they can ask and I'll read it um okay well people are typing their questions like what led you to study this intersection of topics for your PhD uh so I was really interested at the very beginning of my PhD been quite a journey about why some people are better um at dealing with uncertainty than others I guess you would call it Mee search um so I started with looking at When people's worldviews are threatened and and some people can kind of roll with that take that on board and then other people lose their mind um and I suspected that it had something to do with embodiment based on just looking at the people around me who were better at dealing with um and then I came across a Carl friston's work and started looking at free energy in particular and and links between I'm making links in my mind between free energy and arousal uh and then for tuly came across S Summer fils work so these things all happened within the span of a month trying to answer this first question and then received the framework and then looked at the measurements like God these really seem to add up together and so it was just really really nice timing in terms of the way that I was reading things cool yeah I mean I've just been I think I've just been really lucky about the the time in my uh in the intellectual field that I've kind of arrived in because all of these ideas are as you might have seen just these just other people's ideas that I really like that have just put like this on top of each other yeah like the novelty and the speed and other factors the unifying kind of spirit make it so that the layering is very fine and very fun exactly exactly um okay so it's a kind of like reflect how I was seeing it and how you layered the argument I was thinking about drinking coffee before studying and about how that's this kind of General pharmacological intervention and on the first claim you had one of the pieces of experiment was about the pharmacological intervention so it's kind of like it's an obvious way to think about what these interventions do but those are entering body and then it's interesting that the directionality of learning it's like the natural variation in learning and the arousal it is happening in the same pattern as the intervention would suggests so in that I kind of like saw the the bringing together of of experiments which like in humans or in any species you can never always have exactly the experiment um so that kind of brought together the idea that the learning rate is is related to the excitement in the body um yeah and then that gets very embodied when again an obvious kind of corollary of a slower heart rate is more time in between pulses to have high Precision measurements so there's like a few kind of just very first past body bases for heart rate and for pharmaceutical inter itions that otherwise the connection between like the body's status and even the learning rate can feel very abstract when it's like the least abstrac thing possible yeah and I think M Allen's work on that has been really helpful for me to conceive of that like okay obviously your brain needs to predict what's going on in your body so that it can account for those changes that you your body the impact that your body has on uncertainty um another thing that that I've just been reminded of as you were talking about the learning rate is um so I I'm conceiving of this as like embodied extend uncertainty processing extended into the body so predictive processing is not restricted to the brain it's a whole it's an organismic process but that said these things that we're talking about the different the autonomic um States might be represented also in the likely are represented also in the brain so not going to make a claim about necessarily if it's all brain or if it's also brain and body I think body but the Locust culus um so the key source of noradrenaline the arousal kind of hormone in the brain uh there was a lovely paper by sales and colleagues I think it was 2019 where they showed Locus cus um activity tracking with Basi and surprise as well linking uh with learning rates so I think arousal arousal and learning rates are very clearly linked yes okay we're back in the coffee and the studying and the learning back in the coffee just have another Sip and we're we're we're learning through time hopefully about like how excited or revved up to be for the learning rate of the topic that we're studying and then in figure one the the Precision had this kind of swoop because it went slowly down as the coherence increased but then at the very end it kind of ticked up so what made you have that little uptick there or what was that representing okay so that I um I didn't mean as much by it as you might have done by them I'm sorry I was trying to H with these two these different levels kind of indicate that these are different time scales like I think it could be a um slip that informative because it could be it could be a freid and slip on on the far end of like synchrony that's also in uninformative state that's very true yeah and so it becomes the Precision explodes so it's kind of like there's one impulse is to have higher sensory resolution but then that is accompanied by um lower heart rate so lower ability to like do motor activity so if you're doing long exercise or something like that like you you couldn't necessarily just switch on a dime but then at the slower time scale you you could relax to have better sensory acuity but if you're moving fast it doesn't necessarily matter as much but then if you're like too coherent you're like having like a sleepy seizure or something like that yeah I think that this is a this is a really important point and and the paper kind of Might gloss over it a little bit um but with the i in general arousal coherence I think is a positive state but not necessarily all the time so we talk a little bit in there about how um in certain kinds of processing like for example in like unrelenting grief or really acute stress it's probably more adaptive to turn off the like to to downweight your inter receptive signals there and not be coherent and and for we see um grief and and suppression are typically associated with lower coherence so it's not that it's always for the best um I think this like capacity of meta arousal is is likely more important so being able to adjust whether it's coherent or not but on average coherence is a better state to reside in or in terms of getting more information or being able to navigate uncertainty better but that's not necessarily what what we always need to do yeah we just need to be stable and you know yeah like shock it's kind of like some something's just stuck and so the fact that the mutual information between the body's State and the cognitive State the mutual information being low it's not necessarily a bad thing it's like a mechanism protective yeah it's a protective and it and it can be processed later potentially but um then kind of Mo moving through the claims getting to where um we have the the consciously representable nature of arousal um and it isn't arousal itself that we directly perceive this is kind of thinking about the interception as inference because we could have kind of a first pass like how excited am I but then check in and like find out otherwise or have the biomarkers otherwise like trying to guess your your blood pressure so then I thought about studying with the coffee and a lot of the things with the pupil which represents the arousal and then another I related phenotype with the Cade which represents the EP syic value those movements and and muscle contractions are basically subliminal most people probably almost all people cannot control their even aware of yeah so there's a layer that is slower than reading across the page that we could access and that's that kind of like arousal layer so it just is like there's things that are too fast like if it were otherwise then we'd be having a different live stream asking why we couldn't perceive something else but in the ways that we have our attention now um there are things that are just happening faster that we don't pay attention to like syntax and letter recognition and then this is kind of moving into okay well what is that slower process that is necessarily slower and different than the primary kind of like domain specific inference I mean I'm thinking of that as a effect I guess as one instance um I think there's also an argument to be made that attention is doing a similar job uh yeah have I understood your question correctly that yeah yeah yeah just trying to make sense so if you're thinking about like the lowest level for example being heartbeat and then heart rate and then uh changes in heart rate according to something at a bigger level I don't know some other cycle Cadian Rhythm yeah that's what I was going to ask what is the arousal and aect nest within and what does that mean arousal as in autonomic or arousal as in affective nested within because I I treat them as different okay maybe clarify it then how do you see yeah sorry I'm thinking of autonomic arousal as a lower level inference than effective but higher level than for instance the actual autonomic uh interceptive inferences so you're a you're inferring a heartbeat for instance or when you're heart expecting that and then above that expecting things like um heart rate or changes across time uh and then up at higher levels and it's not a precise this level this level um but up above that affective inference as a kind of minimal form of metac cognition including over interceptive information but not exclusive to interceptive information um so you can have effective States even if your interceptive changes or like autonomic changes are suppressed and then uh above effective States I'm imagining the the metacognition kind of the ACT not minimal but actual meta awareness of those of effective arousal States like knowing that we know those States or more like an being able to well both uh being able to actually report on those States I think is very different from feeling those States and the subjective feeling experience which um PS is talking about as like your your minimal Consciousness the feeling of being is a very different thing from being able to say what you feel and self-report on that in my opinion there's some other people who agree with me there's probably people who don't that's fine uh so um yeah a bit of nesting nesting nesting is how I'm conceiving of this and it's not uh by any means because the modeling hasn't been done I think it's not a precise this was layer one this is Layer Two this is layer three um I just pointing that these things do appear to be nested within each other and of course have a bir directional relationship yeah it's very interesting um a big motivator or I guess kind of pragmatic implication you said that having a better representation that was conscious whether just naturally like variation in how well people can self-represent um or the trainings that that might be possible like it could be used to shape our responsivity to the environment and learning so like what would it look like or what would that mean so I think it's the best way to answer that question I think uh the simplest way to put it is that we know the world through our body like our body is our medium of relating to the world and so interceptive incits are necessarily kind of involved with how we perceive what's going on outside us um by being kind of we think about coherence as a kind of interceptive accuracy of changing conditions so you're integrating it's like an integrative over interceptive conditions or autonomic conditions that accuracy shapes for example interceptive self inference and the capacity of the brain to predict you know the pulsatile blood flow when that's going to happen over your eyes so impact how it adjusts Precision according to changes that are actually happening in your body and how well it can enact those changes according to the needs of the environment and by that I mean changes and uncertainty in the environment does that Mak sense I'm not sure if I rambled a little bit there like I think it's a very it's a very exciting bundle because these are things these are cycles that we go through on minute by minute and and day after day and that where that kind of took me and what reading the paper made me wonder about was like entering in that learning example studying for the from the textbook but also that could be um a squirrel learning about the environment or it could be having a memory of a new experience so it's not just like a domain learning but it's like you could kind of focus attention on the the primary inference problem like look harder at the letters so there's a kind of like attention to the primary sensory um aspects which on one pass it's kind of like well that's how you'd interpret the word better but this is like suggesting that there's also like a higher order entry point for improving our learning which would be like to be monitoring our own awareness and and our embodiment and like oh that equation made me made my heart rate increase just to see it or this is making me sleepy I'm bored this is making me frustrated like those kinds inferences they're not a waste of time because they would actually set up the scaffold the more adaptive interpretation of the lower level sensory data but if you just entered in at the sensory data you might be missing out on the effective part yes I agree I think that's a I think it's a really exciting area for like looking into in the future because we can we can test these things you know we have that capability to test people's intercept differences for instance um and like readily available on mobile um I'm I'm personally quite excited to go down that pa um and I I agree that there's a yeah there's something to be gained from treating feelings as information across multiple levels and it's not a new idea obviously so um there is always this I mean there's been this idea I think it was Schwarz maybe uh feelings chor and Steinberg apologies I'm like I said earlier I don't have Google but um yeah feeling treating feelings as information or seeing feelings as information I think is really uh valuable and and not yet explored as much as it could be yeah we haven't we haven't optimized that I guess and I I think a few ways in which the syntheses that you have kind of though I don't know all the details of what's been done can maybe go beyond just saying that there's a correlation um like the two things that come to mind is first off it goes beyond saying that it that emotions or affect or awareness are informative because it's not just like well you could tune into the that stream or you could tune into the sensory stream by making them explicitly nested mechanistically then you can you're you can learn from both by directionally like and then a second important piece is um by connecting it to the biometric like the heart rate and the variability and the pupil then there's a kind of less emotional entry point like webcams could report on our pupil acity and our arcades who knows who already is tracking that information but then that gives it gives an entry point that isn't like asking how one feels which is a very challenging and involved question to answer and and and interos around and some people are terrible at it they don't know it's there's big individual variability and and I guess the point of my work is like that variability matters it's informative how how well you know how you feel or how well your how you feel lines up with your body I guess a better way to say that yeah and that that variability like within and across levels it can't be and the goal is not to like clamp it because we're always rotating position standing up sitting down doing all these things that you can't lock on to value for which is why the kind of skeleton of the model is just about how the variabilities connect rather than like a number or like a final kind of just yeah equation to describe it across settings yeah I I would like to come up with some equation acoss it would be a nice uh future Direction I think uh I do think that this kind of thing is is um possibly usable for for treatment for assessing the effectiveness of interventions for instance um seeing it like basically if you can tune into your body more through feelings and whether that's valuable um I would really like to talk about the um experimental evidence that I think would uh back up what I'm talking about more with the learning external uncertainty um like yeah maybe I could come back and talk about that when got a pre when we've got a preprint I I feel like uh it's maybe bad for to talk about it in advance oh it's but it's cool to see like how over these even slower slower timelines that the research threads can come together and how they can be brought together with a lot of the other technical work that that is out there and then I think that's sort of the question that that it's exciting to ask is like what data sets are already out there where descriptive statistics can be done what generative models can be made and just by what you wrote to separate things out into what's an observ a and what's a statistical relationship like the information is all there yeah and there's a whole lot more that haven't T that the reviewers and collaborators are like please just stop talking stop talking saying too much um so there yeah there's a lot that there is so much literature that kind of fits into this um framework out there and I think is yeah it's exciting it's exciting and and it's easily measurable um again with the caveat of the emotions versus you know and and we talked about kind of you know self-reporting on arousal is not necessarily the same as feeling it so really trying to work out whether this difference is happening at the level of self-report or happening at the level of feeling in between that and the interception exactly where that's coming it's a little bit difficult to pinpoint because measuring feel ings for instance is quite difficult in measuring self-report that may be a different thing um but that said there's yeah I I've managed to I three research papers all pre-existing data all really interesting topics and wonderful people who were just willing to share and collaborate on these so it looks like this arousal concept relates with like said um wellbe things and that's reasonably well established already but the I guess the key Point um that I'm going after is the relationship with navigating uncertainty in the external world how that how this relates to that through through interceptive self- inference is my affective interceptive self- infant is my um my proposal is there anything else you want to add or ask or like mention I am very open to talking about it I haven't done the modeling I don't have a mathematics background so uh if anyone that does wants to talk about it please hit me up if you have data set if you have hypotheses you want to talk about it if you want to see my code it's on OSF um yeah that's it just yeah I'm I'm very keen to talk about it um see if we can I can take it somewhere more interesting make it a little bit more precise make it usable thanks so much for having me such a pleasure congratulations on the PHD and thanks I haven't got it yet almost almost um almost until next time until next time I'm looking forward to it thanks Daniel bye</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

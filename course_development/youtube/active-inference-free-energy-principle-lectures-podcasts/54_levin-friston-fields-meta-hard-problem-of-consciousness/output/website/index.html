@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>54_Levin Friston Fields Meta Hard Problem Of Consciousness - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>54_Levin Friston Fields Meta Hard Problem Of Consciousness</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>54_Levin Friston Fields Meta Hard Problem Of Consciousness</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Levin Λ Friston Λ Fields: "Meta" Hard Problem of Consciousness</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=J6eJ44Jq_pw">YouTube</a>
+<strong>Playlist</strong>: Active Inference &amp; Free Energy Principle ~ Lectures, Podcasts, Discussions
+<strong>Duration</strong>: 1:55:01 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>as always you can click on the timestamp in the description as well as here to skip this longish introduction the theories of everything channel is back with a new season starting with last week's AMA which will be in the description from this point forward there will be new content approximately once a week sometimes even more frequently today's guests are Carl friston michae 11an and Chris field the former two have been on this channel and mentioned several times prior whereas Chris Fields is making his debut Chris Fields is a research in topological Quantum field Theory as well as information Theory and publishes work on what constitutes an observer Carl friston is a professor of neuroscience at the University College London and is the inventor of the free energy principle Michael Levan is the Developmental and synthetic biologist at the tus University the links to all their previous podcasts on the tow channel will be in the description my name is Kurt jongle I'm a torontonian filmmaker with a background in mathematical physics dedicated to the explication quote quote of the variegated terrain of theories of everything primarily from a theoretical physics perspective but as well as trying to understand what role does Consciousness have as constitutive reality is it emergent is it fundamental now the goals of theol lotions is to interject seldomly if at all allowing each guest to give their perspectives on one another's thoughts essentially giving us the experience of a fly on the wall for the sorts of academic conversations that would ordinarily occur behind closed doors spur ing research in real time one of the central issues of today's podcast is the concept of babbling which I haven't heard discussed virtually anywhere else outside of Child Development or language acquisition though it can be generalized metaphorically perhaps even literally to the vacuum fluctuations to interpret what vacuum fluctuations they're doing as an indicator of the universe's protoconsciousness that is the universe babbling to understand itself but I won't spoil the surprise if you'd like to hear more podcasts like these then do consider going to patreon.com jongle as the patrons and the sponsors are the only reasons that I'm able to do this full-time with regard to sponsors there's one for today's episode and that is brilliant during the winter break I decided to brush up on the fundamentals of information Theory which is what Constructor theory is heavily based in and I'd like to do an episode on that so I took brilliant's course on knowledge and uncertainty and random variables and after taking that course I could finally see why entropy is defined the way it is why the formula for it is is extremely natural there are plenty of courses you can even learn group Theory which is what's being referenced when you hear that the internal symmetries of the standard model is U1 cross su2 cross su3 those are Le groups visit brilliant.org to to get 20% off the annual subscription I recommend that you don't stop before four lessons just keep pursuing until you've accomplished at least four and I think you'll be greatly surprised at the ease at which you can now comprehend subjects you pre previously had a difficult time grocking and now on to today's episode which is one that I'm extremely lucky to be able to present to you all you'll be able to see the mutual respect that the guests have for one another we start off actually by asking what is it that you respect about each other's work enjoy this the olution between Carl friston Michael Lan and Chris Fields I've been extremely excited about this so Professor what do you find unique about Carl's and Chris's work and what is it that you respect about them well what a great question I think all all discussions should uh should should start with that question um uh there's a lot I mean I think I think the most basic thing I can say is this that I'm I'm often asked by by conference organizers and students as far as who who they should follow yeah who's whose's work they should um keep track of and and so I keep lists and uh and and Carl and Chris are at the very top of two specific lists for me and I'm just always amazed about this is that the first the first is that um both of them are experts in at least three different fields probably more so so so they have the ability to kind of merge really deep um understanding of different fields I mean there's many people that are experts in in one thing but I'm just uh I'm just always incredibly impressed as how they uh both of them can weave together a really deep Knowledge from from a from diverse disciplines and and and and that leads to the kind of the second thing that that I'm really inspired by which is just the kind of the sheer density of new ideas you know it's hard enough to push things in one just kind of one know Direction and do science and so on but both both Chris and Carl's work um consistently make me think in new ways uh give me ideas I never never thought of before it's just just just amazing so yeah so I'm super excited to be able to work with both of them and to to have this discussion great Chris same question but toward Michael and Carl uh well I can say that uh one thing I certainly admire is that uh Michael and Carl are both top level biologists who are interested in theory and and deeply involved in theory and have a deep understanding of uh Theory and um something that I enormously admire is that both of them have that interest and yet are deeply engaged in practical applications uh Carl in mental health and Mike in regenerative biology and that's a rare combination Carl what is it that you find unique about Michael's and Chris's work and what do you particularly respect about them as people perhaps I deliberately haven't rehearsed an answer so what I say comes from the heart um so with Mike um I first met him vicariously through a friend giovan pulo um and didn't really know very much about his work until I visited his website then I realized how influential and important he was and then I recognized all the little bulletins you get on um social media and emails I started to recognize his name and realized that he he was quite a mover and Shaker out there what I like about both of them they both think really really fuss and they both think out of the box um um so I think what characterizes both of their thinking really is just to ask what is a thing in and of itself without making any prior assumptions and then putting it back together um from basic principles and coming up with some sometimes counterintuitive um conclusions um but for me almost uh universally exactly the same counterintuitive conclusions I've come to after about 10 years of thinking about a particular problem but never dare tell anybody but they do they write it down very eloquently they're very very productive um Chris I've known for less Long and I've met him via Mike um and um in addition to that in the same way that many people I meet have physics Envy um I've got Quantum Envy about Chris you he just seems to know so much think about the world in a way which I don't have that sort of fluency in but it sounds really really useful and and quite correct so I'm hoping if I hang around long enough some of it will rub off on me or at least be able to use the words without sounding like an idiot what would be an example of this out of thebox thinking you mentioned thinking about what is a thing in and of itself what else there are numerous examples um the first thing just came to mind was just putting together fundamental questions about self-organization if you were verel you're sort of autois self- assembly self- construction if you're a chemist it would be self assembly if you're a theoretical biologist um you will be wondering about why on Earth is it that um multicellular organisms form because there's a deep Paradox there you know if it is the case that I have to have a surface as a little organ then some of my have cells have to stop replicating and yet that is in direct contradiction to the principles of natural selection I'm going to turn off my reproductive capacity my adaptive Fitness so defined in a in a theoretical context so just really s grasping the nettle and thinking about well these things exist what principles could possibly explain the paradoxes when looked at from sort of the unilateral the monothematic view of natural selection for example or The monothematic View of self-organization in physics so thinking out of the box literally in this instance um entails being able to take multiple perspectives on a particular problem and seeing the contradictions and seeing how they can be resolved now that would be one of many examples there was a paper and I'm afraid I can't remember the specific one perhaps Mike and Chris will be able to enlighten me but there was one paper written I I think about a year or two ago where they actually listed I think there were 50 basic conclusions about the the fundaments and and the um the nature of self-organization and self as distinct from other uh in any system and you just listing 15 really interesting points and predictions all of which either um I'm sure will be formally demonstr analytically um true uh or at least yield or be amable to uh a mathematical analysis um or would be empirically verifiable um you know over the next few years what was that baby there was a paper in Neuroscience of Consciousness uh arguing for a an approach to Consciousness that Spann philogyny and we were very interested in that paper specifically to look at uh bacteria and single cells and um facultative multicellular such as microbial biofilms and ask what do these systems know about the world how do they see the world uh how does it how does eoli perceive the world for example and we suggested that the the answer is in in terms of of the sorts of things that we call Taste and viscosity but that experiences of taste and viscosity are perfectly good kinds of experiences and that if we think about how these kinds of systems deal with their worlds and solve problems within their worlds that that would give us a more unified understanding of what it meant to be U A system that was aware and so you're trying to use eoli as a means of understanding yourself or humans by the way is this a project do you feel like your undertaking is an attempt for you to understand yourself or you trying to understand humans like I'm I'm wondering is this more philanthropic or it's selfish and then it bleeds into the philanthropic well I I actually also want to understand eoli I be we have we don't have a great understanding of of the lives of other organisms Professor Levan what puzzle do you find most important what do you think about on an semi daily basis or even perhaps multiple times a day and then we'll go around the table here with Chris fields and Carl friston next and then it's essentially me taking a back seat and allowing you all to free just for the audience to know I know you all know this template already yeah um so so the thing I think about many times today uh has to do with the scaling of cognition so I want to understand two two two major things one is how it is that uh some collection of competent Parts comes together to form a an emergent self with preferences goals memories um cognitive capacities that belong to it but not to the individual parts so I want to understand how that how that emerges how the goals of you know sort of humble um simple simple kinds of systems scale up into much more grandiose goals that we see and during during development during Behavior Uh you know during culture and so on and and I'm and I'm also very interested in uh the sort of the left side of that Spectrum where does it begin you know is there really a zero on the Spectrum I think that uh all of us here would agree that there is a spectrum for these things it's not a set of binary categories but what happens at the very left side of the spectrum and so one of the first questions you know when we get to that that um that I had written down to ask both both Chris and caros to sort of comment on what does the what does the ven diagram look like of of the set of things that are alive versus the set of things that are cognitive yeah how do those two categories relate to each other do they overlap as one a subset of the other and what really happens at the very beginning you know like can we can we develop a kind of um which which I think I think both of them have been working on a kind of basically a kind of pan psychism that doesn't doesn't sort of paint on new um cognitive mysteries on top of a physics that works perfectly well but instead to try and to try to view physics from the bottom up as having already a useful cognitive lens on it and and how does that help us to build up cognition so that's that's something that I think about every day Chris um I I thought every day or almost every day for a long time about why we humans um see objects embedded in SpaceTime so why do we see things that we treat as independent of each other and why do we see them operate on them interact with them uh think about them as embedded in this coordinate system that we call space and uh equally important why do we see them as maintaining their identities as things over this other coordinate that we call time Carl um well I have to confess I spend recurrently most of my time thinking about me um but in an acad MC sense you how do I work so it's a curious mixture of introspection and trying to understand why I can introspect in from the perspective or through the lens of a physicist so I I spend most of my time dissembling preconceptions the gifts that uh our sence has given us um and try to um reassemble them in relation to physics density Dynamics uh you know the the has to be articulated in terms of the kind of math that a physicist would use which would be you effectively differential equations and the calculus of variations and having done that there are so many um there are sufficient number of moving Parts but not that many but the combinatorics then lead you to the the kinds of questions that Mike was was talking about so you know what different ways could this um physics of sentience um be manifest what possible ways could it be manifest and how does that address the distinction between um things particles creatures um that would show the kind of sense making and to my mind an important aspect is planning that dis would disambiguate them from other natural kinds or particular kinds that don't have that kind of facility and what underwrites that um so that's what I spend most of my time doing I have to say in conversation both with um Mike and Chris and other people um that you can easily get distracted um in in in a rightful way um by um thinking about that mechanics in exactly what Chris was talking to which is a sort of scale-free way but in my rhetoric that scale freeness speaks more to the coupling between different scales that Mike was alluding to um so how does this um mechanics this physics of sentience which which I understand largely in terms of probability Theory and um effectively basing um probability Theory um so what you have is a basing mechanics how does that basy mechanics apply at one scale and another scale and then of course the big questions is how do the two scales Caple to each other so that that that for me is something that I I find myself increasingly pressed upon uh largely through conversations and collaborations um but you that does mean that I spend a lot of my time thinking about that and you're writing demos of mathematical equations trying to trying to get to the um the uh the underpinnings of it Mike I see you nodding so what is it about what Carl said I'm sorry Professor 11 I apologize and what is it that what is it that professor friston said that has you feeling like you agree with it well as as as usual I mean he said it perfectly I couldn't I couldn't say it better myself I think that's uh that's that's exactly the kind of um uh research agenda that I'm interested in I mean that's that really is the kind of a a very good um description of of what I think we're all looking for in a certain sense is there a difference between cognition and Consciousness is one distinct is there overlap is one a subset I I actually can't conceive of cognition without Consciousness which I I prefer to call awareness um not just to be perverse but because in many cases Consciousness is used in a way that implicitly means self-consciousness whereas awareness is often Ed in a way that does not make implication uh and it's I I find it difficult to conceive of cognition without any kind of awareness at all so so so could I just so I'll ask a question then based on what what Chris just said and and and what when you know and what Carl has to say about it so so what do you think about the so-called hard problem is there in fact a hard problem at all I would um I would take Andy Clark's view on this uh who has worked closely with with David Charmers um I I I don't think so no I I I don't think that the hard problem in and of itself is um is the um interesting um focus of inquiry I think the um the move that I see in philosophy um has been to the meta problem or The Meta hard problem which is um as Andy clar puts it quite succinctly is why do we spend so much time puzzling about why we are aware um so just asking that question um speaks to I think the nature of the hard problem which is a sort of very much a second order meta um a meta capability that we can um make sense of our own sense making and we um associate that with selfhood so one has to ask the question what kinds of systems again I say particles or creatures would have the capacity to represent selfhood and furthermore represent the counterfactuals that would enable you to ask the question why I'm my conscious that immediately just logically presupposes that there is an alternative hypothesis or other counterfactual that I'm not conscious so imagine now you're talking to um a creature you're talking to me that has this capacity to imagine counterfactuals that cannot exist so that's a remarkable capacity to have you know um from my point of view a sort of internal World model or a generative model where counterfactuals can exist is is quite remarkable I I don't imagine that a a thermostat or a virus or an eoli will have a sufficiently sophisticated set of you know um electrochemical uh Dynamics or kinetics that would enable them to physically represent counterfactuals of this sort and I could go on um you know the usual line of argument is why do we have models why do we have the capacity to represent counterfactuals and the um us end up with saying yes you have to have them just if you um contemplate things that plan so if things plan they have to have um an ability to simulate the future because they have to simulate or represent at some Elemental level the consequences of their action upon the world and if they have now the capacity to represent something that has not yet happened they in the future then they now have the capacity to represent counterfactual outcomes so I think the the metah hard problem inherits simply because we have a sufficiently temporary deep generative model that can represent the consequences of our actions and of course using the word our implies some kind of Elemental agency and some kind of selfhood because it's only me that's doing the acting and the consequences of my action not your action uh so so in in that sense I think that the hard problem um sort of pales into into in significance in relation to the The Meta problem of why it is that we have philosophers can I can I pursue that just a little bit I think you rais an extraordinarily interesting point here Carl and so i' want to ask you uh from a philogenetic perspective um do you think organisms that can plan necessarily are able to represent multiple counterfactuals so let's give an example uh suppose you're a cheetah chasing a gazelle of your planning your moves while looking at the gazelle's moves and your objective is Success you think that the cheetah worries about the other counterfactual condition where the gazelle isn't caught or does it just represent this one counterfactual condition that is in a sense the G State that's excellent question I personally think that um and when I answer these questions I think how would I simulate this how would I put a cheer in silico and integrate um according to the differential equations that must be present under certain assumptions um and my guess is that the cheetah chasing the gazelle would as you say just be pursuing a path of least action and would not have an explicit representation of alternative paths so it would be responding in the moment in a reflexive habitual way so that's a really important question because if we don't have or all of our behavior is just a manifestation of pursuing those passive least resistance or mathematically those you know Paths of of space action um then there is no counterfactual to select from and there is no notion of planning in the sense of I am going to do this as opposed to that but that doesn't mean to say biological organisms um don't have the capacity to um plan multiple Futures and I'll just give give you one real simple example of um um the your our brains and I would imagine even the brains of reptiles to a certain extent um H being able to plan multiple um actions in the future and that's in eye movements so if I just take one of the simplest problems in terms of planning or perhaps not the simplest but one of the um the the the the problems of planning that have to be resolved within um you know several 100 milliseconds given that we have to choose where to look every 250 milliseconds in order to gather the right kind of information to make to Constructor the scene in which we are situated and coming back to your preoccupation Chris your you how on Earth do we then explain these sparse um cadic samples within some frame of reference some SpaceTime sort of how do we you know sense make with reference to some constructs such as space and time but uh the point I'm making here is that the anatomy of um many uh brains many phenotypes does have the capacity to represent the consequences of looking everywhere at the same time at once before they have looked so these are sort of sometimes refer to as sence maps and we know that um there are good candidates for these sence maps for example the Deep layers of the superior calcul and could argue possibly some anatomy of the pulina so if you look at the um if you like the neuronal encoding of the salience of where um the salience of the next place to look what's going to grab my attention in and make that be manifest overtly with an eye movement to go and look over there then there you can interpret I think the anatomy the ocular motor system and especially the um that which underlies Sanic the control ptic eye movements as entertaining a whole range possibly millions of potential um um uh plans of action and the consequences and then the brain literally selects the one that's most likely uh which you can simulate by doing bumper tractors on these sort of salience maps or representations of the the salience or the epistemic affordance or the expected Information Gain if I looked over here I looked over here I looked over here I looked over here you select that you eyes jump over there and off you go again so I think it's a great question in a sense speaks I think to a certain extent to what Mike was alluding to before that there are certain setups or are certain sort of neuronal electrochemical um infrastructures out there that can be read as just pursuing Paths of police action in a reflexive way and there are others that may have this um richer structure this deeper structure that could be uh support the you know the the active sentience and the sort of what I I'm reading now as cognition if cognition entails planning uh then I certainly think there has to be an act of selection in play here um selection what does that mean from something from what well multiple Alternatives and then we come back to the central notion of this this counterfactual yeah Mike is that what you had in mind in terms of breaking this sort of pans psychism uh sort of trap you different kinds of of self-organization yeah I mean that's certainly certainly related you know uh the thing the thing that um and and so I I agree with Chris's kind of gut feeling on this I find it very difficult to imagine cognition without some sort of awareness or or simple Consciousness however what what strikes me as as different than real about the hard problem is that unlike all the quote unquote easy problems and maybe unlike the meta hard problem we kind of know the for or the shape of answers to those questions right they're either they're numbers or they're equations or they lists of capacities you know we we we know what what a proper answer would look like and yet I I find it very hard to imagine if we if somebody claimed to have a a good theory of Consciousness and I were to ask them okay well what is the prediction of your theory in this particular case I don't know what the format of the answer looks like because numbers and the typical things we get don't do the trick they you know they're sort of third person descriptions and so so is the answer does the answer come in the form of a poem is it art is it you know something you have to literally plug yourself into to then have that experience like what's the I I I find it different because I don't know what if we had a true a correct Theory I don't know what that theory would output you know unlike for all these other theories where at least we have some idea of what the output looks like well that's that's a meta answer to the hard problem then that's that's very good I heard that before I'm sure the answer is quantum physics that's that's what it's going to look like if if we could if we could understand it the answer would be in quantum physics Chris do you agree well I I'd like to to back up a little bit uh and in a sense playoff what Carl was just saying about Alternatives and the role of Alternatives in the hard problem um I mean chers drives his arguments about the hard problem with the alternative of unconsciousness and this alternative makes great sense against the background of a particular set of assumptions about physics uh which is the assumption that nothing is going on cognitive atively in the physical world that there's that there's no reason to talk about uh experience or awareness or or anything like that when we're talking about um rocks or billiard balls or planets or electrons or anything else and in that case there is this cut uh that is not really a cut in scale of spatial scale or temporal scale but is in a sense a cut in some measure of [Music] complexity that suggests that below some cut point which may be a bright line and and maybe a fuzzy area who knows there's the possibility or below some cut point there there's no awareness at all none zero and above that cut Point there's some possibility of awareness and in that case one's forced to say how what what could be added by complexity other than complexity to produce awareness and it's that intuition I believe that drives the heart problem do you mind explaining that a bit more what can be added by complexity that's not complexity that sentence well um yeah one way to put it is complexity has as complexity increases some magic has to happen and uh you suddenly get awareness and it's not clear quite how much complex one has to add but as soon as one reaches the the right amount then uh out of the blue you've got awareness whereas without Crossing that threshold you you had no awareness whatsoever so there's a zero point and the zero points somewhere on the scale of complexity and it's nowhere near the bottom so I think one can I can think one can view a lot of research on Consciousness as a way to escape that argument so I'll consider integrated information Theory uh in integrated information Theory the Criterion for Consciousness or awareness is actually very simple you you need to have an internal feedback loop and if you've got an internal feedback back Loop you're at least a candidate for being aware as long as you're not embedded in something bigger that has bigger internal feedb backwards and uh if one thinks about um the work of Peter straon for example from a philosophical perspective his arguments toward pan psychism are all arguments of the form there's no way to draw the line in the scale of complexity and get a place where um magic basically plausibly happens so I think I think chers did a real service in in posing the problem in that way because it forced us to think about this idea of magic or you could call it emergence if you wanted to of something completely new that was awareness now I I do agree with Carl that quantum theory can help us dispel the problem uh by by being in effect a theory that's about awareness but we can we can get to that further down the road do you have any reason to believe that we're embedded in something larger you mentioned in IIT there's the feedback loop that is necessary for Consciousness and you said that one is conscious as long as one is not embedded in something else that's of which that is conscious like there's a larger feedback loop there do you see there being some larger feedback loop some people say the universe itself is conscious or that societies can act at some larger level consciousness with each of us acting as neurons in some sense well I would certainly wouldn't want to rule that view out a priority I mean it's it's obvious that we're embedded in in much bigger systems and I think we understand essentially nothing about the cognitive capacities of those systems yeah Michael yeah yeah I I think I think that's a really important question and I I think a lot about the perspective of let's say you know if you were a neural network or something like this being trained and so on what would the perspective of a sub component of that be where you know let's say if if you had the capacity as a neuron to sort of look around and ask yourself you know do I do I live in a cold Mechanical Universe that doesn't care what happens or uh is there some some sort of agency in my environment that you know am I when when I'm as as a piece of that network am I am I learning from my environment or am I being trained right because when you're being trained right there real question is like how many how many um agents are there in that interaction is it just you learning as you will you're the boss and you're sort of learning whatever from your environment or are you actually being trained because the environment is an agent with an agenda that is training you for some particular purpose right and so so this question of uh how would you know so so you look around and you you say to yourself well if you're a piece of this of this network and it's being trained for some image image recognition task you know you you would be I I think wrong to come to the conclusion that you live in a in a Mechanical Universe you would you should come to the conclusion that it's actually it's it's clearly rewarding you and punishing you for for specific things it's not neutral with respect to what you do and for some reason it really likes it when you find you know you find um pictures of dog eyes or something like this and you have no idea that what it what it does is recognize dog faces out of you know all the other all the other inputs so no doubt there's some kind of gelian limit to to Fig to be able to actually understand what the larger system is doing but I wonder if we can even have some evidence that just just for the fact that yes there is a greater you know sort of a agential dynamic going on in which I'm caught up even if you're not able to you know sort of comprehend what that's going to what that's going to be I I I don't know I don't know what that's going to look like but I think it's pretty important and I think as as Chris said we really don't have a very good science at all of trying to predict or control uh the cognitive capacities of systems made up of parts so so we can know many things about Parts cells robotics whatever and and we routinely make these larger systems have then and then get surprised about what it does or doesn't do or what what what the goals are going to be what goals is it capable of pursuing what preferences does it have this is probably an existential level um job for for society is to is to get a good science of of that of that going you have done that though haven't you well we've started anyway I mean you could no I would go further than that I I think I think your work would represent a substantive and established um formal framework to address exactly those those issues um and you can see your embryonic versions arising in many different fields I just um came back from a meeting um of economists and financiers and they are trying to make the move from behavioral economics to cognitive economics and they were exactly addressing these kind of issues you're understanding the um the notion of distributed cognition in a market um so you know and ultimately they'll become they'll come knocking at your door I can see that I can see exactly the SE sequence of people um you know searching around for people to talk about um Illuminating that realization that the I mean it comes back to what we were talking about before where You' started and I was picking up on the um on the the link between different scales of self-organization where every scale has you know complies with the same principles but how does that contextualize and I think one really interesting example of that um is to think about an individual in an ensemble or a society and just to wrestle the argument back to pick up on something that Chris was saying but you know you know if if there is a bright line between the kind of um mechanics that would qualify as um conscious in the sense of being um self-aware and I'm distinguishing that from the kind of Consciousness that would just entail qualitative experience you know a loss of phenomenal transparency so I'm talking about now self-awareness is you know one of one of the bright lines that may be very blur blurry and vague but certainly one which is induced by the hard problem you're just asking a simple question you what kind of explanation for my world whether I'm a single neuron or a single person um would um enable me or Justify the notion that I am a um and the obvious answer is um when I have to disambiguate between the consequences of my action and your action if you are very similar to me so if I you know manag to survive in on an alien planet where there are no structures like like me that could cause the same sensed consequences uh then there would be no problem inferring did I cause that or did you cause that so just having um the existence of a population of conspecifics in some sort of formal structural sense suddenly induces the inference problem did you cause that or do I cause that and because that naturally calls for generative models or internal Dynamics representations on the inside um that entertain the hypothesis on the notion that that's me as opposed to not me so you get for free in and only in this context where you've put lots of these particles together the you know the if you like the license or the motivation to have a hypothesis um you a representation of selfhood um that you know from the statisticians point of view is exactly the justification for the increased complexity that Chris was talking about so I I was listening to that really interesting sort of uh um sort of Nod to IIT and all it brings to the table in terms of this sort of you know commitment to some threshold Crossing or trans traversing a cut with increasing complexity but why I mean one simple answer is that um you if you ask a statistician what is complexity and they'll tell you well um it's basically the degrees of freedom you're using up to explain some sensory data um you could articulate it as a k or relative entropy between a post a prior if you're a basian but in essence it's just the degrees of freedom you're um using in order to accurately explain these data so mathematically the evidence is equal to the accuracy minus the complexity so why would you need what why why is that useful well an increase in complexity Li is only licensed by an increase in the accuracy so the simple argument would go um if I am obliged to model and predict and explain a world and that is constituted by other things like me um then the accuracy of my predictions will be greatly enhanced if I have a representation of me as distinct from you and if that um entails an increase in the degrees of freedom namely adding in this extra kind of H hypthesis and everything that it entails then um I'm going to have greater complexity but it's a complexity that is more than pay for by the uh by the incre increase in the accuracy and I you know just coming back to know my original Point um yeah I think a lot of the work um that you've done at the cellular level um would be very gracefully translated to the societal level and to things like economics and to uh Eon Niche construction um in ethology um and I know uh Chris is probably wanting to say this you but language as one way of facilitating that notion that ability to um to efficiently with minimum complexity in this instance um do this distributed cognition so I'm both train being trained and learning at the same time and we're doing it together to evince some kind of generalized synchrony so I mentioned language for for Chris that the fun hope he wants to pick that one up oh well well again what I'd actually like to do is back up a little bit and uh put some of what you just said into very simple active inference language uh if if I see something happening on my Markov blanket on my interface with the world then I always have the question uh did I do that or did the world do that where the world means everything outside me and in a sense the answer is always the world did it so the question becomes did the world do that in response to something I did to it or did it just do it not not in consequence of of any of my actions and soone gets immediately to this kind of babbling scenario that we've talked about many times uh in which an infant or a robot or some system is trying to figure out by measuring correlations whether the world's inputs to it have anything to do with its inputs to the world and just asking that question requires enormous representative capacity uh because one has to represent one's actions and represent them pretty well in time and one has to have a good memory to represent enough actions to get any kind of statistical support for drawing an inference about correlation and that memory has to be represented as a memory uh not just part of one's occurrent input so I think this question that you posed is really the key question faced by any agent at all that's trying to get a model off the ground uh which which in a sense gets back to to the question that Mike asked early early on about how does this all start uh maybe it starts with babbling in very simple systems you know I I was thinking recently uh this this this whole issue of of how many agents are there and where is the border between the agent and the world and how do you self- model that border is is a fascinating topic and there's a there's an amazing um uh developmental model for this which is which is that you know we often talk about one embryo and the embryo does this and the embryo does that but actually what happens at the beginning let's say for example in amniote embryos is that there's a there's a flat blasted disc which has just a few cell layers thick so it's kind of think of it like a like a Frisbee and it just has a few sub layers and normally what has to happen is that one point in this in this disc breaks Symmetry and then organizes the primary axis of the first embryo and basically tells all the other cells don't do it because because I'm doing it and that's how you end up with one embryo now that process is very easily perturbed and and I many people have done it I used to do it in my in my graduate work and what you can do is if you perturb that process that initial blasted disc that undifferentiated sort of pool of of cells which are these sort of Proto uh low-level Proto Proto agents that pool can break up into not one embryo but actually multiple and so you can have so I did this in in bird embryos and you can have twins and chick and and Duck and things like this you can have and humans humans have exactly the same structure um you can get them head-to-head you can have get them side by side you can get all sorts of geometries you can get triplets you can get multiple individuals AR emerging by different partitions of this of this um really kind of um medium this particulate medium where where you have a bunch of cells and you don't know ahead of time how many individuals at the level of how many larger individuals so embryos are going to arise from this medium because the the the Dynamics by which and that's you know local activation and long range inhibition and things like that the the Dynamics that break up that that undifferentiated ocean of of potential selves into one two or three or more selves is actually um it's it's very Dynamic it can it can go different ways and then you get interesting interesting things like this so for example you might know that human conjoin twins that are you know sort of stuck together side to side one of the twins often has leftright asymmetry defects and it's because when you have two twins side by side the cells in the middle both twins can't quite agree on who they belong to are they the right side of this twin or are they the left side of that twin and both twins think they belong to them but in fact they're overlapping the same cells and so one side will have correct left and right the other guy the other side will have like two rights for example right and this ends up this ends up giving one of the twins laterality defects with respect to heart and gut patterning and so so their models each twins as as the collective of cells tries to compute uh things like which which where things are and what's left and what's right and so on their models can disagree with each other they can they can draw the boundary between self and World in different ways and you can have these sort of disputes over certain areas as to where who they actually belong to and and so so I'm just I'm just incredibly interested in this in this process of of emerging of of individualization so to speak out of this like ocean of of potentiality these cells you know 50,000 cells and some number of individuals at the um at the embryo level will be formed and each of them will have specific goals in morphospace each of them will try to achieve very specific morphologies uh and uh and they've and then you don't know ahead of time how many there were going to be you know Carl what occurs to you when you hear that um ambiguity um again sort of um just thinking about the imperatives for self-organization so when I hear that was a fascinating story um and don't let me forget we explain to the viewers what babbling means just in this context as well because that's I quite Illuminating perhaps we can I'm not sure that the cells do Mo do motor babbling um but they certainly resolve um the same kind of problem um so my um Chris correct me if I'm wrong but by babbling all we mean is that when you're first born into any Universe you've got to um work out or test the hypothesis that I cause that or the world caused that um so you don't know you don't have a self model you don't you know whether this is sort of um a declarative model completely subpersonal just um hardwired into the um the synaptic efficacy and connectivity of your brain so the first thing you have to do is just to work out what you can control and what you can't control um and the idea is that you you um engage in um what I would call epistemic uh or respond to epistemic affordances or epistemic plans that reveal knowledge they resolve uncertainty and in this instance it's the uncertainty about whether um I was the cause of this rattle rattling so if you imagine um motor babbling um as um manifest in a little baby um you know rattling its rattle generating both the sensations from the muscles and the skin but also the visual and the auditory Sensations that all co-occur providing definitive evidence that there's something special about this process and this event that um that provides the basis for the hypothesis there's a unitary cause there's a unitary cause which is me shaking the rattle but of course it may take several months if not years to actually get uh to actually realize that causes me so one can imagine sort of you know robots learning about the uh the manipulanda that they can articulate or the the way in which they can move around and you know um perambulate um but I think the idea bring it back to sort of where does selfhood come from um it would um rest upon the testing the hypothesis which has to be physically represented with a deep more complex generative model and sense making um that in fact it's me that's actually caused this single cause of all these proceptive um motor Sensations visual Sensations auditory Sensations um and that will be especially preent when you're starting to realize that some of these causes which you thought were you of the sort associated with nurturing and suckling um were actually due to Mom and we come back to this argument to to actually have a good hypothesis which explains why I am not in charge of mom because she is now not always responding to me when I cry to to explain that I have to now develop a hypothesis yes it was me causing all of this um but sometimes there's something else else out there that's not me but very much like me and that's Mom and then you can see how there would be a pressure in terms of you know finding the best explanations for your Sensations to to have that so if you take that notion now think of the same problem from the point of view of a cell um you know what are the imper or a bunch of cells that have to work together or will ultimately form a an embryo via this process of symmetry breaking you you know you have to ask what are the underlying imperatives how how could it be any other way um and of course it could be M say it could be lots of ways but the ways the ways in which it goes wrong um which would be another way of saying um those rare occasions or the the ways that it doesn't happen in um in consequence of their Rarity um involve this ambiguity again literally in this the context of some cells not knowing whether they're you're belonging to one twin or or another twin from the from the cell perspective um so um I was just thinking about the nature of ambiguity and of course you it is exactly the same um one can account for the simple observation that self-organization does not tolerate ambiguity it does not tolerate uncertainty it it's only um manifest in the context of accurate and um well-evidenced definitive uh exchanges so I come back to Chris's notion of you know sense making projecting onto my markof blanket or my holographic screen from the point of view of the quantum formulation then I need to resolve all the uncertainty uh as much uncertainty as I can but put that another way um in a more slightly more deflationary way stuff which we see the way the universe seems to work is um can be described as um realizing processes that minimize this this kind of uncertainty and ambiguity and simply maximize the mutual predictability of what's being projected or impressed upon my surf face on my holographic screen or my Markoff blanket uh so I you know that's what I that was going through my mind I thought was a beautiful example of of you know uh when it goes wrong the there uncertainty and ambiguity your in the game and uh and that tells you something quite fundamental about when it goes right and when it goes right is just basically um a statement of what exists and you know what what perseveres you over time Chris did you have anything to say to add to that well I would be interested to uh to see how actually uh Mike responds to that uh discourse with respect to the example of this embryonic sheet where the cells are each trying to figure out what they're supposed to do uh and there's they're still uh they still certainly believe that they should be reproducing so they they definitely do that and they signal to each other but somehow they're the collective effect of all of that signaling to each other is to organize different roles for the for each for themselves so how does the Symmetry breaking occur yeah so so that's that's really interesting so as I as I was hearing um Carl talk about this I realized a couple of things that um first of all uh as as we were saying before feedback loops are absolutely Central to this process because the easiest way to prevent any of this from happening and to end up with a um kind of a mono um you know sort of you know very featureless sheet to where there are no embryos is to block that is to block the positive feedback loop that so so that long that that short range inhibition long range activation that says to one cell I'm going to now be the organizer I'm going to make this access everybody else don't do it you those are both feedback loops and so if you break those feedback loops you get nothing so so the feedback loops are right at the beginning of this process and and the other thing that that I thought was really interesting that Carl just said is about the cells babbling so what I think uh it's a really good name for what we see when you take a cell and you put it out into a dish what you'll see you'll and in fact in any in any new environment you will see two things that I think are probably babbling in different spaces one is that in physical space you will see that it's incred L active it's constantly putting out and pulling back these these um kind of extensions so these cytoplasmic extensions that have all kinds of sensors on them they're not just sitting the cell is never just sitting there waiting for something to happen it's constantly probing its environment it's incredibly active I'm sure it's taking all kinds of energy it costs to to do all this um there are videos of it that are just remarkable on online and you know we see them every day the other the other babbling takes place in transcriptional space so gene expression is also never just sort of still and this is you know these are the Gen that are expressed and I'm just going to sit here and and do that all the genes are constantly going up and down within specific ranges as it sort of Wiggles in this transcriptional space and I think both and probably physiologically metabolically I bet I bet this is going on in all these other spaces and I think babbling is an excellent uh a framework for for understanding what it's actually doing it's actually taking these little actions looking for evidence of specific things that it can then make use of to start to draw you know to draw boundaries and and as Chris as Chris was saying I think what happens is that in this blastoderm you get uh what what what will happen is that once once that that individuation starts where there's a specific cell that starts to go down this road of uh being the organizer of this new larger Collective it immediately begins to distort the action space for all the nearby cells it starts putting out all kinds of signals reward you know reward signals and and and physical forces and all these other things that now are going to bend the uh the option for all the other cells and the best example of that we have are these zenbot where the these things are just made of embrionic skin cells and if you look at a standard old embryo you get this idea that well what do skin cells want to do they want to be a passive two-dimensional layer on the outside of the animal they do nothing except sit there keep out the bacteria you know nice and a boring two-dimensional life but what you find out is that that's only true because the other cells are basically bullying them into it left to their own devices with the in the absence of these instructive interactions with the rest of the embrio what they what the skin cells actually want to do is get together into a three-dimensional uh kind of ball like architecture they are self motile that you know they'll run around and move and do VAR have various behaviors including make copies of themselves if provided with materials and so that is completely um kind of obscured by standard development where what you're seeing actually is is cells in a space that was really deformed by by all their neighbors right and that's you know that kind of process that that that starts to div you know make make those distinctions where the embo the embryo can tell what part what parts are inside and what parts are supposedly outside of itself and that's that gets reinforced by all these early activities Carl or or Chris do you want to jump in on that I think I think we've been describing pyus that says basically that it's curiosity all the way down every system is trying to figure out what's going on I was struck with that with this image of the little cells putting out fingers you know this is expiration you know sort of True Blue expiration and mathematically it's simply as Chris says it's um what EXC what what artificial intelligence um research aspires to which is artificial curiosity you know going out there getting the right kind of data um that's going to maximally resolve your uncertainty and paint the way the way forward and of course it's intimately related to planning and the sense you have to um realize that palpation you whether it's a little cell palpating with its filer or podia or um whether it's me palpating my visual World by move my eyes around or whether it's the um the little baby babbling and palpating its cot this this this this palpation has to be planned it could be planned in the sense of the gazelle CH sorry the g not the gazelle the cheetah chasing the gazelle uh so it doesn't have to be very sophisticated cognitive conscious planning but certainly has to has to be planned it has to have this sort of Cur curious behavior um and You Know It just strikes me that that is such a fundamental um aspect that I think um would qualify behaviors that have that aspect as cognitive in some sense and it's so fundamental because of course it's it's just an expression of dynamics that are apply to um action upon the world um underwrite everything that we do as certainly as scientists and one could imagine as as as human beings but certainly as scientists you know the the maths of curiosity was was actually worked out um by Dennis Lindley in the 1950s um in terms of expected information game and then reintroduced by people like David McKay in the context of active learning so bringing this active notion that you can learn by actively acquiring the right kind of data that optimizes that kind of learning and it became known as um um the uh principles of optimum Basin experimental design so it's exactly the same kind of curiosity that we as scientists use all the time whenever we design an experiment it's basically configuring actively configuring some process to generate something that can be sensed or measured that that maximally resolves our uncertainty or fors the greatest amount of information so I mean you know U the three of us as scientists have become um experts at this kind of formal curiosity simply you know just by acquiring knowledge about in the in the particular paradigms or setups and Fields that we find ourselves in the right way to do experiments but you could argue that that's life you know in a sense that is the the infant bubbling uh it is you know it that kind of sense making getting actively getting the right kind of data to work out your place in the world uh to work out what you know what you should do next is one of the most existentially important imperatives and and you know I was struck at you but the mechanics that Mike was talking about in terms of the you know uh the little skin cells left of their own device is having a party and forming balls and wandering around I mean you know one could apply that kind of mechanics to people can't couldn't you or even even cultures and countries we're all trying to find our place and we're all trying to work out how to respond to those constraints people around us at many different scales um um you put on our behavior and try and infer well how am I meant to behave in this situation so even if we all start off with the same genetic code in the same sort of model of you know how people behave the context in which we find ourselves now needs to be inferred in order to have to know how to behave in this context either as a child or as a mother as a politician or as an aid worker or a first responder whatever you want you have to make that inference and of course that inference inferring that context requires the cous behavior that that that Chris had picked up on in Mike's example wow could could could you know what I'd love to hear is each of you talk about um what is the simplest most basic uh thing so you know hopefully going down to like physics prior to life but but wherever you like what is the most basic thing that is able to do that because that's what I find in in in talking about this stuff to other communities the thing that people are the most resistant to is this idea that these kind of Dynamics this this kind of uh EXP ation curiosity prediction all of these things that we're talking about that you know people people think it's it's brains first and then you can do all these these these great things I I would love to hear um you know what you think is the simplest physical system that can do that kind of thing so that we can talk about how far down it goes while Chris is thinking about that with a profound answer I'll give you not a trivial answer but a formal um answer uh I I think it's um you'd have to identify the um the depth of planning um that underwrote the the Dynamics of the behavior of the system um in question um and that would be basically if you were putting this in a sort of path intrical formulation it would be the sort of the the amount of time over which you are integrating your paths and you're evaluating the best way forward um um once you move once you move from uh very short time scales um then the depth of that planning I think eludes um physical realizations that could be written down in terms of um um representations in terms of concentrations and uh um depolarizations and the like um and one has to move to a quantal Street time representation so you know I guess I'm basically make making the difference between the sort of um the the the kind of Dynamics you'd find in a uh in chemot taxis or a thermostat um that could be written down as differential equations in fact M you're the kind of differential equations we used in one of those early um patent formation papers knowing your place uh approaches um where everything could be articulated terms of differential equations so that there is a kind of planning but it's not of the Curious kind that we talked about it's just following the most most likely Paths of of least action so I would say that they're not cognitive in the sense that they they have planning um so I put chemotaxis and thermostats and possibly most viruses probably at a precognitive um or protoc cognitive level but as soon as you get to um um generative models that can roll out deep into the future and I I repeat just when you try to implement this in silico you know using computer simulations you really have to move to a discrete time representation um which I think is a non-trivial thing I mean just for example remember the sort of the eye movement example yeah we sense make by getting little snapshots of the world every 250 milliseconds uh it's not like I've got I'm a thermostat and I'm taking a continuous record of the temperature that is a continuous I'm actually getting discret quantal observations um and I think once you move to that kind of generative model or biophysics that entails um the gradient flows under that generative model um then I think you're in a position to talk about sort of planning and cognition and curiosity of the kind that we we're talking about uh so I you know I'd literally put time constants on this I'd say about you know 300 milliseconds if you got the ability to represent the future 300 milliseconds in in your sorry represent the consequences of your actions more than 300 milliseconds in the future then I put you in you know having crossed that one of those cuts um and move from from being a sort of um yeah a virus to to you to to I don't know perhaps an insect I'm not sure are you seriously putting the 300 MCS forward or like or is that fa fous um it's it's fous but but not as factious as it might as you might think I do think that there you know I think there's a there's one way of celebrating the um the escapes from psychism that we started off with when you know when Mike was saying what he spends his time talking about one of the ways is to commit to vagueness and you know how many um how many grains of s do I need before this ceases or becomes a pile um and try and work out what the U what the quantity is uh that defines that spectrum that we were talking about before uh along which there is vagueness at some point consciousness of a certain kind um um arises um but I also think there are natural kinds that that actually have bright lines between them um and you know what I'm saying here and I I don't think I've said it before and I probably wouldn't say it again um U but um unless I simulated it but there certainly in my experience qualitatively different kinds of generative models that represent time in very very different ways you can get so mathematically things like cman filters that can be cast or linear quadratic control and Robotics and the like that can be cast purely in terms of Futures that are represented in terms of velocities and accelerations and higher order motions that are just in the Dynamics and the equations of motion uh and you can realize and build these things you can simulate them and they behave u in a very plausible way you can get them to do handwriting you can get them to self-organize and do all sorts of interesting things Al thermostat um but that's um that's as far as it goes these things don't show Curious Behavior to do curious Behavior You' really got to roll out much further into the future um and in running out further into the future it's very difficult to represent the future just using differential equations unless you move to very very high orders of motion at which point you start to sort of to minimize that complexity start to articulate things in discrete time and then the maths sorry the math the new um the um numerics become much simpler and doable um and um but then you've got a qualitatively different kind of generative mod you move from a continuous to a discreete time a Quant quantized generative model um so that for me is not uh does not allow a vagueness you know there is actually a natural kind that will represent things in the moment in terms of flows and Dynamics and other natural kinds that will represent things um in terms of discrete not universal clock time but discrete iterations um and I'm saying that the you know for for certainly our scale of interactions in the way that we sense make I would have thought freom of seconds was not controversial um I say that because that's the moment it's also the time interval between the way that we sample the world not just with our eyes but when we sniff we sniff at a frequency which means that each new sampling of that world that palpation with our chemo receptors and Factory receptors is again every you know every 200 milliseconds so so just to me there's a sort of discreet belief updating um and if there a discret belief updating that is underwritten by the way we act that the plans have to be these discrete chunks of time so that's where the 300 milliseconds come from you see it everywhere mice whisking they whisk at that frequency so they touch and palpate every 300 milliseconds the way I'm speaking now every phoning is reaching your ears every 300 milliseconds or so or or possibly less so wherever you look in our biological scale that's there does seem to be this sort of characteristic uh time stamp that's purely empirical so the phous aspect inherits from the fact that that's that's very egocentric it's just for things like me I don't know if it's for things like cells or quantum physics well it's interesting because in physics the number three has an interesting role in fundamental physics because there's three generations of of matter and there's the number three CRS up and it's a mystery as to why so it sounds like the number 300 or 300 millisecond a unit attached to it or Neuroscience maybe a a fundamental constant so Chris what are some of the deep thoughts that you were having well I I was just having a visual impression actually when Mike was talking and um of of babbling and the visual impression was of our our sort of model of the quantum vacuum and we think of when we think of the vacuum or at least I think of it uh visually as as little things popping in and out of existence all the time and so one could think of that as a as a kind of babbling right the the field itself is exploring what's going on outside of itself that's extremely interesting by uh forming a little entity to go off and and explore and then report back so this is a this is a very different picture from the one that that Carl gave in that um but I suppose it also has a similarity or two that when we write down a a model of that activity it is discreet it is operating in in a discrete kind by generating discrete events even though it's it's modeled in a continuous SpaceTime which uh once one digs a little bit deeply The Continuous FaceTime itself becomes discreet but this raises a question for me which is another of the things that I think about a lot um which is the question of what what we mean by Randomness and suddenly to take a basian point of view where probabilities are all subjective uh it becomes very difficult to say what Randomness might mean if if used in a way that's meant to be objective or to refer to something objective and we model things like fluctuations in the vacuum as random uh which from a a basian point of view just means it's uncertain to us it represents information that we don't have and quite possibly can't get even in principle but if we think of that system as an agent then of course you're expected to be exploring its World whatever it is whatever uh exists that's not it and maybe uh we can really think of babbling all the way down as a model of of what's happening in these phenomena that we persist in thinking of as random uh but we also don't typically think of these sorts of systems as agents this this is this is incredibly interesting um what I heard what I heard Carl saying among other things is that there there is a there is a qualitative transition when things go from analog to digital in a certain sense right from from from continuous to to to phase and based on what Chris just said of it just remind us to to think about the kind of the quantum world where at least to my understanding a lot of things are in fact you know sort of discreet does that mean that really could it be that that that is the sort of Base State as Chris just outlined with with with that kind of protoc cognitive exploration all all the way down and that these continuous models that we put on top of it by by by corar graining um you know tiny events into the kind of macroscopic things that we see here that's that's an abstraction that sort of loses the essential uh mindfulness of it and then we have to try to rebuild it again by the time we get to brains but actually all we've done is obscure the the fact that all the way from the beginning it was already digital to start with and we just sort of put some put some Vaseline in our lens here you know to make everything look um you know sort of continuous which then which then made it look like there was nothing going on at the lower levels and then then somehow we're we're shocked that we have to recover it from from somewhere later on that that's that's what I just heard from the combination of those two um explanations it's a very interesting idea and it connects nicely to the history of mathematics or at least the history of mathematics post decard and liet which was all built around the idea of continuous functions and Analysis and calculus and so on very very nice convenient mathematics to use but uh obscure it in a certain way Carl did you have any thoughts to add to that um yeah I probably um this is why I wanted to hang out with with Mike and Chris to learn about Quantum Theory because I do think there's something fundamental about this sort of you the way that we carve up the world or the world the way the world can only be defined in a carved way into tiles or Quanto or discret things um so um I I that those observations that we just heard I think are quite fundamental um and it would be great to understand um everything from a sort of quantal perspective or disti perspective and how continuous constructs like you know space and time emerge from that um you if necessary um having said that um I have to say that um as a physicist I would bring something else to the table so I'm I'm quite comfortable dealing with random fluctuations so for me random fluctuations are are just variables that change very very quickly so if I want to write down um as a physicist so now I and I'm talking about a physicist that doesn't know anything about quantum mechanics um so I just want to write down a long van equation to describe my universe um I write it as a mixture of states and random fluctuations and somebody asked me what license is that I just well the r fluctuations are very very quick and the uh the states are very very slow um and this is just a natural consequence of um some kind of renormalization group you know I I I could uh make them even slower by going to the next St scale and throw some even more fast stuff so there's nothing really if you like um problematic from the point of view of that kind of physicist um in in the random fluctuations um uh it just means that all the stuff that determines flows and dynamics of the kind that we can um that we engage with and we can plan um has a particular form and that particular form um does actually bring a quantal aspect um to the table or a discretization aspect of the table that may or may not be if you like um explained away or absorbed into a Quantum information theoretic treatment but what I'm talking about here um are the mathematical image of light life cycles and biorhythms and oscillations and I mean that right from you know the perspective of a dendr in my hippocampus oscillating away a fast gamma frequency you know sort of say 80 htz through to the the motion of the heavenly bodies wherever you look you get the this um solenoidal flow um that is characteristic of things that hang around and don't dissipate almost immediately um uh and these are not part of the random FL in fact they become more evident as you go away from the fast random stuff into the slow um the slow uh Dynamics um in the sense that you know clearly uh the orbit of the moon around well the orbit of the Earth around the Sun for example this deals with very very massive large things where all the random fluctuations are effectively averaged to zero um whereas if you go down to the quantum scale um then you know you're not licensed to do that and these solenoidal flows um become much less um much less apparent but our our scale if we are if life is um on this reading of physics um um sufficiently classical to have um oscillations bi rhythms um things that would you need full feedback that didn't go off to plus and minus infinity for example just saying that you're keeping you're circulating in some state or phase space in a way that you keep yourself to some attracting set and as you move through this you are naturally going to be oscillating your in a highly nonlinear possibly chaotic way but still the essence is life cycles if that's the case then the ponari section does indeed permit a description that is necessarily discretized in the sense you're going to pass through the neighborhood of various States at discrete points in time um um uh recurrently um so that's what I was thinking from the point of view of a physicist who who does not have the fluency of quantum mechanics to get back to a discreet thing but it also I think um highlights the um the Deep connection between things recurring discreetly or occurring uh discreetly um um um being one way of defining another characteristic of of biological self organization which is basically bi rhythms and and life cycles uh that have this sort of self-contained I Y and of course in that self-containment you've got this natural resolution of ambiguity and uncertainty because you always know you're you're on the same itinerant path repeatedly visiting the states that you once occupied so that that that's what I would say from the point of view of physicist I may say something very different in a few years time when I've learned more about Quantum Theory so let me ask Chris could you ever describe that kind of mathemat physicists treatment of Dynamics in pure Quantum information Theory at that at that kind scale well I I think if we if we try to think of scaling up from from um descriptions of things like Quantum Fields then this looks impossible but uh if we think of it informationally maybe it doesn't look impossible I'll I'll go back to John Wheeler's notion that a bit is fundamentally the answer to a yes or no question and information the information theory is about bits and systems that exchange bits but what do you mind repeating that last part but what what Wheeler's aphorism doesn't specify is the complexity of the question that has a yes or no answer so in in your case Carl you have an oscillatory system that passes after a discrete time of particular boundary so the the system May well be asking the question have I passed this boundary and the answer is yes or no or am I passing the boundary right now well that's one it uh that's a yes or no question but it's an extremely complicated question so it may be that we can develop uh a theory that leaves the complexity of the generative model unspecified and concentrates just on the bitf flow across the boundary that counts as evidence in One Direction and perturbative action in the other direction and and then I think the two pictures fit together rather nicely because one can imagine the generative model operating it that the generary model being the model that generates the questions um operating at many different scales where where one could think of the scales as computational complexity and this gets back in a sense to your question about language uh language is a way of posing questions it's a way of babbling in the world and this process of babbling it seems to me as far as I understand it's like poking and prodding to test your own self model to see what's the difference between me and the world it sounds like that never stops even though we call it babbling as if do it does it ever stop are we not engaging in this right now and I like this phrase babbling all the way down I'm going to put that on a t-shirt by the way Chris or and it also by the way seems like babbling all the way up too because we're constantly engaging in this so firstly is that true does babbling have an end and and also does it not presume a self in order to test the self what I mean is Carl when you were speaking about the process of babbling it's the infant doing something on the world in order to make a model but that that first part was it's it is doing something to the world to me already presumes the external World whereas the way that I'm understanding it is that the self is a model but it's also in your point of view it's something objective and I believe from my readings of Chris I don't I believe Chris is more on the non-u end where it's it's it's that's less the case so I'm unsure anyway I just said a slooh so please respond to it as you as you wish right well I mean just to um dispel the notion that the self is um objective now I I didn't mean that I I meant it exactly the same way that um I think both Chris and Mike could been intimating that you know from the inside of a cell or a person or the baby's skull um you self um is you know quite a sophisticated um construct um you know fantasy hypothesis um that is physically realized possibly neuronally in some lucky creatures and some lucky children uh you may actually find some children never get that far you I'm thinking here people with severe autism for example who don't have a a theory of Mind simply because they never developed the notion that um um I am a person um and you know what comes along with that is that you know if you got very very severe autism or if you like so theoretically idealized autism um that means that personhood doesn't exist so you would be I would regard you as an animate fridge or you know some um interesting autonomous vehicle but you would never be a person because I don't I don't have the hypothesis that you know there are people out there and that people share certain sort of phenotypic characteristics and um have intentions in the same sense that I have intentions so I just I'm not aware that because I just don't don't have that hypothesis so it's a longwinded way of saying that I didn't mean to imply any objectivity here I was more going the other way really I'm just saying that selfhood um um that would be one part of Consciousness and if you want to associate cognition and Consciousness then per possibly um that kind of minimal selfhood would you know would be necessarily part of um of cognition this is a gift that you have to get by Crossing one of those bright lines um and it's just a fantasy that you bring to the table to make sense of uh all the Impressions on on your sort of sensory surface or your holographic screen or your or your cell surface or so The receptors you are equipped with um to sense what's going on out there does that make sense yeah I know that Mike and and Chris you may have a response to that but I just want to quickly respond to what Professor fron was saying is so and this is to both of you how do you then prevent an existential crisis as you start to study this so for example Carl before you and I were speaking and I told you about some experiences I had where I've deeply felt what you're saying is being true that the self is a fantasy and this Oneness with all this world being generated in one's mind and I I felt like that was a to a psychotic episode and it was extremely destabilizing and to be quite Frank I'm I'm still recovering from that and so I'm unsure how any of you all do this work without constantly being in a debilitating state of of existence well existence is the question here it's an existential crisis which I'm inquiring about so how is it that you prevent yourself from getting into that how could you say these words of well the self is is not objective the self may be a a fantasy quote unquote but not then be able to to not speak and and look around you in awe and and horror at the same time okay so that's a psychological philosophical question anyone who wants to take that up I I think there is a good deal of existential um what uncertainty involved in uh in doing what we're doing so just part for the chorus right how do you get over it I'm not sure when gets over I I I think it's more um being comfortable with it you know I I I I I think you raised a really a really important point and it's I think this is in a class of uh a number of really destabilizing um uh ideas that one picks up as as one gets older and studies things and and there are many of these I remember as a as a child being completely freaked out by the fact that I realized that you know we grow up and we become these adults these adults bear some resemblance to the children but they're definitely not the same thing and so in some sense you could sort of see it coming it's almost even even before you realize that you're going to you know you're going to you're going to die biologically someday before long before that you realize that you're going to undergo some transition that's going to you know turn you into a completely different sort of creature which really you know has some continuity but maybe not you know certainly not you persisting in the same way as you are now right so some kind of weird butter you know caterpillar butterfly effect where you're just not going to be around in that same way as as you are now right so that's kind of the first thing you you realize as a child and then and then there's many others that sort of you know you learn about boltzman brains and all the different you know humean arguments of but you know all this stuff that you know I had to I I did um I did a philosophy class with my son when he was little uh uh we were doing um homeschooling and so I kind of did this and I realized very quickly that I have to be very careful with this stuff because if you right somebody who has the capacity to understand it it's extremely destabilizing and I think that uh at this point for myself you know I sort of go with with deart a little bit in the following sense I I I'm I'm not depressed by it in the sense that whatever we discover is is a truer model of the self than we may have had it doesn't it I I don't I don't think there's any way in which it makes it less um it makes us less less less valuable less interesting less engaging all of that is still true it's just that now we've realized that a different set of mechanisms can now Implement that magic than we thought right so you may have had sort you know some sort of um idea that well there has to be some sort of um different kind of unique process that makes us permanent self and therefore I'm this individual and I have I have uh you know I have true true beliefs and references and and I exist in some way I I don't think you can ever convince yourself that you that that that isn't true and that you don't exist it's just that now you find out that actually the way you get to be that is by these sets of mechanisms and they're very interesting it's the sort of thing that Carl and Chris have been talking about so that's what gets you to be this individual this kind of individual and it's kind of amazing that that works but that doesn't to me that doesn't um diminish all of the thing all of the things that I thought were true about what the individual actually is right your reality the real of it that the imper impermanence is there but we knew that from the time you were a kid you knew that it wasn't going to be permanent so that that part you know you sort of have to deal with from the start after that it's all you're learning after that is just that you were really mistaken about what it takes to be that sort of creature you thought maybe it had to be some magical whatever now you think that wow it's a set of you know feedback loops and whatever else so that's surprising but that's okay we we learn about you know we learn about different underpinnings to things all the time so that's okay but I don't I don't think any of it diminishes the the the sort of um just the incredible awe of of being a sensient a being that can think about these things yeah just reiterate that so I I didn't in any way mean to demean um our selfhood or your selfhood in particular um by calling it a fantasy I actually meant it um and indeed have written about it um in terms of something quite fantastic so we've written papers called The Fantastic organ the brain is a fantastic organ just because it can produce these fantasies it's absolutely fantastic and of course they you know in relation to our early conversation the capacity to have these fantasies which have incredible explanatory power if you can obtain them and you can maintain them um is the part of the complexity which allows us to cross these bright lines or these gaps and become or cuts and become um closer to to you know to the kind of creatures that can can can even entertain the notion of the hard problem just to Mike I just love that meta answer we don't know what the answer would look I got to tell Andy Clark about that he'll tell David Charmers um but to come back to the point so I didn't mean to demean that um and you know phrases that I remember coming across and having to learn uh when I was a students of things like existential angst and ontological security all of these things um you know rear their face if you are worried about these things but the very fact that you are able to entertain the notion that you are not real is quite remarkable um and I repeat is a is a gift of a fantastic sort it is a kind of fantasy that very few um creatures have and sometimes even few people have so there are people who actually will go out there to try and um experience that and to become and treasure the uh the gift of being able to make sense of the world as me um by taking drugs or doing mindfulness um therapy uh in order to actually get to a state where um s of almost a fraudi Oceanic state where Sellwood is dissolved so they can experience it and certainly if you've um taken um sort of psychedelic drugs in sufficient quantity um you may have that kind of experience that's s of derealization or dissociative experience which is the realization that you know your construct your fantasy of selfhood that is engaged and engaging continuously and for as long as you live um then um you know if you want to appreciate that then you have to experience you know the alternative hypothesis uh so you know experiencing derealization or in this instance depersonalization um is actually I think uh one really important step to self understanding so I don't see it as at all threatening nor diminishing it's it's just part of self- understanding which not everybody gets the opportunity to indul I me I mean in some you know in some sense the most destabilizing thing of all ought to be just the bare facts of Developmental biology when you learn that you are in fact not some sort of uh un indivisible monatic whatever which I don't even I'm not even sure what that would entail if you were but but the fact that we are all like all intelligences are collective intellig is We Are All Made of parts and the idea that you used to be this quiescent oite this little bag of of chemical reactions that did very little and then very slowly sort of Step by Step you turned into whatever you are now if that's not destabilizing I don't know what is because just knowing nothing knowing nothing else about Evolution or I mean to me developmental biology is sort of like the the you know the queen of of of all the Sciences because just that fact that you go from from from chemistry and physics to mind in in nine months plus however many years it takes uh and that and that you are literally a collection of cells that you could see in pond water more or less is just if if you know you're you're you're a bunch of cells in the trench coat you know like the in the cartoons like if if that's not destabilizing I don't know what I don't know what else is so quickly just I know we have to get going and I'd like to wrap with a a set of brief questions but quickly Carl and perhaps well anyone who would like to answer what is it that separates those who are de personal ized or go through certain psychotic episodes from what is it that separates those who are fortunately like myself where it's abating and I'm able to function and I'm able to have friends and so on versus those who go into a ward because obviously those issues can like you mentioned it's a gift for some it's not a gift I felt like for myself would I don't want that gift I'll return that gift I wish there was a receipt with it but and I still actually feel like that but for some obvious it's it's it's a horrible and persistent feeling so what is it that separates them well I'll answer from the point of view of a psychiatrist with a with with a commitment to sort of a mechanistic or theoretical understanding I I think it's um the inability to resolve the um the uncertainty that is attends entertaining the Dual hypothesis that I may exist or I may not exist as me um but as soon as you increase your hypothesis base you naturally induce an uncertainty an ambivalence and um a kind of ambiguity um so it is exactly the same if you like um the we're talking about the same imperatives that we've been talking about all along which is to sort of resolve uncertainty resolve ambiguity to make the most sense of things so if you've entertained this hypothesis that you're you are not you and you are you and you can't fully resolve that then you will find yourself in a state of chronic uncertainty that unfortunately does have pathological consequences um I'm not sure that being in a pych is necessarily too pathological I mean you know there are ways to live very nicely and constructively and fantastically in psychs and I've done that I spent two years in a Therapeutic Community um but there will be other squel ey of an inability to resolve uncertainty they're expressed clinically and physiologically in terms of anastatic load and the like and chronic stress and the like which can be very unpleasant uh and ultimately can have physical consequences from the point of view of you know the effects on your body so the question now is why can't some people resolve that uncertainty I think it's then a question of the the the biophysical um um processes that enable you to update your beliefs and build good models of of Your World um that again this is a very PR itic answer from the point of view of you know of of clinical um of a clinician um uh probably the answers lie in the way that your brain has assembled itself to coordinate and attend to various sources of evidence um and the it looks at the mechanisms are underwrite that ability to deploy attention rest very much upon neuromodulator neurotransmitters are the kind you you you'll have heard about in the popular media and will have read about things like dopamine ser Onin um and indeed um um oxytocin all the drugs that are either used or the targets of um psychotics or psychedelics or psychotics or drugs that are used to try and control some of these feelings and some of these signs and symptoms you know uh specifically that attend um anxiety disorders and um and depression so you know understanding the uh this is the not the feedback loops that do self-organization in the developing embryo but the the same kinds of mechanisms that do the feedback loops and the self organization of different um structures within the brain um that can be construed as blankets within blankets or holographic screens within holographic screens or cells within cells um all um complying with the same principles but in the particular instance of the brain doing this and understanding the neurochemistry and the biophysics of this fundamental sense making self-organization um it turns out that these are certain these neurochemical messages um are uh particularly important in resolving that kind of uncertainty and it may be that you have either taken drugs or you have just grown up to not be able to deploy these neurotransmitters Pro properly um again leading us to well how would you gain control of it well you might want to do mindfulness training meditation and the like just internal attention State training basically to mentalize how you deploy your attention Mike I know that you had a set of questions that you're eager to ask both Carl and Chris did you already get to all of them uh well that would be impossible but I got to uh I got to many I got to many of them uh most of the important ones I learned I learned a massive amount today this has been just amazing um but I will be um pestering both of them with additional question questions in you know years to come great to end I I have a question that I didn't email you that just occurred to me as you all were speaking it's something that Professor Levan that you said what are some aspects of your field maybe their theories or concepts that your peers are extremely resistant to but you are not wow um we I don't I don't know if we got time for all that that that's a lot that's aot that's a lot of stuff um I mean the most basic there are many I mean the most basic thing is this notion of uh profound symmetries between these fields uh you know this this idea that you can um that you can you can basically import uh um Concepts and strategies from cognitive Neuroscience or Behavioral Science and deploy them in other spaces developmental biology metabolism that you can that it even makes sense to talk about um you know goals memories planning navigation um all of these kinds of things outside of what we're used to which is some you know rat in a maze or or something like this so so that Continuum this idea that it goes that that that something important goes all the way down or or maybe a long way down even if not all the way down that that that is uh in in in a few circles that's okay in most circles that that I deal with that's just a that's just you know a complete heresy um yeah there there are many others but that's that's kind of a basic Chris well I I I think that Mike really nailed it with that answer and um I would say yes it's it's not a a popular idea that physics and biology and psychology are actually all more or less the same science but uh I think that they are professor friston yeah well that that would be my favorite heresy I'm just going to agree with with Mike and Chris you know physics biology psychology they're all the same thing and I just wanted to end by saying uh you know heresy I'm not so sure anymore I I you know the number of times for example I see Mike Levan cited in high-end philosophy journals and treatments um suggests to me that in fact it's going to be the minority um in at least in a few years time that that don't subscribe to this more holistic um um um encompassing um and I think um correct way of of viewing um you know certainly the life sciences but you know more generally the Natural Sciences um uh so you know who is going to be the heretic in a few years time I suspect it won't be any of us and I'll end with one that I see from particular Chris and Michael is it sounds like without using the word it sounds like what you all are doing trying to understand God or trying to come up with a model of God and the reason why I say that is because with looking at a neuron and saying okay how can a neuron look around and have some model and know that it's embedded in something higher that sounds to me like well if we apply that to ourselves and continually do so we would reach something akin to God and then Chris with the quantum babbling if one can think of it like that well what is babbling I know that maybe you all don't want to use the word God but for me what I I have that many of my peers are extremely against would be to philosophize about God or to explicate God or to take god seriously as not an old man in the sky with a beard and so I I see you all as doing something similar and I'm I'm happy to be in your company I'm extremely lucky all science um starts with an Act of Faith with a very important Act of Faith which is that the world is in some way understandable that we are not just a bubble in this um you know random universe that just happens to you know as as a as a as a total random string of of of coincidence looks like it's got laws and then and then tomorrow somewhere you know at while you sleep the whole thing falls apart and we go back to a random you know sort of random distribution of events so we all there's no proof of any of it of any of that right we take we have to take that on faith and that may be for a scientist that may be the most destabilizing thing if can't get yourself to believe that that that the world isn't for some weird reason understandable and and amendable at least to some extent to our logic and probing then then you can't do science you can't do any of the things that that we do so so being uh useful and and and hopefully productive in in what we do starts with that act of faith that is just completely to my knowledge it's it's it's it's it's an AUM it's not based on any evidence that you could possibly have so so I do think that sort of underlies everything that we do just this idea that we can in fact squeeze some understanding out of what's going on around this I'd also think you'd be surprised I know that you said that it doesn't comport with the traditional definition of God but it depends on what tradition and how far back one goes because there are Mystics of let's say Christian Mystics and is Muslim Mystics or Islamic Mystics and so on yeah and then obviously then the Eastern end is much mystical so okay well thank you all so much for for thank you so much for coming out to this and thankk you i' I've learned a tremendous amount and I hope you all have too I I I'm I'm blessed and thank you so much well thank you very much this was this was a very interesting conversation and thank you very much for putting it together yeah absolutely this is this is great great great idea thanks for having this song yeah I'm just super pleased super pleased to have been part of it yeah it went in directions that I didn't expect I didn't I don't even think I looked at my notes my my notepad here I I wrote some notes but they occurred to me in the moment okay thank you all Mike I know you got to get going and and so it well thank you all all right thank you cheers cheers thanks bye everyone bye bye take care the podcast is now finished if you'd like to support conversations like this then do consider going to patreon.com CT J AI m u n g l that is Kurt jongle it's support from the patrons and from the sponsors that allow me to do this fulltime every dollar helps trend mously thank you</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

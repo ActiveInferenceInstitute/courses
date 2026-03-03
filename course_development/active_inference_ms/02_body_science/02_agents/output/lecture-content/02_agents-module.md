@@ -1,0 +1,47 @@
+# Module 2: Agents — Your Body Has a Mind of Its Own
+
+## Learning Objectives
+
+1. Understand that your body contains **billions of tiny agents** — cells, immune defenders, gut bacteria — each with their own goals and behaviors.
+2. Learn how these microscopic agents **sense their environment, make decisions, and take action** without your conscious input.
+3. See how **you as a whole person** emerge from the cooperation (and sometimes competition) of all these internal agents.
+
+## Introduction
+
+Right now, inside your body, a war might be happening. A virus just snuck in through your nose, and your immune system has already noticed. White blood cells are racing toward the invader. They're identifying the threat, signaling for backup, and attacking. Some are sacrificing themselves to protect you. All of this is happening without you knowing about it — maybe you'll sneeze later, maybe not.
+
+Those white blood cells are **agents**. Not agents like secret agents (well, kind of). Agents in the active inference sense: they sense their environment, they have a goal (destroy the invader), and they take action to achieve that goal. And they're just one example. Your body is home to trillions of agents, all doing their own thing, all contributing to the larger project of keeping you alive.
+
+## Key Concepts
+
+### 1. Cells Are Decision-Makers
+
+A single cell might seem too simple to be called an "agent," but cells actually make sophisticated decisions all the time.
+
+A white blood cell patrols your bloodstream, sensing chemical signals. When it detects markers of infection, it moves toward the source (that's action), engulfs the invader (that's more action), and then releases signals to attract more defenders (that's communication). It has a boundary (its cell membrane), it senses its environment, it has a goal, and it acts. That's an agent.
+
+Even basic cells in your body make choices about when to divide, when to repair themselves, and when to self-destruct (yes, your cells have a self-destruct button — it's called apoptosis, and it's how your body gets rid of cells that aren't working right). Cancer happens when cells stop following these rules and become rogue agents that grow without limits.
+
+### 2. Your Gut Is Full of Tiny Roommates
+
+Here's a fact that might weird you out: you have about 38 trillion bacteria living in your gut right now. They outnumber your own human cells. And they're not just freeloaders — they're agents that influence your health, your mood, and even your food cravings.
+
+Gut bacteria break down food your own body can't digest, produce vitamins you need, and fight off harmful bacteria that could make you sick. They even produce chemicals like serotonin (a mood-related neurotransmitter) that affect how you feel. When people say "trust your gut," there's actually some science behind it — your gut bacteria are sending signals to your brain.
+
+These bacteria are agents with their own goals (survival, reproduction), and they happen to live inside you. It's a partnership: you give them a warm, food-rich environment, and they help you digest food and stay healthy. When this partnership gets disrupted (by antibiotics, bad diet, or stress), you can feel the effects throughout your whole body.
+
+### 3. You Are a Team of Teams
+
+Here's the big picture: "you" are not a single thing. You're a massive collaboration of trillions of agents — cells, bacteria, organ systems — all working together (mostly). Your conscious mind is the part you're aware of, but it's sitting on top of an enormous foundation of unconscious agents doing their jobs.
+
+This is like being the coach of a massive sports franchise. You make the big strategic decisions (what to eat, when to sleep, whether to exercise), but thousands of players are executing plays you never called. Your heart doesn't wait for permission to beat. Your immune system doesn't ask if it should fight that cold. Your bones are constantly being rebuilt by cells called osteoclasts and osteoblasts, tearing down old bone and building new bone without any input from you.
+
+Understanding this changes how you think about your body. You're not just a brain piloting a meat robot — you're a community.
+
+## Try It!
+
+**Agent Spotter.** Research one type of agent living in your body (white blood cells, gut bacteria, platelets, neurons, or stem cells). Answer these questions about your chosen agent: (1) Where does it live? (2) What does it sense? (3) What's its goal? (4) What actions does it take? (5) How does it communicate with other agents? Present your findings as a one-minute "agent profile" to the class or write it up as a mini-report.
+
+## Summary
+
+Your body is home to **trillions of agents** — from immune cells fighting infections to gut bacteria influencing your mood. Each of these agents **senses its environment, has goals, and takes action** to achieve them. "You" are the result of all these agents **cooperating** (and sometimes competing). Understanding your body as a team of agents helps explain why health is about balance, not just individual parts. Coming up: **Perception** — how your body senses what's happening inside and outside of you.

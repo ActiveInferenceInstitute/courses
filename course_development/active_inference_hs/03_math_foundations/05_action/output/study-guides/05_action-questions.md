@@ -1,0 +1,42 @@
+# Study Questions: Action
+
+1.  Define **Action** in your own words, specifically as it applies to High School.
+
+2.  How does the Free Energy Principle constrain our understanding of Action?
+
+3.  Contrast the Classical view of Action with the Active Inference view.
+
+4.  Explain how gradient descent works as an action policy. If the free energy function is F(x) = (x - 3)^2, compute the gradient at x = 5 and describe which direction the agent should move.
+
+5.  In a PID controller for a thermostat, what do the proportional, integral, and derivative terms each contribute to the action output? Write simplified equations for each term.
+
+6.  What is a learning rate in gradient descent, and how does it affect the agent's action? What happens if the learning rate is too large? Too small?
+
+7.  Describe the difference between action as "stimulus-response" (classical view) and action as "prediction fulfillment" (Active Inference view) using mathematical notation.
+
+8.  A thermostat has a setpoint of 72 degrees F and the current temperature is 65 degrees F. Calculate the proportional control action if the gain constant K_p = 2.0.
+
+9.  How does the gradient of free energy determine the direction of an agent's action? Explain why actions always follow the steepest descent direction.
+
+10.  Compare the mathematical structure of gradient descent in machine learning with the PID controller in control theory. What do they have in common?
+
+11.  An agent can take actions that change its environment (active inference) or change its internal model (perceptual inference). Give a mathematical scenario where each strategy is more effective.
+
+12.  In calculus, explain why a local minimum of the free energy function might not be the global minimum. How does this relate to an agent getting "stuck" in suboptimal behavior?
+
+13.  Write a difference equation that describes how an agent's state changes over time when it takes gradient descent actions: x(t+1) = x(t) - alpha * dF/dx. Simulate three steps starting from x(0) = 10 with F(x) = x^2 and alpha = 0.1.
+
+14.  How does the concept of a control variable in a differential equation relate to the action variable in Active Inference? Provide a concrete example.
+
+15.  A robot arm must move to a target position. Formulate this as a free energy minimization problem where the action is the motor command and the prediction error is the distance from the target.
+
+16.  Explain why Active Inference predicts that organisms act to confirm their predictions rather than simply respond to stimuli. What mathematical advantage does this provide?
+
+17.  What is the relationship between the magnitude of prediction error and the strength of the resulting action? Is this relationship always linear? Explain with a mathematical example.
+
+18.  In the PID controller, the integral term accumulates past errors over time. How does this relate to an Active Inference agent that learns from its history of prediction errors?
+
+19.  Describe a scenario where taking no action is the optimal action from a free energy perspective. Under what mathematical conditions does this occur?
+
+20.  Design a simple control system (not a thermostat) that uses the Active Inference framework. Specify the state variable, the action variable, the prediction error, and the update rule. Calculate the system's behavior over 5 time steps.
+

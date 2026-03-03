@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_Systems - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>01_Systems</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>01_Systems</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>The Robot as a System: Boundaries Between Machine and World</h1>
+<h2>Executive Summary</h2>
+<p>Every robot exists at a boundary between its engineered internals and the unpredictable physical world. Active Inference provides a principled framework for understanding this boundary through Markov blankets — the statistical surfaces that separate a robot's internal states (joint configurations, onboard computations, stored models) from external states (objects, terrain, human collaborators). This module establishes the foundational view that a robot is not merely a collection of components but a dynamic system that maintains its functional coherence through continuous sensing and acting. Whether examining a UR5 industrial manipulator bolted to a factory floor or a quadruped navigating rocky terrain, understanding system boundaries is the first step toward principled robotic design.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Define a robotic system as an entity with identifiable internal states, external states, and a Markov blanket that separates them.</li>
+<li>Identify the sensory and active boundaries of specific robotic platforms — how they receive information from and act upon their environment.</li>
+<li>Analyze nested system architectures in robotic platforms, recognizing how subsystems (sensors, actuators, controllers) compose into coherent wholes.</li>
+<li>Apply the concept of variational free energy to understand how robots maintain stable operation against environmental perturbation.</li>
+<li>Map the system boundaries of a concrete robotic platform, distinguishing internal computational and mechanical states from external world states.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Robotics is fundamentally a systems discipline. A robot that cannot be understood as a coherent system — with clear boundaries, well-defined inputs and outputs, and a tractable internal architecture — cannot be designed, debugged, or deployed reliably. Yet the question of where a robot ends and the world begins is not trivial. Consider a UR5 collaborative robot arm mounted on a workbench. Its internal states include the angular positions of six revolute joints, the torques applied by six servo motors, the temperature of each motor's driver electronics, and the data structures maintained by its onboard controller. Its external states include the workpiece it manipulates, the fixture that holds the workpiece, the human operator nearby, and the ambient temperature of the factory. The Markov blanket — the boundary between inside and outside — runs through the joint encoders (sensory states that carry information inward) and the motor shafts (active states that exert force outward).</p>
+<p>This module examines robotic systems through the Active Inference lens, establishing concepts that every subsequent module in this unit builds upon.</p>
+<h2>Key Concepts</h2>
+<h3>1. What Makes a Robot a System?</h3>
+<p>A robot is a system in the precise Active Inference sense: it is an entity that maintains a distinguishable boundary between itself and its environment over time. This boundary is not merely the physical casing of the robot. It is the statistical separation between variables that the robot can directly influence (internal states) and variables that it cannot (external states), mediated by the sensory and active states that constitute its Markov blanket.</p>
+<p>Consider the ROS2 (Robot Operating System 2) software architecture that governs many modern robotic platforms. ROS2 organizes a robot's software into nodes — independent processes that communicate through typed message-passing. Each node maintains its own internal state (subscriber buffers, parameter values, computational results) and interacts with other nodes through topics and services. From an Active Inference perspective, each ROS2 node is itself a system with a Markov blanket: its subscriptions are sensory states (information flowing in from the rest of the system), and its publications are active states (information flowing out to influence other nodes). The full robot is a nested hierarchy of such systems.</p>
+<p>This decomposition is not just a software convenience. It reflects a deep principle: complex systems are manageable precisely because they can be decomposed into subsystems with well-defined boundaries. A lidar processing node does not need to know about the gripper's force sensor. A trajectory planner does not need to know the raw pixel values from the camera. Each subsystem operates within its own Markov blanket, achieving conditional independence from the details of other subsystems.</p>
+<h3>2. The Physical Markov Blanket of a Robot</h3>
+<p>The physical boundary of a robotic system is defined by its sensors and actuators. Sensors are the sensory states of the Markov blanket — they carry information from the external world into the robot's internal processing. Actuators are the active states — they carry the robot's decisions outward into physical changes in the world.</p>
+<p>A typical industrial manipulator like the UR5 has a well-defined physical Markov blanket. Its sensory states include six joint encoders (reporting angular position at 500 Hz), a force/torque sensor at the wrist (reporting six-axis loads), and optionally a wrist-mounted camera or proximity sensor. Its active states are six brushless DC motors that apply torques to the joints. Between these boundary states, the robot's internal states include the joint-level PID controllers, the inverse kinematics solver, the trajectory interpolator, and the safety monitoring system.</p>
+<p>The precision of this boundary matters for engineering. If a joint encoder has a resolution of 0.001 degrees, the robot can distinguish angular positions to that precision — this sets the information capacity of that sensory channel. If a motor can apply torques from 0 to 150 Nm with 0.1 Nm resolution, that defines the granularity of the robot's active influence on the world. The Markov blanket is not an abstraction here — it has quantifiable bandwidth, latency, noise characteristics, and dynamic range.</p>
+<h3>3. Nested Systems in Robotic Architecture</h3>
+<p>Real robotic platforms are compositions of subsystems, each with its own Markov blanket, nested within larger systems. Understanding this nesting is essential for managing the complexity of modern robots.</p>
+<p>Consider a mobile manipulation platform: a wheeled base carrying a manipulator arm, equipped with multiple sensors and running a full autonomy stack. At the highest level, the platform is a single system with a Markov blanket separating it from the warehouse environment. But inside, there are at least four major subsystems: the mobile base (with wheel encoders, IMU, and drive motors), the manipulator (with joint encoders, force sensors, and joint motors), the perception system (cameras, lidar, processing pipeline), and the planning system (task planner, motion planner, behavior executive).</p>
+<p>Each subsystem maintains its own Markov blanket. The mobile base subsystem senses wheel encoder ticks and IMU readings; it acts by commanding wheel velocities. It does not need to know about the manipulator's joint torques — those are outside its blanket, conditionally independent given the shared state estimate. The manipulator subsystem senses joint positions and wrist forces; it does not need to know the lidar point cloud directly. This conditional independence is what makes it possible for different engineering teams to design, test, and maintain different subsystems independently.</p>
+<p>The interfaces between subsystems are themselves critical design decisions. In ROS2, these interfaces are formalized as message types on topics. The navigation subsystem publishes a velocity command (geometry_msgs/Twist) to the mobile base — this is the active state of navigation's Markov blanket and simultaneously the sensory state of the base controller's blanket. Getting these interfaces right is one of the core challenges of robotic systems engineering.</p>
+<h3>4. Free Energy and Robotic System Persistence</h3>
+<p>In Active Inference, a system persists by minimizing its variational free energy — maintaining an accurate generative model of its environment and acting to keep its states within viable bounds. For robots, this principle manifests in concrete engineering terms.</p>
+<p>A robot "persists" when it continues to function as intended despite environmental variability. A UR5 performing pick-and-place operations persists when it reliably grasps workpieces despite variation in their position, orientation, and surface properties. An autonomous mobile robot persists when it navigates to its goal despite unexpected obstacles, slippery floors, and changing lighting conditions.</p>
+<p>Variational free energy in the robotic context is the divergence between the robot's generative model (what it expects the world to be like) and the actual sensory observations it receives. When a robot's lidar scan matches its predicted scan given its internal map, free energy is low — the robot is unsurprised. When the scan reveals an unexpected obstacle, free energy spikes. The robot must then either update its model (perceptual inference — "there is an obstacle here I did not know about") or act to change the world (active inference — "I will navigate around the obstacle to restore my expected trajectory").</p>
+<p>Robust robotic systems are those designed to minimize free energy across a wide range of operating conditions. This is achieved through the accuracy-complexity trade-off: a robot with a highly detailed model of one specific factory layout is accurate in that setting but brittle elsewhere, while a robot with a more generic navigation model trades some precision for robustness across many environments.</p>
+<h3>5. System Identification and Model Calibration</h3>
+<p>Before a robot can minimize free energy effectively, it must have a generative model that approximates the true dynamics of its body and environment. System identification is the engineering practice of estimating the parameters of this generative model from data.</p>
+<p>For a manipulator, system identification involves estimating the mass, center of gravity, and inertia tensor of each link, as well as the friction and compliance characteristics of each joint. These parameters define the robot's internal model of its own body — its proprioceptive generative model. If these parameters are wrong, the robot's predicted joint torques will diverge from the torques actually needed, resulting in tracking errors and increased free energy.</p>
+<p>Modern system identification for robots uses techniques that parallel Active Inference's variational methods. Exciting trajectories are designed to maximally inform the parameter estimates (analogous to epistemic foraging — acting to reduce uncertainty). Parameters are estimated by minimizing prediction error between the model's output and measured sensor data (analogous to variational free energy minimization). The resulting calibrated model enables the robot to predict its own behavior accurately, closing the loop between generative model and physical reality.</p>
+<h2>Active Inference Connection</h2>
+<p>The robotic system, viewed through Active Inference, is an entity that maintains its existence by minimizing surprise. The Markov blanket formalism provides the mathematical structure for this: the robot's sensors define what it can observe, and its actuators define what it can do. The internal states — running on onboard computers — encode a generative model of the world. The robot's "goal" is to ensure that its sensory observations remain consistent with the predictions of this generative model, either by updating the model (perception) or by acting on the world (action). This dual optimization process — inference and control unified under a single objective — is what distinguishes Active Inference from traditional robotics architectures that treat perception and control as separate problems.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: UR5 Collaborative Manipulator System Architecture</h3>
+<p>The Universal Robots UR5 is a six-degree-of-freedom collaborative robot arm widely used in manufacturing, research, and education. Its system architecture illustrates Markov blanket nesting clearly. At the joint level, each of the six joints is a subsystem: an encoder senses position, a motor applies torque, and a local PID controller maintains the internal state of desired versus actual position. At the arm level, these six joint subsystems are composed into a kinematic chain, with an inverse kinematics solver and trajectory interpolator maintaining arm-level internal states. At the application level, the arm is integrated with grippers, cameras, and force sensors to form a manipulation system whose Markov blanket encompasses the entire workcell. Each level of nesting has its own characteristic timescale: joint control at 500 Hz, arm trajectory at 125 Hz, and task-level planning at 1-10 Hz.</p>
+<h3>Case Study 2: ROS2-Based Mobile Robot System Decomposition</h3>
+<p>A ROS2-based mobile robot such as the Clearpath Jackal demonstrates how software architecture formalizes system boundaries. The robot's software is decomposed into lifecycle-managed nodes: a lidar driver node (sensory boundary to the physical lidar), an odometry node (fusing wheel encoders and IMU into a state estimate), a costmap node (maintaining a local obstacle map), a planner node (computing velocity commands), and a base driver node (active boundary to the wheel motors). Each node's subscriptions and publications define its Markov blanket explicitly. The DDS (Data Distribution Service) middleware that connects nodes enforces quality-of-service policies — reliability, latency bounds, history depth — that shape the information flow across blanket boundaries. This architecture allows subsystems to be developed, tested, and replaced independently, embodying the principle that well-defined Markov blankets enable modular system design.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 2 (Agents)</strong>: How the system boundaries defined here give rise to agency — the capacity to act on the world to minimize surprise</li>
+<li><strong>Module 3 (Perception)</strong>: How the sensory states of the Markov blanket are processed into beliefs about the world</li>
+<li><strong>Module 5 (Action)</strong>: How the active states of the Markov blanket translate decisions into physical forces</li>
+<li><strong>Module 8 (Planning)</strong>: How system architecture constrains and enables long-horizon planning</li>
+</ul>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>System</td>
+<td>An entity with distinguishable internal and external states</td>
+<td>A UR5 arm with its joints, controllers, and software</td>
+</tr>
+<tr>
+<td>Markov Blanket</td>
+<td>The boundary separating internal from external states</td>
+<td>Joint encoders (sensory) and motors (active) of a manipulator</td>
+</tr>
+<tr>
+<td>Sensory States</td>
+<td>Boundary states carrying information from environment to system</td>
+<td>Lidar returns, IMU readings, joint encoder positions</td>
+</tr>
+<tr>
+<td>Active States</td>
+<td>Boundary states through which the system changes the environment</td>
+<td>Motor torques, gripper commands, wheel velocities</td>
+</tr>
+<tr>
+<td>Nested Systems</td>
+<td>Subsystems with their own Markov blankets within a larger system</td>
+<td>ROS2 nodes within a mobile manipulation platform</td>
+</tr>
+<tr>
+<td>Variational Free Energy</td>
+<td>The gap between a system's model and actual sensory observations</td>
+<td>Prediction error between expected and observed lidar scans</td>
+</tr>
+<tr>
+<td>System Identification</td>
+<td>Estimating generative model parameters from data</td>
+<td>Calibrating link masses and joint friction of a manipulator</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Friston, K. (2013). Life as we know it. <em>Journal of the Royal Society Interface</em>, 10(86), 20130475.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Siciliano, B., &amp; Khatib, O. (Eds.). (2016). <em>Springer Handbook of Robotics</em> (2nd ed.). Springer.</li>
+<li>Macenski, S., et al. (2022). Robot Operating System 2: Design, architecture, and uses in the wild. <em>Science Robotics</em>, 7(66).</li>
+<li>Lanillos, P., et al. (2021). Active Inference in robotics and artificial agents: Survey and challenges. <em>arXiv preprint arXiv:2112.01871</em>.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Robotic Systems Architecture and Markov Blankets</h1>
+<h2>Objective</h2>
+<p>Analyze a robotic system by identifying its Markov blanket boundaries and mapping the sensor-actuator architecture to Active Inference components. You will decompose a mobile robot into internal states, sensory states, active states, and external states, then evaluate how this decomposition informs system design.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Familiarity with basic robot architectures (sensors, actuators, controllers)</li>
+<li>Understanding of the Markov blanket formalism (internal, external, sensory, active states)</li>
+<li>Basic block diagram or pseudocode skills</li>
+</ul>
+<h2>Part 1: System Boundary Identification</h2>
+<p>Consider a differential-drive mobile robot equipped with LIDAR, wheel encoders, an IMU, and two DC motors.</p>
+<ol>
+<li>Draw or describe a block diagram that partitions the robot into Active Inference state types:</li>
+<li><strong>Internal states</strong>: onboard computation, belief states, generative model parameters</li>
+<li><strong>Sensory states</strong>: LIDAR range measurements, encoder ticks, IMU readings</li>
+<li><strong>Active states</strong>: motor voltage commands, LED indicators</li>
+<li>
+<p><strong>External states</strong>: obstacles, floor surface, ambient lighting</p>
+</li>
+<li>
+<p>For each sensory channel, specify the observation likelihood model p(o|s) in plain language. For example: "LIDAR returns a range measurement corrupted by Gaussian noise with variance proportional to distance."</p>
+</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 2: Generative Model Specification</h2>
+<p>Design a simplified generative model for the robot's position estimation:</p>
+<ol>
+<li>Define the hidden state vector (e.g., x, y, theta).</li>
+<li>Write the state transition model as a difference equation: x_{t+1} = f(x_t, u_t) + w_t.</li>
+<li>Write the observation model for at least two sensor modalities: z_t = h(x_t) + v_t.</li>
+<li>Specify reasonable noise covariance matrices Q (process) and R (observation).</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Sensor Fusion via Free Energy Minimization</h2>
+<p>Compare two approaches to fusing LIDAR and encoder data:</p>
+<ol>
+<li><strong>Classical approach</strong>: Describe how an Extended Kalman Filter would fuse these measurements.</li>
+<li><strong>Active Inference approach</strong>: Describe how variational free energy minimization over the generative model achieves the same fusion, emphasizing the role of precision weighting.</li>
+<li>Under what conditions would the Active Inference approach weight LIDAR more heavily than encoders? When would it do the opposite?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Architecture Trade-offs</h2>
+<p>Evaluate the following design decisions through the lens of Active Inference:</p>
+<ol>
+<li>Adding a camera to the sensor suite: How does this change the generative model complexity? What is the trade-off between model accuracy and computational cost (model complexity term in free energy)?</li>
+<li>Replacing DC motors with stepper motors: How does increased actuator precision affect the active states and the expected free energy of actions?</li>
+<li>Moving computation from an onboard microcontroller to a cloud server: How does communication latency affect the temporal depth of the generative model?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 5: Pseudocode Design</h2>
+<p>Write pseudocode for a single perception-action cycle of your robot system:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">active_inference_step</span><span class="p">(</span>belief, observation, model<span class="p">):</span>
+<span class="w">    </span>#<span class="w"> </span><span class="n">Step</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w"> </span><span class="n">Prediction</span><span class="w"> </span><span class="nb">error</span>
+<span class="w">    </span>#<span class="w"> </span><span class="n">Step</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span><span class="w"> </span><span class="n">Belief</span><span class="w"> </span><span class="nb">update</span><span class="w"> </span><span class="p">(</span><span class="n">perception</span><span class="p">)</span>
+<span class="w">    </span>#<span class="w"> </span><span class="n">Step</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span><span class="w"> </span><span class="n">Action</span><span class="w"> </span><span class="n">selection</span><span class="w"> </span><span class="p">(</span><span class="n">minimize</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="n">energy</span><span class="p">)</span>
+<span class="w">    </span>#<span class="w"> </span><span class="n">Step</span><span class="w"> </span><span class="mi">4</span><span class="p">:</span><span class="w"> </span><span class="nb">Execute</span><span class="w"> </span><span class="n">action</span>
+<span class="w">    </span>#<span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">updated</span><span class="w"> </span><span class="n">belief</span>
+</code></pre></div>
+
+<p>Fill in each step with operations specific to your differential-drive robot scenario.</p>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Classical Robotics Term</th>
+<th>Active Inference Term</th>
+<th>Your Robot Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sensors</td>
+<td>Observation model</td>
+<td>Likelihood mapping</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Actuators</td>
+<td>Control input</td>
+<td>Active states</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Controller</td>
+<td>State estimator + planner</td>
+<td>Free energy minimization</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>World model</td>
+<td>Dynamics model</td>
+<td>Generative model</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Noise handling</td>
+<td>Kalman gain</td>
+<td>Precision weighting</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ul>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press, Chapters 2-3.</li>
+</ul></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Systems in Robotic Systems</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>In Active Inference, what defines the boundary of a robotic system?
+A) The physical casing of the robot
+B) The Markov blanket -- the statistical surface separating internal and external states
+C) The range of its wireless communication
+D) The workspace volume defined by its kinematic reach</li>
+</ol>
+<p><strong>Answer: B</strong> -- The Markov blanket is the formal boundary that separates a system's internal states (joint configurations, onboard computations) from external states (objects, terrain, humans), mediated by sensory states (encoders, cameras) and active states (motors, grippers).</p>
+<ol>
+<li>A UR5 collaborative manipulator has six revolute joints. Which of the following are sensory states of its Markov blanket?
+A) The torques applied by its servo motors
+B) The angular positions reported by its joint encoders
+C) The position of the workpiece on the table
+D) The temperature of the factory floor</li>
+</ol>
+<p><strong>Answer: B</strong> -- Joint encoders are sensory states because they carry information from the physical world (actual joint positions) into the robot's internal processing. Motor torques are active states, while the workpiece position and floor temperature are external states.</p>
+<ol>
+<li>In a ROS2-based mobile robot, what role do topic subscriptions play from an Active Inference perspective?
+A) They are the active states of a node's Markov blanket
+B) They are the internal states of the system
+C) They are the sensory states of a node's Markov blanket
+D) They are external states that the node cannot influence</li>
+</ol>
+<p><strong>Answer: C</strong> -- In the ROS2 architecture, a node's subscriptions are its sensory states (information flowing in), while its publications are active states (information flowing out). This maps directly to the Markov blanket formalism.</p>
+<ol>
+<li>What is the primary engineering benefit of nested Markov blankets in robotic system design?
+A) Faster motor control loops
+B) Reduced manufacturing costs
+C) Conditional independence between subsystems, enabling modular design
+D) Elimination of all sensor noise</li>
+</ol>
+<p><strong>Answer: C</strong> -- Nested Markov blankets ensure that subsystems (navigation, manipulation, perception) can be designed, tested, and maintained independently. A lidar processing node does not need to know about gripper forces because they are conditionally independent given their shared interfaces.</p>
+<ol>
+<li>Variational free energy in a robotic system is best understood as:
+A) The electrical power consumed by the robot's motors
+B) The divergence between the robot's generative model predictions and actual sensory observations
+C) The total entropy of the robot's joint space
+D) The mechanical energy stored in the robot's springs</li>
+</ol>
+<p><strong>Answer: B</strong> -- When a robot's predicted lidar scan matches the actual scan, free energy is low. When an unexpected obstacle appears, prediction error spikes and free energy increases, driving the robot to either update its model (perception) or act to change the world (active inference).</p>
+<ol>
+<li>System identification for a robotic manipulator involves estimating:
+A) The color of the robot's housing
+B) Link masses, inertia tensors, and joint friction parameters
+C) The emotional state of the human operator
+D) The Wi-Fi signal strength in the factory</li>
+</ol>
+<p><strong>Answer: B</strong> -- System identification calibrates the robot's proprioceptive generative model -- the internal model of its own body dynamics. Accurate link masses, centers of gravity, inertia tensors, and friction parameters allow the robot to predict its own motion and minimize tracking errors.</p>
+<ol>
+<li>A mobile robot navigating a warehouse encounters an obstacle not present in its stored map. According to Active Inference, what happens?
+A) The robot shuts down immediately
+B) Free energy spikes, and the robot must either update its map (perceptual inference) or navigate around the obstacle (active inference)
+C) The robot ignores the obstacle because it is not in the model
+D) The robot's Markov blanket collapses</li>
+</ol>
+<p><strong>Answer: B</strong> -- When sensory observations diverge from predictions, free energy increases. The robot resolves this by either updating its beliefs (adding the obstacle to its map) or acting to restore expected sensory states (navigating around the obstacle).</p>
+<ol>
+<li>Which of the following describes the accuracy-complexity trade-off in robotic generative models?
+A) More accurate models always perform better in all environments
+B) A highly detailed model of one specific environment is accurate there but brittle elsewhere, while a more generic model trades precision for robustness
+C) Simpler models always outperform complex ones
+D) The trade-off only applies to biological systems, not robots</li>
+</ol>
+<p><strong>Answer: B</strong> -- A robot with a detailed model of one factory layout may fail in a different building. A more generic navigation model sacrifices some precision but generalizes across environments. This is a core principle in robust robotic system design.</p>
+<ol>
+<li>In the Markov blanket of a UR5 manipulator, what determines the information capacity of each sensory channel?
+A) The color of the sensor
+B) The resolution, bandwidth, latency, noise characteristics, and dynamic range of the sensor
+C) The robot's programming language
+D) The number of humans in the workspace</li>
+</ol>
+<p><strong>Answer: B</strong> -- A joint encoder with 0.001-degree resolution defines the precision of angular position information. A force sensor with 0.1 N resolution defines the granularity of contact sensing. These quantifiable properties shape the information flow across the Markov blanket.</p>
+<ol>
+<li>What distinguishes Active Inference from traditional robotics architectures at the systems level?
+A) Active Inference uses more expensive hardware
+B) Active Inference treats perception and control as separate independent problems
+C) Active Inference unifies perception and control under a single objective -- minimizing variational free energy
+D) Active Inference eliminates the need for sensors</li>
+</ol>
+<p><strong>Answer: C</strong> -- Traditional architectures typically separate sensing, planning, and control into independent pipelines. Active Inference provides a unified framework where both belief updating (perception) and action selection (control) emerge from a single objective function.</p>
+<h2>Part B: Short Answer and Design Prompts</h2>
+<ol>
+<li>
+<p>A warehouse robot uses wheel odometry, a 2D lidar, and an IMU for localization. Describe the Markov blanket of this robot's navigation subsystem, identifying specific sensory states and active states.</p>
+</li>
+<li>
+<p>Explain how the concept of nested systems applies to a drone delivery platform that has a flight controller, a navigation system, a package handling mechanism, and a communication module. What are the interfaces between subsystems?</p>
+</li>
+<li>
+<p>A factory robot's generative model was calibrated for daytime lighting conditions. At night, the overhead lights switch to a different spectrum. Using the language of variational free energy, explain what happens and how the robot might adapt.</p>
+</li>
+<li>
+<p>Design the system boundaries for a soft robotic gripper that must handle both rigid machine parts and delicate produce. What sensors would define its sensory states? What actuators would define its active states? How would you handle the nested subsystem between individual fingers and the whole hand?</p>
+</li>
+<li>
+<p>Compare and contrast the Markov blanket of a ROS2 node running a Kalman filter for state estimation with the Markov blanket of the physical robot. How does the software boundary relate to the physical boundary?</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

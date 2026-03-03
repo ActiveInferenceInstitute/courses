@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>module</title>
+</head>
+<body>
+<h1>Module 08: Planning — The Complete Active Inference Agent</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 101 | <strong>Unit</strong>: Implementation | <strong>Audience</strong>: First-semester undergraduates</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Implement <strong>multi-step planning</strong> with deep temporal policies.</li>
+<li>Code <strong>habit formation</strong> via policy prior sharpening.</li>
+<li>Build the <strong>complete Active Inference agent</strong> integrating all previous modules.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. The Complete Agent</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">product</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CompleteActiveInferenceAgent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Full Active Inference agent with:</span>
+<span class="sd">    - Perception (variational inference)</span>
+<span class="sd">    - Action (EFE-based policy selection)</span>
+<span class="sd">    - Learning (Dirichlet parameter updates)</span>
+<span class="sd">    - Habit formation (policy prior sharpening)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A_prior</span><span class="p">,</span> <span class="n">B_prior</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">policy_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="c1"># Concentration parameters for learning</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">A_prior</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">B_prior</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">C</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">policy_len</span> <span class="o">=</span> <span class="n">policy_len</span>
+
+        <span class="c1"># Point estimates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dir_mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dir_mean_3d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+
+        <span class="c1"># State beliefs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qs</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># Policy prior (habits) — starts uniform</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_actions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">policies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span>
+            <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_actions</span><span class="p">),</span> <span class="n">repeat</span><span class="o">=</span><span class="n">policy_len</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">policy_prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policies</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policies</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">habit_strength</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policies</span><span class="p">))</span>
+
+        <span class="c1"># Complete logging</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;beliefs&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;actions&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;observations&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;G&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;pragmatic&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;epistemic&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;policy_probs&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;policy_prior&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;free_energy&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;habit_strength&#39;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dir_mean</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">alpha</span> <span class="o">/</span> <span class="n">alpha</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dir_mean_3d</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">alpha</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+            <span class="n">result</span><span class="p">[:,:,</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[:,:,</span><span class="n">a</span><span class="p">]</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">[:,:,</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="c1"># --- PERCEPTION ---</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">infer_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Bayesian belief update.&quot;&quot;&quot;</span>
+        <span class="n">likelihood</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">observation</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qs</span> <span class="o">=</span> <span class="n">likelihood</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qs</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span>
+
+    <span class="c1"># --- ACTION ---</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate_policies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute EFE for all policies.&quot;&quot;&quot;</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policies</span><span class="p">))</span>
+        <span class="n">prag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policies</span><span class="p">))</span>
+        <span class="n">epist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policies</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">policy</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policies</span><span class="p">):</span>
+            <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">prag</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">epist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_efe</span><span class="p">(</span><span class="n">policy</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">G</span><span class="p">,</span> <span class="n">prag</span><span class="p">,</span> <span class="n">epist</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_efe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Expected Free Energy with decomposition.&quot;&quot;&quot;</span>
+        <span class="n">pragmatic_total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">epistemic_total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">qs_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">policy</span><span class="p">:</span>
+            <span class="n">qs_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">action</span><span class="p">]</span> <span class="o">@</span> <span class="n">qs_pred</span>
+            <span class="n">qo_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">@</span> <span class="n">qs_pred</span>
+
+            <span class="n">pragmatic_total</span> <span class="o">+=</span> <span class="o">-</span><span class="p">(</span><span class="n">qo_pred</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+            <span class="n">epist</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qs_pred</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">qs_pred</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1e-16</span><span class="p">:</span>
+                    <span class="n">po_s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[:,</span> <span class="n">s</span><span class="p">]</span>
+                    <span class="n">epist</span> <span class="o">+=</span> <span class="n">qs_pred</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span>
+                        <span class="n">po_s</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">po_s</span> <span class="o">+</span> <span class="mf">1e-16</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">qo_pred</span> <span class="o">+</span> <span class="mf">1e-16</span><span class="p">))</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">epistemic_total</span> <span class="o">+=</span> <span class="n">epist</span>
+
+        <span class="k">return</span> <span class="n">pragmatic_total</span> <span class="o">-</span> <span class="n">epistemic_total</span><span class="p">,</span> <span class="n">pragmatic_total</span><span class="p">,</span> <span class="n">epistemic_total</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">select_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select action with habit-modulated policy selection.&quot;&quot;&quot;</span>
+        <span class="n">G</span><span class="p">,</span> <span class="n">prag</span><span class="p">,</span> <span class="n">epist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_policies</span><span class="p">()</span>
+
+        <span class="c1"># Combine EFE with policy prior (habits)</span>
+        <span class="n">log_pi</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">G</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_prior</span> <span class="o">+</span> <span class="mf">1e-16</span><span class="p">)</span>
+        <span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_pi</span> <span class="o">-</span> <span class="n">log_pi</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+        <span class="n">pi</span> <span class="o">/=</span> <span class="n">pi</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="n">chosen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policies</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="n">pi</span><span class="p">)</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policies</span><span class="p">[</span><span class="n">chosen</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># Log</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;G&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;pragmatic&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prag</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;epistemic&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">epist</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;policy_probs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pi</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;policy_prior&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_prior</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">action</span><span class="p">,</span> <span class="n">chosen</span>
+
+    <span class="c1"># --- LEARNING ---</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">learn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">prev_qs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update model parameters via Dirichlet updates.&quot;&quot;&quot;</span>
+        <span class="n">obs_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">obs_vec</span><span class="p">[</span><span class="n">observation</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">obs_vec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dir_mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">action</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">,</span> <span class="n">prev_qs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dir_mean_3d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+
+        <span class="n">lr</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lr</span><span class="p">)</span>
+
+    <span class="c1"># --- HABIT FORMATION ---</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_habits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chosen_policy_idx</span><span class="p">,</span> <span class="n">reward_signal</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Strengthen the habit for successful policies.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">habit_strength</span><span class="p">[</span><span class="n">chosen_policy_idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">reward_signal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">policy_prior</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">habit_strength</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">habit_strength</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;habit_strength&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">habit_strength</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+    <span class="c1"># --- COMPLETE STEP ---</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;One full step: perceive → decide → learn → habituate.&quot;&quot;&quot;</span>
+        <span class="n">prev_qs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># Perceive</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">infer_states</span><span class="p">(</span><span class="n">observation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;beliefs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;observations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">observation</span><span class="p">)</span>
+
+        <span class="c1"># Decide</span>
+        <span class="n">action</span><span class="p">,</span> <span class="n">chosen_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_action</span><span class="p">()</span>
+
+        <span class="c1"># Learn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="n">observation</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">prev_qs</span><span class="p">)</span>
+
+        <span class="c1"># Habituate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_habits</span><span class="p">(</span><span class="n">chosen_idx</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">action</span>
+
+    <span class="c1"># --- REPORTING ---</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print agent summary.&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;=== Agent Summary (</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> steps) ===&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Actions: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">minlength</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_actions</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final beliefs: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Learning rate: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;No learning yet&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Strongest habit: policy </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">habit_strength</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Habit entropy: </span><span class="si">{</span><span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_prior</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy_prior</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1e-16</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>2. Full Simulation</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run_full_simulation</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the complete agent-environment loop.&quot;&quot;&quot;</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">A</span><span class="p">[:,</span> <span class="n">env</span><span class="o">.</span><span class="n">state</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+        <span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t=</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">: obs=</span><span class="si">{</span><span class="n">obs</span><span class="si">}</span><span class="s2">, act=</span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">, &quot;</span>
+                  <span class="sa">f</span><span class="s2">&quot;beliefs=</span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">qs</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">, &quot;</span>
+                  <span class="sa">f</span><span class="s2">&quot;lr=</span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">log</span><span class="p">[</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">agent</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">agent</span>
+</code></pre></div>
+
+<h2>Summary</h2>
+<p>The Complete Active Inference Agent integrates perception (Bayesian belief updating), action (EFE-based policy selection), learning (Dirichlet parameter updates), and habit formation (policy prior sharpening) into one unified class. This is the implementation capstone of the 101 course — every equation from the Mathematical Frameworks unit and every concept from Cognitive Science and Computational Neuroscience is realized in working Python code.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Heins, C. et al. (2022). pymdp: A Python library for active inference in discrete state spaces. <em>JOSS</em>, 7(73), 4098.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference</em>. MIT Press.</li>
+<li>Da Costa, L. et al. (2020). Active inference on discrete state-spaces. <em>Journal of Mathematical Psychology</em>, 99, 102447.</li>
+</ul>
+</body>
+</html>

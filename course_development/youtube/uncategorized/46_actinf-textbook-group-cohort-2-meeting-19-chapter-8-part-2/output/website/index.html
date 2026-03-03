@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>46_Actinf Textbook Group Cohort 2 Meeting 19 Chapter 8 Part 2 - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>46_Actinf Textbook Group Cohort 2 Meeting 19 Chapter 8 Part 2</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>46_Actinf Textbook Group Cohort 2 Meeting 19 Chapter 8 Part 2</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf Textbook Group ~ Cohort 2 ~ Meeting 19 (Chapter 8, part 2)</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=3GJS1uVnQo4">YouTube</a>
+<strong>Playlist</strong>: Uncategorized
+<strong>Duration</strong>: 55:22 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello it is cohort two March 8 2023 we're in meeting 19 and we're in our second discussion on chapter eight we will look over the questions on chapter eight and talk about any sections of chapter eight and we will um also probably take a preview look towards Nye so just at the outset does anyone have any um comments or questions on a anything else that they've come across or learned over the last week that puts continuous time models in a different context any other thoughts on continuous and discrete or we'll look over the questions and make sure that we've at least touched upon each of the questions from the previous cohorts yeah I'll let you go for it foreign actually based on uh some of the claims especially in amazing mechanics paper and also in this recent path integrals yeah path into girls paper um they they claim that fep formulation at least from about 2012 to 2019 was largely focused on developing density Over States mathematics or you know the words the first two types of fpp path tracking and paths matching and path mode dynamic split uh I'm sorry mode matching and mode tracking Dynamics but in recent years they've concentrated more on developing the path integral formulation uh I'm not sure which direction this textbook leans toward because in some places it seems like it is the tension of the previous developmental trajectories but especially in chapter 8 it gets more into this recent formulation of uh formulating the path integral mathematics but then again even in chapter 8 we see discussions about the previous years and this year and also um yeah how the textbook leans Maps into that dichotomy yeah thank you good um points Thomas overviewed as such and this par textbook seems to be more heavily on the mode matching and mode tracking however the continuous time it's kind of like the more things change the more they stay the same so looking at Thomas's overview of the um history the early implementations as he noted um we're in continuous time and then in order to bring on explicit planning discrete cognitive decision making symbolic State spaces and so on sequential Behavior they actually um pivoted to the discrete time formalism and that that left the continuous time lock of Volterra uh generalized dynamical systems uh phrasings behind then now we have a a fusion of the continuous and the discrete times with uh typified by the figure 8.6 where through hierarchical nested models we can include features of um discrete decision making as well as continuous perception and action uh also discussed in live stream 46 octave does not contradict folk psychology with kefir ramstead and Smith which discuss essentially this model as the folk psychological scaffold that there's a motor active inference layer that's perceptual and active in continuous space and time and then we can propose these symbolic discrete explicit planning oriented cognitive models as uh Collective models I guess so it's funny that so there's that's one return from the uh earliest early 2000s continuous time then the focused move to discrete time and then there's the Hybrid models and then as you pointed to it even goes deeper because the discrete time formalism is perfectly suited for the first two phases of Bayesian mechanics which and the non-equilibrium steady state and the state space representations whereas for the truly path tracking Bayesian mechanics and probably G Theory chaos and all of this continuous time is like your starter position before it even goes further afield into gauge and the fibers and sheaths and all of these other formalisms so it's almost like there's a sequence because the discrete time and the matrix multiplication are very straightforward then when we look at figure 4.3 and figure 8.6 we kind of see some similarities between continuous and discrete time and then from The Continuous time we can take another jump into the gauge setting which does seem to be the the at least in principle the most modern representations we have of Bayesian mechanics Michael yeah and in figure 8.6 we have in the top the discrete time and embedded The Continuous time I was wondering whether this can also be reversed we have in the top continuous time and then inside there we have sequences of so for instance if you I mean we have a Statistics over how long a certain activity lasts and that can be broken down into a sequence of several other activities could that be modeled in this way that so for instance for this overall activity we have we know that it takes I don't know two minutes or 20 seconds or so and then the next action comes and each is broken down into several smaller steps that can be that are discrete uh can that be viewed in this way and then how for instance if we have a constraint over a time for instance there we have this uh what is this Tau one this first state which could be maybe uh yeah if this if this was if one of those States was was constrained by a time and then this constraint would be somehow handed down to the embedded processes which Each of which could not take longer um then the constraint in the state above yeah very interesting I've never seen that such architecture but it's uh in principle possible it's very interesting and this kind of notion of uh scheduling attentional scheduling and time constraints one way it might or kind of setting where it could apply is this is again brought up in the folk psychology paper because the continuous time lower level model Maps well to our uh proprioception and muscular action and then this uh discrete time model Maps well to sequential explicit planning so let's imagine it was inverted the lower level model might be a computer doing a dispatch in discrete time and the higher level is like the human operator and then they might also have another discrete above them so no need to stop at just two layers I think it's very uh that's the exciting Direction in question is to to build these towers of nested models and then lateral connections for Collective Behavior to describe and specify the ecosystems of shared intelligence so we can understand how different uh causal and cognitive phenomena arise from interactions within and across generative models yeah and and would there be a how could that be modeled if if we have a temporal constrained further down in the embedded processes which are formulated by the uh boxes or States uh it's their way to [Music] to notify the embedded processes that they should stop eventually or something like this yeah it's uh I mean otherwise how is this message passed through through the only connection is there are these matrices which is the a matrix right and this a matrix what they need to determine somehow that the embedded processes follow those constraints yeah yes so let's let's look at that so uh the a matrix is the tale of two densities so it can be used as a recognition density from the observations or a generative density to generate observations from hidden States just looking at the top the o is a Markov blanket between s and V again Mark all blankets they don't have anything to do a priori with the Asian environment boundary though we can identify and construct Markov blankets associated with agent boundaries this is just using Markov blanket to mean the node or nodes upon which two other sets of states are conditionally independent so the O is like the interface it's handy it's a generative density speaking with respect to the higher model it's a generative density passing observations down to V the slowly varying causes which modify how the derivatives are constructed in continuous time so this is kind of like a modifier on the Taylor series expansion and then it is also um coming back up thinking about this in a predictive processing um like bi-directional way also it's changes in the continuous time setting lower level nested model that percolate up and modify in a perceptual like way higher level States so then you ask how could constraints be modeled there certainly could be a lot of like engineering type Solutions like just sort of uh for loops and virtualization emulation parallelization distributed computational processes dispatch architectures a lot of different things like aren't clean base graph only just in practice you would end up implementing some of these strategies um but but like it's interesting to think about well how could we really in a principled way include time when the top level is discrete how how would time constraints be achieved and then when the top level is continuous like you're asking about how either way it's kind of like there's like a window like let's just say this is the real time well okay here here's one more Dimension whether or not the top or the bottom is continuous or discrete so this could be discrete discrete or continuous continuous or any combination one frame is real time is happening on the top and so this is like what we've seen in sophisticated inference sophisticated affective inference here's real time this is the real simulation time 1201 1202 1203 and at each time point in the real time there's this speculation of the past present and future or this can be the real-time model in the lower model and the higher order can be a speculative planning or a combination where there's a real-time layer that has both a faster speculative exploitation layer as well as a slower nested planning layer above real time I think there's many disparate once we're in the space of nested architectures to capture complex cognitive phenomena it's a really open space which is why it's so important to have the structured learning and the statistical power testing and the ability to describe and understand the semantics of these models because I think that they're going to get out of control visually very quickly but but you're you're saying that there's not only information going from top to bottom but also the other way around so the under the embedded processes can inform the upper ones about some outcomes well yeah in principle so like just like oh just only looking at the top layer o via a could update s or S via a could produce o that's the Tail of Two density so um the base graph depending on which parameters are established as fixed and which ones are established as learnable and so on then yes if you allow us to be learnable then it will learn so that it's unsurprised about the incoming observations of slowly varying causes whereas if you fix s and you only allow V to be learnable then etc etc and that's like the kind of information that's actually not shown on this graph other than this line which we know is missing but like as um Toby Sinclair Smith's dissertation on category theory has been kind of sharing and motivating there's actually information that's not this is not necessary and sufficient to replicate a full model especially if you're going to start talking about learning and all these other features this is like a um it's a quasi-formal diagrammatic mnemonic but not quite the necessary and complete representation but it's a super strong motivator and helps us think about like you're a great question about you know continuous time on top and we should definitely look into that and see if those models have been used I think part of it is people have just seen a natural affinity for continuous time models and bodily perception bodily action discrete time models explicit planning so not just common commonly held perspectives so then in that situation it's natural to do it like this but doesn't mean it can't be otherwise okay I'm not sure if these thumbs up were from our own time last okay this was I think from a from Office hours we talked about figure eight point five point two predictive coding message passing and 8.4 generalized synchrony chaotic systems can we model that with these predictive coding architectures the answer is yes we can it just depends on how you specify it but that's not to say all Lorenz coupled Lorenz attractors are using a predictive processing architecture nor that predictive processing architectures acip Lorenz attract their behavior but just you could make a system that happens to have both of those features this is another difference between The Continuous and the discrete time that I don't think we've emphasized action is absent from equation 8.1 this is because action is part of the generative process not the generative model degenerative model only deals with those variables directly influenced by States external to a markout blanket but those are only the sense States and other and external states which directly influence themselves through latent causes but doesn't the generative model also include cognitive and internal States so one could argue that the the realization of action or the selection of action is part of the generative process but can't we say that the generative model includes planning as inference is this only in the case of the continuous time I'm not sure if this is like a general point or if this is just referring a little bit to the different way that action is modeled in the continuous time whereas action in the discrete setting is modeled in this standard policy selection V are actually like not as much even described as policies that can be selected because it doesn't make as much sense to talk about counterfactuals on V they're described as just slowly varying causes in the generative process basically contingencies or dependencies upon which the Taylor series approximation is impinged on by that's like a very oblique way of talking about the consequences of action it's almost like an a differential angle on action Michael yeah so I'm I'm wondering whether this Taylor series decomposition this different different derivations that you have there whether this is only one view on uh on continuous time series or whether there is also other views that do not imply a derivation of decomposition of one function into several derivations I'm not sure when I understand this correctly but um but couldn't it be that um that time constraints are related without derivations I'm just wondering whether yeah one way of seeing it are is it the only one yeah good question um yeah it's not exactly a Taylor series I think it it's though it's it's it has Taylor series like nature because it is dealing with successive derivative approximations with their own coefficients but I think the more physics framing is the generalized coordinates so position um momentum acceleration jerk Etc is there a way to talk about time constraints and multiple time scales in continuous time other than by taking derivatives I mean we can definitely explore it but like the first thought that comes to mind is when faced with a field of continuous time two approaches that are taken one of them is to discretize time at which point you'd be using a discrete type model and if you're not going to discretize time you're going to leave it as a smooth continuum then a general approach is to utilize physics-based generalized coordinates of motion Ali uh well yeah actually Michael Silverstein and William Starkey has been arguing for another approach to formalize cognition time and other so-called dynamical aspects of a system using a dynamical mathematics so for instance in their paper rethinking the world with neutral monosome removing the boundaries between mind matter and space-time they have proposed an alternative approach uh which is uh somehow uh which is expanded uh more I mean in detail in their beyond the dynamical universe uh book but um in this case they um so very briefly they conceptualize a system as a kind of a stationary system that just moves from uh um sorry that just has the first initial position and the ending ultimate position and we can uh by um using this kind of a dynamical mathematics remove the time from the equation and just uh actually look at the system in a kind of a block Universe way without actually taking into consideration the flow of the system through time so yeah there is definitely other approaches to model these kinds of system and even they argue in this paper and also in their book that this new approach can somehow overcome some of the long-standing issues in theoretical physics and or even in the philosophy of physics yep very um interesting this kind of well writing out the the ontological reality of time in the world is definitely a complex topic so it's always good to know that with these discussions about time we're talking about map time about like how we want to uh model time and in that setting um both 8.1 and 8.2 have a um Timeless data generating function why observations is simply a function of latent States on hidden States so you know why observational States is a function of latent States X plus some sensor variance why there's a field or space in which latent states have their own flow that is defined again without reference to time but as a um derivative fields in a hamiltonian sets so even if your Y data stream is an EEG or fmri time series data it's actually like where's the time oh where does the time go not seeing any T's in these continuous time models so it's almost like we lean so hard into the um continuity of time and continuity is is at least synonymous with or or adjacent to differentiable those two are they're not exactly exactly the same we work with continuous functions because we want them to be differentiable we have to discretize them but the biggest issue with discrete functions is that they're non-differentiable Ollie yeah I think uh the more precise term for uh the mathematical condition for modeling these systems is that they need to be in weiner spaces so the wiener space is just a generalizes space that contains all the continuous and differentiable functions and also I just wanted to point it out that that's exactly the point or at least one of the points of using generalized coordinate systems in path integral formulation of fep uh by I mean by removing the time from the equations it is possible to talk about the behavior of the system purely in terms of their space their the space of possible paths instead of just looking at instead of just following the time developmental aspect of of the particular States awesome yeah it's like uh the difference between uh putting a drop of of uh food coloring in the cloud and tracing that one path as it flows and then there's definitely there's this discussion oh should we model that one path of the Tracer as a path with continuous State space or should we discretize it and do a discrete time model of that one realized Trace or should we step back describe the topology of the mountain the realized Trace will be a path of least action on that landscape but we'll also be able to talk about counterfactuals and alternative starting conditions initial conditions and boundary conditions and um and and ask what if questions on the landscape whereas any descriptive historical model will not natively or simply enable counterfactual comparisons if you just have the path descriptor in continuous time or in discrete time then you don't even know what the adjacent possibles are slash could have been Michael yeah I'm I'm not sure I understand uh this is is this possible because we assume that the the time goes in regular interval so if it's a regular interval we can just ignore it or what is the underlying idea to abstract away from time because time seems such a crucial kind of an element in all our daily lives right yeah Ali go for it uh well yeah it definitely is an essential component but uh I mean the point here is that you see so for instance uh In classical mechanics we have at least three different uh formulations one is the Newtonian mechanic formulations uh the other one is the lagrangian and also Auditorium formulation definitely needs uh time as an explicit variable and parameter but going uh from Newtonian formulation to lagrangian and Hamilton Ian especially in the hamiltonian formulation uh we can rearrange or or derive those formulations from the classical Newtonian formulation without um accounting for time as an explicit variable so time it actually implicit in those formulations so all three of those formulations are equivalent and they can be recovered from each other and they can be derived from each other but it's just a matter of which parameters are explicit and which are implicit so yeah we don't get rid of time entirely we just use time as as a kind of implicit parameter that doesn't need to be explicitly defined yeah very um just and also you said the Assumption time is in regular intervals but that's a discrete time model and that's the question of discretization of time which we're actually like exploring in live stream which is again not the ontological reality of the time the time click of the world or whatever but in modeling spaces um how to retain the the elegance and the uh analytical advantages that continuous models provide in terms of generalized coordinates of motion um physics grounded energy-based learning uh convergence guarantees around free energy minimization those are all about continuous differentiable spaces which is why they're grounded in information geometry and functional analysis whereas discretization we want to make sure that the discretization techniques that are used don't um solely or um lose those properties of the underlying continuous distribution yeah I'm I'm digesting this it's a bit so so so actually a derivation is takes the takes the role of time so it's only derivable because we assume there is some kind of a continuation or some kind of time underlying yeah like let's let's uh pull back to a description so if we wanted a time this description of a car we could describe its position at every time and so arguably one could say well that described like everything about that car's trajectory what you need to know is its position at every time all right well you could also use the generalized coordinates of motion and so for each time you could also have the car's position in X and Y but also you could have the car's acceleration and and and so on so those are the derivatives of the position and uh it's not like extra information like with the whole trajectory you could recalculate the generalized coordinates of motion from the position but you also might want your data structure to be that Vector at each time step with the generalized coordinates um so you know it's here and it's going 50 kilometers an hour and it's slowing down by two kilometers per hour per second and its acceleration is changing by you know positive one kilometer per second squared uh another angle would be to describe that um that space upon which there are trajectories of the generalized coordinates now there's some generalized coordinates locations that are just ridiculous like well it's not moving at all but its fourth derivative is super high well any state space can be used to describe certain points in that state space that aren't like feasible or you know realizable by a different physical system obviously systems spend their time in in sometimes highly constrained subspaces manifolds of these bigger State spaces but when you describe when you say okay well then let's make the um generalized coordinates of motion are fundamental State space so instead of x y z t as our fundamental State space and then that is and then we're going to derive all of our other questions from there it's like saying well let's have the generalized coordinates be our state space but then you don't need t of course real trajectories unfold in quote time pending future understandings of what time is but you don't need tea in the hamiltonian which again just to connect back to the textbook is that is what we're seeing in these that basically partitions signal from noise without explicit reference to T as a variable however amenable to fitting empirical time series data I don't think we resolved this question about like action being in the generative process what exactly is meant by that because action itself is part of the generative process we could say the consequences of action or the embodiment of um is this claim about regenerative models in general or is this just saying something about continuous time okay precision in our office hours last week we had some good conversations about precision some on the more applied side with perception and pain some on the more conceptual side with the bird song and the sensory attenuation and the role of precision and action selection from the perspective active inference precision and attention are synonyms thank you here was the discussion from um the office hours so this is It's related to chapter eight so we were talking about um okay so in the examples first we have just general lock of Volterra winnerless competition um that is then deployed in a handwriting example showing how lockable terra-like models can account for sequential and reactive Behavior without explicit planning so in the discrete time it'd be like I'm here I'm likely to go whereas in the continuous time setting it's just like a dynamical attractor that doesn't have an explicit representation of where it's going to go in the attractor it's just flowing in the attractor and so then we describe the state space of the attractor Ali yeah uh you're just talking about the synonymous terms uh actually it's interesting that marks Holmes in his book The Hidden string spring spring also somehow uses the word the term Consciousness as a kind of synonym for the Precision optimization which is one of the Moines one of the points that Anil Seth is strongly critical of and he believes that we cannot simply Define uh Consciousness as a kind of precision optimization and so in one of their recent papers I think it was called from General to models to generative passages a computational approach to neural phenomenology uh Kristen Seth and others Max ramstead at all actually uses a generative model as a computational basis for a phenomenological definition of Consciousness which deviates significantly from psalms's perception uh conception of consciousness Bob thank you yeah I haven't read this one in depth this day in in the blockference we uh so there was there was the original paper there was a guest stream with Brett Kagan and Adil razi on the dish brain and of course the uh the sentience fuhrer that arose leading to um multiple and apparently ongoing sequences of short letters there's a lot of interesting stuff in the big contention is with the terms active ontology sentience goal direct Behavior embodiment uncertainty intelligence and their call is for glossaries and then this paper also all right come develop the glossaries but this was just they're in the block I'll put it in the chat as well for people who want to see that like this meta on being able to separate the technical role it's not just map territory but I know we bring it up all the time and it comes up again and again but or maybe it is all just simply that issue or just something about using natural terms especially day-to-day terms to refer to technical parts or outcomes or descriptors of models so it's all good to just accept this and say well it's an assertion by the authors just verbally that uh dollar sign term one and dollar sign term two are synonymous that's all good to just have as a neutral rhetorical assertion but if we want to start latching that into our understanding of the world then seems like we need to I don't know Michael just added you to the um document Shield accessor all right let's um in our closing few minutes here I think we talked about eight a fair amount also eight is not that long slash not that of course one could go very deep into the mathematics of the continuous or the Hybrid models but we we and we could go into the other examples and so on but um you know just to first pass there okay so that is the end of chapter eight let's just quickly in the last few minutes look ahead to nine just because we have the best Hammer does not mean that every problem is a nail models are useful if they can answer scientific questions chapter 9 focuses on active inference in the context of empirical data section 9.2 is on metabayesian methods and it's going to talk about the setting of cognitive modeling with active inference in the setting of Behavioral or ethological experimentation and so it's not just going to be a proof of principle like we constructed a t Maze and a simulated rat there's two reasons to fit a computational model to observed Behavior the first reason is to estimate parameters of Interest the second reason is to compare alternative hypotheses they recap base theorem and they're going to be discussing Bayes theorem in the context of scientists scientific epistemology and a really Bayesian epistemology as the behavioral investigator that lends itself to this key figure 9.1 that characterizes the metabasian view so in the inner dashed box we have the cognitive model that we're constructing of the ant so map territory level one then we're in our own dashed box because we are providing what for us our action selections and parameters of the experiment drawn from distributions of experiments and stimuli and presenting it to the ant then potentially with errors and variance Etc observing Behavior so this is the metabasian view view from the outside and viewed from the inside now there is a view from the inside but this is a map of the view of the inside and this is our schema of our control framework from the outside so all the talking about sweeping over families of cognitive models of ants and rats and stuff like that that's all happening in this dashed box but in the outer loop um we are exploring different maximally informative cognitive modeling settings and observations to observe and again like the imperative being maximally informative information through experiments not some kind of falsificationist accept or reject dialectic but putting it more into a base Factor continuous juxtaposition of portfolios of hypotheses rather than like a p-value frequentist except a reject framework it's going to be like of active inference in multiple ways okay turn away from that sort of ethological view to some technical details on the variational LaPlace section 9.4 parametric empirical Bays PEB is a way that you can start with a real data set and kind of use the first instantiation of the whole data set or part of the data set to jump start you or like um parachute drop you into a reasonable area of phase space and that facilitates expectation maximization type algorithms and empirical applications of Bayesian statistics like we're going to fit our prior on this fifth grade classroom's Heights from a bigger data set of heights that were collected from first through eighth grade and that's going to be our prior for this fifth grade classroom or we're just going to take the measurements we did get and then summary statistics of that distribution we're going to use as our prior then 9.5 it's kind of like a little bit like a chapter six a recipe but here the recipe is about collecting data formulating a model as in chapter 7 or in chapter six if you want to pull back even more generally specify likelihood priors solve for probabilities and evidences and then perform statistical analyzes and that's actually where descriptive statistics can come into play like we did in Anova on these cognitive modeling parameters and then they have a um summary figure 9.2 so here we're like really bringing together a lot of sections of the book in slide one is the teammates here's the generative process and generative model that could have been written before Blends the likelihood function that allows this invertible model such that you can use the generative model to generate synthetic data or you can take data of that structure and do statistical inference on so we did five conditions and it turns out condition four and five with this p-value are significantly higher or this base Factor than there and some examples of generative models some models of false inference a long table in a summary that um concludes chapter 8 will return in one minute or two minutes with um beginning of uh next door thank you</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

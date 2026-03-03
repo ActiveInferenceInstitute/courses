@@ -1,0 +1,58 @@
+# Lab: What Does Surprise Feel Like?
+
+## Objective
+
+Investigate perception as an active, embodied process through movement lab that explores prediction, surprise, and sensorimotor coupling through the lens of dance, yoga, martial arts.
+
+## Prerequisites
+
+- A quiet, comfortable space for 25 minutes
+- Willingness to engage in movement lab
+- No prior experience required
+
+## Part 1: Arriving (5 minutes)
+
+Stand in a comfortable position. Shake out your hands and feet gently. Roll your shoulders. Take three breaths. Begin to sway gently, finding your body's natural rhythm of movement.
+
+Bring your attention to what you are currently perceiving -- sounds, bodily sensations, temperature. Notice: your body already has predictions about all of these. You are not starting from scratch each moment; perception is prediction meeting reality.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(What are you perceiving right now? Which perceptions were already predicted, and which surprised you?)
+
+## Part 2: Surprise in the Body (7 minutes)
+
+Through dance, yoga, martial arts, explore prediction error. Close your eyes and reach for an object. Before touching, notice your prediction. At the moment of contact, notice: did reality match? Where in your body do you register the match or mismatch?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(Describe what you predicted versus what you felt. Where did surprise register in your body?)
+
+## Part 3: Sensorimotor Exploration (7 minutes)
+
+Explore how movement creates perception. Hold a textured surface still against your fingers -- notice the perception fading. Now move your fingers across it -- perception returns. Through dance, yoga, martial arts, experience how perception and action are inseparable.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(How did movement change your perception? What does this tell you about the relationship between sensing and moving?)
+
+## Part 4: Reflection (5 minutes)
+
+Through the lens of dance, yoga, martial arts, reflect on what you discovered about perception.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(How is perception different from what you assumed? What does bodily surprise teach about the nature of experience?)
+
+## Reflection Table
+
+| Dimension | What I Noticed | Active Inference Connection |
+| --- | --- | --- |
+| Initial awareness | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Baseline generative model state |
+| Embodied exploration | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Prediction error through direct experience |
+| Dance, yoga, martial arts lens | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Course-specific perspective on perception |
+| Integration | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Updated understanding through bodily knowing |
+
+## Discussion
+
+Consider how dance, yoga, martial arts reveals aspects of perception that other perspectives might miss. In Active Inference, every perspective changes the precision weighting of different signals, revealing different dimensions of the same underlying process of free energy minimization.

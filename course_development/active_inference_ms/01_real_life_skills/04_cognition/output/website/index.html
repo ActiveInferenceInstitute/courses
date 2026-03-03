@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04_Cognition - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>04_Cognition</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>04_Cognition</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 4: Cognition — The Mental Models Running Your Life</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Understand that your brain builds <strong>mental models</strong> — simplified maps of how things work — and uses them to make decisions.</li>
+<li>Learn to recognize when your mental models are <strong>helpful vs. outdated</strong> and need an upgrade.</li>
+<li>Practice <strong>metacognition</strong> (thinking about your thinking) as a skill for better decision-making.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Pop quiz: Why do you act differently around your friends than you do around your grandparents? Same you, same brain, completely different behavior. It's not fake — it's because your brain runs different <strong>mental models</strong> for different situations.</p>
+<p>You have a model for "how to act at school" and a different one for "how to act at home." A model for "how group projects go" and one for "how to talk to someone you have a crush on." These models tell you what to expect, what's normal, and what to do. They're like the maps in your brain's GPS — they help you navigate without having to figure everything out from scratch every single time.</p>
+<p>But here's the catch: maps can be wrong. A GPS with outdated maps will send you down a road that's been closed for construction. Similarly, a mental model that worked in elementary school might steer you wrong in middle school. Learning to check and update your mental models is one of the most powerful thinking skills you can develop.</p>
+<h2>Key Concepts</h2>
+<h3>1. Mental Models: Your Brain's Cheat Sheets</h3>
+<p>A <strong>mental model</strong> is your brain's simplified version of how something works. You don't have to understand every detail of gravity to know that if you drop your phone, it hits the ground. Your model of gravity is simple — things fall down — and that's usually enough.</p>
+<p>You have mental models for everything:
+- <strong>People</strong>: "My friend Maya gets stressed before tests but is fine afterward."
+- <strong>School</strong>: "If I do the homework, I'll get a decent grade. If I don't, I'll fall behind."
+- <strong>Social rules</strong>: "If someone is sitting alone and looks sad, they probably want someone to talk to."</p>
+<p>These models are incredibly useful because they save you from having to analyze every situation from zero. But they're always <strong>simplified</strong> — which means they're always at least a little bit wrong. The question isn't whether your models are perfect (they're not). It's whether they're <em>good enough</em> for the situation you're in.</p>
+<h3>2. When Models Go Wrong</h3>
+<p>Your mental models get built from experience. That's usually good, but it means they can be biased by limited experience or outdated information.</p>
+<p>Example: Say you had a bad experience giving a presentation in 5th grade — you forgot your lines and everyone laughed. Your brain built a model: "Presentations = humiliation." Now, in 7th grade, every time you have to present, your brain pulls up that old model and floods you with dread.</p>
+<p>But is that model still accurate? You're older now, more prepared, and your classmates are more mature. The model is outdated, like running an old app that hasn't been updated. It still works, but it's giving you glitchy results.</p>
+<p>The fix isn't to ignore the model (your brain won't let you). The fix is to <strong>test</strong> it. Do the presentation, notice that it goes okay, and let that new evidence update the model. Over time, "presentations = humiliation" gets replaced with "presentations = a little nerve-wracking but survivable."</p>
+<h3>3. Metacognition: Thinking About Your Thinking</h3>
+<p><strong>Metacognition</strong> is your brain's ability to observe its own processes. It's like having a little commentator in your head who can say, "Hey, I notice we're freaking out right now. Is that actually helpful?"</p>
+<p>This is a skill, and like any skill, you can practice it. Try these metacognition moves:
+- <strong>Name it</strong>: "I'm making an assumption right now."
+- <strong>Question it</strong>: "What evidence do I have for this? What evidence goes against it?"
+- <strong>Test it</strong>: "What would I need to see to change my mind?"</p>
+<p>Students who use metacognition tend to study more effectively, manage stress better, and make smarter social decisions. It's not about overthinking everything — it's about knowing when to step back and check your own mental GPS.</p>
+<h2>Try It!</h2>
+<p><strong>Model Audit.</strong> Pick one situation where you feel stuck or frustrated (a class you struggle in, a social situation that's weird, a habit you can't break). Write down the mental model your brain is using: "I believe that [situation] works like [this]." Now ask yourself three questions: (1) Where did this model come from? (2) Is it still accurate? (3) What would a better model look like?</p>
+<h2>Summary</h2>
+<p>Your brain builds <strong>mental models</strong> — simplified maps of how people, situations, and the world work. These models power your predictions and guide your behavior. But models can become <strong>outdated or biased</strong>, leading you to react based on old information. The antidote is <strong>metacognition</strong>: stepping back and examining your own thinking. In the next module, we'll look at what happens after all this thinking — <strong>Action</strong>, the moment you actually do something.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Thinking Fast and Slow -- Your Brain's Two Speeds</h1>
+<h2>Objective</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Explore how your brain uses fast automatic thinking and slow deliberate thinking to update beliefs and make decisions.</p>
+</blockquote>
+<p>This is a <strong>group challenge</strong> designed for middle school students (Grades 6-8).</p>
+<hr />
+<h2>Materials Needed</h2>
+<ul>
+<li>Pencil and paper</li>
+<li>Timer or stopwatch (phone works)</li>
+<li>A partner or small group</li>
+<li>Lab journal or notebook</li>
+</ul>
+<hr />
+<h2>Part 1: Fast Thinking Challenge (10 min)</h2>
+<p>Your brain has a "fast mode" that makes snap judgments without you even trying. Let's test it.</p>
+<p><strong>Speed Round:</strong> Answer each question as FAST as you can. Write your first answer, then take time to think carefully and write a second answer.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Fast Answer (first instinct)</th>
+<th>Slow Answer (after thinking)</th>
+<th>Were they different?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A bat and ball cost $1.10 total. The bat costs $1 more than the ball. How much is the ball?</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>If 5 machines make 5 widgets in 5 minutes, how long for 100 machines to make 100 widgets?</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>In a lake, lily pads double in area every day. It takes 48 days to cover the whole lake. How long to cover half?</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "Which questions tricked your fast thinking? Why does your brain jump to the wrong answer first?"}</p>
+<hr />
+<h2>Part 2: Belief Updating Game (15 min)</h2>
+<p>Active Inference says your brain is constantly updating its beliefs based on new evidence. Let's see this in action.</p>
+<p><strong>Mystery Box Game:</strong> Your teacher (or a group member) hides an object in a box. You get to ask YES/NO questions to figure out what it is. Track how your belief changes with each clue.</p>
+<table>
+<thead>
+<tr>
+<th>Clue #</th>
+<th>Question Asked</th>
+<th>Answer</th>
+<th>My Top Guess Now</th>
+<th>Confidence (1-10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 (before any clues)</td>
+<td>--</td>
+<td>--</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "How did your confidence change with each clue? Was there a moment when one clue completely changed your guess? Describe it."}</p>
+<hr />
+<h2>Part 3: Cognitive Bias Spotter (10 min)</h2>
+<p>Your brain takes shortcuts that sometimes lead to mistakes. These are called <strong>cognitive biases</strong>. See if you can spot them.</p>
+<p>For each scenario, identify whether the person is using fast thinking, slow thinking, or a biased shortcut:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Fast, Slow, or Biased?</th>
+<th>Explain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>You always pick the same lunch because you know you like it</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>You study for a test by re-reading your notes three times and making flashcards</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>You assume a new student is unfriendly because they are quiet</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>You solve a math problem step by step on paper</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>You believe a rumor because everyone else seems to believe it</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "For the biased examples, what would 'slow thinking' look like instead? How could you override the shortcut?"}</p>
+<hr />
+<h2>Part 4: Design Your Decision (5 min)</h2>
+<p>Think of a real decision you need to make soon (what to do this weekend, how to study for a test, how to handle a conflict with a friend).</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Your Decision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is the decision?</td>
+<td></td>
+</tr>
+<tr>
+<td>What does your fast brain say?</td>
+<td></td>
+</tr>
+<tr>
+<td>What new information could you gather?</td>
+<td></td>
+</tr>
+<tr>
+<td>After slow thinking, what would you decide?</td>
+<td></td>
+</tr>
+<tr>
+<td>How confident are you (1-10)?</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "Walk through a real decision using both fast and slow thinking. What changed when you slowed down?"}</p>
+<hr />
+<h2>Reflection Table</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Your Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is the difference between fast and slow thinking?</td>
+<td></td>
+</tr>
+<tr>
+<td>What is belief updating?</td>
+<td></td>
+</tr>
+<tr>
+<td>Why does your brain prefer fast thinking most of the time?</td>
+<td></td>
+</tr>
+<tr>
+<td>When is fast thinking helpful? When is it risky?</td>
+<td></td>
+</tr>
+<tr>
+<td>How does Active Inference explain cognition?</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>{fill:textarea, placeholder: "Complete the reflection table. Think about how your brain balances speed and accuracy."}</p></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Cognition — The Mental Models Running Your Life</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>A <strong>mental model</strong> is best described as:
+A) A plastic model you build from a kit
+B) Your brain's simplified version of how something works
+C) A perfect copy of reality
+D) Something only scientists have</li>
+</ol>
+<p><strong>Answer: B</strong> — Mental models are simplified maps your brain uses to navigate situations without analyzing everything from scratch.</p>
+<ol>
+<li>Why does your brain build mental models?
+A) To waste energy
+B) To save you from analyzing every situation from zero
+C) To make you confused
+D) To eliminate all uncertainty</li>
+</ol>
+<p><strong>Answer: B</strong> — Models are "cheat sheets" that help you navigate familiar situations quickly and efficiently.</p>
+<ol>
+<li>You act differently around friends versus grandparents because:
+A) You're being fake
+B) Your brain runs different mental models for different situations
+C) You have multiple personalities
+D) Your grandparents force you to change</li>
+</ol>
+<p><strong>Answer: B</strong> — Different contexts trigger different models for how to behave. It's natural adaptation, not fakeness.</p>
+<ol>
+<li>Your mental model from 5th grade says "presentations = humiliation." In 7th grade, this model is:
+A) Still perfectly accurate
+B) Probably outdated and giving you glitchy results
+C) Something you should never question
+D) Proof you'll always hate presentations</li>
+</ol>
+<p><strong>Answer: B</strong> — Models built on old experiences can become outdated as you and your situation change.</p>
+<ol>
+<li>The best way to fix an outdated mental model is to:
+A) Ignore it and hope it goes away
+B) Test it by doing the thing and letting new evidence update it
+C) Avoid the situation forever
+D) Complain about it to everyone</li>
+</ol>
+<p><strong>Answer: B</strong> — Testing your model with new experiences lets your brain update it with fresh evidence.</p>
+<ol>
+<li><strong>Metacognition</strong> means:
+A) Memorizing more facts
+B) Thinking about your own thinking
+C) Thinking faster than everyone else
+D) Never making mistakes</li>
+</ol>
+<p><strong>Answer: B</strong> — Metacognition is the ability to observe and question your own thought processes.</p>
+<ol>
+<li>Which of these is a metacognition move?
+A) "I'm not thinking about anything"
+B) "I notice I'm making an assumption right now — what evidence do I have?"
+C) "I don't need to think about this"
+D) "I always trust my first instinct no matter what"</li>
+</ol>
+<p><strong>Answer: B</strong> — Naming your assumption and questioning the evidence is classic metacognition.</p>
+<ol>
+<li>Mental models can go wrong because they're built from:
+A) Perfect information
+B) Limited experience that might be biased or outdated
+C) Universal truth
+D) Other people's brains</li>
+</ol>
+<p><strong>Answer: B</strong> — Models are based on your personal experience, which means they can be biased or no longer accurate.</p>
+<ol>
+<li>A GPS with outdated maps is like:
+A) A brain that's always right
+B) A mental model built on old information that steers you wrong
+C) A perfect navigation system
+D) A brain that has no models at all</li>
+</ol>
+<p><strong>Answer: B</strong> — Outdated maps and outdated mental models both send you in the wrong direction.</p>
+<ol>
+<li>Students who use metacognition tend to:
+A) Study less effectively
+B) Overthink everything and freeze up
+C) Study more effectively, manage stress better, and make smarter social decisions
+D) Avoid all challenges</li>
+</ol>
+<p><strong>Answer: C</strong> — Metacognition helps you step back, check your thinking, and make better choices.</p>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Pick one mental model you have about school (like "math is hard" or "group projects are a waste of time"). Where did this model come from? Is it still accurate?</p>
+</li>
+<li>
+<p>Describe a situation where your mental model about a person turned out to be wrong. What happened that updated your model?</p>
+</li>
+<li>
+<p>How could you use metacognition the next time you're stressed about a test? Walk through the three moves: name it, question it, test it.</p>
+</li>
+<li>
+<p>Think of a mental model that worked well for you in elementary school but doesn't quite fit in middle school. What changed, and what would a better model look like?</p>
+</li>
+<li>
+<p>How could understanding mental models help you be a better friend to someone who sees a situation completely differently than you do?</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

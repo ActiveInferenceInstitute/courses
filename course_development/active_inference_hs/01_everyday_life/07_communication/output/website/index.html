@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_Communication - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>07_Communication</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>07_Communication</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 07: Communication -- Aligning Generative Models</h1>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Explain communication as the process of <strong>aligning generative models</strong> between agents, reducing mutual uncertainty through shared signals.</li>
+<li>Analyze how language, tone, body language, and social media function as channels for transmitting prediction-relevant information.</li>
+<li>Evaluate how <strong>misunderstandings</strong> arise from misaligned generative models and how they are repaired through iterative inference.</li>
+<li>Assess the impact of digital communication on the Active Inference dynamics of human interaction.</li>
+</ol>
+<h2>Introduction</h2>
+<p>Communication seems simple: you have a thought, you put it into words, and someone else receives it. But if you have ever been misunderstood by a text message, had an argument based on a misinterpretation, or struggled to explain something you understand perfectly, you know that communication is anything but simple.</p>
+<p>Active Inference reveals why. Communication is not the transmission of pre-formed thoughts from one brain to another. It is the process of two (or more) generative models attempting to <strong>align</strong> -- to develop shared predictions about the world. When communication works, our models converge: we come to expect similar things, interpret events in compatible ways, and coordinate our actions. When it fails, our models remain misaligned, and we talk past each other.</p>
+<h2>Key Concepts</h2>
+<h3>1. Communication as Mutual Model Alignment</h3>
+<p>When you tell a friend about your day, you are not transferring information like copying a file. You are providing sensory evidence (words, tone, expressions) that your friend's generative model processes to update its predictions about your experience. The communication is "successful" to the extent that your friend's updated model now generates predictions similar to yours. Perfect alignment is impossible -- your friend can never have exactly your experience -- but approximate alignment is what makes social life possible.</p>
+<h3>2. Shared Generative Models</h3>
+<p>Effective communication depends on <strong>shared priors</strong> -- overlapping models of language, culture, and context. When you use slang with friends, you rely on a shared generative model of what those words mean. When you speak formally with a teacher, you switch to a different shared model. Humor works because both parties share a model well enough that the punchline generates a <em>predicted</em> prediction error -- a surprise that was, at a meta-level, expected. When someone "does not get" a joke, it is because their model does not match the one assumed by the joke.</p>
+<h3>3. The Pragmatics of Conversation</h3>
+<p>Conversation is not just about content; it is about <strong>inference about inference</strong>. When someone says "nice weather," you infer not just information about the weather but <em>why they are telling you this</em> -- to make small talk, to hint they want to go outside, to be sarcastic. Active Inference frames this as <strong>hierarchical inference</strong>: you model not just what the person is saying but what generative model they are running when they say it. This is sometimes called <strong>theory of mind</strong> or <strong>mentalizing</strong> -- modeling another person's model.</p>
+<h3>4. Digital Communication and Missing Channels</h3>
+<p>Face-to-face communication provides rich, multi-channel sensory data: words, tone, facial expressions, body posture, timing. Your generative model uses all of these channels to infer the speaker's meaning and intentions. Digital communication -- texts, DMs, emails -- strips away most channels, leaving only words (and sometimes emojis). With fewer sensory channels, your priors have more influence over interpretation. This is the fundamental Active Inference explanation for why miscommunication is so common in digital formats: with less data, your model fills in more, and what it fills in reflects your existing expectations rather than the sender's actual intent.</p>
+<h3>5. Social Media as One-to-Many Communication</h3>
+<p>Social media introduces a communication paradigm that human brains did not evolve for: broadcasting to an audience of varying generative models simultaneously. A post that makes perfect sense to your close friends may be misinterpreted by acquaintances whose models differ. The result is chronic low-level misalignment, amplified by the absence of real-time feedback. Active Inference predicts that this mismatch between the communication environment and the brain's evolved inference architecture is a persistent source of social friction online.</p>
+<h2>Active Inference Connection</h2>
+<p>The free energy principle applied to communication suggests that agents communicate in order to <strong>minimize joint free energy</strong> -- to bring their respective generative models into closer alignment. Each utterance provides evidence that the listener uses to update their model, and the speaker's own model is updated by the listener's response. This iterative process of mutual model-updating is formally analogous to the variational inference that occurs within a single brain, but it operates <em>between</em> brains through the medium of language and behavior.</p>
+<h2>Applications</h2>
+<ul>
+<li>
+<p><strong>Case Study 1 -- The Group Project Conflict</strong>: Three students working on a group project have different models of what "good work" means. One values thoroughness, one values creativity, and one values efficiency. Each communicates in ways that assume the others share their model. Conflict arises not from laziness or bad intentions but from misaligned generative models about the goal. Resolution requires explicit communication that surfaces these hidden models -- making the implicit explicit so that a shared model can be negotiated.</p>
+</li>
+<li>
+<p><strong>Case Study 2 -- Navigating Code-Switching</strong>: A bilingual student switches between languages and communication styles depending on context -- formal English in class, colloquial Spanish at home, internet slang with friends. Active Inference frames code-switching as the selection of different communication policies (action) based on predictions about which shared generative model is active in each context. It is a sophisticated form of social inference, not a sign of confusion.</p>
+</li>
+</ul>
+<h2>Discussion Questions</h2>
+<ol>
+<li>Think of a recent miscommunication you experienced. Can you identify the specific way in which your generative model and the other person's model were misaligned? What would have helped align them?</li>
+<li>Why might communication be easier with close friends than with strangers, from an Active Inference perspective? What does this tell you about the role of shared history in building shared models?</li>
+<li>How do emojis function in digital communication? Are they an effective way to provide the sensory channels (tone, emotion) that text strips away, or do they introduce their own ambiguity?</li>
+</ol>
+<h2>Summary</h2>
+<p>Communication is the process of aligning generative models between agents through the exchange of prediction-relevant signals. It requires shared priors, operates through hierarchical inference about both content and intent, and is profoundly affected by the communication medium. Digital communication, by reducing sensory channels, shifts the balance toward prior-dominated interpretation, increasing the risk of misunderstanding. Understanding communication through Active Inference provides tools for both diagnosing miscommunication and improving it. In Module 08, we conclude with <strong>planning</strong> -- how your generative model simulates the future to guide present action.</p></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: The Whispering Gallery -- How We Synchronize Our Models</h1>
+<h2>Objective</h2>
+<p>Explore how <strong>communication</strong> works as a process of synchronizing internal models between agents, and investigate why miscommunication happens when models diverge.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Completed modules on Systems through Learning</li>
+<li>Read the module on Model Synchronization</li>
+</ul>
+<h2>Part 1: Telephone Game Analysis</h2>
+<p><strong>Goal</strong>: Experience how generative models drift when signals pass between multiple agents.</p>
+<p>Play the telephone game (also called "broken telephone") with at least 4 people:</p>
+<ol>
+<li>Person 1 whispers a detailed sentence to Person 2.</li>
+<li>Each person whispers what they heard to the next person.</li>
+<li>The last person says the sentence aloud.</li>
+</ol>
+<p>Record the original and final sentences:</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Original message</td>
+<td></td>
+</tr>
+<tr>
+<td>Person 2 heard</td>
+<td></td>
+</tr>
+<tr>
+<td>Person 3 heard</td>
+<td></td>
+</tr>
+<tr>
+<td>Person 4 heard</td>
+<td></td>
+</tr>
+<tr>
+<td>Final message</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Analysis:
+1. Where did the biggest distortion occur?
+2. Why did each person's generative model "fill in" different details?
+3. How does this relate to the Active Inference idea that perception is prediction?</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: Text Message Misunderstanding Lab</h2>
+<p><strong>Goal</strong>: Analyze how communication channels affect model synchronization.</p>
+<p>Collect (or create) three examples of text messages that were misunderstood. For each:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Message 1</th>
+<th>Message 2</th>
+<th>Message 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What the sender meant</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>What the receiver interpreted</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>What information was missing? (tone, facial expression, context)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>How was it resolved?</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Why is face-to-face communication better for model synchronization than texting?</p>
+<p>{fill:textarea}</p>
+<h2>Part 3: Empathy as Prediction</h2>
+<p><strong>Goal</strong>: Practice using your generative model of another person's internal states.</p>
+<p>Watch a short video clip (a movie scene, a news interview, or a conversation between friends) with the sound off. Based only on visual cues:</p>
+<ol>
+<li>What emotions do you think each person is feeling? Why?</li>
+<li>What internal states are you inferring (latent states you cannot observe directly)?</li>
+<li>Now watch with sound. How accurate were your predictions?</li>
+<li>What does this tell you about empathy as a form of social inference?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Shared Narrative Exercise</h2>
+<p><strong>Goal</strong>: Build a shared generative model with a partner.</p>
+<p>With a partner, take turns adding one sentence to a collaborative story. Each person must build on what the other said while staying consistent. After 10 sentences:</p>
+<ol>
+<li>Did you develop a shared model of the story's world?</li>
+<li>Where did your models of the story diverge?</li>
+<li>How did you resolve disagreements about where the story was going?</li>
+<li>How is this like real-world communication, where two people must align their models?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Your Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model Synchronization</td>
+<td>Aligning internal models between two or more agents</td>
+<td></td>
+</tr>
+<tr>
+<td>Social Inference</td>
+<td>Predicting another person's internal states from observable behavior</td>
+<td></td>
+</tr>
+<tr>
+<td>Shared Narrative</td>
+<td>A jointly maintained generative model of a situation</td>
+<td></td>
+</tr>
+<tr>
+<td>Communication Channel</td>
+<td>The medium through which signals are transmitted (voice, text, gesture)</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Communication -- Aligning Models Across Minds</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>In Active Inference, communication is fundamentally about:
+A) Transmitting words from one person to another
+B) Aligning generative models between agents to reduce mutual prediction error
+C) Talking as loudly as possible
+D) Sending messages that contain zero surprise</li>
+</ol>
+<p><strong>Answer: B.</strong> Effective communication brings two agents' models into closer alignment, reducing the surprise each generates for the other.</p>
+<ol>
+<li>When your friend replies with just "k" to a long message, the spike in prediction error you feel occurs because:
+A) The letter K is offensive
+B) Your generative model expected a longer, warmer response and the mismatch drives you to seek more information
+C) Short messages always mean anger
+D) Your phone displayed the message incorrectly</li>
+</ol>
+<p><strong>Answer: B.</strong> The discrepancy between your predicted response and the actual one generates uncertainty that motivates further communication.</p>
+<ol>
+<li>During a group presentation, a speaker adjusting their tone and pace based on audience facial expressions is an example of:
+A) Nervousness
+B) Active Inference communication -- reading sensory evidence of audience engagement and updating the delivery model in real time
+C) Memorizing the script
+D) Ignoring the audience</li>
+</ol>
+<p><strong>Answer: B.</strong> The speaker continuously minimizes the gap between intended and received meaning by using audience feedback as prediction error.</p>
+<ol>
+<li>Why are misunderstandings more common in text messages than face-to-face conversations?
+A) People type less carefully than they speak
+B) Text strips away tone, facial expression, and body language, leaving fewer channels for prediction error correction and allowing priors to dominate
+C) Phones are unreliable
+D) Everyone types with bad grammar</li>
+</ol>
+<p><strong>Answer: B.</strong> With fewer sensory channels, your generative model fills in the missing social information from its own expectations.</p>
+<ol>
+<li>Humor works in social settings by:
+A) Making people forget their problems
+B) Setting up a prediction (the setup) and then violating it in a satisfying way (the punchline), producing a controlled, pleasant prediction error
+C) Always involving physical comedy
+D) Being completely unpredictable at every moment</li>
+</ol>
+<p><strong>Answer: B.</strong> The structure of jokes mirrors Active Inference -- the laugh comes from the resolution of a deliberately created prediction error.</p>
+<ol>
+<li>Active listening -- paraphrasing back what someone said -- improves communication because:
+A) It wastes time
+B) It provides the speaker with evidence of your generative model's interpretation, allowing them to correct misalignments immediately
+C) It proves you are smarter
+D) It is a required school skill</li>
+</ol>
+<p><strong>Answer: B.</strong> Reflecting back your interpretation creates a prediction error check, catching model mismatches before they compound.</p>
+<ol>
+<li>When two people from different cultural backgrounds miscommunicate, it is often because:
+A) One person is wrong
+B) Their generative models have different priors about what gestures, tones, and silences mean, leading to divergent interpretations of the same signals
+C) Cross-cultural communication is impossible
+D) Only one culture has correct communication norms</li>
+</ol>
+<p><strong>Answer: B.</strong> Different life experiences create different priors, so the same sensory input generates different predictions.</p>
+<ol>
+<li>Why does gossip spread so quickly through social networks?
+A) People are bored
+B) Novel social information generates high prediction error (surprise), making it highly salient and worth sharing to update others' models
+C) Gossip is always true
+D) Only teenagers gossip</li>
+</ol>
+<p><strong>Answer: B.</strong> Surprising information carries high informational value, driving rapid transmission through social Markov Blankets.</p>
+<ol>
+<li>Effective teachers reduce prediction error in students by:
+A) Giving easy tests
+B) Building on what students already know (their existing priors) and introducing new information at a manageable rate of surprise
+C) Talking as fast as possible
+D) Never surprising students</li>
+</ol>
+<p><strong>Answer: B.</strong> Good teaching calibrates the rate of prediction error to the students' current generative models.</p>
+<ol>
+<li>Apologizing after hurting someone can be understood in Active Inference as:
+A) A meaningless social ritual
+B) An action that acknowledges the prediction error you caused in the other person's model and signals your commitment to realigning your models
+C) Admitting you are always wrong
+D) Something that only weak people do</li>
+</ol>
+<p><strong>Answer: B.</strong> An apology addresses the surprise you introduced and helps restore predictive alignment between your models.</p>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>Describe a recent miscommunication you experienced. What different priors or expectations did each person bring, and what prediction error revealed the mismatch?</p>
+</li>
+<li>
+<p>Explain how "reading the room" before speaking is an Active Inference process. What sensory evidence are you gathering, and what predictions are you generating?</p>
+</li>
+<li>
+<p>Why might it be harder to communicate something deeply personal (like feelings about a relationship) than something factual (like directions to a location)? Use the concept of model alignment to explain.</p>
+</li>
+<li>
+<p>How does the Active Inference view of communication explain why arguments escalate? What happens when both parties increase precision weighting on threat-related signals?</p>
+</li>
+<li>
+<p>Design a strategy for having a difficult conversation with a friend using Active Inference principles. How would you minimize destructive prediction error while still communicating honestly?</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

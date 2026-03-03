@@ -1,0 +1,95 @@
+# Practice Quiz: Systems -- The Interconnected Web of Your Life
+
+## Part A: Multiple Choice
+
+1. A **system** in Active Inference is best defined as:
+A) Any group of people in the same location
+B) A collection of interacting components separated from the environment by a boundary
+C) A set of rules written down by an authority
+D) A random assortment of objects
+
+**Answer: B.** A system requires organized interaction and a boundary (Markov Blanket), not just proximity or rules.
+
+2. What is the function of a **Markov Blanket** in a social system like your friend group?
+A) It prevents any information from entering or leaving
+B) It filters interactions between the group's internal dynamics and the outside world
+C) It destroys the group over time
+D) It makes every member identical
+
+**Answer: B.** The Markov Blanket is not a wall but a filter that mediates information flow across the boundary.
+
+3. Your school persists as a system even though every student eventually graduates. This illustrates that systems are defined by:
+A) Their physical building
+B) Their oldest members
+C) Their persistent patterns of interaction
+D) Government funding
+
+**Answer: C.** Systems maintain identity through ongoing relational patterns, not fixed parts.
+
+4. When a new student joins a tight-knit class, both sides experience elevated **prediction error** because:
+A) The new student is breaking rules
+B) Neither side's generative model includes the other yet
+C) The teacher assigned too much homework
+D) The school system has collapsed
+
+**Answer: B.** Mutual model-updating must occur before the system reaches a new equilibrium.
+
+5. The concept of **nested systems** means that:
+A) Systems can only exist one at a time
+B) You belong to multiple overlapping systems at different scales simultaneously
+C) Smaller systems always control larger ones
+D) Only biological systems can be nested
+
+**Answer: B.** You are a system within a family, within a school, within a community -- each with its own Markov Blanket.
+
+6. A friend group that stops communicating will eventually dissolve. Active Inference explains this as:
+A) A failure to minimize free energy and maintain the system's boundary
+B) A sign that the group was never a real system
+C) Normal behavior for all systems
+D) Evidence that Markov Blankets are permanent
+
+**Answer: A.** Maintaining a system requires ongoing effort against disorder; without it, the boundary dissolves.
+
+7. When you start dating someone new, the Markov Blanket of your social system:
+A) Disappears entirely
+B) Becomes permanently fixed
+C) Expands and restructures to include new information flows
+D) Shrinks to include only two people
+
+**Answer: C.** Boundaries are dynamic -- new relationships change how information flows across the system boundary.
+
+8. Why do social transitions like changing schools feel disorienting?
+A) The cafeteria food is different
+B) Your system's Markov Blanket is being restructured, requiring extensive model-updating
+C) Teachers at new schools are stricter
+D) You lose all your memories
+
+**Answer: B.** Restructuring your system boundary means your generative model must be rebuilt for a new environment.
+
+9. Groups tend to develop shared norms and routines because:
+A) Leaders force everyone to conform
+B) Shared expectations reduce prediction error (surprise) for all members
+C) It is legally required
+D) People have no individual preferences
+
+**Answer: B.** The free energy principle predicts that systems develop shared models to minimize collective surprise.
+
+10. Which is the best example of a system maintaining its Markov Blanket?
+A) A pile of leaves blowing in the wind
+B) A sports team holding regular practices and communicating game strategy
+C) A random group of strangers at a bus stop
+D) A single rock sitting on a hill
+
+**Answer: B.** The team actively maintains its boundary through organized interaction, communication, and shared routines.
+
+## Part B: Short Answer
+
+1. Pick a system you belong to (sports team, family, friend group, online community). Describe what serves as its Markov Blanket -- what specific channels mediate information between inside and outside?
+
+2. Explain why a group chat that goes silent for months is an example of a system failing to minimize free energy. What would it take to revive it?
+
+3. Describe a time when someone violated an unspoken group norm. What prediction error did the group experience, and how did it respond -- by updating the model or enforcing the norm?
+
+4. How do overlapping systems create conflicts in your daily life? For example, how might the expectations of your family system clash with those of your friend group system?
+
+5. If you moved to a new city tomorrow, which of your current systems would survive and which would dissolve? What does this tell you about which boundaries are strongest?

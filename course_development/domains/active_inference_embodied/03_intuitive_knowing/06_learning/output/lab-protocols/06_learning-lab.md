@@ -1,0 +1,58 @@
+# Lab: How the Body Remembers
+
+## Objective
+
+Investigate embodied learning through reflective journaling that compares practiced and novel activities, explores body memory, and observes real-time skill acquisition through the lens of pattern-feeling without numbers.
+
+## Prerequisites
+
+- A quiet, comfortable space for 25 minutes
+- Willingness to engage in reflective journaling
+- No prior experience required
+
+## Part 1: Arriving (5 minutes)
+
+Sit quietly with your journal. Take three slow breaths. Before writing anything, check in with your body. Notice any sensations, feelings, or subtle knowings that are present right now.
+
+Perform a well-practiced action (writing your name, a familiar gesture). Notice the ease and automaticity. Now try the same action in an unfamiliar way (non-dominant hand, eyes closed). Feel the contrast.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(Describe the felt difference between practiced and novel action. Where does the body store its learning?)
+
+## Part 2: The Body's Library (7 minutes)
+
+Through pattern-feeling without numbers, recall three skills your body has learned at different life stages. Let each memory live in the body, not just the mind. Feel the echo of the movement pattern.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(For each skill, describe where the memory lives in your body. What is it like to recall a bodily skill versus a fact?)
+
+## Part 3: Real-Time Learning (7 minutes)
+
+Learn a simple new pattern (a rhythm, a gesture sequence, a balance position). Repeat it 10 times. Through pattern-feeling without numbers, notice the progression from effortful to more automatic.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(Describe the arc of learning. At what point did the pattern begin to flow? What was changing in your body?)
+
+## Part 4: Reflection (5 minutes)
+
+Through pattern-feeling without numbers, reflect on what learning means for the body.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+(What does the body know that words cannot capture? How does pattern-feeling without numbers reveal the nature of embodied learning?)
+
+## Reflection Table
+
+| Dimension | What I Noticed | Active Inference Connection |
+| --- | --- | --- |
+| Initial awareness | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Baseline generative model state |
+| Embodied exploration | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Prediction error through direct experience |
+| Pattern-feeling without numbers lens | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Course-specific perspective on learning |
+| Integration | <span style="border-bottom: 1px solid #999; display: inline-block; min-width: 200px;">&nbsp;</span> | Updated understanding through bodily knowing |
+
+## Discussion
+
+Consider how pattern-feeling without numbers reveals aspects of learning that other perspectives might miss. In Active Inference, every perspective changes the precision weighting of different signals, revealing different dimensions of the same underlying process of free energy minimization.

@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_Communication - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>07_Communication</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>07_Communication</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 07: Communication — Interdisciplinary Methods and Collaborative Research</h1>
+<blockquote>
+<p><strong>Course</strong>: Active Inference 401 | <strong>Unit</strong>: Research Methods | <strong>Audience</strong>: Graduate students / researchers</p>
+</blockquote>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Design <strong>interdisciplinary research</strong> programs that apply Active Inference across domains.</li>
+<li>Analyze methods for <strong>communicating Active Inference</strong> to non-specialist audiences.</li>
+<li>Evaluate the role of <strong>open science, reproducibility, and community building</strong> in advancing the field.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. Interdisciplinary Research Design</h3>
+<p>Active Inference is inherently interdisciplinary, spanning neuroscience, psychology, philosophy, physics, mathematics, robotics, and ecology. This creates both opportunities and challenges:</p>
+<p><strong>Bridging disciplines</strong>: Successful interdisciplinary projects require:</p>
+<ul>
+<li>A shared formal language (mathematics of free energy provides this)</li>
+<li>Translation protocols between domain-specific vocabularies</li>
+<li>Mutual respect for disciplinary expertise and methodological standards</li>
+<li>Clear specification of what each discipline contributes</li>
+</ul>
+<p><strong>Cross-domain application areas</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Active Inference Application</th>
+<th>Methods Used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Neuroscience</td>
+<td>Brain as inference engine</td>
+<td>DCM, EEG, fMRI (Modules 01, 03)</td>
+</tr>
+<tr>
+<td>Psychology</td>
+<td>Decision-making, perception</td>
+<td>Behavioral paradigms (Module 04)</td>
+</tr>
+<tr>
+<td>Psychiatry</td>
+<td>Computational disorders</td>
+<td>Clinical translation (Module 06)</td>
+</tr>
+<tr>
+<td>Robotics</td>
+<td>Embodied agents</td>
+<td>Implementation (Module 05)</td>
+</tr>
+<tr>
+<td>Ecology</td>
+<td>Organisms as FEP systems</td>
+<td>Bayesian mechanics, field studies</td>
+</tr>
+<tr>
+<td>Social science</td>
+<td>Collective behavior</td>
+<td>Multi-agent models, survey data</td>
+</tr>
+<tr>
+<td>Philosophy</td>
+<td>Mind, consciousness</td>
+<td>Conceptual analysis, thought experiments</td>
+</tr>
+<tr>
+<td>AI / ML</td>
+<td>Intelligent agents</td>
+<td>Algorithm development, benchmarking</td>
+</tr>
+</tbody>
+</table>
+<h3>2. Communication Strategies</h3>
+<p>Communicating Active Inference to different audiences requires different approaches:</p>
+<p><strong>To neuroscientists</strong>: Emphasize empirical predictions, DCM results, neural implementation
+<strong>To psychologists</strong>: Emphasize behavioral predictions, computational phenotyping, clinical applications
+<strong>To physicists</strong>: Emphasize Bayesian mechanics, FEP derivation, connections to thermodynamics
+<strong>To engineers</strong>: Emphasize control theory connections, robot implementations, algorithm design
+<strong>To clinicians</strong>: Emphasize clinical utility, patient outcomes, treatment implications
+<strong>To the public</strong>: Use metaphors (brain as scientist, prediction machine), avoid jargon, emphasize real-world applications</p>
+<p><strong>Common misunderstandings to address</strong>:</p>
+<ol>
+<li>"The brain literally calculates Bayes' theorem" → Active Inference is a normative/computational-level theory; neurons need not literally perform Bayesian computation</li>
+<li>"Free energy principle is unfalsifiable" → Specific implementations make testable predictions; the principle itself is a framework, not a hypothesis</li>
+<li>"Active Inference solves everything" → It provides a framework; specific applications must be empirically validated</li>
+</ol>
+<h3>3. Open Science and Reproducibility</h3>
+<p>Active Inference research benefits from and should contribute to open science:</p>
+<p><strong>Open-source software</strong>: pymdp, SPM, RxInfer.jl — all publicly available. New tools should be open-source by default.</p>
+<p><strong>Pre-registration</strong>: Register hypotheses, models, and analysis plans before data collection. This prevents post-hoc model selection bias.</p>
+<p><strong>Data sharing</strong>: Share behavioral data, fitted parameters, and model specifications. This enables replication and meta-analysis.</p>
+<p><strong>Reproducible analysis</strong>: Use version-controlled code, containerized environments, and literate programming (Jupyter notebooks, R Markdown) to ensure analyses are reproducible.</p>
+<h3>4. Community and Collaboration</h3>
+<p><strong>Active Inference Institute</strong>: Central hub for education, research coordination, and community building.</p>
+<p><strong>Textbook groups</strong>: Reading groups working through Parr, Pezzulo &amp; Friston (2022) and related texts.</p>
+<p><strong>Cross-institutional collaborations</strong>: Multi-site studies using standardized tasks and models enable larger sample sizes and greater generalizability.</p>
+<p><strong>Student mentorship</strong>: Graduate students in Active Inference need training in multiple disciplines — mathematics, neuroscience, programming, and philosophy. Mentorship programs should span these areas.</p>
+<h3>5. Publication and Peer Review</h3>
+<p><strong>Writing for different journals</strong>: Active Inference papers must be adapted for the audience:</p>
+<ul>
+<li><em>Neuron</em>, <em>Nature Neuroscience</em>: Emphasize novel empirical findings</li>
+<li><em>PLoS Computational Biology</em>: Emphasize model development and validation</li>
+<li><em>Psychological Review</em>: Emphasize theoretical contributions</li>
+<li><em>Biological Psychiatry</em>: Emphasize clinical relevance</li>
+<li><em>IEEE/ICRA</em>: Emphasize engineering applications</li>
+</ul>
+<p><strong>Review challenges</strong>: Papers may be reviewed by experts in one domain who lack expertise in another aspect of the work. Include clear, self-contained introductions to each disciplinary component.</p>
+<h2>Summary</h2>
+<p>Interdisciplinary Active Inference research requires bridging domain-specific vocabularies with shared mathematical formalism, adapting communication strategies for different audiences, and embracing open science practices. Community building through the Active Inference Institute and cross-institutional collaboration accelerates the field's development.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Parr, T., Pezzulo, G. &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Active Inference Institute. <a href="https://www.activeinference.org/">https://www.activeinference.org/</a></li>
+<li>Ramstead, M. J. D. et al. (2020). An introduction to the free energy principle and related research. <em>Physics of Life Reviews</em>, 34, 1-5.</li>
+</ul></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Interdisciplinary Methods and Collaborative Research</h1>
+<blockquote>
+<p><strong>Learning Goal:</strong> Practice designing interdisciplinary projects, communicating across domains, and implementing open science.</p>
+</blockquote>
+<h2>Part 1: Interdisciplinary Project Design</h2>
+<p><strong>Exercise</strong>: Design a research project that requires expertise from at least 3 disciplines:</p>
+<p><strong>Example project</strong>: "Active Inference models of anxiety in adolescents during social media use"</p>
+<table>
+<thead>
+<tr>
+<th>Discipline</th>
+<th>Contribution</th>
+<th>Key Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Computational neuroscience</td>
+<td>Generative model of anxiety</td>
+<td>POMDP specification, parameter fitting</td>
+</tr>
+<tr>
+<td>Developmental psychology</td>
+<td>Adolescent development theory</td>
+<td>Longitudinal study design, age-appropriate tasks</td>
+</tr>
+<tr>
+<td>Social media studies</td>
+<td>Platform behavior data</td>
+<td>Digital trace analysis, usage metrics</td>
+</tr>
+<tr>
+<td>Clinical psychology</td>
+<td>Assessment and intervention</td>
+<td>Clinical measures (GAD-7), therapeutic protocols</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Project structure</strong>:</p>
+<ol>
+<li>Aim 1 (Computational): Develop Active Inference model of social media-induced anxiety</li>
+<li>Aim 2 (Behavioral): Validate model against adolescent behavioral data</li>
+<li>Aim 3 (Clinical): Use model to predict which adolescents are at risk and design interventions</li>
+</ol>
+<p>Design your own 3-discipline project. Specify each discipline's contribution and how they integrate.</p>
+<p>{fill:textarea}</p>
+<h2>Part 2: Communication Exercises</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Translate Active Inference for different audiences.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Write a 150-word explanation of "precision-weighted prediction errors" for each audience:</p>
+<p><strong>For a neuroscientist</strong>: Focus on synaptic gain modulation, NMDA receptors, cortical layers, and oscillatory signatures. Use technical neuroscience terminology.</p>
+<p>{fill:textarea}</p>
+<p><strong>For a clinical psychologist</strong>: Focus on how confidence in beliefs vs. evidence determines interpretation. Use clinical examples (anxiety = too much weight on threat signals).</p>
+<p>{fill:textarea}</p>
+<p><strong>For a high school student</strong>: Use everyday analogies (confidence in what you expect to happen vs. what actually happens). Avoid all jargon.</p>
+<p>{fill:textarea}</p>
+<p>Compare your three explanations. What was gained and lost in each translation?</p>
+<p>{fill:textarea}</p>
+<h2>Part 3: Open Science Implementation</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design a fully reproducible analysis.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design the reproducibility infrastructure for an Active Inference study:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Implementation</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pre-registration</td>
+<td>Register hypotheses, models, analysis plan</td>
+<td>OSF or AsPredicted</td>
+</tr>
+<tr>
+<td>Version control</td>
+<td>All analysis code in Git repository</td>
+<td>GitHub/GitLab</td>
+</tr>
+<tr>
+<td>Data sharing</td>
+<td>De-identified data in public repository</td>
+<td>OSF, Dryad, or OpenNeuro</td>
+</tr>
+<tr>
+<td>Model code</td>
+<td>Publish model specification as runnable code</td>
+<td>Python package or Jupyter notebook</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>Containerize computational environment</td>
+<td>Docker or conda environment.yml</td>
+</tr>
+<tr>
+<td>Documentation</td>
+<td>Literate programming with embedded analysis</td>
+<td>Jupyter notebooks + markdown</td>
+</tr>
+<tr>
+<td>Analysis pipeline</td>
+<td>End-to-end automated pipeline</td>
+<td>Makefile or Snakemake</td>
+</tr>
+</tbody>
+</table>
+<p>Write the README for this repository, including instructions for reproducing all results.</p>
+<p>{fill:textarea}</p>
+<h2>Part 4: Workshop Design</h2>
+<blockquote>
+<p><strong>Learning Goal:</strong> Design an educational workshop.</p>
+</blockquote>
+<p><strong>Exercise</strong>: Design a 2-day workshop introducing Active Inference to cognitive neuroscience graduate students:</p>
+<p><strong>Day 1: Foundations</strong></p>
+<ul>
+<li>Session 1 (2h): What is Active Inference? Core concepts without math (metaphors, intuitions)</li>
+<li>Session 2 (2h): The mathematics — free energy, generative models, policy selection</li>
+<li>Session 3 (2h): Hands-on: Building a simple Active Inference agent in pymdp</li>
+</ul>
+<p><strong>Day 2: Applications</strong></p>
+<ul>
+<li>Session 4 (2h): DCM — how to apply Active Inference to neuroimaging</li>
+<li>Session 5 (2h): Computational psychiatry — clinical applications</li>
+<li>Session 6 (2h): Design your own study — participants work in interdisciplinary teams</li>
+</ul>
+<p>For each session, specify: learning objectives, materials needed, and assessment.</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Reflection</h2>
+<p>In 300 words, reflect: Active Inference aspires to be a "theory of everything" for adaptive systems. But interdisciplinary ambition comes with risks — superficial application across domains, loss of disciplinary rigor, and over-promising. How do you balance the excitement of a unifying framework with the rigor needed for each specific application?</p>
+<p>{fill:textarea}</p>
+<h2>Lab Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Skill Practiced</th>
+<th>Key Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Project design</td>
+<td>Multi-disciplinary integration</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Scientific communication</td>
+<td>Audience adaptation</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Reproducibility</td>
+<td>Open science infrastructure</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Education</td>
+<td>Workshop curriculum design</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Critical reflection</td>
+<td>Ambition vs. rigor</td>
+</tr>
+</tbody>
+</table></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Communication / Interdisciplinary Methods (Research Methods)</h1>
+<p><strong>Name</strong>: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em> <strong>Date</strong>: </em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<h2>Part A: Multiple Choice</h2>
+<p><strong>1.</strong> Active Inference's shared formal language across disciplines is:
+A) English
+B) The mathematics of variational free energy — providing a common framework that translates between domain-specific concepts
+C) Computer code
+D) Clinical terminology</p>
+<p><strong>2.</strong> The most common misunderstanding about Active Inference is:
+A) It's too simple
+B) That the brain literally calculates Bayes' theorem — when in fact Active Inference is a computational-level theory that doesn't prescribe specific neural implementations
+C) It's only for robots
+D) It's purely philosophical</p>
+<p><strong>3.</strong> Pre-registration in computational modeling studies:
+A) Is unnecessary
+B) Prevents post-hoc model selection bias by committing to hypotheses, models, and analysis plans before data collection
+C) Replaces data analysis
+D) Is only for clinical trials</p>
+<p><strong>4.</strong> Open-source software benefits Active Inference by:
+A) Limiting access
+B) Enabling replication, community development, standardization of methods, and collaborative improvement
+C) Reducing quality
+D) Increasing cost</p>
+<p><strong>5.</strong> When communicating to clinicians, Active Inference should emphasize:
+A) Mathematical proofs
+B) Clinical utility — patient outcomes, treatment implications, and diagnostic precision
+C) Physics analogies
+D) Robot implementations</p>
+<p><strong>6.</strong> Multi-site Active Inference studies require:
+A) Identical labs
+B) Standardized tasks, models, and analysis protocols — enabling pooling across sites while maintaining local flexibility
+C) Single investigators
+D) No coordination</p>
+<p><strong>7.</strong> Marr's three levels (computational, algorithmic, implementational) help communicate Active Inference because:
+A) They constrain the framework to one level
+B) They clarify that Active Inference primarily operates at the computational level (what problem is solved) — algorithmic and implementational details can vary, preventing confusion with neural mechanism claims
+C) Only the implementational level matters
+D) All three levels say the same thing</p>
+<p><strong>8.</strong> Reproducibility challenges unique to computational modeling studies include:
+A) Only data sharing issues
+B) Sensitivity to optimization settings, model specification choices, prior sensitivity, and software version dependencies — requiring detailed reporting of all model fitting parameters and random seeds
+C) Only statistical thresholds
+D) Only sample size concerns</p>
+<h2>Part B: Short Answer</h2>
+<p><strong>1.</strong> You are presenting Active Inference to an audience of clinical psychologists with no mathematical background. Describe how you would explain "precision weighting" using a concrete clinical example, without any equations. (200 words)</p>
+<p><strong>2.</strong> A reviewer criticizes your Active Inference paper for being "unfalsifiable" — claiming that the framework can explain any result post-hoc. Write a brief response defending the falsifiability of Active Inference by identifying two specific empirical predictions that would disconfirm the theory. (200 words)</p>
+<h2>Part C: Essay Questions</h2>
+<p><strong>1.</strong> Design a complete interdisciplinary research program (3-5 years) applying Active Inference to a real-world problem (climate change adaptation, educational reform, public health). Specify: (a) the problem and why Active Inference helps, (b) the disciplinary team needed, (c) 3-4 specific aims, (d) methods for each aim, (e) expected outcomes, (f) broader impacts. (600 words)</p>
+<p><strong>2.</strong> Write two versions of the same 300-word abstract for a research paper on Active Inference and autism: one for <em>Biological Psychiatry</em> (clinical audience) and one for <em>PLoS Computational Biology</em> (computational audience). Reflect on what you emphasized differently and why.</p>
+<p><strong>3.</strong> Develop an ethics protocol for a computational psychiatry study using Active Inference. Address: (a) informed consent for computational analysis, (b) data privacy for computational phenotypes, (c) incidental findings (discovering potential psychiatric vulnerability through computational parameters), (d) equitable access to computational assessments, (e) cultural sensitivity in applying Western computational models cross-culturally. (500 words)</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

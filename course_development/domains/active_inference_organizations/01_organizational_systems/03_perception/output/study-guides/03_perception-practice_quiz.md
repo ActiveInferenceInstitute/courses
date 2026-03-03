@@ -1,0 +1,66 @@
+# Practice Quiz: Organizational Systems — Module 03: Perception
+
+**Name**: ______________________ **Date**: ______________________
+
+---
+
+## Part A: Multiple Choice
+
+1. Organizational perception in Active Inference is best described as:
+
+A) Looking at data dashboards
+B) Inferring hidden market states from noisy, ambiguous observations
+C) Hiring market research firms
+D) Attending industry conferences
+
+1. **Precision** in organizational sensing refers to:
+
+A) How accurate the data is on average
+B) The weight or confidence the organization assigns to a particular signal
+C) The cost of collecting information
+D) The speed at which information arrives
+
+1. Kodak's failure to perceive digital disruption illustrates:
+
+A) A company that had too much data
+B) A sensory apparatus optimized for the wrong hidden states — missing the emergent digital market
+C) Poor executive leadership
+D) Insufficient R&D spending
+
+1. Which of the following is an example of **active sensing** (epistemic action)?
+
+A) Receiving the annual industry report
+B) Running a market experiment to test demand in a new segment before committing resources
+C) Reading competitor press releases
+D) Reviewing quarterly financial statements
+
+1. **Information overload** is dangerous because:
+
+A) It costs too much to store data
+B) When precision is uniformly low across all signals, the organization cannot discriminate important from unimportant
+C) Employees become frustrated
+D) It violates the Markov blanket
+
+1. **Signal distortion** as information travels up the hierarchy occurs because:
+
+A) Digital systems corrupt data
+B) Each level filters, summarizes, and reinterprets information, potentially losing critical nuance
+C) Senior leaders refuse to read reports
+D) Information flows too quickly
+
+1. A customer satisfaction survey consistently shows 90% satisfaction, but customer churn is 25% annually. This most likely indicates:
+
+A) Customers lie on surveys
+B) A measurement artifact — the sensing mechanism is not capturing the hidden states that drive churn
+C) The company is too successful
+D) Churn is unrelated to satisfaction
+
+---
+
+## Part B: Short Analysis
+
+1. A retail bank relies primarily on monthly financial statements and quarterly NPS surveys to understand its market. Evaluate the adequacy of this sensory apparatus. What hidden states might it fail to detect? Design two additional sensing channels that would cover critical blind spots, and explain what precision you would assign to each.
+
+2. Your company has five regional sales offices, each of which reports quarterly to headquarters. Regional managers have an incentive to present their territory favorably. Using the Active Inference framework, explain how this incentive creates signal distortion and propose a structural change that would improve the precision of information flowing to headquarters.
+
+3. Compare **passive sensing** and **active sensing** strategies for a startup entering a new market. Under what conditions should the startup prioritize gathering information (epistemic actions) over generating revenue (pragmatic actions)? How does the expected free energy framework help make this trade-off?

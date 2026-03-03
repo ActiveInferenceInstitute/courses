@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05_Action - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>05_Action</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>05_Action</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Robotic Action: From Beliefs to Physical Forces</h1>
+<h2>Executive Summary</h2>
+<p>Action is where the robot meets the world — where internal computations become physical forces, motions, and environmental changes. In Active Inference, action is not the execution of a pre-computed plan but the other side of free energy minimization: while perception updates beliefs to match observations, action changes the world to match the robot's preferred sensory states. This module examines how robotic actuators — servo motors, pneumatic cylinders, grippers — translate cognitive decisions into physical effects, how joint-space and task-space control architectures implement the active states of the Markov blanket, and how the expected free energy framework unifies trajectory generation, force control, and impedance regulation under a single objective.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Define robotic action as the modification of the world through active states to minimize expected free energy.</li>
+<li>Analyze the chain from cognitive decision to physical force: task-space goals, inverse kinematics, joint-space trajectories, motor torques.</li>
+<li>Compare position control, force control, and impedance control as different expressions of active inference.</li>
+<li>Explain how actuator properties (torque limits, bandwidth, backlash) constrain the action space available to a robot.</li>
+<li>Evaluate how the Active Inference framework unifies trajectory tracking and compliant interaction under a single free energy objective.</li>
+</ol>
+<h2>Introduction</h2>
+<p>The previous module on Cognition examined how robots maintain and update their generative models — the computational engine that drives intelligent behavior. But computation alone does not accomplish tasks. A robot that perfectly estimates the position of a bolt but cannot turn a wrench has no practical value. Action is the active side of the Markov blanket: the outward-facing boundary through which the robot exerts influence on the world. In the next module on Learning, we will examine how the outcomes of actions feed back to improve the robot's models; here, we focus on the mechanisms by which beliefs become forces.</p>
+<h2>Key Concepts</h2>
+<h3>1. Action as Active Inference</h3>
+<p>In traditional robotics, the perception-action pipeline is sequential: perceive, plan, act. Perception estimates the world state, a planner computes a desired trajectory, and a controller tracks that trajectory by commanding motor torques. The controller's job is to eliminate tracking error — the difference between the desired and actual joint positions.</p>
+<p>Active Inference reframes this. Action is not about tracking a reference trajectory but about making the world conform to the robot's predictions. The robot's generative model includes predictions about its future sensory states — the proprioceptive feedback it expects to receive. When the expected joint position differs from the actual joint position, a prediction error arises. Action reduces this prediction error by commanding the muscles (motors) to move the joints toward the predicted position. The reference trajectory is not an externally imposed command but a consequence of the generative model's predictions about preferred future states.</p>
+<p>This reframing has practical consequences. In classical control, the reference trajectory must be fully specified before execution begins. In Active Inference, the "reference" emerges from the interaction between the generative model's dynamics (how the world evolves) and its preferences (what states are desired). This allows more flexible, adaptive behavior — the robot can smoothly adjust its actions in response to changing conditions without re-planning from scratch.</p>
+<h3>2. The Action Hierarchy: From Task Space to Joint Torques</h3>
+<p>Robotic action is organized in a hierarchy that maps high-level task goals to low-level motor commands.</p>
+<p><strong>Task-space goals</strong> specify what the end-effector (the gripper, tool, or hand of the robot) should do in Cartesian coordinates: move to position (x, y, z) with orientation (roll, pitch, yaw), apply a contact force of 10 N along the surface normal, or follow a welding seam at 5 mm/s. These are the preferred sensory states in Active Inference — the observations the robot wants to bring about.</p>
+<p><strong>Inverse kinematics</strong> converts task-space goals into joint-space goals: what joint angles will place the end-effector at the desired Cartesian pose? For a UR5 with six revolute joints, this mapping is generally non-unique — multiple joint configurations can achieve the same end-effector pose. Selecting among them involves additional criteria: joint limit avoidance, singularity avoidance, and minimum-energy configurations.</p>
+<p><strong>Trajectory generation</strong> produces smooth time-parameterized joint paths from the current configuration to the goal configuration. Trapezoidal velocity profiles and quintic polynomial interpolation are common methods. In Active Inference terms, the trajectory specifies the temporal sequence of preferred proprioceptive states.</p>
+<p><strong>Joint-level control</strong> computes motor torques to track the desired joint trajectory. PID control is the simplest approach: a proportional term reduces position error, a derivative term damps oscillation, and an integral term eliminates steady-state error. More sophisticated approaches like computed torque control use the robot's dynamics model to compute feedforward torques, reducing the tracking error that the feedback controller must handle.</p>
+<h3>3. Position Control, Force Control, and Impedance Control</h3>
+<p>Different task demands require different relationships between the robot's actions and the environment's response. These relationships correspond to different formulations of the free energy objective.</p>
+<p><strong>Position control</strong> commands the robot to achieve specific joint positions or end-effector poses regardless of external forces. The preferred sensory state is a position, and the robot applies whatever torque is necessary to reach it. This is appropriate for free-space motions where the robot does not contact the environment — reaching toward an object, for example.</p>
+<p><strong>Force control</strong> commands the robot to apply specific forces to the environment regardless of position. The preferred sensory state is a force reading from the wrist force/torque sensor, and the robot adjusts its position until the desired force is achieved. This is appropriate for tasks like polishing, grinding, or pushing — where the contact force matters more than the exact position.</p>
+<p><strong>Impedance control</strong> specifies a desired dynamic relationship between force and displacement — the robot behaves as if it were a spring-damper system with programmable stiffness and damping. In Active Inference terms, impedance control specifies both a preferred position and a preferred way of responding to perturbations. High stiffness means the robot strongly resists displacement from its preferred position (high precision on the position prediction). Low stiffness means the robot complies with external forces (low precision on position, allowing the force prediction to dominate). Impedance control is the most natural expression of Active Inference in robotic action because it directly parameterizes the precision of proprioceptive predictions.</p>
+<h3>4. Actuator Constraints and the Action Space</h3>
+<p>The physical properties of a robot's actuators define the boundaries of what actions are possible — the action space available to the Active Inference agent.</p>
+<p>A UR5 joint motor can apply up to 150 Nm of torque and achieve angular velocities up to 180 degrees per second. These limits define a rectangular constraint region in the torque-velocity space of each joint. The robot's generative model must respect these constraints — it cannot predict or prefer states that would require torques or velocities beyond the actuator limits.</p>
+<p><strong>Backlash</strong> — the play in gear mechanisms — introduces a dead zone where small motor rotations produce no output motion. This means the relationship between motor command and joint motion is not smooth, creating a nonlinear disturbance that the controller must compensate for. In Active Inference terms, backlash increases the uncertainty (reduces the precision) of the mapping from active states to environmental effects.</p>
+<p><strong>Bandwidth</strong> — the frequency range over which the actuator can faithfully track commands — limits how quickly the robot can respond to disturbances. A hydraulic actuator may have a bandwidth of 5-20 Hz, while an electric direct-drive motor may reach 100 Hz or more. Higher bandwidth enables tighter control loops and more responsive active inference.</p>
+<p><strong>Compliance</strong> — the mechanical flexibility of the actuator and its transmission — determines how the robot interacts with contact forces. Series elastic actuators deliberately introduce compliance between the motor and the joint, creating a mechanical low-pass filter that absorbs impact forces and enables safer human-robot interaction. In Active Inference terms, physical compliance embodies a low-precision position prediction — the actuator allows displacement from the nominal position rather than rigidly resisting it.</p>
+<h3>5. Action Selection Under Uncertainty</h3>
+<p>When the robot is uncertain about the state of the world, action selection must account for this uncertainty. Active Inference provides a natural mechanism through the expected free energy, which balances pragmatic value (achieving goals) with epistemic value (reducing uncertainty) and accounts for the risk of different outcomes.</p>
+<p>Consider a UR5 tasked with inserting a peg into a hole. If the hole's position is known precisely, the robot can plan a direct insertion trajectory. But if there is uncertainty about the hole's exact location, a direct insertion risks jamming or missing. Active Inference suggests a strategy: first make contact with the surface near the expected hole location (an action that provides tactile information to reduce position uncertainty), then slide along the surface until the peg finds the hole (an action guided by force feedback), then insert. This compliant search strategy is exactly what skilled human assemblers do, and it emerges naturally from expected free energy minimization — the combined pragmatic and epistemic objectives produce exploratory contact followed by goal-directed insertion.</p>
+<h2>Active Inference Connection</h2>
+<p>In Active Inference, action and perception are two sides of the same coin. Perception minimizes free energy by updating beliefs to match observations. Action minimizes free energy by changing the world to match predictions. The robot's motor commands are the means by which it fulfills its own prophecies — acting to make its preferred sensory states come true. This unification dissolves the traditional boundary between planning and control: both are instances of free energy minimization at different temporal scales. Impedance control, in particular, maps directly to the precision of proprioceptive predictions, providing a concrete engineering implementation of a core Active Inference concept.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: UR5 Peg-in-Hole Assembly with Active Compliance</h3>
+<p>A UR5 manipulator performing automated peg-in-hole assembly demonstrates Active Inference in action. The task requires inserting a 10 mm diameter shaft into a hole with 0.05 mm clearance. The robot begins in position control mode, moving the peg to the approximate hole location. Upon detecting contact through the wrist force/torque sensor (force exceeding 5 N), the controller switches to impedance mode with low lateral stiffness (50 N/m) and high axial stiffness (5000 N/m). The low lateral stiffness allows the peg to comply with contact forces and slide toward the hole center, while the high axial stiffness maintains insertion pressure. The force/torque sensor provides continuous feedback, and the controller adjusts the peg's lateral position based on the force pattern. When the lateral forces drop below a threshold (indicating the peg has found the hole), the axial stiffness drives the insertion. This entire strategy — contact, compliant search, insertion — can be derived from expected free energy minimization with appropriate precision parameters and dynamics model.</p>
+<h3>Case Study 2: Velocity-Controlled Mobile Base Navigation</h3>
+<p>A Clearpath Jackal mobile robot demonstrates action at the whole-body level. The robot's action space consists of linear and angular velocity commands (geometry_msgs/Twist) sent to the base controller at 20 Hz. The DWB local planner evaluates candidate velocity commands by forward-simulating the robot's trajectory over a 3-second horizon and scoring each trajectory against multiple objectives: proximity to the global path (pragmatic value), distance from obstacles (risk avoidance), and progress toward the goal (pragmatic value). The selected velocity command is the one that minimizes a weighted combination of these costs — analogous to minimizing expected free energy over the prediction horizon. The wheel motors then execute this velocity command through low-level PID control, closing the gap between predicted and actual wheel velocities. When the robot encounters an unexpected obstacle not in its map, the forward simulation predicts collision for trajectories that were previously safe, automatically triggering avoidance behavior without explicit re-planning.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 2 (Agents)</strong>: The agent architecture that generates the goals and plans that action executes</li>
+<li><strong>Module 3 (Perception)</strong>: Provides the state estimates that action relies on for accurate execution</li>
+<li><strong>Module 4 (Cognition)</strong>: The cognitive processes that determine what actions to take</li>
+<li><strong>Module 6 (Learning)</strong>: Feedback from action outcomes that improves future action strategies</li>
+</ul>
+<h2>Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Robotics Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Active States</td>
+<td>Boundary variables through which the system changes the world</td>
+<td>Motor torques applied to UR5 joint actuators</td>
+</tr>
+<tr>
+<td>Task-Space Goal</td>
+<td>Desired end-effector state in Cartesian coordinates</td>
+<td>Target grasp pose for a pick-and-place operation</td>
+</tr>
+<tr>
+<td>Impedance Control</td>
+<td>Programmable dynamic relationship between force and displacement</td>
+<td>Compliant peg-in-hole insertion with variable stiffness</td>
+</tr>
+<tr>
+<td>Actuator Bandwidth</td>
+<td>Frequency range of faithful command tracking</td>
+<td>100 Hz direct-drive motor vs. 10 Hz hydraulic actuator</td>
+</tr>
+<tr>
+<td>Action Under Uncertainty</td>
+<td>Selecting actions that balance goal achievement with information gain</td>
+<td>Contact-based search before precise insertion</td>
+</tr>
+<tr>
+<td>Precision of Predictions</td>
+<td>How confidently the generative model predicts proprioceptive states</td>
+<td>High stiffness (high precision) vs. compliance (low precision)</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+<li>Siciliano, B., Sciavicco, L., Villani, L., &amp; Oriolo, G. (2009). <em>Robotics: Modelling, Planning and Control</em>. Springer.</li>
+<li>Hogan, N. (1985). Impedance control: An approach to manipulation. <em>Journal of Dynamic Systems, Measurement, and Control</em>, 107(1), 1-24.</li>
+<li>Lanillos, P., et al. (2021). Active Inference in robotics and artificial agents. <em>arXiv preprint arXiv:2112.01871</em>.</li>
+<li>Pezzato, C., Ferrari, R., &amp; Corbato, C. H. (2020). A novel adaptive controller for robot manipulators based on active inference. <em>IEEE Robotics and Automation Letters</em>, 5(2), 2973-2980.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Active Inference Control vs. Classical Motor Control</h1>
+<h2>Objective</h2>
+<p>Compare PID control, Model Predictive Control (MPC), and Active Inference control for a robotic manipulator task. You will design controllers for a 2-DOF planar arm performing a reaching task, analyze their behavior under perturbation, and evaluate how Active Inference unifies perception and action in a single objective.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Understanding of basic control theory (PID, feedback loops)</li>
+<li>Familiarity with robot kinematics (forward/inverse kinematics)</li>
+<li>Module 04: Cognition (world models that support action selection)</li>
+</ul>
+<h2>Part 1: Task Specification</h2>
+<p>A 2-DOF planar robot arm must reach from an initial configuration (q1=0, q2=0) to a target end-effector position (x_target=0.5m, y_target=0.3m). The arm has link lengths L1=0.4m and L2=0.3m.</p>
+<ol>
+<li>Write the forward kinematics equations mapping joint angles (q1, q2) to end-effector position (x, y).</li>
+<li>Compute the target joint angles using inverse kinematics.</li>
+<li>Define the observation model: the robot observes joint angles via encoders (with noise sigma_q = 0.01 rad) and end-effector position via a camera (with noise sigma_xy = 0.005 m).</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 2: PID Controller Design</h2>
+<p>Design a joint-space PID controller for the reaching task:</p>
+<ol>
+<li>Specify the error signal: e(t) = q_target - q_measured.</li>
+<li>Choose PID gains (Kp, Ki, Kd) and justify your choices.</li>
+<li>Describe the controller output: torque commands tau = Kp<em>e + Ki</em>integral(e) + Kd*de/dt.</li>
+<li>What happens if an unexpected load is placed on the end-effector during the reach? How does the PID controller respond?</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 3: Active Inference Controller Design</h2>
+<p>Design an Active Inference controller for the same reaching task:</p>
+<ol>
+<li><strong>Generative model</strong>: Specify prior preferences over observations (desired joint angles and end-effector position).</li>
+<li><strong>Prediction errors</strong>: Define sensory prediction errors (difference between predicted and observed joint angles) and active prediction errors (difference between desired and predicted proprioceptive states).</li>
+<li><strong>Action as reflex arc</strong>: In Active Inference, motor commands arise from proprioceptive prediction errors -- the arm moves to fulfill its own predictions. Write the update equation:</li>
+<li>u = -dF/da (action minimizes free energy by changing sensory input)</li>
+<li>How does the Active Inference controller handle the unexpected load? Compare with PID.</li>
+</ol>
+<p>{fill:textarea}</p>
+<h2>Part 4: Perturbation Analysis</h2>
+<p>Compare all three controllers (PID, MPC, Active Inference) under three perturbation scenarios:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>PID Response</th>
+<th>MPC Response</th>
+<th>Active Inference Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>External force on end-effector</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Encoder noise increases 10x</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Joint 2 motor loses 50% torque</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<p>For each scenario, describe qualitatively how the controller adapts (or fails to adapt).</p>
+<p>{fill:textarea}</p>
+<h2>Part 5: Unified Perception-Action Pseudocode</h2>
+<p>Write pseudocode for a complete Active Inference control loop that unifies perception and action:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="nf">active_inference_control</span><span class="p">(</span>dt<span class="p">):</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">reached_target</span><span class="p">:</span>
+<span class="w">        </span>#<span class="w"> </span><span class="n">Perception</span><span class="p">:</span><span class="w"> </span><span class="nb">update</span><span class="w"> </span><span class="n">beliefs</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="n">joint</span><span class="w"> </span><span class="n">angles</span>
+<span class="w">        </span><span class="n">mu_q</span><span class="w"> </span><span class="o">+</span><span class="p">=</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">d_mu_q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">kappa</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">prediction_error_proprio</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="n">Perception</span><span class="p">:</span><span class="w"> </span><span class="nb">update</span><span class="w"> </span><span class="n">beliefs</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="k">end</span><span class="o">-</span><span class="n">effector</span>
+<span class="w">        </span><span class="n">mu_x</span><span class="w"> </span><span class="o">+</span><span class="p">=</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">d_mu_x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">kappa</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">prediction_error_visual</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="n">Action</span><span class="p">:</span><span class="w"> </span><span class="n">generate</span><span class="w"> </span><span class="n">motor</span><span class="w"> </span><span class="n">commands</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">prediction</span><span class="w"> </span><span class="n">errors</span>
+<span class="w">        </span><span class="n">torque</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="n">kappa_a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">mu_q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">q_desired</span><span class="p">)</span>
+
+<span class="w">        </span>#<span class="w"> </span><span class="n">Apply</span><span class="w"> </span><span class="n">torque</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">sensors</span>
+<span class="w">        </span><span class="n">apply</span><span class="p">(</span><span class="n">torque</span><span class="p">)</span>
+<span class="w">        </span><span class="n">q_obs</span><span class="p">,</span><span class="w"> </span><span class="n">x_obs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">read_sensors</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Extend this pseudocode to handle the perturbation scenarios from Part 4.</p>
+<p>{fill:textarea}</p>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>PID</th>
+<th>MPC</th>
+<th>Active Inference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Objective function</td>
+<td>Error minimization</td>
+<td>Cost over horizon</td>
+<td>Free energy minimization</td>
+</tr>
+<tr>
+<td>Perception integration</td>
+<td>None (assumes known state)</td>
+<td>State estimator separate</td>
+<td>Unified with control</td>
+</tr>
+<tr>
+<td>Adaptation</td>
+<td>Requires gain scheduling</td>
+<td>Requires model updates</td>
+<td>Precision learning</td>
+</tr>
+<tr>
+<td>Computational cost</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+<tr>
+<td>Robustness to noise</td>
+<td>{fill}</td>
+<td>{fill}</td>
+<td>{fill}</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ul>
+<li>Pio-Lopez, L., Nizard, A., Friston, K., &amp; Pezzulo, G. (2016). Active Inference and robot control. <em>Journal of the Royal Society Interface</em>, 13(122).</li>
+<li>Lanillos, P., et al. (2021). Active Inference in Robotics and Artificial Agents. <em>Frontiers in Neurorobotics</em>.</li>
+<li>Oliver, G., Lanillos, P., &amp; Cheng, G. (2021). An empirical study of active inference on a humanoid robot. <em>IEEE Transactions on Cognitive and Developmental Systems</em>.</li>
+</ul></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Action in Robotic Systems</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>In Active Inference, robotic action is fundamentally about:
+A) Executing pre-programmed motion sequences without feedback
+B) Changing the world to make sensory observations conform to the agent's predictions and preferences
+C) Moving as fast as possible
+D) Consuming maximum electrical power</li>
+</ol>
+<p><strong>Answer: B</strong> -- Action in Active Inference is the process of changing the environment so that sensory observations match the agent's preferred states. A robot reaches for an object not because it received a "reach" command, but because its generative model predicts (prefers) the sensory state of holding the object.</p>
+<ol>
+<li>How does Active Inference differ from traditional PID control for a robot joint?
+A) Active Inference cannot control robot joints
+B) PID minimizes a setpoint error using fixed gains, while Active Inference minimizes free energy using precision-weighted prediction errors, unifying perception and control under one objective
+C) PID is always superior to Active Inference
+D) There is no difference whatsoever</li>
+</ol>
+<p><strong>Answer: B</strong> -- PID control uses fixed proportional, integral, and derivative gains to minimize error. Active Inference treats the setpoint as a preferred sensory state and adjusts actions to minimize variational free energy, naturally handling uncertainty and adapting precision weighting based on context.</p>
+<ol>
+<li>Motor primitives in the Active Inference framework are best understood as:
+A) The smallest physical components of a motor
+B) Attractors in a dynamical generative model -- preferred trajectories that the agent's actions attempt to realize
+C) Random motor commands
+D) Factory default settings</li>
+</ol>
+<p><strong>Answer: B</strong> -- Motor primitives are encoded as attracting trajectories in the generative model. The robot "expects" its joints to follow a specific trajectory, and motor commands are generated to minimize the prediction error between expected and actual joint positions.</p>
+<ol>
+<li>A robot arm performing compliant manipulation uses force feedback to adjust its grip. In Active Inference terms, this is:
+A) A failure of the control system
+B) Active inference on proprioceptive predictions -- the robot adjusts its actions to minimize the discrepancy between predicted and observed contact forces
+C) The robot ignoring its sensors
+D) An open-loop control strategy</li>
+</ol>
+<p><strong>Answer: B</strong> -- When the robot predicts a certain contact force but observes a different one, the prediction error drives action updates. Increasing grip force or reducing approach speed are actions that bring observed forces closer to the predicted (desired) profile.</p>
+<ol>
+<li>What is the relationship between action and the active states of the Markov blanket?
+A) Active states are the robot's internal computations
+B) Active states are the sensory inputs to the robot
+C) Active states are the channels through which the robot exerts physical influence on the world -- motors, grippers, propellers
+D) Active states exist only in simulation</li>
+</ol>
+<p><strong>Answer: C</strong> -- Active states are the boundary states through which the robot's decisions become physical changes in the environment. Joint motors, gripper actuators, and propulsion systems are the hardware embodiment of the active component of the Markov blanket.</p>
+<ol>
+<li>In a quadruped robot, central pattern generators (CPGs) produce rhythmic gait patterns. From an Active Inference perspective, CPGs are:
+A) Unnecessary for locomotion
+B) Dynamical generative models that produce periodic proprioceptive predictions, with sensory feedback modulating the pattern to maintain stable locomotion
+C) Static lookup tables of joint angles
+D) Only found in biological systems</li>
+</ol>
+<p><strong>Answer: B</strong> -- CPGs generate expected joint trajectories as periodic attractors. Ground contact feedback provides prediction errors that modulate the timing and amplitude of the gait cycle, allowing the robot to adapt to terrain variations without replanning the entire gait.</p>
+<ol>
+<li>Why is Active Inference particularly well-suited for soft robot control?
+A) Soft robots do not need any control at all
+B) Soft robots have complex, nonlinear dynamics that are difficult to model precisely, and Active Inference's probabilistic approach naturally handles this uncertainty through precision-weighted prediction errors
+C) Active Inference only works with rigid robots
+D) Soft robots have simpler dynamics than rigid robots</li>
+</ol>
+<p><strong>Answer: B</strong> -- Soft robots have continuum mechanics, hysteresis, and viscoelastic properties that resist precise analytical modeling. Active Inference's probabilistic framework treats this modeling uncertainty as low precision on dynamical predictions, naturally adapting control to the actual observed behavior.</p>
+<ol>
+<li>The concept of "action as fulfilling proprioceptive predictions" means:
+A) The robot predicts what actions it will take and then does something different
+B) The motor system generates commands that drive the body to states predicted by the generative model -- the predicted joint angle becomes the desired joint angle
+C) Proprioception is irrelevant to action
+D) The robot only uses visual feedback for control</li>
+</ol>
+<p><strong>Answer: B</strong> -- In Active Inference, the generative model generates proprioceptive predictions (expected joint angles, expected forces). The motor system acts as a reflex arc that generates whatever commands are needed to make the actual proprioceptive state match the predicted one.</p>
+<ol>
+<li>A drone maintaining hover in gusty wind uses Active Inference control. When a gust displaces the drone, what happens?
+A) The drone remains displaced permanently
+B) The predicted sensory state (hover position) diverges from the observed state, creating prediction error that drives corrective motor commands to restore the preferred position
+C) The drone turns off its motors
+D) The drone updates its preferred position to wherever the gust moved it</li>
+</ol>
+<p><strong>Answer: B</strong> -- The drone's generative model predicts (prefers) the hover position. Wind displacement creates proprioceptive and inertial prediction errors. The active inference process generates corrective thrust commands that minimize these errors, returning the drone to its intended position.</p>
+<ol>
+<li>Impedance control -- regulating the relationship between force and displacement at the end-effector -- maps to Active Inference as:
+A) A concept unrelated to Active Inference
+B) Setting the precision (stiffness) of proprioceptive predictions, where high precision yields stiff behavior and low precision yields compliant behavior
+C) Maximizing free energy
+D) Removing all sensors from the robot</li>
+</ol>
+<p><strong>Answer: B</strong> -- In Active Inference, the precision of proprioceptive predictions determines how strongly the agent acts to enforce them. High precision on position predictions yields stiff, position-tracking behavior. Low precision allows observed positions to deviate from predictions, yielding compliant behavior.</p>
+<h2>Part B: Short Answer and Design Prompts</h2>
+<ol>
+<li>
+<p>Design an Active Inference controller for a robot arm that must insert a peg into a hole with tight tolerances. Describe how the generative model encodes the desired trajectory, how force feedback modifies actions during contact, and how precision weighting shifts between position control (free space) and force control (contact).</p>
+</li>
+<li>
+<p>Compare how a traditional computed-torque controller and an Active Inference controller would handle a sudden 2 kg payload increase on a manipulator's end-effector. What are the expected transient behaviors and adaptation mechanisms?</p>
+</li>
+<li>
+<p>A bipedal robot trips on an obstacle. Describe the cascade of prediction errors across the generative model hierarchy and the corrective actions at each level -- from ankle torque reflexes to balance recovery stepping to high-level path replanning.</p>
+</li>
+<li>
+<p>How would Active Inference handle the transition between free-space reaching and contact-rich manipulation (e.g., wiping a surface)? Describe the required changes in the generative model's preferred sensory states and precision allocations.</p>
+</li>
+<li>
+<p>A swarm of drones must collectively carry a large payload. Design the action component of each drone's Active Inference model, including how individual force contributions are coordinated to maintain the payload's position and orientation.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

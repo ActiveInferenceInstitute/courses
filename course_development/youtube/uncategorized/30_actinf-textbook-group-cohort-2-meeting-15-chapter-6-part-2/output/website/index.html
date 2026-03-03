@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30_Actinf Textbook Group Cohort 2 Meeting 15 Chapter 6 Part 2 - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>30_Actinf Textbook Group Cohort 2 Meeting 15 Chapter 6 Part 2</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>30_Actinf Textbook Group Cohort 2 Meeting 15 Chapter 6 Part 2</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf Textbook Group ~ Cohort 2 ~ Meeting 15 (Chapter 6, part 2)</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=Jwu2UJi5xNA">YouTube</a>
+<strong>Playlist</strong>: Uncategorized
+<strong>Duration</strong>: 53:09 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hi it's February 8th 2023 we're in meeting 15 of the octave textbook group we're in our second discussion in cohort 2 on chapter six so last week we looked at a few questions and in this modeling chapter there's many questions and topics we can come to so does anybody want to just raise a question or thought on six otherwise we will look through questions and see what we can do yeah well I I've put a few questions there that came to my mind [Music] great which one would you like to start with um so so we already talked about this last time this figure 6.1 on page 110 I believe it is and now where is it page 108. and um and my question was this vertical connection there between active States and sensory States and um I was not able to really understand why we would need to model this and I've put this into the question there um under chapter 6 when I read out that question so how is the mutual interaction between active States and sensory States meant can they mutually change their states without impacting neither internal nor external States so that means they cycle around if yes what is supposed to what is it to post model for instance put their cycle around a thousand times mutually modifying their states and then eventually arrive at a state where they change the external or internal States somehow so means my question is if they're mutually are able to change inside these Markov blankets the states without any Trace in the external or internal States then they can cut a pulled or manipulate themselves in to come into a situation where suddenly they produce a Trace and if this is allowed then I'm wondering what what are we supposed to Marble with such processes so because I mean you can then explain any arbitrary Behavior and is it is it curing complete this kind of machine that we're then trying to implement there um and um and and and basically uh and doesn't it undermine explainability of behavior I guess you got my my question but maybe I'm understanding something wrong there anyone else want to give yes please Ollie and then go on I believe those bi-directional paths between active States and sensory states are uh simply there for the model to be more comprehensive and they basically refers to they basically refer to something like reflex arcs which don't necessarily need to pass through cortical paths so that's something much more directly manipulated but of course those direct paths between active States and sensory States could be removed from the diagram and we we can talk about bypassing internal Estates or external States when the reflex are happen but I believe those direct paths are there to account for those kinds of um intrinsic or some somehow those um the behaviors akin to reflex arcs thanks Ali but but isn't this isn't this then uh the question of what you define to be internal States if you say the entire states only start up from a certain point above the spine at below it's no more internal then it's an arbitrary decision right so you could just also say that everything that happens in the hippothalamus is not part of internal States and only what is in the prefrontal cortexes and I mean how I'm I mean this is arbitrary you know and if what is the reason to have such kind of arbitrary decisions there you could then put everything into into this direct interaction or depending on where your yeah Yes actually it is to some degree an arbitrary boundary because uh as we also read in chapter six defining the mark of blanket boundary that depends on the situation we're trying to model so it's not necessarily something predefined and it depends what Behavior we're trying to model so uh yeah in sense in some sense it depends on the context and yeah but but see my point is if we are trying to model reflexes we would put this into the internal States but if we are not trying to uh I mean I mean if you allow this direct interaction between active States and sensory States you're basically isn't isn't this just like saying there is behavior that we cannot explain but we want to have it in our model I will give a thought but first Jacob yeah I was I just wanted to add that you could I I think I agree with Ali's point that it's probably there for um more I guess explainability or just to kind of owing to the fact that the active States and sensory states form like a single blank uh blanket but I think you could also think of it as enabling another loop with the internal States perhaps where if the external states are very high dimensional and you're in a partially observable state where you have like a window of observation then the active states can directly change the sensory states without necessarily changing the external States it's like um psychotic eye movement it's not changing the external States but it is changing your window of observation through action and I think that Carl mentioned in one of his talks that these arrows might also represent different levels of sophistication but I'm not totally clear on um on how that uh can be explained thanks okay a few um angles on this so I think the general uh modeler perspective is what some call an arbitrary decision others might call a model or degree of freedom so the idea that just because something is subjective or arbitrary devalues it rather that is the space in which decisions are made and so it's rarely a bad thing to have a broader family to choose from and then um let's imagine that there is oh that okay second point is the particular partition which is this one so here's the particle the blanket and the internal States and then the autonomous states which are the ones that were most interested in developing imperatives for are internal States and active States so those are called the autonomous States they're the ones like if you had total control of your mind and action and you had the optimal policy like you'd be thinking and acting optimally and then that leaves the sensory States as being what we're trying to reduce the Divergence with in terms of what we have actually observed and what we expect slash prefer okay so the particular partitioning comes into being or a defined set of variables in a Bayes graph it's not like one variable is simply internal States so depending on what model you construct there might be a variable might be internal with respect to one but then blanket with respect to another so if we were doing an isocating model like you you might be able to make a base graph where different things corresponded to differences um and then also this allows us to have a model where the entire cognitive behavior is accomplished by the blanket so you could have a model where these edges with internal states do nothing and that is corresponding to the the strange types that we talked about previously like it corresponds to an inert particle that's not doing anything that we might call truly cognitive which is to say that it's perception and action are mediated entirely by its blanket and so there are systems where the entire performance can be understood on the holograph on the blanket other systems we might want to extend that and there might be a system where this Edge is parameterized from empirical data to be zero or where you set this to be zero but another way to view this um graph is as a four by four Matrix where the edges reflect relationships so if it was just four independent variables it would look like the identity Matrix and then the off diagonal elements of that four by four Matrix reflect the causal influence of different variables on each other and so you can have the Around the Clock you could have the bi-directional Around the Clock you could have the the telepathic model where there's a direct Edge between internal and external you could fit the full 4x4 but that would be equivalent to fitting a linear regression with four variables testing for all by all interactions which you might want to do also that has the least statistical power and so in terms of which edges it makes sense to to fix to zero removing the telepathy slash telekinesis Edge is a really important one and then there's a few other edges that are removed like internal backward causing sense and external backwards causing action but that's not to say this is the only topology of the oxygen perception Loop Michael yeah so I'm just wondering how well I I said as I said no I'm trying I'm I'm trying to apply this to our translation process data so we have gaze data and keystrokes and so on and there is one observation in a translation that the it's a mixture of of priming processes sort of a partially automatized processes and monitoring processes where higher cognitive decisions or reflective thought maybe comes into play so it means that the translation is a mixture of automatized trans production routines and monitoring intervention and I'm wondering whether this model then word could be used to say that these priming processes are the direct links between sensation and action um and um and and this higher order reflective processes and so somebody maybe thinks of and which context does the translation make sense and all this whether this would then be better modeled with the other route so so in this case of course these priming processes happen in the head somewhere it's not in the spine right so translator produces nevertheless uses the head but there's priming processes and other kinds of processes do you think that makes sense to view it that way I think we can actually very quickly run the recipe and understand Ali first and then we'll come to the recipe um I think the one point that might help to understand this diagram slightly better is that uh in most uh most of the literature related to active inference nfep the word particle is used to refer to the Joint set of internal States and blanket States but in some other papers instead of particles they use system or agent so uh actually in some sense those markup blankets uh belong to the to the agent we're trying to model uh but the reason or behind distinguishing between the markup blanket and internal state is purely for modeling purposes uh I'm not sure if it makes sense uh or not but yeah so in any case those markup blankets would actually constitute parts of this ancient agent were trying to model here okay thank you let's just imagine just rapid fire you have the most translation um experience but others can like imagine um potentially what a translation setting would be so we'll just give one thought we don't need to expound on all of them but we're gonna focus on the particular partition and then we'll use that to understand like what family of action perception Loops are we actually fitting so what question are we looking to answer or what phenomena are we looking to model are you asking me sure what's an interesting question for you or for anyone about translation human translation yeah so we would like I guess try to understand translator environment interaction and how translators produce translations what are the difficulties what are the processes that goes on go on difficulties okay which data do we have we have the observations on the Markov blankets so we have case data reading patterns on the source and the target text and we have typing Behavior so the insertions and deletions that happen in the texts all right now we're going to go to the form of the generative model as we mentioned last week like it doesn't have to necessarily be in this order each time but now we're going to hear no Markov blankets need to be mentioned this is just empirically which data exists or what are we trying to model now let's think about using the ontology what are the particular partitions going to be the action States these ones do correspond to actions that you you have collected on so we have isocades which there's actually there are active models of sentence comprehension and type A so here the isocades could be understood as being selected from directions that the eye can move and the typing could be understood as like at the letter or the word scale okay what sense data or sense states are going to be incoming well I would I would I would put this eye circuits into the sense thing or the reading pattern so with an eye tracker we can see where the eyes are on the text so we can see the the items the tokens that are read so yes so the stents say could be the incoming visual perception which token is um being viewed but the the isocate is an action yeah but okay this is a policy up down left right that the eye can move to obtain a different sense state okay so they're describing random variables in a base graph they're not necessarily describing um spatially separated parts of an organism okay now this is where there's a lot of degrees of freedom in what is being modeled as the internal the external state so does anyone have a thought on what the internal or the external States might be so the way we we are trying to see this is that the internal States can be fluent so the the person can be in a steady state so they can be just looking a little bit head fluently translating so it's a kind of uh fluent production state exactly non-equilibrium steady state or there can be in a state where they are confused or hesitating we can see this by the eye gaze data going back and forth and the text revision trying out some options and so on so that's kind of a hesitation that's what in internal state in my understanding searching and well a kind of surprise uh or they could be in a state where they try to so what I think it's called um epistemic State whether or where they go ahead intentionally and try to you know activate the correct or the appropriate mental resources to be able to then use this in in a translation phase in a steady state does that make sense I I might put forth that fluency confusion hesitation or just thinking these are like categorizations that you're going to be able to delineate from the phase space of a variable and so the question is what is the variable so one option but anyone feel free to give a different option would be the external state are the true hidden semantics of the text and the internal state would be the received semantics of the text like just thinking about um numbers like we're or you know we're we're doing a cooking recipe but we're less fluent or We're translating a cooking recipe so it's three cups of sugar and two cups of flour we're going to be engaging in isocades to reduce our uncertainty about the semantics of a text but of course we can't directly see the semantics of a text what do we get incoming visual tokens what do visual tokens do visual tokens reduce our uncertainty about the semantics what do we do now that we've resolved semantics well we can take actions which constraining or if we didn't have to type this is a complex because there's like two kind of very different kinds of actions but let's just say we were just reading to understand so we're doing silence translation we're just reading and understanding something in a in a language so then if you had sufficiently resolved your uncertainty about us about the the word you'd imagine that you would take an isocade to where you expect the next piece of semantics to be resolved next word whereas if the incoming sensory States are not adequately resolving your you might pause or you might even go back and then from these from patterns of flow across the the the agent States then you could categorize those into categories like fluent reading hesitant reading distracted that's one option or one can imbue the model with like a little bit more like a more opinionated where you could say an internal state is going to be whether they're in this or that mode so just to kind of summarize that you can have internal States reflect semantics and then have a secondary categorization of different zones in that phase space or you can have a more opinionated model that is explicitly modeling transitions between for example fluent production and confusion I need to think about this our good ideas thank you yes yeah and then just just to kind of let's just continue just briefly to these last piece um how would we set up the generative well let's look at how they talk about setting up the generative model what are the variables and priors okay so here was just natural language so the semantics of a text so what should that variable be are we reading a text that's just ones and zeros or is it is there going to be are we doing genre detection and there's five genre or what is the actual State space of different variables again for typing are we going to have the state space be letters and then basically have like a transition Matrix of letters which is like some of the earliest information Theory or will we have a transition Matrix of words or a transition Matrix of motifs so those are all what some might call subjective but they're modler degrees of freedom there isn't the right answer there's just what model is made we we have actually something we call activity units so we have we can chop up the text into all the translation process into smaller pieces where we can see whether a person types or reads a text or has concurrent typing and reading and so we can chop up the timeline into smaller units which we call activity units and um and then and this I think would be the units on which we would like to um work where so the idea here is not to simulate a translation system we're we're not so much interested what is actually the text the translation being produced but or say the textual elements but rather the process elements so means how long does it take what is the interval between successive keystrokes and what is the um of what is the offset between gaze and typing typing and so on what are the gazing patterns so how how long ahead do people read in the text and so on so so it's more the temporal structure that we want to model not the not the semantic structure actually yes great so we are not trying to simulate a machine translation system yep so this all right so this could be simply like the most coarse grained typing model would be there's two affordances typing or not typing yes yeah and and again one person could say these are subjective differences between models but these are the kinds of models if one were to really do a research project on that you could compare these three models or you could say we chose to pursue a model with this state space for this reason or like which parts are fixed and which must be learned well we know that there's things that can be learned by real humans but the question is what is going to be fixed or learned in this model and fixed models are simpler computationally and they have a simpler interpretation but sometimes the function of learning then gets displaced and results in distorted behavior from other parameters so this is why modeling is an iterative process and why it involves constructing sometimes vast families of cousin models to understand the stability of different parameters because maybe once you're you enable learning on something then that might change another parameter because all of a sudden it doesn't need to be taking on some kind of role which aspects are perception like which aspects are learning like and then the last question is like how to set up the generative process interesting little hidden character what are the elements not sure if that's just my reader but that's very interesting what are the elements of a generative process and how do they differ from a generative model so the generative process the niche it could be another Octave of agent or it could just be a static text that passes tokens in order or it could be a conversant but the exact structure of the state space and then which families of statistical distributions one chooses for priors those are modular degrees of freedom there won't just be one for any natural system in in our last third what would be another good chapter six direction to go thank you there's a lot foreign the decision the choice between discrete and continuous models is more simply articulated using discrete time models okay who has a thought on why that is that's a very good question here's one possible answer um again um why is it the decision to model alternative futures contingent on policy selection is largely tied up with the choice between discrete and continuous models why are alternative futures more simply articulated with discrete time models in the discrete State space model figure 4.3 as usual hidden States past now future and I could have temporal depth even further but we're making an explicit prediction about like the hidden State at time seven if we're interested in time depth of seven and then if we have a four two affordances we're evaluating all of those combinatorics every policy which is a sequence of actions of length seven for each of those policies we're going to evaluate what the hidden States will be so you could ask under policy 22 up up down up up what would the hidden State be and then What observations might I expect so the discrete State space formulization is amenable to talking about specific moments in specific policy that are under consideration and then of course like those policies are going to be evaluated according to their expected free energy The Continuous time case is structurally similar which is the big visual message of figure 4.3 but note that while B in the discrete time case is a transition Matrix how does the time Point move into the next time point so you multiply forward with b and then that's how the hidden States move forward and that's where policy intervenes how hidden States change Through Time in the continuous time case it's a lot more like a Taylor series expansion because node 3 here is the derivative of x conditioned upon X and V causes and so in this case it's not that we're explicitly predicting at five time Steps From the future if I do this or that but rather under a given policy that's being considered there's a function that's being approximated with higher and higher derivatives so it doesn't have as straightforward of an interpretation you still could ask under this Taylor series approximation at five time steps out what's my prediction so you can ask that and you could even compare under um derivative under V 1 or V2 two different ways of taking derivatives we can evaluate so it's not that you can't evaluate the um alternate Futures contingent on policy selection and that is exactly what happens with expected free energy in continuous State space models so it is possible to compare alternate Futures and still use expected free energy only in the discrete case do we actually have sequences of actions defined along the way so so does this mean if in the non-discrete case we need to look into the seventh derivation to see what happens say seven points in time ahead no in there's a great question um you could do um you could do a Taylor series uh a depth of one so a Taylor series depth of uh with approximation of one see if there's a graph okay so let's just say we do a Taylor series with one term so it just is literally a flat line we can look ahead any depth we could look ahead a thousand time points with a Taylor series depth of one and we don't need to explicitly predict those thousand time steps whereas if we wanted a thousand time steps deep with discrete we would need to explicitly model every single step what is the B Matrix from 997 to 998 so that's the strength and the weakness of the Taylor series The Taylor series you can have a really simple um approximation oh well how about two terms let's do the green one and you could use that two-term approximation any depth and as you get um more and more terms they just like principal component Dimensions they always they always make a better and better approximation sometimes a lot sometimes a little but you always do get better so kind of like the contact zone between the true function blue cosine in this situation the contact Zone as you do higher approximations always extends out more like Brown peels off here purple peels off here and that's part of the issue is also a Taylor series and just modeling General you don't really know how well you're doing because the um the green line is not going to complain oh what's the what's the cosine approximation of 11 that's negative 200. no but the model is not going to complain Ali possible unmute Ali uh first of all sorry I have some connection problems I'm not sure if my voice is intelligible but uh one interesting point is uh actually some neuroscientists such as rich solati and senegalia into prominent Italian neuroscientists explained this choice of actions in terms of Mosaic of zones so each Zone in this Mosaic would contain information about the parameters that must be used to select the most appropriate variant of action to act on an object or okay we we did just lose um a little bit we got that part Mosaic of zones okay let's see if we can get but um so suffice to say discrete State space downside you have to explicitly model you know the upside you get to explicitly model downside you have to explicitly model so if you want to do temporal depth of 30 you need to run that out across the combinatorics of policy for a depth of 30. so the computational complexity can be extremely high which we explored in the branching time active inference discussions so here is like it makes a massive tree search so it's kind of like a chess algorithm at least some chess algorithms continuous State space has a very very defined computational complexity however it doesn't have the exact ability to say like other than just generating this smooth function you can't really say too much more like how would it have been different if I went up up up up up down versus up again we Ollie we we heard you were the Mosaic of zones so you could maybe um add the links into the page any one or two more questions that people would like to come to how about this one what is meant by variable States or observations how can States be continuous so States can be continuous a continuous variable is like one where there's a smooth knob that is controlling the value so it's like a this is like a smooth knob could be any number between zero and one it could be 0.7772 or discrete could be like zero or one or it could be one two three four five so that's how States can be continuous um what is meant by variable States or observations so variables and states basically mean the same thing like a variable is just a it's a parameter in an equation or in a program and variables take on States so the variable could be continuous between zero and one and then the state that it's in is 0.6 and then observations are one kind of variable yeah so so how about you then model the difference between the observations and the states is is there a problem is that straightforward um so so if if I had have a knob and I can turn it on and off so I have two observations for that knob or I can turn it you know like a demo or something with infinite number of observations but the knob itself is just one thing so I'm not sure yeah great I should understand that okay so we're we're doing a volume knob the nav is the territory it has like physical you know it's made of metal okay now there's multiple maps that you could make of that knob you could ask whether it's playing or not that would be a binary discrete space you could say we're gonna do um 10 volume levels this would be discrete with 10 possible States or you could do a hundred or you could do a continuous variable any number from zero to one so it's like a it's a total classic map territory question State spaces are about variables variables are in the map if I make a variable corresponding to weight like if a person it could be over under a hundred pounds it could be integers it could be tenths of a pound that's still a discrete State space it could be a continuous number Jonathan wrote you could then imagine that observations could be discreet even when States may be continuous it may be that we can't tell the difference between the very finely graded States yes great Point like just noticeable difference um and when you do discretized models it becomes like a trade-off where the more coarse graining you do the simpler the model is but you're making bigger and bigger buckets that are clumping together more and more disparate things whereas if you do this really fine scale discretized model like hundredth of a pound and we're going to be weighing people then you can get all these like bizarre phenomena where it's like well if they're 137.1 pound then this is the case but if they're 137.2 then this is the case so finding that optimal discretization is a big Topic in optimization in general and in modeling um and then another piece to remember the state space of the external state so we're still not even talking about the territory itself but the state space of the external variables so our model of temperature it doesn't have to be the same as the cognitive model of the agents so we could say um in the simulation temperature is an integer and then they're going to have three states cold just right and hot or here in the external World it could be continuous variable and then in the brain it could be three state or it could be a continuous variable or it could be anything else what matters is the observation coming in and then how that gets fit into the generative model Ali yeah apologies I got disconnected uh as I was saying some neuroscientists explain the choice of appropriate action in terms of the Mosaic of zones uh and by that they mean that each zone is the Mosaic that would contain uh the the information to act upon the affordances or the goal-directed sequences to act upon the affordances so as an example uh take for instance the task of picking up a cup of coffee uh this seemingly simple task can be done in various ways depending on whether we are drinking from it in that case which we would probably grasp it by the handle or if we're washing it so in that case we would probably be grasp it by the rim or moving it out of the way uh which would which in that case the grass can get by the body would probably be the more appropriate sequence of action so which of these actions is deemed appropriate for a task is worked out within that Mosaic of zones which they also correlates with some cortical areas which Maps those Mosaic zones quite literally in order to afford the agent this ability to pick the appropriate action in each situation thank you cool that is our second discussion on chapter six so six in summary outline some of the most important design choices that have been made in setting up an active inference model we have explored a lot of auxiliary routes and questions and hopefully this conveys some of the richness and excitement and openness around making a model because even for simple phenomena there's many ways to do it and even for simple phenomena it's not just about making one model and parameterizing it once it's like an iterated modeling process where you're generating these families of models they provided a recipe some guidelines and thoughts they point out that it doesn't have to be followed in that particular order this sets up the remainder of the book which puts the ideas into practice through a series of illustrative examples designed to showcase the theoretical principles presented in the first half of the book in everything that follows the only differences amongst the example rest on the design choices we have highlighted part two illustrates systems with different boundaries discrete or continuous Dynamics at different time scales and that will all be implementing active so we're going to head into chapter 7 next time chapter 7 is active inference in discrete time we're going to look at generative models that have a discrete time characteristic chapter 8 is continuous time so that distinction was kind of raised earlier in figure 4.3 chapter 7 and 8 are like a pair that are going to highlight those two different possibilities chapter 9 is about data driven analysis and chapter 10 as a conclusion chapter so that concludes this session thanks everybody for the uh great times and we'll come back next week for chapter seven thank you</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

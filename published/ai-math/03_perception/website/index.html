@@ -782,6 +782,7 @@ body.dark-mode .question-container:hover {
 <li>Derive the <strong>belief updating equations</strong> for perception: how the recognition density q(s) is updated in response to new observations.</li>
 <li>Formalize <strong>message passing</strong> in hierarchical generative models — how prediction errors propagate up and predictions propagate down.</li>
 <li>Connect these equations to the <strong>predictive coding</strong> scheme of Rao and Ballard (1999).</li>
+<li>Show the relationship between predictive coding and the <strong>Kalman filter</strong> as a special case.</li>
 </ol>
 <h2>Introduction</h2>
 <p>Perception in Active Inference is the optimization of the recognition density q(s) given new observations o — updating beliefs about hidden states to minimize free energy. This module derives the mathematical equations governing this process, showing how they give rise to the message-passing architecture known as predictive coding.</p>
@@ -817,14 +818,45 @@ body.dark-mode .question-container:hover {
 <li>The system iterates until prediction errors are minimized</li>
 </ol>
 <p>Rao and Ballard (1999) showed this scheme reproduces classical receptive field properties in V1. Friston (2005) showed it arises naturally from free energy minimization in hierarchical Gaussian models.</p>
+<h3>4. Worked Example: Two-Level Gaussian Perception</h3>
+<p>Consider a simple two-level model:</p>
+<ul>
+<li><strong>Observation</strong>: o = s₁ + ε₁, where ε₁ ~ N(0, σ₁²)</li>
+<li><strong>Prior</strong>: s₁ = s₂ + ε₂, where ε₂ ~ N(0, σ₂²)</li>
+</ul>
+<p>The prediction errors are:</p>
+<ul>
+<li><strong>Level 1</strong>: ε₁ = o - μ₁ (observation minus current belief)</li>
+<li><strong>Level 2</strong>: ε₂ = μ₁ - g(μ₂) = μ₁ - μ₂ (belief minus prior prediction)</li>
+</ul>
+<p>The belief update for μ₁ balances these two errors:</p>
+<p><strong>dμ₁/dt = π₁ · (o - μ₁) - π₂ · (μ₁ - μ₂)</strong></p>
+<p>At equilibrium, solving dμ₁/dt = 0:</p>
+<p><strong>μ₁* = (π₁ · o + π₂ · μ₂) / (π₁ + π₂)</strong></p>
+<p>This is the <strong>precision-weighted average</strong> of the observation and the prior prediction — the classic Bayesian posterior mean. High sensory precision (π₁ &gt;&gt; π₂) pulls the belief toward the observation; high prior precision (π₂ &gt;&gt; π₁) pulls it toward the prior.</p>
+<h3>5. Connection to the Kalman Filter</h3>
+<p>For a linear-Gaussian dynamical system, predictive coding reduces exactly to the <strong>Kalman filter</strong>:</p>
+<ul>
+<li><strong>Prediction step</strong>: μₜ|ₜ₋₁ = A · μₜ₋₁|ₜ₋₁ (top-down prediction)</li>
+<li><strong>Update step</strong>: μₜ|ₜ = μₜ|ₜ₋₁ + K · (oₜ - C · μₜ|ₜ₋₁) (prediction error correction)</li>
+</ul>
+<p>where K = Σ · Cᵀ · (C · Σ · Cᵀ + R)⁻¹ is the Kalman gain — a precision-weighted scaling of the prediction error. The Kalman filter is thus a special case of Active Inference perception in linear-Gaussian state-space models.</p>
+<p>This connection shows that Active Inference perception is a <strong>generalization</strong> of classical optimal estimation: the Kalman filter handles linear dynamics; Active Inference handles arbitrary nonlinear generative models through gradient descent on free energy.</p>
 <h2>Derivation Exercises</h2>
 <ol>
 <li>For a two-level Gaussian model p(o|s₁) = N(g₁(s₁), Σ₁) and p(s₁|s₂) = N(g₂(s₂), Σ₂), derive the prediction error form of the free energy gradient ∂F/∂μ₁.</li>
 <li>Show that the fixed point of dμ/dt = -∂F/∂μ corresponds to the MAP estimate of the posterior p(s|o).</li>
 <li>Derive the precision-weighted prediction error message passing for a three-level hierarchy.</li>
+<li>Show that the two-level Gaussian case with linear generative mappings recovers the Kalman filter update equations.</li>
 </ol>
 <h2>Conclusion</h2>
-<p>Perception is gradient descent on free energy, implemented through precision-weighted prediction error message passing in a hierarchical generative model. This is the formal foundation of predictive coding. Module 04 extends this to the mathematics of precision and attention.</p></div>
+<p>Perception is gradient descent on free energy, implemented through precision-weighted prediction error message passing in a hierarchical generative model. This is the formal foundation of predictive coding, which generalizes the Kalman filter to nonlinear, hierarchical settings. Module 04 extends this to the mathematics of precision and attention.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Rao, R. P. N. &amp; Ballard, D. H. (1999). Predictive coding in the visual cortex: A functional interpretation of some extra-classical receptive-field effects. <em>Nature Neuroscience</em>, 2(1), 79-87.</li>
+<li>Friston, K. (2005). A theory of cortical responses. <em>Philosophical Transactions of the Royal Society B</em>, 360(1456), 815-836.</li>
+<li>Kalman, R. E. (1960). A new approach to linear filtering and prediction problems. <em>Journal of Basic Engineering</em>, 82(1), 35-45.</li>
+</ul></div>
 </div></section>
 
 <section id="lab_protocols">

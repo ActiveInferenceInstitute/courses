@@ -1,0 +1,66 @@
+# Practice Quiz: Body Science — Module 06: Learning
+
+**Name**: ______________________ **Date**: ______________________
+
+---
+
+## Part A: Multiple Choice
+
+1. When your immune system encounters a new virus and then "remembers" how to fight it next time, this is an example of:
+
+A) A coincidence
+B) Learning at the cellular level — your immune system updates its model to predict and respond to the virus faster
+C) Your immune system guessing randomly
+D) Something that only the brain can do
+
+2. Neuroplasticity means:
+
+A) Your brain is made of plastic
+B) Your brain physically changes its connections based on experience — it rewires itself as it learns
+C) Your brain stops changing after age 5
+D) Learning doesn't change the brain at all
+
+3. Why does sleep help you learn?
+
+A) It doesn't — sleep is just rest
+B) During sleep, your brain replays experiences and strengthens the neural connections for what you learned, updating its models
+C) You learn new things while dreaming
+D) Sleep erases what you learned during the day
+
+4. "Use it or lose it" in the brain means:
+
+A) You should exercise every day
+B) Neural pathways that get used frequently get stronger, while those that aren't used get weaker — your brain prunes connections that aren't making useful predictions
+C) You lose brain cells every day no matter what
+D) This only applies to muscles, not the brain
+
+5. A baby learning to walk falls down hundreds of times. Each fall is:
+
+A) A failure that should make the baby give up
+B) A prediction error that gives the baby's brain data to improve its balance and movement models
+C) Proof that babies aren't meant to walk
+D) Random and teaches nothing
+
+6. When you practice a sport and the movements start to feel automatic, your brain has:
+
+A) Stopped learning
+B) Moved the skill from conscious processing to a more efficient, automatic system — freeing up mental resources for new challenges
+C) Deleted the information
+D) Run out of storage space
+
+7. Stress hormones (like cortisol) can hurt your ability to learn because:
+
+A) Stress has no effect on the brain
+B) High cortisol can interfere with the brain's ability to form new connections and update models
+C) Stress makes you smarter
+D) Cortisol only affects your muscles
+
+---
+
+## Part B: Short Answer
+
+1. Explain how your **immune system learns** from a vaccination. What is the "prediction error"? How does the immune system "update its model"? How does this help it respond faster to the real virus?
+
+2. Describe how **neuroplasticity** works using a real example (learning an instrument, a language, or a sport). What is happening in your brain as you practice? Why does it get easier over time?
+
+3. A student stays up all night to cram for a test. Using what you know about how the brain learns during **sleep**, explain why this strategy is less effective than studying for shorter periods over several days with good sleep in between.

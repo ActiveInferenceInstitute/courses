@@ -1,0 +1,95 @@
+# Practice Quiz: Systems in Robotic Systems
+
+## Part A: Multiple Choice
+
+1. In Active Inference, what defines the boundary of a robotic system?
+A) The physical casing of the robot
+B) The Markov blanket -- the statistical surface separating internal and external states
+C) The range of its wireless communication
+D) The workspace volume defined by its kinematic reach
+
+**Answer: B** -- The Markov blanket is the formal boundary that separates a system's internal states (joint configurations, onboard computations) from external states (objects, terrain, humans), mediated by sensory states (encoders, cameras) and active states (motors, grippers).
+
+2. A UR5 collaborative manipulator has six revolute joints. Which of the following are sensory states of its Markov blanket?
+A) The torques applied by its servo motors
+B) The angular positions reported by its joint encoders
+C) The position of the workpiece on the table
+D) The temperature of the factory floor
+
+**Answer: B** -- Joint encoders are sensory states because they carry information from the physical world (actual joint positions) into the robot's internal processing. Motor torques are active states, while the workpiece position and floor temperature are external states.
+
+3. In a ROS2-based mobile robot, what role do topic subscriptions play from an Active Inference perspective?
+A) They are the active states of a node's Markov blanket
+B) They are the internal states of the system
+C) They are the sensory states of a node's Markov blanket
+D) They are external states that the node cannot influence
+
+**Answer: C** -- In the ROS2 architecture, a node's subscriptions are its sensory states (information flowing in), while its publications are active states (information flowing out). This maps directly to the Markov blanket formalism.
+
+4. What is the primary engineering benefit of nested Markov blankets in robotic system design?
+A) Faster motor control loops
+B) Reduced manufacturing costs
+C) Conditional independence between subsystems, enabling modular design
+D) Elimination of all sensor noise
+
+**Answer: C** -- Nested Markov blankets ensure that subsystems (navigation, manipulation, perception) can be designed, tested, and maintained independently. A lidar processing node does not need to know about gripper forces because they are conditionally independent given their shared interfaces.
+
+5. Variational free energy in a robotic system is best understood as:
+A) The electrical power consumed by the robot's motors
+B) The divergence between the robot's generative model predictions and actual sensory observations
+C) The total entropy of the robot's joint space
+D) The mechanical energy stored in the robot's springs
+
+**Answer: B** -- When a robot's predicted lidar scan matches the actual scan, free energy is low. When an unexpected obstacle appears, prediction error spikes and free energy increases, driving the robot to either update its model (perception) or act to change the world (active inference).
+
+6. System identification for a robotic manipulator involves estimating:
+A) The color of the robot's housing
+B) Link masses, inertia tensors, and joint friction parameters
+C) The emotional state of the human operator
+D) The Wi-Fi signal strength in the factory
+
+**Answer: B** -- System identification calibrates the robot's proprioceptive generative model -- the internal model of its own body dynamics. Accurate link masses, centers of gravity, inertia tensors, and friction parameters allow the robot to predict its own motion and minimize tracking errors.
+
+7. A mobile robot navigating a warehouse encounters an obstacle not present in its stored map. According to Active Inference, what happens?
+A) The robot shuts down immediately
+B) Free energy spikes, and the robot must either update its map (perceptual inference) or navigate around the obstacle (active inference)
+C) The robot ignores the obstacle because it is not in the model
+D) The robot's Markov blanket collapses
+
+**Answer: B** -- When sensory observations diverge from predictions, free energy increases. The robot resolves this by either updating its beliefs (adding the obstacle to its map) or acting to restore expected sensory states (navigating around the obstacle).
+
+8. Which of the following describes the accuracy-complexity trade-off in robotic generative models?
+A) More accurate models always perform better in all environments
+B) A highly detailed model of one specific environment is accurate there but brittle elsewhere, while a more generic model trades precision for robustness
+C) Simpler models always outperform complex ones
+D) The trade-off only applies to biological systems, not robots
+
+**Answer: B** -- A robot with a detailed model of one factory layout may fail in a different building. A more generic navigation model sacrifices some precision but generalizes across environments. This is a core principle in robust robotic system design.
+
+9. In the Markov blanket of a UR5 manipulator, what determines the information capacity of each sensory channel?
+A) The color of the sensor
+B) The resolution, bandwidth, latency, noise characteristics, and dynamic range of the sensor
+C) The robot's programming language
+D) The number of humans in the workspace
+
+**Answer: B** -- A joint encoder with 0.001-degree resolution defines the precision of angular position information. A force sensor with 0.1 N resolution defines the granularity of contact sensing. These quantifiable properties shape the information flow across the Markov blanket.
+
+10. What distinguishes Active Inference from traditional robotics architectures at the systems level?
+A) Active Inference uses more expensive hardware
+B) Active Inference treats perception and control as separate independent problems
+C) Active Inference unifies perception and control under a single objective -- minimizing variational free energy
+D) Active Inference eliminates the need for sensors
+
+**Answer: C** -- Traditional architectures typically separate sensing, planning, and control into independent pipelines. Active Inference provides a unified framework where both belief updating (perception) and action selection (control) emerge from a single objective function.
+
+## Part B: Short Answer and Design Prompts
+
+1. A warehouse robot uses wheel odometry, a 2D lidar, and an IMU for localization. Describe the Markov blanket of this robot's navigation subsystem, identifying specific sensory states and active states.
+
+2. Explain how the concept of nested systems applies to a drone delivery platform that has a flight controller, a navigation system, a package handling mechanism, and a communication module. What are the interfaces between subsystems?
+
+3. A factory robot's generative model was calibrated for daytime lighting conditions. At night, the overhead lights switch to a different spectrum. Using the language of variational free energy, explain what happens and how the robot might adapt.
+
+4. Design the system boundaries for a soft robotic gripper that must handle both rigid machine parts and delicate produce. What sensors would define its sensory states? What actuators would define its active states? How would you handle the nested subsystem between individual fingers and the whole hand?
+
+5. Compare and contrast the Markov blanket of a ROS2 node running a Kalman filter for state estimation with the Markov blanket of the physical robot. How does the software boundary relate to the physical boundary?

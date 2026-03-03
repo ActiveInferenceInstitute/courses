@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_Systems - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>01_Systems</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>01_Systems</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>The Creative System: How Inventive Environments Function as Active Inference Systems</h1>
+<h2>Executive Summary</h2>
+<p>Creativity does not happen in a vacuum — it happens in a system. Every inventive environment, from a lone tinkerer's garage to a corporate R&amp;D lab to an open-source maker space, constitutes a dynamical system with boundaries, internal states, flows of materials and information, and constraints that paradoxically enable rather than hinder creative output. This module applies Active Inference to understand how creative systems are organized, why certain environments produce more inventions than others, and how the interplay of constraints, affordances, and feedback loops shapes what an inventor can perceive, think, and build. By understanding creativity as a systems-level phenomenon, inventors can deliberately design the conditions under which breakthrough ideas emerge.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Define the boundaries (Markov blanket) of a creative system and identify its internal states, sensory inputs, and active outputs</li>
+<li>Analyze how constraints within a creative system function as priors that shape the space of possible inventions</li>
+<li>Compare different creative system architectures (solo inventor, innovation lab, maker space, hackathon) in terms of their free energy landscapes</li>
+<li>Explain how feedback loops within creative systems enable self-organization and the emergence of novel solutions</li>
+<li>Design or modify a creative environment to optimize the balance between exploration (generating novelty) and exploitation (refining solutions)</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. The Markov Blanket of a Creative System</h3>
+<p>Every creative system — whether it is Thomas Edison's Menlo Park laboratory, a university engineering workshop, or a kitchen table covered in parts — has a boundary that separates its internal creative processes from the external world. In Active Inference terms, this boundary is a Markov blanket: a statistical partition that mediates all interactions between the system's internal states and its environment.</p>
+<p>The sensory surface of a creative system includes all the channels through which information enters: the inventor's perceptions, incoming materials, reference books, internet searches, conversations with mentors, observations of user behavior, and market signals. The active surface includes everything the system outputs: prototypes, sketches, patent applications, demonstrations, and published designs.</p>
+<p>Understanding this boundary matters because it determines what the creative system can learn from. Edison deliberately designed Menlo Park to have a rich sensory surface — he collected materials from around the world, hired specialists from diverse fields, and maintained extensive correspondence networks. His laboratory was not just a place to build things; it was an information-gathering apparatus. The laboratory's Markov blanket was specifically engineered to admit the widest possible variety of sensory evidence, giving the internal creative processes more to work with.</p>
+<p>By contrast, a creative system with a narrow Markov blanket — say, an inventor working alone without access to diverse information sources — will necessarily generate solutions constrained by its limited inputs. The quality of invention is bounded by the quality of the system's interface with the world.</p>
+<h3>2. Constraints as Generative Priors</h3>
+<p>One of the most counterintuitive insights from Active Inference applied to creativity is that constraints are not obstacles to invention — they are the very things that make invention possible. In the framework's language, constraints function as priors in the generative model: they define the space of expected outcomes and thereby give structure to the creative search process.</p>
+<p>Consider the famous story of the invention of the Post-it Note. Spencer Silver at 3M had developed a "failed" adhesive — one that was weak rather than strong. The constraint of working at 3M, a company focused on adhesives and coatings, provided the prior that any useful innovation should involve bonding surfaces. Art Fry's additional constraint — needing bookmarks that would not fall out of his hymnal — further narrowed the search space. Without these priors, the weak adhesive would have remained a curiosity. With them, it became a billion-dollar product.</p>
+<p>TRIZ, the systematic theory of inventive problem solving developed by Genrich Altshuller, provides a formal catalog of common constraints (contradictions) and their resolutions. From an Active Inference perspective, TRIZ's 40 inventive principles represent a library of priors that inventors can deliberately adopt to structure their creative search. The constraint is not the enemy of creativity; the constraint is the generative model that makes creative prediction possible.</p>
+<p>This principle extends to artistic and design constraints as well. The sonnet form does not prevent poetry — it enables it. A design brief does not prevent innovation — it focuses the search. The hackathon's time constraint does not prevent good solutions — it forces rapid iteration and prevents over-analysis.</p>
+<h3>3. Free Energy Landscapes of Creative Environments</h3>
+<p>Different creative environments produce different topographies of free energy — different landscapes of surprise and prediction error that shape how inventors navigate the space of possibilities. A free energy landscape maps how much surprise (prediction error) an inventor encounters as they move through different regions of the solution space.</p>
+<p>A highly structured environment, like a corporate R&amp;D lab with well-defined project goals, produces a relatively smooth free energy landscape with clear gradients leading toward known objectives. This is excellent for incremental innovation — gradual descent toward solutions that are not too far from existing products. Bell Labs, for instance, channeled enormous resources toward well-defined technical challenges in telecommunications, producing steady advances in materials science, information theory, and semiconductor technology.</p>
+<p>A loosely structured environment, like a maker space or open-source community, produces a rugged free energy landscape with many local minima, unexpected valleys, and sudden ridgelines. This is better for radical innovation — the kind that comes from stumbling into unexpected regions of solution space. The early Homebrew Computer Club, where Steve Wozniak demonstrated the Apple I, had this character: no fixed agenda, heterogeneous participants, and abundant raw materials for experimentation.</p>
+<p>The key insight is that neither landscape is universally better. The creative system's architecture should match the type of invention sought. If you need to optimize an existing design, create a smooth landscape with clear metrics. If you need a breakthrough, create a rugged landscape with diverse inputs and minimal predetermined structure.</p>
+<h3>4. Feedback Loops and Self-Organization in Creative Systems</h3>
+<p>Creative systems are dynamical — they change over time in response to their own outputs. The feedback loops within a creative system determine whether it converges on a solution, oscillates between alternatives, or spirals into ever-more-novel territory.</p>
+<p>The most fundamental feedback loop in any creative system connects action to perception: the inventor builds something (action), observes the result (perception), updates their model (cognition), and builds again. This is the perception-action loop of Active Inference, and it is the engine of iterative design. Each cycle reduces free energy by bringing the inventor's model closer to reality — or, equally, by bringing reality closer to the inventor's model.</p>
+<p>But creative systems also have higher-order feedback loops. In a team setting, one inventor's prototype becomes sensory evidence for another inventor's generative model. The IDEO design firm institutionalized this through its "build to think" methodology: rapid prototyping is not about producing a final product but about generating artifacts that other team members can perceive, critique, and build upon. Each prototype is a message in a distributed creative system, reducing collective uncertainty about what works.</p>
+<p>Self-organization emerges when these feedback loops interact. No central controller decided that Silicon Valley should become a hub of technology innovation; it emerged from reinforcing loops of talent migration, venture capital availability, university research output, and successful exits that created new founders. The system organized itself around a low-free-energy attractor in the space of possible economic configurations.</p>
+<h3>5. Affordances and the Ecology of Invention</h3>
+<p>James Gibson's concept of affordances — the action possibilities that an environment offers to an agent — maps directly onto the Active Inference concept of expected free energy under different policies. An environment's affordances define the set of actions an inventor can take that are likely to reduce uncertainty about their goals.</p>
+<p>A well-designed creative system maximizes relevant affordances. The MIT Media Lab, for example, deliberately places disparate research groups in physical proximity, creating affordances for cross-pollination. A woodworking shop affords cutting, joining, and shaping in ways that a software IDE does not. A chemistry set affords mixing, heating, and observing reactions. Each set of affordances defines a different region of invention space that becomes accessible to the agent.</p>
+<p>The concept of "adjacent possible," introduced by Stuart Kauffman and popularized by Steven Johnson, describes the set of inventions that are one combinatorial step away from the current state of knowledge and technology. From an Active Inference perspective, the adjacent possible defines the affordances of the current creative system at a civilizational scale. The smartphone was not in the adjacent possible in 1950 — the necessary components (capacitive touchscreens, compact batteries, wireless networks, miniaturized processors) did not yet exist as combinable elements. By 2007, all those components were available, and the smartphone became an affordance of the technological system.</p>
+<p>Inventors who understand the ecology of their creative system — who know what tools, materials, knowledge, and collaborators are available — can navigate the adjacent possible more effectively. They can also deliberately expand it by importing affordances from other domains, a process known as "exaptation" in evolutionary biology and "technology transfer" in engineering.</p>
+<p>The relationship between affordances and creative output is not merely theoretical. Research on innovation clusters consistently shows that the density and diversity of affordances in a creative system predicts its inventive productivity. Route 128 near Boston had comparable technical talent to Silicon Valley in the 1970s, but its corporate structures created fewer cross-pollination affordances — engineers worked in vertically integrated companies that discouraged lateral movement and informal knowledge sharing. Silicon Valley's culture of job-hopping, garage startups, and informal networking created a denser affordance landscape, ultimately producing more radical innovations. The lesson for individual inventors: deliberately diversify the affordances in your creative system by seeking tools, materials, knowledge, and relationships from outside your primary domain.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: Bell Labs as a Creative System (1925–1985)</h3>
+<p>Bell Labs, the research arm of AT&amp;T, was arguably the most prolific creative system of the 20th century. Its inventions include the transistor (1947), the laser (1958), the Unix operating system (1969), the C programming language (1972), and the cellular telephone concept (1947). Analyzing Bell Labs through Active Inference reveals why it was so productive.</p>
+<p><strong>Markov blanket</strong>: Bell Labs maintained an extraordinarily rich sensory surface. Researchers were encouraged to attend conferences across disciplines, subscribe to journals outside their field, and collaborate with university scientists. At the same time, the organization had a well-defined active surface: inventions were channeled into AT&amp;T's product lines, creating clear output pathways.</p>
+<p><strong>Constraints as priors</strong>: The mandate to improve telecommunications provided a strong but not overly narrow prior. This constraint was specific enough to focus research (everything had to relate, even loosely, to communication) but broad enough to encompass materials science, information theory, acoustics, computer science, and human factors. The constraint generated rather than limited the space of inquiry.</p>
+<p><strong>Feedback loops</strong>: Bell Labs institutionalized feedback at multiple scales. Weekly colloquia shared results across groups. Long hallways (deliberately designed by architect Eero Saarinen) forced chance encounters. Published internal technical memoranda circulated findings rapidly. Each loop accelerated the creative process by reducing redundant effort and cross-pollinating ideas.</p>
+<p><strong>Outcome</strong>: Over six decades, Bell Labs produced seven Nobel Prizes and thousands of patents. Its creative output was not the result of individual genius alone but of a system deliberately designed to optimize the conditions for invention.</p>
+<h3>Case Study 2: The Shenzhen Hardware Ecosystem</h3>
+<p>The Shenzhen electronics ecosystem in southern China represents a radically different creative system architecture. Rather than a single organization, it is a distributed network of thousands of small manufacturers, component suppliers, design houses, and assembly operations concentrated in a geographic area roughly the size of London.</p>
+<p><strong>Markov blanket</strong>: The system's sensory surface includes global demand signals (Alibaba, Amazon), trade show intelligence (Canton Fair), and continuous scanning of competitor products through reverse engineering — a practice called "shanzhai" (mountain fortress) manufacturing. The active surface produces everything from smartphone accessories to drones to medical devices.</p>
+<p><strong>Constraints as priors</strong>: The primary constraints are speed and cost. Products must be designed, prototyped, and brought to market in weeks rather than months. This prior dramatically shapes the creative process: solutions must be achievable with available components, manufacturable at scale, and testable through rapid iteration. These constraints have produced extraordinary manufacturing innovations, including modular phone architectures and novel assembly techniques.</p>
+<p><strong>Affordances</strong>: The ecosystem's physical concentration creates affordances unavailable elsewhere. An inventor can walk through Huaqiangbei electronics market, select components from hundreds of vendors, bring them to a nearby PCB fabrication shop, and have a working prototype within days. This density of affordances compresses the perception-action loop to its minimum cycle time, enabling more iterations per unit time than any other hardware ecosystem on Earth.</p>
+<p><strong>Self-organization</strong>: No central authority designed the Shenzhen ecosystem. It emerged through reinforcing feedback loops: early manufacturers attracted component suppliers, who attracted more manufacturers, who attracted skilled workers, who attracted service providers. The system found a low-free-energy attractor and has remained there for three decades, continuously adapting to new product categories.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 02 (Creative Agent)</strong>: The creative system provides the environment in which creative agents operate; the agent's capabilities are shaped by the system's affordances</li>
+<li><strong>Module 05 (Creative Action)</strong>: The feedback loops described here are the mechanisms through which creative action generates evidence for model updating</li>
+<li><strong>Module 08 (Planning the Creative Process)</strong>: System-level design determines the planning horizons and exploration-exploitation tradeoffs available to inventors</li>
+<li><strong>Section 1, Module 01 (Invention as a System)</strong>: Provides foundational systems concepts; this module extends them to the specific context of creative environments</li>
+<li><strong>Section 3, Module 01 (Prototyping Systems)</strong>: The creative system's output — prototypes — becomes the primary unit of analysis in Section 3</li>
+</ul>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Active Inference Term</th>
+<th>Invention Application</th>
+<th>Key Insight</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Creative system boundary</td>
+<td>Markov blanket</td>
+<td>Lab walls, team membership, information channels</td>
+<td>Richer boundaries enable more diverse inventions</td>
+</tr>
+<tr>
+<td>Design constraints</td>
+<td>Priors / generative model</td>
+<td>Briefs, budgets, material limits, time pressure</td>
+<td>Constraints focus rather than limit creativity</td>
+</tr>
+<tr>
+<td>Innovation landscape</td>
+<td>Free energy landscape</td>
+<td>Incremental vs. radical innovation topology</td>
+<td>Match environment structure to desired innovation type</td>
+</tr>
+<tr>
+<td>Iterative design</td>
+<td>Perception-action loop</td>
+<td>Build-test-learn cycles</td>
+<td>Each cycle reduces uncertainty about the solution</td>
+</tr>
+<tr>
+<td>Available tools and materials</td>
+<td>Affordances</td>
+<td>Workshop equipment, component availability</td>
+<td>Affordances define the adjacent possible</td>
+</tr>
+<tr>
+<td>Emergent innovation hubs</td>
+<td>Self-organization</td>
+<td>Silicon Valley, Shenzhen, maker spaces</td>
+<td>Creative systems self-organize around low-free-energy attractors</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Friston, K. (2010). The free-energy principle: a unified brain theory? <em>Nature Reviews Neuroscience</em>, 11(2), 127–138.</li>
+<li>Johnson, S. (2010). <em>Where Good Ideas Come From: The Natural History of Innovation</em>. Riverhead Books.</li>
+<li>Gertner, J. (2012). <em>The Idea Factory: Bell Labs and the Great Age of American Innovation</em>. Penguin Press.</li>
+<li>Lindtner, S. (2020). <em>Prototype Nation: China and the Contested Promise of Innovation</em>. Princeton University Press.</li>
+<li>Kauffman, S. (2000). <em>Investigations</em>. Oxford University Press.</li>
+<li>Gibson, J. J. (1979). <em>The Ecological Approach to Visual Perception</em>. Houghton Mifflin.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Mapping Your Creative System</h1>
+<h2>Objective</h2>
+<p>Map the creative system in which you currently operate (or intend to operate) as an Active Inference system. By the end of this lab, you will have a concrete diagram of your creative system's Markov blanket, an inventory of its constraints and affordances, and an actionable plan for modifying the system to better support your inventive goals.</p>
+<h2>Materials / Prerequisites</h2>
+<ul>
+<li>Your own invention idea or project (any domain, any stage)</li>
+<li>Paper and pen/pencil (or digital drawing tool)</li>
+<li>A timer</li>
+<li>Access to your actual workspace or a clear memory of it</li>
+<li>Completed reading of Module 01: The Creative System</li>
+</ul>
+<h2>Part 1: Define Your Creative System's Boundary (12 minutes)</h2>
+<p>Every creative system has a boundary — the Markov blanket — that separates its internal processes from the external environment. Your task is to identify this boundary for your own inventive practice. Think broadly about what constitutes your creative system. It is not just your desk or workshop — it includes your digital tools, your reference materials, the people you regularly consult, the websites you browse for inspiration, and the communities you participate in. The Markov blanket includes everything that mediates between your internal creative states and the external world.</p>
+<p><strong>Step 1 (4 min):</strong> Describe the physical and informational boundaries of your creative system. Where do you invent? What physical spaces, digital tools, and social networks constitute your system?</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 2 (4 min):</strong> Identify all the <strong>sensory inputs</strong> — the channels through which information enters your creative system. Fill in the table below:</p>
+<table>
+<thead>
+<tr>
+<th>Input Channel</th>
+<th>Type (Physical / Digital / Social)</th>
+<th>Frequency (Daily / Weekly / Rare)</th>
+<th>Quality (Rich / Adequate / Poor)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3 (4 min):</strong> Identify all the <strong>active outputs</strong> — the ways your creative system produces results. These include prototypes, sketches, writings, conversations, demonstrations, and any other externally-visible creative products.</p>
+<table>
+<thead>
+<tr>
+<th>Output Channel</th>
+<th>Type</th>
+<th>Frequency</th>
+<th>Who Receives It?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<h2>Part 2: Inventory Your Constraints (12 minutes)</h2>
+<p>Constraints are the priors of your creative system — they define the space of possible inventions. Most inventors think of constraints as obstacles, but the Active Inference framework reveals them as generative forces that focus the creative search space. A project with no constraints has no direction — every possibility is equally likely, which means no possibility is salient. Constraints create the gradient that tells you which direction to explore. In this exercise, you will catalog all the constraints operating on your creative system and then practice the critical skill of reframing blocking constraints as focusing ones.</p>
+<p><strong>Step 1 (6 min):</strong> List every constraint on your creative system. Be thorough. Include constraints you normally take for granted.</p>
+<table>
+<thead>
+<tr>
+<th>Constraint</th>
+<th>Category (Time / Money / Materials / Knowledge / Social / Regulatory)</th>
+<th>Severity (Hard / Soft / Self-imposed)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2 (6 min):</strong> For each constraint, answer: Does this constraint <strong>focus</strong> your creative search (making it more productive) or <strong>block</strong> it (preventing valuable exploration)? Reframe at least two "blocking" constraints as "focusing" constraints by identifying what they force you to do differently.</p>
+<p fill:textarea="fill:textarea">Constraint 1 reframe:</p>
+<p fill:textarea="fill:textarea">Constraint 2 reframe:</p>
+<p fill:textarea="fill:textarea">What did you learn from the reframing exercise?</p>
+<h2>Part 3: Map Your Affordances (12 minutes)</h2>
+<p>Affordances are the action possibilities your creative system offers. James Gibson's concept of affordances — what the environment offers to an agent — maps directly to the Active Inference concept of available policies. Your creative system's affordances determine the adjacent possible: the set of inventions you could create next given your current tools, materials, knowledge, and relationships. An inventor with access to a 3D printer, a soldering station, and a machine shop has a different adjacent possible than one with only a laptop and internet access. Neither is better — they simply afford different types of invention. This exercise maps your current affordances and identifies gaps you might want to fill.</p>
+<p><strong>Step 1 (4 min):</strong> Walk through your workspace (physically or mentally). List every tool, material, resource, and relationship that enables creative action:</p>
+<p>{fill:textarea}</p>
+<p><strong>Step 2 (4 min):</strong> Now consider your "adjacent possible" — what inventions or invention steps are within reach given your current affordances? List at least five things you could prototype or test with your existing resources, without acquiring anything new:</p>
+<ol>
+<li>{fill:textarea}</li>
+<li>{fill:textarea}</li>
+<li>{fill:textarea}</li>
+<li>{fill:textarea}</li>
+<li>{fill:textarea}</li>
+</ol>
+<p><strong>Step 3 (4 min):</strong> Identify three affordances that are <strong>missing</strong> from your creative system — action possibilities that would significantly expand your adjacent possible. For each, note how you might acquire it:</p>
+<table>
+<thead>
+<tr>
+<th>Missing Affordance</th>
+<th>What It Would Enable</th>
+<th>How to Acquire It</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<h2>Part 4: Analyze Your Feedback Loops (12 minutes)</h2>
+<p>Feedback loops are the engine of creative progress. Every time you build something, observe the result, update your understanding, and build again, you are completing one cycle of the perception-action loop that drives Active Inference. The speed and richness of these loops determine how quickly your creative system can learn and improve. Some loops are fast (you build a sketch and immediately see whether the proportions work); others are slow (you launch a product and wait months for market feedback). Understanding which loops are operating and how quickly they cycle gives you leverage to accelerate your creative process.</p>
+<p><strong>Step 1 (6 min):</strong> Identify the feedback loops currently operating in your creative system. For each loop, note how quickly it cycles and what information it carries:</p>
+<table>
+<thead>
+<tr>
+<th>Feedback Loop</th>
+<th>Cycle Time</th>
+<th>Information Carried</th>
+<th>Effect on Creativity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Example: Build something, see if it works</td>
+<td>Hours to days</td>
+<td>Does the prototype function?</td>
+<td>Rapid iteration on design</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 2 (6 min):</strong> Draw a diagram of your creative system showing:
+- The boundary (Markov blanket) as an outer shape
+- Internal components (you, tools, materials, knowledge bases)
+- Sensory inputs as arrows entering from outside
+- Active outputs as arrows leaving
+- Feedback loops as curved arrows connecting outputs back to inputs
+- Constraints as labels on the boundary</p>
+<p fill:textarea="fill:textarea">Upload or describe your diagram here:</p>
+<h2>Part 5: Design Intervention (12 minutes)</h2>
+<p>The purpose of mapping a creative system is not academic — it is to identify specific, actionable modifications that will improve the system's inventive capacity. In Active Inference terms, you are acting on your own creative system to reduce the free energy between what it currently produces and what you want it to produce. The most effective interventions target the aspect of the system that is currently the biggest bottleneck: a missing sensory input (you are not getting important information), a blocking constraint (a rule that prevents productive exploration), a missing affordance (a tool or relationship you need), or a broken feedback loop (you are building without testing, or testing without learning). Based on your analysis in Parts 1 through 4, design one concrete modification.</p>
+<p fill:textarea="fill:textarea"><strong>The modification I will make:</strong></p>
+<p fill:textarea="fill:textarea"><strong>Which aspect of the system it changes (boundary / constraints / affordances / feedback loops):</strong></p>
+<p fill:textarea="fill:textarea"><strong>Why I expect this to improve creative output (in Active Inference terms):</strong></p>
+<p fill:textarea="fill:textarea"><strong>How I will measure whether the modification worked:</strong></p>
+<p fill:textarea="fill:textarea"><strong>Timeline for implementing this modification:</strong></p>
+<h2>Discussion / Debrief Questions</h2>
+<ol>
+<li>
+<p>Which element of your creative system analysis surprised you most? Was it an input you did not realize you were relying on, a constraint you had not recognized, or an affordance you were not using?</p>
+</li>
+<li>
+<p>Compare your creative system to one of the case studies from the module reading (Bell Labs or Shenzhen). What structural feature do they have that your system lacks? Is it feasible to add it?</p>
+</li>
+<li>
+<p>How does the distinction between "smooth" and "rugged" free energy landscapes apply to your current creative system? Is your system better suited for incremental or radical innovation? Is that what you need?</p>
+</li>
+<li>
+<p>If you were designing a creative system from scratch for your invention project — with unlimited resources — what would it look like? How does it differ from your current system, and what is the most important single difference?</p>
+</li>
+<li>
+<p>Consider the relationship between your creative system and the broader ecosystem (your industry, your community, the state of technology). How does the broader system constrain or enable what your creative system can achieve?</p>
+</li>
+</ol></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: The Creative System</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>In Active Inference terms, the boundary between a creative system and its environment is called:
+   A) The prediction error surface
+   B) The Markov blanket
+   C) The free energy gradient
+   D) The affordance threshold</p>
+</li>
+<li>
+<p>Why did Edison's Menlo Park laboratory produce so many inventions?
+   A) Edison was the sole genius and worked alone
+   B) The lab had unlimited funding and no constraints
+   C) The lab was designed with a rich sensory surface and diverse information inputs
+   D) The lab focused exclusively on a single technology domain</p>
+</li>
+<li>
+<p>According to the Active Inference framework, constraints in a creative system function as:
+   A) Obstacles that must be removed for creativity to flourish
+   B) Priors in the generative model that focus creative search
+   C) Random noise that interferes with the creative signal
+   D) External forces that have no effect on internal creative processes</p>
+</li>
+<li>
+<p>A "rugged" free energy landscape in a creative environment is most conducive to:
+   A) Incremental improvements to existing products
+   B) Meeting tight project deadlines
+   C) Radical innovation and unexpected discoveries
+   D) Systematic optimization of known parameters</p>
+</li>
+<li>
+<p>The "adjacent possible" in invention refers to:
+   A) The set of inventions that are one combinatorial step from current knowledge
+   B) The nearest patent in a prior art search
+   C) The competitor's most recent product
+   D) The next scheduled milestone in a project plan</p>
+</li>
+<li>
+<p>In the Shenzhen hardware ecosystem, what system-level feature most accelerates invention?
+   A) Central government planning of all manufacturing activities
+   B) Geographic concentration of suppliers reducing perception-action loop cycle time
+   C) Strict intellectual property enforcement preventing copying
+   D) Standardization on a single product category</p>
+</li>
+<li>
+<p>Self-organization in creative systems (like the emergence of innovation clusters) occurs because:
+   A) Government agencies deliberately create them through policy
+   B) A single visionary leader coordinates all participants
+   C) Reinforcing feedback loops drive the system toward low-free-energy attractors
+   D) Market forces always produce geographically concentrated industry</p>
+</li>
+</ol>
+<h2>Part B: Short Answer / Analysis</h2>
+<ol>
+<li>
+<p>A startup has three engineers working from home in different cities. Their creative system has wide sensory inputs (internet, diverse backgrounds) but very slow feedback loops (they share work via email once per week). Using Active Inference concepts, diagnose the problem and propose two specific modifications to their creative system that would improve inventive output.</p>
+</li>
+<li>
+<p>Consider a hackathon with a 48-hour time constraint and a theme ("build something that helps elderly people stay connected"). Analyze how these constraints function as priors. What regions of the solution space do they make more likely? What regions do they make less likely? Is this focusing effect beneficial for the participants' creative output?</p>
+</li>
+<li>
+<p>You are designing a maker space for a community center. The space will serve inventors from diverse backgrounds — artists, engineers, hobbyists, students. Using the Active Inference concepts from this module, specify three design decisions you would make regarding (a) the physical boundary of the space, (b) the tools and materials provided, and (c) the social structures for interaction. Justify each decision in terms of Markov blankets, affordances, or feedback loops.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+# Lab: Perception as Prediction
+
+> **Learning Goal:** Experience and analyze the constructive, predictive nature of perception.
+
+## Part 1: Experiencing Illusions
+
+**Instructions**: Look up and try each of the following illusions (search online for images/videos), then explain each using the predictive processing framework.
+
+1. **The Hollow Mask Illusion**: Search for a rotating hollow mask video. What does your brain predict? What is the prediction error?
+2. **The Checker Shadow Illusion** (Adelson): Squares A and B are the same shade of gray. Why does your brain perceive them as different?
+3. **The McGurk Effect**: Search for a video demonstration. What happens when audio "ba" is paired with visual "ga"?
+
+For each, state: (a) the prediction, (b) the sensory data, (c) the prediction error, (d) how the brain resolves the conflict.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 2: Precision in Action
+
+> **Learning Goal:** Explore how confidence weighting shapes perception.
+
+**Scenario analysis**: For each situation, explain how precision changes and what effect it has on perception.
+
+1. You hear a strange noise at night when home alone vs. when with friends.
+2. You're reading a text message while walking in bright sunlight vs. in a dimly lit room.
+3. A doctor examines an X-ray of a familiar pathology vs. a rare and ambiguous case.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 3: Prior Expectations Shape Perception
+
+> **Learning Goal:** Demonstrate that identical sensory data produces different percepts depending on priors.
+
+**Exercise**: Consider the ambiguous text: "I saw her duck."
+
+1. List at least two different interpretations.
+2. What prior knowledge changes which interpretation you select?
+3. Find another example of an ambiguous sentence or image and analyze it the same way.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 4: When Prediction Goes Wrong
+
+> **Learning Goal:** Analyze cases where the predictive system produces distorted perception.
+
+**Case studies**: For each condition, explain how predictive processing might account for the symptoms.
+
+1. **Charles Bonnet Syndrome**: Blind or visually impaired people sometimes "see" vivid hallucinations of faces, animals, or patterns.
+2. **Phantom Limb Pain**: Amputees often feel pain or sensation in a limb that no longer exists.
+3. **Déjà Vu**: The strong feeling that you have experienced a current situation before.
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Part 5: Reflection
+
+In 150 words, consider: If all perception is prediction, what is the relationship between perception and imagination? Are they the same process running in different "modes"?
+
+
+<div style="border: 1px solid #ccc; border-radius: 4px; min-height: 96px; padding: 8px; margin: 8px 0; background-color: #fafafa;"><em style="color: #999; font-size: 0.85em;">Write your response here</em></div>
+
+
+## Lab Summary
+
+| Part | Skill Practiced | Key Concept |
+|------|----------------|-------------|
+| 1 | Illusion analysis | Prediction vs. sensory data |
+| 2 | Precision reasoning | Confidence weighting |
+| 3 | Linguistic analysis | Prior expectations and ambiguity |
+| 4 | Clinical reasoning | Prediction errors in pathology |
+| 5 | Philosophical reflection | Perception vs. imagination |

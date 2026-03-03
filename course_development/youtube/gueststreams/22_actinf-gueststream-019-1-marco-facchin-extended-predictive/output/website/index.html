@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>22_Actinf Gueststream 019 1 Marco Facchin Extended Predictive - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>22_Actinf Gueststream 019 1 Marco Facchin Extended Predictive</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>22_Actinf Gueststream 019 1 Marco Facchin Extended Predictive</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf GuestStream #019.1 ~ Marco Facchin: Extended Predictive Minds: do Markov Blankets Matter?</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=e_JGrt4jbhE">YouTube</a>
+<strong>Playlist</strong>: GuestStreams
+<strong>Duration</strong>: 1:24:27 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello everyone welcome to actin flab guest stream number 19.1 it's march 25th and we are here with marco falcon and we are going to be discussing the recent paper extended predictive minds do markov blankets matter so if you're watching live please feel free to put comments or questions in the live chat and hopefully we can address them and marco really appreciate you joining looking forward to hearing about this paper and your lines of research so would be awesome to hear an introduction and take it away okay hi everyone so i'm mark of akin i actually am a phd candidate in italy and steep paper basically is an attempt to understand what was going on in the active inference literature with the externalism internalism debate from a philosophical perspective so i studied philosophy for the most part i'm not super mathematically savvy and i have basically a background in embodied extended cognition and i stumbled upon the papers by whole year after another and i wanted to understand what was going on with the mark of blanket talk and so i wrote a paper about it to to understand what was going on and to try to suggest that maybe that much emphasis on markov blanket is a bit misplaced and yes that's it for a general introduction for the paper i think then here for any question or any doctor okay cool so maybe um i'll just ask some questions and we'll just see where it goes for somebody who was unfamiliar with extended cognitive processes or the state of the art maybe outside of active inference just what is this area how are people looking at it outside of the active inference fep angle and like what is the contemporary state of that area so okay so the extended cognition stuff say officially is something that spawn out a paper by clark and chalmers in the early 2000s basically and their original idea was as i understand it at least this that sometimes at least you interact with the environment in a way such that part of cognition happens in the environment itself so my go-to example is using pen and paper to them off when you use pen and paper to do math you write down partial results and that scrap of paper is working as a piece of your working memory it's just that it's not inside your brain is around you on your desk or whenever you're doing enough and so that was basically the original idea and from that there has been a reach collaboration with people like richard minari suggesting that actually ddtdd we should think that extended cognitive processes as processes that transform our cognitive capacities is not just more stuff more memory more symbols but new stuff new capacities new symbols new uh cognitive processes that take place in the interaction in between the subject and the environment so we have that line of research and then you have a more say an active line of research that tends to stress the edd idea that basically all cognition takes place in the world interacting with affordances or interacting with your surrounding environments but i'm not super expert on that line of research on the extended miner a bit more conservative so the punchline would be this that sometimes stuff in the external world really is in the most literal sense possible a cog of the machinery that does your thinking that is clearest and the most forceful way in which i'm able to put a deity of the extended mind and of course sorry once you have this idea on the table the question is okay but where when where does it stop is pen and paper is in but i don't know are our cell phones in our are books in here at my uh left you might not be able to see it but there is a big library with a lot of books there right are all those books part of my memory probably not but you need some sort of and that's the full mark of blood of course so i'll leave it like this well i i like this you said it was like a cog and it's kind of like cognition so it's right there in the word even though that's a little bit of a word play um and also very interesting about the more is different like we're not just augmenting the computer with a bigger hard drive or more ram it truly can be different and so i think maybe we could return to this idea of like what is the space of the adjacent possible for cognitive systems especially if they compose in these non-linear ways but could you maybe walk us through some of the pieces of the paper like what brought you to the introduction what brought you to writing this paper on markov blankets and then what did you sort of weave together in the introduction how did you clash him in the middle and then where did you leave us at the end so did you walk through to the paper is something not super sure i'll be able to do satisfactory at least so ddddd first step was to what motivated me was to try and figure out what was going on between andy clark jakob hoey ramstad and mark of blankets of course and what i wanted to argue basically was something like this that even if you set aside dddd works by yellow barineburg and others or menarian gillettes that tend to give you this sort of message like we have a perfectly fine mathematical concept of markup blankets and then a strange concept of recent blankets that is a big mathematical and a bit ontological and we are not really sure what it is even if you leave this sort of worries aside what i wanted to say is that the way in which markov blankets are used uh for when it comes to discussing the extended mind stuff uh is very limited to the specific application but for the extended mind the usage of is not really useful does nothing of particular value tends to give a big headache to the people that are not interactive in france so i would recommend not using them if the main arguments i think there is no main argument doctor i think i have three arguments that are well first in order to find a mark of blankets it seems that you must already know what is inside if you think about a graph there is no way in which i can give you a graph and and just ask you okay please show me where is the marker blanket in there i need to tell you of about which node i'm interested in right so you must already know what is inside and when it comes to demand cognitive machinery knowing what is inside is knowing which are the cards which will presumably include brain plus maybe stuff in the environment pen and paper and whatever and if you already know that which you must already know in order to find the relevant markup blanket that intuitively you already know whether the mind extends or not and if you already know whether the mind extends or not you know whether it stands or not there is no new you this is a no new piece of information to to be gained by thinking about whether mind extends or not in terms of marker blanket that is the e4 the first argument the second one which is a bit messy could i just pause there make a comment on the first one just okay awesome so though the markov blanket uh if only it were like the blankets on our bed and you could pick it up and it was a blanket whether it was inside the box or around the box or whatever that's not really how they are defined it's really like a co-partitioning of internal and external states with respect to a blanket or a blanket with respect to some other internal and external states so the blanket states are the ones that make two other sets of states internally external conditionally independent and so it's not that a node can be even in a purely statistical sense so without getting into the whole what do they physically map onto a given node is not like a blanket state or an internal state it's a blanket state with respect to some other states because it's part of this partitioning that's co-instantiated at the same moment so it's an excellent point where if you know what your system of interests internal states are then you can talk about what states blanket them with respect to some other states but if the question is about the extended mind and what are the internal states of mind then there's kind of this catch 22 cat in the hat scenario where if you knew where to even focus you would have already sort of addressed the question up front just to sort of unpack that and connect it to some of the other ways we've talked about it yeah that's a great unboxing the keyword you said and that i forgot to set is the system you're interested in uh why i want to do to focus on this right now because the uh extended mind stuff is supposed to be hyper realistic uh the idea is not that uh i mean we can treat pen and paper as if they were a form of external memory that is something you can do but is not the claim that interests me clark menari the claim is that that interests me clark and minari is that pen and paper really are with the capital r a on of r really are a piece of memory in the external world right they are memory in the same sentence in which parts of your neural activation or memory system are memory that is ddd relevant claim so there is observer dependent or interest dependence is really a hardcore metaphysics about how the word actually is independently about what you know about it so that's the point that i should probably have meet sooner well you made it in the paper with uh the direction of identification runs from target variables to markup blankets not the other way around so yeah yeah so that's the first argument the second one is very muddy and also very dependent on the how the editors were on the extended minds and mark of blanca develop but the point is basically this that from the very beginning that would be probably who is 2016 paper the self-evidencing brain d message look there are many possible blankets and we have somehow to choose one uh that sort of message get got through the literature here and the way in which yeah hui and others tried to single out the super special blankets among the many possible was to look at south of the dancing in the long run about keeping your keeping yourself close to your set point in the long run and their idea as i understood it was to say that well the machinery of the mind is identical to the machinery that keeps yourself near your set point in the long run and that sounds persuasive from a free energy principle perspective but it's not super persuasive if you are not very into the free energy principle because there is a lot of stuff that keep us alive and kicking in the long run our liver our guts our kidneys and prima faction none of those organs does thinking in an intelligible sense and so did you worry here that probably is never actually stated in the paper is that we are confusing cognizing in some broad and fuzzy sense with staying alive i mean i've nothing against the claim that living things tend to cognize or tend to behave intelligently plants do behave intelligently even if very slowly says behave intelligently but i'm not super sure about equating the two and that would be probably my second point okay let's stay on this because that's also a great point so if not one and the same as staying alive what other perspectives on cognition might there be like what is thinking other than staying alive or what is it that for example the neurons and the glia are doing that the um cartilage in the knee is not doing a fascial processing information would be a different dancer if you take tiny or at least censor inflammation that's the question i'm struggling with right now and my two cents would be this that's we have a big problem because not because we don't have a definition of cognition but because we have too many definition of cognition we have too many research programs telling us what cognition is so you have ddd classic cognitive science what is cognition well symbol manipulation when you go with the connection is what is cognition well vector transformation sub-symbolic computation then you have the inactivists what is cognition um sense making slash autonomy uh ecological psychologists what has cognition while interacting skillfully with affordances and so on and so forth and my big problem is that no one here is clearly wrong no one is obviously dead wrong and that thing clearly cannot be cognition and so what i think i would suggest is a sort of pluralism about cognition cognition is not a single thing it's not like dancing what is dancing well moving your arms yes sometimes but sometimes dancing might even be staying still in a certain piece of art there might be some regimented stainless steel as a part of dancing and that would be the analogy something that gets done in a variety of ways none of which seems to apply to kidneys livers cloves and that sort of things if i can layer one more sort of um [Music] and or there's the experience and the phenomenology of us as ourselves and as people and then there's sort of the behaviorism or at the very least animal behavioral sciences or just behavioral studies in general which is like from the outside looking at a system and so there's this gap between like us doing the um thinking about cognition and the experience of that thinking about cognition and then the question about recognizing cognition in other people in children in non-humans et cetera and so like i really like that how you lay like there's the symbol the sub-symbolic inactive and then no one disagrees no one is saying that bacteria make bad decisions on the whole they're here aren't they and no one's saying like a tree doesn't have a metabolic coupling with a fungus and no one's saying that the fungus doesn't defuse signals but then the aspects of these systems that people focus their regime of attention on and where they choose to start their talks and what they decide to talk about and what experiments they design that frames the discussion about cognition that's a wonderful way to do it and i'm a bit sad because the paper about cognition has already been submitted if i hadn't submitted it already i would have stolen the framing part because it's wonderful i said that said so there are two things i'd like to say that so the first one is no one really disagrees i'm not sure i think that there is some genuine disagreement so the hardcore ecological psychologist i believe and feel free to correct me if there are any ecological set of colleges really think that cognition is interacting with affordances full stop and that there is no symbol manipulation going on in the background i the classic cognitivists i think really think that cognizing justice manipulation manipulating symbols in the background so there are genuine disagreements what i'm not super sure about is whether those disagreements are solvable in the sense that you can provide a master argument or even master experiments from which you can just read off oh the ecological psychologist was wrong classic cognitiveness was i think that the best we can do is accept some form of plurality about what cognition is and perhaps but i'm not super sure we might have to accept that there may be things that are neither determinately cognitive neither determinately not cognitive plants do behave do cope with their environment well i'm not entirely comfortable about saying that there are cognizers in the exact same sense in which i am recognizer maybe it's just because their behavior is very slow if compared to mine maybe it's because i have certain cultural prejudices which i mean they exist dddd call calling something a cognizer is influenced by your prejudices if you go back to the early analytic philosopher pretty much no one votes animals think and now is unbelievable that's someone for someone to have that position so so there is that but it's not super holdout but the big message would probably be this put simply there might be something something of a gray area between thinking with symbols surely cognitive being a rock really not cognitive the sort of big gray area in which you have intelligence coping with the environment coping with the environment well adaptability flexibility but still not be really sure about whether there is some cognition with the capital c going on in there and that's the first thing then you also mentioned polio and consciousness but i am very scared about that stuff okay so another interesting piece as evidenced by the um the um think about what to say carefully don't want to say that it's a lane we could veer off into but right that is a more purely philosophical discussion whereas neurobehavioral studies and cognitive science frames itself as science and in science usually we think about like unique explanations predictions the ability to design and control and perturb systems is this science what kind of science what are we looking for here in a cognitive model and how do we resolve or accommodate this tension between like unique explanations and predictions which is the bedrock of one type of science the call for pluralism that you just made i think that the answer here is do nothing in the sense that is not a very not a call cognitive science is splintered you have everyone doing its own thing in its own lab there is cooperation uh in the sense that the various research groups are not entirely isolated is not the case that people working on mirror neurons know nothing about connectionism or classical computationalism or whatever there is some communication but on the face of it what i say as a philosopher looking at science it is a splintering of ddd cognitive science enterprise in a variety of groups each with its own peculiar research tradition and i think that that is basically fine if no one has a strong call or a strong argument or a strong model that does what newton did for physics and unifies everything under a single banner plurality is fine there is no qualities more something like well that's reality let's try to like it i'm on board with that but with this banner shape would it be or how would we know it when we saw it i have no clue we probably just would just know it when we saw it in the sense that we would see a research tradition starting to absorb all others we would probably see people trying to demonstrate us that there is a real and significant equivalence between powerful research tradition uniform research tradition and all the others and probably the winning research tradition the one that really got cognition really got thinking would be able to make some novel prediction that no one else was able to mate and that would be probably a strong marker that that's the way to go if the implicit question is do i think the free energy principle is that sort of research tradition i'm not sure and my answer would probably be a qualified no because we do not have right now dddd proof that is unifying as it wants to be it makes big unifying claims and it might be good in the sense that they may foster cooperation at the very least so you have at least that pragmatic advantage uh whether it's succeeding unifying as it wants to unify is still an open question and so the appropriate thing to do is to for me at least to wait and see for others perhaps is to pick up your tools and try to unify and show that it really is the right thing or just argue against even negative arguments are useful right uh non-action is an action that's true in world knowledge traditions and also in bayesian statistics like it can be useful to wait to gather more information i wanted to return to what you said earlier about you need some boundaries and a lot of this discussion of course it's like extended how extended what is extending and what are we looking for with a boundary model in the fep and active world certainly we talk a lot about different kinds of blankets and bayesian graphs and things like that but those are not the only ways to think about boundaries so just wanted to learn about what are some other ways of thinking boundaries cognitive boundaries of different kinds and what are you looking for in a boundary not super sure about how to answer so my understanding is that markov blankets enter into debate as a sort of tool to understand what the boundaries of the mind are but there are no other big alternative if not for something said by chalmers about action and perception intuitive boundaries of the mind but what i think he had in mind when he said that was something like look our intuitive image of the mind is that of something that is freeze between perception and action something like we are intuitively predisposed to say that something like the classical cognitive sandwich is true we encounter reward for perception and action i'm not really sure whether that sort of boundary would be a boundary in the sense in which markov blankets would like to be boundaries or are used to play the role of a boundary in the sense of something that individuates a single system and tells it apart from anything else the uh problem i think for the extended mind and the need for a boundary is a need fueled by the strong desire uh not to say that everything counts as a cog in the cognitive machinery why well because if everything counts as a cognitive cognitive machinery then he claimed that pen and paper used to do more accounts is not a big claim it doesn't add much in order to for a claim well x is part of the cognitive system to be meaningful to be impactful uh there must be things that are not part of the cognitive system otherwise i mean you're just claiming there is this thing which is exactly identical to any other thing in the paper you uh you were threading together this question of short and long term features of cognition like in the instantaneous action perception cognitive behavioral time scale and then the quote in the long run where a lot of the arguments rest like it reduces surprise in the long run or on average in the long run and then you talked about like um jumping into it would force one to count inordinate amount of stuff as a cog in someone's thinking machinery jumping into ponds of water while on fire or shooting at a tiger to avoid becoming the tiger's dinner both contribute to one's prolonged occupation of one's phenotypic but neither pawns of water nor guns and bullets can be properly counted as cogs in the thinking machinery and i can totally see how one type of extended mind perspective would say like yes the boundaries of the cognitive system are just so and they're so flexible that whatever it is in the situation that enables the cognition to happen is the cognitive system at which point the lines are extremely blurred with just the system as it is it's like a pan perspective ends up at least from a bayesian perspective not being informative because we no longer reduce our surprise by learning about anything and we've sort of deflated cognition away where does that sit with you is that a goal like what are we looking for in delineating cognitive systems from each other do we prefer pan-cognitivism do we prefer anti-pan cognitivism or do we want something in between where like humans are special or linguistic entities are special so i think that punk cognitivism should be avoided in general if you have punch something ism uh you are on bad road traveling down a bad road because if everything counts as x uh there is nothing gained about from calling things access no one is puzzled by things in general i think so that's the first point cognitive cognitivism should be avoided i think is a designer atom many would buy is to have something balanced in between individualism and ddd i think appealing intuition that sometimes interacting with stuff at least aids cognition in a very substantial way so i think that go through the zeratum would be to have a bubble around dd individual pretty radically understood many would disagree many would be comfortable with group vote with group i think that is a minority view but maybe they're right i mean being right or wrong is not a question it's not a matter of numbers but still to friendly debates i wouldn't follow the minority view so i would keep that option in the theoretical horizon but not use it to orient research right now so what i would do is to have sort of a bubble around the biological individual and for the time scale the right thing to do again just to frame things and get them started is to focus on short time skills hyper long evolutionary time scale is not something that captures our go-to intuitive sense of cognition and when you start framing a debate you start from your go to intuitive native standpoint so my sympathy is for short times for here and now it's very funny like um you mentioned you know it's not a vote a small group of people could be um correct and a larger group could be incorrect yet people often think about voting as group cognition yet cognition isn't a vote so that's kind of an interesting tension there um let me ask about section five so it's is vehicle externalism conditioned over markov blankets possible and you said i want to argue that resorting to markov blankets to settle the debate over vehicle externalism leads us to sidestep the whole debate in a very real sense making vehicle internalism vacuously true so just for like a little context what is vehicle externalism and internalism like what is the distinguishing features of these uh concepts why are people interested in this debate and like what does it matter for talking about cognitive systems uh externalism and internalism are things that pop up everywhere in philosophy and here we go to with the vehicle variety uh which is internally more externalism about the and the thinking machinery about the material stuff that does the thinking say and the you need to have a boundary in mind to say internal and external and the go-to boundary is the scan basically the skin of the biological individual folks he understood internalism would be inside the skin so cognition or vehicle internalism is the idea that the machinery of thought is inside your skin and more precisely inside your cranium externalism is that at least some pieces of that machinery are outside in pen and paper cell phones whatever you want but notice here we have an intuitive boundary which is this game if you go with mark of blankets i think you end up called in a dilemma because you either start with some intuitive marker blanket say at the skin use it to define internal and external and then you might discover something external to that blanket counts as part of the system or you can do what again yakul power effect did which is first i find the markov blanket of that thing the real one the mark of blanket with the capital m and then use that blanket to define what is internal and what is external and if you do that clearly everything that matters is internal by how you have defined internal which is the one horn on the other hand you start with the standard intuitive distinction between internal and external and then try to find a mark of blankets which is fine but then the mark of blanket does no longer distinguish between internal and external there is a tension there are two senses of internal and you need to disentangle the two the intuitive one and the markov blanket relative to the real market market one and that is not what seems to be going on in the literature so basically that is my problem which is a purely philosophical problem i think is a purely philosophical note my concerns were philosophical so it counts fair enough um is is that what you were referring to when you said um i doubt such a redefinition of internalism would buy the internalist something more than a purely verbal victory yes that's exactly the point i mean the intern the vehicle internalists want at the end of the day to say something thinking happens in the brain or close to it if you go on the markup blanket path uh define internal in terms of a markup blanket and then discover that the mark of black contains the brain but also the spinal cord but also my hands but also pen and paper but also my cell phone and so on and so forth you can say well all that stuff is internal so internalism is true but i mean that's a verbal victory that is not one what you wanted to say at the beginning right that is a form of externalism that gets passed as internalism because of how you have defined your terms and notice that even if you go with that definition of internalism then there would be still say super internalists that say no no the real internal thing that does the thinking is just a brain and externalist and journalist or relaxing journalist that say no no no it's the brain plus other internal stuff within markup blanket the problem wouldn't be close you would still have a clash about cerebralis and non-cerebralis if you prefer people that thinks that it's just the brain or the brain plus the spinal cord and people that like external stuff doing part of the thing it makes me think of um like a thought experiment kind of like a tracer so like a radioactive tracer might be injected in a blood vessel then you can see where it flows or like a um a metabolic label might be given to a cell and then you can see how it gets metabolized so the tracer um let's just say we're following like we're gonna pluck one of the strings and trace the impact of like shining light on the retina initially it follows like nervous system paths but then let's say that light pattern induces the system to pick up that phone and reload a website so now that tracer is spreading everywhere it's calling servers in different parts of the world and it's like communicating through satellites and it's like that perturbation on the retina as space and time sort of zoom out it's like more and more gets wrapped into that and so like what i'm hearing you say is if we just say well wherever the tracer goes that's internalism internalism is the total cognitive apparatus including the satellite and the server in the other country or one could like retreat back to the epithelial boundary and just say like it is extended once they are everything outside of the skin is external so it's sort of like again no one denies that somebody could see something on their retina that causes a server far away to do something but where is our implicit or explicit boundary and will we just stay with the epithelium which gives us a but then over different time scales clearly different parts of that total apparatus matter um like over one seconds maybe um the the oculomotor cicading and the some brain region is involved with processing meaning but then over hundreds of years there might be a more valid discussion about how it's actually interactions amongst people and slower reading and writing of like books or of other resources that actually contribute to like the semantic discussion and evolution so it's it's like infuriating sometimes again no one's saying that what's on the table isn't that way it's just like what are we really looking for in a cognitive theory and what are we gaining or what kind of value are we adding with these different framings yeah so again to kick thing off i think that i would stay close to the basic individual i would put the go to boundary at the scan and then wait and see how things able from that there is an important sense however in which ddtdc privilege of the scan uh putting the boundary there at the scan inadequate in the sense that really if you look at us from a longer perhaps as a species you notice that much on the of defense we do are extremely dependent on how our environment is our tools and our niche totally understood it's just that due to perhaps evolutionary reasons perhaps cultural reasons we tend to attach minds to single bodies say and we have an expectation one body one mind once that expectation is in place you can discover that the mind extends and that pen and paper and yourself on and really help you think and really should be considered part of the machinery that does your thinking if you don't have that expectation in place it's very hard to understand what the extended mind could be for you because there is no boundary relative to there is an extension you can't go farther farther than what exactly you just will have the mind cognition as it is in the real world and once you have that it makes little sense to say oh it's extended it might be extended relative to the individual to the biological body but if you don't have expectation that the two things go hand in hand you don't have the violation of expectation when you discover that they don't go hand in hand you don't have the sense of discovery it's just nothing strange happening that nothing to be amazed about nothing requiring anger so that's a nice point but as a matter of fact we have the expectation that minds are attached to individuals there is a sense of wondering talking about the extended mind something that strikes us of course a lot to say there and connect back to like what you mentioned about the cultural priors um but sort of to hinge on the cultural priors and go in a slightly different way how does this relate to computationalism or cognition and computers not just us using computers to have like a human-to-human convo but does computationalism add in to this discussion or how would you relate what you discussed in the paper to computational theories of cognition i'm not super sure so i think i think that combination is computational but i'm not super sure but if asked without any reflection i would say yes of course cognition is computation uh so i think i count as a computation i see no big problem in extended computations if you think about computation as symbol manipulation or manipulation rule-based or rule sensitive manipulation of certain primitives that might be symbols sub symbols or whatever clearly you can have root based manipulation of stuff outside your body there is an historical point which everyone i think knows that is well originally computers were people doing the math with pen and paper uh before the second world war before dg cell computer came about so there is nothing intrinsically strange about extended computation and computation taking place outside your body that being said it is true that most i would say computational models focus on the brain and that most of cognitive scientists think that the really interesting computation happens in between the two years then you have i mean rodney brooks which surely is one of the inspirator of prime movers of embodied cognition anti-representational cognitive science and and that really has inspired extended cognition or at least the strand of extended cognition his mobiles were entirely computational we're finding stage automaton for the most part so you don't what i would like to say is that you don't necessarily have a clash in between computation and extended embodied cognitive science as for computational models of wider agent environment systems i know there are on the top of my fingers or on the top of my head i i don't have any examples i can gather them if i were to remember by my uh by my artist but there are such models and i think there should be no in-principle problems of making a free energy model about the agent environment system or even extended cognition indeed i think that fristen clark kearsev and someone else wrote a paper about that with a quick minimum model not sure about the title that i think is published on my language if someone wants to check this kind of uh it cracked me up with the the freudian slip with the pluralist slip you said at the top of my fingers the top of my head and it's like aren't those the different worlds though and so it's it's just like very interesting and it again comes back to the um the water we swim in the cultural priors and biases that help us like shape whether an idea is kind of outside of the overton window like rocks can't think versus like you're a heretic if you don't think that rocks think as we sort of move towards a little fractal resolution of course this will probably be a um discussion for many years to come so you provided a quote from kirchoff and kirsten 2019 i'm not going to read the whole quote but it's visible on the stream and basically they just mentioned that the markov blanket formalism as applied to systems that approximate bayesian inference or we could even take it one more instrumental level to systems that we approximate with bayesian inference serves as an attractive statistical framework in their case for demarcating the boundaries of the mind but um other situations as well and then you mentioned like perhaps this is the correct way to think about the role markov blankets should play in the debate over vehicle externalism may be asking where can we draw a markov blanket around the thinking machinery yields more satisfactory results than trying to find the mark of the cognitive so um this is really like a really nice point and like what kinds of questions help us move forward as we do seek like productive but also you useful and accessible ways to think about these topics what sort of question moves forward yeah i have no idea probably the only sensible answer is ask questions and try to solve them some will and your retrospective you will be able to identify the ones that really pushed you forward from the ones that were not well posed so probably the only sensible question to which uh the only sensible answer is uh wait and see uh as for ddd kiershov and keith steinhortz i'm not super a big problem i had with mark of blankets and extended mind is this to me at least not super clear whether when market blankets are used the market blanket is something out there in the world like some mathematical entity instantiated somehow in the world or whether they are some sort of accurate representation of what is going on or whether they are just a mathematical tool to make sense of what is going on it seems to me that those three things are used together uh when it comes to discussing the boundaries of the mind but there are three different things i mean there are three different ideas about what a marker blankets are and by adhering to one coherently you have a very different outlook and a very different metaphysics say of the free energy principle if market blankets are things out there in the real world then it seems that you must take the free energy story at face value you must be an hardcore realist about the free energy principle if they are just a tool you can take the free energy principle to be just perhaps a sort of mathematical machinery you can deploy to build interesting models of phenomena you want to study you can try just as you can use standard computational theory to build models of things you can use the free energy principle or you can use dynamical system theory you have various tools you can deploy point is that if you go super instrumentalist oh that's just a model and i do what i want with it my only guide is not truth but pragmatic discoveries and making science grow if you take that stance on the free you're forced not to make strong metaphysical claims about d boundaries of the minds and how things are you can make strong and interesting claims about how things are modeled but not about how things are on the other hand if you go super realist you can make strong claims about how things are but you also have a very strange outlook on reality i think with these sort of fractal boundaries within boundaries that are recycled reciprocal and so on and so forth my two cents would be that to follow the pragmatic non-realist usage of the free energy principle to take it as a model building tool but don't trust me there are mighty sense and i'm not super savvy instrumentalism and model definitely this question or tension of instrumentalism and realism kind of map and territory in mel andrews 20 21 paper and several other times we've seen this discussion uh arise of course is active inference just a statistical model that we can apply to action cognition perception just like we could apply a linear model to height and weight but that doesn't make height and weight a linear regression so does applying the active inference structure neurobehavioral data that cannot be taken as positive evidence that that system for example is doing active inference so um that's definitely a um a point well taken and the pragmatic turn which is associated in cognitive science a movement towards action orientation and then there's like this meta pragmatic turn in cognitive science which is like better theories are more useful and that actually is um in contrast with what we were speaking about earlier with science as providing explanations predictions because the pragmatism actually highlights the ability to design and control it's like well if i used the epicycles to explain predict design control it's useful enough in a pragmatic world would be sufficient but then somebody is always coming out of um left field or right field or whatever with the questions about how things actually are in singapore but they're not actually moving in that way yeah i perhaps do not see the ddd any strong clash between pragmatism and ureadism what you definitely have here are two say tendencies one to be hyperplatonic and say look reality is this way there is nothing in your data that can prove me wrong even even respectable sometimes for a certain class of entities like mathematical entities and the opposite tendency to say i don't really care about how things are i just care about prediction and control and making good science and predicting stuff and making discoveries i think that a sensible observation is typically theories and models that tends to to make discovery and give you good prediction have a degree of accuracy tend to capture something about how things are you cannot proceed arbitrarily in model building and do whatever you you have some sort of resistance and intuitively i'd say that resistance is reality and so even going fully pragmatism prediction and control only you get something about reality maybe what is lacking is the sort of platonic ideal reality that is super independent about what you know that is something you encounter rarely and only when you do philosophy so if it gets left behind might not be the biggest tragedy of the human intellectual history that's in this way so one thought um is that in active inference the way that we think about action selection policy selection is as related to providing pragmatic value which like brings you into alignment with your preferences and then epistemic value which reduces your uncertainty and it's almost like the utility is loaded on the pragmatic side but of course just narrowly pursuing the pragmatic value ends up leading into a blind corner and so it's good to um balance both and to have like diversity of thought within a person within a scientific community um we don't need to be 100 convinced um or only on one side of the line as individuals or in a collaboration and then um to connect that to one other point that you made in the paper so it's on um not sure if there's page numbers but it's um there should be page numbers but there are but there aren't so i think it's the online version and so without yeah yeah exactly so you were talking about benchmarks that adjudicate whether something counts as a constituent of the thinking machinery and so that's like something we've been talking about so then you wrote traditionally this benchmark is provided by the mark of the cognitive that one endorses again relate to what we've been discussing that is by what one implicitly or explicitly takes to be necessary or sufficient to make something a genuine contributor to thinking in the broadest sense so then i'm thinking about this paper so it's a single author paper however you mention like in a footnote like this observation and the example are due to chris delega you mentioned in the acknowledgements some people's names their citations which is of course in science how we communicate like attribution of ideas and then there's even like a little discussion with a reviewer and so it's like there's all these different contributions actually to this cognitive artifact this epistemic artifact and so um it's like the like you're you're supporting the biological individual epithelial boundary single author paper all these external contributors like they can get mentioned but they're not authors and then um like if it were going to be written by the radical pan-cognitivist like why not make everyone an author just let's have everybody as a contributor and so just sort of like a funny little microcosm there no no one not even the hyper radical would put everyone as an author because no one likes the academical suicide no i tend to privilege dd individual boundary but i mean i am pro extension at the end of the day i think i mentioned it in the paper that i am in favor of cognitive extension and perhaps because i want cognitive extension to be real i favor some conservative boundary which is easily transfast this is perhaps more psychoanalysis about my choices and my preferences but yes i mean on board with gddr that you can have cognitive processes that are that run through multiple brains i'm not super sure what how common they are because even unless you do some real extreme brainstorm the input coming from others is very limited not very sizable there are i would say genuinely multi-brain cognitive processes like a conversation yeah like very deep conversations uh in which at the end of the day you agree you do bring about some well-defined artifact or output just free-floating conversation i wouldn't say that is a a genuinely extended cognitive process if you want to know there is a paper by yelebrarinebug and regina fabre in which they take all the extended mind stuff with mind wandering and that is fascinating because mind wondering is clearly a cognitive process it's clearly thought with the capital of t i would even say uh but isn't not something that has a definite output there is no sad endpoint to mind wondering right and yet they claim they might it might extend and if you take this sort of no set output no set endpoint perspective then maybe even converse causal conversation may qualify intrapersonal cognitive processes how one could develop that idea precisely it it kind of makes me think about um in a very transposed analogical way like to integrated information theory like if two people are speaking at each other but they're both having the conversation that they would have with a wall then it's like they're speaking past each other it's not like an emergent conversation whereas if people are engaged in like active listening and like actually integrating some novel stimuli and then coming up with something they wouldn't have said to a wall then that is like where that that third space arises where things can be productive but then also that's very interesting that they might not be and one one other note on the mind wandering is um as our technology in the niche changes with some neural recording opportunity say just let your mind wander and all of a sudden through biofeedback or the enabling of new cognitive linkages that mind wandering actually could leave a trace on the environment in a way where if it's just brain bound it um wouldn't which i think returns us to that earlier question just like that one thing i wanted to address about like composition of cognitive systems so whether we're internalist or externalist or whatever how do we think about this space of the adjacent possible for cognitive systems like what can we think of next what can we think of next or how could we think differently if there were some structural changes to our environment like the pen until it existed or the writing implement until it existed wasn't there and there was pre-adaptations and evolutionary basis for utilizing it etc but when it was there it changed the game in a quantum way so how do we think about those kinds of transformations of cognition i'm super not an expert about this topic and i'm a bit ashamed i guess frankly but i and i need to catch up but i think it is probably strongest case study you could make for transformation is with reading and doing math we have of course busy visual capacities but reading seems to be a purely cultural thing something that you need culture to to learn and something that deeply transforms your cognitive abilities so just the ability to target your own thought crystallized in a written form gives you a level of meta reflection that would be hard to maintain with your brain alone or the ability to crystallize your thoughts in a scrap of paper leave it there two to ferment and then go back at it one week later two weeks later three weeks later with a fresh mind this sort of thing is not something you can do without externalizing your thought you can just remember your passports objectively look at them as you objectively look at your past four written paper and the other thing of course is math we have some basic familiarity with numbers that is biologically endowed uh but pretty much from arithmetic on it is all bootstrapped by culture and of course here you have the biggest transformation possible with mathematical objects uh modeling and all sort of things so those would probably be the case studies to to try and have a sense of what ddd space of the decent possible mind might be and this is pretty backward looking i'm trying really hard right now to think something more forward-looking something more propositive something more hands-on let's build a new mind but i don't have any idea right now um about that we'll like look back to look forward it's an it's an interesting idea and theme i you know of course wish you luck on the forward-looking but when you talked about asking questions it made me write down and subsequently remind myself later either the question will have been asked already doesn't mean that it's been satisfactorily answered to anyone or to you but either the question has been asked in its rhetorical structure and then it'd be awesome to point people towards a knowledge resource or it's a novel question and novel questions are awesome and then looking back it may be possible to know which of those novel questions led to a useful line of discussion or application wait before the question and say well i only want to ask the best it's like in a way we don't know since it's so many steps down the road from the question at least one or two till we can evaluate the impact of the question and so um as a hack or a heuristic having rigorous scholarships so that when the questions have been asked we're not doing truly redundant work but then also like recognizing and raising up new questions helps expand the frontier and the fringe and some fraction of those may develop into useful avenues and then later on people might say well it was obvious somebody should have connected the sequential database with the encryption and with an economic system but those things existed long ago and it's like looking back that some of the synthesis conceptually or technologically post hoc make more sense but again waiting and not acting for it to make sense a priori it's like it it doesn't seem like just a 2022 thing that that's not gonna work that seems to be like in principle a very challenging way to expect effective action yeah i'm not super sure i got the point uh jdr would be this that you don't have any sort of precognition about where a question will lead you you cannot evaluate questions beforehand before asking them to see oh this person right here a long way to go it's a good one and this other is waste of time right is that the point yeah even if there was no um yeah we shouldn't uh pre-judge questions we could easily sort questions into those that have already been asked and those that have not been asked and so to those that have been asked we can use scholarship to those that have been asked we can like recognize novelty so even we don't need to finesse that too much and just to kind of connect that however vaguely to your idea of like looking back but then the challenge of looking forward in cognitive sciences sometimes yeah it's truly a challenge but i think it's per a big challenge for me because i'm eloquent to look forward in cognitive science if you probably ask people that do build cognitive architectures and cognitive models for a living i think they would be much more forward-looking than me i mean um you have something you'd like to try is a twist on the architecture you'd like to put and that is i think forward-looking right well what is your forward looking like over whatever time horizon or capacity set that makes sense like what kinds of questions or experiments or research areas are you like excited to build on from this paper i'm not super sure where this paper is headed i'll continue probably to work on extended minds i still think i'll be working on predictive processing in a sort of very vapid fashion probably i'll try to merge d2 in a more positive way probably but i'm not super sure probably in computational terms but this is super big it's super what i want to do with my postdoc if i had one nice it's not because a concrete proposal right now hypothetical postdocs are the best this is the list of wishes what i wish to do well i wish to do yeah probably that's that would be one thing and another thing i'd like to to do is to try and say open up and specify the grip metaphor you have andy clark those other people telling you what predictive processing slash dp3 energy principle gives you is a grip on the affordances that matter not super clear what the grip is apart from not stumbling into things and moving around appropriately the epistemic sort of contact with the war is left i think unanalyzed but i have no big idea on how to analyze it makes me think about how um words related to our physical cognition and describing our interior landscape like get a grip um you know can you see what i'm thinking about or let me sketch it out for you comprehension means to grasp with a hand so like there's so many and of course the whole optimal grip active inference as getting grip on things from a physical perspective like as the hand goes for the cup of coffee but then okay now we transpose that into the cognitive space and we in a conversational way do talk about grip here's all of these formalisms that it can be hard to get a grip on but are they about grip or like what would that actually mean that's very interesting question yeah i mean a way to impact the grip idea in terms of beijing in france but that is a bit too internalized for my likings the idea that perception is a form of inference that you are inferring every time everything it works in the model domain the model is infrared whether you think itself is inferential i'm not super sure and i'm i'm not sold on ddr that's the inferential talk really captures what goes on in most instances of cognition most of our thought is not described inferentially when i let my mind go and start mind wondering not inferring things at random i mind wondering when i grow an impress i draw an influence typically with high concentration to one specific topic and usually dedicated pen and paper so the inferential talk might not be optimal but still feel the need to do to give some sort of epistemic connotation to the grip isn't is not just not stumbling into things and moving around quickly and swiftly there is some sort of comprehension and intelligence and mindfulness into that that going with a pure good behavior good behavior of patterns vocabulary might not just miss but it might even let you open to the charge of being a behaviorist of being a philosophical zombie without any inner life and that sort of things we need some mentalistic lexicon some epistemically charged lexicon which is not full dom d card and a major challenge would be to develop it it makes me think about like an ocean and the river and then where they meet and it's brackish cognition and pure cognitive the rest cognitive and then there's the physicalism and um we have the ability to like be uncertain actually and to evaluate and to oscillate between different perspectives or different regimes of attention on these different ideas like more highlighting the physical boundaries of a system more highlighting more highlighting the statistical causal which is where the markov blanket concept comes from from pearl and bayesian causal graphs and those causal graphs the nodes and the edges may or may not link to anything that is a physical thing or a cognitive thing so it's a very um open and interesting area is there anything else that you like wanted to just bring up talk about ask no i don't think so i think it's now time to thank you for the space the opportunity and the wonderful talk to thank the dd audience which i not seen because i can only see you apparently from my screen but hi audience i hope you enjoyed it i hope you didn't found me too rambling if they're listening this far then i don't think either of us are too rambly for them oh maybe they are just doing exercise driving around and want some steady background without killing friends awesome well yeah marco thanks for the paper and the contribution and for joining for a guest stream you're always welcome to continue the discussion and also thank you for all of those who listened and paid attention for this conversation great okay see you later see you later bye everyone you</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

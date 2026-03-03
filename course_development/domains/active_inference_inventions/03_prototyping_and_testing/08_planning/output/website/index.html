@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08_Planning - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>08_Planning</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+<a href="#lab_protocols" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lab Protocol</a>
+<a href="#practice_quiz" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Practice Quiz</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>08_Planning</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Module 08: Test Planning Under Uncertainty — Designing Experiments That Maximize Learning</h1>
+<h2>Executive Summary</h2>
+<p>Testing without a plan is exploration without a map — you may stumble onto discoveries, but you will waste resources and miss critical paths. This module applies Active Inference's planning framework to the design of test protocols, using <strong>expected free energy</strong> as the principled criterion for deciding what to test first, how many tests to run, and when to stop testing. The module covers the prioritization of test hypotheses, resource allocation under constraints, the design of test protocols that maximize information yield, the role of regulatory testing requirements, and the integration of test planning with the iterative roadmap from Module 05. Planning transforms testing from a reactive activity into a strategic one.</p>
+<h2>Learning Objectives</h2>
+<ol>
+<li>Apply the expected free energy framework to prioritize which hypotheses to test first, balancing information gain against practical cost.</li>
+<li>Design test protocols that specify hypotheses, procedures, measurements, sample sizes, success criteria, and failure criteria before testing begins.</li>
+<li>Allocate testing resources (time, money, materials, personnel) across multiple testing needs using principled prioritization.</li>
+<li>Integrate regulatory and certification testing requirements into the overall test plan without losing sight of invention-specific testing goals.</li>
+<li>Create a comprehensive test plan for your invention project that sequences all testing activities from prototype validation through market readiness.</li>
+</ol>
+<h2>Key Concepts</h2>
+<h3>1. Expected Free Energy as Testing Priority</h3>
+<p>Active Inference agents select actions (including information-gathering actions) by evaluating their <strong>expected free energy</strong> — a quantity that combines two components: <strong>epistemic value</strong> (how much uncertainty the action is expected to resolve) and <strong>pragmatic value</strong> (how much the action advances the agent toward their goals). For test planning, this framework provides a principled answer to the question: "What should I test first?"</p>
+<p>The highest-priority test is the one with the highest expected free energy reduction — typically the test that resolves the largest uncertainty about the most consequential variable. A variable is consequential if its value significantly affects whether the invention will work, be safe, be commercially viable, or meet regulatory requirements.</p>
+<p>Consider a medical device inventor with three untested hypotheses: (1) the device's sensor is accurate to within 5%, (2) the device's housing is waterproof, and (3) the user interface is intuitive. All three matter, but they differ in both uncertainty and consequence. If sensor accuracy is the existential question — the device is useless if the sensor is inaccurate — then it has the highest pragmatic value. If the inventor has no data at all about sensor accuracy (maximum uncertainty), it also has the highest epistemic value. This hypothesis should be tested first.</p>
+<p>Conversely, a test that resolves moderate uncertainty about a minor variable has low expected free energy reduction and should be deferred. Testing whether the device's color is preferred in blue or green (low consequence, easily reversible) should come after testing whether the device is safe (high consequence, fundamental to viability).</p>
+<p>The expected free energy framework also accounts for test cost. If two tests have equal expected information gain but one costs $100 and the other costs $10,000, the cheaper test has a higher expected free energy reduction per dollar. This leads to the practical heuristic: <strong>test cheap hypotheses before expensive ones, unless the expensive hypothesis is existentially important</strong>.</p>
+<h3>2. Test Protocol Design</h3>
+<p>A test protocol is a pre-specified document that defines every aspect of a test before the test is conducted. It is the testing equivalent of a scientific experiment's methods section, and it serves the same purpose: ensuring that the test is rigorous, reproducible, and protected against post-hoc rationalization.</p>
+<p>A complete test protocol includes: the <strong>hypothesis</strong> being tested (stated as a specific, falsifiable prediction), the <strong>procedure</strong> (step-by-step instructions for conducting the test), the <strong>measurements</strong> (what is measured, with what instruments, at what precision), the <strong>sample size</strong> (how many tests or users), the <strong>control conditions</strong> (what is held constant), the <strong>success criteria</strong> (what result would confirm the hypothesis), the <strong>failure criteria</strong> (what result would disconfirm it), and the <strong>analysis plan</strong> (how the data will be interpreted).</p>
+<p>The discipline of writing a test protocol before testing has several benefits. It forces clarity about what is actually being tested — inventors often discover that their hypothesis is vague until they try to specify success criteria. It prevents scope creep during testing — without a protocol, tests tend to expand to include "while we're at it" measurements that dilute focus. And it creates a pre-registration record that protects against confirmation bias.</p>
+<p>The pharmaceutical industry's clinical trial protocols are the most rigorous example. A Phase III clinical trial protocol can be hundreds of pages long, specifying every detail of patient selection, drug administration, outcome measurement, statistical analysis, and stopping rules. While inventor prototyping rarely requires this level of formality, the principle is the same: specify the test before you run it, and commit to the criteria before you see the results.</p>
+<h3>3. Resource Allocation Under Constraints</h3>
+<p>Every invention project operates under constraints: limited time, limited money, limited materials, limited access to testers, limited expertise. The test planning problem is fundamentally a resource allocation problem: given these constraints, how do you distribute your testing resources to maximize total learning?</p>
+<p>The expected free energy framework suggests a <strong>greedy algorithm</strong> approach: at each step, allocate the next unit of resource to the test that currently offers the highest expected free energy reduction per unit of resource. This naturally produces a priority-ordered testing sequence that starts with high-value, low-cost tests and progresses toward lower-value or higher-cost tests as the initial uncertainties are resolved.</p>
+<p>Practical resource allocation also requires <strong>parallel vs. sequential</strong> planning. Some tests can be run simultaneously (testing material strength in one lab while running user tests in another). Others must be sequential (you cannot test the integrated system until the subsystems are ready). Identifying the critical path — the longest sequential chain of dependencies — determines the minimum total testing time and highlights bottlenecks where resource investment can accelerate the schedule.</p>
+<p>Gantt charts and critical path analysis, standard tools in project management, can be adapted for test planning. Each test is an activity with a duration, dependencies, and resource requirements. The test plan becomes a project schedule that optimizes the sequence and parallelization of testing activities.</p>
+<p>A common resource allocation mistake is <strong>testing debt</strong> — deferring important but inconvenient tests in favor of easier but less important ones. Like technical debt in software, testing debt accumulates interest: the deferred test becomes harder and more expensive as the project progresses, because design decisions based on untested assumptions create dependencies that become costly to unwind.</p>
+<h3>4. Regulatory and Certification Testing</h3>
+<p>Many inventions must pass regulatory testing before they can be sold or used. Medical devices require FDA clearance (510(k) or PMA). Consumer electronics require FCC certification. Children's toys require CPSC compliance. Automotive components require crash testing. These regulatory tests are non-negotiable — they are hard constraints on the invention's path to market.</p>
+<p>Regulatory testing fits within the Active Inference framework as tests with extremely high pragmatic value (the invention cannot proceed without passing them) but potentially low epistemic value (the tests may be standardized procedures that do not address the inventor's specific uncertainties). This creates a planning tension: regulatory tests must be scheduled and budgeted, but they may not resolve the uncertainties that the inventor considers most important.</p>
+<p>The savvy inventor plans regulatory testing strategically. First, identify all regulatory requirements early — during the planning phase, not after prototyping is complete. Second, design the prototype with regulatory tests in mind — if a material must pass a flammability standard, select and test the material before building it into the prototype. Third, integrate regulatory tests with development tests — when possible, design tests that serve both regulatory compliance and invention-specific learning goals simultaneously. Fourth, build regulatory margin into the design — if the standard requires X, design for 1.5X, so that there is room for manufacturing variation without failing certification.</p>
+<p>The CE marking process in the European Union provides a structured framework. Products must demonstrate compliance with Essential Requirements through harmonized standards. The inventor can reference these standards during design to ensure that testing reveals compliance issues early, when changes are cheap, rather than late, when the design is frozen and changes are expensive.</p>
+<h3>5. Comprehensive Test Planning</h3>
+<p>A comprehensive test plan integrates all the elements of this module — hypothesis prioritization, protocol design, resource allocation, and regulatory requirements — into a unified document that guides the entire testing phase of the invention project.</p>
+<p>The structure of a comprehensive test plan includes: <strong>test inventory</strong> (a complete list of all hypotheses that need testing, from technical to market-related), <strong>priority ranking</strong> (ordered by expected free energy reduction, with justification), <strong>test protocols</strong> (detailed specification for each test), <strong>resource budget</strong> (time, money, materials, and personnel for each test), <strong>schedule</strong> (Gantt chart or timeline showing sequence, parallelization, and milestones), <strong>decision gates</strong> (criteria for proceed, iterate, or pivot at key milestones), and <strong>risk register</strong> (what could go wrong with the testing process itself — equipment failure, tester unavailability, regulatory delays).</p>
+<p>The test plan should be a living document, updated as each test is completed and new information changes the priority ranking. A test that was low priority before may become high priority after another test reveals an unexpected issue. The plan provides structure without rigidity — it is a framework for adaptive test planning, not a fixed script.</p>
+<p>NASA's test readiness review (TRR) process exemplifies comprehensive test planning. Before any major test, a formal review evaluates whether the test plan is complete, the hardware is ready, the instrumentation is calibrated, the success/failure criteria are defined, and contingency plans are in place for various outcomes. The TRR does not prevent surprises — it ensures that the testing team is prepared to learn from whatever happens.</p>
+<h2>Applications</h2>
+<h3>Case Study 1: Tesla's Accelerated Testing Strategy</h3>
+<p>Tesla's approach to vehicle testing demonstrates strategic test prioritization. Rather than following the traditional automotive industry's multi-year testing cycle, Tesla used a combination of simulation, component testing, and fleet data to accelerate learning. Battery cells were tested millions of cycles in environmental chambers (high consequence, high uncertainty, moderate cost). The drive unit was tested on dynamometers before integration into vehicles (critical subsystem, isolation testing). And the autopilot system was tested using data from the existing vehicle fleet — using production vehicles as distributed test platforms (massive sample size, real-world conditions, low marginal cost per test).</p>
+<p>Tesla's expected free energy calculation was explicit: the existential risk for the company was battery reliability and safety. A battery fire would be catastrophic for both customers and the brand. Therefore, battery testing received the largest resource allocation, the most aggressive test protocols (extreme temperature cycling, overcharge conditions, nail penetration tests), and the most conservative success criteria. Other tests (interior trim durability, infotainment responsiveness) received proportionally less attention — not because they were unimportant, but because their failure would not be existential.</p>
+<h3>Case Study 2: The Boeing 787 Dreamliner — Testing Debt and Its Consequences</h3>
+<p>The Boeing 787 Dreamliner program illustrates the dangers of testing debt. Under schedule pressure, Boeing deferred several integration tests for the lithium-ion battery system, relying instead on component-level testing and analysis. The component tests showed that individual cells met specifications. The deferred integration test — testing the full battery system under operational conditions with the charging system, thermal management, and aircraft electrical network connected — was not conducted thoroughly before certification.</p>
+<p>In January 2013, two 787s experienced battery fires, grounding the entire fleet for three months. The investigation revealed that the failure was an integration problem — a cascading thermal runaway that could not have been detected by component-level tests alone. The testing debt (deferred integration testing) had accumulated interest (the entire aircraft program had been built around the battery system) and the cost of resolution (fleet grounding, redesign, recertification) far exceeded what early integration testing would have cost.</p>
+<p>The Active Inference lesson: tests with high consequence but moderate uncertainty should not be deferred, even under schedule pressure. The expected free energy of the deferred integration test was very high — the uncertainty was moderate (it might work, but the consequences of failure were catastrophic) and the pragmatic value was extreme (the entire fleet was at risk). Proper expected free energy calculation would have prioritized this test earlier in the development sequence.</p>
+<h2>Cross-References</h2>
+<ul>
+<li><strong>Module 01 (The Prototype as a System)</strong>: Test planning determines what Markov blanket configuration the prototype needs; system design and test planning are co-determined.</li>
+<li><strong>Module 04 (Reasoning About Results)</strong>: Pre-registration of test protocols (this module) supports the bias mitigation strategies in Module 04.</li>
+<li><strong>Module 05 (Iterative Refinement)</strong>: The iteration roadmap from Module 05 is operationalized through the test plan in this module.</li>
+<li><strong>Module 07 (Documenting the Build)</strong>: Test plans are documentation artifacts that serve both planning and archival functions.</li>
+</ul>
+<h2>Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+<th>Planning Application</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expected Free Energy</td>
+<td>Combined epistemic and pragmatic value of a potential test</td>
+<td>Prioritize tests that resolve the largest uncertainty about the most consequential variables</td>
+</tr>
+<tr>
+<td>Test Protocol</td>
+<td>Pre-specified document defining hypothesis, procedure, measurements, and criteria</td>
+<td>Ensures rigor, reproducibility, and protection against post-hoc rationalization</td>
+</tr>
+<tr>
+<td>Resource Allocation</td>
+<td>Distribution of time, money, and materials across testing needs</td>
+<td>Greedy algorithm: allocate each resource unit to the highest-EFE-reduction test available</td>
+</tr>
+<tr>
+<td>Testing Debt</td>
+<td>Deferred important tests that become more expensive as the project progresses</td>
+<td>Avoid accumulating debt on high-consequence tests; the interest compounds</td>
+</tr>
+<tr>
+<td>Regulatory Testing</td>
+<td>Mandatory tests required for market access</td>
+<td>Plan early, design for compliance, integrate with development testing where possible</td>
+</tr>
+<tr>
+<td>Comprehensive Test Plan</td>
+<td>Unified document integrating priorities, protocols, resources, schedule, and decision gates</td>
+<td>Living document updated as each test resolves uncertainties and shifts priorities</td>
+</tr>
+</tbody>
+</table>
+<h2>References</h2>
+<ol>
+<li>Friston, K. J., FitzGerald, T., Rigoli, F., Schwartenbeck, P., &amp; Pezzulo, G. (2017). Active inference and learning. <em>Neuroscience &amp; Biobehavioral Reviews</em>, 68, 862-879.</li>
+<li>Montgomery, D. C. (2017). <em>Design and Analysis of Experiments</em> (9th ed.). Wiley.</li>
+<li>Cooper, R. G. (2017). <em>Winning at New Products: Creating Value Through Innovation</em> (5th ed.). Basic Books.</li>
+<li>FDA. (2014). <em>Design Controls Guidance for Medical Device Manufacturers</em>. U.S. Food and Drug Administration.</li>
+<li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em>. MIT Press.</li>
+</ol></div>
+</div></section>
+
+<section id="lab_protocols">
+<div class="section-header" onclick="toggleSection('lab_protocols')">
+<h2>Lab Protocol</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lab_protocols" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lab_protocols">
+<div><h1>Lab: Building Your Comprehensive Test Plan</h1>
+<h2>Objective</h2>
+<p>Create a comprehensive test plan for your invention project that prioritizes hypotheses by expected free energy, specifies test protocols, allocates resources, and integrates regulatory requirements. By the end of this lab, you will have a structured document that guides your entire testing phase.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li>Familiarity with expected free energy prioritization, test protocol design, resource allocation, and regulatory testing from this module's lecture</li>
+<li>Your iteration roadmap from Module 05, learning system from Module 06, and documentation framework from Module 07</li>
+<li>A clear understanding of your invention's remaining uncertainties</li>
+</ul>
+<h2>Materials</h2>
+<ul>
+<li>All project documentation from prior modules</li>
+<li>Notebook or digital document for the test plan</li>
+<li>Calculator for resource estimation</li>
+</ul>
+<hr />
+<h2>Part 1: Test Inventory (10 minutes)</h2>
+<p><strong>Goal</strong>: Create a complete list of everything that needs testing before your invention is ready for its next milestone (whether that is a working prototype, a market launch, or a patent filing).</p>
+<p>Brainstorm all testable hypotheses. Do not prioritize yet — just list them all.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Hypothesis to Test</th>
+<th>Category (Technical / User / Market / Safety / Regulatory)</th>
+<th>Currently tested?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>2</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>3</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>4</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>5</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>6</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>7</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>8</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p>Are there any regulatory or certification requirements for your invention? If so, list them:</p>
+<p>{fill:textarea}</p>
+<hr />
+<h2>Part 2: Priority Ranking by Expected Free Energy (15 minutes)</h2>
+<p><strong>Goal</strong>: Rank your test hypotheses by expected free energy reduction — the combination of uncertainty resolved and consequence addressed.</p>
+<p>For each hypothesis from Part 1, rate its uncertainty (how much you do not know) and consequence (how much it matters):</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Hypothesis</th>
+<th>Uncertainty (1-5)</th>
+<th>Consequence (1-5)</th>
+<th>Estimated Cost</th>
+<th>EFE Score (Unc x Cons / Cost)</th>
+<th>Priority Rank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>2</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>3</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>4</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>5</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>6</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>7</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>8</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p>Does your ranking match your intuition? If not, what does the discrepancy reveal about your priorities?</p>
+<p>{fill:textarea}</p>
+<hr />
+<h2>Part 3: Write a Test Protocol (15 minutes)</h2>
+<p><strong>Goal</strong>: Write a detailed test protocol for your highest-priority hypothesis.</p>
+<p><strong>Test Protocol #1</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Specification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hypothesis</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Prediction (specific, falsifiable)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Procedure (step-by-step)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Measurements (what, with what instrument, at what precision)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Sample size (how many tests/users)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Control conditions (what is held constant)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Success criteria (what result confirms the hypothesis)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Failure criteria (what result disconfirms it)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Ambiguity criteria (what result is inconclusive, requiring more testing)</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Analysis plan (how will data be interpreted)</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p>Review: Is this protocol specific enough that someone else could execute it and get comparable results?</p>
+<p>{fill:textarea}</p>
+<hr />
+<h2>Part 4: Resource Allocation (10 minutes)</h2>
+<p><strong>Goal</strong>: Map your available resources to your testing needs.</p>
+<p><strong>Available resources:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Available Amount</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Time</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Budget</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Materials/Equipment</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Testers/Users</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>Expertise</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Resource allocation to top-priority tests:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Test (by priority)</th>
+<th>Time Needed</th>
+<th>Cost Needed</th>
+<th>Materials Needed</th>
+<th>Can run in parallel with?</th>
+<th>Dependencies (must complete before?)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Critical path</strong>: Which test sequence determines the minimum total testing time?</p>
+<p>{fill:textarea}</p>
+<p><strong>Testing debt check</strong>: Are there any high-consequence tests you are tempted to defer? What is the risk of deferring them?</p>
+<p>{fill:textarea}</p>
+<hr />
+<h2>Part 5: Assemble the Test Plan (10 minutes)</h2>
+<p><strong>Goal</strong>: Compile everything into a one-page test plan summary.</p>
+<p><strong>Test Plan for:</strong> {fill:textarea}</p>
+<p><strong>Objective:</strong> What milestone does this test plan support? {fill:textarea}</p>
+<p><strong>Priority-ordered test sequence:</strong>
+1. {fill:textarea}
+2. {fill:textarea}
+3. {fill:textarea}
+4. {fill:textarea}
+5. {fill:textarea}</p>
+<p><strong>Total estimated time:</strong> {fill:textarea}</p>
+<p><strong>Total estimated cost:</strong> {fill:textarea}</p>
+<p><strong>Decision gates:</strong>
+- After Test #<strong><em>: Proceed / Iterate / Pivot decision based on: {fill:textarea}
+- After Test #</em></strong>: Proceed / Iterate / Pivot decision based on: {fill:textarea}</p>
+<p><strong>Regulatory requirements integration:</strong> {fill:textarea}</p>
+<p><strong>Risk register</strong> (what could go wrong with the testing process itself):</p>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Likelihood</th>
+<th>Impact</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+<tr>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+<td>{fill:textarea}</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Discussion and Debrief</h2>
+<ol>
+<li>
+<p><strong>Priority surprises</strong>: Did the expected free energy ranking produce a different testing order than your intuition? What does this suggest about how you naturally prioritize?</p>
+</li>
+<li>
+<p><strong>Protocol discipline</strong>: Was it difficult to specify success and failure criteria in advance? What is the temptation you feel to leave these vague?</p>
+</li>
+<li>
+<p><strong>Resource reality</strong>: After mapping resources to testing needs, do you have enough to test everything? What trade-offs are you forced to make?</p>
+</li>
+<li>
+<p><strong>Testing debt</strong>: Are you carrying any testing debt — important tests you have deferred because they are inconvenient or expensive? What is the risk?</p>
+</li>
+<li>
+<p><strong>Adaptability</strong>: How will your test plan change as early tests resolve uncertainties? Is the plan structured enough to provide guidance but flexible enough to adapt?</p>
+</li>
+</ol>
+<p>{fill:textarea}</p></div>
+</div></section>
+
+<section id="practice_quiz">
+<div class="section-header" onclick="toggleSection('practice_quiz')">
+<h2>Practice Quiz</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-practice_quiz" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-practice_quiz">
+<div><h1>Practice Quiz: Test Planning Under Uncertainty</h1>
+<h2>Part A: Multiple Choice</h2>
+<ol>
+<li>
+<p>Expected free energy guides test prioritization by:
+A) Always selecting the cheapest test
+B) Combining epistemic value (uncertainty resolved) and pragmatic value (consequence addressed) to rank tests
+C) Always selecting the most expensive test
+D) Randomly selecting tests to avoid bias</p>
+</li>
+<li>
+<p>A test protocol should be written:
+A) After testing is complete, to document what was done
+B) Before testing begins, specifying hypothesis, procedure, measurements, and success/failure criteria
+C) Only for regulatory tests
+D) Only when multiple people are involved</p>
+</li>
+<li>
+<p>Testing debt occurs when:
+A) The inventor runs out of money
+B) Important tests are deferred, becoming more expensive to resolve as the project progresses
+C) Too many tests are run
+D) Test equipment breaks</p>
+</li>
+<li>
+<p>The "greedy algorithm" approach to test resource allocation means:
+A) Using up all resources on the first test
+B) At each step, allocating the next unit of resource to the test offering the highest expected free energy reduction per unit cost
+C) Saving all resources for the final test
+D) Allocating equal resources to every test</p>
+</li>
+<li>
+<p>Regulatory testing should be planned:
+A) After the prototype is complete
+B) Early in the design phase, so that the prototype is designed for compliance from the start
+C) Only after all other testing is complete
+D) Only if the inventor wants to sell internationally</p>
+</li>
+<li>
+<p>The Boeing 787 battery fire illustrates:
+A) That lithium batteries are always dangerous
+B) Testing debt on high-consequence integration tests can lead to catastrophic and expensive consequences
+C) That component testing is unnecessary
+D) That regulatory bodies are always correct</p>
+</li>
+<li>
+<p>A comprehensive test plan is a living document because:
+A) It looks more professional
+B) Each completed test resolves uncertainties and may shift the priorities of remaining tests
+C) Plans should never be finalized
+D) It is required by law</p>
+</li>
+</ol>
+<h2>Part B: Short Answer</h2>
+<ol>
+<li>
+<p>A consumer electronics inventor has three hypotheses: (a) the battery lasts 12 hours (uncertainty: 3, consequence: 5, cost: $200), (b) the screen is readable in sunlight (uncertainty: 4, consequence: 3, cost: $100), (c) the case survives a 1-meter drop (uncertainty: 5, consequence: 4, cost: $500). Calculate the expected free energy score for each (using Uncertainty x Consequence / Cost) and determine the testing priority order. Explain your reasoning.</p>
+</li>
+<li>
+<p>Write a test protocol for testing whether a new type of insulated coffee mug keeps coffee above 140F for at least 4 hours. Include all essential protocol elements: hypothesis, procedure, measurements, sample size, controls, success criteria, and failure criteria.</p>
+</li>
+<li>
+<p>You are planning the testing phase for a children's educational toy. You have $3,000, 6 weeks, access to 15 child testers (with parental consent), and one engineering lab. You need to test: safety (sharp edges, small parts), educational effectiveness, durability, and manufacturing reproducibility. Design a resource allocation plan with a priority-ordered schedule, noting which tests can run in parallel and which must be sequential.</p>
+</li>
+</ol></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

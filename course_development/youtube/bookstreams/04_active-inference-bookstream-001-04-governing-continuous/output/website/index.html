@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04_Active Inference Bookstream 001 04 Governing Continuous - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>04_Active Inference Bookstream 001 04 Governing Continuous</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>04_Active Inference Bookstream 001 04 Governing Continuous</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>Active Inference BookStream #001.04 ~ "Governing Continuous Transformation"</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=BPzwSTalH5E">YouTube</a>
+<strong>Playlist</strong>: BookStreams
+<strong>Duration</strong>: 47:34 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>foreign welcome everyone it's January 3rd 2023 we're in active bookstream number 001.04 on governing continuous transformation off to you blue great so we are the active inference Institute uh and this discussion is over governing continuous transformation this is a recorded and an archives live stream so please provide us with feedback so we can improve upon our work uh we are a participatory online Institute that is communicating learning and practicing applied active inference you can reach us on social media at all of these uh different links here all backgrounds and perspectives are welcome to discuss and contribute to this work and we will be following good video etiquette for live streams if you would like to get in touch to participate in a future.0 live stream or um one of the upcoming discussions please reach out to us via social media or email um and again our links so today we are going to cover section 1.4 so we're just going to go kind of over where we are in the book uh the keywords and then the different subjects and um things that we pulled out of this section so just to start off we will uh maybe just introduce ourselves I am blue I am a long time Institute participant and um an independent researcher in New Mexico and I'll pass it to Daniel I'm Daniel I'm a researcher and Institute participant all Pastor Tyler I'm Tyler I'm a dow researcher and practitioner in California so um is there any introductory comments or do you guys just want to jump right into it jump in okay here we go so this is the section that covers the free energy principle and that's also the title of this chapter and I think the first key word on our keyword slides um so we've pulled out a lot of these uh keywords I mean we pulled them out um they weren't highlighted by Bijan or selected by him at all and this is just kind of the the topics that we thought that would be better to dive deeper into for a more thorough understanding of the material presented in this chapter um and we will this is not like a final word this is maybe just an introductory perspective and our take on what's maybe happening in this um in this chapter not a review so we're definitely open to correction and updating our our model of this model all right uh so abstract Tyler do you want to read this first section first sure so the free energy principle is the first order principle of police action empowering self-organization FTP commands a generative process of active inference dedicated to minimizing the information theoretical mathematic mathematical difference between top-down predictions and action generated bottom of student lab in pursuit of minimizing error surprise entropy the power of Estonian academic presence is fundamentally four-fold is a pure belief setting in Dynamic and non-stationary environments we added inference agent carries out episode exploration to account for uncertainty by making inferences in Bayes optimal fashion the reward signal is so characteristic of reinforcement learning is removed and finally active inference sets the collaborative human machine uh AI potential so integral to the multi-intelligence firm as the mathematical expression of beliefs the form of probabilities provides the very common denominator to line humans with issues wow big of true uh okay and um the author goes on to say there are only two distinctions that matter what is known and unknown and what is in our control and what is not there are four states active action internal firm resources sensory perception and external unknown and hidden behind the Markov blanket according to free energy governance free energy principle powered AI which he uses here this capital A in lower case I to mean active inference so free energy principle powered active inference is the future site of organizational becoming so we can unpack that I guess starting with um this claim which was in the abstract itself so um maybe we don't need to reread it or was it exactly stated there maybe not oh yeah four-fold so the four claims we'll just start off this first one um the power of prestonian actins is fundamentally four-fold it is a pure belief-based setting in Dynamic and non-stationary environments so what does that mean or like what is prestonian active in France so maybe we want to just step back a little bit and talk about the fvp and the the definition or explanation that Bijan picked out for this chapter is the free energy principle stems from the idea that living systems can be distinguished from other self-organizing systems because they actively avoid deleterious phase transitions by bounding the entropy of their sensory and physical States under the fep to be alive simply means to revisit a bounded set of states with a high probability um and that's from this 2019 um Badcock LL paper and this image is from Kirchoff at Al 2018. um and I always like this like when I think about life and self-organized organizing systems um it kind of this picture just really like speaks to what it is to kind of be self-organizing like a hierarchical um scale so and this like revisiting a bounded set of states with a high probability kind of speaks to the non-equilibrium steady state density that is like a constraint of life we kind of have to live within you know like a certain temperature range a certain you know glucose range and all life has like an optimal range of states that they stay in but like if your fever gets too high like if a temperature goes too high or too low like you will dissipate so you revisit um this bounded set of states with a high probability and that's kind of your non-equilibrium of steady state density do you guys have any comments here on the FTP and self-organizing maybe okay if one comment this is a via positiva it's describing what the fep is but we could look back to those four claims and think about what this is not the Via negativa so rather than being belief based in Dynamic settings and adaptive autonomous agents it might be a framework oriented around some sort of static or perennial understanding of the world the second Point rather than being centered around epistemic exploration and the value of reducing uncertainty and gaining information hearing New Perspectives it could be oriented around pragmatic or utility value which ties very closely to the third point which is that a framework contrary to active inference might Center a reward function that Maps different states of the agent or the organization or the world to some sort of reward function which is the heart of reward learning and then the fourth Point um also kind of ties in rather than thinking about uh ecosystem of shared intelligence intermediated by composable Frameworks like active inference we might be looking for like the one framework to Simply rule them all and therefore not think about the human machine or human Human Relationships as collaborative and emergent but rather just be looking for the one computer we're just going to turn it on the business is going to run thank you awesome so uh getting into active inference a little bit more so we're kind of unpacking here we're going to unpack slowly these like four claims um and so forstonian active inference or fep powered active um so in active inference there are four states this is what Bijan claims active action internal firm resources sensory perception and external which is unknown and hidden behind the markup blanket um and Bijan quotes Christian here and says inactive inference the agent makes choices based on its belief about states of the world and not based on the value of the states and so that speaks to what Daniel was maybe just mentioning about reinforcement learning and we'll we'll start to unravel reinforcement learning a little bit more but where reinforcement learning is really kind of driven by that pragmatic value function um active inference is driven by your beliefs about the world so not how much value can you gain out of moving left or moving right but like I fundamentally believe that I should move right because that's my policy that I've you know that I operate on so um yeah all right and in this where where are these claims start to be unpacked in the paper uh Bijan says one could argue that nearly all physical sciences can be reduced to a Metrology in service of confirming a variant of the principle of least action this is important because it means that physics does not offer any ground truth it is just search for measurements that endorse and appropriately formulated prediction based upon a variation or principle and this quotes a first in 2019 paper I don't know that paper off the top of my head um but as funny as I said Bijan says and then I started reading it I'm like no Carl said this it's like a very um this sounds very much like something that would come out of a Carl paper um okay and so what is this principle of least action we've talked about this a lot before in many different uh live streams but I looked it up just for like what is like a really easy simple way that I could explain it and you know a minute or less um and I found this definition on scholarpedia that says a true dynamical trajectory of a system between an initial and final configuration in a specified time is found by imagining all possible trajectories that the system could conceivably take Computing the action which is a function of the trajectory and just as a reminder a functional is like a function of a function so Computing the action a functional is a trajectory for each of these trajectories and selecting one that makes the action locally stationary traditionally called least true trajectories are those that have the least action and so this is like the laziness the lazy Society everybody makes the The Lazy choice right so so like the true trajectory is the one where you kind of just stay put Daniel do you have a comment here yes although on the previous slide we looked at the particular partition where action states are the outgoing dependencies and here we see action again with the principle of least action but importantly to abide by a principle of least action isn't simply to take the lowest energy action or the least movement it's more akin to a conservation law like the total energy is conserved of potential plus kinetic when the ball falls off the platform so that means that there's a path of least action with the ball dropping now that is not the path of least movement but it's a path of least action given an initial setup because the total energy is conserved and so we're interested in Paths of least action over the particular partitioned States internal external and blanket States and so it's a little bit like um not just simply confusing but least action can include the selection of very energetic or risky behaviors that's cool so and just to kind of like maybe tie that to a real world example I think about like the principle of least action like I prefer my body temperature to be like 75 degrees all the time right like do I live in the tropics no because there's like a lot of things about living on a tropical island that are like not optimal for me so like I live in New Mexico because that's like my optimal like place but I wear a jacket in the winter and like in the summertime I you know wear less clothes or like drive around in my air-conditioned car and live in my air-conditioned house so even though like I'm still expending energy to maintain my physical temperature like that is the path of least like action for me like I I I compensate for the change in my equilibrium state um through my actions okay and we will talk more about energy in a minute so unpacking this second part of the theme the active agent carries out epistemic um Okay so like I know what Bayes optimal is or like I think I know what Bayes optimal is but um just to kind of like what is Bayes optimal fashion and how do you make inference uh in Bayes optimal fashion and it's cool because like in a quick Google search like I always like to search these fundamental like things um just to see kind of what pops up like I think I know what bay is optimal is and and I've pulled out this 2019 paper like what is optimal in in optimal inference um and it's interesting because like going into phase optimal I mean I think about Bayes optimal as like minimizing prediction error or it says here classically optimal Bayesian inference balances prior knowledge and ongoing observations to identify the model with maximum posterior probability um and so these authors actually take this a step further and I really enjoyed their um but like thought process here so they said concretely we might say that an inference procedure is optimal if it maximizes benefit per unit cost in which the benefit is some monotonically increasing function of accuracy um but they proposed a generalization of this approach that that kind of splits this cost benefit curve into two components where the first component describes the benefit perhaps the award the reward obtained as a function of accuracy but then the second component so that's the minimizing prediction error that I was I'm speaking to earlier right like in terms of accuracy and then the second component describes accuracy as a function of costs which can include time memory and computational resources needed to process information and I think that this is like the fundamental thing that I mean I might Overlook like like I might be able to get like a a way more accurate answer um like you know just so say for example like what is what is the number Pi right and I could just say like 3.14 I could actually go through I could say like 3.14159 like off the top of my head like that's like the whatever number of digits of pi that I have memorized so like some accurate point but like I could come to a far more accurate answer of that if I sat there with a pencil and a piece of paper for the entire rest of my life doing long division right so I could come to like some infinite number of of um you know units past the decimal point and I could go on and on and on forever but like is it worth it right like is is it worth it in terms of like memory effort to calculate that increasing accuracy or should it's like 3.14 good enough right and and so that is kind of the thing that they're um like the functions that they're describing here like this benefit this two dual component like yes we want accuracy but we also want it to be fast or want it to be we want to get the maximum benefit for the minimum resource expenditure so I like that that they are um you know describing accuracy as a function of the costs the effort that goes into it um do you guys have any comments here okay so um why am I going into this okay so Tyler and I got into this long talk about energy um and we got into I I can't remember I guess it's not maybe in this claim but it was somewhere in the paper maybe I should look and try to pull it up but we really got into discussing energy like what is free energy what is like kinetic and potential energy and what is free energy like in the fep and we've gone to many live streams that like dive way deeper into this um and I think it's live stream 17 that is the one I pointed you to Tyler that that is um Alex Kiefer is a great like unpacking unraveling of free energy in that way but I think it's important here to point out uh maybe Tyler you can pull that quote out of the paper while I'm I'm talking about this but I think it's important to point out that information theoretic entropy is different than um thermodynamic entropy and and so in information Theory um and there are many times in the paper where like the author specifically says like we're talking about information theoretic entropy but then it seems like that the other kind of entropy is hinted at and so I kind of wanted to just like draw a line between like information theoretic entropy and the other kind of entropy like um the second law of Thermodynamics thermodynamic entropy um and these these two are are distinct but not entirely unrelated so information theoretic entropy um is defined as like in if you have a function X or some event X the negative log of the probability of X is equal to the information so here you can see like the probability versus the information is this graph on the left so um where there's a high probability of an event there's like low information like um there's a high probability that like I will you know take a breath in my in the next 30 seconds so like me taking a breath in the next 30 seconds like doesn't contain any information but like the you guys can predict that I will talk about the fep and free energy governance in the next minute um if I start talking about like my dead dog there's like low probability of that like happening and so there's like maybe a much higher level of information like whoa where did this come from this is way out of left field so there's more information in like an unexpected um claim and so you can see like a probability distribution versus entropy that that really is like the Shannon entropy where um the entropy like if it's if there's a high probability it's low entropy right but if they're like so so I look at this in a coin flip so if we know that the coin is always going to come out heads there's not any entropy in that like say it's a two-sided head coin so like it's always going to come out heads there's no other options the coin always flips heads but where in a Fair coin it's 50 50 right so like at the um right end of the second graph it's a probability of 0.5.5 like half of probability that it's heads in half of a probability that it's Tails this has the highest entropy because it's random like we don't know what's going to come out and so that is what is meant here by um information theoretic entropy in contrast to thermodynamic entropy um where that is like what we think about when we think about physics and the second law of Thermodynamics entropy we think entropy in the universe is always increasing there's like a lot of like disorder the disorder in the universe like if you clean your house and you go away for 20 years and you come back and your house is a mess like you're not going to be surprised at all right but if you if you if your house is a mess and you go away for 20 years and you come back and your house is perfectly spotless like that would be weird right but like that's like you you know scheduled for someone to come in and clean it but but like the disorder in the universe is always increasing I mean that that is what is meant by entropy in terms of um the second law and we also think about this kind of entropy as energy this is where Tyler and I got into talking about energy but it's the entropy the entropy is the energy that is not available to do work right so so in um in a system there's like some amount of energy like I you know can consumed so many calories in a day and this is like very simplified but of those calories like I'd say I consumed 2 000 calories in a day I can use only like 1500 of them for work because some energy is always lost in heat in the conversion in any energy conversion process like converting energy to work you will always lose some energy as heat and so that is kind of another way to think about this thermodynamic entropy um Tyler were you able to find that quote where we've talked about this or no yeah it was the quote is is fairly subtle in that he goes right between information um information Theory and thermodynamic Theory kind of seamlessly and he doesn't make it clear that these are like two very different different things that there's a potential tenuous connection between so he says fep hence has no purpose of its own it Powers it generally the generative process of active inactive inference is dedicated to minimizing the information theoretical maximal difference between the top-down predictions and the action generated bottom-up stimuli and pursuit of many Rising areas of President entropy variational free energy and thermodynamic free energy are inversely related variational free energy side and thermodynamic entropy will be high and thermodynamic free energy the energy available for doing productive work will be low so I think what you did there was like subtle he like just goes between informational and thermodynamic energy kind of interchangeably and they were like wait a minute there's like actually a difference between these two concepts and a connection between them is something that you know active the community doesn't have a great handle on at this point very cool uh Daniel do you have any comments there on that it's a pretty complex and developing area how the informational entropy is related to the actual physics and biology it's kind of like the connection between friston free energy and Gibbs free energy how does reducing divergences on informational spaces translate to the amount of available energy and their situations where survival could be secured one way or the other there just isn't at this point a general answer to how they're connected so so when Tyler asked me how how they're connected what is the relationship um my answer is uh Maxwell's demon is is the like the connection really between thermodynamic and informational free energy and there's actually like I think a 2018 or 2019 paper that that quantifies like this relationship between thermodynamic and informational entropy um at the quantum level so I don't know if that applies to all skills but it's at least cool that and I don't remember the paper off hands but if you search it Maxwell's demon Quantum information you'll find it I mean it's pretty recent so it's it's neat that people are thinking about like like concrete and direct ways to transform um and translate information theoretic and thermodynamic entropy and so we just kind of wanted to unpack that because in that claim it was like whoa there's a lot of a lot of things happening here that it might be more useful for the audience to have a a deeper understanding of like what is known and what is unknown and how how deep does this Rabbit Hole really get go and right so so it gets pretty uh pretty hairy okay cool all right so back to reality but back to things that we can concretely talk about so the reward signal so characteristic replaced with one sole purpose surprise minimization effectively the agent is empowered to minimize Surprise by way of a generative model of the partially observable world only perceiving itself and the world via outcomes um and so like just for people who might not be familiar with reinforcement learning um hold on just a second sorry I am getting over getting over a sickness sometimes I didn't want to cough into the microphone all right um so in reinforcement learning there's like a couple required components so you have a policy which Maps the state of the environment to an action um and that's like for an agent right so this we're always talking about agentive systems here so an agent has a policy like if the environment is in this state I will take this action and policies can change and update and then there's a reward signal which is given at like each step so we're talking about like a Time step type of thing second one I take this action my reward is two carats right so say my policy is to turn right unless I see immediate Danger on my left so so I turn right and I turn right and I get two carrots I turn left and like I can't turn left because there's media danger over there it's against my policy whatever um so the reward signal is the number of carrots that I receive right there at that first step and then there's a value function which actually tracks the reward over time um and the objective in reinforcement learning is not to maximize the reward signal at each instance but it's to maximize the value function over time and so in a circumstance like where I turn right to get two carrots um but like I could have gone down and then right and gotten 50 carats like so maybe I should have gone down and right and so this kind this is kind of how an agent will learn in a reinforcement learning environment to maximize the value as opposed to just maximizing incrementally the reward um so after every action that the agent takes the environment sends a single number that's the reward the reward that the agent receives depends on the agent's action and the state and so the agent's only goal is to maximize the total reward which is the value function over the long term any comments here all right so Precision I'm Tyler do you want to read the quote at the top of this sure so the Beijing brain has optimized its expectations it also has to optimize Precision this means that one has to predict how much Precision is supported to various sources of sensory evidence relative to Prior beliefs thank you thank you um and so this is like a definition from Wikipedia talking about uh like classifier systems and precision and recall in a classifier system um which is like a predictive system or it could be Bayesian classification so there are um retrieved items like so we're gonna say you know of this field of images the ones in the circle are cats right so we're identifying these circles the the data points within the larger Circle as all these things the the classifier says these are all cats the Precision is above all the things that the classifier says are cats how many are actually cats so it's the true positives that are in in the system and then the recall is like how many total how many relevant items so that's that's the the Precision here um that's referenced by first um do you want to read this one too first Tyler sure all right so with Dynamics change sailing should be prevented from potentially increasing free energy in the context of corporate governance one may think of time recognition as a one form of science the more senior and experienced board members are the more likely and they feel comfortable with mental shortcuts such as pattern recognition build repair experience I just randomly searched for like pictures of salience to make this pretty like red apple picture appear here um but when I searched Salient and I looked at images a lot of them were like stakeholder salience and so I like couldn't even start to try to unpack this like it was some corporate definition of salience and some corporate model of salience that I don't know if um Bhajan is referring here to more indirectly or Tyler if you know anything about like stakeholder the stakeholder salience model but maybe we could ask bijano if he um is referencing that or if he's just talking about salience the way that we talk about it as in like things that we attune our attention to because they're relevant for the task at hand or like things that stick out or things that are memorable or relevant right yeah I don't think there's like a corporate different technical definition for me I think it was just like you have limited attention there are things that the port of it was more likely to focus on and they have to constrain their attention on limited yeah but I was intrigued by the fact that there is like a corporate salience model like oh what is Bijan talking about corporate salience what's that um because it's just something that I've never heard of before well it's something we've seen with many active imprints ontology terms that there's a broad everyday qualitative sense like salience is something that you pay attention to and then there's also a more technical usually Bayesian sense such as salience is actually referring to the Precision in terms of a variance estimator that we place on incoming sensory data whereas low attention means that data points coming in are not Salient they're not used to update the model High attention is coming together with high attention to incoming data that does update the prior a lot into the posterior and so which patterns are salience is itself learned and we can think about that as the regime of attention with all the strengths and weaknesses the expertise and heuristics bring along with yeah and I think they they go on to say uh they I think Jean and Pat said more in the book um about salience and pattern recognition okay so a single and double Loop learning Tyler do you want to take this single Loop learning occurs when errors are detected and corrected without altering the governing values of the master program double Loop learning occurs when in order to correct and error is necessary to alter the governing values of the master programs most governance models are at best single Loop rule-based learning systems but struggle to activate double Loop um and I found this little like Loop this Loop diagram which is like you know actions and consequences actions and consequences and that's like the single Loop but um this double Loop learning goes into understanding governing very variables and like this is kind of like I think about like meta some kind of meta-analysis um where you can you know it's zoomed out more in the double Loop learning yeah with our favorite example of the temperature in the room if the single Loop is just the knob that we're controlling on the heater or the air conditioning the double Loop would be taking a step back and thinking well could we also open or close a window and so if we only stayed within the single Loop maybe our heater or cooler has limited capacity and so there's times where the environmental challenges are going to take us outside of the range of what can be learned or accommodated with a single Loop and it's those times especially when opening up into a double Loop space or like a hyper prior space is what is actually required to get the generative model operating in a way that's survivable so like I would never open the window with the heater on but boy like I changed the weather stripping on my back door this year and it made such a huge difference so that's like a more a more realistic uh like a governing variable like you have a leaky house or poor insulation or something like that all right uh deliberate ignorance so that is choosing not to know um so Bijan talked about this and says the more senior and experienced board members are the more likely that they such as pattern recognition built through prior experience that's what I was going to say earlier about this um again I thought it was this next slide but when um they talked about here uh pattern recognition as one form of salient um but in this deliberate ignorance it says uh it is a form of prior-based heuristics or too often simply deliberate ignorance however in a discontinuously non-repeat game environment pattern recognition without maintaining sensitivity for small but nonetheless transformative variations put survival at risk therefore we need a process and a measure of error that optimizes survival hence action-centric free energy minimization powering inactive Ai and so I thought about this like okay we're talking about like corporate strategy so in pattern recognition that's super useful for something like a game of chess right like so chess has like these are the pieces these are the rules there's only so many like ways that a piece can move and yes it's super complicated but like over time a master chess player can start to recognize patterns in the game or or like certain you know sequences of moves that result in uh you know success and so if you know those sequences of moves that result in success that's pattern recognition but but in a non-repeat game like where the rules are always changing and the pieces can move in a different way like imagine now we're playing 4D chess like where we could go also like X Y but we can also move in the Z Direction jump over pieces and so forth like if you add an extra Dimension those um prior patterns that you knew for you know X Y chess now doesn't happen right like they're not they don't even apply or aren't even relevant here so failing to update like your your prior pattern recognition is gonna not lead to successful strategies yeah just to make this like a little bit more concrete like so like a very like common example of this I've experienced is that like sometimes when you're doing business strategy and like the business is still running and you might have customer service claims incoming while you're doing like this core business strategy generally you want to ignore all these customer service claims because that's just like noise and you don't want to pay attention to it it's going to overwhelm you um though occasionally you'll sometimes hear some like very unusual customer experience claims uh like that's that kind of implies something much bigger and much more serious is going on systemically within the organization and you need to have this like spidey sense and this for those often used in business settings like the Spidey ends up knowing like oh wait like something bigger is going on I need to switch gears into being super micro rather than being macro um so I think it's a good example of when you have to kind of like switch your your model of like having organizations working really dynamically and go from deliberate ignorance to choosing what information will be selling to you oh okay and then sophistication which I thought this was relevant I can't remember the the quote that we that said this again oh uh Bijan actually started to unpack this in figure four um and he said we alluded to sophistication back in chapter one um and this also applies to this like double Loop learning So Sophisticated inference is where you have like many potential steps that can um unfold and this also applies to the principle of least action which we're talking about which is like a decision Tree Search right like if you're standing here at step one you can go you know which is like the top level here you can go to any of these four points um you know U1 U2 you through your u4 so if you're here at the very beginning stuff and then each one of these points has their own Branch choices that you can make and then each one of those choices has their own choices and so this is you know um this sophisticated inference which is unpacked um in this paper sophisticated inference and then we've done on different live streams um here before also we didn't do this paper but we did deep effective inference I think that was maybe also 17 13. I can't remember um but a long time ago it was like a 2020 early live stream uh with Ryan Smith so in this sophisticated model it's unfolding temporarily through time and this applies to both like the trajectory when we're talking about least action trajectories and also to double Loop learning where you're looking at like maybe governing variables um over time so he starts to unpack that here in this chapter it goes a little bit more into it than in chapter one all right so now we're on the fourth part of this claim uh we made it all the way to them uh active inference should provide the basis to set free the collaborative human machine artificial intelligence potential so integral to The multi-intelligence Firm and note those two separate like AI um abbreviations all right so Bajan makes the claim social fields are not as real-time as electrically charged and chemically powered neural responsiveness but the underlying logic and principles nonetheless determine firm performance and survival all living self-organizing systems as is true for organizations strive to reduce entropy in pursuit of minimizing surprise but organizations other than living systems are too often trapped in what aguirus 1995 termed skilled incompetence meaning that organizations are programmed to deal with error and threat in ways that are counterproductive to their own intentions not least because organizations struggle with unlearning and deliberately suppress subtlety that's maybe refers back to that deliberate ignorance that we talked about um earlier do you want to talk here Tyler about organizational becoming yeah sure so I mean I just saw that last slide like a couple thoughts on that I think about one part that was interesting about this was like you know explicitly connecting free energy to the firm which I guess that's the whole point of this book but I think that's actually quite a large claim to say that firms also exhibit free energy uh and so I just want to point that out but then also I think in a really important aspect for energy governance is the lag between uh stimuli and action and action stimuli where that is a lot larger in an organizational space rather than something kind of like a neuron for example and that makes I think a lot harder to like operationalize and really understand free energy in like a firm context as well so the next slide that goes into organizational becoming and so this is a term he doesn't really Define explicitly um throughout the the book but he does mention it quite a number of times which I think it's worth calling out so he says strategic renewal as organizational becoming is categorical imperative of being in the game and so again he doesn't explicitly Define this but I think what he's implying is this idea of becoming as like this like deeper philosophical term that goes back thousands of years where the an organization isn't a static thing or it's not something that becomes something into an end state but rather it is like a dynamic process and it is always a dynamic process and so yeah blue Danes you have anything to add to this you have the heraclitus River quote which is a statement of the dynamic nature of becoming and then in contrast we have being and so people often talk about being and becoming as a noun-centric and a verb Centric way to describe something is something is that's like being or is it becoming which is more of a process based focus and so he refers to it as the site of organizational becoming not some sort of ready-made tool that's going to be but rather a process that will be applied or is already being applied as a distributed site of becoming cool do you want to read this one too Tyler sure so ffp is not supposed to be craving the powers the system to exploit uncertainty and complexity and pursuit of performance and survival by way of curiosity driven epistemic forging and exploration correspondingly if the energy governance is a Next Generation Learning System designed for a discontinuous world detaining The Firm from dominant top-down Logics empowering continuous strategic renewal through purpose directed generative inferential inferential inferential and cross-hierarchical prediction error nice and so I wonder here if organizational becoming and like strategic renewal I wonder if those are maybe being used interchangeably um we've talked about like strategic renewal or like maybe strategic renewal is like a fundamental like an organizational becoming or organizational becoming include strategic renewal and other things I don't know that's a good question for Bijon who we will get to um ask lots of questions of next week do you have any additional comments here Daniel or Tyler okay uh free energy guidance I'll let you take this one all right so for energy governance effectively transpose the active inference framework to the firm and adopts fep as a first order principle underlying a new logical organizing built around three core Dimensions so structure hierarchy cognition environmental enactment capabilities sensing and sense making uh the framework is centered around Crosshair alternative processes of sensing and sensor making to institutionalize continuous strategic renewal as a matter of inactive inference and pursuit of firm uh performance and survival each other nice so here we are at the the end of the free energy principle chapter the end of the um first section um on the fep in the free energy governance uh textbook looking forward to having a good discussion with the author next week um do you guys have any final thoughts on this section or chapter or anything overall I think a question to unpack is going to be how does a descriptive theory of every thing in free energy principle help us make normative or even adaptive decisions for ourselves and for our organizations every single information architecture or strategy that a given group implements will be describable in terms of the particular partitioning into internal external and blanket States they're all going to be describable in terms of Bayes optimal inference given some generative model and incoming stream of data so how do we take something that is kind of like the number line it just is and it is neutral and then proactively apply it up to and including the last mile do people need to actually know about information entropy to be part of a system that's designed with these strategies in mind or is there going to be some other way to communicate and apply it so how we actually move it to the space of proactive decision making today and what that looks like in different sectors and for different organizations is really exciting well I'm also looking forward to reading the next sections of the book and um kind of going Beyond like the the background section into like what's next what is the the application um and looking forward to bijan's comments next week uh Tyler any comments or answer no all good for me looking forward to next time yeah me too um so if anybody has questions please go ahead and submit them you're welcome to email them to us or um submit them here in the comments uh but do it before the 11th which is when our meeting with Bijan will be and if you want to participate on the live stream and have read the chapters in the book and watch the live streams or one or the other um get in touch okay thanks guys thanks</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>

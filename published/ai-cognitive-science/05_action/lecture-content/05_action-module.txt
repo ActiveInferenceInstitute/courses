@@ -5,6 +5,7 @@ Learning Objectives
 Explain how motor control in Active Inference is implemented through proprioceptive predictions and spinal reflex arcs.
 Describe active sensing (saccades, haptic exploration) as epistemic action driven by expected ambiguity resolution.
 Analyze apraxia, Parkinson's disease, and functional motor disorders as disruptions of the prediction-based motor system.
+Understand affordances as opportunities for action encoded in the generative model.
 
 Introduction
 
@@ -24,12 +25,31 @@ Not all actions serve pragmatic goals (reaching for a cup). Some actions serve e
 
 Similarly, haptic exploration (running fingers over a surface) generates tactile prediction errors that refine the brain's model of the object's shape, texture, and material properties.
 
+Motor Imagery and Corollary Discharge
+
+Motor imagery — mentally rehearsing a movement without executing it — engages the same motor predictions but with reduced precision on proprioceptive prediction errors. The brain generates the prediction ("arm reaches forward") but attenuates the spinal reflex response by lowering the gain on proprioceptive errors, preventing actual movement. This explains why motor imagery activates premotor and supplementary motor cortex (Jeannerod, 2001) and why it can improve motor performance — it refines the generative model's motor predictions without requiring physical execution.
+
+Corollary discharge (efference copy) is the predicted sensory consequence of a motor command, sent from motor areas to sensory cortex. It explains why the world appears stable during saccades — the brain predicts the visual shift caused by eye movement and cancels the resulting prediction error.
+
+Affordances and Ecological Action
+
+Gibson's (1979) concept of affordances — opportunities for action that the environment offers relative to the agent's body — maps naturally onto Active Inference. An affordance is a potential action policy encoded in the generative model: a cup affords grasping, a staircase affords climbing. Cisek (2007) proposed that the brain continuously specifies multiple competing affordances in parallel (the affordance competition hypothesis), with selection emerging through precision-weighted competition between action policies.
+
+In Active Inference, affordances are policies with low Expected Free Energy — they are actions the agent expects to resolve uncertainty or achieve preferred outcomes. The richness of an environment's affordance structure determines the complexity of the agent's behavioral repertoire.
+
 Clinical Motor Disorders
 
  Parkinson's disease: Loss of dopaminergic neurons in the substantia nigra reduces precision on motor predictions → the brain cannot commit confidently to any single motor plan → bradykinesia (slowness), rigidity, and tremor.
  Functional motor disorder: Motor symptoms (paralysis, tremor) with no identifiable neurological cause. Active Inference explains this as aberrant precision on a prior belief about inability — the brain strongly "predicts" that the limb cannot move, and this prediction overrides motor predictions.
-Apraxia: Impaired ability to perform skilled movements despite intact motor strength. Interpreted as loss of the hierarchical motor model — the high-level "recipe" for complex actions has been damaged, even though the low-level reflex machinery is intact.
+ Apraxia: Impaired ability to perform skilled movements despite intact motor strength. Interpreted as loss of the hierarchical motor model — the high-level "recipe" for complex actions has been damaged, even though the low-level reflex machinery is intact.
+ Cerebellar ataxia: The cerebellum maintains forward models that predict the sensory consequences of motor commands. Damage produces dysmetria and tremor because the brain can no longer accurately predict and cancel movement-generated prediction errors.
 
 Conclusion
 
-Motor control in Active Inference is inference embodied: the brain predicts, the body enacts, and the world responds. This framework unifies voluntary action, reflexes, active sensing, and motor pathology under a single principle. Module 06 examines how this motor-perceptual system changes with experience — the neuroscience of learning.
+Motor control in Active Inference is inference embodied: the brain predicts, the body enacts, and the world responds. This framework unifies voluntary action, reflexes, active sensing, motor imagery, and motor pathology under a single principle. Module 06 examines how this motor-perceptual system changes with experience — the neuroscience of learning.
+
+Further Reading
+
+ Adams, R. A. et al. (2013). Predictions not commands: Active inference in the motor system. Brain Structure and Function, 218(3), 611-643.
+ Friston, K. J. et al. (2012). Perceptions as hypotheses: Saccades as experiments. Frontiers in Psychology, 3, 151.
+ Cisek, P. (2007). Cortical mechanisms of action selection: The affordance competition hypothesis. Philosophical Transactions of the Royal Society B*, 362(1485), 1585-1599.

@@ -1,0 +1,56 @@
+# Module 07: Communication -- Aligning Generative Models
+
+## Learning Objectives
+
+1. Explain communication as the process of **aligning generative models** between agents, reducing mutual uncertainty through shared signals.
+2. Analyze how language, tone, body language, and social media function as channels for transmitting prediction-relevant information.
+3. Evaluate how **misunderstandings** arise from misaligned generative models and how they are repaired through iterative inference.
+4. Assess the impact of digital communication on the Active Inference dynamics of human interaction.
+
+## Introduction
+
+Communication seems simple: you have a thought, you put it into words, and someone else receives it. But if you have ever been misunderstood by a text message, had an argument based on a misinterpretation, or struggled to explain something you understand perfectly, you know that communication is anything but simple.
+
+Active Inference reveals why. Communication is not the transmission of pre-formed thoughts from one brain to another. It is the process of two (or more) generative models attempting to **align** -- to develop shared predictions about the world. When communication works, our models converge: we come to expect similar things, interpret events in compatible ways, and coordinate our actions. When it fails, our models remain misaligned, and we talk past each other.
+
+## Key Concepts
+
+### 1. Communication as Mutual Model Alignment
+
+When you tell a friend about your day, you are not transferring information like copying a file. You are providing sensory evidence (words, tone, expressions) that your friend's generative model processes to update its predictions about your experience. The communication is "successful" to the extent that your friend's updated model now generates predictions similar to yours. Perfect alignment is impossible -- your friend can never have exactly your experience -- but approximate alignment is what makes social life possible.
+
+### 2. Shared Generative Models
+
+Effective communication depends on **shared priors** -- overlapping models of language, culture, and context. When you use slang with friends, you rely on a shared generative model of what those words mean. When you speak formally with a teacher, you switch to a different shared model. Humor works because both parties share a model well enough that the punchline generates a *predicted* prediction error -- a surprise that was, at a meta-level, expected. When someone "does not get" a joke, it is because their model does not match the one assumed by the joke.
+
+### 3. The Pragmatics of Conversation
+
+Conversation is not just about content; it is about **inference about inference**. When someone says "nice weather," you infer not just information about the weather but *why they are telling you this* -- to make small talk, to hint they want to go outside, to be sarcastic. Active Inference frames this as **hierarchical inference**: you model not just what the person is saying but what generative model they are running when they say it. This is sometimes called **theory of mind** or **mentalizing** -- modeling another person's model.
+
+### 4. Digital Communication and Missing Channels
+
+Face-to-face communication provides rich, multi-channel sensory data: words, tone, facial expressions, body posture, timing. Your generative model uses all of these channels to infer the speaker's meaning and intentions. Digital communication -- texts, DMs, emails -- strips away most channels, leaving only words (and sometimes emojis). With fewer sensory channels, your priors have more influence over interpretation. This is the fundamental Active Inference explanation for why miscommunication is so common in digital formats: with less data, your model fills in more, and what it fills in reflects your existing expectations rather than the sender's actual intent.
+
+### 5. Social Media as One-to-Many Communication
+
+Social media introduces a communication paradigm that human brains did not evolve for: broadcasting to an audience of varying generative models simultaneously. A post that makes perfect sense to your close friends may be misinterpreted by acquaintances whose models differ. The result is chronic low-level misalignment, amplified by the absence of real-time feedback. Active Inference predicts that this mismatch between the communication environment and the brain's evolved inference architecture is a persistent source of social friction online.
+
+## Active Inference Connection
+
+The free energy principle applied to communication suggests that agents communicate in order to **minimize joint free energy** -- to bring their respective generative models into closer alignment. Each utterance provides evidence that the listener uses to update their model, and the speaker's own model is updated by the listener's response. This iterative process of mutual model-updating is formally analogous to the variational inference that occurs within a single brain, but it operates *between* brains through the medium of language and behavior.
+
+## Applications
+
+* **Case Study 1 -- The Group Project Conflict**: Three students working on a group project have different models of what "good work" means. One values thoroughness, one values creativity, and one values efficiency. Each communicates in ways that assume the others share their model. Conflict arises not from laziness or bad intentions but from misaligned generative models about the goal. Resolution requires explicit communication that surfaces these hidden models -- making the implicit explicit so that a shared model can be negotiated.
+
+* **Case Study 2 -- Navigating Code-Switching**: A bilingual student switches between languages and communication styles depending on context -- formal English in class, colloquial Spanish at home, internet slang with friends. Active Inference frames code-switching as the selection of different communication policies (action) based on predictions about which shared generative model is active in each context. It is a sophisticated form of social inference, not a sign of confusion.
+
+## Discussion Questions
+
+1. Think of a recent miscommunication you experienced. Can you identify the specific way in which your generative model and the other person's model were misaligned? What would have helped align them?
+2. Why might communication be easier with close friends than with strangers, from an Active Inference perspective? What does this tell you about the role of shared history in building shared models?
+3. How do emojis function in digital communication? Are they an effective way to provide the sensory channels (tone, emotion) that text strips away, or do they introduce their own ambiguity?
+
+## Summary
+
+Communication is the process of aligning generative models between agents through the exchange of prediction-relevant signals. It requires shared priors, operates through hierarchical inference about both content and intent, and is profoundly affected by the communication medium. Digital communication, by reducing sensory channels, shifts the balance toward prior-dominated interpretation, increasing the risk of misunderstanding. Understanding communication through Active Inference provides tools for both diagnosing miscommunication and improving it. In Module 08, we conclude with **planning** -- how your generative model simulates the future to guide present action.

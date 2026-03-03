@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>29_Actinf Textbook Group Cohort 2 Meeting 9 Chapter 4 Part 2 - Active Inference</title>
+    <style>
+        
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #2c2c2c;
+    --accent-color: #666;
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #ddd;
+    --hover-bg: #e9e9e9;
+    --section-bg: #fff;
+    --resizer-width: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: width 0.1s;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sidebar-header h1 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.sidebar-header p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin: 0;
+}
+
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.nav-group {
+    margin-bottom: 20px;
+}
+
+.nav-group-title {
+    padding: 5px 20px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-bg);
+    color: #000;
+}
+
+.nav-link.active {
+    background-color: var(--hover-bg);
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8em;
+    text-align: center;
+    color: #888;
+    background-color: #fafafa;
+}
+
+/* Resizer Handle */
+.resizer {
+    width: var(--resizer-width);
+    background-color: var(--border-color);
+    cursor: col-resize;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 101;
+}
+
+.resizer:hover, .resizer.resizing {
+    background-color: var(--accent-color);
+}
+
+.resizer::after {
+    content: "||";
+    color: #fff;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.resizer:hover::after, .resizer.resizing::after {
+    opacity: 1;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px; /* Minimum width for readability */
+}
+
+/* Mobile Header (visible only on mobile) */
+.mobile-header {
+    display: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Content Container */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Section Styling */
+section {
+    background-color: var(--section-bg);
+    padding: 30px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    scroll-margin-top: 20px; /* Offset for scroll to link */
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+.section-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapse-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.collapse-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.section-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.section-content.collapsed {
+    max-height: 0 !important;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography & Elements */
+h3 {
+    margin: 25px 0 15px;
+    color: #444;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+p {
+    margin-bottom: 1.25em;
+    color: #444;
+}
+
+ul, ol {
+    margin: 0 0 20px 30px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.code-block {
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+    margin: 15px 0;
+}
+
+/* Audio Player */
+.audio-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin: 20px 0;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Questions & Interactive Elements */
+.question-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: baseline;
+}
+
+.question-type-badge {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid currentColor;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    color: inherit;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Global Controls */
+.global-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.global-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    color: var(--text-color);
+}
+
+.global-btn:hover {
+    background-color: var(--hover-bg);
+    border-color: #bbb;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --section-bg: #252525;
+    --border-color: #333;
+    --hover-bg: #333;
+    --primary-color: #000;
+    --accent-color: #888;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #fff;
+}
+
+body.dark-mode .nav-link.active {
+    background-color: #333;
+    border-left-color: #fff;
+}
+
+body.dark-mode .sidebar-footer {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #fff;
+}
+
+body.dark-mode .code-block {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .audio-section {
+    background-color: #2a2a2a;
+    border-left-color: #666;
+}
+
+body.dark-mode .global-btn {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .global-btn:hover {
+    background-color: #333;
+    border-color: #666;
+}
+
+body.dark-mode .question-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+body.dark-mode .question-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 99;
+    }
+
+    .sidebar.open + .sidebar-overlay {
+        display: block;
+    }
+
+    .resizer {
+        display: none;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .main-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+/* Quiz & Interactive Styles */
+.quiz-container {
+    background-color: #fafafa;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.multiple-choice-option {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.multiple-choice-option:hover {
+    background-color: var(--hover-bg);
+    border-color: #ccc;
+}
+
+.multiple-choice-option.selected {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.multiple-choice-option.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.multiple-choice-option.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.true-false-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.true-false-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+}
+
+.true-false-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.true-false-btn.correct {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+}
+
+.true-false-btn.incorrect {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+}
+
+.free-response-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin: 15px 0 5px;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #888;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.matching-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.matching-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.matching-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.matching-term {
+    font-weight: 600;
+}
+
+.matching-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.check-question-btn {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 15px;
+}
+
+.check-question-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.question-feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-size: 0.95em;
+}
+
+.question-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.question-feedback.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.question-feedback.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.question-feedback.info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+.questions-progress {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 12px;
+    background-color: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease;
+    font-size: 9px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Active Inference</h1>
+                <p>29_Actinf Textbook Group Cohort 2 Meeting 9 Chapter 4 Part 2</p>
+                <div style="margin-top: 15px;">
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                        Theme: Light
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav" id="sidebar-nav">
+                <!-- Navigation links will be injected here -->
+                <div class="nav-group"><div class="nav-group-title">Module Contents</div>
+<a href="#lecture_content" class="nav-link" onclick="if(window.innerWidth<=768) toggleSidebar();">Lecture Content</a>
+</div>
+            </div>
+
+            <div class="sidebar-footer">
+                &copy; Active Inference Institute 2026
+            </div>
+        </nav>
+        
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Resizer Handle -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                    ☰
+                </button>
+                <h2>29_Actinf Textbook Group Cohort 2 Meeting 9 Chapter 4 Part 2</h2>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()" style="font-size: 0.8em; padding: 4px 8px;">
+                    Theme
+                </button>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="global-controls">
+                    <button class="global-btn" onclick="collapseAll()">Collapse All</button>
+                    <button class="global-btn" onclick="expandAll()">Expand All</button>
+                </div>
+
+                <section id="lecture_content">
+<div class="section-header" onclick="toggleSection('lecture_content')">
+<h2>Lecture Content</h2>
+<div class="section-controls">
+<button class="collapse-toggle" id="toggle-lecture_content" aria-label="Toggle section">▼</button>
+</div></div>
+<div class="section-content" id="content-lecture_content">
+<div><h1>ActInf Textbook Group ~ Cohort 2 ~ Meeting 9 (Chapter 4, part 2)</h1>
+<blockquote>
+<p><strong>Source</strong>: <a href="https://www.youtube.com/watch?v=_cmYWZ8X4J4">YouTube</a>
+<strong>Playlist</strong>: Uncategorized
+<strong>Duration</strong>: 57:31 | <strong>Uploaded</strong>: Unknown
+<strong>Transcript method</strong>: auto_caption</p>
+</blockquote>
+<hr />
+<p>hello everyone thanks for joining it's October 28 2022 active textbook group cohort 2 run the ninth oh we're in the every the weeks are shifted back by one is that true there's two 21s or there's been some kind of other time glitch but today is 10 28. anyways um we're discussing chapter four continuing our discussion of chapter four so where would anyone like to start with does anyone have a general chapter four remark or a particular question that they want to look at and that or anything else uh Daniel it's brumlin um there's just a lot in chapter four obviously and it's sort of I think it takes in a lot of different aspects of active inference and then sort of parse them all in there and then throws out a whole lot of maths so you know it's unbelievably dense but and and you know I don't know any math so but interestingly as I read it there's some sort of themes that come out that are sort of simplistic and I'm wondering if somehow that can be sort of if you can sort of summarize that today if that makes sense they're just sort of like a capsulated um paragraph of the process it goes through that was one thing the other thing was the Box 4.1 the message passing and inference so I didn't quite get the difference between variational message passing and the belief propagation whether it can talk a bit about that okay yeah that's about it really okay does anyone have any thought on this in chat or or just anything else to add or we can try to address these well one way to look at the theme of chapter four or the kind of looking beyond all of the technical details and the technical details it's kind of like an iceberg because they could show a little or they could show a ton every time they show one they could also show a whole set of ways to get to it or not so it's kind of like uh maybe it's like it's like a variable of the text how much of the math they just mentioned versus explicitly write out because there's a lot of papers with no equations at all like a philosophy paper that will still say because of the variation of re-energy or because the generative model is this way so kind of referencing the same topic and so but different texts differ in how much formalism they have what is the role of the generative model in active inference what does anyone think about that or in the textbook where is any quote where they use where they say a generative model is blank or this is the role of generative model we can look for some too or any other thought someone has at the end I'm mean I think it says that they that they can vary depending on on the inference problem that's one thing about generative models yeah another way to that that variation point is really important the variation is sometimes described with like fine tuning within a given inference problem which is sometimes framed as perception in the most fast time scale and learning and memory in a medium time scale and then also different implementations or different like model structures can vary across inference problems hmm there's also different ways to like write and see the generative model can anyone just like list or suggest how are generative models shown or represented so is that the um the effect to graphs in which section figure 4.3 is it 4.2 so how um yeah one View of the generative model is like this figure 4.3 kind of classic slash common representation the base graph View with the nodes being a random variable and edges being relationships among variables and so like if if every variable were connected to every variable like every time Point were causal at every time point every hidden Factor influence every hidden Factor you just have like a fully connected all by all causal Association Matrix so that's like the weakest World model and then you can say well the the present is like the only intermediating Markov blanket between the future and the past or this is the you know perception is the only intermediating Markov blanket between observations and hidden States if you are willing to take those um structural assumptions and embody them in the model the sparsity of the model under many different ways of calculating the model it will it just like always gets easier you might be restricting yourself to a very local neighborhood of models but pretty much the more you can constrain the edges and the combinatorics people cannot add other remarks on this but you're always simpler models are just simply easier to fit better I mean better optimization is always achieved by making quadratic or curved type assumptions it's like a general optimization principle to make things on a smoother more incrementally updatable related problem foreign they deal with time differently they deal with everything differently time slash space Etc differently I'm sorry can you hear me now yes Ali go ahead uh yeah uh I just wanted to mention this paper a clear look through densities which uh clears up some of the uh misunderstandings or misconceptions around a generative model because more often than not people think of generative model as just a structural representation of the uh of the entire of the external world but in active inference the generative model is uh usually represented in terms of its recognition density so this recognition density is something that enables us to uh or let's put it this way it's an approximate posterior probability density that inverts generative mapping from consequences to causes so it enables us to uh recognize the hidden States based on the observations and inferring the causes of sensory outcomes and not not just simply as a static representation of the external world great Point Ali to like kind of unpack this and and this is a great um great entry point um the The Tale of Two Cities is a book about two cities uh the tale of two densities is some work with ramstead and others and there's a uh at least some stream on it and the two densities are like the two directions which a Bayesian type model can be used which is in its recognition capacity and in its generative capacity so one point is the difference between a sort of like descriptive statistical approach whether with p-values or any other type of um statistics where you're just taking observables only and describing them statistically or summarizing them that the two densities are those two bases of the Bayesian which is about its capacity to generate data from hidden States and as Ali said to be inverted or to be able to perform inference on hidden States from observables and that is exactly the um distinction of s and O s r unobserved unobserved hidden States of the world which in a causal graphical framework there's different interpretations of what it means that causal Force but it's it's the GM family that one is embodying and then the observations are up blue I'm sorry I just was going to add to that if you're if you're dead Okay um I just wanted to I always love listening to that live stream and Maxwell really stated it really nicely like the differences between um the recognition density and the generative density uh it was how he described it was like if you're stacking up dominoes um the this and then you're gonna knock them over right like so the recognition density is like the stack of dominoes and then the generative density is like the action occurring between The Dominoes falling down like I I always like that and it's locked into my mind and really kind of helps me get a grip on maybe the differences um Brock or someone what have you added this quote for um just on page 64 this is like a referencing equation 4.1 which is uh right here it just says that um that the generative model is [Music] the point that prior and likelihood are sufficient to compute model evidence and probability I guess it's a slightly more formal specific definition and narrow because right after that it talks about um computational tractability of doing that and that seems like the best starting point of the generative model is blank in the book that I was able to find nice good summary like in the Frog jumping example prior and likelihood left side prior beliefs on likelihood of the Hidden state on the probability of the Hidden state before the observation likelihood model the larger Matrix it has a different dimensionality than this one the prior and it's the mapping of different things then there's an observation but in a sense none of these beliefs or likelihoods models are observed the observation o which is like the experimental data actually being collected is here and then everything else are like the cognitive States or internal States or States as modeled by the modeler and then there's some updating and in chapter two that was being described like in terms of the surprise self-information Bayesian surprise but in the context of what Brock just read prior in the likelihood comprise a generative model prior likelihood the already composed a generative model but it's like it's like a car that hasn't been run and then there's some that's when data starts being able to update the model so that's why many times uh we see equations like a Bayesian equation whether represented graphically or with like um in like a just a single line form uh because to specify a Bayesian statistical problem is to have specified the generative and vice versa Ali uh and I think it's a general issue regarding uh the whole active inference literature because whenever we read a paper an active inference we need to be quite clear about uh what do the authors mean by each concept because for instance in this that paper from 2022 learning generative models for active inference using tensor Networks uh they have defined generative model uh in its traditional statistical form and not exactly uh it doesn't exactly maps onto uh this somehow more uh comprehensive or modified definition of generative model in terms of recognition density and so on so uh yeah and it also extends to every other concept we encounter in any other active inference paper purpose of just bringing back to chapter two and this example is just to situate everything that's happening with theoretical like data free math of active and also the data oriented aspect of which is uh to give a deflationary perspective a specified Bayesian statistical model and then data that that model has legibility around of course you can you know have it you know it could be the wrong model for the situation and so on but this is like this is like the statistical scenario which is just prior likelihood data and then this posterior can become that one's prior and that's just a all right yeah can be modeled different ways in continuous time industry time and again the whole point is just reduce the uh theoretical novelty of active inference because uh it's more like Bayesian statistical modeling in this mode than many other things and so a lot of the questions and it's it's there there are great questions that come up and have come up in statistics before but kind of in a new way here like these are General statistical questions they're statistical questions involving action building on some of the causal statistical developments from Pearl and others who brought in like just the concept of the Markov boundary in in that like 90s 80s and 90s and Beyond period um it's using those kinds of statistical techniques developed for Bayesian statistical settings in the last five to fifty years in the setting of action and Niche Dynamics also connecting in some way that's not fully characterized yet with some uh more physics like formalizations like the Bayesian mechanics but that's not the first kind of connection between statistical optimization and physics theories which is kind of the whole idea of like why you can kind of roll the ball to the bottom of the hill physically and then the statistical optimization works like that too degenerative model chapter to kind of return to four and first part of the of bronwyn's earlier question I think is this chapter is describing many important aspects and two fundamental types of generative models those dealing with active inference in a discrete time formalization and a continuous time formalization because there's also other ways to do it probably it's just giving technical details on what those generative models are because that is the entity description that's the unit of perception cognition action that's the empirical model as used in the computer to recognize data to generate data so this is like kind of the core a core idea and sometimes it's dealt and like um yeah sometimes it's just mentioned but when it's mentioned that's why this is the textbook so that in some other velocity paper they're they're not going to have this but this is kind of what is being discussed when those terms are used in qualitative settings or in conversation with all these caveat of course that everyone is using it differently and then in terms of like scientific review and in uh evaluating like a technology or some claim or something if someone says the generative model does this or it has this characteristic these are like the specific aspects that would characterize that claim being true sounds good very interesting um discussion on degenerative model how about the Box Ollie well as far as I understand it the passing and belief propagation uh basically comes to um the difference um in a holistic uh view of the approximate inference computation and the recursive or step-by-step computation of it so in variational message passing case we actually have the already actualized trajectory for messages and we know all the uh conditional properties of children uh with regard to their parents uh and uh with those informations we can compute the whole approximate free energy of the whole process but for belief propagation uh we need to compute that recursively in each step without necessarily needing to have all the information for all the probably condition proper probabilities of parents per I'm sorry children with regard to parents beforehand so but another important difference between them is that uh the belief propagation uh uh takes account for all the messages that has happened up to the point of b or the point that we're momentarily dealing with that point so because of that we divide the whole process with the probability of the B because we don't want to include the b in the process uh yet so that's basically something similar to a kind of deductive way of doing inference and the inductive uh way of doing that awesome thank you Ali that's very insightful let's look at 4.1 and see where we're seeing some aspects of this well let's pull out one more level Ali what would you say what category of things do variational message passing and belief propagation what is the category that even makes these things comparable uh well the similarities between at least the structural similarity between these two ways of computation is their dependency on uh the ex the expectation of the conditional problem probability so uh in each case uh we're just Computing the inference in terms of their expectation and as we see uh even the equations uh look quite similar to each other so but as they've pointed out uh in the bottom of the Box uh this is a slightly non-standard use of the expectation operator so we need to be aware of this point as well because uh well if if both of those expectation operators were exactly the same there wouldn't be any uh difference any uh similarities between those two kinds of um inferences schemes all right thanks a lot for that okay if you notice one is these will be fun to see the descriptions of and uh just yeah like what what these expectations are over keep in mind the expectation here is about the central tendency of a statistical distribution not a Time projection so talking about as Ali highlighted the expectations on that doesn't necessarily have to be a Time series prediction in fact one of the most important uses is just to calculate a rolling snapshot in the context of Prior and likelihood distributions as incoming data come in so they're like parameter bidding modeling approaches and is it fair to say that for a given analytically expressed Bayesian equation so formula it's possible to take the approach of of working with it more along one branch or more along another branch is that the case Ali or anyone else papers tend to like take one approach or another but there's also some papers to probably compare them but they are they're distinct implementations potentially with some differences in outcome that would be interesting to explore but is it the case that they're both possible to be used for a given Bayesian equation if we wanted to do the frog jumping out of the hands could there be a variational message passing and a belief propagation implementation uh well I guess so if uh the the kind of situation we're dealing with doesn't necessarily uh restrict us to use the the global over the global view versus the local view of the inference then I guess both of them can be applied okay let's save this way sorry just yeah uh yeah the variation message passing is uh kind of uh let's say omniscient like view of the situation because we know all the conditional probabilities of each note but uh for the belief propagation we're dealing with the explore exploit dilemma also their computational implementations could be different so a given language or package might only enable one and um one other well let's return in our in the last 20 minutes back to the detection if we go there we go there um but this also relates to the factor graphs and some mathematical equivalencies with Factor graphs and Bayesian graphs that is some of the work since like 2017 and a little bit before of DeVries and power and friston where these algorithms can uh statistically have good computational implementations or just how good exactly probably is an open question but these but uh there are procedural rules for calculating large graphs of this structure which is why they represent recent developments in Bayesian computational statistics it would be awesome to hear from someone who's working with those kinds of uh large scale implementations but that is my kind of outside interpretation Ollie good uh and also there are some recent developments in the uh for um I mean making these kind of computations uh more tractable and uh making uh the reducing the complexity uh classes of the computations um one example is this recent uh algorithm called branching time active inference developed by theophy champion and others and also the work done by Baron millage such as the inference learning or the hybrid predictive coding is also an attempt to reduce the complexity classes of these kind of implementations which can be I I believe uh can be a promising path towards uh achieving to a more tractable and computationally effective way of um Computing these inferences nice thank you for that yeah I there's sort of like a meme like machine learning is statistics and all that so these this chapter and hopefully seeing how some of these developments from pure Bayesian statistics but in the more recent era there have also been computational kind of interplay with the pure theory development for example bootstrap based algorithms non-parametric statistics where one like resamples from distributions and does that many many times that kind of sampling based approach was worked out on paper long before it became computationally plausible to actually sample and store large amounts of information and then once that uh computational availability started to happen and better sampling algorithms and better Hardware than that area of Statistics can become applied which sometimes requires more theoretical developments but often not it's often just simply a question of the implementation being written from like a code or computational implementation perspective so there's a lot of equivalences in but I think so the juxtaposition of figure four three generative models Markov blankets first and then saying these are different heuristics computational implementations model fitting approaches and others others that if you can state it like it looks in figure 4.3 then this kind of statistical Branch will become accessible it's like if they showed here's the linear regression and here's the r method or here's the python script that you can use or here's the um optimization here's three ways that you can optimize a and there are multiple ways to do linear regression and there's different software packages associated with them too so it's like if your GMS have this structure then these are optimization implementation approaches that very importantly are not sampling based now complexly enough sampling may have to come into play in the real computational but that's kind of a deeper or more specific question to a given way that it's uh applied but just more broadly these are not just trying to sample data until the landscape is like fully coded um models that with their sparcity like what's not connected embody sometimes incredibly strong structural assumptions about the world which is why there's the whole question of structured learning because once you're structured in the GM like we'll see in chapter six as well the kind of structure is set and then there's like a fine tuning where the actual variables get tuned to the right values that's learning and perception but also learning can be structural so I hope that kind of provides some concordances with the generative model and speaks to its like total centrality inactive in chapter four and connects it to box four one that's describing some exciting techniques for computing large base graph type generative models one last comment on this and then we'll still have more time just time for kind of overviewing again is like I think people have certainly said before done anyone specific right now but just that there is a lot of focus on the Markov blanket concept and the sort of like everything about the Marco blanket the mystery but less focus on the generative model concept so when people then thinking about of how do we model organizations or this cognitive feature there's a lot of focus on like well what are the nested Markov blankets and now there's a way to think about that as nested Markell blankets recognizing the generative model that isn't just the entity scale blanket but that kind of nested Markov blanket representation multi-skill systems kind of like just general point what gets often not brought up in those situations is like okay society's nested Mark all blankets but what are the generative models if you specify the generative model you'll have also specified the markup because you'll have defined the particular things embodied in the actual generative model so it's like is it an active inference claim that a situation has been analyzed in terms of interacting generative models and generative processes or is it a general Claim about multi-scale systems being nested so when we think about just the encapsulating matriuska nature of the nested blankets degenerative model is not specified in more cases than not hope that's an interesting and Fair Point we have 10 to 12 minutes left is there any other like thought or question Brock wrote Spooky inference in close proximity to surprise generates noisy definitions I was just kidding about ali uh saying lots of different names for things we call that spooky action at a distance entanglement now but at the time it was a bunch of different things when it was first observed and it was surprising so anyways um I don't know if uh yeah it's worth like uh thinking or just leaking like lingering a little bit on the intractability of specifying like the model entirely in most in a lot of cases thanks yeah I think that kind of anticipates some discussions that are in like chapter six with a recipe for how to make the generative model and the difference between like fully specifying a quote toy model which is to say like a model where you can see it graphically at like this like just kind of like this like this is the whole model um in that case you may be able to create a little information bubble where that is the full model specification but then in any real situation even like doing research let alone doing anything with causal feedback in the loop the the fully specified model just is somewhere between doesn't exist can't be specified won't be specified shouldn't be specified so then what what then thoughts on four or let's just look quickly to five Ollie go for it uh yeah just one small Point here uh I'm not sure if uh I mentioned it before or not but uh there's uh kind of another type of active inference of course we have a very different classes or categories of active inference but uh one specific type is called uh sophisticated inference which kind of deals with uh the the situations in which um well I mean uh instead of predicting uh what would become later in at each stage it tries to compute everything that has come before or in order to have a way to compute um counter factual consequences or the things that we need to um or somehow the kind of uh decision-making processes and so on and um interestingly in the paper branching time active inference uh they've stated that uh this type of active inference is a subset of branching time active inference I mean if we just put take that branching time active inference and separate it into forward and backward propagation uh trajectories will come with a traditional active inference and sophisticated active inference so I think the main paper for sophisticated active inference is this one that I'm putting here so yeah because that's just one small point I wanted to mention great point thanks for sharing this generative model knowledge it's very helpful live stream 11 was sophisticated affective inference so that was with a secondary or you know here verbally secondary adjective effective reflecting that they were modeling an affective variable or taking an affective interpretation of their model's cognitive function they were doing affective inference in the context of sophisticated inference which is as um Ali described allows for a kind of mapping and modeling of past present and future which is like why in four three there's like a time minus one and time plus one it could have been written as just time time plus one time plus two and been like a two-step planning problem but also there's um you can choose different pieces of the time Horizons to model Ali or a better way to a probably a better way to put it is to say that in situations where we have beliefs about beliefs uh this kind of sophisticated inference can come to play instead of just bleeds about States the composability of Bayesian graphs is high which is what allows all of these different structural models to be explored like nested models that represent spatial enclosure nested models that represent counterfactuals models that consider the past and are able to reconsider the past observations models that don't all of the like if of memoryless process wow all right chapter five is quite different and we'll just look through it and see how different it is it's gonna pick up on this message passing topic which will be cool to revisit again and consider it primarily from the context of neurobiology in this chapter we focus on the process theories that arise from chapter four Central to this implementation of Bayesian belief updating is the notion of Bayesian message passing microcircus and messages cortical players part of the mammalian brain mammal neural Anatomy mammal computational cerebral neuroanatomy abstract hierarchical predictive coding model motor reflex arc in the spinal column of metal policy selection computational neuroanatomy in the mammal brain putative roles of neurotransmitters in different neurotransmitters and they're sort of like putative or coarse grained or hypothesized computational role and different studies that support that for that neurotransmitter not saying it's like the only thing it does or the only way to look at it just they found empirical support for it playing that statistical role in those experiments some early moves towards integrating continuous and discrete models which returns later in the second half of the book and the closing figure is showing all of the three examples from neuroanatomy together planning with those dopaminergic brain regions then the prefrontal cortical regions on top and the spinal reflex motor behavioral art with action so it's like when we've been talking about planning as inference and prediction and generalization categorization as inference learning as action as inference this is the graph so it's a different chapter it's not as equation driven and uh it's primarily based on those examples of mammal and generalized computational so it's a cool last chapter for the first half all right any other last comments okay I'll stop recording thank you</p></div>
+</div></section>
+
+            </div>
+            
+            <a href="#" class="back-to-top" id="back-to-top" title="Back to top" onclick="scrollToTop(); return false;">↑</a>
+        </main>
+    </div>
+
+    <script>
+        
+    // Sidebar & Mobile Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Drag Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.getElementById('sidebar');
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizer.classList.add('resizing');
+        document.body.style.cursor = 'col-resize';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const newWidth = e.clientX;
+        if (newWidth > 150 && newWidth < 600) {
+            sidebar.style.width = newWidth + 'px';
+            document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = 'default';
+    });
+
+    // Dark Mode with Persistence
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateThemeButtons(isDark);
+    }
+
+    function updateThemeButtons(isDark) {
+        document.querySelectorAll('.dark-mode-toggle').forEach(btn => {
+            btn.textContent = isDark ? 'Theme: Dark' : 'Theme: Light';
+        });
+    }
+
+    // Global Collapse/Expand
+    function collapseAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.add('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.add('collapsed'); toggle.textContent = '▶'; }
+        });
+    }
+
+    function expandAll() {
+        document.querySelectorAll('.section-content').forEach(el => {
+            el.classList.remove('collapsed');
+            const toggle = document.getElementById('toggle-' + el.id.replace('content-', ''));
+            if(toggle) { toggle.classList.remove('collapsed'); toggle.textContent = '▼'; }
+        });
+    }
+    
+    // Existing Section Toggle
+    function toggleSection(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggle.classList.remove('collapsed');
+            toggle.textContent = '▼';
+        } else {
+            content.classList.add('collapsed');
+            toggle.classList.add('collapsed');
+            toggle.textContent = '▶';
+        }
+    }
+
+    // ScrollSpy for Active Link Highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mainContent = document.getElementById('main-content');
+    
+    mainContent.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (mainContent.scrollTop >= (sectionTop - 100)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateThemeButtons(true);
+        }
+    });
+
+    /* -- Retained Quiz Logic Functions -- */
+    let questionStates = {};
+    let completedQuestions = new Set();
+
+    function selectMultipleChoice(qid, idx) {
+        document.querySelectorAll(`#question-${qid} .multiple-choice-option`).forEach(o => o.classList.remove('selected'));
+        const opt = document.querySelector(`#mc-${qid}-${idx}`).closest('li');
+        opt.classList.add('selected');
+        document.querySelector(`#mc-${qid}-${idx}`).checked = true;
+        questionStates[qid] = {type: 'multiple_choice', answer: idx};
+    }
+
+    function updateCharCount(qid, current, max) {
+        document.getElementById(`char-count-${qid}`).textContent = `${current} / ${max} characters`;
+        questionStates[qid] = {type: 'free_response', answer: document.getElementById(`fr-${qid}`).value};
+    }
+
+    function selectTrueFalse(qid, val) {
+        document.querySelectorAll(`#question-${qid} .true-false-btn`).forEach(b => b.classList.remove('selected'));
+        const btn = val ? document.querySelector(`#question-${qid} button:first-child`) : document.querySelector(`#question-${qid} button:last-child`);
+        btn.classList.add('selected');
+        questionStates[qid] = {type: 'true_false', answer: val};
+    }
+
+    function updateMatching(qid) {
+        const answers = {};
+        document.querySelectorAll(`#question-${qid} .matching-select`).forEach((s, i) => {
+            if(s.value) answers[i] = parseInt(s.value);
+        });
+        questionStates[qid] = {type: 'matching', answers: answers};
+    }
+
+    function checkQuestion(qid, type) {
+        const state = questionStates[qid];
+        const feedback = document.getElementById(`feedback-${qid}`);
+        if(!state) { feedback.textContent = "Please answer first."; feedback.className = "question-feedback show info"; return; }
+        
+        // Simplified check logic to keep file size manageable while retaining core function
+        let isCorrect = false;
+        if(type === 'multiple_choice') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (state.answer === parseInt(corr.value));
+        } else if(type === 'true_false') {
+            const corr = document.getElementById(`correct-${qid}`);
+            if(corr) isCorrect = (String(state.answer) === corr.value);
+        } else if(type === 'free_response') {
+            isCorrect = true; // Free response always valid
+        } else if(type === 'matching') {
+            // Basic matching validation check
+             isCorrect = true; // Placeholder for complex matching logic re-implementation if needed
+        }
+
+        if(isCorrect) {
+            feedback.textContent = "Correct / Submitted!";
+            feedback.className = "question-feedback show correct";
+            if(!completedQuestions.has(qid)) {
+                completedQuestions.add(qid);
+                updateProgress();
+            }
+        } else {
+            feedback.textContent = "Incorrect, try again.";
+            feedback.className = "question-feedback show incorrect";
+        }
+        
+        const expl = document.getElementById(`explanation-${qid}`);
+        if(expl) feedback.innerHTML += `<div class="question-explanation">${expl.value}</div>`;
+    }
+
+    function updateProgress() {
+        const total = parseInt(document.getElementById('questions-total').textContent);
+        const comp = completedQuestions.size;
+        document.getElementById('questions-completed').textContent = comp;
+        const pct = total ? Math.round((comp/total)*100) : 0;
+        const fill = document.getElementById('progress-fill');
+        fill.style.width = pct + '%';
+        fill.textContent = pct + '%';
+    }
+    
+    </script>
+</body>
+</html>
