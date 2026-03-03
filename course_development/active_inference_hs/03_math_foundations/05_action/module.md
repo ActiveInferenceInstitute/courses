@@ -1,32 +1,55 @@
-# Module 05: Action in High School
+# Module 05: Action — Optimization and Control
 
 ## Learning Objectives
 
-1.  Define **Action** within the context of High School.
-2.  Analyze how Action interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of High School to the formal definition of Action.
+1. Define an **objective function** and explain how minimizing or maximizing it selects actions.
+2. Connect **gradient descent** to the Active Inference idea that action minimizes free energy.
+3. Analyze feedback control systems using the prediction-error-correction loop.
 
 ## Introduction
 
-This module explores **Action**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between Cognition and Learning.
+Action is the agent's ability to change the world. Mathematically, choosing an action is an **optimization problem**: given your beliefs about the world and your goals, which action minimizes the difference between the world as it is and the world as you want it to be? This module introduces optimization and control theory — the math behind everything from self-driving cars to the way you catch a ball.
 
 ## Key Concepts
 
-### 1. Action as a Markov Blanket Boundary
-How does Action define the boundary between the agent and the environment?
+### 1. Objective Functions
 
-### 2. Generative Models of Action
-What parameters involved in Action must be optimized to minimize variational free energy?
+An **objective function** (also called a cost function or loss function) assigns a number to each possible action. Lower numbers = better actions. The agent's job is to find the action that produces the minimum value.
 
-### 3. Active Inference Dynamics
-How does the process of Action drive the perception-action loop?
+**Example**: You are standing in a room with unknown temperature and you want it to be 72°F. The objective function could be: $L = (T_{\text{actual}} - 72)^2$. Any deviation from 72°F increases the cost. Turning on the heater or AC are actions that minimize $L$.
+
+### 2. Gradient Descent
+
+**Gradient descent** is the most important optimization algorithm in mathematics and machine learning. The idea is simple: measure the slope of the objective function, then take a step downhill.
+
+$$x_{t+1} = x_t - \eta \cdot \frac{dL}{dx}$$
+
+Where $\eta$ is the **step size** (learning rate). In Active Inference, the brain performs something analogous to gradient descent on free energy: it adjusts beliefs and actions to roll downhill toward lower surprise.
+
+### 3. Feedback Control (PID Controllers)
+
+A **PID controller** (Proportional-Integral-Derivative) is the engineering cousin of Active Inference. A thermostat, cruise control, and autopilot all use this structure:
+
+- **Proportional**: Correct based on the *current* error (prediction error)
+- **Integral**: Correct based on the *accumulated* error over time
+- **Derivative**: Correct based on the *rate of change* of the error
+
+This is exactly the prediction-error-correction loop, implemented in hardware.
 
 ## Applications
 
-In High School, we see Action manifest in:
-*   **Specific Example 1**: In calculus-based optimization, gradient descent is the mathematical analog of Active Inference action: just as rolling a ball downhill follows the steepest slope to reach a valley (minimum), an agent selects actions that follow the gradient of free energy downward -- each step reduces the gap between predicted and observed states, and the learning rate parameter controls how aggressively the agent acts on prediction errors.
-*   **Specific Example 2**: The mathematical framework of control theory shows action as solving a differential equation: a thermostat's PID controller computes the error between desired temperature (setpoint) and measured temperature, applies proportional, integral, and derivative corrections, and outputs a heating action -- this closed-loop control is a concrete mathematical implementation of Active Inference's action-as-prediction-fulfillment principle.
+- **Calculus**: Finding minima and maxima of functions (set $dL/dx = 0$) is action selection: the agent is "choosing" the $x$ that minimizes cost.
+- **Machine Learning**: Training a neural network is gradient descent on a loss function. Each training step is an "action" that adjusts the weights.
 
-## Conclusion
+## Discussion Questions
 
-Understanding Action allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+1. A cruise control system is set to 65 mph but the car is going 55 mph up a hill. Describe each step of the PID correction.
+2. What goes wrong if the learning rate $\eta$ is too large? Too small?
+
+## Summary
+
+Action is optimization: choosing the behavior that minimizes an objective function. Gradient descent is the algorithm that implements this. Feedback control systems (thermostats, cruise control, Active Inference agents) all share the same prediction-error-correction loop.
+
+## References
+
+- Boyd, S. & Vandenberghe, L. (2004). *Convex Optimization*. Chapter 1.

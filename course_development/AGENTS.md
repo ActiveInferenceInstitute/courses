@@ -4,7 +4,7 @@
 
 ## Portfolio Overview
 
-This portfolio contains **10 courses**, **40 units**, **320 modules**, and **3,400+ content files** for the Active Inference Institute. All courses share a common 8-topic spiral structure grounded in the **Free Energy Principle (FEP)** and **Active Inference**, adapted for audiences ranging from kindergarten to PhD researchers.
+This portfolio contains **14 courses**, **58 units**, **464 modules**, and **6,100+ content files** for the Active Inference Institute. All courses share a common 8-topic spiral structure grounded in the **Free Energy Principle (FEP)** and **Active Inference**, adapted for audiences ranging from kindergarten to PhD researchers.
 
 Agents working anywhere in this repository must follow the universal rules below and consult the course-specific AGENTS.md for local conventions.
 
@@ -26,12 +26,16 @@ Every course has a distinct visual identity used in dashboards, navigation, and 
 | Embodied Cognition | `active_inference_embodied` | Rose | `#fb7185` | Rose → Purple | Somatic, felt, intuitive |
 | Organizations | `active_inference_organizations` | Amber | `#fbbf24` | Amber → Red | Strategic, dynamic, decisive |
 | Robotics | `active_inference_robotics` | Emerald | `#34d399` | Emerald → Blue | Technical, precise, engineered |
+| Crochet Circles | `active_inference_crochet` | Violet | `#a78bfa` | Violet → Fuchsia | Creative, textured, handcrafted |
+| Inventions | `active_inference_inventions` | Lime | `#a3e635` | Lime → Emerald | Inventive, experimental, playful |
+| Metallurgy | `active_inference_metallurgy` | Slate | `#94a3b8` | Slate → Zinc | Industrial, structural, elemental |
+| Comedy | `active_inference_comedy` | Yellow | `#facc15` | Yellow → Orange | Surprising, rhythmic, communal |
 
 ---
 
 ## The 8-Topic Spine
 
-All 10 courses follow this exact topic order in every unit:
+All 14 courses follow this exact topic order in every unit:
 
 1. **Systems** → 2. **Agents** → 3. **Perception** → 4. **Cognition** → 5. **Action** → 6. **Learning** → 7. **Communication** → 8. **Planning**
 
@@ -131,6 +135,10 @@ For detailed conventions, notation, terminology, and perspective tables, see eac
 | Embodied Cognition | [domains/active_inference_embodied/AGENTS.md](./domains/active_inference_embodied/AGENTS.md) |
 | Organizations | [domains/active_inference_organizations/AGENTS.md](./domains/active_inference_organizations/AGENTS.md) |
 | Robotics | [domains/active_inference_robotics/AGENTS.md](./domains/active_inference_robotics/AGENTS.md) |
+| Crochet Circles | [domains/active_inference_crochet/AGENTS.md](./domains/active_inference_crochet/AGENTS.md) |
+| Inventions | [domains/active_inference_inventions/AGENTS.md](./domains/active_inference_inventions/AGENTS.md) |
+| Metallurgy | [domains/active_inference_metallurgy/AGENTS.md](./domains/active_inference_metallurgy/AGENTS.md) |
+| Comedy | [domains/active_inference_comedy/AGENTS.md](./domains/active_inference_comedy/AGENTS.md) |
 
 ---
 

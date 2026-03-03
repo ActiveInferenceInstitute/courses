@@ -1,32 +1,62 @@
-# Module 05: Action in Robotics
+# Module 05: Action in Robotics — Control Law Design
 
 ## Learning Objectives
 
-1.  Define **Action** within the context of Robotics.
-2.  Analyze how Action interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Action.
+1. Define robotic **control action** as the process of selecting motor commands that minimize the gap between the estimated state and the desired state.
+2. Analyze how classical control laws (PID, LQR, MPC) relate to Active Inference action selection — proprioceptive prediction error minimization.
+3. Apply the **precision-compliance trade-off** to design controllers that balance rigid goal pursuit with adaptive compliance.
 
 ## Introduction
 
-This module explores **Action**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between Cognition and Learning.
+Action in the control-estimation framework is the robot's output — the motor commands sent to actuators that change the physical state of the world. In Active Inference, action arises as the solution to a simple imperative: make the predicted proprioceptive state come true. If the generative model predicts that the robot's arm should be at position X, the motor system generates the commands needed to bring the actual arm position to X.
 
 ## Key Concepts
 
-### 1. Action as a Markov Blanket Boundary
-How does Action define the boundary between the agent and the environment?
+### 1. PID Control as Prediction Error Minimization
 
-### 2. Generative Models of Action
-What parameters involved in Action must be optimized to minimize variational free energy?
+The PID controller — the most widely deployed controller in industrial robotics — has a direct Active Inference interpretation:
 
-### 3. Active Inference Dynamics
-How does the process of Action drive the perception-action loop?
+- **Proportional (P)**: Acts on the current prediction error — the difference between desired and actual state
+- **Integral (I)**: Acts on the accumulated prediction error — correcting for persistent systematic bias (steady-state error)
+- **Derivative (D)**: Acts on the rate of change of prediction error — damping oscillations by anticipating where the error will be
+
+In Active Inference terms, P is the prediction error, I corrects for unmodeled constant disturbances (bias in the generative model), and D is a first-order prediction of future prediction error. The PID gains are precision parameters — they determine how aggressively the controller responds to errors.
+
+### 2. Linear-Quadratic Regulation (LQR) as Optimal Policy
+
+LQR finds the control policy that minimizes a quadratic cost function (weighted sum of state deviation and control effort) for a linear system. In Active Inference terms:
+
+- The state deviation cost corresponds to the **C vector** (preferred observations) — how much does the actual state deviate from the preferred state?
+- The control effort cost corresponds to the **policy precision** — how costly is it to exert control?
+- The LQR solution provides the optimal gain matrix — the precision-weighted mapping from state error to control action
+
+LQR is Active Inference when the generative model is linear-Gaussian, the cost is quadratic, and the time horizon is infinite.
+
+### 3. Model Predictive Control (MPC) as Planning
+
+MPC looks ahead: at each timestep, it optimizes the control sequence over a finite horizon, then executes only the first step:
+
+- The "model" in MPC is the generative model's B matrix — used to simulate future state trajectories
+- The "predictive" aspect is the EFE evaluation — predicting the consequences of each candidate action sequence
+- The "control" is the selection and execution of the EFE-minimizing first action
+
+MPC naturally handles constraints (actuator limits, obstacle avoidance, joint limits) and multi-objective trade-offs. It is the engineering implementation of Active Inference planning for continuous control systems.
+
+### 4. Impedance Control: Precision Meets Physics
+
+Impedance control specifies the desired relationship between position error and force:
+
+- **High impedance** (stiff): The robot resists perturbations and tracks the desired trajectory precisely → high precision on proprioceptive predictions
+- **Low impedance** (compliant): The robot yields to external forces and adapts to contact → low precision on proprioceptive predictions, high precision on force/tactile predictions
+- **Variable impedance**: The controller modulates stiffness based on the task phase — stiff during free-space movement, compliant during contact
+
+This is directly the Active Inference precision modulation: the same mathematical structure that explains how the brain adjusts the gain of reflex arcs.
 
 ## Applications
 
-In Robotics, we see Action manifest in:
-*   **Specific Example 1**: A Linear Quadratic Regulator (LQR) controlling a balancing inverted pendulum robot generates motor torques that minimize a quadratic cost function (weighting position error and control effort), which can be interpreted as an Active Inference action policy where the Q matrix encodes the precision of preferred states (upright position) and the R matrix encodes the cost of acting -- the resulting Riccati-equation solution yields the optimal feedback gain that minimizes expected free energy under linear-Gaussian assumptions.
-*   **Specific Example 2**: An impedance controller on a robotic manipulator performing surface polishing generates torque commands that make the end-effector behave as a virtual mass-spring-damper system, where the "spring" pulls the tool toward the desired contact force (the prior preference) and the "damper" suppresses oscillations; in Active Inference terms, the impedance parameters set the precision of the agent's action model, and the controller continuously acts to minimize the discrepancy between desired and measured interaction forces at 1 kHz.
+- **Collaborative robot (cobot) safety**: A cobot working alongside humans uses impedance control — maintaining low impedance (compliance) during close human interaction so that accidental contact produces gentle yielding rather than injurious force. The compliance is precision modulation on proprioceptive prediction errors.
+- **Precision machining**: A CNC milling robot uses high-impedance control (high precision on trajectory prediction errors) during cutting passes, achieving micrometer-level position accuracy. Between passes, it switches to lower impedance for tool changes and workpiece repositioning.
 
 ## Conclusion
 
-Understanding Action allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Control action in robotics spans PID (reactive prediction error minimization), LQR (optimal steady-state policy), MPC (predictive planning), and impedance control (precision-compliance modulation). All are implementations of Active Inference action — making proprioceptive predictions come true. The next module examines how robotic learning adapts these controllers to new tasks.

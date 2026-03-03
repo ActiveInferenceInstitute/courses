@@ -4,7 +4,7 @@
 
 ## Overview
 
-This directory contains a 4-course Active Inference curriculum for high school students with 32 modules, shared resources, and comprehensive documentation. Agents working in this repository must maintain consistency in terminology, notation, and pedagogical structure across all courses while keeping content accessible for grades 9–12.
+This directory contains a 4-unit Active Inference curriculum for high school students with 32 modules, shared resources, and comprehensive documentation. Agents working in this repository must maintain consistency in terminology, notation, and pedagogical structure across all courses while keeping content accessible for grades 9–12.
 
 ---
 

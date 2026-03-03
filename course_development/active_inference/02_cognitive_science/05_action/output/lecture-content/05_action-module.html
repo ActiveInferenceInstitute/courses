@@ -11,6 +11,7 @@
 <li>Explain how motor control in Active Inference is implemented through <strong>proprioceptive predictions</strong> and spinal reflex arcs.</li>
 <li>Describe active sensing (saccades, haptic exploration) as epistemic action driven by expected ambiguity resolution.</li>
 <li>Analyze apraxia, Parkinson's disease, and functional motor disorders as disruptions of the prediction-based motor system.</li>
+<li>Understand <strong>affordances</strong> as opportunities for action encoded in the generative model.</li>
 </ol>
 <h2>Introduction</h2>
 <p>Motor control has been traditionally modeled as a feedforward process: the motor cortex computes a desired trajectory, sends commands down the corticospinal tract, and the muscles execute. Active Inference overturns this: <strong>movement arises from proprioceptive predictions</strong>. The motor cortex sends a prediction of the expected proprioceptive (body position) state to the spinal cord. Spinal reflex arcs then generate movement to <em>fulfill</em> this prediction — canceling the prediction error between the predicted and actual body position.</p>
@@ -21,13 +22,26 @@
 <h3>2. Active Sensing and Epistemic Action</h3>
 <p>Not all actions serve pragmatic goals (reaching for a cup). Some actions serve <strong>epistemic</strong> goals — they generate sensory data to reduce uncertainty. Saccadic eye movements are a paradigm case: the eyes move to fixate on locations of high uncertainty, sampling information to refine the generative model. Friston et al. (2012) showed that saccadic patterns in natural scene viewing can be predicted from the Expected Free Energy framework — the eyes move to locations that maximally reduce expected ambiguity.</p>
 <p>Similarly, haptic exploration (running fingers over a surface) generates tactile prediction errors that refine the brain's model of the object's shape, texture, and material properties.</p>
-<h3>3. Clinical Motor Disorders</h3>
+<h3>3. Motor Imagery and Corollary Discharge</h3>
+<p><strong>Motor imagery</strong> — mentally rehearsing a movement without executing it — engages the same motor predictions but with reduced precision on proprioceptive prediction errors. The brain generates the prediction ("arm reaches forward") but attenuates the spinal reflex response by lowering the gain on proprioceptive errors, preventing actual movement. This explains why motor imagery activates premotor and supplementary motor cortex (Jeannerod, 2001) and why it can improve motor performance — it refines the generative model's motor predictions without requiring physical execution.</p>
+<p><strong>Corollary discharge</strong> (efference copy) is the predicted sensory consequence of a motor command, sent from motor areas to sensory cortex. It explains why the world appears stable during saccades — the brain predicts the visual shift caused by eye movement and cancels the resulting prediction error.</p>
+<h3>4. Affordances and Ecological Action</h3>
+<p>Gibson's (1979) concept of <strong>affordances</strong> — opportunities for action that the environment offers relative to the agent's body — maps naturally onto Active Inference. An affordance is a potential action policy encoded in the generative model: a cup affords grasping, a staircase affords climbing. Cisek (2007) proposed that the brain continuously specifies multiple competing affordances in parallel (the <strong>affordance competition hypothesis</strong>), with selection emerging through precision-weighted competition between action policies.</p>
+<p>In Active Inference, affordances are policies with low Expected Free Energy — they are actions the agent expects to resolve uncertainty or achieve preferred outcomes. The richness of an environment's affordance structure determines the complexity of the agent's behavioral repertoire.</p>
+<h3>5. Clinical Motor Disorders</h3>
 <ul>
 <li><strong>Parkinson's disease</strong>: Loss of dopaminergic neurons in the substantia nigra reduces precision on motor predictions → the brain cannot commit confidently to any single motor plan → bradykinesia (slowness), rigidity, and tremor.</li>
 <li><strong>Functional motor disorder</strong>: Motor symptoms (paralysis, tremor) with no identifiable neurological cause. Active Inference explains this as aberrant precision on a prior belief about inability — the brain strongly "predicts" that the limb cannot move, and this prediction overrides motor predictions.</li>
 <li><strong>Apraxia</strong>: Impaired ability to perform skilled movements despite intact motor strength. Interpreted as loss of the hierarchical motor model — the high-level "recipe" for complex actions has been damaged, even though the low-level reflex machinery is intact.</li>
+<li><strong>Cerebellar ataxia</strong>: The cerebellum maintains forward models that predict the sensory consequences of motor commands. Damage produces dysmetria and tremor because the brain can no longer accurately predict and cancel movement-generated prediction errors.</li>
 </ul>
 <h2>Conclusion</h2>
-<p>Motor control in Active Inference is inference embodied: the brain predicts, the body enacts, and the world responds. This framework unifies voluntary action, reflexes, active sensing, and motor pathology under a single principle. Module 06 examines how this motor-perceptual system changes with experience — the neuroscience of learning.</p>
+<p>Motor control in Active Inference is inference embodied: the brain predicts, the body enacts, and the world responds. This framework unifies voluntary action, reflexes, active sensing, motor imagery, and motor pathology under a single principle. Module 06 examines how this motor-perceptual system changes with experience — the neuroscience of learning.</p>
+<h2>Further Reading</h2>
+<ul>
+<li>Adams, R. A. et al. (2013). Predictions not commands: Active inference in the motor system. <em>Brain Structure and Function</em>, 218(3), 611-643.</li>
+<li>Friston, K. J. et al. (2012). Perceptions as hypotheses: Saccades as experiments. <em>Frontiers in Psychology</em>, 3, 151.</li>
+<li>Cisek, P. (2007). Cortical mechanisms of action selection: The affordance competition hypothesis. <em>Philosophical Transactions of the Royal Society B</em>, 362(1485), 1585-1599.</li>
+</ul>
 </body>
 </html>

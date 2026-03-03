@@ -2,41 +2,65 @@
 
 ## Learning Objectives
 
-1. Understand the timer and the timed through the lens of Active Inference.
-2. Apply precision dynamics and temporal control to analyze comedy mechanics in 'Who\'s on First?'
-3. Connect agents theory to practical comedy craft from the Timing & Tension perspective.
+1. Identify the **temporal agent** — a comedy performer whose primary competence is the control of time within a performance.
+2. Analyze how **comedic timing** is an acquired generative model competence that can be trained, degraded, and transferred.
+3. Distinguish between the temporal agent roles of **timekeeper** (the straight man) and **time-disruptor** (the comic).
 
 ## Introduction
 
-The timer and the timed: every comedy duo has one performer who controls the rhythm and one who rides it. Abbott times Costello — setting the pace, deciding when to pause, when to accelerate, when to hold a beat for the audience. Costello is timed BY Abbott — his reactions, his pauses, his escalations are all responses to the temporal framework Abbott establishes.
+Not all comedians are created equal in their relationship to time. Some performers have impeccable timing — an uncanny ability to land words at exactly the right moment, to hold silences for exactly the right duration, and to accelerate or decelerate the rhythm with surgical precision. Other performers have great material but "can't find the beat" — their jokes arrive a half-second early or late, and the audience never quite entrains to their rhythm.
 
-This module examines agents as temporal entities — agents whose precision profiles unfold over time and whose action policies are defined by WHEN they act, not just WHAT they do.
+The difference is in the **temporal generative model** — the agent's internalized representation of comedy's clock.
 
 ## Key Concepts
 
-### The Timer and the Timed
+### 1. The Straight Man as Timekeeper
 
-At the heart of this module is the timer and the timed — the way agents operates within precision dynamics and temporal control. In 'Who\'s on First?', this manifests as the interplay between performers, audience, and the comedy tradition, examined through the temporal, social, and evolutionary dimensions that Timing & Tension foregrounds.
+In "Who's on First?", Abbott is the **temporal anchor** — the metronomic heartbeat of the routine:
 
-### Active Inference Formalization
+- Abbott delivers his lines at regular intervals with consistent cadence
+- His responses are brief, factual, and rhythmically predictable — "Who's on first. What's on second. I Don't Know's on third."
+- This regularity creates the temporal scaffold on which Costello's disruptions are mounted
+- Without Abbott's steady beat, Costello's eruptions of frustration would have no contrasting rhythm to disrupt
 
-Active Inference provides the formal toolkit for understanding agents in this context. The key constructs are:
+The straight man's temporal generative model is a **high-precision prior over rhythm** — they predict consistent timing and execute it with minimal deviation. Their timing is the baseline against which the comic's timing generates prediction errors.
 
-- **Generative model**: The agent's internal model of how agents works in comedy — what patterns to expect, what signals to attend to, and what actions to take.
-- **Prediction error**: The mismatch between expected and observed agents dynamics — the signal that drives updating and adaptation.
-- **Precision weighting**: The confidence assigned to predictions about agents — higher precision means stronger expectations and larger prediction errors when they fail.
-- **Expected free energy**: The anticipated surprise and information gain associated with future actions related to agents.
+### 2. The Comic as Time-Disruptor
 
-### Domain-Specific Application
+Costello's genius is temporal disruption:
 
-From the Timing & Tension perspective, agents in 'Who\'s on First?' reveals dynamics invisible from other vantage points. The routine is not just a text — it is a living performance that operates through precision dynamics and temporal control, connecting the mechanics of individual exchanges to the broader patterns of comedy as cultural practice.
+- He accelerates when confused (rapid-fire questions fired in mounting frustration)
+- He pauses when stunned (the beat of silence after realizing he still doesn't understand)
+- He overlaps Abbott's lines when desperate (attempting to force a different answer by pre-empting the response)
+- He shifts register unpredictably — from measured questioning to explosive frustration to defeated resignation
+
+Each temporal disruption is a **violation of the audience's timing predictions**. The audience has entrained to Abbott's metronomic beat; Costello's departures from that beat generate timing prediction errors that compound the semantic prediction errors from the name confusion.
+
+### 3. Audience Entrainment
+
+The audience's temporal agent responds to the performer's rhythm through **neural entrainment** — the tendency of oscillatory brain activity to synchronize with external rhythmic stimuli:
+
+- Regular comedic rhythm (joke-pause-joke-pause) creates entrainment — the audience anticipates when the next beat will land
+- Entrained audiences laugh more readily because their prediction machinery is synchronized — they're "ready" for the punchline
+- Breaking the entrained rhythm generates surprise in the timing domain — the punchline arrives when the audience's temporal model didn't expect it
+
+The comedian who "works the room" is tuning their temporal output to the audience's entrainment bandwidth — matching the audience's processing speed, not the performer's natural speed.
+
+### 4. Timing as Skill Acquisition
+
+**Comedic timing** is a learned competence — a generative model refined through practice:
+
+- **Novice comics** have imprecise timing models — their pauses are arbitrary, their punchline delivery is variable, and they often speak over audience laughter
+- **Intermediate comics** have learned the basic architecture (setup → pause → punchline → recovery) but execute it mechanically — "counting beats" rather than feeling the rhythm
+- **Expert comics** have deeply internalized the temporal model — they "feel" the right moment without conscious calculation, adjusting in real time to the specific audience's processing speed
+
+This progression mirrors the Dreyfus skill acquisition model: from rule-following (explicit timing rules) to intuitive expertise (the joke just "lands").
 
 ## Applications
 
-- **Agents in Stand-Up**: Solo performers navigate agents dynamics without a partner, requiring them to internalize the functions that a duo distributes between two agents.
-- **Agents in Improv**: Improvisational comedy pushes agents to its limits, requiring real-time processing without the safety net of rehearsal.
-- **Agents Across Cultures**: Different comedy traditions approach agents differently, revealing both universal principles and cultural specificity.
+- **The "Slow Burn"**: Jack Benny's signature technique — an extended, silent stare that stretches time far beyond the audience's temporal predictions. The slower the burn, the larger the temporal prediction error, and the bigger the eventual laugh. Benny's talent was knowing *exactly* how long he could sustain the pause before the tension tipped from funny to uncomfortable.
+- **Rap Battle Timing**: Freestyle rap battles demonstrate the timing agent under extreme pressure — the performer must generate rhymes in real time while maintaining a strict rhythmic structure. The best battlers use timing violations (late arrivals on the beat, deliberate pauses before devastating punchlines) as weapons.
 
 ## Conclusion
 
-Agents in Timing & Tension reveals dimensions of comedy that are invisible from other perspectives. By examining the timer and the timed through Active Inference, we see how agents is not just a feature of comedy but a fundamental mechanism — the process by which performers and audiences co-create the experience of humor through precision dynamics and temporal control.
+The temporal agent — whether straight man, comic, or audience member — relates to comedy through their internalized timing model. Comedic timing is not a mysterious gift but a trainable generative model competence, and the interplay of timekeepers and time-disruptors creates the dynamic temporal texture that distinguishes great comedy from mere joke-telling.

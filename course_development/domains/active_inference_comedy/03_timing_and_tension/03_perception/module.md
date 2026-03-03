@@ -2,41 +2,57 @@
 
 ## Learning Objectives
 
-1. Understand precision windows in comedic timing through the lens of Active Inference.
-2. Apply precision dynamics and temporal control to analyze comedy mechanics in 'Who\'s on First?'
-3. Connect perception theory to practical comedy craft from the Timing & Tension perspective.
+1. Analyze how audiences **perceive timing** — the temporal prediction machinery that detects early, late, and on-time delivery.
+2. Apply the concept of **prosodic perception** to explain how pitch, stress, and intonation carry timing information.
+3. Examine how **temporal expectation violations** generate the surprise component of humor.
 
 ## Introduction
 
-A comedian hears the audience's silence after a punchline. Was it 0.5 seconds or 1.5 seconds? That difference — imperceptible to a civilian — tells the comedian everything. In those milliseconds, the performer's perceptual system is running a high-speed inference: Did they get it? Are they processing? Is the laugh building? Or is it simply not funny?
-
-Precision windows in comedic timing are the perceptual foundation of the art. This module examines how performers perceive temporal information and how the audience's perceptual system processes the comedian's timing.
+Comedy is received through time, and the audience's perceptual system is exquisitely sensitive to temporal patterns. Audiences don't just hear the words of a joke — they hear *when* the words arrive relative to their temporal predictions. A punchline delivered a quarter-second early feels "rushed." The same punchline a quarter-second late feels "deliberate." A full second late feels "dramatic." Two seconds late feels "broken." The audience's temporal perception is the measurement system through which comedy's timing registers.
 
 ## Key Concepts
 
-### Precision Windows in Comedic Timing
+### 1. Prosodic Perception: The Music of Comedy
 
-At the heart of this module is precision windows in comedic timing — the way perception operates within precision dynamics and temporal control. In 'Who\'s on First?', this manifests as the interplay between performers, audience, and the comedy tradition, examined through the temporal, social, and evolutionary dimensions that Timing & Tension foregrounds.
+Comedy is perceived musically — through **prosodic features** that carry information beyond the words:
 
-### Active Inference Formalization
+- **Pitch contour**: Rising pitch signals a question (uncertainty); falling pitch signals a statement (certainty); flat pitch signals deadpan (suppressed affect). Abbott's flat delivery in "Who's on First?" signals certainty that maddens Costello.
+- **Stress pattern**: Emphasizing different words in "WHO's on first" vs. "Who's on FIRST" dramatically changes the perceived meaning. The comedian's stress choices modulate which interpretive frame the audience adopts.
+- **Speaking rate**: Acceleration signals excitement, panic, or urgency. Deceleration signals importance, menace, or dramatic emphasis. Costello's accelerating speech rate during his frustrated repetitions signals escalating free energy.
+- **Volume dynamics**: A sudden drop in volume before a punchline creates an involuntary lean-in from the audience — a perceptual narrowing that heightens attention and makes the punchline hit harder.
 
-Active Inference provides the formal toolkit for understanding perception in this context. The key constructs are:
+These prosodic features constitute the **A matrix of temporal comedy perception** — the mapping from hidden comedic intentions to audible observations.
 
-- **Generative model**: The agent's internal model of how perception works in comedy — what patterns to expect, what signals to attend to, and what actions to take.
-- **Prediction error**: The mismatch between expected and observed perception dynamics — the signal that drives updating and adaptation.
-- **Precision weighting**: The confidence assigned to predictions about perception — higher precision means stronger expectations and larger prediction errors when they fail.
-- **Expected free energy**: The anticipated surprise and information gain associated with future actions related to perception.
+### 2. The Audience's Temporal Prediction Machine
 
-### Domain-Specific Application
+Audiences maintain a running temporal model of the performance:
 
-From the Timing & Tension perspective, perception in 'Who\'s on First?' reveals dynamics invisible from other vantage points. The routine is not just a text — it is a living performance that operates through precision dynamics and temporal control, connecting the mechanics of individual exchanges to the broader patterns of comedy as cultural practice.
+- After the first few exchanges in "Who's on First?", the audience predicts the rhythm: Abbott names a player → Costello misinterprets → exchange escalates → brief resolution → next player
+- This prediction enables the audience to **anticipate timing landmarks** — they "know" when the next punchline is approaching before it arrives
+- The precision on temporal predictions increases with familiarity — an audience watching "Who's on First?" for the tenth time has extremely high-precision timing predictions, making even tiny timing variations detectable as prediction errors
+
+### 3. The Perception of Pause
+
+Silence in comedy is not the absence of perception — it is **the perception of unexpectedly absent sound**:
+
+- A predicted sound that doesn't arrive generates a temporal prediction error — the audience's model expected a word and heard nothing
+- Short pauses (0.5-1 second): Registered as "processing time" — the audience perceives the performer thinking
+- Medium pauses (1-3 seconds): Registered as "dramatic emphasis" — the audience perceives significance
+- Long pauses (3+ seconds): Registered as "something is wrong" unless the pause itself is clearly intentional (the Benny stare) — the audience perceives either breakdown or deliberate tension-building
+
+### 4. Laughter Perception and Social Mirroring
+
+Laughter itself is a perceived signal that modulates further perception:
+
+- Hearing others laugh activates mirror neuron systems — increasing the perceiver's readiness to laugh
+- Laughter volume and duration provide **social precision signals** — loud, sustained laughter signals "this was very funny" and ratchets up the precision on predictions that the next joke will also be funny
+- The absence of expected laughter is itself a perceptual event — when a joke falls flat, the silence is perceived as a negative prediction error that lowers precision on future humor predictions ("tough crowd")
 
 ## Applications
 
-- **Perception in Stand-Up**: Solo performers navigate perception dynamics without a partner, requiring them to internalize the functions that a duo distributes between two agents.
-- **Perception in Improv**: Improvisational comedy pushes perception to its limits, requiring real-time processing without the safety net of rehearsal.
-- **Perception Across Cultures**: Different comedy traditions approach perception differently, revealing both universal principles and cultural specificity.
+- **Audio vs. Visual Comedy**: Why do some jokes work better in audio (podcasts, radio) and others require visual delivery? Audio-only comedy relies entirely on prosodic perception — timing, pitch, stress, and pause must carry all the comedic information. Visual comedy adds gestural, facial, and spatial perception channels, reducing the timing precision required.
+- **Cross-Cultural Timing Perception**: Different cultures have different temporal expectations. Japanese *manzai* comedy uses faster exchange rates than Anglo-American stand-up, requiring audiences to maintain faster temporal predictions. The humor arises from the same timing-violation mechanism, but the baseline timing model differs.
 
 ## Conclusion
 
-Perception in Timing & Tension reveals dimensions of comedy that are invisible from other perspectives. By examining precision windows in comedic timing through Active Inference, we see how perception is not just a feature of comedy but a fundamental mechanism — the process by which performers and audiences co-create the experience of humor through precision dynamics and temporal control.
+Perceiving comedy's timing involves prosodic analysis, temporal prediction maintenance, pause interpretation, and social laughter calibration. The audience is not a passive recipient of jokes — they are active temporal inference agents whose predictions and prediction errors constitute the experience of comedic timing.

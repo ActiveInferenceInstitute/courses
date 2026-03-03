@@ -7,6 +7,7 @@
 1. Implement **multi-step policy evaluation** using Expected Free Energy.
 2. Code the **pragmatic and epistemic value** components separately for analysis.
 3. Implement **active inference with action** — closing the perception-action loop.
+4. Understand **habit formation** through policy precision and expected free energy caching.
 
 ## Key Concepts
 
@@ -25,6 +26,8 @@ policies = generate_policies(3, 2)
 print(f"Number of policies: {len(policies)}")
 print(f"Example: {policies[0]}")
 ```
+
+> **Scaling note**: The number of policies grows as `num_actions^policy_length`. For 4 actions and 3 steps, that's 64 policies. For 4 actions and 5 steps: 1,024. Real implementations prune improbable policies or use tree search to avoid combinatorial explosion.
 
 ### 2. Full EFE with Decomposition
 
@@ -123,10 +126,55 @@ def active_inference_loop(A, B, C, D, env, num_steps=10, gamma=1.0, policy_len=2
     return log
 ```
 
+### 4. Habit Formation Through Policy Precision
+
+Biological agents don't evaluate every policy from scratch each time — they form **habits**. In Active Inference, habit learning can be implemented by accumulating a prior over policies based on past success:
+
+```python
+class HabitLearningAgent:
+    """Agent that develops policy habits through experience."""
+    
+    def __init__(self, A, B, C, D, num_actions, policy_len, gamma=1.0):
+        self.A, self.B, self.C, self.D = A, B, C, D
+        self.policies = generate_policies(num_actions, policy_len)
+        self.gamma = gamma
+        
+        # Habit prior: Dirichlet concentration over policies
+        # Starts uniform, then shaped by experience
+        self.habit_counts = np.ones(len(self.policies))
+        self.qs = D.copy()
+    
+    def select_action_with_habit(self):
+        """Policy selection combining EFE evaluation and habit prior."""
+        G = np.zeros(len(self.policies))
+        for i, policy in enumerate(self.policies):
+            G[i], _, _ = compute_efe_decomposed(
+                self.A, self.B, self.C, self.qs, policy
+            )
+        
+        # Combine EFE with habit prior (log-space addition)
+        log_habit = np.log(self.habit_counts / self.habit_counts.sum() + 1e-16)
+        combined = -self.gamma * G + log_habit
+        
+        pi = np.exp(combined - combined.max())
+        pi /= pi.sum()
+        
+        chosen = np.random.choice(len(self.policies), p=pi)
+        return int(self.policies[chosen][0]), chosen
+    
+    def reinforce_habit(self, policy_idx, reward=1.0):
+        """Strengthen the habit for a successful policy."""
+        self.habit_counts[policy_idx] += reward
+```
+
+> **Key insight**: As `habit_counts` accumulate, the habit prior increasingly dominates over EFE evaluation — the agent acts faster but less flexibly. This mirrors the psychological transition from deliberative to automatic behavior.
+
 ## Summary
 
-Multi-step policy evaluation generates all action sequences, computes EFE for each (decomposed into pragmatic and epistemic terms), and selects via softmax. The full active inference loop integrates perception, policy evaluation, and action into one continuous cycle.
+Multi-step policy evaluation generates all action sequences, computes EFE for each (decomposed into pragmatic and epistemic terms), and selects via softmax. The full active inference loop integrates perception, policy evaluation, and action into one continuous cycle. Habit formation emerges when successful policies accumulate prior probability, shifting behavior from deliberative to automatic.
 
 ## Further Reading
 
 - Sajid, N. et al. (2021). Active inference: Demystified and compared. *Neural Computation*, 33(3), 674-712.
+- Friston, K. J. et al. (2016). Active inference and learning. *Neuroscience & Biobehavioral Reviews*, 68, 862-879.
+- Da Costa, L. et al. (2020). Active inference on discrete state-spaces: A synthesis. *Journal of Mathematical Psychology*, 99, 102447.

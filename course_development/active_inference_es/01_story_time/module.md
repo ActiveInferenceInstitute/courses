@@ -1,36 +1,46 @@
-# Module 01: Systems in Es
+# Unit 1: Story Time — Welcome to Systems
 
 ## Learning Objectives
 
-1.  Define **Systems** within the context of Es.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Es to the formal definition of Systems.
+1. Understand that a **System** is a group of things that work together.
+2. Know that every system has a **Boundary** — like the walls of a fish tank.
+3. Learn the eight big ideas we will explore all year: Systems, Agents, Perception, Cognition, Action, Learning, Communication, and Planning.
 
-## Introduction
+## Introduction: What Is a System?
 
-This module explores **Systems**. In the **Es** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between the course introduction and Our Bodies.
-
-Welcome to Story Time! In this first unit, we use stories and imagination to help young learners understand what a "system" is. A system is just a group of things that work together, and kids already know lots of systems without realizing it: a family is a system, a fish tank is a system, and even a sandwich is a system of bread, filling, and toppings that come together to make something yummy.
+Welcome to Story Time! In this very first unit, we use stories and imagination to help young learners understand what a "system" is. A system is just a group of things that work together, and kids already know lots of systems without realizing it: a family is a system, a fish tank is a system, and even a sandwich is a system of bread, filling, and toppings that come together to make something yummy.
 
 Through the eight lessons in this unit, we will follow friendly characters who discover how different parts of the world connect and work together. Each lesson builds on the last, starting with what systems are, then meeting the characters who live inside systems (agents), learning how they notice things (perception), how they think about what they notice (cognition), how they do things (action), how they get better at doing things (learning), how they talk to each other (communication), and how they make plans for tomorrow (planning). By the end of Story Time, students will have a collection of stories they can retell and new words they can use to describe the world around them.
 
 ## Key Concepts
 
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
+### 1. Parts that Work Together
 
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
+A system is made of parts. A bicycle has wheels, pedals, and handlebars. Take away the wheels, and the bicycle does not work anymore! The parts *need* each other.
 
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
+### 2. The Boundary (Inside vs. Outside)
 
-## Applications
+Every system has an edge — a place where "inside" ends and "outside" begins. The glass of a fish tank is a boundary. Your skin is a boundary. A blanket fort has blanket-walls as its boundary. Some things pass through (light, food, sounds), and other things stay out (the classroom cat!).
 
-In Es, we see Systems manifest in:
-*   **Specific Example 1**: Think about a fish tank in your classroom. The fish tank is a system! It has water, fish, pebbles, a little plant, and a filter that bubbles air. Each part has a job: the plant makes oxygen, the filter keeps the water clean, and the pebbles give the fish a place to hide. If you take the filter away, the water gets dirty and the fish get sick. The fish tank shows us that a system has parts that need each other, and it has a boundary -- the glass walls -- that separates the inside world of the fish from the outside world of the classroom. The fish can see out through the glass, but they stay inside. That boundary is like a special wall that lets some things through (like light and food you sprinkle in) but keeps other things out (like the classroom cat!).
-*   **Specific Example 2**: Imagine you are building a blanket fort with your friends. The blanket fort is a system too! The chairs are the frame, the blankets are the walls, and the pillows are the cozy floor. You and your friends are inside the fort, and the rest of the room is outside. You can peek out to see what is happening, and you can reach out to grab snacks from the table. The blanket walls are the boundary of your fort system -- they separate your cozy inside world from the bigger room. If someone pulls away a chair, part of the fort falls down, showing that all the parts depend on each other. And when you decide to make the fort bigger by adding more blankets, you are changing the system!
+### 3. Expect and Surprise
 
-## Conclusion
+When your brain knows what *should* happen (the steady beat of your heart, the next line in your favorite song), it relaxes. When something different happens — a surprise! — your brain perks up. Throughout this course, we will see that "expecting" and "being surprised" is the engine that runs every system.
 
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+## Activities
+
+### 🐟 Activity 1: Fish Tank System
+
+Think about a fish tank in your classroom. The fish tank is a system! It has water, fish, pebbles, a little plant, and a filter that bubbles air. Each part has a job: the plant makes oxygen, the filter keeps the water clean, and the pebbles give the fish a place to hide. If you take the filter away, the water gets dirty and the fish get sick. Draw the fish tank and label all its parts. Then draw the glass walls and label them "Boundary."
+
+### 🏰 Activity 2: Blanket Fort System
+
+Imagine you are building a blanket fort with your friends. The blanket fort is a system too! The chairs are the frame, the blankets are the walls, and the pillows are the cozy floor. You and your friends are inside the fort, and the rest of the room is outside. You can peek out to see what is happening, and you can reach out to grab snacks from the table. Draw your fort. What happens if someone pulls away a chair?
+
+## Summary
+
+A system is a group of things that work together, like a fish tank or a blanket fort. Every system has a boundary that separates the inside from the outside. In Story Time, we will learn how the things *inside* a system — the agents! — sense the world, think, act, learn, talk, and plan.
+
+## References
+
+* *If You Give a Mouse a Cookie* by Laura Numeroff (a story about a system of causes and effects!)
+* *The House That Jack Built* (traditional — a story about parts building up a system)

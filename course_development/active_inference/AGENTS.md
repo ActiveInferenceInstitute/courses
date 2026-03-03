@@ -113,9 +113,9 @@ This order is fixed and must not be changed. It reflects the logical dependency 
 
 ---
 
-## Content Format Standards (biol-1 Compliance)
+## Content Format Standards
 
-All content files follow the formatting conventions from `biol-1/course`:
+All content files follow the established formatting conventions:
 
 | File | Format Requirements |
 |------|-------------------|

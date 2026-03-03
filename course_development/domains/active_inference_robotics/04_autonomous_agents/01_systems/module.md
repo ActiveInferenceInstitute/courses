@@ -1,32 +1,67 @@
-# Module 01: Systems in Robotics
+# Module 01: Systems in Robotics — Autonomous Agents
 
 ## Learning Objectives
 
-1.  Define **Systems** within the context of Robotics.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Systems.
+1. Define an **autonomous robotic agent** as a self-governing Active Inference system capable of sustained operation without human oversight.
+2. Analyze how **autonomy levels** (from teleoperation to full autonomy) correspond to different degrees of internal generative model completeness.
+3. Apply the concept of **operational envelopes** — the boundaries within which the autonomous agent can reliably minimize free energy.
 
 ## Introduction
 
-This module explores **Systems**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between Planning and Agents.
+An autonomous robot is the fullest instantiation of Active Inference in engineered systems: it perceives its own state and the environment, predicts future states, selects policies to pursue goals, executes actions, learns from outcomes, communicates with other agents, and plans over extended time horizons — all without human intervention.
+
+The system perspective of autonomous agents focuses on the **boundaries of autonomy**: What defines the limits of reliable self-governance? When does the system need to request human assistance? How does the agent know when it is approaching the edge of its competence?
 
 ## Key Concepts
 
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
+### 1. Levels of Autonomy
 
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
+The SAE J3016 standard for autonomous vehicles illustrates autonomy levels in Active Inference terms:
 
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
+- **Level 0 (No automation)**: No internal generative model for driving — human does all inference
+- **Level 1 (Driver assistance)**: The system has a partial generative model (e.g., ACC maintains speed) but human provides the overall policy
+- **Level 2 (Partial automation)**: The system handles both longitudinal and lateral control but human monitors and intervenes
+- **Level 3 (Conditional automation)**: The system performs full driving within its **Operational Design Domain** (ODD) — the environment conditions under which its generative model is reliable
+- **Level 4 (High automation)**: The system handles all scenarios within its ODD, including edge cases, without human monitoring
+- **Level 5 (Full automation)**: The generative model covers all driving scenarios — no ODD restriction
+
+Each level represents a broader and deeper generative model. The progression from Level 0 to Level 5 is the progressive extension of the agent's autonomous inference capacity.
+
+### 2. Operational Envelopes and Meta-Cognition
+
+An autonomous agent must know the **boundaries of its own competence** — the conditions under which its generative model reliably produces low free energy:
+
+- **Within the envelope**: Prediction errors are small, control is effective, the agent operates confidently
+- **Approaching the boundary**: Prediction errors increase — the agent detects rising surprise and can proactively seek help, slow down, or retreat to a conservative mode
+- **Beyond the envelope**: The generative model fails catastrophically — prediction errors are unmanageable, and the agent must either signal emergency or safely shut down
+
+This **meta-cognitive monitoring** is itself an inference process — the agent maintains a model of its own model's reliability, registering increasing free energy as a signal of model inadequacy.
+
+### 3. Fault Detection and Recovery
+
+Autonomous agents must detect and respond to their own failures:
+
+- **Sensor faults**: An observation suddenly deviates from the model prediction far beyond normal noise → the precision on that sensor is reduced to near-zero (effectively ignoring the faulty sensor)
+- **Actuator faults**: A motor command produces no response or an unexpected response → the B matrix prediction error for that actuator spikes, triggering a reconfigured control strategy
+- **Planning failures**: A planned path leads to a dead end or an unexpected obstacle → the planner backtracks and re-evaluates available policies
+
+Each failure mode is detectable as an *unexpected* increase in free energy that the agent's normal inference process cannot resolve.
+
+### 4. Human-Robot Shared Autonomy
+
+Many real systems operate in **shared autonomy** — the human and the robot share the inference and control burden:
+
+- The robot handles low-level control (stability, obstacle avoidance, trajectory smoothing)
+- The human provides high-level goals and strategic overrides
+- The interface between human and robot is a **coupled Markov blanket** — the robot's outputs (status displays, alerts, motion cues) are the human's observations, and the human's inputs (commands, corrections, goal changes) are the robot's observations
+
+The quality of shared autonomy depends on how well the human-robot interface supports this bilateral inference.
 
 ## Applications
 
-In Robotics, we see Systems manifest in:
-*   **Specific Example 1**: A Waymo-class self-driving vehicle defines its system boundary through a multi-modal sensor suite (LIDAR, cameras, radar, ultrasonics) and actuator interface (steering, throttle, brake) that together form the Markov blanket; the vehicle's internal states (path planner, prediction module, localization stack) are conditionally independent of the environment given these boundary elements, and the entire autonomous driving software stack can be understood as a single system performing hierarchical free energy minimization across perception, prediction, and motion planning subsystems.
-*   **Specific Example 2**: A multi-robot search-and-rescue system composed of heterogeneous agents (ground rovers, aerial drones, and a stationary base station) forms a distributed system where each agent's individual Markov blanket is nested within the team-level system boundary; the base station aggregates partial maps from each agent's local SLAM system, and the team-level generative model of the disaster site emerges from the composition of individual agent models connected through shared spatial reference frames and communication links.
+- **Mars rover autonomy**: NASA's Mars rovers demonstrate bounded autonomy — they can navigate and avoid obstacles autonomously within their operational envelope (moderate terrain, sufficient sunlight), but complex scientific decisions are deferred to Earth-based operators. Rising free energy (unexpected terrain, communication blackout) triggers conservative stop-and-wait behavior.
+- **Autonomous warehouse fleet**: A fleet of mobile robots in an Amazon fulfillment center operates at Level 4 autonomy within the warehouse ODD — handling navigation, traffic coordination, and pick-station docking without human oversight, but requesting help for edge cases (fallen objects, reconfigured shelves).
 
 ## Conclusion
 
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Autonomous robotic agents are self-governing Active Inference systems operating within defined operational envelopes. Understanding the system perspective — autonomy levels, meta-cognition, fault detection, and shared autonomy — provides the foundation for designing reliable, safe autonomous robots. The following modules explore each Active Inference component in the autonomous agent context.

@@ -1,22 +1,25 @@
-# Philosophical Foundations — Module 06: Learning — Study Questions
+# Philosophical Foundations — Module 06: Learning & Philosophy of Science — Study Questions
 
-1. How does Kuhn's cycle of normal science → crisis → revolution map onto parameter learning → model selection?
-2. How does Lakatos's hard core / protective belt distinction relate to hierarchical model structure?
-3. How does Popper's falsification relate to Bayesian model evidence decline?
-4. Explain how free energy F = Complexity - Accuracy formalizes Occam's Razor.
-5. What is Bayesian Model Reduction? How does it implement formal parsimony?
-6. What is the demarcation problem? How does Active Inference address it?
-7. How can pseudoscience be characterized in Active Inference terms?
-8. What is dogmatic belief updating? How do overly strong priors prevent learning?
-9. State Hume's problem of induction. How does Active Inference respond?
-10. How does evolutionary history shape inductive priors?
-11. What is under-determination? How does model comparison address it?
-12. Compare scientific realism with constructive empiricism. Where does the FEP stand?
-13. How does model evidence relate to empirical adequacy?
-14. Can Active Inference model scientific communities as multi-agent belief-updating systems?
-15. How does precision relate to the weight of evidence in theory change?
-16. What is the role of surprise in driving scientific discovery?
-17. How does the FEP's treatment of learning differ from classic empiricist accounts?
-18. Can the FEP explain irrational belief persistence (conspiracy theories, ideological rigidity)?
-19. How does Bayesian model comparison differ from classical hypothesis testing?
-20. Critically evaluate: Does the FEP offer genuine insight into the nature of science, or does it merely provide a mathematical metaphor?
+## Part 1: Fundamental Comprehension
+
+1. **Philosophy of Science Paradigms**: How does Thomas Kuhn's cycle of "normal science → crisis → scientific revolution" map mathematically onto the Active Inference concepts of continuous parameter learning versus discontinuous structural model selection?
+2. **Research Programs**: Explain Imre Lakatos's distinction between the "hard core" of a research program and its "protective belt" of auxiliary hypotheses. How does this structural distinction perfectly mirror the deep versus superficial layers of a hierarchical generative model?
+3. **Falsificationism**: Briefly state Karl Popper's theory of falsification. In a strictly Bayesian framework, theories are rarely "falsified" outright; instead, their model evidence declines relative to competing models. Explain this distinction.
+4. **Formalizing Parsimony**: Explain how the Free Energy equation ($F = \text{Complexity} - \text{Accuracy}$) serves as a rigorous, mathematical formalization of William of Ockham's Razor. Why does the math explicitly penalize overly complex models?
+5. **Bayesian Model Reduction**: Define Bayesian Model Reduction (BMR). How does this mathematical technique allow a scientist (or a brain) to systematically prune away useless parameters to discover the simplest, most parsimonious model that still explains the data?
+
+## Part 2: Advanced Analysis & Synthesis
+
+1. **The Demarcation Problem**: What is the classical "demarcation problem" in philosophy of science (distinguishing science from pseudoscience)? How might the Active Inference framework analyze pseudoscience as a generative model with "dogmatic priors" (infinite precision) that refuse to update regardless of massive prediction errors?
+2. **The Problem of Induction**: State David Hume's classical problem of induction. If we can never logically guarantee that the future will resemble the past, how does the Active Inference agent justify its inductive priors? (Hint: evolutionary history and the anthropic principle).
+3. **Underdetermination of Theory**: Theories are always "underdetermined" by data—meaning multiple different models can perfectly explain the same dataset. How does Active Inference use the Complexity penalty in model comparison to solve the problem of underdetermination?
+4. **Scientific Realism vs. Constructive Empiricism**: Compare scientific realism (the belief that our best models literally describe unobservable reality) with Bas van Fraassen's constructive empiricism (the belief that models only need to be "empirically adequate"). Where does the Free Energy Principle naturally sit on this spectrum?
+5. **The Role of Surprise**: In classical empiricism, sensory data passively builds knowledge. In Active Inference, *surprisal* (prediction error) actively destroys and reshapes knowledge. Analyze how this reframes the role of the anomalous experiment in driving scientific discovery.
+
+## Part 3: Methodological Application
+
+1. **Modeling the Scientific Community**: Design a conceptual multi-agent model of a scientific community. How would you define the shared "Markov blanket" of a discipline, and how do individual scientists (agents) communicate prediction errors (peer review) to update the collective generative model?
+2. **Analyzing Ideological Rigidity**: Apply the mathematics of Active Inference to explain the persistence of conspiracy theories or extreme ideological rigidity. How do highly precise, untestable top-down priors completely neutralize and explain away contradictory bottom-up evidence?
+3. **Hypothesis Testing**: Explain the fundamental philosophical differences between classical frequentist null-hypothesis significance testing (p-values) and Bayesian model comparison (Bayes factors). Why is the latter inherently more aligned with the epistemology of Active Inference?
+4. **Critical Evaluation of the FEP**: Construct a rigorous counter-argument to the Free Energy Principle's application to philosophy of science. Does the FEP offer genuine, novel epistemological insights into the nature of scientific discovery, or does it merely provide a post-hoc mathematical metaphor for what philosophers of science already knew?
+5. **Designing a "Crucial Experiment"**: Historically, "crucial experiments" were designed to definitively choose between two rival theories. Describe the exact mathematical conditions under which a single observation $o$ would cause an Active Inference agent to completely abandon Generative Model A and adopt Generative Model B.

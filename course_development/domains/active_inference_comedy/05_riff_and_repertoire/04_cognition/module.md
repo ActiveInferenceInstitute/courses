@@ -2,41 +2,62 @@
 
 ## Learning Objectives
 
-1. Understand creative cognition in comedy through the lens of Active Inference.
-2. Apply evolution, improvisation, and tradition to analyze comedy mechanics in 'Who\'s on First?'
-3. Connect cognition theory to practical comedy craft from the Riff & Repertoire perspective.
+1. Analyze the **creative cognition** of comedy writing — the mental processes that transform raw observations into structured jokes.
+2. Apply the concept of **associative networks** to explain how comedians connect disparate ideas into coherent comedic material.
+3. Examine how **creative blocks** and **breakthroughs** are understood through the lens of Active Inference.
 
 ## Introduction
 
-Creative cognition in comedy — the process of generating new jokes, new routines, new comedic perspectives — is one of the least understood and most remarkable forms of human cognition. How does a comedian take their model of the world and find the gaps, the incongruities, the benign violations that will produce laughter? This is cognitive exploration of model space — the comedian searching their generative model for regions where prediction will fail productively.
-
-This module examines creative cognition in comedy: how comedians find the funny, how creative insight relates to prediction error, and how the cognitive processes of joke writing connect to Active Inference.
+Comedy writing is creative cognition under constraint — the comedian must generate material that is simultaneously surprising (violates predictions), recognizable (connects to audience experience), structurally sound (setup → punchline architecture works), and authentic (consistent with the comedian's persona). This module examines the cognitive processes that make comedy creation possible.
 
 ## Key Concepts
 
-### Creative Cognition in Comedy
+### 1. Associative Network Cognition
 
-At the heart of this module is creative cognition in comedy — the way cognition operates within evolution, improvisation, and tradition. In 'Who\'s on First?', this manifests as the interplay between performers, audience, and the comedy tradition, examined through the temporal, social, and evolutionary dimensions that Riff & Repertoire foregrounds.
+Comedy writing exploits the brain's **associative network** — the web of connections between concepts, memories, and experiences:
 
-### Active Inference Formalization
+- A comedy writer hearing "dentist" activates a cascade of associated nodes: pain, drills, small talk with objects in your mouth, the social awkwardness of enforced intimacy with a stranger, insurance fraud, gas-induced vulnerability, the power dynamic of someone literally looking down on you
+- Each association is a potential comedy pathway — a direction in which the observation could be developed
+- **Creative fertility**: Comedians with rich associative networks (broadly experienced, widely read, culturally aware) generate more candidate pathways per observation
+- **Selection discipline**: Among dozens of associations, only a few produce genuine prediction error for the target audience. The creative process is generation (wide) followed by selection (narrow).
 
-Active Inference provides the formal toolkit for understanding cognition in this context. The key constructs are:
+### 2. The "Writing Through" Process
 
-- **Generative model**: The agent's internal model of how cognition works in comedy — what patterns to expect, what signals to attend to, and what actions to take.
-- **Prediction error**: The mismatch between expected and observed cognition dynamics — the signal that drives updating and adaptation.
-- **Precision weighting**: The confidence assigned to predictions about cognition — higher precision means stronger expectations and larger prediction errors when they fail.
-- **Expected free energy**: The anticipated surprise and information gain associated with future actions related to cognition.
+Experienced comedy writers use a technique called **"writing through"** — starting with a premise and writing continuously, pursuing every association without self-censorship:
 
-### Domain-Specific Application
+- The first iteration produces raw, unedited material — mostly unfunny, but containing seeds of genuine comedy
+- The writer then reviews this raw material, identifying the 2-3 lines that produced a genuine internal laugh response
+- Those lines become the anchors for a second iteration — more focused, more structured, more refined
+- After 3-5 iterations, the bit has crystallized — the structure is clear, the punchlines are sharp, and the dead branches have been pruned
 
-From the Riff & Repertoire perspective, cognition in 'Who\'s on First?' reveals dynamics invisible from other vantage points. The routine is not just a text — it is a living performance that operates through evolution, improvisation, and tradition, connecting the mechanics of individual exchanges to the broader patterns of comedy as cultural practice.
+This process mirrors Active Inference model optimization: generate predictions broadly (exploration), evaluate against data (audience model), and retain what survives (exploitation).
+
+### 3. The Creative Block as High-Precision Lock-In
+
+**Writer's block** in comedy is a phenomenon of excessive precision:
+
+- The comedian's critical model (the inner editor) becomes over-strong — every candidate idea is rejected before it can develop because it doesn't meet the impossibly high standard set by the editor
+- Precision on "this must be funny" becomes so high that nothing survives the filter — the agent is paralyzed by its own quality standards
+- The cure for creative blocks is often **deliberate precision reduction**: writing "bad" jokes on purpose, performing in low-stakes environments, imposing arbitrary constraints (write a joke about socks in 60 seconds) that bypass the critical model
+
+Creative breakthroughs, conversely, often occur when precision on expected outcomes drops — late at night, in relaxed conversation, during unrelated activities — because the loosened critical filter allows novel associations to survive long enough to be evaluated.
+
+### 4. Genre and Format Cognition
+
+The comedian's cognitive model includes **genre templates** — structural frameworks that guide creation:
+
+- **One-liner format**: [Setup = false frame] → [Punchline = true frame]. Economy: maximum prediction error per word.
+- **Story format**: [Extended narrative] → [Embedded punchlines] → [Final payoff]. The cognitive challenge is maintaining narrative coherence while embedding incongruities.
+- **Character format**: [Persona adoption] → [Behavior within persona] → [Persona-breaking moment]. The cognitive challenge is sustained character maintenance with strategic breaks.
+- **Rant format**: [Escalating grievance] → [Increasing absurdity] → [Culminating outburst]. The cognitive challenge is controlled escalation — the rant must feel spontaneous while following a planned trajectory.
+
+Each format activates a different cognitive template that guides the creation process — the writer thinks differently when writing a one-liner versus a story.
 
 ## Applications
 
-- **Cognition in Stand-Up**: Solo performers navigate cognition dynamics without a partner, requiring them to internalize the functions that a duo distributes between two agents.
-- **Cognition in Improv**: Improvisational comedy pushes cognition to its limits, requiring real-time processing without the safety net of rehearsal.
-- **Cognition Across Cultures**: Different comedy traditions approach cognition differently, revealing both universal principles and cultural specificity.
+- **Carlin's Writing Process**: George Carlin's legendary work ethic involved handwriting jokes on legal pads, categorizing observations by topic, and "writing through" each topic exhaustively — generating pages of material to extract a few minutes of final product. His notebooks, displayed at the National Comedy Center, reveal the cognitive process: dense associative exploration followed by ruthless selection.
+- **AI Comedy Generation**: Computational comedy attempts (GPT-generated jokes, algorithm-driven puns) illuminate the cognitive challenge by comparison — current AI systems can manipulate language structure but struggle to model audience prediction spaces, demonstrating that comedy cognition requires rich social modeling, not just linguistic pattern matching.
 
 ## Conclusion
 
-Cognition in Riff & Repertoire reveals dimensions of comedy that are invisible from other perspectives. By examining creative cognition in comedy through Active Inference, we see how cognition is not just a feature of comedy but a fundamental mechanism — the process by which performers and audiences co-create the experience of humor through evolution, improvisation, and tradition.
+Comedy cognition involves associative network exploration, iterative writing-through, creative block management through precision modulation, and genre-template deployment. The comedian's mind is a creative inference engine — generating, evaluating, and refining material through the same prediction-error-driven processes that organize all human cognition.

@@ -2,43 +2,54 @@
 
 ## Learning Objectives
 
-1. Understand temporal systems in comedy through the lens of Active Inference.
-2. Apply precision dynamics and temporal control to analyze comedy mechanics in 'Who\'s on First?'
-3. Connect systems theory to practical comedy craft from the Timing & Tension perspective.
+1. Analyze the **temporal architecture** of a comedy bit as a dynamical system with measurable timing parameters.
+2. Apply the concept of **tension as accumulated prediction error** to understand how jokes build energy that demands discharge.
+3. Map the **timing-tension system** of "Who's on First?" to the broader principles of comedic rhythm.
 
 ## Introduction
 
-Comedy lives or dies in the microseconds. A punchline delivered a half-beat early falls flat; the same punchline a half-beat late lands like thunder. The temporal system of comedy is a precision clock where every tick matters, and the tock is laughter or silence.
+Every comedy performance exists in time, and time in comedy is not the neutral container of physics — it is a *shaped medium* with its own architecture. A joke has temporal structure: the setup occupies a specific duration, the pause before the punchline has a measurable length, and the audience's laughter fills a predictable window. Alter any of these durations by even a fraction of a second, and the joke may die.
 
-This module examines comedy as a temporal dynamical system — a system where the STATE variables are not just beliefs and observations but their precise temporal arrangement. In 'Who's on First?', the timing of each exchange is part of the system's structure: the pause between Abbott's answer and Costello's reaction, the acceleration of exchanges as confusion mounts, the rhythmic pulse that makes the exchange feel like music.
-
-Timing is not decoration. It is the system itself.
+The system of timing and tension is the temporal machinery of comedy — the clock-work that makes humor possible. This module examines comedy as a temporal dynamical system in which timing is not an aesthetic nicety but the fundamental mechanism through which prediction error is managed.
 
 ## Key Concepts
 
-### Temporal Systems in Comedy
+### 1. The Temporal Architecture of a Joke
 
-At the heart of this module is temporal systems in comedy — the way systems operates within precision dynamics and temporal control. In 'Who\'s on First?', this manifests as the interplay between performers, audience, and the comedy tradition, examined through the temporal, social, and evolutionary dimensions that Timing & Tension foregrounds.
+A joke is a temporal object with a specific structure:
 
-### Active Inference Formalization
+- **Setup phase** (typically 2-10 seconds): Establishes the shared generative model — the audience builds predictions about where the narrative is going. Duration is calibrated to ensure sufficient model-building without losing attention.
+- **Pivot point** (instantaneous or near-instantaneous): The moment where the actual trajectory departs from the predicted trajectory. In "Who's on First?", the pivot occurs at the exact syllable where the audience realizes "Who" is a name, not a question.
+- **Punchline/payoff** (0.5-2 seconds): The delivery of the unexpected observation. Timing here is measured in milliseconds — delivering too early doesn't allow the prediction to fully form; delivering too late allows the audience to predict the punchline themselves.
+- **Recovery window** (1-5 seconds): The space for laughter. A comedian who speaks over the laughter destroys the rhythm; one who waits too long loses momentum.
 
-Active Inference provides the formal toolkit for understanding systems in this context. The key constructs are:
+This architecture maps directly onto the Active Inference temporal loop: establish predictions → violate predictions → discharge the accumulated prediction error.
 
-- **Generative model**: The agent's internal model of how systems works in comedy — what patterns to expect, what signals to attend to, and what actions to take.
-- **Prediction error**: The mismatch between expected and observed systems dynamics — the signal that drives updating and adaptation.
-- **Precision weighting**: The confidence assigned to predictions about systems — higher precision means stronger expectations and larger prediction errors when they fail.
-- **Expected free energy**: The anticipated surprise and information gain associated with future actions related to systems.
+### 2. Tension as Accumulated Free Energy
 
-### Domain-Specific Application
+**Tension** in comedy is the audience's accumulated free energy — the growing discrepancy between their predictions and the unfolding narrative:
 
-From the Timing & Tension perspective, systems in 'Who\'s on First?' reveals dynamics invisible from other vantage points. The routine is not just a text — it is a living performance that operates through precision dynamics and temporal control, connecting the mechanics of individual exchanges to the broader patterns of comedy as cultural practice.
+- Low tension (early in setup): The audience's model and the narrative are aligned. Free energy is low.
+- Rising tension (approach to punchline): The narrative begins to deviate subtly from predictions. Free energy rises. The audience *feels* something coming but doesn't know what.
+- Peak tension (just before punchline): Maximum prediction error momentum — the audience's model is maximally engaged but maximally uncertain about what will happen next.
+- Discharge (punchline): The prediction error resolves — either through a surprising reinterpretation (the model suddenly "clicks" onto a new interpretation) or through a violation that cannot be resolved (pure absurdity). Laughter is the behavioral discharge of accumulated free energy.
+
+In "Who's on First?", tension operates cyclically rather than linearly — each exchange builds tension, partially discharges it through micro-laughs, then rebuilds to a higher level, producing the characteristic escalation of the routine.
+
+### 3. The Metronome and the Rubato
+
+Comedy timing operates between two poles:
+
+- **Metronomic timing**: Regular, predictable rhythm — the audience knows when the next beat will land. Rapid-fire joke telling (Henny Youngman's one-liners) uses metronomic timing to establish a rhythm the audience can entrain to.
+- **Rubato timing**: Flexible, expressive timing — the comedian stretches and compresses time for dramatic effect. Dramatic pauses, accelerations, and tempo changes all break the metronomic expectation, generating prediction errors *in the timing domain itself*.
+
+Abbott and Costello's genius is their ability to alternate between metronomic exchanges (establishing the rhythm) and rubato disruptions (Costello's eruptions of frustration that shatter the timing pattern).
 
 ## Applications
 
-- **Systems in Stand-Up**: Solo performers navigate systems dynamics without a partner, requiring them to internalize the functions that a duo distributes between two agents.
-- **Systems in Improv**: Improvisational comedy pushes systems to its limits, requiring real-time processing without the safety net of rehearsal.
-- **Systems Across Cultures**: Different comedy traditions approach systems differently, revealing both universal principles and cultural specificity.
+- **The Sitcom Laugh Track**: The laugh track in traditional sitcoms serves as an artificial recovery window — it signals to the audience "this was the punchline" and provides the temporal space for tension discharge, even when the joke might not have been strong enough to generate organic laughter.
+- **Callback Timing**: In stand-up, a callback (revisiting an earlier joke) exploits temporal distance. The audience's prediction error from the original joke has been partially resolved; the callback reactivates it with near-zero setup cost, producing a disproportionately large laugh relative to the callback's brevity.
 
 ## Conclusion
 
-Systems in Timing & Tension reveals dimensions of comedy that are invisible from other perspectives. By examining temporal systems in comedy through Active Inference, we see how systems is not just a feature of comedy but a fundamental mechanism — the process by which performers and audiences co-create the experience of humor through precision dynamics and temporal control.
+The timing-tension system is the temporal engine of comedy. Setup duration, pivot precision, punchline timing, and recovery windows are all parameters of a dynamical system optimized for free energy management. Understanding this system explains why the same joke, told with different timing, produces radically different results.

@@ -5,6 +5,7 @@
 1. Derive the **precision optimization** equations — how the brain estimates and adjusts the precision (inverse variance) of prediction errors.
 2. Formalize **attention as precision optimization**: increasing the gain on relevant prediction errors to weight them more heavily.
 3. Derive the relationship between precision, Fisher information, and model confidence.
+4. Understand **Bayesian model comparison** through precision and model evidence.
 
 ## Introduction
 
@@ -54,17 +55,53 @@ In hierarchical predictive coding, attention corresponds to optimizing precision
 
 **dγₗ/dt = -∂F/∂γₗ**
 
-where γₗ is the log-precision at level l. This modulates the gain on prediction errors:
+where γₗ = ln(πₗ) is the log-precision at level l. This modulates the gain on prediction errors:
 
 - Increasing γₗ → amplifying prediction errors at level l → "paying attention" to data at that level
 - Decreasing γₗ → attenuating prediction errors → "ignoring" data at that level
+
+### 5. Worked Example: Precision Optimization in Noisy Observation
+
+Consider an agent observing a signal oₜ = s + εₜ, where εₜ ~ N(0, σ²). The true precision is π_true = 1/σ². The agent maintains a belief over precision using a Gamma distribution q(π) = Gamma(α, β).
+
+After observing N data points with prediction errors ε₁, ..., εN:
+
+**α_posterior = α_prior + N/2**
+**β_posterior = β_prior + ½ · Σᵢ εᵢ²**
+
+The expected precision is:
+
+**E[π] = α_posterior / β_posterior**
+
+Starting with a weak prior (α=1, β=1), after 10 observations with true σ=0.5 (π_true=4):
+
+- Typical sum of squared errors: Σεᵢ² ≈ N · σ² = 10 · 0.25 = 2.5
+- α_posterior = 1 + 5 = 6, β_posterior = 1 + 1.25 = 2.25
+- E[π] = 6/2.25 = 2.67 (converging toward π_true = 4)
+
+With more data, the estimate converges: after 100 observations, E[π] ≈ 3.85.
+
+### 6. Precision and Model Comparison
+
+Precision also appears in **Bayesian model comparison**. The model evidence (marginal likelihood) of model m is:
+
+**ln p(o | m) = -F_min(m)**
+
+where F_min is the minimum free energy achievable under model m. A model that assigns appropriate precision to each level of the hierarchy will achieve lower free energy than one with misspecified precision. This is why precision optimization is not just about attention but about **model selection** — choosing the generative model that best explains the data.
 
 ## Derivation Exercises
 
 1. For a Gaussian likelihood p(o|s) = N(g(s), π⁻¹), derive ∂F/∂π and find the optimal precision π*.
 2. Show that the Fisher information I = Π for a univariate Gaussian with known mean and unknown variance.
 3. Derive the precision update equation for a two-level hierarchy with different precisions at each level.
+4. Compute the posterior Gamma parameters for precision after observing 5 data points with prediction errors {0.3, -0.5, 0.1, 0.4, -0.2} and a Gamma(2, 1) prior.
 
 ## Conclusion
 
-Precision is the key quantity that bridges perception (what to believe) and attention (what to attend to). Its optimization provides the mathematical foundation for understanding how the brain allocates its computational resources. Module 05 extends the framework to action — how the agent changes the world, not just its beliefs.
+Precision is the key quantity that bridges perception (what to believe) and attention (what to attend to). Its optimization provides the mathematical foundation for understanding how the brain allocates its computational resources and selects among competing models. Module 05 extends the framework to action — how the agent changes the world, not just its beliefs.
+
+## Further Reading
+
+- Feldman, H. & Friston, K. (2010). Attention, uncertainty, and free-energy. *Frontiers in Human Neuroscience*, 4, 215.
+- Parr, T. & Friston, K. J. (2019). Generalised free energy and active inference. *Biological Cybernetics*, 113(5-6), 495-513.
+- Bishop, C. M. (2006). *Pattern Recognition and Machine Learning*, §2.3.6: Bayesian inference for Gaussian precision. Springer.

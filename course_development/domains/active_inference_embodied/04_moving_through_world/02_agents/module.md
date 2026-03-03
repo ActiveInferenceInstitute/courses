@@ -1,32 +1,63 @@
-# Module 02: Agents in Embodied
+# Module 02: Agents in Embodied Cognition — The Navigating Body
 
 ## Learning Objectives
 
-1.  Define **Agents** within the context of Embodied.
-2.  Analyze how Agents interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Embodied to the formal definition of Agents.
+1. Define the **navigating body** as an Active Inference agent whose primary task is to maintain viability while moving through uncertain, dynamic environments.
+2. Analyze how the **vestibular system, optic flow, and proprioceptive integration** support the navigating agent's spatial generative model.
+3. Apply the Active Inference framework to understand locomotion challenges: balance, fall prevention, and adaptation to novel environments.
 
 ## Introduction
 
-This module explores **Agents**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Agents is a critical component of the 8-part Active Inference spine, bridging the gap between Systems and Perception.
+The navigating body is an agent confronting the world's most ancient challenge: how to move through space without dying. Every step on uneven ground, every turn around a blind corner, every crossing of a busy street requires real-time spatial inference — updating the body's model of where it is, where obstacles are, and how the terrain will respond to the next footfall.
+
+This module examines the embodied agent as a navigator — an inference system that fuses vestibular, visual, proprioceptive, and auditory information into a coherent spatial model sufficient for real-time locomotion.
 
 ## Key Concepts
 
-### 1. Agents as a Markov Blanket Boundary
-How does Agents define the boundary between the agent and the environment?
+### 1. The Vestibular Foundation
 
-### 2. Generative Models of Agents
-What parameters involved in Agents must be optimized to minimize variational free energy?
+The **vestibular system** provides the foundational reference frame for spatial inference:
 
-### 3. Active Inference Dynamics
-How does the process of Agents drive the perception-action loop?
+- **Semicircular canals** detect angular acceleration → provide the rotation component of the spatial B matrix
+- **Otolith organs** detect linear acceleration and gravity → provide the translation and orientation components
+- The vestibular system generates **predictions** about expected self-motion — when these predictions are violated (seasickness on a boat, vertigo during illness), the agent experiences intense prediction errors experienced as nausea and disorientation
+
+In Active Inference, vestibular signals are high-precision observations that anchor the entire spatial generative model. Vestibular pathology disrupts this anchor, degrading all spatial inference.
+
+### 2. Optic Flow and Visual Navigation
+
+**Optic flow** — the pattern of visual motion across the retina during self-movement — provides rich navigational information:
+
+- **Heading direction**: The focus of expansion in the optic flow field indicates the direction of travel
+- **Speed estimation**: The velocity of optic flow translates directly to estimated locomotion speed
+- **Obstacle detection**: Discontinuities in the flow field signal objects at different depths — obstacles interrupt the expected flow pattern, generating visual prediction errors
+- **Time-to-contact**: The rate of expansion of an approaching surface predicts when contact will occur — enabling anticipatory braking
+
+The navigating agent fuses optic flow with vestibular signals through precision-weighted multi-sensory integration — in darkness, vestibular precision dominates; in well-lit environments, visual precision may dominate for heading control.
+
+### 3. Balance as Continuous Inference
+
+**Balance** is not a set-it-and-forget-it postural state — it is continuous real-time inference:
+
+- The body's center of mass must remain over the base of support (the area bounded by the feet)
+- Postural sway (the continuous micro-oscillations visible in quiet standing) is the embodied agent's **active sampling** of the balance landscape — it generates small prediction errors that keep the postural model calibrated
+- Loss of balance is a cascade of unresolvable prediction errors — the postural model can no longer generate corrections fast enough to keep the center of mass over the base of support
+
+**Fall prevention** in elderly populations can be understood as maintaining the precision and speed of the postural inference system — balance exercises literally train the proprioceptive-vestibular generative model.
+
+### 4. Adaptation to Novel Environments
+
+The navigating body adapts to novel environments by updating its spatial generative model:
+
+- **Space adaptation syndrome**: Astronauts experience intense vestibular prediction errors in microgravity — the generative model's gravity prior (pointing down with high precision) is suddenly violated. Adaptation takes days as the model is re-parameterized for the microgravity environment.
+- **New shoes**: Wearing heels for the first time changes the proprioceptive parameters — stride length, ground clearance, ankle stiffness — requiring immediate model updating.
+- **Virtual reality**: VR-induced motion sickness arises when optic flow predictions (the visual model says "I'm moving") conflict with vestibular observations (the vestibular model says "I'm stationary") — a multi-sensory prediction error of the same type that causes seasickness.
 
 ## Applications
 
-In Embodied, we see Agents manifest in:
-*   **Specific Example 1**: A parkour practitioner approaching a wall sees it not as an obstacle but as an affordance -- a surface to vault, a ledge to grab, a launch point for a precision jump; her body-as-agent generates action possibilities directly from the visual array at her Markov blanket, perceiving the environment in terms of what her movement repertoire allows, which is the embodied agent's generative model specifying the world in relation to its own motor capabilities.
-*   **Specific Example 2**: When I navigate a crowded sidewalk, my body acts as an autonomous locomotor agent that automatically adjusts stride length, pace, and trajectory to weave through gaps between other pedestrians without conscious planning; this is the embodied agent's active inference loop operating in real time, where each predicted collision generates a prediction error at the Markov blanket that is immediately resolved through corrective stepping policies, all beneath the threshold of deliberate awareness.
+- **Elderly fall prevention programs**: Balance training programs for seniors work by systematically challenging the postural generative model — Tai Chi, balance boards, and obstacle courses generate controlled prediction errors that keep the vestibular-proprioceptive model calibrated, reducing fall risk by up to 50%.
+- **VR locomotion design**: Designing comfortable VR locomotion systems requires minimizing the visual-vestibular prediction error — techniques like vignetting (reducing peripheral vision during virtual movement) or galvanic vestibular stimulation (injecting vestibular signals that match the virtual movement) reduce sensory conflict.
 
 ## Conclusion
 
-Understanding Agents allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+The navigating body is an Active Inference agent specialized for spatial viability — maintaining spatial awareness and dynamic balance through continuous multi-sensory inference. Vestibular anchoring, optic flow interpretation, postural regulation, and environmental adaptation are all facets of the same underlying free energy minimization. The next module examines perception through the lens of world-engaged movement.

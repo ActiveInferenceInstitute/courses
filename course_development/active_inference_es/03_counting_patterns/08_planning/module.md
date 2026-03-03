@@ -1,32 +1,61 @@
-# Module 08: Planning in Elementary School
+# Module 08: Planning — Thinking Ahead
 
 ## Learning Objectives
 
-1.  Define **Planning** within the context of Elementary School.
-2.  Analyze how Planning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Elementary School to the formal definition of Planning.
+1. Understand that **Planning** means using patterns to figure out what to do *before* you do it.
+2. Learn that good plans come from good **predictions** — the better your guess, the better your plan.
+3. Practice planning by counting steps, imagining different paths, and picking the best one.
 
-## Introduction
+## Introduction: The Map in Your Head
 
-This module explores **Planning**. In the **Elementary School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between Communication and Systems.
+Have you ever gotten ready for school the night before? Maybe you packed your backpack, picked out your clothes, and set your shoes by the door. That is planning! Your brain looks into the future and imagines what will happen. "Tomorrow I need my math worksheet, my lunch, and my jacket because it might rain." You are using your predictions (your guesses about tomorrow) to decide what to do *right now*.
+
+Planning is the last piece of our puzzle. In Counting Patterns, we learned that our brains are always predicting: Red, Blue, Red, Blue — what comes next? Planning takes prediction one step further. Instead of just guessing *one* thing, your brain imagines a whole *path* of things that might happen, and then it picks the best path.
 
 ## Key Concepts
 
-### 1. Planning as a Markov Blanket Boundary
-How does Planning define the boundary between the agent and the environment?
+### 1. Imagining the Future
 
-### 2. Generative Models of Planning
-What parameters involved in Planning must be optimized to minimize variational free energy?
+Close your eyes. Imagine you are at the park. There are two paths: one goes to the swings, and one goes to the slide. Your brain can "walk" down each path *in your imagination* before your feet take a single step! That imagining is planning. You are testing predictions inside your head.
 
-### 3. Active Inference Dynamics
-How does the process of Planning drive the perception-action loop?
+### 2. Counting the Steps
 
-## Applications
+Good planners count the steps in their plan. "Step 1: Get my shoes. Step 2: Put on my jacket. Step 3: Grab my backpack. Step 4: Walk to the bus stop." If you skip a step — like forgetting your backpack — your plan breaks and you have to go back. The more steps you count, the fewer surprises you get.
 
-In Elementary School, we see Planning manifest in:
-*   **Specific Example 1**: If you have 12 grapes and want to share them equally with 3 friends, you can plan ahead by counting out groups of 3 grapes each -- thinking about the answer before you start handing them out helps you make sure everyone gets the same amount!
-*   **Specific Example 2**: When you want to build a block tower that is 5 blocks tall but you only have 3 blocks, you can make a plan: count how many more you need (5 minus 3 equals 2), then go find 2 more blocks before you start building so your tower turns out just right.
+### 3. What If? (Trying Different Plans)
 
-## Conclusion
+Sometimes there are two or three ways to do something. Planning means trying each way *in your head* and picking the one that works best. If you want to share 12 grapes equally with 3 friends, you could count one-by-one (slow!) or you could figure out 12 ÷ 3 = 4 grapes each (fast!). Your brain compared two plans and picked the faster one.
 
-Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+### 4. Updating the Plan
+
+Remember prediction errors? Plans have them too. Maybe you planned a picnic, but it starts raining. Surprise! Now you need to *update* your plan: eat inside instead. Good planners are flexible. They do not give up when they are surprised — they change their plan.
+
+## Activities
+
+### 🧩 Activity 1: Maze Planner
+
+Draw a simple maze on paper. Before you trace the path with your pencil, *look* at the maze and plan your route in your head. Imagine going left... dead end! Okay, go back and try right. Count how many times you had to change your plan. Then trace the winning path. Compare: how many wrong turns did you take with your pencil versus in your head?
+
+### 🎒 Activity 2: Backpack Challenge
+
+Tomorrow is a field trip! What do you need to pack? With a partner, write a plan:
+
+1. What will the weather be? (Check: sunny, cloudy, cold?)
+2. What will you eat? (Sandwich? Apple? Water?)
+3. What activities will you do? (Hiking? Drawing? Swimming?)
+4. Based on your predictions, list the items for your backpack.
+
+Now imagine: what if it rains unexpectedly? What one item would you add? That is updating your plan!
+
+### 🏗️ Activity 3: Block Tower Plan
+
+You want to build a block tower that is 5 blocks tall, but you only have 3 blocks. Make a plan: How many more blocks do you need? (5 − 3 = 2). Where will you find them? Ask a friend? Check the supply box? Count the steps in your plan *before* you start building. Then build the tower and check: did your plan work?
+
+## Summary
+
+Planning is using your predictions to think ahead. Your brain imagines different paths, counts the steps, and picks the best one — all before your body does anything. When surprises happen, good planners update their plan. Planning is the superpower of prediction!
+
+## References
+
+* *If You Give a Mouse a Cookie* by Laura Numeroff (planning cascades!)
+* *What Do You Do With a Problem?* by Kobi Yamada

@@ -2,41 +2,64 @@
 
 ## Learning Objectives
 
-1. Understand the audience as a collective agent through the lens of Active Inference.
-2. Apply social dynamics and collective inference to analyze comedy mechanics in 'Who\'s on First?'
-3. Connect agents theory to practical comedy craft from the Crowd & Callback perspective.
+1. Analyze the **audience member as inference agent** — an active participant whose predictions, reactions, and social behaviors shape the comedy experience.
+2. Apply the concept of **audience heterogeneity** to explain why the same joke gets different responses from different crowds.
+3. Examine the comedian's role as a **crowd conductor** — an agent managing collective inference across diverse individual agents.
 
 ## Introduction
 
-An audience of 200 people is not 200 separate agents — it is one collective inference agent with 200 nodes. The crowd has emergent properties: a mood, a threshold for laughter, a shared expectation set, and a contagion dynamic where one person's laughter lowers others' thresholds. The comedian faces this collective agent and must model its properties.
-
-This module examines the audience as a collective agent: how individual inference agents form a group entity, how collective precision differs from individual precision, and how the comedian calibrates their performance to the crowd's collective model.
+Every audience member is an Active Inference agent — they arrive at the comedy show with a generative model shaped by their life experience, cultural background, comedy preferences, and mood. A physics professor and a construction worker sitting side by side will generate different predictions, detect different incongruities, and find different things funny. The comedian faces not a uniform crowd but a population of diverse inference agents that must be managed simultaneously.
 
 ## Key Concepts
 
-### The Audience as a Collective Agent
+### 1. The Audience Member's Model
 
-At the heart of this module is the audience as a collective agent — the way agents operates within social dynamics and collective inference. In 'Who\'s on First?', this manifests as the interplay between performers, audience, and the comedy tradition, examined through the temporal, social, and evolutionary dimensions that Crowd & Callback foregrounds.
+Each audience member brings a unique generative model to the show:
 
-### Active Inference Formalization
+- **Comedy expectations**: Shaped by prior comedy consumption — a fan of dark humor expects and appreciates transgressive material; a fan of observational humor expects and appreciates relatable everyday observations
+- **Cultural priors**: Shaped by cultural background — references, taboos, and shared knowledge vary dramatically across demographics
+- **Mood states**: The audience member's interoceptive state (tired, energized, anxious, relaxed) modulates the precision on incoming predictions
+- **Social context**: Who they're with (date, friends, colleagues, alone) shapes what they'll laugh at and how visibly they'll react
 
-Active Inference provides the formal toolkit for understanding agents in this context. The key constructs are:
+The comedian doesn't know each individual's model — they must operate from a **population-level estimate** that captures the broad distribution of models in the room.
 
-- **Generative model**: The agent's internal model of how agents works in comedy — what patterns to expect, what signals to attend to, and what actions to take.
-- **Prediction error**: The mismatch between expected and observed agents dynamics — the signal that drives updating and adaptation.
-- **Precision weighting**: The confidence assigned to predictions about agents — higher precision means stronger expectations and larger prediction errors when they fail.
-- **Expected free energy**: The anticipated surprise and information gain associated with future actions related to agents.
+### 2. The Comedian as Population Inference Agent
 
-### Domain-Specific Application
+The comedian performs inference over the *audience population's* generative model distribution:
 
-From the Crowd & Callback perspective, agents in 'Who\'s on First?' reveals dynamics invisible from other vantage points. The routine is not just a text — it is a living performance that operates through social dynamics and collective inference, connecting the mechanics of individual exchanges to the broader patterns of comedy as cultural practice.
+- **Who is in this room?** (demographic inference from visual and auditory cues — age distribution, gender mix, apparent energy level, response to opening remarks)
+- **What do they know?** (knowledge inference — do they recognize this reference? Are they comedy-literate? Do they understand technical vocabulary?)
+- **What are their boundaries?** (boundary inference — how transgressive can I be? Where are the lines this specific crowd won't cross?)
+- **What's their processing speed?** (timing inference — are they tracking complex setups or do I need simpler structures?)
+
+This population-level inference happens in the first 2-3 minutes of a set — the "reading the room" phase that experienced comedians perform automatically.
+
+### 3. Hecklers as Rogue Agents
+
+A **heckler** is an audience agent who violates the implicit performer-audience contract:
+
+- The implicit contract: "I perform, you listen; when I make you laugh, you laugh; when I don't, you're charitable enough to wait"
+- The heckler breaks this by injecting their own active states into the system — their comments become additional observations for both the comedian and the audience
+- **Drunk hecklers**: Low-precision models generating random outputs — manageable because predictable
+- **Strategic hecklers**: High-precision models deliberately disrupting the performance — dangerous because they can redirect audience attention
+- **Friendly hecklers**: Models aligned with the comedian's goals — their contributions can actually enhance the show
+
+The comedian's response to a heckler demonstrates agent-level social inference under pressure: assessing the heckler's type, predicting the crowd's allegiance, and selecting a policy that neutralizes the disruption while maintaining performance momentum.
+
+### 4. In-Group vs. Out-Group Comedy Agents
+
+Comedy operates differently across in-group and out-group boundaries:
+
+- **In-group comedy**: The comedian shares the audience's generative model (shared identity, shared experiences, shared references). Jokes can be compressed because shared priors fill in the gaps. "You know when your mom says..." works because the audience's prior does the narrative work.
+- **Out-group comedy**: The comedian's model diverges from the audience's. More explicit setup is needed. References must be explained. The comedian works harder to establish shared ground.
+
+The most challenging agent dynamic is the **mixed audience** — where in-group jokes for one segment may alienate another. Navigating this requires precise population inference and strategic material selection.
 
 ## Applications
 
-- **Agents in Stand-Up**: Solo performers navigate agents dynamics without a partner, requiring them to internalize the functions that a duo distributes between two agents.
-- **Agents in Improv**: Improvisational comedy pushes agents to its limits, requiring real-time processing without the safety net of rehearsal.
-- **Agents Across Cultures**: Different comedy traditions approach agents differently, revealing both universal principles and cultural specificity.
+- **Netflix Special vs. Comedy Club**: A Netflix special addresses millions of diverse agents simultaneously (no real-time feedback, maximum audience diversity). A comedy club serves 200 agents in real time (immediate feedback, relatively homogeneous). The agent dynamics are so different that many comedians describe them as fundamentally different art forms.
+- **Corporate Comedy**: A comedian performing at a corporate event faces a uniquely constrained agent population — professional decorum limits visible reactions, shared corporate culture creates in-group references, and power dynamics (the boss is watching) suppress honest responses. Navigating this requires treating the audience as agents with artificially suppressed active states.
 
 ## Conclusion
 
-Agents in Crowd & Callback reveals dimensions of comedy that are invisible from other perspectives. By examining the audience as a collective agent through Active Inference, we see how agents is not just a feature of comedy but a fundamental mechanism — the process by which performers and audiences co-create the experience of humor through social dynamics and collective inference.
+The audience is a population of diverse inference agents, each bringing unique models, moods, and social contexts. The comedian is a population inference agent — reading, modeling, and managing this diversity in real time. Understanding this agent dynamics explains why comedy is as much a social skill as an artistic one.

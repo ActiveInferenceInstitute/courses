@@ -1,32 +1,58 @@
-# Module 06: Learning in Robotics
+# Module 06: Learning in Robotics — Autonomous Lifelong Learning
 
 ## Learning Objectives
 
-1.  Define **Learning** within the context of Robotics.
-2.  Analyze how Learning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Learning.
+1. Define **lifelong learning** as the autonomous agent's capacity to continuously improve its generative model over extended deployment without human retraining.
+2. Analyze the challenges of **catastrophic forgetting, distributional shift, and self-supervised learning** in autonomous robotic systems.
+3. Apply Active Inference learning mechanisms to enable robots that improve with experience.
 
 ## Introduction
 
-This module explores **Learning**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between Action and Communication.
+A truly autonomous robot must learn throughout its operational lifetime — adapting to new environments, new tasks, and changing conditions without being taken offline for retraining. This is **lifelong learning**: the continuous improvement of the generative model from the robot's own experience, balanced against the risk of forgetting previously learned competencies.
 
 ## Key Concepts
 
-### 1. Learning as a Markov Blanket Boundary
-How does Learning define the boundary between the agent and the environment?
+### 1. Self-Supervised Learning from Experience
 
-### 2. Generative Models of Learning
-What parameters involved in Learning must be optimized to minimize variational free energy?
+Autonomous robots generate their own training data through operation:
 
-### 3. Active Inference Dynamics
-How does the process of Learning drive the perception-action loop?
+- Every action the robot takes produces observed consequences — a natural source of (state, action, next state) supervision for the B matrix
+- Every observation the robot makes provides evidence for the A matrix — the robot continuously calibrates its sensor models
+- **Prediction error as learning signal**: Moments of high prediction error are the most informative for learning — they indicate where the current model is wrong
+
+Self-supervised learning is Active Inference learning in its purest form: the agent uses its own prediction errors as the signal for model improvement.
+
+### 2. Catastrophic Forgetting
+
+**Catastrophic forgetting** occurs when learning new information destroys previously learned knowledge:
+
+- A robot that learns a new room layout may degrade its model of previously learned rooms
+- A manipulation robot that adapts to a new tool may lose proficiency with the old tool
+- Active Inference mitigates forgetting through **concentration parameter accumulation** — well-learned knowledge (high concentration parameters) is resistant to overwriting, while new knowledge updates parameters with lower concentrations
+
+### 3. Distributional Shift
+
+The environment changes over time, causing **distributional shift**:
+
+- Seasonal changes (lighting, temperature, vegetation) shift visual observations
+- Infrastructure changes (construction, renovation) shift spatial models
+- Personnel changes (new staff, different schedules) shift social models
+
+Autonomous learners must distinguish between model error (the model was always wrong) and distributional shift (the model was right but the world changed). Active Inference handles this through precision monitoring — sudden increases in prediction error with high prior precision suggest distributional shift rather than ordinary model error.
+
+### 4. Curriculum Learning and Self-Assessment
+
+Autonomous learners can manage their own learning curriculum:
+
+- **Difficulty-ordered exploration**: The agent preferentially practices tasks slightly beyond its current competence — maximizing learning per trial (the "zone of proximal development")
+- **Competence tracking**: The agent monitors its own performance metrics and identifies skills that need practice
+- **Self-testing**: The agent periodically re-executes previously learned tasks to verify retained competence — analogous to spaced repetition in human learning
 
 ## Applications
 
-In Robotics, we see Learning manifest in:
-*   **Specific Example 1**: A self-driving vehicle's prediction module learns pedestrian behavior models from millions of miles of driving data, updating the parameters of its trajectory-prediction neural network to minimize prediction error on held-out scenarios; over time, the model learns context-dependent priors -- pedestrians near crosswalks are likely to cross, pedestrians at bus stops are likely to remain stationary -- that reduce the free energy of the generative model by encoding structured prior knowledge that pure physics-based prediction cannot capture.
-*   **Specific Example 2**: An autonomous drone performing package delivery in a new city learns a wind disturbance model specific to the local urban canyon environment by recording control corrections applied during initial flights; a neural network maps GPS position and altitude to expected wind vector, and after 50 delivery flights the learned model reduces position tracking error by 40% compared to the nominal controller, demonstrating how autonomous agents update their generative models from operational experience to improve future performance without manual recalibration.
+- **Long-deployment warehouse robot**: A warehouse robot deployed for months continuously learns new product appearances (A matrix updates), shelf layout changes (B matrix updates), and traffic pattern shifts (policy adaptation) — while maintaining proficiency on all previously learned tasks through concentration parameter protection.
+- **Personal assistant robot**: A home robot learns its owner's preferences, routines, and household layout over weeks of cohabitation, building an increasingly personalized generative model that enables anticipatory assistance — "You usually have coffee at 7:30; I'll start the machine at 7:25."
 
 ## Conclusion
 
-Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Lifelong learning enables autonomous robots to improve continuously throughout deployment. Self-supervised learning, forgetting mitigation, shift detection, and self-managed curricula implement Active Inference learning over extended timescales. The next module examines autonomous multi-agent communication.

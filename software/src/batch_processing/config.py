@@ -206,6 +206,16 @@ COURSE_REGISTRY: Dict[str, Dict[str, Any]] = {
         "syllabus_location": "syllabus.md",
         "module_prefix": "",
     },
+    "ai-comedy": {
+        "rel_path": "course_development/domains/active_inference_comedy",
+        "display_name": "Active Inference: Comedy",
+        "module_glob": "[0-9][0-9]_*",
+        "unit_glob": "[0-9][0-9]_*",
+        "has_course_subdir": False,
+        "content_files": ["module.md", "questions.md", "practice_quiz.md", "lab.md"],
+        "syllabus_location": "syllabus.md",
+        "module_prefix": "",
+    },
     # --- YouTube Transcript Archive ---
     "youtube": {
         "rel_path": "course_development/youtube",

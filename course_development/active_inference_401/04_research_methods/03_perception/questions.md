@@ -1,22 +1,25 @@
-# Research Methods — Module 03: Perception — Study Questions
+# Research Methods — Module 03: Perception & Electrophysiology — Study Questions
 
-1. What neural signal corresponds to prediction errors in EEG? How is MMN generated?
-2. How does MMN amplitude relate to prediction strength?
-3. What oscillatory band reflects precision modulation? How does alpha power encode precision?
-4. How does the roving oddball paradigm test Active Inference's account of belief updating?
-5. What is the directional flow hypothesis? Which frequencies carry bottom-up vs. top-down signals?
-6. Design a hierarchical prediction paradigm. What PE signatures would you expect at each level?
-7. How can laminar recordings distinguish prediction errors from predictions?
-8. What are error neurons, prediction neurons, and precision neurons?
-9. What does Granger causality measure? How is it applied to frequency-resolved signals?
-10. Describe DCM for EEG. How does it differ from DCM for fMRI?
-11. What is a neural mass model? How does it serve as the generative model in DCM for EEG?
-12. How does time-frequency analysis reveal the temporal dynamics of predictive processing?
-13. What does source localization add beyond scalp topography?
-14. How does volatility manipulation affect prediction error responses?
-15. How does attention modulate oscillatory signatures in an Active Inference framework?
-16. What is steady-state response (SSR)? How can it be used to probe predictions?
-17. How do interhemispheric differences in alpha reflect lateralized precision allocation?
-18. Compare the temporal resolution of EEG vs. fMRI for testing Active Inference predictions.
-19. What methodological artifacts can contaminate prediction error measurements?
-20. Design an electrophysiology experiment testing a specific Active Inference prediction about perception.
+## Part 1: Fundamental Comprehension
+
+1. **Electrophysiological Signatures**: What specific neural signal in electroencephalography (EEG) is most commonly associated with bottom-up prediction errors? Explain the generation mechanics of the Mismatch Negativity (MMN) component.
+2. **Amplitude and Uncertainty**: How does the amplitude of the MMN computationally relate to the strength/precision of the prior prediction and the informational value of the prediction error?
+3. **Oscillatory Mechanics**: Which specific oscillatory frequency bands reflect precision modulation in the cortex? Detail how Alpha-band power is hypothesized to encode prior precision and suppress distracting sensory input.
+4. **The Directional Flow Hypothesis**: Explain the core tenet of the directional flow hypothesis. Which frequency bands (e.g., Gamma, Beta/Alpha) are primarily responsible for carrying bottom-up continuous prediction errors versus top-down stable predictions?
+5. **Dynamic Causal Modeling (DCM)**: What is Dynamic Causal Modeling for EEG? How does the mathematical structure of DCM for electrophysiology differ fundamentally from DCM for fMRI regarding temporal resolution and causal inference?
+6. **Neural Mass Models**: Define a neural mass model. How does it serve as the biological generative model within a DCM analysis, connecting abstract Active Inference mathematics to realistic population firing rates?
+
+## Part 2: Advanced Analysis & Synthesis
+
+1. **Laminar Architectures**: Why are standard scalp EEG recordings insufficient to definitively map the Active Inference hierarchy? Explain how invasive laminar recordings (targeting superficial vs. deep pyramidal cells) are required to distinguish prediction neurons from error neurons.
+2. **The Roving Oddball Paradigm**: Analyze the standard "roving oddball" experimental paradigm. How does this specific task design isolate the brain's continuous belief updating process better than a standard stimulus-response task?
+3. **Granger Causality vs. DCM**: Compare and contrast Granger Causality with Dynamic Causal Modeling when applied to frequency-resolved EEG signals. Why is DCM generally preferred for making strong mechanistic claims about Active Inference architectures?
+4. **Temporal Dynamics**: How does time-frequency analysis reveal the deeply temporal dynamics of predictive processing? Why is analyzing the *phase* of oscillations as important as analyzing their *power* when studying prediction errors?
+5. **Contaminants and Artifacts**: What methodological artifacts (e.g., eye blinks, muscle artifacts, volume conduction) most frequently contaminate prediction error measurements in M/EEG? How easily can an artifact be mathematically misidentified as a precision-weighted prediction error?
+
+## Part 3: Methodological Application
+
+1. **Hierarchical Paradigm Design**: Design a hierarchical auditory prediction paradigm for an EEG study. Include both a "local" expectation violation (e.g., a wrong note in a scale) and a "global" expectation violation (e.g., a scale playing backwards). What distinct ERP signatures would you expect to see, and at what latencies?
+2. **Volatility Manipulation Experiment**: Propose an experiment that manipulates environmental volatility (how often the rules change) to observe effects on prediction error responses. What specific changes in the amplitude and frequency of the MMN would you hypothesize as the environment becomes highly volatile?
+3. **Source Localization Challenge**: You observe a strong prediction error signature at the scalp. Describe the mathematical steps, and the inherent "inverse problem" limitations, of using source localization techniques to prove this error originated in the Superior Temporal Gyrus versus the Primary Auditory Cortex.
+4. **Attentional Modulation**: Design a visual Steady-State Response (SSR) experiment to probe how top-down attention modulates precision. How would you use flicker frequencies to "tag" different visual streams and isolate the neural gain applied to the attended versus unattended stimuli?

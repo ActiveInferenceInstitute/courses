@@ -2,17 +2,17 @@
 
 ## Executive Summary
 
-The most durable competitive advantage is not any particular position but the **ability to learn faster than competitors**. Under Active Inference, adaptive strategy is about continuously updating the organization's competitive model based on market feedback. This module covers strategic learning loops, adaptive advantage, the concept of dynamic capabilities (Teece), and how organizations build the capacity to evolve their strategy.
+The most durable competitive advantage an organization can possess is not an entrenched market position, a war chest of capital, or a patented technology; it is the **ability to learn faster than competitors**. Under the lens of Active Inference, adaptive strategy is the continuous, systematic updating of the organization's overarching competitive model based on incoming market prediction errors. This module explores strategic learning loops, the theory of dynamic capabilities, adaptive advantage, and the difficult psychological and structural processes required for organizational unlearning.
 
 ---
 
 ## Learning Objectives
 
-1. Define **strategic learning** as updating the competitive generative model from market feedback
-2. Apply **dynamic capabilities** (Teece) — sensing, seizing, and transforming
-3. Understand **adaptive advantage** — competing on learning speed rather than static position
-4. Design **strategic experimentation** programs that generate learning
-5. Analyze how **competitive feedback loops** drive strategy evolution
+1. Define **strategic learning** as the formal updating of the organization's competitive generative model based on market feedback.
+2. Apply the framework of **dynamic capabilities** (Sensing, Seizing, Transforming) to assess organizational agility.
+3. Understand **adaptive advantage** — transitioning from competing on static structural positioning to competing on evolutionary cycle speed.
+4. Design **strategic experimentation** programs that deliberately generate high-epistemic-value learning.
+5. Analyze how **competitive feedback loops** govern the evolution of corporate strategy and identify the barriers to strategic unlearning.
 
 ---
 
@@ -20,63 +20,74 @@ The most durable competitive advantage is not any particular position but the **
 
 ### 1. Dynamic Capabilities (Teece)
 
-| Capability | Function | Active Inference Translation |
-|-----------|----------|----------------------------|
-| **Sensing** | Identifying threats and opportunities | Perception — updating the competitive model |
-| **Seizing** | Mobilizing resources to capture opportunities | Action — policy selection under the updated model |
-| **Transforming** | Continuously reconfiguring the organization | Learning — updating the model itself, not just actions |
+In fast-paced environments, static resources (like factories or brand names) quickly lose value. David Teece introduced the concept of "Dynamic Capabilities" — the ability of an organization to purposefully create, extend, or modify its resource base. We can map these directly to the Active Inference loop:
 
-### 2. Strategic Experimentation
+| Capability | Business Function | Active Inference Translation |
+|-----------|------------------|----------------------------|
+| **Sensing** | Identifying emerging threats, shifting customer demands, and nascent technological opportunities. | **Perception**: Collecting sensory data and registering prediction errors against the current market model. |
+| **Seizing** | Mobilizing resources, launching products, and restructuring teams to capture the identified opportunity. | **Active Inference**: Executing policy selection to minimize expected free energy in the newly sensed environment. |
+| **Transforming** | Continuously realigning and reconfiguring tangible and intangible assets; changing the organizational structure itself. | **Learning / Model Updating**: Permanently altering the generative model and the parameters of the organization to survive the new regime. |
 
-Rather than betting everything on one strategic model, organizations can run experiments:
+### 2. Strategic Experimentation: Maximizing Epistemic Value
 
-- **Probe and learn**: Small-scale market experiments that test assumptions cheaply
-- **Portfolio of options**: Maintaining multiple strategic options while learning which is best
-- **Fail fast**: Designing experiments to produce clear results quickly
+Traditional strategic planning relies on massive, long-term bets (high pragmatic value, assuming the model is correct). In highly uncertain environments, organizations survive by running portfolios of experiments optimized for *epistemic value* — actions taken specifically to resolve uncertainty about the market.
 
-**Case Study — Google's Innovation Portfolio**: Google maintains a portfolio of experiments at different scales — from small-scale "20% projects" to large bets like Waymo. This portfolio approach generates strategic learning: each experiment provides information that updates Google's model of future opportunities. The discipline is in killing experiments that don't pan out (Google Glass, Google+) rather than escalating commitment.
+- **Probe and Learn**: Launching small-scale, contained market experiments (e.g., a pop-up store, a limited beta software release) that test foundational assumptions cheaply.
+- **Real Options Reasoning**: Making small initial investments that purchase the *right, but not the obligation*, to make a larger investment later, depending on how the market unfolds.
+- **Fail Fast, Learn Cheaply**: Designing experiments specifically engineered to produce clear, unambiguous prediction errors quickly, rather than letting vanity metrics hide failure.
 
-### 3. Competitive Learning Loops
+**Case Study — Google's Innovation Portfolio vs. The "Bet the Company" Model**:
+Google maintains a famously wide portfolio of experiments at varying scales — from massive internal structural bets (like transitioning to an AI-first architecture) to boundary-pushing external moonshots (Waymo, DeepMind). This portfolio approach is pure strategic learning: each experiment is a probe into a different potential future state of the world. The rigorous discipline of adaptive strategy is found in their willingness to brutally terminate experiments that fail to minimize free energy (Google Glass, Google+, Google Stadia). They do not escalate commitment to failing models; they update their global model and reallocate resources.
 
-The speed of the competitive learning loop determines how quickly a firm can adapt:
+### 3. The OODA Loop and Competitive Cycle Speed
 
-```
-Sense market → Update model → Select strategy → Execute → Observe results → Sense market...
-```
+The speed of the competitive learning loop determines how quickly a firm can adapt to shocks. Derived from military strategy (Observe, Orient, Decide, Act), the business learning loop is identical to the Active Inference cycle:
 
-Organizations with faster loops (shorter cycle time, better feedback mechanisms, less organizational inertia) outcompete those with slower loops — even if the slower organization has more resources.
+**Observe (Sense) → Orient (Update Model) → Decide (Select Strategy) → Act (Execute) → Observe Results...**
 
-### 4. Unlearning and Strategic Renewal
+In a competitive environment, relative speed is everything. An organization that completes this loop in 30 days will fundamentally out-evolve an organization with a 12-month annual planning cycle, regardless of which organization has more capital. The faster organization will process 12 times more prediction errors, resulting in a vastly superior generative model of the market.
 
-Sometimes the biggest barrier to strategic learning is the organization's existing successful model. Unlearning requires:
+### 4. Strategic Unlearning and Model Rigidity
 
-- Acknowledging that a previously successful strategy is no longer viable
-- Actively dismantling processes and beliefs that support the old model
-- Creating space for new models to be explored
+Often, the greatest barrier to strategic learning is the organization’s previous success. A highly successful business model creates massive structural and cultural inertia. Because the model predicted the market perfectly for years, the organization's "precision weighting" on its prior beliefs becomes absolute.
+
+Strategic **Unlearning** is the deliberate, painful process of reducing the precision on obsolete priors. It requires:
+
+- Explicitly acknowledging that the rules of the game have changed (e.g., Blockbuster realizing late fees are a liability, not an asset).
+- Actively dismantling the incentive structures, KPIs, and cultural myths that support the old model.
+- Tolerating a temporary surge in organizational free energy (chaos and confusion) while the new generative model is constructed and stabilized.
+
+---
+
+## Application Exercise: The Unlearning Audit
+
+Identify a core, unshakeable belief that your organization (or industry) holds about "how we make money" or "what our customers want." Design a cheap, highly targeted strategic experiment (a probe) engineered specifically to test if that belief is still factually accurate in the current socio-economic environment. If the experiment invalidates the belief, outline the specific internal processes that would need to be dismantled (unlearned) to adapt to the new reality.
 
 ---
 
 ## Cross-References
 
-- For organizational learning, see [Organizational Systems: Learning](../../01_organizational_systems/06_learning/module.md)
-- For collective memory, see [Collective Intelligence: Learning](../../02_collective_intelligence/06_learning/module.md)
-- For ML model retraining, see [Digital Transformation: Learning](../../04_digital_transformation/06_learning/module.md)
+- For individual and systemic learning loops, see [Organizational Systems: Learning](../../01_organizational_systems/06_learning/module.md)
+- For the mechanics of collective memory, see [Collective Intelligence: Learning](../../02_collective_intelligence/06_learning/module.md)
+- For automated machine learning feedback, see [Digital Transformation: Learning](../../04_digital_transformation/06_learning/module.md)
 
 ---
 
 ## Summary
 
-| Concept | Strategic Modeling Meaning |
-|---------|--------------------------|
-| Strategic learning | Updating the competitive model from market feedback |
-| Dynamic capabilities | Sensing + seizing + transforming |
-| Strategic experimentation | Running experiments to test strategic assumptions |
-| Competitive learning loops | Sense → update → act → observe cycle speed |
-| Strategic unlearning | Dismantling obsolete models to make room for new ones |
+| Concept | Active Inference / Strategic Meaning |
+|---------|--------------------------------------|
+| Strategic learning | The systematic updating of the firm's competitive model based on market prediction errors |
+| Dynamic capabilities | The meta-capability to sense changes, seize opportunities, and transform the organization's structure |
+| Strategic experimentation | Actions taken primarily for epistemic value—to resolve uncertainty about the environment |
+| Cycle speed | The velocity of the Sense-Update-Act loop; faster loops outcompete slower loops unconditionally |
+| Strategic unlearning | The deliberate lowering of precision on historically successful, but currently obsolete, priors |
 
 ---
 
 ## References
 
-- Teece, D. J. (2007). Explicating dynamic capabilities. *Strategic Management Journal*, 28(13), 1319–1350.
-- McGrath, R. G. (2010). Business models: A discovery driven approach. *Long Range Planning*, 43(2-3), 247–261.
+- Teece, D. J., Pisano, G., & Shuen, A. (1997). Dynamic capabilities and strategic management. *Strategic Management Journal*, 18(7), 509-533.
+- McGrath, R. G. (2013). *The End of Competitive Advantage: How to Keep Your Strategy Moving as Fast as Your Business*. Harvard Business Review Press.
+- Boyd, J. R. (1992). *A Discourse on Winning and Losing*. Air University Press (The OODA Loop formulation).
+- Senge, P. M. (1990). *The Fifth Discipline: The Art and Practice of the Learning Organization*. Doubleday/Currency.

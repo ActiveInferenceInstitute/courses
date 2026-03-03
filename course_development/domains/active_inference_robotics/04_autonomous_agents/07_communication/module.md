@@ -1,32 +1,54 @@
-# Module 07: Communication in Robotics
+# Module 07: Communication in Robotics — Autonomous Multi-Agent Systems
 
 ## Learning Objectives
 
-1.  Define **Communication** within the context of Robotics.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Communication.
+1. Define **autonomous multi-agent communication** as the exchange of beliefs, plans, and observations between self-governing robotic agents.
+2. Analyze how **consensus algorithms, task allocation, and distributed planning** implement coupled Active Inference across autonomous agent teams.
+3. Apply multi-agent communication frameworks to real autonomous system coordination challenges.
 
 ## Introduction
 
-This module explores **Communication**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between Learning and Planning.
+Autonomous robots rarely operate alone. Self-driving cars share the road with each other, warehouse robots coordinate pickups and deliveries, drone swarms survey disaster areas, and surgical teams may include multiple robotic assistants. Communication between autonomous agents enables coordination that no individual agent could achieve alone.
 
 ## Key Concepts
 
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
+### 1. Belief Sharing and Consensus
 
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
+Autonomous agents can share their probabilistic beliefs to improve collective state estimation:
 
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
+- **Decentralized data fusion**: Each agent shares its local state estimate (posterior belief) with neighbors. Agents merge received beliefs with their own through precision-weighted averaging — the result is a consensus belief that incorporates evidence from multiple vantage points.
+- **Consensus algorithms**: Iterative protocols where agents exchange and average estimates until the network converges on a shared belief. Convergence speed depends on network topology (fully connected: fast; chain: slow).
+- **Communication bandwidth constraints**: Sharing full probability distributions is expensive. Agents often communicate compressed representations — sufficient statistics, innovation sequences, or binary flags (detection/no detection).
+
+### 2. Task Allocation: Who Does What?
+
+Multi-robot task allocation distributes work across the team:
+
+- **Auction-based allocation**: Agents bid on tasks based on their estimated cost (Expected Free Energy of executing the task). Tasks are assigned to the lowest bidder. This is decentralized policy selection where the "team policy" minimizes total EFE across all agents.
+- **Market-based approaches**: Agents trade tasks dynamically — if a robot discovers it can't complete a task efficiently (high EFE), it offers the task back to the market for reallocation.
+- **Implicit allocation through stigmergy**: Agents choose tasks based on local environmental signals (e.g., a cleaning robot moves to the dirtiest area) — no explicit communication needed.
+
+### 3. Distributed Planning
+
+When tasks require coordination (two robots must simultaneously lift an object, multiple drones must maintain formation), agents must plan jointly:
+
+- **Centralized planning with distributed execution**: A central planner computes the joint plan and distributes individual assignments. Simple but creates a single point of failure.
+- **Distributed planning with communication**: Each agent plans locally but shares its planned trajectory with neighbors. Agents adjust their plans to avoid conflicts — iterating until a collision-free, coordinated plan emerges.
+- **Reactive coordination protocols**: Simple rules (maintain minimum distance, match formation velocity, yield at intersections) achieve coordination without explicit planning — local Active Inference with implicit social norms.
+
+### 4. Vehicle-to-Vehicle (V2V) Communication
+
+Autonomous vehicles exemplify the need for inter-agent communication:
+
+- V2V messages share ego-vehicle state (position, velocity, planned trajectory), sensor observations (detected obstacles, road conditions), and intent (lane change, merge, stop)
+- Receiving vehicles incorporate V2V messages into their generative models as additional observation channels — precision-weighted by trust in the sending vehicle
+- **Cooperative perception**: Vehicles share their sensor data to extend each agent's perceptual range beyond its own line of sight — seeing around corners through a neighbor's camera
 
 ## Applications
 
-In Robotics, we see Communication manifest in:
-*   **Specific Example 1**: A fleet of autonomous vehicles at an intersection communicates via V2V (vehicle-to-vehicle) DSRC messages, sharing planned trajectories and confidence estimates; each vehicle treats incoming V2V messages as additional observations in its generative model of the intersection, increasing the precision of its beliefs about other vehicles' future positions and enabling cooperative maneuvers (such as interleaved crossing without traffic signals) that would be impossible with perception-only autonomy due to occlusion and limited sensor range.
-*   **Specific Example 2**: A team of autonomous exploration drones in a GPS-denied underground mine communicates via an ad-hoc mesh network with intermittent connectivity; each drone transmits compressed map updates (occupancy grid differences rather than full maps) when communication links are available, and the receiving drones incorporate these updates as evidence in their own SLAM systems -- the communication protocol prioritizes transmitting information with the highest expected free energy reduction (frontier regions and loop closures) over redundant observations of already-mapped areas.
+- **Multi-drone search and rescue**: A swarm of drones searches a disaster area using auction-based task allocation — each drone bids on grid sectors based on its fuel state, distance, and sensor capability. Drones share detected survivor locations through belief-sharing protocols, enabling rapid convergence of rescue resources.
+- **Autonomous intersection management**: Self-driving cars approaching an intersection without traffic lights negotiate passage through V2V communication — sharing arrival times, planned trajectories, and yielding intentions. The intersection functions as a coupled Active Inference system where vehicles jointly minimize collision risk.
 
 ## Conclusion
 
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Communication between autonomous agents — belief sharing, task allocation, distributed planning, and V2V protocols — enables coordination that transcends individual agent capabilities. These mechanisms are all implementations of coupled Active Inference, where each agent's decisions are informed by observations from other agents. The next module examines autonomous planning over extended horizons.

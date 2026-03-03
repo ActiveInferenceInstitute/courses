@@ -1,32 +1,49 @@
-# Module 06: Learning in High School
+# Module 06: Learning — Parameter Estimation and Model Updating
 
 ## Learning Objectives
 
-1.  Define **Learning** within the context of High School.
-2.  Analyze how Learning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of High School to the formal definition of Learning.
+1. Distinguish between **parameter learning** (updating values within a model) and **structure learning** (changing the model itself).
+2. Apply **maximum likelihood estimation** to fit a simple model to data.
+3. Explain the mathematical relationship between learning and reducing prediction error over time.
 
 ## Introduction
 
-This module explores **Learning**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between Action and Communication.
+Learning is the process of updating your model of the world based on experience. Mathematically, learning happens when an agent adjusts its parameters to better predict future observations. This module introduces the core mathematical tools of learning: fitting models to data and updating beliefs.
 
 ## Key Concepts
 
-### 1. Learning as a Markov Blanket Boundary
-How does Learning define the boundary between the agent and the environment?
+### 1. Parameter Learning
 
-### 2. Generative Models of Learning
-What parameters involved in Learning must be optimized to minimize variational free energy?
+A **parameter** is any tunable value in a model. In the agent equation $\hat{x}_{t+1} = \hat{x}_t + \alpha (o_t - \hat{o}_t)$, the learning rate $\alpha$ is a parameter. Learning means adjusting parameters so that prediction errors shrink over time. If my model of "how fast the ball is traveling" consistently under-predicts, I adjust the speed parameter upward.
 
-### 3. Active Inference Dynamics
-How does the process of Learning drive the perception-action loop?
+### 2. Maximum Likelihood Estimation
+
+**Maximum Likelihood Estimation (MLE)** asks: "What parameter value makes my observed data most probable?"
+
+**Example**: You flip a coin 100 times and get 73 heads. What is the most likely value of $p$ (probability of heads)? MLE says $\hat{p} = 73/100 = 0.73$. This is the parameter value that maximizes $P(\text{data} \mid p)$.
+
+### 3. Bayesian Learning
+
+MLE finds the single best parameter value. **Bayesian learning** goes further: it represents your uncertainty *about* the parameter as a full probability distribution. You start with a prior (e.g., "I think the coin is fair: $p ≈ 0.5$"), then update it with data (73 heads out of 100), and get a posterior distribution that is shifted toward $0.73$ but also reflects your remaining uncertainty.
+
+### 4. The Complexity-Accuracy Trade-off
+
+A more complex model (more parameters) can fit the data better, but at the cost of overfitting. A simpler model generalizes better. In Active Inference, the free energy equation naturally captures this trade-off: $F = \text{Complexity} - \text{Accuracy}$. The brain prefers the simplest model that still explains the data — Occam's razor, formalized.
 
 ## Applications
 
-In High School, we see Learning manifest in:
-*   **Specific Example 1**: Curve fitting in statistics class is mathematical learning through Active Inference: when you fit a line y = mx + b to scattered data points, you are finding the parameters (m, b) that minimize the sum of squared prediction errors -- each iteration of the least-squares algorithm updates your generative model to better predict the data, and the residuals tell you exactly how much surprise remains.
-*   **Specific Example 2**: The mathematical concept of overfitting directly maps to Active Inference's complexity term in free energy: a polynomial that passes through every data point (high-order model) has zero prediction error on training data but massive surprise on new data, while a simpler model with slightly higher training error generalizes better -- this accuracy-complexity tradeoff is the mathematical essence of why biological learning favors efficient generative models.
+* **Curve Fitting**: Students can use a spreadsheet to fit a line ($y = mx + b$) to a scatterplot. The values of $m$ and $b$ are found by minimizing the sum of squared errors — this is MLE.
+* **Learning a Schedule**: When your school changes the bell schedule, your brain initially makes prediction errors (you expect lunch at 11:45 but it is now at 12:15). Over a few days, your internal model updates and the errors shrink. That is parameter learning.
 
-## Conclusion
+## Discussion Questions
 
-Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+1. You study 10 minutes for a quiz and score 60%. You study 60 minutes and score 85%. You study 120 minutes and score 87%. Fit a curve. Is there a point of diminishing returns?
+2. Why might a model with 100 parameters perform *worse* than a model with 5 parameters on new data?
+
+## Summary
+
+Learning adjusts the parameters of a model to reduce prediction error. MLE finds the single best parameter, Bayesian learning tracks the full distribution. The complexity-accuracy trade-off (Occam's razor) prevents overfitting.
+
+## References
+
+* McElreath, R. (2020). *Statistical Rethinking*. Chapters 2-3.

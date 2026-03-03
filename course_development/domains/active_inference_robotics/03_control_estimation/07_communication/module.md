@@ -1,32 +1,56 @@
-# Module 07: Communication in Robotics
+# Module 07: Communication in Robotics — Networked Control Systems
 
 ## Learning Objectives
 
-1.  Define **Communication** within the context of Robotics.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Communication.
+1. Define **networked control** as control-estimation implemented over communication networks with delays, packet loss, and bandwidth constraints.
+2. Analyze how **communication delays, quantization, and network topology** affect state estimation and control performance.
+3. Apply Active Inference precision concepts to handle communication imperfections in multi-robot systems.
 
 ## Introduction
 
-This module explores **Communication**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between Learning and Planning.
+Modern robotic systems increasingly operate over communication networks — sensor data is transmitted wirelessly, control commands cross network boundaries, and multiple robots coordinate through shared communication channels. Network imperfections (delay, jitter, packet loss, bandwidth limits) directly impact the quality of the Active Inference loop.
 
 ## Key Concepts
 
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
+### 1. Communication Delays and State Estimation
 
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
+Network delays mean observations arrive stale — the sensor reading was taken Δt seconds ago:
 
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
+- The estimator must account for this delay by "predicting forward" from the observation's timestamp to the current time using the B matrix
+- Larger delays reduce the effective precision of observations — the forward-predicted uncertainty grows with delay length
+- Active Inference handles this naturally: delayed observations are treated as low-precision observations, automatically receiving less weight in the state estimate
+
+### 2. Packet Loss and Robust Estimation
+
+When observations are lost (dropped packets), the estimator must operate in open-loop — predicting without observation correction:
+
+- Short outages: The B matrix carries the prediction forward with growing uncertainty; when observations resume, the correction snaps the estimate back
+- Long outages: Prediction uncertainty grows until the state estimate becomes unreliable; the controller should shift to conservative behavior (slow down, maintain position)
+- Active Inference handles packet loss by reducing observation precision to zero during outages — the estimator relies entirely on its prior predictions
+
+### 3. Bandwidth-Constrained Communication
+
+Limited bandwidth forces robots to compress their communications:
+
+- **Event-triggered communication**: Only transmit when the prediction error exceeds a threshold — reducing bandwidth by 60-90% compared to periodic transmission with minimal performance degradation
+- **Quantized observations**: Sensor readings are discretized to reduce transmission size — introducing quantization noise that appears as reduced observation precision
+- **Compressed belief sharing**: Rather than sharing full probability distributions, agents share sufficient statistics (mean and variance, or innovation sequences)
+
+### 4. Network Topology and Information Flow
+
+The network topology determines how quickly information propagates through a multi-robot system:
+
+- **Star topology** (all robots communicate with a central node): Fast consensus but single point of failure
+- **Mesh topology** (robots communicate with neighbors): Robust but slower information propagation
+- **Hierarchical topology** (team leaders relay to a coordinator): Balances speed and robustness
+
+Each topology implements a different message-passing architecture for distributed Active Inference.
 
 ## Applications
 
-In Robotics, we see Communication manifest in:
-*   **Specific Example 1**: A distributed Kalman filter across a formation of three drones shares state estimate covariance matrices over a wireless mesh network, where each drone treats its neighbors' transmitted state estimates as additional measurement updates in its own filter; the communication bandwidth directly constrains the precision of shared information -- when packet loss increases, each drone's filter automatically downweights the missing neighbor's contribution (reducing that channel's precision), demonstrating how Active Inference's precision-weighting naturally handles unreliable communication channels in multi-robot estimation.
-*   **Specific Example 2**: A CAN-bus communication backbone on an industrial robot transmits joint encoder readings, motor current measurements, and torque commands between the central controller and distributed motor drives at 1 ms intervals; timing jitter and bus congestion introduce variable delays that the state estimator must account for by adjusting the prediction horizon of its generative model -- messages arriving late carry stale information with higher uncertainty, and the controller's communication protocol implicitly encodes this as reduced precision on delayed observations.
+- **Teleoperated surgical robot**: A surgeon operates a remote surgical robot over a network with 50-200ms round-trip delay. The system uses predictive display (showing the surgeon a simulated view of the predicted robot state rather than the delayed actual state) and wave variable control (guaranteeing stability despite delay) — both are Active Inference solutions to the delay problem.
+- **Planetary rover team**: A team of Mars rovers coordinates through a low-bandwidth, high-delay communication link — sharing compressed occupancy maps and task allocation messages using event-triggered protocols that minimize uplink usage.
 
 ## Conclusion
 
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Networked control systems implement Active Inference over imperfect communication channels. Delays, packet loss, bandwidth limits, and network topology all affect the quality of distributed inference. Understanding these effects through precision and prediction error enables robust multi-robot system design.

@@ -1,32 +1,62 @@
-# Module 01: Systems in Robotics
+# Module 01: Systems in Robotics — Control and Estimation
 
 ## Learning Objectives
 
-1.  Define **Systems** within the context of Robotics.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Systems.
+1. Define the **robotic control-estimation system** as an Active Inference agent with a clearly delineated Markov blanket separating computational states from the physical world.
+2. Analyze the **perception-action loop** in robotic systems: how sensor observations drive state estimation and how estimated states drive control actions.
+3. Apply the concept of **system identification** — learning the robot's own dynamics from data.
 
 ## Introduction
 
-This module explores **Systems**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between Planning and Agents.
+A robotic system in the control-estimation framework is an Active Inference agent operating in continuous time: it receives a steady stream of noisy sensor observations, maintains a probabilistic belief about its own state and the state of its environment, and selects control actions that minimize expected free energy. The system boundary (Markov blanket) is physical and well-defined: sensors are the sensory states and actuators are the active states.
 
 ## Key Concepts
 
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
+### 1. The Control-Estimation Duality
 
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
+Control and estimation are not separate problems — they are the *same* problem viewed from different sides of the Markov blanket:
 
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
+- **Estimation** (perception): Given observations, infer hidden states → the A matrix and Kalman/particle filter
+- **Control** (action): Given estimated states and goals, select actions → EFE minimization and policy selection
+- **The duality**: Better estimation enables better control (accurate state beliefs lead to effective actions); better control enables better estimation (informative actions produce diagnostic observations)
+
+This duality is precisely the **perception-action loop** of Active Inference — neither perception nor action is primary; they are mutually constitutive.
+
+### 2. System Architecture
+
+A robotic control-estimation system has canonical components:
+
+- **Plant**: The physical robot and its environment — the "true" dynamical system
+- **Sensors**: Transducers that produce observations (encoder counts, accelerometer readings, camera images, LiDAR point clouds)
+- **Estimator**: The inference engine that maintains the state belief (Kalman filter, particle filter, variational inference module)
+- **Controller**: The policy execution engine that computes actions from state beliefs and goals
+- **Actuators**: Motors, pneumatics, hydraulics that execute the control commands
+
+In Active Inference terminology: sensors implement the A matrix, the estimator performs belief updating, the controller computes EFE-minimizing actions, and actuators execute the selected policy.
+
+### 3. System Identification
+
+Before a robot can infer or control, it must have a **generative model of its own dynamics** — the A matrix (sensor model) and B matrix (transition/dynamics model). **System identification** learns these models from data:
+
+- **White-box modeling**: Derive the dynamics from physics (Newton-Euler equations, kinematic chains) → provides structured priors
+- **Black-box modeling**: Learn the dynamics from input-output data (neural networks, Gaussian processes) → flexible but data-hungry
+- **Grey-box modeling**: Combine physics-derived structure with data-driven parameter fitting → the Active Inference sweet spot
+
+### 4. Robustness and Uncertainty
+
+Real robotic systems operate under pervasive uncertainty:
+
+- **Process noise**: Unmodeled disturbances (wind, vibration, surface irregularities) inject noise into state transitions
+- **Measurement noise**: Sensor imprecision, calibration drift, and environmental interference corrupt observations
+- **Model uncertainty**: The generative model is always an approximation — the real system has dynamics and interactions the model doesn't capture
+
+Active Inference handles all three through **precision weighting** — uncertain channels receive low precision, automatically downweighting their influence on state estimation and control.
 
 ## Applications
 
-In Robotics, we see Systems manifest in:
-*   **Specific Example 1**: A quadrotor flight control system represents the complete system as a state-space model with 12 states (position, velocity, orientation, angular rates), where the system's Markov blanket is defined by four rotor speed commands (active states) and IMU plus barometer readings (sensory states); the A, B, C, D matrices of the linear state-space representation encode the generative model that the onboard Extended Kalman Filter uses to predict and correct state estimates at 400 Hz, making the system boundary mathematically explicit.
-*   **Specific Example 2**: An industrial robotic workcell comprising a KUKA iiwa manipulator, a conveyor belt, and a vision system is modeled as a coupled dynamical system where each subsystem has its own state-space representation; the control-estimation framework treats the full workcell as a single generative model with block-diagonal dynamics (each subsystem evolves independently) and off-diagonal coupling terms (the conveyor speed affects the timing of the robot's pick motion), enabling coordinated free energy minimization across the entire system.
+- **Industrial robot arm control**: A 6-DOF robotic arm performing pick-and-place operations uses joint encoders (high-precision observations), a rigid-body dynamics model (physics-derived B matrix), and PID-like feedback control (precision-weighted prediction error minimization at the joint level). The entire system is a continuous-time Active Inference agent.
+- **Drone flight control**: A quadrotor maintains stable hover by fusing IMU, barometer, and optical flow observations through an EKF estimator and computing motor commands through PID control cascadewhere each PID loop is minimizing proprioceptive prediction error at different timescales (attitude fastest, velocity intermediate, position slowest).
 
 ## Conclusion
 
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+The control-estimation robotic system is Active Inference in its most explicit engineering instantiation. The perception-action loop, system identification, and uncertainty management are all directly mapped from AIF theory. The next modules explore each component — perception, cognition, action, learning, communication, and planning — in the control-estimation context.

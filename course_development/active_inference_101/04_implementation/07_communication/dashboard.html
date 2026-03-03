@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard: Unknown — Unknown</title>
+    <title>Dashboard: Communication — Implementation</title>
     <style>
         :root {
-            --accent: #38bdf8;
-            --accent-glow: #38bdf822;
+            --accent: #22d3ee;
+            --accent-glow: #22d3ee22;
             --bg: #0f172a;
             --card: #1e293b;
             --border: #334155;
@@ -21,7 +21,7 @@
         body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
 
         /* Hero */
-        .hero { background:linear-gradient(135deg, #6366f1, #a855f7); padding:48px 24px 36px; text-align:center; }
+        .hero { background:linear-gradient(135deg, #06b6d4, #8b5cf6); padding:48px 24px 36px; text-align:center; }
         .hero h1 { font-size:2rem; color:#fff; margin-bottom:8px; }
         .hero .sub { font-size:1.1rem; color:rgba(255,255,255,.85); margin-bottom:12px; }
         .hero .tag { display:inline-block; background:rgba(255,255,255,.2); color:#fff; padding:4px 14px; border-radius:20px; font-size:.8rem; backdrop-filter:blur(4px); }
@@ -46,7 +46,7 @@
         .concept-card .detail { display:none; color:var(--muted); font-size:.85rem; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); line-height:1.7; }
         .concept-card.open .detail { display:block; }
         .meter { background:var(--border); border-radius:8px; height:6px; overflow:hidden; margin-top:14px; }
-        .meter-fill { height:100%; border-radius:8px; background:linear-gradient(90deg,var(--accent),#38bdf888); transition:width 1s ease; }
+        .meter-fill { height:100%; border-radius:8px; background:linear-gradient(90deg,var(--accent),#22d3ee88); transition:width 1s ease; }
         .meter-label { color:var(--dim); font-size:.7rem; margin-top:4px; }
 
         /* Quiz */
@@ -92,8 +92,8 @@
 <body>
     <div class="hero">
         <h1>Module 07: Communication — Implementing Multi-Agent Inference</h1>
-        <p class="sub">Unknown — Active Inference (Core)</p>
-        <span class="tag">Active Inference (Core) — Unknown</span>
+        <p class="sub">Implementation — Active Inference: College 101</p>
+        <span class="tag">Active Inference: College 101 — Implementation</span>
     </div>
 
     <nav class="nav">
@@ -126,8 +126,9 @@
 <label><input type="checkbox"> Implement two communicating agents whose actions are each other&#x27;s observations.</label>
 <label><input type="checkbox"> Code generalized synchrony measures between agent beliefs.</label>
 <label><input type="checkbox"> Simulate a conversation and track belief convergence.</label>
+<label><input type="checkbox"> Implement trust precision — how much one agent weighs the other&#x27;s messages.</label>
             <div class="pbar"><div class="pfill" id="pfill"></div></div>
-            <p class="ptxt" id="ptxt">0 of 3 complete</p>
+            <p class="ptxt" id="ptxt">0 of 4 complete</p>
         </div>
 
         <h2 class="stitle">Module Navigation</h2>
@@ -145,7 +146,7 @@
         </div>
     </div>
 
-    <footer>Active Inference Institute &mdash; Active Inference (Core) — Unknown — Module Un: Unknown</footer>
+    <footer>Active Inference Institute &mdash; Active Inference: College 101 — Implementation — Module 07: Communication</footer>
 
     <script>
     /* Concept cards */
@@ -154,7 +155,7 @@
     });
 
     /* Quiz engine */
-    var Q=[{"q": "A primary learning goal of this module is to:", "opts": ["Memorize all definitions without applying them to real situations.", "Skip foundational concepts and focus only on advanced material.", "Implement two communicating agents whose actions are each other's observations.", "Review content from a completely different subject area."], "correct": 2, "explain": "This module focuses on: Implement two communicating agents whose actions are each other's observations."}, {"q": "By the end of this module you should also be able to:", "opts": ["Complete unrelated worksheets for extra credit.", "Watch videos without taking notes or reflecting.", "Simulate a conversation and track belief convergence.", "Repeat previous module content without new application."], "correct": 2, "explain": "Another key goal: Simulate a conversation and track belief convergence."}];
+    var Q=[{"q": "A primary learning goal of this module is to:", "opts": ["Memorize all definitions without applying them to real situations.", "Review content from a completely different subject area.", "Skip foundational concepts and focus only on advanced material.", "Implement two communicating agents whose actions are each other's observations."], "correct": 3, "explain": "This module focuses on: Implement two communicating agents whose actions are each other's observations."}, {"q": "By the end of this module you should also be able to:", "opts": ["Implement trust precision — how much one agent weighs the other's messages.", "Watch videos without taking notes or reflecting.", "Repeat previous module content without new application.", "Complete unrelated worksheets for extra credit."], "correct": 0, "explain": "Another key goal: Implement trust precision — how much one agent weighs the other's messages."}];
     var ci=0,ans=new Array(Q.length).fill(null),sc=0;
 
     function renderQ(){
@@ -195,7 +196,7 @@
     function prevQ(){if(ci>0){ci--;renderQ();}}
 
     /* Checklist with localStorage */
-    var SK='ai_active-inference_unknown_07_communication';
+    var SK='ai_ai-101_implementation_07_communication';
     var QK=SK+'_quiz';
     function initCL(){
         var saved=JSON.parse(localStorage.getItem(SK)||'[]');

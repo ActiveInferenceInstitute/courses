@@ -91,7 +91,7 @@
 </head>
 <body>
     <div class="hero">
-        <h1>Module 04: Cognition in Robotics</h1>
+        <h1>Module 04: Cognition in Robotics — State Estimation and Filtering</h1>
         <p class="sub">Applications</p>
         <span class="tag">Active Inference: Robotics — Control Estimation</span>
     </div>
@@ -107,12 +107,14 @@
     <div class="content">
         <h2 class="stitle">Key Concepts</h2>
         <div class="cgrid">
-<p style="color:#94a3b8">No key concepts defined for this module.</p>
+<div class="concept-card"><h3>Prediction step <span class="toggle">+</span></h3><p class="brief">A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering.</p><div class="detail"><p>State estimation connects directly to the Free Energy Principle: the robot maintains a probabilistic belief (the approximate posterior) over hidden states and updates this belief to minimize variational free energy — the discrepancy between its model</p></div><div class="meter"><div class="meter-fill" style="width:95%"></div></div><p class="meter-label">Centrality to module</p></div>
+<div class="concept-card"><h3>Update step <span class="toggle">+</span></h3><p class="brief">A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering.</p><div class="detail"><p>State estimation connects directly to the Free Energy Principle: the robot maintains a probabilistic belief (the approximate posterior) over hidden states and updates this belief to minimize variational free energy — the discrepancy between its model</p></div><div class="meter"><div class="meter-fill" style="width:85%"></div></div><p class="meter-label">Centrality to module</p></div>
+<div class="concept-card"><h3>Kalman gain <span class="toggle">+</span></h3><p class="brief">A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering.</p><div class="detail"><p>Explore how Kalman gain connects to the other concepts in this module through the lecture and lab materials.</p></div><div class="meter"><div class="meter-fill" style="width:75%"></div></div><p class="meter-label">Centrality to module</p></div>
         </div>
 
         <h2 class="stitle">Self-Assessment Quiz</h2>
         <div class="quiz-box">
-            <div class="qprog" id="qprog">Question 1 of 2</div>
+            <div class="qprog" id="qprog">Question 1 of 5</div>
             <div id="qc"></div>
             <div class="qnav">
                 <button id="pbtn" onclick="prevQ()" disabled>&larr; Previous</button>
@@ -123,9 +125,9 @@
 
         <h2 class="stitle">Learning Objectives</h2>
         <div class="cklist" id="cklist">
-<label><input type="checkbox"> Define Cognition within the context of Robotics.</label>
-<label><input type="checkbox"> Analyze how Cognition interacts with other components of the Active Inference framework.</label>
-<label><input type="checkbox"> Apply specific constraints of Robotics to the formal definition of Cognition.</label>
+<label><input type="checkbox"> Define state estimation as Active Inference in the continuous domain — maintaining probabilistic beliefs about hidden states from noisy observations.</label>
+<label><input type="checkbox"> Analyze the relationship between Kalman filtering, particle filtering, and variational inference as alternative implementations of the same inference problem.</label>
+<label><input type="checkbox"> Apply state estimation to real robotic tasks: localization, object tracking, and sensor fusion.</label>
             <div class="pbar"><div class="pfill" id="pfill"></div></div>
             <p class="ptxt" id="ptxt">0 of 3 complete</p>
         </div>
@@ -133,14 +135,14 @@
         <h2 class="stitle">Module Navigation</h2>
         <div class="mnav">
             <div class="mgrid">
-<a class="module-link" href="../01_systems/dashboard.html"><strong>Module 01: Systems</strong>Module 01: Systems in Robotics</a>
-<a class="module-link" href="../02_agents/dashboard.html"><strong>Module 02: Agents</strong>Module 02: Agents in Robotics</a>
-<a class="module-link" href="../03_perception/dashboard.html"><strong>Module 03: Perception</strong>Module 03: Perception in Robotics</a>
-<a class="module-link current" href="#"><strong>Module 04: Cognition</strong>Module 04: Cognition in Robotics</a>
-<a class="module-link" href="../05_action/dashboard.html"><strong>Module 05: Action</strong>Module 05: Action in Robotics</a>
-<a class="module-link" href="../06_learning/dashboard.html"><strong>Module 06: Learning</strong>Module 06: Learning in Robotics</a>
-<a class="module-link" href="../07_communication/dashboard.html"><strong>Module 07: Communication</strong>Module 07: Communication in Robotics</a>
-<a class="module-link" href="../08_planning/dashboard.html"><strong>Module 08: Planning</strong>Module 08: Planning in Robotics</a>
+<a class="module-link" href="../01_systems/dashboard.html"><strong>Module 01: Systems</strong>Module 01: Systems in Robotics — Control and Estimation</a>
+<a class="module-link" href="../02_agents/dashboard.html"><strong>Module 02: Agents</strong>Module 02: Agents in Robotics — Control Agent Design</a>
+<a class="module-link" href="../03_perception/dashboard.html"><strong>Module 03: Perception</strong>Module 03: Perception in Robotics — Sensor Processing for Co</a>
+<a class="module-link current" href="#"><strong>Module 04: Cognition</strong>Module 04: Cognition in Robotics — State Estimation and Filt</a>
+<a class="module-link" href="../05_action/dashboard.html"><strong>Module 05: Action</strong>Module 05: Action in Robotics — Control Law Design</a>
+<a class="module-link" href="../06_learning/dashboard.html"><strong>Module 06: Learning</strong>Module 06: Learning in Robotics — Adaptive Control</a>
+<a class="module-link" href="../07_communication/dashboard.html"><strong>Module 07: Communication</strong>Module 07: Communication in Robotics — Networked Control Sys</a>
+<a class="module-link" href="../08_planning/dashboard.html"><strong>Module 08: Planning</strong>Module 08: Planning in Robotics — Trajectory and Motion Plan</a>
             </div>
         </div>
     </div>
@@ -154,7 +156,7 @@
     });
 
     /* Quiz engine */
-    var Q=[{"q": "A primary learning goal of this module is to:", "opts": ["Memorize all definitions without applying them to real situations.", "Skip foundational concepts and focus only on advanced material.", "Review content from a completely different subject area.", "Define Cognition within the context of Robotics."], "correct": 3, "explain": "This module focuses on: Define Cognition within the context of Robotics."}, {"q": "By the end of this module you should also be able to:", "opts": ["Apply specific constraints of Robotics to the formal definition of Cognition.", "Complete unrelated worksheets for extra credit.", "Watch videos without taking notes or reflecting.", "Repeat previous module content without new application."], "correct": 0, "explain": "Another key goal: Apply specific constraints of Robotics to the formal definition of Cognition."}];
+    var Q=[{"q": "Which of the following best describes \"Prediction step\"?", "opts": ["A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering.", "A purely theoretical construct with no practical application in this field.", "A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering.", "A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering."], "correct": 3, "explain": "Prediction step: A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering."}, {"q": "Which of the following best describes \"Update step\"?", "opts": ["A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering.", "A purely theoretical construct with no practical application in this field.", "A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering.", "A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering."], "correct": 3, "explain": "Update step: A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering."}, {"q": "Which of the following best describes \"Kalman gain\"?", "opts": ["A purely theoretical construct with no practical application in this field.", "A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering.", "A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering.", "A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering."], "correct": 1, "explain": "Kalman gain: A key concept in Module 04: Cognition in Robotics — State Estimation and Filtering."}, {"q": "A primary learning goal of this module is to:", "opts": ["Define state estimation as Active Inference in the continuous domain — maintaining probabilistic beliefs about hidden states from noisy observations.", "Review content from a completely different subject area.", "Memorize all definitions without applying them to real situations.", "Skip foundational concepts and focus only on advanced material."], "correct": 0, "explain": "This module focuses on: Define state estimation as Active Inference in the continuous domain — maintaining probabilistic beliefs about hidden states from noisy observations."}, {"q": "By the end of this module you should also be able to:", "opts": ["Complete unrelated worksheets for extra credit.", "Apply state estimation to real robotic tasks: localization, object tracking, and sensor fusion.", "Watch videos without taking notes or reflecting.", "Repeat previous module content without new application."], "correct": 1, "explain": "Another key goal: Apply state estimation to real robotic tasks: localization, object tracking, and sensor fusion."}];
     var ci=0,ans=new Array(Q.length).fill(null),sc=0;
 
     function renderQ(){

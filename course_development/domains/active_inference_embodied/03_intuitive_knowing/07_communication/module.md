@@ -1,32 +1,58 @@
-# Module 07: Communication in Embodied
+# Module 07: Communication in Embodied Cognition — Body-to-Body Transmission
 
 ## Learning Objectives
 
-1.  Define **Communication** within the context of Embodied.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Embodied to the formal definition of Communication.
+1. Define **embodied communication** as the direct transmission of somatic knowledge between bodies through touch, mirroring, resonance, and guided practice.
+2. Analyze how **mirror neurons, autonomic synchrony, and somatic empathy** implement coupled Active Inference between embodied agents.
+3. Apply the framework to understand how intuitive knowledge is shared in practitioner-apprentice relationships.
 
 ## Introduction
 
-This module explores **Communication**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between Learning and Planning.
+Intuitive knowledge cannot be fully transmitted through words. How do you teach someone to "feel" the right moment to turn the clay on a potter's wheel? How does a physiotherapist convey the correct amount of pressure for a tissue release? How does a mother teach her infant to regulate emotional distress? These transmissions happen **body to body** — through touch, postural mirroring, rhythmic synchrony, and guided physical practice.
 
 ## Key Concepts
 
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
+### 1. Mirror Systems and Observational Learning
 
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
+**Mirror neuron systems** fire both when performing an action and when observing the same action performed by another. This implements a form of **coupled generative modeling**:
 
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
+- The observer's motor generative model generates proprioceptive predictions *as if* performing the observed action
+- These vicarious predictions create a somatic understanding of the other's movement — "feeling" what it would be like to perform that action
+- Skilled observation (watching a master practitioner) is not passive — it engages the observer's own embodied generative model, building motor priors from visual observation
+
+### 2. Autonomic Synchrony and Somatic Empathy
+
+When two bodies interact closely, their autonomic systems synchronize:
+
+- Heart rate synchronization between therapist and client, parent and infant, romantic partners
+- Breathing synchronization during collaborative physical activity (rowing, dancing, carrying heavy objects together)
+- Postural mirroring — unconsciously adopting the posture of a conversation partner
+
+In Active Inference terms, autonomic synchrony is the alignment of interoceptive generative models through mutual observation — each agent's interoceptive predictions are influenced by observations of the other's bodily state, creating a coupled inference loop.
+
+### 3. Hands-On Teaching: Contact as Communication Channel
+
+Physical contact is the most direct embodied communication channel:
+
+- A martial arts teacher adjusts the student's stance by repositioning limbs — providing direct proprioceptive evidence for the correct body configuration
+- A music teacher places their hand over the student's hand on the instrument, guiding finger pressure and timing through co-movement
+- A somatic therapist communicates tissue states through palpation — the hands "listen" to the tissue while simultaneously communicating information about the therapist's assessment and intention
+
+Contact-based teaching works because it bypasses the verbal bottleneck — the student receives proprioceptive observations directly, without the lossy translation from somatic knowledge to verbal description and back.
+
+### 4. Cultural Embodied Knowledge
+
+Embodied traditions (martial arts, dance forms, craft guilds, surgical apprenticeships) transmit somatic knowledge across generations:
+
+- The "lineage" in martial arts is a chain of **generative model transmission** — each master's embodied knowledge is transferred to students through years of physical practice, corrections, and co-movement
+- Craft guilds transmitted metalworking, weaving, and pottery skills through apprenticeship — the knowledge existed in bodies, not texts
+- Modern decline of apprenticeship risks **knowledge extinction** — somatic knowledge that cannot be articulated verbally is lost when the embodied tradition breaks
 
 ## Applications
 
-In Embodied, we see Communication manifest in:
-*   **Specific Example 1**: An experienced negotiator intuitively senses the moment to make a concession -- not from any explicit signal but from a subtle shift in the room's energy that she registers as a loosening in her own shoulders and a slight forward lean in her counterpart; this intuitive communication operates across social Markov blankets, where her generative model has learned to decode micro-postural and tonal cues into predictions about the other party's internal state, transmitted as embodied knowing rather than propositional analysis.
-*   **Specific Example 2**: A mother intuitively distinguishes her infant's hungry cry from the pain cry from across the house, feeling a corresponding pull in her breasts for the first and a sharp alertness in her solar plexus for the second; this communication channel between parent and infant operates through deeply evolved embodied priors in the generative model, where the acoustic signal at the Markov blanket is instantly matched to a somatic prediction that simultaneously identifies the infant's state and initiates the appropriate caregiving response.
+- **Clinical empathy training**: Medical programs that incorporate somatic empathy training — teaching clinicians to attend to their own interoceptive responses during patient encounters — produce practitioners who detect patient distress earlier and with greater accuracy, because the clinician's body is used as a coupled inference instrument.
+- **Dance lineage transmission**: Contact improvisation transmits movement vocabulary through body-to-body contact during partner practice. The "technique" is not a set of moves but a sensitivity to weight, momentum, and spatial relationship that can only be acquired through years of embodied co-inference with experienced practitioners.
 
 ## Conclusion
 
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Body-to-body communication — through mirror systems, autonomic synchrony, contact-based teaching, and lineage transmission — is the primary channel for transmitting intuitive somatic knowledge. This completes our exploration of how embodied agents share their deepest knowing. The next module on planning examines how intuitive anticipation guides future action.

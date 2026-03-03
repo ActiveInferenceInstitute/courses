@@ -1,32 +1,61 @@
-# Module 01: Systems in Embodied
+# Module 01: Systems in Embodied Cognition — Moving Through World
 
 ## Learning Objectives
 
-1.  Define **Systems** within the context of Embodied.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Embodied to the formal definition of Systems.
+1. Define the **embodied system-in-environment** as the fundamental unit of analysis for movement through the world — not the body *or* the environment, but their coupled dynamical system.
+2. Analyze how the **body-environment coupling** creates a system with emergent properties not reducible to either component alone.
+3. Apply the Active Inference framework to explain **locomotion, wayfinding, and spatial orientation** as system-level inference.
 
 ## Introduction
 
-This module explores **Systems**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between Planning and Agents.
+We do not move through the world like objects in a void — we move *with* the world, coupled to it through every footstep, every breath of wind, every change in terrain. The system of interest in embodied movement is not the body alone but the **body-environment dyad**: a coupled dynamical system in which the body's actions change the environment and the environment's feedback changes the body.
+
+A runner on a trail is a system: the terrain surface (roots, rocks, mud), gravitational field, air resistance, and ambient light conditions are as much part of the movement system as the runner's legs, lungs, and balance organs. Understanding movement through the world requires analyzing the whole system.
 
 ## Key Concepts
 
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
+### 1. The Body-Environment System as Coupled Dynamical System
 
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
+In Active Inference, the body-environment system has a clear formalization:
 
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
+- **The body** maintains internal states (proprioceptive signals, interoceptive state, motor plans) separated from the environment by a Markov blanket (the skin, the retina, the cochlea)
+- **The environment** has its own dynamics (gravity, terrain, obstacles, weather) that evolve independently but are coupled to the body through the blanket
+- **The coupling** is bidirectional: the body's *actions* change the environment (footfalls compress soil, hands open doors, voice alters social dynamics), and the environment's *signals* change the body's observations
+
+The system's behavior — walking, running, climbing, swimming — is emergent: it cannot be understood by studying the body or the environment in isolation.
+
+### 2. Affordance Landscapes
+
+Gibson's affordances become dynamic when the agent moves through the world:
+
+- **A flat surface affords walking** — but only if the surface is within reach, the agent is upright, and the agent's motor generative model includes walking policies
+- **A gap affords jumping** — but only if the gap width is within the agent's estimated jump distance (calibrated by body size, fatigue, and surface traction)
+- **An affordance landscape** is the spatial distribution of action possibilities as perceived by the moving agent — it shifts continuously as the agent traverses the environment
+
+In Active Inference terms, the affordance landscape is the **spatial distribution of Expected Free Energy** across possible actions at each location. The agent moves toward regions of low EFE (reachable goals, navigable paths) and away from regions of high EFE (hazards, dead ends, extreme uncertainty).
+
+### 3. Wayfinding as Active Inference
+
+Navigation through the world is inference under a spatial generative model:
+
+- **Cognitive map**: The agent's internal model of spatial layout (place cells, grid cells, or their functional analogs)
+- **Path integration**: Continuous updating of the estimated position based on self-motion signals (proprioceptive, vestibular, optic flow)
+- **Landmark recognition**: Observation-driven correction of the position estimate (analogous to the Kalman filter's update step)
+- **Active exploration**: The agent selects routes that balance pragmatic value (reaching the goal) with epistemic value (exploring unknown regions to improve the map)
+
+### 4. Environmental Coupling and Terrain Adaptation
+
+**Terrain adaptation** demonstrates the body-environment coupling in action:
+
+- On loose gravel: the agent reduces stride length, increases ground contact time, and lowers center of mass — precision on vestibular prediction errors increases to maintain balance
+- On ice: the agent shifts to a penguin-like wide stance, drastically reducing stride length — the proprioceptive model adapts to the reduced friction by predicting smaller force vectors
+- On steep inclines: the agent engages different muscle synergies (quadriceps for uphill, eccentric hamstring for downhill) — the motor generative model selects slope-appropriate policies
 
 ## Applications
 
-In Embodied, we see Systems manifest in:
-*   **Specific Example 1**: When I run along a rocky trail, my musculoskeletal, vestibular, and visual systems operate as a tightly coupled locomotor system -- each footfall sends proprioceptive signals upward while the vestibular apparatus predicts the next head position and the visual system scans for obstacles ahead; this whole-body movement system maintains its Markov blanket dynamically, continuously minimizing the free energy of postural instability by coordinating dozens of joints within milliseconds.
-*   **Specific Example 2**: A dancer performing a complex choreography functions as an integrated neuro-musculo-skeletal system where respiratory rhythm, spinal undulation, limb trajectory, and spatial orientation are all coupled through shared generative model predictions; the experience of being "in the flow" of movement is the subjective signature of systemic free energy minimization -- the entire body-as-system operating in a regime of minimal prediction error across all sensorimotor channels simultaneously.
+- **Wilderness navigation training**: Teaching backcountry navigation through active inference involves calibrating the proprioceptive model to terrain signals — experienced hikers can estimate distance traveled from step count adjusted for slope and surface type, implementing path integration through somatic channels.
+- **Urban accessibility design**: Designing cities for wheelchair users requires understanding the affordance landscape from the wheelchair user's perspective — curb heights, surface textures, and slope gradients define the distribution of navigable vs. impassable regions, and optimal accessible design minimizes the free energy of movement for all body configurations.
 
 ## Conclusion
 
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Moving through the world is system-level inference: the body-environment coupling, affordance landscapes, wayfinding, and terrain adaptation are all manifestations of Active Inference in the dynamical system formed by the agent and its milieu. The next module examines the embodied agent within this system.

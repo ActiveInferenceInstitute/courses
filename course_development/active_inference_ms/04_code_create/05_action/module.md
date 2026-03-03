@@ -1,32 +1,64 @@
-# Module 05: Action in Middle School
+# Module 05: Action — Functions, Loops, and Making Things Happen
 
 ## Learning Objectives
 
-1.  Define **Action** within the context of Middle School.
-2.  Analyze how Action interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Middle School to the formal definition of Action.
+1. Use **functions** to organize actions into reusable, named blocks of code.
+2. Use **loops** (for, while) to repeat actions efficiently.
+3. Connect functions and loops to the Active Inference sense-decide-act cycle.
 
 ## Introduction
 
-This module explores **Action**. In the **Middle School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between Cognition and Learning.
+Action is the part of Active Inference where the agent *does* something — it changes the world. In code, actions are functions and loops: the building blocks that make things happen. This module teaches you to write better functions and loops, and to see them as the "motor system" of your code agents.
 
 ## Key Concepts
 
-### 1. Action as a Markov Blanket Boundary
-How does Action define the boundary between the agent and the environment?
+### 1. Functions as Actions
 
-### 2. Generative Models of Action
-What parameters involved in Action must be optimized to minimize variational free energy?
+A function is a named action. Instead of writing the same code over and over, you write it once and *call* it:
 
-### 3. Active Inference Dynamics
-How does the process of Action drive the perception-action loop?
+```python
+def move_forward(player, distance):
+    player.x += distance
+    print(f"Moved to {player.x}")
 
-## Applications
+def turn_left(player):
+    player.direction = rotate(player.direction, -90)
+    print(f"Facing {player.direction}")
+```
 
-In Middle School, we see Action manifest in:
-*   **Specific Example 1**: Every time you press "Run" on your code, you are taking an action that tests a prediction. You predicted that your program would print "Hello World," but instead you get a syntax error. That mismatch between your expectation and the actual output is a prediction error, and it drives you to scan the code, find the missing colon, fix it, and run again -- each action-observation cycle improves your mental model of how the code works.
-*   **Specific Example 2**: In a game you are coding, the player character's jump is an action driven by a simple physics model: when the user presses the space bar, the code applies an upward velocity and then gravity pulls the character back down each frame. If the jump feels too floaty, you tweak the gravity constant -- that is your program's action model being tuned based on the prediction error between "how this should feel" and "how it actually feels."
+Each function is a discrete **action** your agent can take. The function name is the action's label. The parameters customize the action.
 
-## Conclusion
+### 2. Loops as Repeated Actions
 
-Understanding Action allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+A `while` loop is an action repeated until a condition is met. This is the core of the Active Inference loop:
+
+```python
+while not at_goal:
+    observation = sense(world, player)         # Sense
+    decision = decide(observation, player)     # Decide
+    at_goal = act(decision, player, world)     # Act
+```
+
+The loop keeps running — sense, decide, act — until the agent reaches its goal. Every game, every robot, every AI runs a loop like this.
+
+### 3. Side Effects: Actions Change the World
+
+A function that only calculates something (like `add(3, 4)`) is pure computation. But a function that changes a variable, moves a character, or writes to a file has a **side effect** — it changes the world. In Active Inference, every action is a side effect: the agent acts on the environment to make it match its predictions.
+
+## Activities
+
+### 🚀 Activity 1: Action Library
+
+Create a library of at least 5 functions for a game character: `move_forward()`, `turn_left()`, `turn_right()`, `pick_up(item)`, `drop(item)`. Write a main loop that lets the user type commands ("forward", "left", "pick up key") and calls the right function.
+
+### 🔄 Activity 2: The 100-Step Challenge
+
+Write a program where a bot must reach a treasure in a 20×20 grid. The bot can move forward, turn left, or turn right. Challenge: can your bot reach the treasure in fewer than 100 steps? Optimize your action loop!
+
+## Summary
+
+Functions are named actions. Loops repeat the sense-decide-act cycle. Side effects are how code agents change the world. Well-organized functions and efficient loops are the "muscles" of your code — the tools that turn decisions into results.
+
+## References
+
+* Matthes, E. (2019). *Python Crash Course*. Chapters 8-9.

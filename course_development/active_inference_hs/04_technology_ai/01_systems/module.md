@@ -1,32 +1,51 @@
-# Module 01: Systems in High School
+# Module 01: Systems — Digital and Physical Systems
 
 ## Learning Objectives
 
-1.  Define **Systems** within the context of High School.
-2.  Analyze how Systems interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of High School to the formal definition of Systems.
+1. Identify the **components** (hardware, software, network) of a digital system and map them to Active Inference concepts.
+2. Compare **centralized** and **distributed** system architectures.
+3. Explain how a computer's operating system manages resources by minimizing "surprise" (unexpected demand).
 
 ## Introduction
 
-This module explores **Systems**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Systems is a critical component of the 8-part Active Inference spine, bridging the gap between Planning and Agents.
+Every piece of technology you use — your phone, a self-driving car, a social media platform — is a system. In Math Foundations, you learned to model systems with equations. Now we apply those ideas to the systems that define modern life: computers, networks, AI platforms, and the Internet itself.
 
 ## Key Concepts
 
-### 1. Systems as a Markov Blanket Boundary
-How does Systems define the boundary between the agent and the environment?
+### 1. Anatomy of a Digital System
 
-### 2. Generative Models of Systems
-What parameters involved in Systems must be optimized to minimize variational free energy?
+A smartphone is a layered system:
 
-### 3. Active Inference Dynamics
-How does the process of Systems drive the perception-action loop?
+- **Hardware layer**: CPU, RAM, battery, sensors (camera, accelerometer, GPS)
+- **Operating system layer**: Manages resources, schedules tasks, handles I/O
+- **Application layer**: Apps that the user interacts with
+
+Each layer has a **boundary** (like a Markov blanket). The OS mediates between hardware and apps — it "hides" the hardware complexity from the apps, just like a brain's Markov blanket hides the raw physics of the world.
+
+### 2. Centralized vs. Distributed Systems
+
+A **centralized** system (e.g., a single database server) has one decision-maker. A **distributed** system (e.g., the Internet, blockchain, a flock of birds) has many agents making local decisions.
+
+Active Inference works for both: a single agent minimizes its own free energy, while a collective of agents can minimize *collective* free energy through communication and coordination.
+
+### 3. Resource Prediction
+
+An operating system predicts resource demand: "The user usually opens email at 8 AM, so pre-load it." When demand is unpredictable (surprise!), the system must adapt — allocating more RAM, throttling background processes, or requesting a restart. This is active inference applied to computer resource management.
 
 ## Applications
 
-In High School, we see Systems manifest in:
-*   **Specific Example 1**: A smartphone's operating system is an Active Inference system where the CPU, RAM, and battery form internal states, the apps and user interactions are external states, and the touchscreen plus network interfaces form the Markov blanket -- the OS continuously predicts resource demands (how much RAM the next app needs) and adjusts allocation to minimize the surprise of lag or crashes.
-*   **Specific Example 2**: A smart home ecosystem (thermostat, lights, door locks, voice assistant) operates as a distributed Active Inference system: each device maintains its own generative model of expected conditions (temperature schedules, occupancy patterns), they communicate through a shared network (Markov blanket), and the system collectively minimizes household free energy by predicting and preemptively adjusting to the residents' routines.
+- **Cloud Computing**: Amazon Web Services (AWS) uses predictive scaling — it *predicts* how many servers you will need tonight based on past traffic patterns and pre-allocates resources. Unexpected traffic spikes are prediction errors that trigger auto-scaling.
+- **The Internet as a System**: The Internet has no central brain. Packets route themselves through millions of nodes using local rules. This is a massively distributed system performing something analogous to free energy minimization at a planetary scale.
 
-## Conclusion
+## Discussion Questions
 
-Understanding Systems allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+1. Your phone battery dies unexpectedly at 3 PM instead of lasting until 6 PM. What "prediction error" did the phone's power management system make?
+2. Is the Internet centralized or distributed? What are the advantages of each for resilience?
+
+## Summary
+
+Digital systems have components, boundaries, and prediction mechanisms, just like biological systems. Operating systems and cloud platforms manage resources by predicting demand and correcting errors — the same predict-correct cycle that underlies Active Inference.
+
+## References
+
+- Tanenbaum, A. S. (2016). *Modern Operating Systems*. Chapter 1.

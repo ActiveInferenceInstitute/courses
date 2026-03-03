@@ -7,6 +7,7 @@
 1. Formalize communication as **coupled inference** between multiple agents with shared generative models.
 2. Define **generalized synchrony** mathematically — when agents' beliefs converge.
 3. Introduce the mathematics of **shared narratives** and cultural norms as shared priors.
+4. Understand **Thinking Through Other Minds (TTOM)** as hierarchical social inference.
 
 ## Introduction
 
@@ -49,7 +50,21 @@ This is the mathematical definition of "being on the same page." In successful c
 - The prediction error between agents' models approaches zero
 - Both agents' posteriors become aligned
 
-### 4. Language as Compressed Generative Models
+### 4. Thinking Through Other Minds (TTOM)
+
+Veissière et al. (2020) introduced **Thinking Through Other Minds** — a framework where agents don't just model the world but model *other agents modeling the world*:
+
+**Agent A's model**: P_A(s_world, s_B_mind | o_A) — Agent A infers both the state of the world and what Agent B is thinking about it.
+
+This creates a hierarchy of inference:
+
+- **0th order**: What is the state of the world?
+- **1st order**: What does Agent B believe about the state of the world?
+- **2nd order**: What does Agent B believe that *I* believe about the state of the world?
+
+Each level requires a deeper generative model. Human adults typically handle 4-5 levels of recursive mentalizing. Game-theoretic reasoning ("I think that you think that I think...") is simply iterated Active Inference through the chain of mental models.
+
+### 5. Language as Compressed Generative Models
 
 Language can be formalized as an efficient encoding of generative models:
 
@@ -63,21 +78,32 @@ A sentence like "The cat sat on the mat" transmits:
 - Relational structure (sat on)
 - The speaker's generative model compressed into a few words
 
-### 5. Cultural Norms as Shared Priors
+The receiver reconstructs a compatible generative model from these compressed signals — communication succeeds when the receiver's reconstructed model is close to the sender's intended model (low mutual free energy).
+
+### 6. Cultural Norms as Shared Priors
 
 Cultural norms are **shared D vectors** — common priors that a population of agents agrees on:
 
 - "Shake hands when greeting" = shared prior about appropriate action in greeting contexts
 - "Stop at red lights" = shared prior about traffic behavior
 
-These shared priors reduce the mutual free energy of social interaction — when everyone expects the same things, prediction errors are minimized.
+These shared priors reduce the mutual free energy of social interaction — when everyone expects the same things, prediction errors are minimized. Cultural evolution selects for norms that minimize the *collective* free energy of the group.
+
+### 7. Communication Failure: Systematized Misalignment
+
+When communication fails, agents' generative models diverge rather than converge:
+
+- **Miscommunication**: Agents have different A matrices — the same words produce different observations. Example: "bank" means a financial institution to one agent and a riverbank to another.
+- **Cultural clash**: Agents have different D vectors — incompatible priors about appropriate behavior. Example: norms about personal space vary across cultures.
+- **Deception**: One agent deliberately sends messages that increase the *other* agent's free energy while decreasing its own — destabilizing the synchrony.
 
 ## Summary
 
-Communication is coupled inference between agents whose actions are each other's observations. Generalized synchrony measures the alignment of beliefs. Language compresses generative models for efficient transmission, and cultural norms are shared priors that minimize collective prediction error.
+Communication is coupled inference between agents whose actions are each other's observations. Generalized synchrony measures the alignment of beliefs. TTOM formalizes the recursive hierarchy of modeling other minds. Language compresses generative models for efficient transmission, and cultural norms are shared priors that minimize collective prediction error. Communication failure arises from model misalignment at the level of observations, priors, or deliberate deception.
 
 ## Further Reading
 
 - Friston, K. J. & Frith, C. D. (2015). A duet for one. *Consciousness and Cognition*, 36, 390-405.
 - Vasil, J. et al. (2020). A world unto itself: Human communication as active inference. *Frontiers in Psychology*, 11, 417.
+- Veissière, S. P. L. et al. (2020). Thinking through other minds: A variational approach to cognition and culture. *Behavioral and Brain Sciences*, 43, e90.
 - Parr, T., Pezzulo, G., & Friston, K. J. (2022). *Active Inference*. MIT Press. (Chapter 9)

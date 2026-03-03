@@ -13,8 +13,9 @@
 | Dewey: Cognition as instrument | Generative model as survival tool | |
 | Dewey: Habit as organized activity | Policy prior | |
 | Peirce: Abduction | Bayesian model selection | |
+| Mead: Self as social construction | Self-model via interpersonal inference | |
 
-Which mapping is strongest? Which is most misleading? (300 words)
+Which mapping is strongest? Which is most misleading? Support your claim with a specific example where the mapping breaks down. (300 words)
 
 {fill:textarea}
 
@@ -30,8 +31,9 @@ Which mapping is strongest? Which is most misleading? (300 words)
 | Toddler | Climbing (reduces curiosity PE) | |
 | Cat | Platform (reduces surveillance PE) | |
 | Robot vacuum | Obstacle (increases navigation PE) | |
+| Person with disability | Barrier or aid (depends on design — precision on mobility model) | |
 
-How does the affordance depend on the agent's generative model?
+How does the affordance depend on the agent's generative model? What determines whether the same object affords different actions for different agents? Connect your answer to the precision-weighted policy evaluation in EFE.
 
 {fill:textarea}
 
@@ -41,25 +43,39 @@ How does the affordance depend on the agent's generative model?
 
 **Exercise**: Choose a skill you've developed (playing an instrument, coding, cooking, a sport). Map your progression through Dreyfus's five stages:
 
-| Stage | Your Experience | Generative Model Status | Policy Prior Status |
-|-------|----------------|------------------------|-------------------|
-| Novice | | Thin, rule-based | Uniform |
-| Adv. Beginner | | Context-sensitive | Slightly shaped |
-| Competent | | Goal-organized | Moderately shaped |
-| Proficient | | Holistic pattern recognition | Strongly shaped |
-| Expert | | Intuitive, low PE | Habitual |
+| Stage | Your Experience | Generative Model Status | Policy Prior Status | Precision Dynamics |
+|-------|----------------|------------------------|-------------------|--------------------|
+| Novice | | Thin, rule-based | Uniform | High PE, low precision on context |
+| Adv. Beginner | | Context-sensitive | Slightly shaped | Beginning to weight context |
+| Competent | | Goal-organized | Moderately shaped | Selective precision on goal-relevant signals |
+| Proficient | | Holistic pattern recognition | Strongly shaped | High precision on affordances |
+| Expert | | Intuitive, low PE | Habitual | Minimal deliberation, maximal automaticity |
+
+Now answer: At what stage is **free energy minimization most computationally intensive**? At what stage is it most efficient? What does this say about the relationship between expertise and cognitive effort?
 
 {fill:textarea}
 
 ## Part 4: Epistemic Actions in Daily Life
 
-**Exercise**: Identify three "epistemic actions" from your daily life — actions taken primarily to reduce uncertainty rather than achieve a goal. Analyze each through the EFE framework (what is the epistemic value?).
+**Exercise**: Identify three "epistemic actions" from your daily life — actions taken primarily to reduce uncertainty rather than achieve a goal. For each:
+
+1. Describe the action
+2. Identify the hidden state you were uncertain about
+3. Compute the epistemic value: what uncertainty was reduced?
+4. Was there also pragmatic value? If so, which dominated?
+
+Example: Checking the weather app before dressing → Hidden state: weather. Epistemic value: reduces outfit decision uncertainty. Pragmatic value: avoids being cold/wet.
 
 {fill:textarea}
 
-## Part 5: Reflection
+## Part 5: Philosophical Debate — Active Inference and the Spectator Theory
 
-In 250 words, reflect: How does the pragmatist insight "truth is what works" change your understanding of what generative models *do*? Does this make the FEP more or less philosophically interesting?
+In 250 words, engage with this debate: The **spectator theory of knowledge** says the mind passively observes the world. Pragmatists (Dewey especially) reject this — knowledge requires action. Active Inference formalizes this through the perception-action loop.
+
+But does Active Inference's mathematical formalism reintroduce the spectator theory? After all, the generative model is a mathematical representation "inside" the agent, and perception is described as inference (a seemingly passive operation). How do you resolve this tension? Consider:
+
+- Does the fact that perception requires precision optimization (an active process) adequately address the concern?
+- Is the action-perception loop genuinely different from a spectator who also acts, or is this a distinction without a difference?
 
 {fill:textarea}
 
@@ -69,6 +85,6 @@ In 250 words, reflect: How does the pragmatist insight "truth is what works" cha
 |------|----------------|-------------|
 | 1 | Historical mapping | Pragmatism ↔ Active Inference |
 | 2 | Applied analysis | Affordance formalization |
-| 3 | Self-analysis | Expertise development |
-| 4 | Daily observation | Epistemic actions |
-| 5 | Philosophical reflection | Pragmatist truth |
+| 3 | Self-analysis | Expertise and precision dynamics |
+| 4 | Daily observation | Epistemic actions and EFE |
+| 5 | Philosophical debate | Spectator theory critique |

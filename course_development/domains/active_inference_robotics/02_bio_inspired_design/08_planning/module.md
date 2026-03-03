@@ -1,32 +1,62 @@
-# Module 08: Planning in Robotics
+# Module 08: Planning in Robotics — Bio-Inspired Planning
 
 ## Learning Objectives
 
-1.  Define **Planning** within the context of Robotics.
-2.  Analyze how Planning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Planning.
+1. Explain how **biological planning mechanisms** (mental simulation, hierarchical goal decomposition, anticipatory behavior) inspire robotic planning architectures.
+2. Analyze the role of **Expected Free Energy minimization** as a unified framework for bio-inspired robotic planning.
+3. Apply bio-inspired planning strategies to achieve **flexible, robust goal pursuit** in unstructured environments.
 
 ## Introduction
 
-This module explores **Planning**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between Communication and Systems.
+Biological organisms plan at multiple timescales: a squirrel plans a cache route across the park over minutes, a crow plans a multi-step tool use sequence over seconds, and a cat plans a pounce trajectory over milliseconds. These planning capacities inspire robotic planning systems that combine the flexibility of hierarchical goal decomposition with the robustness of reactive behavior.
 
 ## Key Concepts
 
-### 1. Planning as a Markov Blanket Boundary
-How does Planning define the boundary between the agent and the environment?
+### 1. Expected Free Energy Planning
 
-### 2. Generative Models of Planning
-What parameters involved in Planning must be optimized to minimize variational free energy?
+In Active Inference, planning is policy selection by evaluating **Expected Free Energy** (EFE) for each candidate policy over a finite planning horizon:
 
-### 3. Active Inference Dynamics
-How does the process of Planning drive the perception-action loop?
+**G(π) = Σₜ [-Pragmatic Value(π,t) - Epistemic Value(π,t)]**
+
+- **Pragmatic value**: How close does policy π bring the agent to its preferred observations at time t?
+- **Epistemic value**: How much does policy π reduce the agent's uncertainty about the world at time t?
+
+Bio-inspired robots plan by evaluating EFE across a policy tree — exploring promising branches and pruning unpromising ones. The epistemic-pragmatic decomposition naturally handles the exploration-exploitation trade-off that plagues standard planning algorithms.
+
+### 2. Hierarchical Goal Decomposition
+
+Biological planning is hierarchical — high-level goals are decomposed into sub-goals, sub-goals into actions:
+
+- "Build a nest" → "Gather materials" + "Weave structure" + "Line interior"
+- "Gather materials" → "Fly to source" + "Select appropriate branch" + "Break off segment" + "Carry back"
+
+Bio-inspired robotic planners replicate this hierarchy through **hierarchical MDP/POMDP models** where higher levels set goals for lower levels, and lower levels report completion back up. Each level performs Active Inference at its own timescale.
+
+### 3. Anticipatory Behavior
+
+Bio-inspired robots use **anticipatory control** — acting based on predicted future states rather than current observations:
+
+- A robotic catcher predicts the ball's trajectory and moves its hand to the future intercept point — not the current ball position
+- A warehouse robot predicts human workers' paths and proactively avoids future collision zones
+- An agricultural robot predicts crop growth stages and schedules interventions accordingly
+
+Anticipatory behavior is planning compressed to the motor level — the generative model's future predictions directly drive current actions.
+
+### 4. Planning Under Uncertainty: Information-Gathering Strategies
+
+Biological organisms actively gather information before committing to a plan:
+
+- A crow inspects a novel puzzle from multiple angles before attempting a solution (visual information gathering)
+- A rat pauses at a T-maze junction as hippocampal place cells "preview" both arms (vicarious trial and error)
+- A cat stalks prey using a circuitous approach that provides visual access from multiple angles before committing to a pounce
+
+Bio-inspired robots replicate these strategies through **epistemic actions** — deliberately information-seeking movements that reduce planning uncertainty before executing the main plan.
 
 ## Applications
 
-In Robotics, we see Planning manifest in:
-*   **Specific Example 1**: A desert-ant-inspired robot plans return-to-nest trajectories using a path integration mechanism (analogous to the ant's celestial compass and step counter) that maintains a running estimate of the home vector; when foraging is complete, the robot evaluates candidate return paths by predicting sensory consequences -- a direct homeward path minimizes expected free energy when the home-vector estimate is confident, but when uncertainty is high (long foraging trip, accumulated drift), the planner selects landmark-following paths that trade directness for information gain, just as real desert ants switch from path integration to visual piloting.
-*   **Specific Example 2**: A corvid-inspired robot planner demonstrates prospective cognition by simulating future tool-use sequences before acting -- when faced with a food item inside a tube, the robot's generative model evaluates candidate action sequences (push with stick A, then hook with stick B) by mentally simulating each step's expected sensory outcomes, selecting the multi-step plan that minimizes expected free energy across the full temporal horizon rather than greedily choosing the immediately most rewarding action, mirroring the hierarchical planning observed in New Caledonian crows.
+- **Agricultural harvesting robot**: A bio-inspired harvesting robot uses hierarchical planning (field coverage → row traversal → individual plant harvesting), anticipatory behavior (predicting fruit ripeness from visual features to optimize harvest timing), and epistemic inspection (pausing to image fruit from multiple angles before selecting the grasp strategy).
+- **Collaborative construction robot**: A robot building structures alongside humans uses anticipatory planning (predicting the human's next action and pre-positioning materials) and hierarchical decomposition (mission → wall segment → individual brick placement) — combining bio-inspired flexibility with precise execution.
 
 ## Conclusion
 
-Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Bio-inspired planning — Expected Free Energy minimization, hierarchical decomposition, anticipatory behavior, and information-gathering strategies — gives robots the capacity for flexible, robust goal pursuit in unstructured environments. This completes the Bio-Inspired Design unit.

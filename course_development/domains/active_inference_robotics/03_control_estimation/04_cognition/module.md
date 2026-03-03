@@ -1,32 +1,63 @@
-# Module 04: Cognition in Robotics
+# Module 04: Cognition in Robotics — State Estimation and Filtering
 
 ## Learning Objectives
 
-1.  Define **Cognition** within the context of Robotics.
-2.  Analyze how Cognition interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Cognition.
+1. Define **state estimation** as Active Inference in the continuous domain — maintaining probabilistic beliefs about hidden states from noisy observations.
+2. Analyze the relationship between **Kalman filtering, particle filtering, and variational inference** as alternative implementations of the same inference problem.
+3. Apply state estimation to real robotic tasks: localization, object tracking, and sensor fusion.
 
 ## Introduction
 
-This module explores **Cognition**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between Perception and Action.
+A robot's sensors are noisy, incomplete, and delayed. A LiDAR scan contains measurement error. A camera image is ambiguous about depth. An IMU drifts over time. The robot must infer the true state of the world — its own position, the positions of obstacles, the velocities of moving objects — from these imperfect observations. This is **state estimation**: the core cognitive function of any robotic Active Inference agent.
+
+State estimation connects directly to the Free Energy Principle: the robot maintains a probabilistic belief (the approximate posterior) over hidden states and updates this belief to minimize variational free energy — the discrepancy between its model's predictions and its sensory observations.
 
 ## Key Concepts
 
-### 1. Cognition as a Markov Blanket Boundary
-How does Cognition define the boundary between the agent and the environment?
+### 1. The Kalman Filter as Variational Inference
 
-### 2. Generative Models of Cognition
-What parameters involved in Cognition must be optimized to minimize variational free energy?
+The **Kalman filter** — the workhorse of robotic state estimation — is a special case of variational inference under linear-Gaussian assumptions:
 
-### 3. Active Inference Dynamics
-How does the process of Cognition drive the perception-action loop?
+- **Prediction step** (B matrix): Project the current state belief forward using the transition model → produces a prior for the next timestep
+- **Update step** (A matrix): Incorporate the new observation using the observation model → produces a posterior that combines prior and likelihood
+- **Kalman gain** = **precision weighting**: Determines how much the observation shifts the belief, based on the relative precision of the prior vs. the observation
+
+When the transition model is accurate (high prior precision), the Kalman gain is small — the robot trusts its predictions. When observations are highly precise (clean sensors, good conditions), the Kalman gain is large — the robot trusts its sensors. This is exactly the precision-weighted belief updating of Active Inference.
+
+### 2. Extended Kalman Filter (EKF) and Nonlinear Inference
+
+Real robotic systems are nonlinear. The Extended Kalman Filter handles nonlinearity by linearizing the transition and observation models at each timestep:
+
+- The robot's motion model might include trigonometric functions (rotation) → nonlinear B matrix
+- The camera projection model involves perspective division → nonlinear A matrix
+- EKF linearizes these via Jacobians, then applies standard Kalman update
+
+When nonlinearity is severe, the EKF approximation breaks down. The **Unscented Kalman Filter** (UKF) provides a better approximation by propagating sigma points (carefully chosen sample states) through the nonlinear functions.
+
+### 3. Particle Filters for Multi-Modal Beliefs
+
+When the posterior is multi-modal (the robot might be at location A *or* location B, but not sure which), Gaussian filters fail. **Particle filters** represent the posterior as a set of weighted samples (particles):
+
+- Each particle is a hypothesis about the robot's state
+- High-weight particles are in regions of high posterior probability
+- Low-weight particles are pruned and resampled from high-weight regions
+- The particle cloud naturally represents multi-modal, non-Gaussian beliefs
+
+Monte Carlo localization (MCL) uses a particle filter for global robot localization: when the robot is first placed in a known map but doesn't know where, particles spread across the entire map. As the robot moves and observes, particles collapse onto the true location.
+
+### 4. Sensor Fusion as Precision-Weighted Combination
+
+Combining information from multiple sensors is **precision-weighted belief combination** — the Active Inference implementation of multi-sensory integration:
+
+- Each sensor provides an observation with an associated precision (inverse variance)
+- The fused belief is the precision-weighted average of individual sensor beliefs
+- GPS (high precision in open sky, low precision in urban canyons) + IMU (constant moderate precision) + LiDAR (high precision in structured environments) → fused localization that inherits the best precision from each source in each condition
 
 ## Applications
 
-In Robotics, we see Cognition manifest in:
-*   **Specific Example 1**: A Kalman smoother running on a batch of IMU and lidar data implements offline cognitive processing by jointly estimating the entire robot trajectory and map -- unlike the filter (which only estimates the current state), the smoother propagates information both forward and backward in time, resolving ambiguities that were unresolvable in the forward pass and producing a globally consistent belief state analogous to how deliberate reflection refines initial perceptual judgments.
-*   **Specific Example 2**: An Unscented Kalman Filter (UKF) maintaining state estimates for a nonlinear robotic system (such as a fixed-wing UAV with aerodynamic drag) implements cognitive inference without linearization by propagating sigma points through the true nonlinear dynamics model, capturing second-order effects that the EKF's Jacobian linearization would miss; this richer cognitive processing reduces estimation divergence during aggressive maneuvers where linear approximations break down.
+- **Autonomous vehicle localization**: A self-driving car fuses GPS, LiDAR, camera, radar, and wheel odometry using an EKF or particle filter to maintain a precise, real-time estimate of its position and orientation. The Kalman gain automatically shifts weight between sensors based on conditions (tunnels reduce GPS precision; fog reduces camera precision).
+- **Visual-inertial odometry (VIO)**: A drone combines accelerometer/gyroscope data (high-frequency, drifting) with visual feature tracking (lower-frequency, drift-free) in a tightly coupled filter — achieving robust state estimation for aggressive flight maneuvers.
 
 ## Conclusion
 
-Understanding Cognition allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+State estimation is the cognitive core of robotic Active Inference — maintaining and updating probabilistic beliefs about hidden states from noisy, multi-modal observations. Kalman filters, particle filters, and sensor fusion are all implementations of the same variational inference problem. The next module examines how estimated states drive control actions.

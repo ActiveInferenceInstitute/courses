@@ -1,32 +1,55 @@
-# Module 03: Perception in Robotics
+# Unit 03: Control and Estimation — Overview
 
 ## Learning Objectives
 
-1.  Define **Perception** within the context of Robotics.
-2.  Analyze how Perception interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Perception.
+1. Define the **control-estimation paradigm** as the engineering instantiation of the Active Inference perception-action loop in robotic systems.
+2. Analyze how classical estimation (Kalman filtering, particle filtering) and control (PID, LQR, MPC) methods map onto Active Inference constructs.
+3. Apply the integrated control-estimation framework to real robotic system design.
 
 ## Introduction
 
-This module explores **Perception**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between Agents and Cognition.
+Control and estimation are the twin pillars of robotic engineering. **Estimation** answers: "Given noisy sensor data, what is the true state of the robot and its environment?" **Control** answers: "Given the estimated state and desired goals, what motor commands should be issued?" Together, they implement the perception-action loop that Active Inference formalizes as free energy minimization.
+
+This unit demonstrates that classical control and estimation theory — Kalman filters, PID controllers, LQR, MPC, impedance control — are not merely *analogous* to Active Inference; they are **specific implementations** of Active Inference under particular mathematical assumptions (linearity, Gaussianity, quadratic costs). Understanding this relationship allows roboticists to move fluidly between classical and Active Inference formulations, choosing the most appropriate framework for each design problem.
 
 ## Key Concepts
 
-### 1. Perception as a Markov Blanket Boundary
-How does Perception define the boundary between the agent and the environment?
+### 1. The Perception-Action Loop in Hardware
 
-### 2. Generative Models of Perception
-What parameters involved in Perception must be optimized to minimize variational free energy?
+The control-estimation loop has physically identifiable components:
 
-### 3. Active Inference Dynamics
-How does the process of Perception drive the perception-action loop?
+- **Sensors** (perception): Encoders, cameras, LiDAR, IMUs, force/torque sensors — each implementing a specific observation model (A matrix)
+- **Estimator** (inference): Kalman filter, particle filter, or optimization-based estimator — maintaining the probabilistic state belief
+- **Controller** (action): PID, LQR, MPC, or Active Inference controller — computing motor commands from state beliefs and goals
+- **Actuators** (execution): Motors, hydraulics, pneumatics — converting commands into physical forces and torques
+
+The loop runs continuously at rates from 100 Hz (position control) to 10 kHz (current control), implementing real-time free energy minimization.
+
+### 2. Classical-to-AIF Translation Table
+
+| Classical Concept | Active Inference Equivalent |
+|---|---|
+| State estimate | Approximate posterior μ |
+| Kalman gain | Precision-weighted prediction error gain |
+| Process noise | B matrix uncertainty (transition precision) |
+| Measurement noise | A matrix uncertainty (observation precision) |
+| Setpoint / Reference | Preferred observation (C vector) |
+| Control error | Proprioceptive prediction error |
+| PID gains | Precision parameters (Kp ↔ ω_p, Ki ↔ ω_i, Kd ↔ ω_d) |
+| Cost function (LQR) | Negative expected free energy |
+| Model Predictive Control | EFE minimization over finite horizon |
+| Impedance | Precision on proprioceptive vs. force predictions |
+
+### 3. When to Use Classical vs. AIF Formulation
+
+- **Use classical formulation** when: the system is linear or well-approximated as linear, the noise is Gaussian, the cost is quadratic, and real-time performance is critical. Classical methods are computationally efficient and well-understood.
+- **Use AIF formulation** when: the system is highly nonlinear, multi-modal uncertainty matters, the agent must balance exploration and exploitation, or the system needs to adapt its own model online.
 
 ## Applications
 
-In Robotics, we see Perception manifest in:
-*   **Specific Example 1**: A visual servoing system on a robotic arm uses a camera mounted on the end-effector to perceive the target object's position in the image plane; the controller minimizes the image-space prediction error (difference between current and desired feature positions) by computing joint velocities through the image Jacobian, implementing perception as real-time generative model inversion where the camera projection model serves as the observation equation and the robot's forward kinematics serves as the dynamics model.
-*   **Specific Example 2**: A particle filter running on a mobile robot in a highly non-Gaussian environment (such as a warehouse with symmetric aisles causing multimodal position hypotheses) maintains 5000 weighted particles representing candidate robot poses; as lidar scans arrive, particles inconsistent with the observations are downweighted and resampled, implementing perceptual inference without the Gaussian assumption that Kalman filters require -- this is free energy minimization via importance-weighted sampling rather than analytical optimization.
+- **Robot arm trajectory tracking**: A 6-DOF robot arm uses the classical control-estimation framework — joint encoders provide precise state observations (high-precision A matrix), a rigid-body dynamics model provides the B matrix, and cascaded PID controllers minimize proprioceptive prediction errors at each joint.
+- **Autonomous drone with adaptive control**: A quadrotor in turbulent wind uses AIF-inspired adaptive estimation — the estimator detects rising prediction errors (unmodeled wind gusts) and automatically reduces the precision of the transition model (increasing process noise), allowing the estimator to weight observations more heavily than predictions.
 
 ## Conclusion
 
-Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Control and estimation are Active Inference made engineering. This unit's 8 modules explore each component — systems, agents, perception, cognition, action, learning, communication, and planning — through the control-estimation lens, building the bridge between classical robotics and the Active Inference framework.

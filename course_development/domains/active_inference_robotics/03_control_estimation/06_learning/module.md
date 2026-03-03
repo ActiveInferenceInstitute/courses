@@ -1,32 +1,59 @@
-# Module 06: Learning in Robotics
+# Module 06: Learning in Robotics — Adaptive Control
 
 ## Learning Objectives
 
-1.  Define **Learning** within the context of Robotics.
-2.  Analyze how Learning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Learning.
+1. Define **adaptive control** as the real-time updating of the robotic generative model (system parameters and control gains) during operation.
+2. Analyze how **online system identification, gain scheduling, and reinforcement learning** implement Active Inference learning in control systems.
+3. Apply adaptive control to achieve robust performance despite **model uncertainty, wear, and changing operating conditions**.
 
 ## Introduction
 
-This module explores **Learning**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between Action and Communication.
+No robot model is perfect. Friction characteristics change as bearings wear. Payload properties vary from task to task. Environmental conditions shift — temperature affects motor performance, humidity affects material properties, and surface conditions change with weather. Adaptive control enables the robot to learn and compensate for these variations in real time.
 
 ## Key Concepts
 
-### 1. Learning as a Markov Blanket Boundary
-How does Learning define the boundary between the agent and the environment?
+### 1. Online System Identification
 
-### 2. Generative Models of Learning
-What parameters involved in Learning must be optimized to minimize variational free energy?
+**Online system identification** continuously updates the generative model's parameters during operation:
 
-### 3. Active Inference Dynamics
-How does the process of Learning drive the perception-action loop?
+- The robot compares its predicted state trajectory (from the B matrix) to the observed trajectory (from sensors)
+- Persistent prediction errors indicate model inaccuracy — the B matrix parameters are updated using recursive least squares, gradient descent, or Bayesian updating
+- As the model converges, prediction errors decrease and control performance improves
+
+This is precisely the Active Inference learning loop: observe → predict → compare → update. The learning rate (how aggressively to update) corresponds to the precision on the model parameters — uncertain parameters (low precision) update quickly; confident parameters (high precision) update slowly.
+
+### 2. Gain Scheduling
+
+**Gain scheduling** adapts the controller's precision parameters based on the operating regime:
+
+- A helicopter operates differently at sea level vs. high altitude — air density changes affect rotor dynamics. The control gains (precision parameters) must be scheduled based on altitude.
+- A robotic arm behaves differently when carrying a heavy load vs. moving freely — the inertia matrix changes, requiring different gain profiles.
+- Gain scheduling is the engineering implementation of **context-dependent precision modulation** — the same concept that explains how biological organisms adjust sensory gain based on environmental context.
+
+### 3. Reinforcement Learning for Control
+
+**Reinforcement Learning** (RL) can be reinterpreted through Active Inference:
+
+- The **reward function** maps to the C vector (preferred observations) — the agent learns policies that produce preferred outcomes
+- The **value function** maps to expected free energy — learned utilities are estimates of long-term policy quality
+- **Model-free RL** (Q-learning, policy gradient) learns action-value mappings without explicitly modeling dynamics — analogous to habit learning in Active Inference
+- **Model-based RL** learns a dynamics model (B matrix) and plans using it — analogous to the full Active Inference planning process
+
+The key distinction: Active Inference provides a **principled** mechanism for balancing exploration and exploitation through the epistemic-pragmatic decomposition of EFE, while standard RL requires ad hoc exploration bonuses (ε-greedy, entropy regularization).
+
+### 4. Transfer Learning and Domain Adaptation
+
+**Transfer learning** enables a robot trained in one context to adapt quickly to a new one:
+
+- **Sim-to-real transfer**: A robot trained in simulation must adapt to the "reality gap" — the discrepancy between the simulated and real dynamics. The adaptation process is parameter learning with strong structural priors from simulation.
+- **Task transfer**: A robot trained to grasp one object class can adapt to novel objects by retaining the general grasping structure (motor synergies) while updating object-specific parameters.
+- **Domain randomization**: Training in simulation with randomized physics parameters produces a generative model that is robust to parameter uncertainty — the model has learned to marginalize over parameter variation.
 
 ## Applications
 
-In Robotics, we see Learning manifest in:
-*   **Specific Example 1**: An adaptive control system on a robotic arm learns unknown payload mass and center-of-gravity parameters online using recursive least squares: as the arm moves and observes discrepancies between predicted and actual joint torques (prediction errors), it updates the inertial parameter estimates in its dynamics model, progressively reducing free energy so that after 10-15 seconds of motion, the controller compensates for the unknown payload as accurately as if the parameters had been known a priori.
-*   **Specific Example 2**: A Gaussian Process (GP) regression model learns the residual dynamics of a quadrotor (unmodeled aerodynamic effects, motor asymmetries) from flight data, augmenting a nominal physics-based model; after each flight, the GP updates its posterior over the residual function, reducing the model's prediction error on subsequent flights -- this is parameter learning in the Active Inference sense, where the generative model's structure (nominal physics plus GP residual) is fixed but its parameters are optimized to minimize long-term variational free energy.
+- **Self-tuning industrial robot**: An industrial robot arm that detects increasing friction in Joint 3 (persistent prediction error on Joint 3's trajectory tracking) automatically increases the control gain for that joint — compensating for wear without requiring maintenance shutdown or manual recalibration.
+- **Autonomous vehicle adaptation**: A self-driving car arriving in a new city encounters unfamiliar road markings and driving conventions. Online learning updates the visual perception model (A matrix: what lane markings look like here) and behavior model (B matrix: how other drivers behave at intersections) over the first hours of operation.
 
 ## Conclusion
 
-Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Adaptive control — online system identification, gain scheduling, reinforcement learning, and transfer learning — implements Active Inference learning in the control domain. The robot continuously refines its generative model to maintain performance despite uncertainty and change. The next module examines communication between multiple robots in control-estimation frameworks.

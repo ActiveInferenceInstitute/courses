@@ -40,21 +40,16 @@ def extract_course_info_from_path(file_path: Path, base: Path) -> Dict[str, str]
             "unit": "Unknown", "module_num": "00", "module_topic": "Unknown"
         }
 
-    # Identify course from Registry
+    # Identify course from Registry — pick the most specific match (longest rel_path)
     matched_key = None
     matched_meta = None
     course_rel_path = None
 
+    candidates = []
     for key, meta in config.COURSE_REGISTRY.items():
         meta_path = Path(meta["rel_path"])
         
         # Determine registry path relative to base
-        # If meta_path includes "course_development", strip it if base ends with it
-        # But base IS the root.
-        # Check if meta_path is absolute or relative to repo root?
-        # Config says relative to repo root.
-        # If base is .../course_development, we need meta path relative to that.
-        
         if "course_development" in meta_path.parts:
             try:
                 c_path = meta_path.relative_to("course_development")
@@ -64,10 +59,12 @@ def extract_course_info_from_path(file_path: Path, base: Path) -> Dict[str, str]
             c_path = meta_path
 
         if str(rel).startswith(str(c_path)):
-            matched_key = key
-            matched_meta = meta
-            course_rel_path = c_path
-            break
+            candidates.append((key, meta, c_path))
+
+    # Pick the most specific match (longest rel_path)
+    if candidates:
+        candidates.sort(key=lambda x: len(str(x[2])), reverse=True)
+        matched_key, matched_meta, course_rel_path = candidates[0]
 
     if matched_key and course_rel_path:
         course = matched_key

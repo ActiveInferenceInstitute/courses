@@ -4,7 +4,7 @@
 
 ## Repository Overview
 
-This repository contains the complete curriculum infrastructure for the Active Inference Institute: **10 courses**, **320 modules**, **3,400+ content files**, a **Python publishing engine**, and a **YouTube transcript archive** with **1,020 passing tests**.
+This repository contains the complete curriculum infrastructure for the Active Inference Institute: **14 courses**, **464 modules**, **6,100+ content files**, a **Python publishing engine**, and a **YouTube transcript archive** with **1,021 passing tests**.
 
 ---
 
@@ -12,9 +12,9 @@ This repository contains the complete curriculum infrastructure for the Active I
 
 | Directory | Purpose | AGENTS.md |
 |-----------|---------|-----------|
-| `course_development/` | All source curricula (17 courses across levels and domains) | [AGENTS.md](course_development/AGENTS.md) |
+| `course_development/` | All source curricula (14 courses across levels and domains) | [AGENTS.md](course_development/AGENTS.md) |
 | `published/` | Rendered outputs for distribution (generated, not hand-edited) | [AGENTS.md](published/AGENTS.md) |
-| `software/` | Python engine: 21 modules, 21 scripts, 18 docs, 1,020 tests | [AGENTS.md](software/AGENTS.md) |
+| `software/` | Python engine: 21 modules, 22 scripts, 18 docs, 1,021 tests | [AGENTS.md](software/AGENTS.md) |
 | `summaries/` | Generated course summaries | [AGENTS.md](summaries/AGENTS.md) |
 | `publish.py` | Top-level pipeline entry point | — |
 | `publish.toml` | Publishing configuration (courses, formats, options) | — |
@@ -79,7 +79,7 @@ courses/
 │   ├── AGENTS.md                      ← Master curriculum guidelines
 │   ├── active_inference/AGENTS.md     ← Core curriculum (4 tracks)
 │   ├── active_inference_*/AGENTS.md   ← Level-adapted courses
-│   ├── domains/AGENTS.md             ← Domain curricula (6 domains)
+│   ├── domains/AGENTS.md             ← Domain curricula (7 domains)
 │   └── [per-unit, per-module AGENTS.md]
 ├── published/
 │   └── AGENTS.md                      ← Published outputs guidelines

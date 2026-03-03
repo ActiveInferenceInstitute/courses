@@ -2,77 +2,97 @@
 
 ## Executive Summary
 
-Digital transformation is a multi-year, multi-phase organizational change that requires systematic planning. Under Active Inference, digital transformation roadmapping is the process of designing the **sequence of transitions** that moves the organization from its current sociotechnical state to a desired future state. This module covers transformation frameworks, change management, technology roadmapping, and the challenge of maintaining organizational stability while undergoing fundamental change.
+Digital transformation is rarely a single software rollout; it is a multi-year, multi-phase organizational metamorphosis that demands systematic, resilient planning. Viewed through the lens of Active Inference, digital transformation roadmapping is the architectural design of a **sequence of systemic transitions** — deliberately plotting a path through state space that moves the organization from its legacy sociotechnical state to an optimized, digitally native future state. This module explores transformation frameworks, the deep psychology of change management, portfolio governance, and the critical paradox of maintaining operational stability while fundamentally rewiring the firm.
 
 ---
 
 ## Learning Objectives
 
-1. Apply **digital transformation frameworks** to plan organizational technology evolution
-2. Design **transformation roadmaps** that sequence changes for maximum learning and minimum disruption
-3. Understand **change management** as updating the organization's generative model
-4. Navigate **portfolio governance** for digital investments
-5. Balance **transformation ambition** with **organizational capacity for change**
+1. Apply established **digital transformation frameworks** to structure large-scale organizational technology evolution.
+2. Design robust **transformation roadmaps** that sequence changes to maximize epistemic learning while minimizing pragmatic disruption.
+3. Understand **change management** fundamentally as the process of updating the organization's collective generative model of "how work is done."
+4. Navigate **portfolio governance** to manage the lifecycle of digital investments across multiple time horizons.
+5. Balance aggressive **transformation ambition** against the organization's biological and systemic **capacity for change**.
 
 ---
 
 ## Key Concepts
 
-### 1. Transformation Frameworks
+### 1. Frameworks for Navigating State Space
 
-| Framework | Core Idea | Stages |
-|-----------|----------|--------|
-| **Kotter's 8 Steps** | Change as sequential process | Urgency → Coalition → Vision → Communication → Empowerment → Quick Wins → Consolidation → Anchor |
-| **McKinsey Three Horizons** | Parallel investment timing | H1 (current business) + H2 (emerging) + H3 (options) |
-| **SAFe Digital Transformation** | Agile at enterprise scale | Portfolio → Value Stream → Program → Team |
-| **Platform Thinking** | Build on capabilities | Foundation → Platform → Products → Ecosystem |
+Various management frameworks attempt to tame the complexity of digital transformation by dividing the journey into manageable temporal phases. Each framework represents a specific strategy for minimizing expected free energy during a period of extreme organizational vulnerability:
 
-### 2. The Transformation Paradox
+| Framework | Core Philosophy | Active Inference Translation |
+|-----------|-----------------|-----------------------------|
+| **Kotter's 8 Steps** | Change is a sequential, linear, and heavily psychological process requiring momentum. | A structured method for progressively shifting organizational priors (Create Urgency) and stabilizing the new model (Anchor in Culture). |
+| **McKinsey Three Horizons** | Value must be protected today while investing in tomorrow and exploring the day after. | Managing a portfolio of policies spanning immediate pragmatic exploitation (H1) and deep epistemic exploration (H3). |
+| **SAFe (Scaled Agile)** | Transformation requires synchronized iterative loops at every level of the hierarchy. | Friston's hierarchical message passing applied to enterprise planning; continuous bidirectional expectation updates. |
+| **Platform Thinking** | Transformation must build upon foundational data and infrastructural capabilities. | You cannot execute complex digital policies without first upgrading the organization's sensory bandwidth (data pipelines). |
 
-**Case Study — GE Digital**: GE invested $4B+ in digital transformation, creating GE Digital to build an industrial IoT platform (Predix). The initiative struggled because GE tried to transform too fast, across too many dimensions simultaneously, without building organizational capability to absorb the change. The lesson: transformation requires matching the pace of change to the organization's capacity to learn. Too fast, and the organization fragments (high free energy). Too slow, and the competitive environment changes faster than the adaptation.
+### 2. The Transformation Paradox and Organizational Free Energy
 
-### 3. Change Management as Model Updating
+**Case Study — The Rise and Fall of GE Digital**:
+In the mid-2010s, General Electric invested over $4 billion to create GE Digital, aiming to build "Predix," the definitive cloud platform for the Industrial Internet of Things. The initiative was fiercely ambitious but ultimately failed to meet its targets, leading to CEO transitions and massive spin-offs.
 
-Digital transformation requires updating not just technology but the organization's collective generative model:
+Why did it struggle? GE attempted to transform too rapidly, across too many disparate business units simultaneously, without building the ground-level cultural and operational capabilities necessary to absorb the change. They induced an unmanageable spike in organizational free energy.
 
-- **Beliefs**: What the organization thinks is possible and valuable
-- **Processes**: How work is done
-- **Skills**: What people know how to do
-- **Culture**: What behaviors are rewarded and expected
-- **Identity**: How the organization sees itself
+The **Transformation Paradox** dictates that transformation pacing must perfectly match the organization's capacity to learn.
 
-### 4. Sequencing Transformation
+- *Too fast*: The organization loses coherence, prediction errors overwhelm the workforce, systems fragment, and the transformation collapses under its own weight.
+- *Too slow*: The competitive environment evolves faster than the organization adapts, leading to obsolescence and terminal market failure.
+The optimal roadmap threads the needle, keeping the organization in a state of productive tension—learning rapidly without fracturing.
 
-| Principle | Application |
-|-----------|------------|
-| **Start with low-risk, high-visibility wins** | Build credibility and learning before major investments |
-| **Build infrastructure before applications** | Data platforms and integration before advanced analytics |
-| **Develop capability before scaling** | Pilot programs before enterprise rollout |
-| **Learn continuously** | Each phase generates learning that informs the next |
+### 3. Change Management as Deep Model Updating
+
+Implementing a new enterprise software system is rarely a technical failure; it is almost always an epistemic failure. Digital transformation requires updating the organization's collective generative model across five distinct dimensions:
+
+- **Identity**: How the organization sees itself (e.g., from "We are a bank" to "We are a tech company with a banking license").
+- **Beliefs**: What the organization perceives as valuable and possible (e.g., "Data is our most valuable asset").
+- **Processes**: Formally updating the encoded policies for how daily work is executed.
+- **Skills**: Upgrading the active state capabilities of the human agents (reskilling/upskilling).
+- **Culture**: Ensuring that the incentive structures align with the new models; rewarding the right behaviors and penalizing reversion to legacy habits.
+
+### 4. Sequencing the Transformation Roadmap
+
+An effective roadmap is not just a timeline; it is a carefully calculated sequence of policy executions designed to build momentum and epistemic confidence.
+
+| Sequencing Principle | Strategic Rationale |
+|----------------------|---------------------|
+| **Start with low-risk, high-visibility wins** | Rapidly proves efficacy, generating confidence and lowering organizational resistance to future, larger changes. |
+| **Build infrastructure before applications** | You cannot layer advanced AI on fragmented, dirty data. The sensory apparatus (data lakes, APIs) must precede the cognition engine (ML models). |
+| **Develop capability before scaling** | Pilot programs contain the blast radius of early prediction errors, allowing for localized learning before enterprise-wide deployment. |
+| **Iterative Learning Loops** | The roadmap must be plastic. Phase 2 must be adjustable based on the specific prediction errors generated and resolved during Phase 1. |
+
+---
+
+## Application Exercise: The Transformation Post-Mortem
+
+Analyze a recent digital initiative in your organization (e.g., the rollout of a new CRM, the transition to cloud infrastructure, or the adoption of a new collaboration tool). Did the initiative follow a logical sequence (infrastructure before applications)? Map the rollout against the five dimensions of model updating (Identity, Beliefs, Processes, Skills, Culture). Where did the system experience the most friction, and how could a better-sequenced roadmap have minimized that free energy?
 
 ---
 
 ## Cross-References
 
-- For organizational planning, see [Organizational Systems: Planning](../../01_organizational_systems/08_planning/module.md)
-- For collective foresight, see [Collective Intelligence: Planning](../../02_collective_intelligence/08_planning/module.md)
-- For strategic risk, see [Strategic Modeling: Planning](../../03_strategic_modeling/08_planning/module.md)
+- For foundational organizational planning, see [Organizational Systems: Planning](../../01_organizational_systems/08_planning/module.md)
+- For collective foresight mechanisms, see [Collective Intelligence: Planning](../../02_collective_intelligence/08_planning/module.md)
+- For high-level strategic risk modeling, see [Strategic Modeling: Planning](../../03_strategic_modeling/08_planning/module.md)
 
 ---
 
 ## Summary
 
-| Concept | Digital Transformation Meaning |
-|---------|-------------------------------|
-| Transformation roadmap | Sequenced plan for organizational technology evolution |
-| Change management | Updating the organization's collective generative model |
-| Transformation paradox | Moving fast enough to be relevant but slow enough to learn |
-| Portfolio governance | Managing the portfolio of digital investments across horizons |
-| Sequencing | Ordering transformation activities for maximum learning and minimum disruption |
+| Concept | Active Inference / Transformation Meaning |
+|---------|-------------------------------------------|
+| Transformation Roadmap | A sequenced temporal plan for transitioning the organization's sociotechnical architecture |
+| Change Management | The psychological and structural process of updating the workforce's collective generative model |
+| Transformation Paradox | The strict requirement to balance the speed of market relevance against the biological speed of human adaptation |
+| Portfolio Governance | Synchronizing investment across different temporal horizons (exploit vs. explore) |
+| Infrastructural Sequencing | The necessity of upgrading sensory and data pathways before attempting higher-order cognitive automation |
 
 ---
 
 ## References
 
 - Kotter, J. P. (1996). *Leading Change*. Harvard Business Review Press.
-- Rogers, D. L. (2016). *The Digital Transformation Playbook*. Columbia University Press.
+- Rogers, D. L. (2016). *The Digital Transformation Playbook: Rethink Your Business for the Digital Age*. Columbia University Press.
+- Westerman, G., Bonnet, D., & McAfee, A. (2014). *Leading Digital: Turning Technology into Business Transformation*. Harvard Business Review Press.

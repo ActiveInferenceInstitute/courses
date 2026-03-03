@@ -12,7 +12,7 @@ Complete catalog of all courses managed by the Active Inference Institute publis
 |----------|---------|-------------|
 | [Core](#core-consolidated) | 1 consolidated + 4 legacy individual | The primary Active Inference textbook |
 | [Level-Adapted](#level-adapted-courses) | 6 | Same curriculum adapted for different audiences |
-| [Domain-Specific](#domain-specific-courses) | 6 | Active Inference applied to specific fields |
+| [Domain-Specific](#domain-specific-courses) | 7 | Active Inference applied to specific fields |
 | [Archive](#youtube-transcript-archive) | 1 | ~2600 YouTube video transcripts |
 
 ---
@@ -153,6 +153,7 @@ These courses apply Active Inference to specific professional and research domai
 | `ai-crochet` | Active Inference & Crochet | Fiber arts, stitch patterns, morphological computation through craft | `course_development/domains/active_inference_crochet/` |
 | `ai-inventions` | Active Inference & Inventions | Creative engineering, design thinking, innovation processes | `course_development/domains/active_inference_inventions/` |
 | `ai-metallurgy` | Active Inference & Metallurgy | Materials science, alloy design, phase transformations | `course_development/domains/active_inference_metallurgy/` |
+| `ai-comedy` | Active Inference & Comedy | Comedic structure, timing dynamics, crowd reading, improvisation | `course_development/domains/active_inference_comedy/` |
 
 ### Structure
 
@@ -280,4 +281,4 @@ python publish.py --dry-run
 
 ---
 
-*Last Updated: 2026-02-15*
+*Last Updated: 2026-03-03*

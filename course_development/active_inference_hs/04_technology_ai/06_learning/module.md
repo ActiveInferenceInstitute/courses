@@ -1,32 +1,54 @@
-# Module 06: Learning in High School
+# Module 06: Learning — Machine Learning and Neural Networks
 
 ## Learning Objectives
 
-1.  Define **Learning** within the context of High School.
-2.  Analyze how Learning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of High School to the formal definition of Learning.
+1. Distinguish between **supervised**, **unsupervised**, and **reinforcement learning**.
+2. Explain how a neural network learns by adjusting weights through **backpropagation**.
+3. Connect machine learning to Active Inference: both are mechanisms for reducing prediction error by updating internal parameters.
 
 ## Introduction
 
-This module explores **Learning**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between Action and Communication.
+Machine learning is the technology that lets computers improve at tasks without being explicitly programmed for each case. Instead, the computer learns from *data*. This module introduces the three paradigms of machine learning and shows how they all share a deep connection with Active Inference: learning is updating a model to reduce prediction error.
 
 ## Key Concepts
 
-### 1. Learning as a Markov Blanket Boundary
-How does Learning define the boundary between the agent and the environment?
+### 1. Three Paradigms of Machine Learning
 
-### 2. Generative Models of Learning
-What parameters involved in Learning must be optimized to minimize variational free energy?
+| Paradigm | Input | Goal | Example |
+|---|---|---|---|
+| **Supervised** | Data + labels (correct answers) | Predict the label for new data | Email spam filter (label: spam/not spam) |
+| **Unsupervised** | Data only (no labels) | Find hidden structure (clusters, patterns) | Customer segmentation (group similar shoppers) |
+| **Reinforcement** | Actions + rewards | Learn a policy that maximizes total reward | Game AI (learn to beat Atari games) |
 
-### 3. Active Inference Dynamics
-How does the process of Learning drive the perception-action loop?
+### 2. Neural Networks and Backpropagation
+
+A **neural network** is a function with millions of adjustable parameters (weights). Training works like this:
+
+1. **Forward pass**: Feed an input through the network, get a prediction
+2. **Loss calculation**: Compare the prediction to the correct answer (prediction error!)
+3. **Backward pass (backpropagation)**: Calculate how much each weight contributed to the error
+4. **Update**: Adjust weights using gradient descent ($w \leftarrow w - \eta \cdot \frac{\partial L}{\partial w}$)
+
+This is exactly the Active Inference loop: predict, compare, update. The entire field of deep learning is built on this simple cycle.
+
+### 3. Overfitting and Regularization
+
+A model that memorizes the training data perfectly but fails on new data is **overfitting**. It is like a student who memorizes answers without understanding the concepts. **Regularization** techniques (dropout, weight decay, early stopping) penalize complexity — forcing the model to learn general patterns. This mirrors the complexity-accuracy trade-off from the Active Inference free energy equation.
 
 ## Applications
 
-In High School, we see Learning manifest in:
-*   **Specific Example 1**: When Spotify's Discover Weekly gets better at recommending songs you like over months of use, it is performing Active Inference learning: each song you skip or save generates a prediction error that updates the algorithm's generative model of your music taste, gradually reducing the surprise in its weekly recommendations until the playlist feels like it reads your mind.
-*   **Specific Example 2**: Training an image classifier to recognize cats vs. dogs illustrates machine learning as Active Inference: the neural network starts with random weights (high free energy, massive prediction errors on training images), and through thousands of backpropagation iterations it adjusts its generative model parameters until the prediction error on new images is minimized -- the loss curve dropping over epochs is literally a plot of free energy being minimized.
+* **Image Recognition**: A CNN trained on ImageNet (14 million labeled images) learns to distinguish 1,000 categories — from goldfish to schooners to laptops. Its layers build increasingly abstract representations.
+* **Spotify Recommendations**: A collaborative filtering algorithm learns your music taste by comparing your listening history to millions of other users. The prediction error ("you skipped this song") updates the model.
 
-## Conclusion
+## Discussion Questions
 
-Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+1. If you train a spam filter on only English emails, what happens when it encounters a Spanish email? What type of prediction error is this?
+2. Why is overfitting considered "bad learning"? Connect this to the concept of a generative model that is too specific.
+
+## Summary
+
+Machine learning trains models by minimizing prediction error on data. Neural networks learn through backpropagation — the computational equivalent of Active Inference's predict-compare-update loop. Regularization prevents overfitting by penalizing complexity.
+
+## References
+
+* Goodfellow, I., Bengio, Y., & Courville, A. (2016). *Deep Learning*. Chapters 6-8.

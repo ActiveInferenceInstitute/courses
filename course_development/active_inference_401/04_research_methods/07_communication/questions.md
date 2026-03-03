@@ -1,22 +1,25 @@
-# Research Methods — Module 07: Communication — Study Questions
+# Research Methods — Module 07: Communication & Synthesis — Study Questions
 
-1. Why is Active Inference inherently interdisciplinary? What disciplines does it span?
-2. What is the "shared formal language" that bridges disciplines in Active Inference research?
-3. What challenges arise when researchers from different fields collaborate on Active Inference projects?
-4. How should Active Inference be communicated to (a) neuroscientists, (b) engineers, (c) clinicians?
-5. What are the three most common misunderstandings about Active Inference?
-6. How do you address the "unfalsifiability" critique of the Free Energy Principle?
-7. What does "the brain literally calculates Bayes' theorem" get wrong?
-8. What is pre-registration? Why is it important for computational modeling studies?
-9. How does open-source software (pymdp, SPM, RxInfer.jl) benefit the Active Inference community?
-10. What should a reproducible Active Inference analysis include?
-11. What is the Active Inference Institute? What role does it play?
-12. How do multi-site collaborations strengthen Active Inference research?
-13. What training does a graduate student in Active Inference need across disciplines?
-14. How should an Active Inference paper be adapted for different journals?
-15. What challenges do reviewers face when evaluating interdisciplinary Active Inference papers?
-16. How does Active Inference research benefit from data sharing?
-17. What is literate programming? How does it support reproducibility?
-18. Design a workshop curriculum for teaching Active Inference to clinical psychologists.
-19. How can Active Inference be communicated to a general audience without jargon?
-20. What is the role of philosophical analysis in an empirical Active Inference research program?
+## Part 1: Fundamental Comprehension
+
+1. **The Interdisciplinary Core**: Why is Active Inference considered an inherently interdisciplinary framework? Which specific epistemic gaps does it attempt to bridge between physics, biology, and cognitive science?
+2. **Rosetta Stone**: What constitutes the "shared formal language" (Friston, 2010) that allows researchers from disparate disciplines to collaborate on Active Inference projects? Explain this mathematical ontology.
+3. **The Unfalsifiability Critique**: Explain the common critique that the Free Energy Principle is unfalsifiable. How do proponents of the framework differentiate between the foundational *principle* (a tautology of survival) and specific falsifiable *process theories*?
+4. **Bayesian Brain Clarifications**: What are the critical nuances that popular science often misses when claiming "the brain literally calculates Bayes' theorem"? Distinguish between exact Bayesian inference and variational approximations.
+5. **Open Science Infrastructure**: How do open-source computational ecosystems (e.g., `pymdp`, SPM, `RxInfer.jl`) accelerate transdisciplinary Active Inference research? What specific role does each package play in the research lifecycle?
+
+## Part 2: Advanced Analysis & Synthesis
+
+1. **Epistemic Clashes**: What specific ontological or methodological challenges typically erupt when cellular biologists collaborate with theoretical physicists on an Active Inference model of a cell? How are these resolved mathematically?
+2. **Jargon Translation**: Translate the concept of "precision-weighted prediction error" into language appropriate for: (a) a practicing clinical psychiatrist, (b) a machine learning engineer building reinforcement learning agents, and (c) a layperson reading a popular science article.
+3. **The Role of Philosophy**: What is the structural role of philosophy of mind (specifically enactivism and phenomenology) in driving empirical Active Inference research? Give an example of a philosophical constraint informing a mathematical model.
+4. **Meta-Science**: How does the structure of the Active Inference Institute itself reflect the principles of distributed intelligence and stigmergic communication discussed within the theory?
+5. **The Literate Programming Paradigm**: Argue for or against the necessity of "literate programming" (intertwining prose, mathematics, and executable code in a single document like a Jupyter Notebook) as a requirement for publishing reproducible Active Inference simulations.
+
+## Part 3: Methodological Application
+
+1. **Preregistration Architecture**: Draft a brief preregistration plan for a computational modeling study comparing Active Inference agents to classic Q-learning agents in a volatile reward environment. What parameters must be locked in advance?
+2. **Curriculum Design**: Design a highly compressed, 2-day workshop syllabus for teaching the required mathematical prerequisites (linear algebra, probability, information theory) to psychology graduate students entering an Active Inference lab.
+3. **Data Sharing Specifications**: If you were establishing a multi-site consortium for computational psychiatry using Active Inference, what specific behavioral and neuroimaging data formats would you enforce to ensure seamless ingestion into generative models?
+4. **Peer Review Simulation**: You are reviewing a paper that claims to "prove the Free Energy Principle using fMRI." Based on your understanding of the methodology, what are the primary fatal flaws you expect to find in their experimental design or theoretical framing?
+5. **Cross-Disciplinary Grant Writing**: Outline a grant proposal attempting to secure funding for a team consisting of an ethnographer, a neuroscientist, and a computational modeler, using Active Inference as the unifying methodology to study collective rituals.

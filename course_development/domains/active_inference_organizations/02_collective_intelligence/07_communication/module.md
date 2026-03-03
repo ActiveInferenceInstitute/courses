@@ -2,78 +2,94 @@
 
 ## Executive Summary
 
-The hardest communication problem in organizations is not within teams — it is **between teams** that have different expertise, different terminology, and different mental models. Under Active Inference, cross-team communication requires building **shared representations** that bridge different generative models. This module examines inter-team communication protocols, boundary objects, alignment workshops, and the challenge of translating across specialist boundaries.
+The most difficult communication challenge in any large organization is rarely found within tightly knit teams — it is found **between teams** that possess distinct expertise, specialized terminology, and fundamentally different generative models of the business. Under Active Inference, cross-team communication requires bridging disjointed models and building **shared representations** the network can rely on. This module examines inter-team communication protocols, the vital role of boundary objects, the mechanics of alignment workshops, and the organizational challenge of translating across specialist silos.
 
 ---
 
 ## Learning Objectives
 
-1. Identify **cross-team model misalignment** as a primary source of organizational dysfunction
-2. Understand **boundary objects** as shared representations that bridge specialist models
-3. Design **alignment workshops** that build shared understanding across teams
-4. Apply **liaison roles** and **boundary spanners** to improve cross-team model sharing
-5. Evaluate communication protocols for their effectiveness in model alignment
+1. Identify **cross-team model misalignment** as a primary source of friction, delays, and organizational dysfunction.
+2. Understand **boundary objects** as structurally shared representations that successfully bridge specialist generative models.
+3. Design **alignment workshops** configured to synchronize shared understanding and mitigate prediction errors across teams.
+4. Apply **liaison roles** and **boundary spanners** as critical human translators across the organizational topology.
+5. Evaluate formal communication protocols for their effectiveness in long-term model alignment and conflict resolution.
 
 ---
 
 ## Key Concepts
 
-### 1. The Cross-Team Communication Problem
+### 1. The Cross-Team Communication Problem (Epistemic Silos)
 
-Each team develops its own generative model optimized for its domain — engineering thinks in technical specifications, marketing thinks in customer personas, finance thinks in P&L impact. Cross-team communication requires **translation** between these different model languages.
+As organizations scale, they divide labor by specialization. Consequently, each team develops a highly specialized generative model optimized exclusively for its specific domain context:
+
+- **Engineering** thinks in terms of technical specifications, system architecture, latency, and technical debt.
+- **Marketing** thinks in terms of customer personas, conversion funnels, brand positioning, and market share.
+- **Finance** thinks in terms of P&L impact, ROI, burn rates, and quarterly targets.
+
+When these teams interact, they often use the same words to mean entirely different things (e.g., "Performance"). Because their underlying priors differ, incoming signals are interpreted differently, leading to massive prediction errors, frustration, and political friction. Cross-team communication is fundamentally an exercise in **model translation**.
 
 ### 2. Boundary Objects (Star & Griesemer)
 
-Boundary objects are artifacts that are shared across teams and have different meanings in each context, yet are recognizable enough to serve as a common reference:
+A theoretical concept from sociology that perfectly aligns with Active Inference, **boundary objects** are artifacts, documents, or systems that are shared across different communities of practice. They are plastic enough to adapt to the specific needs and constraints of each specialized team, yet robust enough to maintain a common identity across them.
 
-- **Prototypes**: Physical or digital models that engineering, design, and marketing can all relate to
-- **Customer journey maps**: Visual artifacts that connect marketing insights, product features, and support workflows
-- **Dashboards**: Shared metrics views that different teams interpret through their own models
-- **Roadmaps**: Timeline artifacts that coordinate planning across teams
+- **Prototypes**: A physical or digital mock-up. Engineering sees technical feasibility; Design sees user experience; Marketing sees a marketable product. All can point to the same object and coordinate their work.
+- **Customer Journey Maps**: Visual artifacts connecting marketing's insights, product's feature roadmap, and support's workflow optimization into a single spatial timeline.
+- **Executive Dashboards**: Shared sets of high-level metrics. Finance tracks cost; Operations tracks throughput. The dashboard is the agreed-upon state of the world.
+- **Product Roadmaps**: Temporal artifacts that synchronize development sprints with marketing launches and sales training.
 
-**Case Study — Boeing 777**: Boeing's development of the 777 used a shared digital model (CATIA) as a boundary object connecting hundreds of engineering teams. Every team worked from the same 3D representation, enabling coordination that would have been impossible with traditional paper drawings.
+**Case Study — Boeing 777**:
+Boeing's development of the 777 aircraft famously utilized a 3D CAD software (CATIA) as a massive, unified boundary object connecting hundreds of disparate engineering teams (hydraulics, electrical, aerodynamics, interior). Rather than passing paper blueprints over the wall (which inevitably led to alignment errors, like a pipe running through a wiring conduit), every team interacted with the same 3D representation. CATIA acted as a centralized generative model that immediately highlighted prediction errors (physical clashes) between teams, enabling real-time cross-team coordination of unprecedented complexity.
 
-### 3. Alignment Workshops
+### 3. Active Alignment Workshops
 
-Structured sessions designed to build shared models across team boundaries:
+Alignment does not happen passively; it requires structured, active engagement designed to merge priors. Alignment workshops are synchronous sessions dedicated entirely to model synchronization:
 
-- **Problem framing workshops**: Teams jointly define the problem from all perspectives
-- **Assumption mapping**: Teams surface and compare their implicit beliefs
-- **Model integration sessions**: Teams explicitly build a shared representation
-- **Retrospectives**: Teams jointly learn from cross-team collaboration experiences
+- **Problem Framing Workshops**: Ensures all teams agree on the nature of the challenge before executing. Solves the error of answering the wrong question perfectly.
+- **Assumption Mapping**: Explicitly surfacing implicit beliefs. Teams write down their operating assumptions ("We assume users want this feature") to plot them by risk and uncertainty, visually exposing differing team models.
+- **Model Integration Sessions**: Jointly architecting a shared workflow or architectural diagram — literally drawing the shared Markov blanket and its interfaces.
+- **Cross-Functional Retrospectives**: Jointly diagnosing past prediction errors across the value stream to update collaborative policies for the future.
 
 ### 4. Boundary Spanners and Liaison Roles
 
-Individuals who operate across team boundaries, carrying information and translating between different models:
+Because automated translation between complex human models is difficult, organizations rely on specialized human agents: **Boundary Spanners**. These individuals possess enough fluency in multiple domains to operate securely across team boundaries, carrying high-fidelity information and translating terminology back and forth.
 
-- Product managers (bridge engineering and business)
-- Account managers (bridge internal teams and customers)
-- Integration architects (bridge technical teams)
-- Agile coaches (bridge methodology and practice)
+- **Product Managers**: The classic boundary spanners, bridging the gap between Software Engineering, Business Stakeholders, and end Customers.
+- **Account Managers**: Translating the capabilities of the internal production team into the language of the external client.
+- **Solutions Architects**: Bridging the gap between the sales team's promises and the engineering team's realities.
+- **Agile Coaches / Scrum Masters**: Bridging high-level strategy and daily tactical execution methodologies.
+
+Effective boundary spanners reduce Free Energy across the organizational network by actively resolving misalignments before they escalate into structural failures.
+
+---
+
+## Application Exercise: The Boundary Object Audit
+
+Identify a specific project where two teams (e.g., Sales and Engineering) frequently conflict. What is their current shared boundary object? (Is it just a messy email chain or a sprawling, outdated spreadsheet?) Design a new boundary object — such as a shared dashboard, a weekly sync document, or a formalized service-level agreement template — that would allow both teams to maintain their specialized focus while anchoring to a single, unquestionable source of shared truth.
 
 ---
 
 ## Cross-References
 
 - For internal communication architecture, see [Organizational Systems: Communication](../../01_organizational_systems/07_communication/module.md)
-- For stakeholder narrative strategy, see [Strategic Modeling: Communication](../../03_strategic_modeling/07_communication/module.md)
-- For API integration, see [Digital Transformation: Communication](../../04_digital_transformation/07_communication/module.md)
+- For external stakeholder narratives, see [Strategic Modeling: Communication](../../03_strategic_modeling/07_communication/module.md)
+- For system-to-system API integration, see [Digital Transformation: Communication](../../04_digital_transformation/07_communication/module.md)
 
 ---
 
 ## Summary
 
-| Concept | Team/Collective Meaning |
-|---------|------------------------|
-| Cross-team misalignment | Different teams have different generative models that don't translate |
-| Boundary objects | Shared artifacts that bridge specialist model differences |
-| Alignment workshops | Structured sessions for building shared cross-team models |
-| Boundary spanners | Individuals who translate across team boundaries |
-| Communication protocols | Formal mechanisms for inter-team model sharing |
+| Concept | Active Inference / Organizational Meaning |
+|---------|-------------------------------------------|
+| Cross-team misalignment | Specialized teams develop divergent generative models, leading to friction in signal translation |
+| Epistemic Silos | Environments where communication is frictionless internally but highly noisy externally |
+| Boundary objects | Shared artifacts (models, maps, prototypes) that anchor multi-team coordination without requiring identical priors |
+| Alignment workshops | Structured synchronous events designed expressly to surface implicit priors and synchronize models |
+| Boundary spanners | Human agents whose primary function is translation and error-reduction across inter-team boundaries |
 
 ---
 
 ## References
 
-- Star, S. L., & Griesemer, J. R. (1989). Institutional ecology, 'translations' and boundary objects. *Social Studies of Science*, 19(3), 387–420.
-- Tushman, M. L., & Scanlan, T. J. (1981). Boundary spanning individuals. *Academy of Management Journal*, 24(2), 289–305.
+- Star, S. L., & Griesemer, J. R. (1989). Institutional ecology, 'translations' and boundary objects: Amateurs and professionals in Berkeley's Museum of Vertebrate Zoology. *Social Studies of Science*, 19(3), 387–420.
+- Tushman, M. L., & Scanlan, T. J. (1981). Boundary spanning individuals: Their role in information transfer and their antecedents. *Academy of Management Journal*, 24(2), 289–305.
+- Carlile, P. R. (2002). A pragmatic view of knowledge and boundaries: Boundary objects in new product development. *Organization Science*, 13(4), 442-455.

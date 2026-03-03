@@ -2,41 +2,59 @@
 
 ## Learning Objectives
 
-1. Understand cultural learning through comedy through the lens of Active Inference.
-2. Apply social dynamics and collective inference to analyze comedy mechanics in 'Who\'s on First?'
-3. Connect learning theory to practical comedy craft from the Crowd & Callback perspective.
+1. Analyze how comedians **learn from crowds** — extracting performance insights from audience response patterns across multiple shows.
+2. Apply the concept of **material evolution** to explain how jokes change through iterative crowd feedback.
+3. Examine the **cultural transmission of comedy** — how comedic styles, structures, and taboos evolve across generations.
 
 ## Introduction
 
-Comedy transmits across culture. Jokes spread from person to person; comedy styles evolve over generations; traditions are established and subverted. The evolution of comedy is a form of cultural learning — the collective comedy ECOSYSTEM learns what works and transmits successful patterns.
-
-This module examines cultural learning through comedy: how comedic forms evolve, how traditions are maintained and disrupted, and how the comedy ecosystem learns across generations.
+Comedy is learned through crowds. Unlike novelists or poets who create in solitude, comedians develop their craft in public — testing, failing, adjusting, and refining in front of live audiences night after night. The crowd is not just the consumer of comedy; it is the training environment that shapes the comedian's generative model.
 
 ## Key Concepts
 
-### Cultural Learning Through Comedy
+### 1. Material Evolution Through Performance
 
-At the heart of this module is cultural learning through comedy — the way learning operates within social dynamics and collective inference. In 'Who\'s on First?', this manifests as the interplay between performers, audience, and the comedy tradition, examined through the temporal, social, and evolutionary dimensions that Crowd & Callback foregrounds.
+Every joke undergoes **Darwinian evolution** through live performance:
 
-### Active Inference Formalization
+- **Generation**: The comedian writes a joke (initial generative model)
+- **Testing**: The joke is performed live (prediction made, observation collected)
+- **Selection**: Strong responses → the joke survives; weak responses → the joke is modified or dropped
+- **Variation**: Surviving jokes are modified between shows — a word is changed, a pause is lengthened, a gesture is added, a tag is appended
+- **Retention**: The strongest version is retained in the active repertoire
 
-Active Inference provides the formal toolkit for understanding learning in this context. The key constructs are:
+A joke that appears in a comedy special has typically been through 50-200 iterations of this evolutionary cycle — refined by the accumulated prediction errors of thousands of audience responses. The final version is the product of crowd-driven natural selection.
 
-- **Generative model**: The agent's internal model of how learning works in comedy — what patterns to expect, what signals to attend to, and what actions to take.
-- **Prediction error**: The mismatch between expected and observed learning dynamics — the signal that drives updating and adaptation.
-- **Precision weighting**: The confidence assigned to predictions about learning — higher precision means stronger expectations and larger prediction errors when they fail.
-- **Expected free energy**: The anticipated surprise and information gain associated with future actions related to learning.
+### 2. Cross-Crowd Learning
 
-### Domain-Specific Application
+Performing for different crowds provides different learning signals:
 
-From the Crowd & Callback perspective, learning in 'Who\'s on First?' reveals dynamics invisible from other vantage points. The routine is not just a text — it is a living performance that operates through social dynamics and collective inference, connecting the mechanics of individual exchanges to the broader patterns of comedy as cultural practice.
+- A joke that kills in New York but dies in Houston reveals that the joke depends on a cultural prior (Northeast humor sensibility, urban lifestyle awareness) that isn't universal
+- A joke that works for young audiences but not older ones reveals a generational knowledge dependency
+- A joke that works in small clubs but dies in theaters reveals that the joke requires intimacy or visual detail that doesn't scale
+
+Each crowd variation provides contrastive learning — holding the joke constant and varying the audience reveals which elements of the joke are universal and which are population-specific. This contrastive learning is impossible without crowd diversity.
+
+### 3. Learning Comedy History Through Callbacks
+
+The callback creates a **learning relationship** between the comedian and the comedy tradition:
+
+- Classic routines (like "Who's on First?") become cultural references — callbacks to them signal insider knowledge and establish the comedian's place within the tradition
+- Each generation of comedians learns the tradition's structures and then innovates — absorbing the patterns (misdirection, escalation, callback) and applying them in new contexts
+- Comedy genres evolve through collective learning — observational comedy, confessional comedy, absurdist comedy, and crowd work each developed through accumulated iterations across multiple comedians
+
+### 4. Audience Comedy Literacy
+
+Audiences also learn, and their learning changes what comedy is possible:
+
+- **Comedy-literate audiences**: Modern audiences consume vast quantities of comedy (specials, podcasts, social media clips). This creates audiences with sophisticated generative models — they recognize setups, predict punchlines, and notice structural patterns
+- **Meta-comedy**: Comedy-literate audiences enable meta-comedy — jokes about joke structure, callbacks to other comedians' bits, and self-aware deconstruction of comedy conventions
+- **Arms race**: As audience models become more sophisticated, comedians must generate larger prediction errors to produce laughter — requiring more creative, less predictable material. This evolutionary arms race between comedian and audience drives comedy innovation.
 
 ## Applications
 
-- **Learning in Stand-Up**: Solo performers navigate learning dynamics without a partner, requiring them to internalize the functions that a duo distributes between two agents.
-- **Learning in Improv**: Improvisational comedy pushes learning to its limits, requiring real-time processing without the safety net of rehearsal.
-- **Learning Across Cultures**: Different comedy traditions approach learning differently, revealing both universal principles and cultural specificity.
+- **Road Testing Before Recording**: The comedy industry's standard practice — touring a special's material for 12-18 months before recording — is systematic crowd learning. The comedian uses hundreds of audiences as training data, gradually refining every joke, every transition, and every timing decision until the material reaches its final form.
+- **TikTok Comedy Evolution**: Short-form video platforms accelerate comedic evolution — creators test material with millions of viewers, receive instant engagement metrics, and iterate within hours rather than weeks. The learning cycle is compressed from months (club circuit) to days (viral content cycle), producing rapid stylistic evolution.
 
 ## Conclusion
 
-Learning in Crowd & Callback reveals dimensions of comedy that are invisible from other perspectives. By examining cultural learning through comedy through Active Inference, we see how learning is not just a feature of comedy but a fundamental mechanism — the process by which performers and audiences co-create the experience of humor through social dynamics and collective inference.
+Comedy is learned through crowds — material evolves through iterative performance, cross-crowd variation provides contrastive learning signals, and the comedy tradition itself evolves through collective learning. Both comedian and audience are learning agents in a co-evolutionary arms race that drives comedy forward.

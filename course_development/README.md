@@ -1,6 +1,6 @@
 # Active Inference Course Development
 
-> **Active Inference Institute** | 10 Courses | 320 Modules | 3,400+ Files
+> **Active Inference Institute** | 14 Courses | 464 Modules | 6,100+ Files
 
 This directory contains all course materials for the Active Inference Institute's curriculum. Each course follows the same 8-topic spiral structure (Systems, Agents, Perception, Cognition, Action, Learning, Communication, Planning) adapted for its target audience.
 
@@ -32,6 +32,10 @@ This directory contains all course materials for the Active Inference Institute'
 | [Embodied Cognition](./domains/active_inference_embodied/) | Body & Movement | Felt sense, living presence, intuitive knowing, moving through the world |
 | [Organizations](./domains/active_inference_organizations/) | Systems & Strategy | Organizational systems, collective intelligence, strategic modeling, digital transformation |
 | [Robotics](./domains/active_inference_robotics/) | Engineering | Robotic systems, bio-inspired design, control & estimation, autonomous agents |
+| [Crochet](./domains/active_inference_crochet/) | Fiber Arts | Stitch mechanics, material inference, pattern cognition, craft community |
+| [Inventions](./domains/active_inference_inventions/) | Creative Engineering | Innovation processes, design thinking, prototype iteration |
+| [Metallurgy](./domains/active_inference_metallurgy/) | Materials Science | Alloy design, phase transformations, material properties |
+| [Comedy](./domains/active_inference_comedy/) | Performing Arts | Comedic structure, timing, crowd dynamics, improvisational inference |
 
 ---
 
@@ -51,6 +55,10 @@ Each course has a distinct accent color, gradient, and semantic meaning used in 
 | Embodied Cognition | Rose | `#fb7185` | Rose → Purple | Somatic, intuitive |
 | Organizations | Amber | `#fbbf24` | Amber → Red | Strategic, decisive |
 | Robotics | Emerald | `#34d399` | Emerald → Blue | Technical, precise |
+| Crochet | Violet | `#a78bfa` | Violet → Fuchsia | Creative, textured |
+| Inventions | Lime | `#a3e635` | Lime → Emerald | Inventive, experimental |
+| Metallurgy | Slate | `#94a3b8` | Slate → Zinc | Industrial, structural |
+| Comedy | Yellow | `#facc15` | Yellow → Orange | Surprising, rhythmic |
 
 ---
 
@@ -58,7 +66,7 @@ Each course has a distinct accent color, gradient, and semantic meaning used in 
 
 ### The Free Energy Principle
 
-The **Free Energy Principle (FEP)** unifies all 10 courses: every living system maintains itself by minimizing prediction error (variational free energy). **Active Inference** is the process framework — agents act on the world to confirm their predictions and update their models when surprised.
+The **Free Energy Principle (FEP)** unifies all 14 courses: every living system maintains itself by minimizing prediction error (variational free energy). **Active Inference** is the process framework — agents act on the world to confirm their predictions and update their models when surprised.
 
 ### The 8-Topic Dependency Chain
 
@@ -83,7 +91,7 @@ Each course revisits all 8 topics from a different disciplinary lens. A learner 
 
 ## Unit Directory
 
-All 10 courses contain 4 units each (40 units total). Each unit contains 8 modules following the topic spine.
+All 14 courses contain 4 or 5 units each (58 units total). Each unit contains 8 modules following the topic spine.
 
 ### Core Curriculum
 
@@ -105,12 +113,13 @@ All 10 courses contain 4 units each (40 units total). Each unit contains 8 modul
 
 ### Domain Curricula
 
-| # | Embodied Cognition | Organizations | Robotics |
-|---|-------------------|---------------|----------|
-| 1 | Felt Sense | Organizational Systems | Robotic Systems |
-| 2 | Living Presence | Collective Intelligence | Bio-Inspired Design |
-| 3 | Intuitive Knowing | Strategic Modeling | Control & Estimation |
-| 4 | Moving Through World | Digital Transformation | Autonomous Agents |
+| # | Embodied Cognition | Organizations | Robotics | Crochet | Inventions | Metallurgy | Comedy |
+|---|-------------------|---------------|----------|---------|------------|------------|--------|
+| 1 | Felt Sense | Organizational Systems | Robotic Systems | Stitch & Structure | Foundations of Invention | Foundations of Metallurgy | Bit & Boundary |
+| 2 | Living Presence | Collective Intelligence | Bio-Inspired Design | Fiber & Flow | Design Thinking | Alloy Design | Straight & Setup |
+| 3 | Intuitive Knowing | Strategic Modeling | Control & Estimation | Pattern & Prediction | Prototype Iteration | Phase Transformations | Timing & Tension |
+| 4 | Moving Through World | Digital Transformation | Autonomous Agents | Circle & Community | Innovation Ecology | Material Properties | Crowd & Callback |
+| 5 | — | — | — | — | — | — | Riff & Repertoire |
 
 ### YouTube Transcript Archive
 
@@ -153,13 +162,13 @@ Each course has a `resources/` directory with:
 
 | Metric | Value |
 |--------|-------|
-| Total Courses | 10 |
+| Total Courses | 14 |
 | YouTube Playlists | 90+ |
-| Total Units | 40 |
-| Total Modules | 320 |
+| Total Units | 58 |
+| Total Modules | 464 |
 | Files per Module | 7 |
-| Total Content Files | 3,400+ |
-| Interactive Dashboards | 320 |
+| Total Content Files | 6,100+ |
+| Interactive Dashboards | 464 |
 | Audience Range | K-5 through Graduate |
 
 ---

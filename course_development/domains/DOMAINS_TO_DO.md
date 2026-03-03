@@ -20,12 +20,12 @@
 
 | Status | Count |
 |--------|-------|
-| ✅ Complete | 0 |
-| 🔨 In Progress | 6 |
+| ✅ Complete | 7 |
+| 🔨 In Progress | 0 |
 | 📋 Planned | 0 |
-| 💡 Proposed | 0 |
-| 🔬 Research | 0 |
-| **Total Domains** | **300+** |
+| 💡 Proposed | 313 |
+| 🔬 Research | 10 |
+| **Total Domains** | **330** |
 
 > *Update counts as courses progress.*
 
@@ -35,8 +35,8 @@
 
 | # | Domain Folder Name | Display Title | Status | Lead | Notes |
 |---|-------------------|---------------|--------|------|-------|
-| 1 | `active_inference_metallurgy` | Active Inference & Metallurgy | 🔨 | — | In progress |
-| 2 | `active_inference_robotics` | Active Inference & Robotics | 🔨 | — | In progress |
+| 1 | `active_inference_metallurgy` | Active Inference & Metallurgy | ✅ | — | Completed |
+| 2 | `active_inference_robotics` | Active Inference & Robotics | ✅ | — | Completed |
 | 3 | `active_inference_thermodynamics` | Active Inference & Thermodynamics | 💡 | — | Free energy parallels |
 | 4 | `active_inference_fluid_dynamics` | Active Inference & Fluid Dynamics | 💡 | — | Flow and turbulence modeling |
 | 5 | `active_inference_quantum_mechanics` | Active Inference & Quantum Mechanics | 💡 | — | Quantum Bayesian connections |
@@ -185,7 +185,7 @@
 
 | # | Domain Folder Name | Display Title | Status | Lead | Notes |
 |---|-------------------|---------------|--------|------|-------|
-| 116 | `active_inference_organizations` | Active Inference & Organizations | 🔨 | — | In progress |
+| 116 | `active_inference_organizations` | Active Inference & Organizations | ✅ | — | Completed |
 | 117 | `active_inference_sociology` | Active Inference & Sociology | 💡 | — | Social inference |
 | 118 | `active_inference_psychology` | Active Inference & Psychology | 💡 | — | Behavioral prediction |
 | 119 | `active_inference_economics` | Active Inference & Economics | 💡 | — | Market inference |
@@ -234,9 +234,9 @@
 
 | # | Domain Folder Name | Display Title | Status | Lead | Notes |
 |---|-------------------|---------------|--------|------|-------|
-| 151 | `active_inference_crochet` | Active Inference & Crochet | 🔨 | — | In progress |
-| 152 | `active_inference_embodied` | Active Inference & Embodied Practices | 🔨 | — | In progress |
-| 153 | `active_inference_inventions` | Active Inference & Inventions | 🔨 | — | In progress |
+| 151 | `active_inference_crochet` | Active Inference & Crochet | ✅ | — | Completed |
+| 152 | `active_inference_embodied` | Active Inference & Embodied Practices | ✅ | — | Completed |
+| 153 | `active_inference_inventions` | Active Inference & Inventions | ✅ | — | Completed |
 | 154 | `active_inference_music` | Active Inference & Music | 💡 | — | Rhythm and auditory inference |
 | 155 | `active_inference_dance` | Active Inference & Dance | 💡 | — | Movement prediction |
 | 156 | `active_inference_painting` | Active Inference & Painting | 💡 | — | Visual art as inference |
@@ -505,14 +505,15 @@
 
 The following domains already have folder structures and are under active development:
 
-| Domain Folder | Status | File Count |
-|--------------|--------|------------|
-| `active_inference_crochet` | 🔨 In Progress | ~302 files |
-| `active_inference_embodied` | 🔨 In Progress | ~799 files |
-| `active_inference_inventions` | 🔨 In Progress | ~64 files |
-| `active_inference_metallurgy` | 🔨 In Progress | ~251 files |
-| `active_inference_organizations` | 🔨 In Progress | ~859 files |
-| `active_inference_robotics` | 🔨 In Progress | ~853 files |
+| Domain Folder | Status | File Count | Units |
+|--------------|--------|------------|-------|
+| `active_inference_comedy` | ✅ Complete | ~305 files | 5 |
+| `active_inference_crochet` | ✅ Complete | ~1,158 files | 5 |
+| `active_inference_embodied` | ✅ Complete | ~942 files | 4 |
+| `active_inference_inventions` | ✅ Complete | ~931 files | 4 |
+| `active_inference_metallurgy` | ✅ Complete | ~927 files | 4 |
+| `active_inference_organizations` | ✅ Complete | ~941 files | 4 |
+| `active_inference_robotics` | ✅ Complete | ~942 files | 4 |
 
 ---
 
@@ -527,4 +528,4 @@ The following domains already have folder structures and are under active develo
 
 ---
 
-*Last updated: 2026-02-14*
+*Last updated: 2026-03-03*

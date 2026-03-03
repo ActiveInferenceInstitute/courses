@@ -1,32 +1,57 @@
-# Module 03: Perception in High School
+# Module 03: Perception — Computer Vision and Sensor Fusion
 
 ## Learning Objectives
 
-1.  Define **Perception** within the context of High School.
-2.  Analyze how Perception interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of High School to the formal definition of Perception.
+1. Explain how a computer "sees" using **pixel arrays**, **feature extraction**, and **convolutional neural networks (CNNs)**.
+2. Define **sensor fusion** as the combination of multiple data streams to reduce uncertainty.
+3. Connect computer vision to Active Inference: sensory processing as Bayesian inference on images.
 
 ## Introduction
 
-This module explores **Perception**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between Agents and Cognition.
+How does a self-driving car "see" a stop sign? How does your phone unlock with your face? Computer vision is the technology of giving machines the ability to interpret visual information. This module explores how machines perceive — and how their perception systems mirror the Active Inference framework.
 
 ## Key Concepts
 
-### 1. Perception as a Markov Blanket Boundary
-How does Perception define the boundary between the agent and the environment?
+### 1. Images as Data
 
-### 2. Generative Models of Perception
-What parameters involved in Perception must be optimized to minimize variational free energy?
+A digital image is a grid of numbers. A 1080p photo is 1920 × 1080 pixels, each with three color values (Red, Green, Blue). That is over 6 million numbers. The challenge of perception is: how do you transform 6 million raw numbers into the useful statement "there is a stop sign 30 meters ahead"?
 
-### 3. Active Inference Dynamics
-How does the process of Perception drive the perception-action loop?
+### 2. Feature Extraction and CNNs
+
+A **Convolutional Neural Network (CNN)** solves this by learning a hierarchy of features:
+
+- **Layer 1**: Detects edges (horizontal, vertical, diagonal lines)
+- **Layer 2**: Combines edges into textures and shapes (corners, curves)
+- **Layer 3**: Combines shapes into objects (a red octagon = stop sign)
+
+This hierarchy mirrors the brain's visual cortex: V1 detects edges, V2 detects textures, V4 detects shapes, and IT detects objects. In Active Inference terms, each layer generates predictions of what the layer below will send, and the difference is the prediction error signal that drives learning.
+
+### 3. Sensor Fusion
+
+A self-driving car does not rely on cameras alone. It fuses data from:
+
+- **Cameras** (visual detail, color, read signs)
+- **LIDAR** (precise 3D distance measurements)
+- **Radar** (detects objects in fog and rain)
+- **GPS** (global position)
+- **IMU** (acceleration and rotation)
+
+Each sensor provides a *different view* of the same world. **Sensor fusion** combines them using Bayesian inference: sensors with high precision (low noise) are weighted more heavily. This is exactly how Active Inference weights high-precision sensory channels.
 
 ## Applications
 
-In High School, we see Perception manifest in:
-*   **Specific Example 1**: When your phone's Face ID unlocks, it performs Active Inference perception: the infrared dot projector captures a 3D map of your face (sensory input), the neural engine compares it against a stored generative model of your facial geometry, and unlocking only occurs when the prediction error falls below a security threshold -- which is why it fails when you wear a full face mask that creates too much surprise relative to the stored model.
-*   **Specific Example 2**: A speech recognition system like Siri perceives your voice through Active Inference: it generates predictions of likely phoneme sequences based on a language model (prior expectations), compares them against the actual audio waveform (sensory evidence), and selects the transcription that minimizes total prediction error -- which is why it handles common phrases easily but struggles with unusual names where its priors are weak.
+- **Face Recognition**: Your phone's Face ID uses a structured light sensor to project 30,000 infrared dots on your face, building a 3D map. It compares this map to its stored model. If the prediction error is below a threshold, it unlocks.
+- **Medical Imaging**: AI-powered radiology uses CNNs trained on millions of X-rays. The AI detects patterns (tumors, fractures) that are too subtle for the human eye — but it can also make confident false alarms if its training data was biased.
 
-## Conclusion
+## Discussion Questions
 
-Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+1. Why might a self-driving car's camera-based perception fail in heavy rain, even though its LIDAR works fine? How does sensor fusion help?
+2. Face recognition AI has been shown to have higher error rates on certain skin tones. How does biased training data create biased generative models?
+
+## Summary
+
+Computer perception transforms raw sensor data into meaningful representations through feature hierarchies. CNNs process images the way the visual cortex does. Sensor fusion combines multiple data streams using Bayesian inference. These technologies implement Active Inference principles at scale.
+
+## References
+
+- Goodfellow, I., Bengio, Y., & Courville, A. (2016). *Deep Learning*. Chapter 9.

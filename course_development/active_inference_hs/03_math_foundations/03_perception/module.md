@@ -1,32 +1,54 @@
-# Module 03: Perception in High School
+# Module 03: Perception — Bayesian Inference and Signal Detection
 
 ## Learning Objectives
 
-1.  Define **Perception** within the context of High School.
-2.  Analyze how Perception interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of High School to the formal definition of Perception.
+1. Apply **Bayes' theorem** to update a belief given new evidence.
+2. Explain **signal detection theory** (hits, misses, false alarms, correct rejections).
+3. Connect Bayesian inference to the Active Inference concept of perception as hypothesis testing.
 
 ## Introduction
 
-This module explores **Perception**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between Agents and Cognition.
+Perception is not passive. Your brain does not just record what your eyes see — it actively *interprets* incoming data by combining it with prior expectations. This module introduces the mathematical framework behind this process: **Bayesian inference**.
 
 ## Key Concepts
 
-### 1. Perception as a Markov Blanket Boundary
-How does Perception define the boundary between the agent and the environment?
+### 1. Bayes' Theorem
 
-### 2. Generative Models of Perception
-What parameters involved in Perception must be optimized to minimize variational free energy?
+$$P(\text{hypothesis} \mid \text{data}) = \frac{P(\text{data} \mid \text{hypothesis}) \cdot P(\text{hypothesis})}{P(\text{data})}$$
 
-### 3. Active Inference Dynamics
-How does the process of Perception drive the perception-action loop?
+In plain English: your **posterior belief** (after seeing evidence) equals the likelihood of the data times your **prior belief**, divided by a normalizing constant. This is the mathematical engine of perception.
+
+**Example**: You hear a loud noise at night. Is it a burglar or the cat? Your prior says "cat is much more likely" (you have a cat, burglars are rare). The likelihood depends on the evidence: the noise sounded like a meow. Bayes' theorem combines these to give you a posterior belief: "almost certainly the cat."
+
+### 2. Signal Detection Theory
+
+In any noisy environment, an agent can make four outcomes:
+
+| | Signal Present | Signal Absent |
+|---|---|---|
+| **Agent says "yes"** | Hit ✅ | False Alarm ❌ |
+| **Agent says "no"** | Miss ❌ | Correct Rejection ✅ |
+
+The agent's **criterion** (how much evidence it needs to say "yes") reflects its prior beliefs and the costs of errors. A smoke detector has a low criterion (better safe than sorry = many false alarms). A jury has a high criterion (beyond reasonable doubt = few false convictions).
+
+### 3. Perception as Active Hypothesis Testing
+
+In Active Inference, perception is Bayesian inference applied to the brain's generative model. The brain generates a **prediction** of what the senses should report. The incoming sensory data is the **evidence**. Bayes' theorem combines prediction and evidence to produce the brain's best guess — the **percept**. When the prediction is strong and the evidence is weak (e.g., in the dark), the prior dominates and you "see" what you expected. When the evidence is overwhelming, the prior is overridden.
 
 ## Applications
 
-In High School, we see Perception manifest in:
-*   **Specific Example 1**: Bayesian updating in statistics is the mathematical foundation of Active Inference perception: when you flip a coin 10 times and get 7 heads, your prior belief (P(fair) = 0.5) combines with the likelihood of the observed data to produce a posterior distribution that shifts toward "biased coin" -- this is exactly how a perceptual system updates its generative model given surprising sensory evidence.
-*   **Specific Example 2**: In signal processing, a Kalman filter estimates the true position of a moving object from noisy GPS measurements by maintaining a predicted state (generative model) and weighting it against each new observation based on measurement precision -- this is perception as mathematical inference, and the filter's update equation is a concrete implementation of prediction error minimization.
+* **Medical Testing**: A medical test has a 99% sensitivity (true positive rate) and 1% false positive rate. If a disease affects 0.1% of the population, what is the probability you actually have the disease given a positive test? (Students often guess 99%, but Bayes' theorem shows it is only about 9%.)
+* **Optical Illusions**: The Müller-Lyer illusion (two lines that look different lengths but are the same) happens because your brain's prior about perspective depth overrides the sensory evidence.
 
-## Conclusion
+## Discussion Questions
 
-Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+1. You receive a positive result from a lie detector test. The test is 90% accurate. Does this prove you are lying? Use Bayes' theorem.
+2. Why do radiologists sometimes miss tumors on X-rays? Explain using signal detection theory.
+
+## Summary
+
+Perception is Bayesian inference: your brain combines prior expectations with sensory evidence to produce beliefs. Signal detection theory formalizes the tradeoffs between caution and sensitivity. Together, these ideas form the mathematical backbone of Active Inference perception.
+
+## References
+
+* McElreath, R. (2020). *Statistical Rethinking*. Chapter 2.

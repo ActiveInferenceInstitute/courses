@@ -1,32 +1,56 @@
-# Module 08: Planning in Robotics
+# Module 08: Planning in Robotics — Trajectory and Motion Planning
 
 ## Learning Objectives
 
-1.  Define **Planning** within the context of Robotics.
-2.  Analyze how Planning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Planning.
+1. Define **trajectory planning** as the computation of a time-parameterized path from current state to goal state that satisfies physical constraints.
+2. Analyze how **sampling-based planners (RRT, PRM) and optimization-based planners (trajectory optimization, MPC)** implement policy search over continuous state and action spaces.
+3. Apply the EFE framework to understand the trade-off between optimality and computational tractability in robotic planning.
 
 ## Introduction
 
-This module explores **Planning**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between Communication and Systems.
+Planning for robots operating in continuous state and action spaces requires finding feasible, safe, and efficient trajectories through high-dimensional configuration spaces. This is the most computationally demanding component of the Active Inference loop — evaluating the Expected Free Energy of candidate trajectories through complex, constrained spaces.
 
 ## Key Concepts
 
-### 1. Planning as a Markov Blanket Boundary
-How does Planning define the boundary between the agent and the environment?
+### 1. Configuration Space and Obstacle Representations
 
-### 2. Generative Models of Planning
-What parameters involved in Planning must be optimized to minimize variational free energy?
+Planning operates in **configuration space** (C-space) — the space of all possible robot configurations:
 
-### 3. Active Inference Dynamics
-How does the process of Planning drive the perception-action loop?
+- A 6-DOF arm has a 6-dimensional C-space (6 joint angles)
+- Obstacles in task space map to irregular regions in C-space — configurations where any part of the robot collides with an obstacle
+- The planning problem: find a path through C-space from the start configuration to the goal configuration that avoids all obstacle regions
+
+### 2. Sampling-Based Planning (RRT, PRM)
+
+When C-space is too complex for analytical solutions, **sampling-based planners** explore by randomly sampling configurations:
+
+- **Rapidly-exploring Random Trees (RRT)**: Grows a tree from the start configuration by randomly sampling new configurations and extending the tree toward them. RRT* adds rewiring to approach optimality.
+- **Probabilistic Roadmaps (PRM)**: Pre-computes a graph of sampled configurations connected by collision-free edges. Planning queries find paths through this graph.
+- Active Inference interpretation: Sampling is **epistemic exploration** of C-space — each sample reveals whether a configuration is feasible, progressively building a model of the free space.
+
+### 3. Trajectory Optimization
+
+**Trajectory optimization** computes smooth, dynamically feasible trajectories by solving a constrained optimization problem:
+
+- **Cost function** = Expected Free Energy: a combination of goal deviation (pragmatic), control effort (energy cost), and constraint violation penalties (obstacle proximity, joint limits)
+- **Constraints**: Joint limits, velocity limits, torque limits, collision avoidance, dynamic feasibility
+- Methods: CHOMP (gradient descent on cost), TrajOpt (sequential convex optimization), iLQR (iterative linear-quadratic regulation)
+
+This is direct EFE minimization in continuous state-action space — the planner searches for the trajectory that minimizes the sum of pragmatic cost and constraint violations.
+
+### 4. Reactive vs. Deliberative Planning
+
+Real robots combine both modes:
+
+- **Deliberative planning** (offline or slow online): Compute an optimal trajectory to the goal — handles global structure (room connectivity, obstacle layout)
+- **Reactive planning** (fast online): Adjust the trajectory in real time to handle dynamic changes (moving obstacles, unexpected contacts) — handles local perturbations
+- Active Inference naturally integrates both through hierarchical planning — high-level deliberation sets the policy tree root, low-level reactive inference handles moment-to-moment adjustments
 
 ## Applications
 
-In Robotics, we see Planning manifest in:
-*   **Specific Example 1**: A Model Predictive Control (MPC) planner for an autonomous vehicle evaluates candidate steering and acceleration sequences over a 3-second receding horizon by simulating the vehicle's dynamics model forward in time and scoring each trajectory against a cost function encoding lane-center tracking, speed maintenance, and collision avoidance; this is precisely Active Inference planning through expected free energy evaluation -- each candidate policy's predicted sensory consequences (future positions) are compared against prior preferences (stay in lane, maintain speed), and the policy with minimum expected free energy is selected.
-*   **Specific Example 2**: A trajectory optimization planner using iterative LQR (iLQR) computes locally optimal manipulation trajectories for a 7-DOF arm by alternating between a forward simulation pass (predicting the trajectory under current controls) and a backward pass (computing corrective feedback gains via dynamic programming); each iteration reduces the expected cost, which maps to expected free energy minimization -- the planner converges when prediction errors between the desired goal state and the simulated final state fall below the task-required tolerance.
+- **Robotic surgery path planning**: A surgical robot plans instrument trajectories through the patient's anatomy using trajectory optimization — minimizing tissue interaction forces while satisfying no-go zones around critical structures (nerves, blood vessels) specified in pre-operative imaging.
+- **Autonomous vehicle route planning**: A self-driving car combines deliberative planning (route selection through the road network) with reactive planning (real-time trajectory adjustment for traffic, pedestrians, and road conditions) — a hierarchical Active Inference architecture operating at seconds-to-hours timescales.
 
 ## Conclusion
 
-Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Trajectory and motion planning implements Active Inference policy selection in continuous spaces — C-space exploration, trajectory optimization, and reactive-deliberative integration all minimize Expected Free Energy under physical constraints. This completes the Control and Estimation unit.

@@ -1,32 +1,61 @@
-# Module 04: Cognition in Robotics
+# Module 04: Cognition in Robotics — Bio-Inspired Cognitive Architectures
 
 ## Learning Objectives
 
-1.  Define **Cognition** within the context of Robotics.
-2.  Analyze how Cognition interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Cognition.
+1. Explain how **bio-inspired cognitive architectures** implement Active Inference's hierarchical generative model in robotic systems.
+2. Analyze the role of **predictive coding** in robotic scene understanding, object recognition, and situation assessment.
+3. Apply the concept of **allostatic regulation** to explain how robots maintain operational integrity through predictive self-monitoring.
 
 ## Introduction
 
-This module explores **Cognition**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between Perception and Action.
+Cognition in biological systems is hierarchical inference — the brain builds layered generative models of the world, with each level predicting the activity of the level below. Bio-inspired cognitive architectures for robots replicate this structure: low-level sensor processing predicts raw inputs, mid-level modules predict object identities and spatial relationships, and high-level modules predict scenes, tasks, and goals.
+
+This module explores how predictive coding architectures give robots the capacity for **cognition** — not just perception (what is happening?) but understanding (what does it mean?) and anticipation (what will happen next?).
 
 ## Key Concepts
 
-### 1. Cognition as a Markov Blanket Boundary
-How does Cognition define the boundary between the agent and the environment?
+### 1. Hierarchical Predictive Coding in Robot Vision
 
-### 2. Generative Models of Cognition
-What parameters involved in Cognition must be optimized to minimize variational free energy?
+A bio-inspired robot vision system implements predictive coding across multiple levels:
 
-### 3. Active Inference Dynamics
-How does the process of Cognition drive the perception-action loop?
+- **Level 1 (Edge/texture)**: Predicts pixel intensities from edges and textures. Prediction errors → "unexpected visual features detected"
+- **Level 2 (Object parts)**: Predicts edge/texture patterns from object parts (wheels, handles, faces). Prediction errors → "unexpected object configuration"
+- **Level 3 (Object identity)**: Predicts part configurations from object categories. Prediction errors → "novel or ambiguous object"
+- **Level 4 (Scene understanding)**: Predicts object identities from scene context (kitchen → expect cups; garage → expect tools)
+
+Top-down predictions at each level generate expectations; bottom-up prediction errors signal violations. The robot "recognizes" an object when prediction errors across all levels are minimized — the generative model has found a consistent explanation.
+
+### 2. Predictive Self-Monitoring (Allostasis)
+
+Biological organisms monitor their own internal states and take action to maintain viability — this is **allostasis** (predictive homeostasis). Bio-inspired robots implement the same principle:
+
+- **Battery monitoring as interoception**: The robot maintains a generative model of its energy trajectory. Predicted battery depletion triggers a "docking" policy before depletion actually occurs.
+- **Motor health monitoring**: The robot predicts expected motor current for each action. Deviations (higher-than-predicted current) signal mechanical wear or jamming — precision-weighted motor prediction errors trigger maintenance behavior.
+- **Thermal management**: Temperature predictions drive active cooling policies (fan speed, activity reduction) before overheating occurs.
+
+This is cognition as **self-inference** — the robot models itself, not just the external world.
+
+### 3. Attention as Resource Allocation
+
+Robotic systems have limited computational resources. Bio-inspired attention mechanisms allocate processing power to the most informative sensory channels:
+
+- **Saliency detection**: Bottom-up attention identifies unexpected features (high prediction error) for further processing
+- **Task-driven attention**: Top-down precision increases on task-relevant features (e.g., during manipulation, increase precision on tactile; during navigation, increase precision on depth)
+- **Active gaze control**: A robot with an active camera redirects its gaze toward regions of highest expected information gain — the same epistemic action logic that drives biological saccades
+
+### 4. Cognitive Maps and Spatial Reasoning
+
+Bio-inspired cognitive maps implement the generative model of space:
+
+- **Place cells**: Neurons (or their robotic analogs) that fire at specific locations, encoding the B matrix of spatial transitions
+- **Grid cells**: Neurons that tile space with hexagonal patterns, providing a metric coordinate system for the generative model
+- **SLAM (Simultaneous Localization and Mapping)**: The robotic instantiation of spatial inference — building a map while simultaneously localizing within it. Bio-inspired SLAM algorithms use hippocampal models to achieve efficient, online spatial inference.
 
 ## Applications
 
-In Robotics, we see Cognition manifest in:
-*   **Specific Example 1**: A honeybee-inspired navigation robot maintains a cognitive map analogous to the insect's mushroom body, encoding place-action associations learned during exploration as a generative model; when placed in a previously visited environment, the robot recognizes familiar visual scenes (low prediction error) and retrieves associated motor policies, while novel scenes (high prediction error) trigger exploratory behaviors that expand the cognitive map -- mirroring how bees use optic flow and landmark snapshots to navigate between hive and food sources.
-*   **Specific Example 2**: A cephalopod-inspired underwater robot implements distributed cognition where each tentacle-like appendage maintains a local generative model of its contact state and object properties, while a central "brain" module integrates these local beliefs into a global scene understanding; this architecture mirrors the biological octopus's approximately 60% peripheral neural processing and demonstrates how cognition in Active Inference need not be centralized but can emerge from hierarchically composed local inference processes.
+- **Autonomous warehouse robot**: A warehouse robot uses hierarchical predictive coding for object recognition (identifying products on shelves), allostatic self-monitoring (battery, motor health), and cognitive mapping (navigating the warehouse) — integrating all three bio-inspired cognitive functions into a single Active Inference architecture.
+- **Surgical robot with predictive planning**: A surgical assistant robot uses scene understanding to predict surgeon intent and pre-position instruments, reducing response time through anticipatory cognition.
 
 ## Conclusion
 
-Understanding Cognition allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Bio-inspired cognitive architectures give robots the capacity for understanding, anticipation, and self-maintenance — not just reactive perception. Hierarchical predictive coding, allostatic regulation, attention, and cognitive mapping are all implementations of Active Inference at different levels of the cognitive hierarchy. The next module examines how these cognitive architectures drive bio-inspired action.

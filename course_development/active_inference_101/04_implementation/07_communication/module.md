@@ -7,6 +7,7 @@
 1. Implement **two communicating agents** whose actions are each other's observations.
 2. Code **generalized synchrony** measures between agent beliefs.
 3. Simulate a conversation and track belief convergence.
+4. Implement **trust precision** — how much one agent weighs the other's messages.
 
 ## Key Concepts
 
@@ -18,13 +19,14 @@ import numpy as np
 class CommunicatingAgent:
     """Agent that can send/receive messages to/from another agent."""
     
-    def __init__(self, A, B, C, D, name="Agent"):
+    def __init__(self, A, B, C, D, name="Agent", trust=1.0):
         self.A = A
         self.B = B
         self.C = C
         self.D = D.copy()
         self.qs = D.copy()
         self.name = name
+        self.trust = trust  # Precision on incoming messages
         self.belief_history = []
         self.message_history = []
     
@@ -45,8 +47,16 @@ class CommunicatingAgent:
         return message
     
     def receive_message(self, message):
-        """Process a message from another agent as an observation."""
-        return self.infer_states(message)
+        """Process a message from another agent as an observation.
+        
+        Trust modulates how strongly the message updates beliefs.
+        """
+        # Trust-weighted likelihood: high trust = strong update
+        likelihood = self.A[message, :] ** self.trust
+        self.qs = likelihood * self.qs
+        self.qs /= self.qs.sum()
+        self.belief_history.append(self.qs.copy())
+        return self.qs
 ```
 
 ### 2. Communication Simulation
@@ -115,27 +125,54 @@ def track_synchrony(agent_a, agent_b):
     return syncs
 ```
 
-### 4. Shared Priors (Cultural Norms)
+### 4. Trust Precision and Communication Quality
+
+Trust is the **precision** an agent assigns to another agent's messages. It determines how strongly messages update beliefs:
 
 ```python
-def create_agents_with_shared_priors(shared_D, A_a, A_b, B, C):
+def experiment_trust_levels(shared_state=0, num_rounds=8):
+    """Compare convergence speed at different trust levels."""
+    A = np.array([[0.8, 0.2], [0.2, 0.8]])
+    B = np.eye(2).reshape(2, 2, 1)
+    C = np.array([1.0, -1.0])
+    D = np.array([0.5, 0.5])
+    
+    trust_levels = [0.2, 0.5, 1.0, 2.0]
+    
+    for trust in trust_levels:
+        a = CommunicatingAgent(A, B, C, D, name="A", trust=trust)
+        b = CommunicatingAgent(A, B, C, D, name="B", trust=trust)
+        
+        simulate_conversation(a, b, shared_state, num_rounds)
+        syncs = track_synchrony(a, b)
+        final_sync = syncs[-1] if syncs else 0
+        print(f"Trust={trust:.1f}: final synchrony = {final_sync:.3f}\n")
+```
+
+> **Key insight**: Low trust (0.2) → slow convergence, robust to misinformation. High trust (2.0) → fast convergence, vulnerable to false messages. Trust = 1.0 gives Bayes-optimal weighting. This mirrors real social dynamics: trusting people learn faster but are more susceptible to manipulation.
+
+### 5. Shared Priors (Cultural Norms)
+
+```python
+def create_agents_with_shared_priors(shared_D, A_a, A_b, B, C, trust=1.0):
     """Create agents with identical priors (cultural norms)."""
-    agent_a = CommunicatingAgent(A_a, B, C, shared_D, name="A")
-    agent_b = CommunicatingAgent(A_b, B, C, shared_D, name="B")
+    agent_a = CommunicatingAgent(A_a, B, C, shared_D, name="A", trust=trust)
+    agent_b = CommunicatingAgent(A_b, B, C, shared_D, name="B", trust=trust)
     return agent_a, agent_b
 
-def create_agents_with_different_priors(D_a, D_b, A_a, A_b, B, C):
+def create_agents_with_different_priors(D_a, D_b, A_a, A_b, B, C, trust=1.0):
     """Create agents with different priors (cultural mismatch)."""
-    agent_a = CommunicatingAgent(A_a, B, C, D_a, name="A")
-    agent_b = CommunicatingAgent(A_b, B, C, D_b, name="B")
+    agent_a = CommunicatingAgent(A_a, B, C, D_a, name="A", trust=trust)
+    agent_b = CommunicatingAgent(A_b, B, C, D_b, name="B", trust=trust)
     return agent_a, agent_b
 ```
 
 ## Summary
 
-Multi-agent Active Inference implements communication as coupled inference — agents exchange messages that serve as observations for each other. Generalized synchrony is measured using Jensen-Shannon divergence. Shared priors (cultural norms) facilitate faster convergence.
+Multi-agent Active Inference implements communication as coupled inference — agents exchange messages that serve as observations for each other. Generalized synchrony is measured using Jensen-Shannon divergence. Trust precision controls how strongly messages update beliefs: low trust protects against misinformation but slows learning; high trust enables rapid convergence but increases vulnerability. Shared priors (cultural norms) facilitate faster convergence.
 
 ## Further Reading
 
 - Friston, K. J. & Frith, C. D. (2015). A duet for one. *Consciousness and Cognition*, 36, 390-405.
 - Vasil, J. et al. (2020). A world unto itself: Human communication as active inference. *Frontiers in Psychology*, 11, 417.
+- Veissière, S. P. L. et al. (2020). Thinking through other minds: A variational approach to cognition and culture. *Behavioral and Brain Sciences*, 43, e90.

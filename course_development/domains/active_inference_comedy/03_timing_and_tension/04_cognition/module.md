@@ -2,41 +2,59 @@
 
 ## Learning Objectives
 
-1. Understand anticipation and the cognitive beat through the lens of Active Inference.
-2. Apply precision dynamics and temporal control to analyze comedy mechanics in 'Who\'s on First?'
-3. Connect cognition theory to practical comedy craft from the Timing & Tension perspective.
+1. Analyze how the audience's **cognitive processing speed** constrains and shapes comedic timing.
+2. Apply the concept of **inference latency** to explain why some jokes require fast delivery and others require slow setup.
+3. Examine the **cognitive bottleneck** — the limit on how many prediction errors an audience can process simultaneously.
 
 ## Introduction
 
-Anticipation is the audience's cognitive preparation for the punchline. When a comedian says 'So I walked up to the bar and...' — the audience's cognitive system is already generating predictions. What will happen at the bar? The predictions build precision over the pause, and the punchline (when it violates those predictions) generates proportionally larger prediction error.
+Comedy cognition is cognition under time pressure. The audience must perceive the setup, build a prediction, detect the violation, search for an alternative interpretation, and evaluate it as humorous — all within the narrow window between punchline delivery and the point where the moment has passed. Too fast, and the audience hasn't completed the cognitive sequence. Too slow, and the audience has completed it before the comedian delivers, killing the surprise.
 
-This module examines the cognitive mechanisms of comedic timing: how anticipation builds, how cognitive beats create rhythm, and how the interplay of prediction and surprise creates the felt PULSE of comedy.
+The comedian's job is to calibrate delivery to the audience's cognitive processing speed — neither outrunning their inference nor lagging behind it.
 
 ## Key Concepts
 
-### Anticipation and the Cognitive Beat
+### 1. Inference Latency and Joke Complexity
 
-At the heart of this module is anticipation and the cognitive beat — the way cognition operates within precision dynamics and temporal control. In 'Who\'s on First?', this manifests as the interplay between performers, audience, and the comedy tradition, examined through the temporal, social, and evolutionary dimensions that Timing & Tension foregrounds.
+Different jokes require different amounts of cognitive processing:
 
-### Active Inference Formalization
+- **Low-complexity jokes** (puns, slapstick): The prediction error and reinterpretation are simple — the audience processes them in milliseconds. These jokes benefit from fast delivery.
+- **Medium-complexity jokes** (irony, misdirection): The audience must detect the surface-vs-depth discrepancy — requires a beat of processing. These jokes benefit from a measured pause after the punchline.
+- **High-complexity jokes** (meta-humor, layered callbacks): Multiple prediction errors and reinterpretation steps are involved — the audience needs several seconds to unpack the joke. These jokes benefit from slow delivery with clear structural markers.
 
-Active Inference provides the formal toolkit for understanding cognition in this context. The key constructs are:
+In "Who's on First?", complexity increases over the routine. Early exchanges are low-complexity (single name confusion). Later exchanges involve multiple players simultaneously, callbacks to earlier confusions, and meta-commentary on the conversation itself — requiring progressively more cognitive processing time.
 
-- **Generative model**: The agent's internal model of how cognition works in comedy — what patterns to expect, what signals to attend to, and what actions to take.
-- **Prediction error**: The mismatch between expected and observed cognition dynamics — the signal that drives updating and adaptation.
-- **Precision weighting**: The confidence assigned to predictions about cognition — higher precision means stronger expectations and larger prediction errors when they fail.
-- **Expected free energy**: The anticipated surprise and information gain associated with future actions related to cognition.
+### 2. The Cognitive Bottleneck
 
-### Domain-Specific Application
+The audience's cognitive system can process only one prediction error at a time:
 
-From the Timing & Tension perspective, cognition in 'Who\'s on First?' reveals dynamics invisible from other vantage points. The routine is not just a text — it is a living performance that operates through precision dynamics and temporal control, connecting the mechanics of individual exchanges to the broader patterns of comedy as cultural practice.
+- When two punchlines arrive in quick succession, the second one often gets **crowded out** — the audience is still processing the first and misses the second
+- Skilled comedians space their punchlines to respect the cognitive bottleneck — each joke gets its own processing window
+- **The exception**: When two prediction errors *reinforce* each other (a verbal joke accompanied by a perfectly timed physical reaction), they can be processed in parallel because they target different perceptual channels
+
+Abbott and Costello manage the cognitive bottleneck masterfully — each exchange produces a single, clear prediction error, with recovery time between exchanges calibrated to the audience's processing speed.
+
+### 3. The "Penny Drop" Phenomenon
+
+Some jokes have a characteristic **delayed recognition** — the audience processes the punchline, initially doesn't find it funny, and then suddenly "gets it" after a cognitive delay:
+
+- This occurs when the reinterpretation requires a **non-obvious inference step** — the audience must search through their model space before finding the frame that makes the statement funny
+- The delay between punchline delivery and laughter is the **inference search time** — the audience is running through possible interpretations until one clicks
+- The best "penny drop" jokes produce a moment of visible cognitive effort (furrowed brows, tilted heads) followed by a sudden laugh — the prediction error resolution is visible in real time
+
+### 4. Tension Cognition: The Awareness of Rising Free Energy
+
+The audience doesn't just accumulate tension — they are **cognitively aware** of the tension:
+
+- "I can feel a punchline coming" is a conscious recognition of rising prediction error
+- This meta-awareness creates a second temporal layer — the audience predicts not just the content of the joke but the timing of the tension resolution
+- When the comedian satisfies this meta-prediction (delivering the punchline when expected), the laugh is comfortable. When they violate it (delaying much longer or arriving much sooner than expected), the meta-prediction error compounds the content prediction error
 
 ## Applications
 
-- **Cognition in Stand-Up**: Solo performers navigate cognition dynamics without a partner, requiring them to internalize the functions that a duo distributes between two agents.
-- **Cognition in Improv**: Improvisational comedy pushes cognition to its limits, requiring real-time processing without the safety net of rehearsal.
-- **Cognition Across Cultures**: Different comedy traditions approach cognition differently, revealing both universal principles and cultural specificity.
+- **The Rule of Three**: The comedy "rule of three" (two setups, third is the punchline) exploits cognitive processing. Items 1 and 2 establish a pattern (the audience builds a prediction). Item 3 violates the pattern (prediction error). The reason three works better than two (not enough prediction-building) or four (too much — the audience processes the violation before it arrives) is calibrated to the audience's cognitive inference speed.
+- **Rapid-Fire Comedy (Mitch Hedberg)**: Hedberg's one-liner style deliberately avoids the cognitive bottleneck by spacing short, self-contained jokes with small pauses between them. Each joke is low-complexity (quickly processed), and the pause provides just enough recovery time before the next one arrives.
 
 ## Conclusion
 
-Cognition in Timing & Tension reveals dimensions of comedy that are invisible from other perspectives. By examining anticipation and the cognitive beat through Active Inference, we see how cognition is not just a feature of comedy but a fundamental mechanism — the process by which performers and audiences co-create the experience of humor through precision dynamics and temporal control.
+Comedy cognition is inference under time pressure. The comedian must calibrate to the audience's processing speed, respect the cognitive bottleneck, exploit the penny-drop effect, and manage the meta-cognitive awareness of rising tension. Timing in comedy is ultimately a cognitive phenomenon — it's not about clock time but about inference time.

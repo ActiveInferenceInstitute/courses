@@ -1,32 +1,59 @@
-# Module 03: Perception in Robotics
+# Module 03: Perception in Robotics — Bio-Inspired Sensing
 
 ## Learning Objectives
 
-1.  Define **Perception** within the context of Robotics.
-2.  Analyze how Perception interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Perception.
+1. Explain how **biological sensory systems** (echolocation, lateral line, whisker arrays, compound eyes) inspire robotic sensor designs through Active Inference principles.
+2. Analyze bio-inspired perception as **active sensing** — where the robot modulates its sensory apparatus to maximize information gain.
+3. Apply the concept of **expected ambiguity** to explain why bio-inspired sensors often outperform conventional sensors in uncertain environments.
 
 ## Introduction
 
-This module explores **Perception**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Perception is a critical component of the 8-part Active Inference spine, bridging the gap between Agents and Cognition.
+Biological organisms have evolved sensory systems that are exquisitely adapted to their ecological niches. A bat navigates in complete darkness by emitting ultrasonic pulses and inferring 3D structure from echo timing. A fish detects nearby objects through pressure waves along its lateral line. A rat builds spatial maps by sweeping its whiskers across surfaces. These are not passive receivers — they are **active inference systems** that modulate their own sensing to reduce uncertainty.
+
+This module explores how bio-inspired robotic perception implements Active Inference. The key insight is that the best bio-inspired sensors don't merely copy biological hardware — they replicate the **inference strategy**: active sampling, precision-weighted multi-modal fusion, and epistemic action.
 
 ## Key Concepts
 
-### 1. Perception as a Markov Blanket Boundary
-How does Perception define the boundary between the agent and the environment?
+### 1. Echolocation as Active Inference
 
-### 2. Generative Models of Perception
-What parameters involved in Perception must be optimized to minimize variational free energy?
+Bat-inspired sonar implements active perception: the robot emits ultrasonic pulses and infers obstacle geometry from echo returns. In Active Inference terms:
 
-### 3. Active Inference Dynamics
-How does the process of Perception drive the perception-action loop?
+- **A matrix**: Maps from hidden states (object distance, material, geometry) to observations (echo delay, amplitude, frequency spectrum)
+- **Active sensing**: The robot modulates pulse frequency and beam direction to sample locations of highest expected ambiguity — the sonar equivalent of saccadic eye movements
+- **Precision weighting**: Echo returns from hard surfaces (high signal-to-noise) receive high precision; returns from soft/absorptive surfaces receive low precision
+
+A biomimetic sonar with dynamically deformable pinnae (ear-shaped acoustic reflectors) can reshape its directional sensitivity pattern during echolocation, actively sampling acoustic space to reduce uncertainty about obstacle geometry in dark environments.
+
+### 2. Lateral Line Perception
+
+Fish use arrays of mechanosensory organs (neuromasts) along their bodies to perceive hydrodynamic flow fields. A lateral-line-inspired underwater robot equipped with pressure-sensitive artificial neuromasts implements distributed perception:
+
+- The sensor array provides a **likelihood function** over nearby object positions and water currents
+- The robot's generative model inverts this flow-field data to infer presence, distance, and velocity of neighboring objects — even in zero-visibility turbid water where vision fails
+- **Active sensing**: The robot can modulate its own swimming speed and direction to generate diagnostic flow patterns, actively probing the environment
+
+### 3. Whisker Arrays and Tactile Inference
+
+Rodent-inspired whisker arrays implement **haptic active inference**: each whisker sweep is an epistemic action that generates tactile prediction errors. The robot's generative model predicts the contact pattern for a given surface geometry, and the actual whisker deflections update this model:
+
+- Whisking rate and amplitude are precision parameters — faster whisking increases sensory sampling rate
+- Whisker arrays enable texture discrimination, edge detection, and object recognition without any visual input
+- Bristol Robotics Laboratory's SCRATCHbot demonstrates that a whisker-only robot can build accurate 3D surface maps using active tactile inference
+
+### 4. Multi-Modal Sensor Fusion as Precision Weighting
+
+Biological organisms don't rely on single sensory modalities — they fuse information across vision, touch, audition, and proprioception. In Active Inference robotics, multi-modal fusion is precision-weighted:
+
+- Each sensor modality has its own likelihood function and precision
+- In bright conditions: high visual precision, low tactile precision → visual modality dominates
+- In dark conditions: low visual precision, high tactile/auditory precision → non-visual modalities dominate
+- The transition between modalities is automatic — the precision weighting handles it
 
 ## Applications
 
-In Robotics, we see Perception manifest in:
-*   **Specific Example 1**: A bat-inspired robot uses biomimetic sonar with dynamically deformable pinnae (ear-shaped acoustic reflectors) to implement active perception -- by reshaping its ear geometry during echolocation, the robot modulates the directional sensitivity pattern of its ultrasonic receivers, actively sampling acoustic space to reduce uncertainty about obstacle geometry in dark environments, directly paralleling how biological bats adjust pinna shape to extract 3D spatial information from echo returns.
-*   **Specific Example 2**: A lateral-line-inspired underwater robot equipped with arrays of pressure-sensitive artificial neuromasts along its body perceives hydrodynamic flow fields the way fish do; the distributed sensor array provides a likelihood function over nearby object positions and water currents, and the robot's generative model inverts this flow-field data to infer the presence, distance, and velocity of neighboring objects even in zero-visibility turbid water where vision-based perception completely fails.
+- **Autonomous underwater vehicle (AUV) navigation**: An AUV combining lateral-line flow sensing with sonar implements multi-modal active inference — it switches between sensor modalities based on water clarity and ambient noise, achieving reliable navigation in environments where any single sensor would fail.
+- **Prosthetic hand with tactile feedback**: A bio-inspired prosthetic hand with artificial mechanoreceptors uses active inference to infer grip force and object properties from tactile prediction errors, enabling dexterous manipulation that adapts to novel objects without visual guidance.
 
 ## Conclusion
 
-Understanding Perception allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Bio-inspired perception is Active Inference in hardware: biological sensory strategies (echolocation, lateral line, whisker arrays, multi-modal fusion) are naturally understood as active sensing driven by expected free energy minimization. The next module explores how these perceptual systems inform bio-inspired cognitive architectures.

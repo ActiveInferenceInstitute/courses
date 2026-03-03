@@ -1,32 +1,74 @@
-# Module 07: Communication in Middle School
+# Module 07: Communication — Input/Output, Files, and Networks
 
 ## Learning Objectives
 
-1.  Define **Communication** within the context of Middle School.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Middle School to the formal definition of Communication.
+1. Use **print**, **input**, **file I/O**, and **APIs** to let your program communicate with the outside world.
+2. Understand that communication in code means **transferring information across a boundary** — the program's Markov blanket.
+3. Build a simple program that sends and receives messages.
 
 ## Introduction
 
-This module explores **Communication**. In the **Middle School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between Learning and Planning.
+A program that does not communicate is useless. It needs to talk to users (print, input), to files (read, write), to the Internet (API requests), and to other programs (sockets, protocols). Communication is how your code agent shares its model of the world with other agents. This module teaches the mechanics of digital communication.
 
 ## Key Concepts
 
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
+### 1. Standard I/O: Talking to Humans
 
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
+```python
+name = input("What is your name? ")  # Perception (reading from human)
+print(f"Hello, {name}!")              # Action (writing to human)
+```
 
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
+`input()` is the program's **ear** — it perceives information from the user. `print()` is the program's **mouth** — it communicates information back. Together, they form the program's communication boundary.
 
-## Applications
+### 2. File I/O: Long-Term Communication
 
-In Middle School, we see Communication manifest in:
-*   **Specific Example 1**: APIs (Application Programming Interfaces) are how programs communicate with each other. When a weather app on your phone asks a remote server "What is the temperature in Chicago?", it sends a structured request, the server processes it against its data model, and sends back a structured response. Both sides must share the same communication protocol or the data gets lost, just like two people needing a common language.
-*   **Specific Example 2**: Writing comments in your code is communication with your future self and other programmers. When you write "# This loop checks every pixel for the color red" above a confusing block of code, you are reducing the prediction error that the next reader will experience. Without that comment, someone looking at the code would have to reverse-engineer what you were thinking -- good comments align mental models between the writer and the reader.
+Writing to a file is like leaving a note for the future:
 
-## Conclusion
+```python
+# Write (send a message to the future)
+with open("high_scores.txt", "w") as f:
+    f.write(f"{player_name},{score}\n")
 
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+# Read (receive a message from the past)
+with open("high_scores.txt", "r") as f:
+    scores = f.readlines()
+```
+
+Files are a form of **asynchronous communication** — the sender and receiver do not need to be active at the same time.
+
+### 3. APIs: Talking to Other Programs
+
+An **API** (Application Programming Interface) lets your program talk to another program over the Internet:
+
+```python
+import requests
+response = requests.get("https://api.weather.gov/points/39.7,-104.9")
+weather = response.json()
+print(f"Forecast: {weather['properties']['forecast']}")
+```
+
+Your program sends a request (an action), the server processes it, and sends back a response (new sensory data). The API is the Markov blanket: it defines *exactly* what information can cross the boundary.
+
+## Activities
+
+### 💬 Activity 1: Chatbot
+
+Build a simple chatbot that:
+
+1. Asks the user their name
+2. Asks what they want to know about (weather, jokes, math)
+3. Responds based on their choice
+4. Saves the conversation to a file
+
+### 🌐 Activity 2: API Explorer
+
+Using a free public API (like the Pokémon API: <https://pokeapi.co/>), write a program that asks the user for a Pokémon name and displays its type, abilities, and stats. The API is the boundary between your program and the Pokémon database!
+
+## Summary
+
+Communication in code happens through I/O (talking to humans), files (talking across time), and APIs (talking to other programs). Each communication channel is a boundary that defines what information passes in and out — the code version of a Markov blanket.
+
+## References
+
+* Sweigart, A. (2015). *Automate the Boring Stuff with Python*. Chapters 9, 12.

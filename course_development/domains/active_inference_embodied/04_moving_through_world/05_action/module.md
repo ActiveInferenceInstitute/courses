@@ -1,32 +1,58 @@
-# Module 05: Action in Embodied
+# Module 05: Action in Embodied Cognition — Locomotion and Tool Use
 
 ## Learning Objectives
 
-1.  Define **Action** within the context of Embodied.
-2.  Analyze how Action interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Embodied to the formal definition of Action.
+1. Define **action in the moving world** as the embodied agent's capacity to traverse terrain, manipulate objects, and transform environments through physical engagement.
+2. Analyze how **locomotion gaits, tool incorporation, and obstacle negotiation** implement Active Inference policies for world-engaged action.
+3. Apply the embodied action framework to understand **adaptive movement**, including gait transitions and tool-augmented capabilities.
 
 ## Introduction
 
-This module explores **Action**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between Cognition and Learning.
+Action in the context of moving through the world is not merely limb movement — it is the **physical engagement with terrain, objects, and other agents** that changes the state of the world and the state of the body simultaneously. Each step taken changes the terrain (footprints in sand, compressed grass) and the body (muscle fatigue, joint loading, energy expenditure). Action and environment are inseparable.
 
 ## Key Concepts
 
-### 1. Action as a Markov Blanket Boundary
-How does Action define the boundary between the agent and the environment?
+### 1. Locomotion Gaits as Optimal Policies
 
-### 2. Generative Models of Action
-What parameters involved in Action must be optimized to minimize variational free energy?
+Different locomotion patterns (walking, running, galloping) represent different motor policies selected to minimize free energy under varying conditions:
 
-### 3. Active Inference Dynamics
-How does the process of Action drive the perception-action loop?
+- **Walking** is the minimum-energy gait for low speeds — the inverted pendulum model of walking exploits gravitational potential energy exchange
+- **Running** becomes the energetically optimal gait above a speed threshold (roughly 2 m/s for humans) — the spring-mass model of running stores and releases elastic energy
+- The **gait transition** (walking → running) is policy selection under changing constraints — when speed demands increase, the running policy minimizes metabolic prediction error better than the walking policy
+
+Active Inference predicts that gait transitions should occur when the Expected Free Energy of the new gait drops below that of the current gait — and experimental data confirms that humans spontaneously transition at the metabolically optimal speed.
+
+### 2. Tool Incorporation as Markov Blanket Extension
+
+When an agent uses a tool, the tool is **incorporated into the body schema** — the Markov blanket extends to encompass the tool's sensory and active surfaces:
+
+- A stick used to probe a dark crevice becomes an extension of the tactile sense — vibrations at the stick tip are perceived as touch-at-a-distance
+- A car becomes an extension of the agent's motor capabilities — the driver feels the road surface through the steering wheel and estimates clearance through the body's updated spatial model
+- Tool breakage generates massive prediction error because the body schema is suddenly violated — the extended Markov blanket collapses and must be reconfigured
+
+### 3. Obstacle Negotiation as Planning Under Uncertainty
+
+Navigating obstacles requires real-time planning that integrates spatial perception with motor capability assessment:
+
+- **Gap crossing**: The agent estimates gap width relative to leg length and stepping capability. Decisions to step across vs. walk around are EFE comparisons.
+- **Height negotiation**: The agent estimates barrier height relative to stepping, climbing, or ducking capabilities. Experienced movers choose routes that minimize total EFE.
+- **Surface reliability estimation**: The agent assesses surface stability (loose rocks, ice, wet leaves) through visual and haptic probing — epistemic actions that reduce uncertainty before committing to weight-bearing contact.
+
+### 4. Environmental Niche Construction
+
+**Niche construction** extends action beyond navigation to **world transformation**: the agent modifies the environment to reduce future prediction errors:
+
+- Trail-building transforms wild terrain into predictable paths
+- Bridge-building eliminates gap-crossing uncertainty
+- Path clearance removes obstacle negotiation requirements
+
+In Active Inference terms, niche construction is action that reduces the *expected* free energy of future encounters with the environment — investing current effort to minimize future surprise.
 
 ## Applications
 
-In Embodied, we see Action manifest in:
-*   **Specific Example 1**: When a capoeira practitioner executes a ginga -- the fundamental rocking movement between stances -- her body flows through a continuous loop of weight shifts, arm swings, and torso rotations that are simultaneously defensive, offensive, and expressive; this skilled action is active inference at full embodiment, where the generative model predicts the proprioceptive trajectory of the entire movement sequence and the body follows the predicted path, generating smooth coordinated motion that minimizes free energy across the musculoskeletal system.
-*   **Specific Example 2**: A surfer dropping into a wave makes split-second adjustments of ankle pressure, knee bend, hip rotation, and arm position to maintain balance on a surface that is itself moving and changing shape; each micro-action generates new proprioceptive and vestibular feedback that the generative model uses to predict the wave's next moment, creating a continuous action-perception cycle where the body actively sculpts its relationship with the moving environment to minimize the expected surprise of falling.
+- **Prosthetic gait optimization**: Tuning a prosthetic limb involves calibrating the prosthetic's behavior to minimize the amputee's proprioceptive prediction errors — the prosthetic-body system must achieve a stable gait that feels natural, meaning the embodied generative model's predictions are fulfilled.
+- **Search and rescue movement**: Rescue workers navigating collapsed buildings perform continuous obstacle negotiation under extreme uncertainty — each footfall is a test of structural integrity, with high precision on tactile and auditory prediction errors (creaking, shifting) that signal imminent collapse.
 
 ## Conclusion
 
-Understanding Action allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Action in the moving world spans locomotion, tool use, obstacle negotiation, and niche construction — each implementing Active Inference policies that transform the body-environment coupling. The next module examines how the embodied agent learns from movement experience.

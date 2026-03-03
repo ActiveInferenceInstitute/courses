@@ -1,32 +1,61 @@
-# Module 04: Cognition in Robotics
+# Module 04: Cognition in Robotics — Autonomous Reasoning
 
 ## Learning Objectives
 
-1.  Define **Cognition** within the context of Robotics.
-2.  Analyze how Cognition interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Cognition.
+1. Define **autonomous cognition** as the capacity of a robot to reason about its situation, assess its own competence, and make strategic decisions without human guidance.
+2. Analyze how **situation assessment, meta-cognition, and goal management** implement higher-order Active Inference in autonomous systems.
+3. Apply cognitive architectures to explain how autonomous robots handle novel situations.
 
 ## Introduction
 
-This module explores **Cognition**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between Perception and Action.
+Autonomous cognition goes beyond state estimation (where am I?) to include situation assessment (what is happening?), self-assessment (am I capable of handling this?), and strategic reasoning (what should I prioritize?). This is the "thinking" that distinguishes a truly autonomous agent from a mere reactive system.
 
 ## Key Concepts
 
-### 1. Cognition as a Markov Blanket Boundary
-How does Cognition define the boundary between the agent and the environment?
+### 1. Situation Assessment
 
-### 2. Generative Models of Cognition
-What parameters involved in Cognition must be optimized to minimize variational free energy?
+**Situation assessment** constructs a high-level interpretation of the environment:
 
-### 3. Active Inference Dynamics
-How does the process of Cognition drive the perception-action loop?
+- **Scene classification**: Is this a normal operating environment, a hazardous zone, or an emergency?
+- **Event detection**: Has something significant happened (object collision, human fall, door opening)?
+- **Temporal reasoning**: How has the situation evolved over time? Is it getting better or worse?
+
+In Active Inference terms, situation assessment is inference at a **high level of the generative model hierarchy** — abstracting from low-level percepts to categorical state descriptions that support strategic decision-making.
+
+### 2. Meta-Cognition: Monitoring One's Own Model
+
+Autonomous agents need **meta-cognition** — the ability to assess the reliability of their own inference:
+
+- **Confidence monitoring**: How certain am I about the current state estimate? If confidence drops below a threshold, the agent should switch to more conservative behavior.
+- **Novelty detection**: Is the current situation similar to anything in the training data? If not, the generative model may be unreliable and the agent should seek information or request help.
+- **Competence assessment**: Can I achieve this goal with my current capabilities? If the EFE for all available policies exceeds a threshold, the task may be beyond the agent's competence.
+
+Meta-cognition is Active Inference about Active Inference — a higher-order generative model that predicts the reliability of the lower-order model.
+
+### 3. Goal Management and Priority
+
+Autonomous agents typically have multiple concurrent goals that require prioritization:
+
+- **Safety goals** (don't collide, don't damage, don't harm) always take highest priority
+- **Task goals** (deliver packages, assemble widgets, patrol area) are the agent's primary mission
+- **Maintenance goals** (recharge battery, calibrate sensors, update map) ensure continued operability
+- **Social goals** (don't block hallways, don't startle people, communicate status) enable coexistence
+
+Goal management requires a **priority architecture** where higher-priority goals can preempt lower-priority actions — precisely the hierarchical policy selection of Active Inference.
+
+### 4. Anomaly Detection and Explanation
+
+When something unexpected happens, autonomous agents should both detect the anomaly and generate an explanation:
+
+- **Detection**: A spike in prediction error across multiple channels simultaneously signals an anomaly — something the generative model did not predict
+- **Classification**: Is this anomaly dangerous (obstacle in path), benign (new decoration in office), or informative (clue about environmental change)?
+- **Explanation generation**: For human-supervised systems, the robot should communicate *why* it detected an anomaly — providing interpretable reasoning that enables human oversight
 
 ## Applications
 
-In Robotics, we see Cognition manifest in:
-*   **Specific Example 1**: A self-driving vehicle's prediction module implements cognition by maintaining generative models of all detected traffic participants (pedestrians, cyclists, other vehicles), propagating their believed states forward in time to predict future trajectories over a 6-second horizon; the cognitive system evaluates multiple hypotheses for each agent's intent (e.g., "the pedestrian will cross" vs. "the pedestrian will wait") and maintains a belief distribution over these hypotheses, updating it as new observations arrive -- this multi-agent predictive cognition is essential for safe autonomous navigation in dense urban environments.
-*   **Specific Example 2**: An autonomous exploration rover maintains a cognitive map using a topological-metric hybrid representation where high-level place nodes (topological) are connected by traversability edges annotated with metric cost estimates; when the rover encounters a blocked path, its cognitive system does not merely re-plan locally but updates its global beliefs about environment connectivity, propagating the new information through the topological graph to assess whether alternative routes exist -- this is inference over a hierarchical generative model that separates spatial reasoning (topology) from geometric detail (metric maps).
+- **Hospital delivery robot**: An autonomous hospital robot uses situation assessment to navigate complex social environments — classifying hallway traffic as "normal flow," "emergency rush," or "patient transport" and adjusting its behavior accordingly. Meta-cognition monitors localization confidence, triggering map recalibration when the hospital reconfigures.
+- **Inspection drone with anomaly reporting**: A drone inspecting infrastructure detects anomalies (cracks, corrosion, deformation) through prediction error on its structural model, classifies severity, and generates explanatory reports with annotated images for human engineers.
 
 ## Conclusion
 
-Understanding Cognition allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Autonomous cognition — situation assessment, meta-cognition, goal management, and anomaly detection — implements higher-order Active Inference that enables strategic, self-aware robotic behavior. The next module examines autonomous action.

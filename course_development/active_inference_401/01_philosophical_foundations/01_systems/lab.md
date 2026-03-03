@@ -4,17 +4,18 @@
 
 ## Part 1: Mapping the Epistemological Tradition
 
-**Exercise**: Complete the mapping table:
+**Exercise**: Complete the mapping table and evaluate the strength of each analogy:
 
-| Philosophical Concept | FEP Analog | Key Similarity | Key Difference |
-|----------------------|-----------|----------------|----------------|
-| Kant's categories | Generative model | | |
-| Justified true belief | Model evidence | | |
-| Cartesian doubt | Prior uncertainty | | |
-| Empiricist sensation | Sensory states | | |
-| Pragmatist truth | Predictive success | | |
+| Philosophical Concept | FEP Analog | Key Similarity | Key Difference | Strength (1-5) |
+|----------------------|-----------|----------------|----------------|-----------------|
+| Kant's categories | Generative model | Both structure experience a priori | Kant's are fixed; generative models are learned | |
+| Justified true belief | Model evidence | Both concern epistemic warrant | FEP has no "truth" — only predictive success | |
+| Cartesian doubt | Prior uncertainty | Both start from uncertainty | Descartes seeks certainty; FEP accepts irreducible uncertainty | |
+| Empiricist sensation | Sensory states | Both ground knowledge in experience | Empiricism is passive; AIF is active | |
+| Pragmatist truth | Predictive success | Both define truth through consequences | Pragmatism is social; FEP is individual | |
+| Phenomenological intentionality | Prediction as directedness | Both describe mind-world relation | Husserl brackets ontology; FEP assumes a causal structure | |
 
-Write a 200-word analysis of the strongest and weakest mappings.
+Write a 200-word analysis of the strongest and weakest mappings. For the weakest, explain specifically what would need to change in the FEP to improve the analogy.
 
 {fill:textarea}
 
@@ -22,13 +23,15 @@ Write a 200-word analysis of the strongest and weakest mappings.
 
 > **Learning Goal:** Evaluate competing interpretations of MB ontology.
 
-**Exercise**: Read the following two positions and argue for each:
+**Exercise**: Read the following three positions and argue for each:
 
 **Position A (Realist)**: "Markov Blankets are real statistical structures that exist independently of our analysis. A cell membrane is a Markov Blanket whether or not anyone describes it as such."
 
 **Position B (Constructivist)**: "Markov Blankets are modeling tools imposed by the analyst. The same system can be partitioned differently depending on the question being asked."
 
-Write 200 words defending Position A, then 200 words defending Position B. Finally, state your own position with reasons.
+**Position C (Processual)**: "Markov Blankets are temporary, dynamically maintained structures. They are neither fixed objects nor mere constructs — they are processes of self-organization that can form, dissolve, and reform."
+
+Write 150 words defending Position A, 150 words defending Position B, and 150 words defending Position C. Finally, state your own position with reasons. Cite at least one philosophical precedent for your position (e.g., Whitehead for processual, Quine for constructivist).
 
 {fill:textarea}
 
@@ -40,7 +43,11 @@ Write 200 words defending Position A, then 200 words defending Position B. Final
 
 1. Formalize the circularity: Model M defines what counts as evidence E. E is used to update M. There is no external check.
 2. Is this vicious circularity (fatal to the framework) or virtuous circularity (a feature)?
-3. Compare with at least two other cases of circularity in philosophy or science (e.g., the hermeneutic circle, defining health in terms of function and function in terms of health).
+3. Compare with at least two other cases of circularity in philosophy or science:
+   - The hermeneutic circle (understanding parts requires understanding the whole, and vice versa)
+   - Defining health in terms of function and function in terms of health
+   - The measurement problem in quantum mechanics (the observer is part of the system)
+4. **New**: Does the FEP's circularity differ from autopoiesis (Maturana & Varela)? Both involve self-maintaining systems. Is one more epistemologically problematic than the other?
 
 {fill:textarea}
 
@@ -48,18 +55,22 @@ Write 200 words defending Position A, then 200 words defending Position B. Final
 
 > **Learning Goal:** Apply philosophy of science criteria to the FEP.
 
-**Exercise**: Apply Popper's falsifiability criterion:
+**Exercise**: Apply three philosophy-of-science frameworks:
 
-1. State the FEP as precisely as possible.
-2. What observation would *falsify* it?
-3. If it cannot be falsified, is it a tautology? A framework? A research programme (in Lakatos's sense)?
-4. Compare with other unfalsifiable-seeming frameworks (e.g., natural selection, thermodynamics).
+1. **Popper**: State the FEP as precisely as possible. What observation would *falsify* it? If none, is it a tautology?
+2. **Lakatos**: Is the FEP a *research programme* with a "hard core" and "protective belt"? What is the hard core? What auxiliary hypotheses constitute the protective belt? What would constitute a *degenerating* shift?
+3. **Kuhn**: Is the FEP a *paradigm* in Kuhn's sense? What would a Kuhnian "crisis" look like for the FEP? What "anomalies" exist?
+4. Compare with other unfalsifiable-seeming frameworks (natural selection, thermodynamics, Bayesian probability). Which comparison is most apt?
 
 {fill:textarea}
 
 ## Part 5: Reflection
 
-In 250 words, reflect: Does the FEP provide genuine epistemological insight, or does it merely translate existing philosophical ideas into mathematical notation? What is *new* that philosophy couldn't already offer?
+In 250 words, reflect on this question: Does the FEP provide genuine epistemological insight, or does it merely translate existing philosophical ideas into mathematical notation? Specifically:
+
+- Name one insight that the FEP provides that was *not already available* in the philosophical tradition
+- Name one philosophical problem that the FEP fails to address despite appearing to
+- Does mathematical formalization add genuine understanding, or does it trade philosophical nuance for the illusion of precision?
 
 {fill:textarea}
 
@@ -69,6 +80,6 @@ In 250 words, reflect: Does the FEP provide genuine epistemological insight, or 
 |------|----------------|-------------|
 | 1 | Historical mapping | FEP in philosophical tradition |
 | 2 | Dialectical argument | Markov Blanket ontology |
-| 3 | Circularity analysis | Self-evidencing |
-| 4 | Philosophy of science | Falsifiability |
-| 5 | Critical reflection | Novelty of the FEP |
+| 3 | Circularity analysis | Self-evidencing and autopoiesis |
+| 4 | Philosophy of science | Falsifiability, research programmes, paradigms |
+| 5 | Critical reflection | Novelty and limits of the FEP |

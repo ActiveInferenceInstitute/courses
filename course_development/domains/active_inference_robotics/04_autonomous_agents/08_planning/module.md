@@ -1,32 +1,70 @@
-# Module 08: Planning in Robotics
+# Module 08: Planning in Robotics — Autonomous Mission Planning
 
 ## Learning Objectives
 
-1.  Define **Planning** within the context of Robotics.
-2.  Analyze how Planning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Planning.
+1. Define **autonomous mission planning** as the capacity to decompose high-level goals into executable action sequences over extended time horizons.
+2. Analyze how **hierarchical task planning, contingency planning, and replanning** implement Active Inference at the strategic level.
+3. Apply mission planning frameworks to autonomous systems operating in dynamic, uncertain environments.
 
 ## Introduction
 
-This module explores **Planning**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between Communication and Systems.
+Mission planning is the highest level of the Active Inference hierarchy in autonomous robots — determining *what* to accomplish over hours, days, or weeks of operation. While trajectory planning asks "how do I get from A to B?", mission planning asks "where should I go, in what order, and what should I do at each location?" This is strategic cognition for autonomous systems.
 
 ## Key Concepts
 
-### 1. Planning as a Markov Blanket Boundary
-How does Planning define the boundary between the agent and the environment?
+### 1. Hierarchical Task Decomposition
 
-### 2. Generative Models of Planning
-What parameters involved in Planning must be optimized to minimize variational free energy?
+Complex missions are decomposed into hierarchical task structures:
 
-### 3. Active Inference Dynamics
-How does the process of Planning drive the perception-action loop?
+- **Mission level**: "Survey the disaster zone and locate survivors" (hours)
+- **Task level**: "Search Grid Section C" → "Navigate to Section C" + "Execute sweep pattern" + "Report findings" (minutes)
+- **Action level**: "Navigate to waypoint 7" → trajectory, obstacle avoidance, localization (seconds)
+
+Each level performs Active Inference at its appropriate timescale — high levels set goals for low levels, low levels report completion and observations back up. The mission planner evaluates Expected Free Energy at the mission level while delegating execution details to lower levels.
+
+### 2. Contingency Planning
+
+Robust mission plans include **contingencies** — pre-computed responses to anticipated failures:
+
+- "If battery drops below 15%, abort current task and return to charging station"
+- "If communication link is lost, complete current task then return to base"
+- "If survivor is detected, interrupt sweep pattern and switch to close-inspection mode"
+
+Each contingency is a conditional policy with a trigger condition (prediction error threshold) and a response policy. Pre-computing contingencies allows rapid response without the computational cost of replanning from scratch.
+
+### 3. Online Replanning
+
+When the actual situation diverges too far from the planned scenario, the autonomous agent must **replan**:
+
+- **Trigger**: Rising free energy that cannot be resolved by contingency policies — the plan's predictions no longer match reality
+- **Scope**: Replanning can be local (adjust the current task) or global (restructure the entire mission)
+- **Cost**: Replanning is computationally expensive — the agent should replan as rarely as possible, using contingencies and reactive adjustments to handle minor deviations
+
+### 4. Multi-Objective Mission Optimization
+
+Real missions involve multiple competing objectives:
+
+- **Coverage vs. depth**: Should the surveyor cover the whole area quickly or examine suspicious regions thoroughly?
+- **Safety vs. speed**: Should the delivery drone take the short route over a populated area or the long route over open terrain?
+- **Information vs. action**: Should the robot gather more data before acting or act on current (imperfect) estimates?
+
+Expected Free Energy naturally handles multi-objective trade-offs through the pragmatic-epistemic decomposition — coverage/speed/action serve pragmatic value; depth/safety/information serve epistemic value.
+
+### 5. Temporal Constraints and Scheduling
+
+Mission planning often involves **temporal constraints**:
+
+- Task deadlines ("deliver package by 3 PM")
+- Task dependencies ("inspect before repairing")
+- Resource windows ("solar-powered robot must complete outdoor tasks during daylight")
+
+These constraints structure the EFE evaluation — policies that violate temporal constraints receive infinite pragmatic cost (they cannot achieve preferred observations within the time window).
 
 ## Applications
 
-In Robotics, we see Planning manifest in:
-*   **Specific Example 1**: A self-driving vehicle approaching an unprotected left turn plans by evaluating multiple policy trees over a 6-second horizon: each branch represents a different scenario for oncoming traffic behavior (yield, accelerate, change lane), and the planner selects the action sequence that minimizes expected free energy across all weighted scenarios -- this contingency planning naturally produces cautious behavior (waiting for a safe gap) when oncoming traffic intent is ambiguous, and decisive behavior (proceeding confidently) when the gap is clearly sufficient, without hand-coded rules for either case.
-*   **Specific Example 2**: An autonomous exploration robot in an unknown environment plans its next movement by evaluating candidate viewpoints for their expected information gain using a frontier-based exploration strategy augmented with Active Inference; each candidate frontier cell is scored by the expected reduction in map entropy (epistemic value) discounted by the travel cost (pragmatic cost), and the planner selects the frontier that maximizes the ratio of information gained per meter traveled, producing efficient space-covering exploration trajectories that balance curiosity against energy expenditure.
+- **Disaster response drone swarm**: A swarm of search-and-rescue drones plans a coordinated survey of a disaster area — hierarchically decomposing the search zone into sectors, with each drone planning its sector sweep, contingency policies for battery depletion and communication loss, and replanning triggers for survivor detection.
+- **Long-duration ocean survey**: An autonomous underwater glider plans a month-long oceanographic survey — optimizing sampling locations to maximize scientific information gain (epistemic EFE) while satisfying battery constraints, ocean current predictions, and scheduled surface communications for data upload.
 
 ## Conclusion
 
-Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Mission planning is Active Inference at the strategic level — hierarchical decomposition, contingency planning, replanning, multi-objective optimization, and temporal scheduling all implement Expected Free Energy minimization over extended horizons. This completes the Autonomous Agents unit and the Robotics domain course.

@@ -1,32 +1,57 @@
-# Module 04: Cognition in High School
+# Module 04: Cognition — Language Models and Reasoning
 
 ## Learning Objectives
 
-1.  Define **Cognition** within the context of High School.
-2.  Analyze how Cognition interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of High School to the formal definition of Cognition.
+1. Explain how a **Large Language Model (LLM)** works: predicting the next token given a sequence of preceding tokens.
+2. Distinguish between **narrow AI** (specialized) and **broad/general AI** (flexible).
+3. Evaluate claims about machine "understanding" versus sophisticated pattern matching.
 
 ## Introduction
 
-This module explores **Cognition**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Cognition is a critical component of the 8-part Active Inference spine, bridging the gap between Perception and Action.
+Can a computer think? When ChatGPT writes an essay, is it "understanding" the topic, or is it performing incredibly sophisticated pattern matching? This module explores machine cognition — what AI systems can and cannot do — and connects it to the Active Inference view of cognition as generative model inference.
 
 ## Key Concepts
 
-### 1. Cognition as a Markov Blanket Boundary
-How does Cognition define the boundary between the agent and the environment?
+### 1. How Language Models Work
 
-### 2. Generative Models of Cognition
-What parameters involved in Cognition must be optimized to minimize variational free energy?
+A Large Language Model (LLM) like GPT works by predicting the next word (token) in a sequence:
 
-### 3. Active Inference Dynamics
-How does the process of Cognition drive the perception-action loop?
+Given: "The cat sat on the ___"
+Prediction: P("mat") = 0.35, P("floor") = 0.20, P("table") = 0.15, ...
+
+The model was trained on trillions of words, learning the statistical patterns of human language. In Active Inference terms, the LLM is a massive generative model that has learned to predict human language with high precision. Each generated word reduces the "surprise" of the text.
+
+### 2. Narrow AI vs. General AI
+
+| Feature | Narrow AI | General AI (AGI) |
+|---|---|---|
+| **Scope** | One task (chess, image labeling, translation) | Any intellectual task |
+| **Current Status** | Exists and is highly capable | Does not yet exist |
+| **Active Inference View** | Fixed generative model for one domain | Flexible, hierarchical generative model that transfers across domains |
+
+### 3. The "Understanding" Debate
+
+Does GPT *understand* what it writes? Two perspectives:
+
+- **Strong AI** position: If the behavior is indistinguishable from understanding, it *is* understanding.
+- **Weak AI** position: Understanding requires consciousness, embodiment, or causal reasoning that statistical pattern matching cannot provide.
+
+Active Inference contributes a nuanced view: a system that has built a generative model of a domain is *functionally* making inferences about that domain. Whether this constitutes "real" understanding may depend on the richness and flexibility of the generative model.
 
 ## Applications
 
-In High School, we see Cognition manifest in:
-*   **Specific Example 1**: A large language model like ChatGPT performs cognition as Active Inference: given a prompt, it generates the next token by predicting which word minimizes surprise given all previous context -- its billions of parameters encode a massive generative model of language, and the "temperature" setting literally controls how much prediction error (randomness) the model tolerates in its cognitive output.
-*   **Specific Example 2**: Spam filters in your email demonstrate automated cognition through Active Inference: the filter maintains a generative model of what legitimate email looks like (learned from millions of labeled examples), compares each incoming message against that model, and flags messages with high prediction error (unusual sender patterns, suspicious links) as spam -- continuously updating its beliefs as new spam tactics emerge.
+- **Autocomplete**: When your phone suggests the next word in a text message, it is running a small language model that minimizes prediction error based on your personal typing history.
+- **AI-Generated Art**: Image generation tools (DALL-E, Midjourney) have generative models trained on millions of image-text pairs. They "imagine" images by inverting the prediction process: generate pixels that minimize the prediction error between the generated image and the text prompt.
 
-## Conclusion
+## Discussion Questions
 
-Understanding Cognition allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+1. If you gave GPT a physics problem it had never seen before and it solved it correctly, would that constitute "understanding"? What additional test would you need?
+2. An LLM can generate convincing medical advice but has no body and no experience of being sick. Is this dangerous? Why?
+
+## Summary
+
+LLMs are large-scale generative models that predict language with high precision. Whether this constitutes "understanding" remains an open philosophical question. Active Inference frames cognition as generative model inference — a lens that applies to both biological brains and artificial systems.
+
+## References
+
+- Vaswani, A. et al. (2017). Attention Is All You Need. *NeurIPS*.

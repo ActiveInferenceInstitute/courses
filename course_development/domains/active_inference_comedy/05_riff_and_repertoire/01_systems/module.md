@@ -2,41 +2,69 @@
 
 ## Learning Objectives
 
-1. Understand comedy as an evolving system through the lens of Active Inference.
-2. Apply evolution, improvisation, and tradition to analyze comedy mechanics in 'Who\'s on First?'
-3. Connect systems theory to practical comedy craft from the Riff & Repertoire perspective.
+1. Analyze the **repertoire system** — the comedian's accumulated library of material, techniques, and performance strategies.
+2. Apply the concept of **riffing** as exploration within the generative model space — the creative process through which new material emerges.
+3. Map the comedian's **creative ecosystem** to Active Inference's exploration-exploitation framework.
 
 ## Introduction
 
-Comedy evolves. 'Who's on First?' was born in the vaudeville system, refined in the radio system, preserved in the film system, and lives today in the digital system. Each transition changed the routine — its timing, its audience, its cultural meaning. The comedy system is not static; it is an evolving system that adapts, mutates, and is selected by cultural forces.
+A comedian's repertoire is not a static inventory — it is a living system. Material enters as rough ideas, evolves through performance, crosses-pollinates with other bits, and eventually retires when it no longer generates sufficient prediction error. New material constantly enters the system through riffing — the improvisational process of exploring the space of possible jokes around a theme, topic, or observation.
 
-This module examines comedy as an evolving system — a system that changes over time through variation, selection, and transmission.
+This module examines the repertoire system: the ecosystem of material, creativity, and evolution that sustains a comedy career.
 
 ## Key Concepts
 
-### Comedy as an Evolving System
+### 1. The Repertoire as Generative Model Library
 
-At the heart of this module is comedy as an evolving system — the way systems operates within evolution, improvisation, and tradition. In 'Who\'s on First?', this manifests as the interplay between performers, audience, and the comedy tradition, examined through the temporal, social, and evolutionary dimensions that Riff & Repertoire foregrounds.
+A comedian's repertoire is a **library of specialized generative models** — each bit is a model of how to produce prediction error in a specific domain:
 
-### Active Inference Formalization
+- A bit about airline travel is a model of audience predictions about flying, and how to violate those predictions
+- A bit about relationships is a model of audience assumptions about romantic dynamics, and where those assumptions can be subverted
+- A bit about politics is a model of audience political priors and how to generate surprise within political discourse
 
-Active Inference provides the formal toolkit for understanding systems in this context. The key constructs are:
+The repertoire's breadth determines the domains in which the comedian can produce comedy. Its depth determines how many distinct prediction errors they can generate within each domain. A comedian with a deep repertoire in a narrow domain is a specialist (airline comedian, political comedian). A broad-but-shallow repertoire produces a versatile generalist.
 
-- **Generative model**: The agent's internal model of how systems works in comedy — what patterns to expect, what signals to attend to, and what actions to take.
-- **Prediction error**: The mismatch between expected and observed systems dynamics — the signal that drives updating and adaptation.
-- **Precision weighting**: The confidence assigned to predictions about systems — higher precision means stronger expectations and larger prediction errors when they fail.
-- **Expected free energy**: The anticipated surprise and information gain associated with future actions related to systems.
+### 2. Riffing as Explorative Inference
 
-### Domain-Specific Application
+**Riffing** — the improvisational generation of comedic variations on a theme — is the creative process through which new material is born:
 
-From the Riff & Repertoire perspective, systems in 'Who\'s on First?' reveals dynamics invisible from other vantage points. The routine is not just a text — it is a living performance that operates through evolution, improvisation, and tradition, connecting the mechanics of individual exchanges to the broader patterns of comedy as cultural practice.
+- The comedian starts with a seed observation ("airport security is weird")
+- Free-association generates branching pathways — TSA agents, shoe removal, the plasticity of prohibited items, the theater of security, identification rituals
+- Each association is evaluated against the comedian's model of audience priors — "would this observation produce prediction error?"
+- Promising branches are developed; dead ends are pruned
+- The result is a **search tree** through the space of possible jokes, guided by the comedian's learned evaluation function
+
+Riffing is epistemic behavior in the creative domain — exploring the space of possible comedy to discover new prediction-error-producing content.
+
+### 3. Material Lifecycle
+
+Comedy material follows a lifecycle:
+
+- **Birth** (riffing, observation, conversation): A raw idea or observation that seems promising
+- **Embryonic** (notebook, voice memo): The idea is captured but not yet shaped into a performable bit
+- **Testing** (open mics, small shows): The raw material is first exposed to audience inference — feedback shapes its development
+- **Refinement** (working shows, club sets): Successful material is honed through iteration — wording, timing, and structure are optimized
+- **Peak** (special recording, festival performance): The material reaches its highest form — every element polished
+- **Retirement** (post-special): Recorded material loses surprise value for the comedian's existing audience — it must be replaced with new material
+
+This lifecycle means the comedian is simultaneously nurturing material at every stage — an ongoing creative ecology.
+
+### 4. Cross-Pollination Between Bits
+
+Bits in the repertoire are not isolated — they interact:
+
+- A observation from bit A can seed a tag for bit B
+- A callback chain can link thematically distant bits into a unified narrative arc
+- A structural technique (the "rule of three," the "pull-back-and-reveal") is a reusable pattern that applies across multiple topic domains
+- A persona or character voice developed in one bit can be deployed in others
+
+This cross-pollination creates **network effects** in the repertoire — each new bit potentially enhances existing bits through connection.
 
 ## Applications
 
-- **Systems in Stand-Up**: Solo performers navigate systems dynamics without a partner, requiring them to internalize the functions that a duo distributes between two agents.
-- **Systems in Improv**: Improvisational comedy pushes systems to its limits, requiring real-time processing without the safety net of rehearsal.
-- **Systems Across Cultures**: Different comedy traditions approach systems differently, revealing both universal principles and cultural specificity.
+- **George Carlin's Topic Cycles**: Carlin's career demonstrates the repertoire lifecycle at career scale — he periodically retired entire topic domains (airline humor, class observations) and replaced them with new ones (language analysis, religious critique, social criticism), maintaining freshness across a 50-year career by continuously cycling his creative ecosystem.
+- **Comedy Writers' Rooms**: Television comedy writers' rooms function as collective repertoire systems — individual writers contribute ideas that are developed collaboratively, creating a group-level repertoire that exceeds any individual's creative capacity. The room's dynamics (competition, critique, building on others' ideas) accelerate the riffing process.
 
 ## Conclusion
 
-Systems in Riff & Repertoire reveals dimensions of comedy that are invisible from other perspectives. By examining comedy as an evolving system through Active Inference, we see how systems is not just a feature of comedy but a fundamental mechanism — the process by which performers and audiences co-create the experience of humor through evolution, improvisation, and tradition.
+The Riff & Repertoire system is the creative ecosystem that sustains comedy — the library of performance models, the explorative process of riffing, the material lifecycle, and the cross-pollination between bits. Understanding this system explains how comedians sustain careers of continuous creative production.

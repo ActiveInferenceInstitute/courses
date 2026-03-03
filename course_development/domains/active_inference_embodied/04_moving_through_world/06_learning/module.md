@@ -1,32 +1,58 @@
-# Module 06: Learning in Embodied
+# Module 06: Learning in Embodied Cognition — Learning Through Movement
 
 ## Learning Objectives
 
-1.  Define **Learning** within the context of Embodied.
-2.  Analyze how Learning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Embodied to the formal definition of Learning.
+1. Define **movement-based learning** as the acquisition of environmental knowledge through locomotion, exploration, and physical interaction.
+2. Analyze how **spatial learning, terrain adaptation, and route knowledge** implement Active Inference model updating through world-engaged action.
+3. Apply the embodied learning framework to understand how movement experience builds the navigational generative model.
 
 ## Introduction
 
-This module explores **Learning**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Learning is a critical component of the 8-part Active Inference spine, bridging the gap between Action and Communication.
+We learn the world by moving through it. A child who crawls across a room is building a spatial generative model — calibrating distance estimates, learning about surface textures, mapping the relationship between motor effort and displacement. This learning cannot be transmitted verbally; it must be acquired through the body's own engagement with the environment.
 
 ## Key Concepts
 
-### 1. Learning as a Markov Blanket Boundary
-How does Learning define the boundary between the agent and the environment?
+### 1. Spatial Learning Through Exploration
 
-### 2. Generative Models of Learning
-What parameters involved in Learning must be optimized to minimize variational free energy?
+Spatial learning is the process of building and refining the cognitive map through movement:
 
-### 3. Active Inference Dynamics
-How does the process of Learning drive the perception-action loop?
+- **Landmark learning**: Repeated encounters with distinctive features (buildings, trees, intersections) create high-precision entries in the spatial A matrix — these landmarks anchor the cognitive map
+- **Route learning**: Traversing paths between landmarks builds the spatial B matrix — the transition model that predicts what comes next along a familiar route
+- **Survey knowledge**: With sufficient exploration, the agent develops allocentric (map-like) spatial knowledge that enables novel shortcuts, detours, and route planning
+
+Active Inference predicts that exploratory behavior should be directed toward regions of high epistemic value — and studies confirm that both animals and humans preferentially explore novel areas of an environment, driven by the information-theoretic curiosity encoded in EFE's epistemic term.
+
+### 2. Terrain Adaptation and Motor Memory
+
+Repeated movement through different terrain types builds **terrain-specific motor priors**:
+
+- After walking on beach sand for a week, the motor generative model has adapted its predictions — stride length decreases, energy expenditure per step increases, and ankle stability patterns shift
+- Returning to pavement after beach walking produces a brief period of "over-correction" — the sand-adapted priors generate prediction errors on the firmer surface until re-adaptation occurs
+- These terrain-specific motor memories are stored as **context-dependent policies** in the motor generative model — the agent selects the appropriate motor prior based on recognized terrain type
+
+### 3. Learning from Falls and Failures
+
+Movement failures (trips, stumbles, falls, wrong turns) are the most powerful learning signals:
+
+- A fall generates massive proprioceptive, vestibular, and tactile prediction errors simultaneously — the learning rate spikes
+- Successful recovery from a near-fall reinforces the postural correction model — the agent learns the boundaries of its balance envelope
+- Wrong turns during navigation generate spatial prediction errors that update the cognitive map
+
+The paradox of safe environments: environments designed to prevent all falls (padded floors, handrails everywhere) reduce the diversity of prediction errors and may actually slow the development of robust balance models. Controlled challenge is essential for embodied learning.
+
+### 4. Social Learning Through Movement
+
+Embodied learning is not always solitary — movement is learned through **observation, imitation, and guided practice**:
+
+- A child learning to walk observes other walkers and recruits mirror neuron systems to build a motor model from visual observation
+- A martial arts student learns techniques through the teacher's physical corrections — the teacher literally shapes the student's body, providing direct proprioceptive evidence for the correct motor pattern
+- Dance traditions transmit movement vocabularies across generations through embodied instruction — the knowledge exists in bodies, not textbooks
 
 ## Applications
 
-In Embodied, we see Learning manifest in:
-*   **Specific Example 1**: A child learning to ride a bicycle initially over-corrects every wobble, yanking the handlebars back and forth in large, jerky movements; over days of practice, the corrections become imperceptibly small and automatic as the generative model learns the precise mapping between vestibular tilt signals and the steering adjustments needed to maintain balance -- the transition from effortful wobbling to effortless gliding is the progressive reduction of sensorimotor prediction error through embodied learning.
-*   **Specific Example 2**: A ballet dancer spending years at the barre progressively refines her arabesque until the position feels natural rather than strained; this learning trajectory shows the generative model absorbing the biomechanics of the pose into its motor priors, so that what once required conscious attention to hip rotation, spinal extension, and ankle placement becomes a single integrated prediction that the body enacts as a unified movement gestalt -- the hallmark of skilled motor learning as free energy minimization in the movement domain.
+- **Rehabilitation gait training**: Post-stroke patients re-learn walking through repetitive practice on diverse surfaces — treadmill, overground, stairs, uneven terrain — each surface type generating distinct prediction errors that drive the reconstruction of the motor generative model.
+- **Montessori education**: Montessori pedagogy emphasizes learning through physical interaction — children learn mathematics by handling physical objects, geometry by building with blocks, and geography by walking through environments. The educational theory, formulated a century before Active Inference, is a precise implementation of embodied learning through movement.
 
 ## Conclusion
 
-Understanding Learning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Learning through movement is the primordial form of knowledge acquisition — building spatial maps, adapting to terrain, learning from failures, and acquiring skills through social embodied interaction. The next module examines embodied communication during world-engaged movement.

@@ -1,32 +1,53 @@
-# Module 08: Planning in High School
+# Module 08: Planning — Expected Free Energy and Decision Trees
 
 ## Learning Objectives
 
-1.  Define **Planning** within the context of High School.
-2.  Analyze how Planning interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of High School to the formal definition of Planning.
+1. Construct a **decision tree** and calculate the expected value of each branch.
+2. Define **Expected Free Energy** as the combination of pragmatic value (reward) and epistemic value (information gain).
+3. Apply tree-based reasoning to plan under uncertainty.
 
 ## Introduction
 
-This module explores **Planning**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Planning is a critical component of the 8-part Active Inference spine, bridging the gap between Communication and Systems.
+Planning is thinking ahead — imagining future possibilities and choosing the path that leads to the best outcome. Mathematically, planning requires evaluating possible futures *before acting*. This module introduces decision trees and connects them to the Active Inference concept of Expected Free Energy.
 
 ## Key Concepts
 
-### 1. Planning as a Markov Blanket Boundary
-How does Planning define the boundary between the agent and the environment?
+### 1. Decision Trees
 
-### 2. Generative Models of Planning
-What parameters involved in Planning must be optimized to minimize variational free energy?
+A **decision tree** is a branching diagram where each node represents a choice or chance event, and each branch represents a possible outcome with an associated probability and value.
 
-### 3. Active Inference Dynamics
-How does the process of Planning drive the perception-action loop?
+**Example**: You have a free Saturday. Option A: go to the beach (70% chance of sun → great day, 30% chance of rain → miserable). Option B: go to the movies (100% chance of a decent time). Expected value of A = $0.7 \times 10 + 0.3 \times 2 = 7.6$. Expected value of B = $1.0 \times 7 = 7.0$. The beach has higher expected value, but also higher risk.
+
+### 2. Expected Free Energy (EFE)
+
+In Active Inference, planning is formalized as minimizing **Expected Free Energy** (EFE), which has two components:
+
+$$G(\pi) = \underbrace{-\mathbb{E}[\ln P(o \mid C)]}_{\text{Pragmatic Value}} + \underbrace{-\mathbb{E}[\text{information gain}]}_{\text{Epistemic Value}}$$
+
+- **Pragmatic Value**: "Does this plan get me what I want?" (reaching preferred outcomes)
+- **Epistemic Value**: "Does this plan help me learn something new?" (reducing uncertainty about hidden states)
+
+An agent with only pragmatic value would always exploit. An agent with only epistemic value would always explore. EFE naturally balances both.
+
+### 3. Multi-Step Planning
+
+Real planning involves chains of decisions. A chess player does not just consider the next move — they simulate sequences of moves and counter-moves, building a tree of possibilities. The deeper the tree, the better the plan, but the more computationally expensive. Active Inference agents plan by mentally simulating policy trajectories and selecting the one with the lowest expected free energy.
 
 ## Applications
 
-In High School, we see Planning manifest in:
-*   **Specific Example 1**: Decision trees in probability class are mathematical planning structures: at each branch point you evaluate the expected value E[X] = sum(x_i * p_i) of each possible outcome, and the rational plan follows the path that maximizes expected reward (or equivalently minimizes expected free energy) -- for example, deciding whether to study for two tests by calculating which allocation of study hours minimizes your total expected grade loss.
-*   **Specific Example 2**: The shortest-path algorithms you learn in discrete math (like Dijkstra's algorithm) formalize planning as mathematical optimization: the algorithm evaluates all possible routes through a weighted graph, maintains a priority queue of candidates ranked by cumulative cost, and greedily selects the path that minimizes total distance -- this is precisely how Active Inference agents plan by evaluating policies and selecting the one with lowest expected free energy across future time steps.
+- **College Applications**: Students can model their college decision as a decision tree with branches for acceptance probability, financial aid, career outcomes, and campus fit.
+- **Game Theory**: In a simple negotiation (e.g., splitting $10 with a partner), the ultimatum game shows how planning must incorporate models of *other agents'* decisions.
 
-## Conclusion
+## Discussion Questions
 
-Understanding Planning allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+1. Using the beach vs. movie example, what happens if you are *risk-averse* (you hate bad outcomes more than you love good ones)? How would you change the math?
+2. A chess engine plans 20 moves ahead. A human grandmaster plans only 3-5 but picks better positions by "intuition." How does each strategy relate to the exploration-exploitation trade-off?
+
+## Summary
+
+Planning is evaluating future possibilities before acting. Decision trees organize these possibilities. Expected Free Energy combines the desire for good outcomes (pragmatic value) with the drive to learn (epistemic value), providing a unified mathematical account of planning under uncertainty.
+
+## References
+
+- Kahneman, D. (2011). *Thinking, Fast and Slow*. Chapters 25-26.
+- Da Costa, L. et al. (2020). Active inference on discrete state-spaces. *Journal of Mathematical Psychology*, 99, 102447.

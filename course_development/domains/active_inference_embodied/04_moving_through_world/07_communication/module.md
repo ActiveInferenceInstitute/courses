@@ -1,32 +1,57 @@
-# Module 07: Communication in Embodied
+# Module 07: Communication in Embodied Cognition — Movement as Message
 
 ## Learning Objectives
 
-1.  Define **Communication** within the context of Embodied.
-2.  Analyze how Communication interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Embodied to the formal definition of Communication.
+1. Define **embodied communication** as the transmission of information through bodily movement, gesture, postural signaling, and spatial behavior during world-engaged action.
+2. Analyze how **gaze direction, pointing, pace-matching, and proxemics** implement coupled Active Inference between co-moving agents.
+3. Apply the framework to understand coordination in groups moving through shared environments.
 
 ## Introduction
 
-This module explores **Communication**. In the **Embodied** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Communication is a critical component of the 8-part Active Inference spine, bridging the gap between Learning and Planning.
+Two hikers on a mountain trail communicate continuously without speaking a word. The leader's pace signals the difficulty of the terrain ahead. A pause and backward glance means "check this out." A hand raised palm-forward means "stop — danger." Walking closer together signals solidarity or concern; spreading apart signals confidence in the terrain. Movement itself is a communication channel.
 
 ## Key Concepts
 
-### 1. Communication as a Markov Blanket Boundary
-How does Communication define the boundary between the agent and the environment?
+### 1. Locomotor Communication
 
-### 2. Generative Models of Communication
-What parameters involved in Communication must be optimized to minimize variational free energy?
+When agents move through the world together, their movement patterns become a communication channel:
 
-### 3. Active Inference Dynamics
-How does the process of Communication drive the perception-action loop?
+- **Pace-matching**: Walking at the same speed signals social affiliation and shared state — pace mismatch (one person walking faster) signals divergent goals or attention
+- **Path selection**: The agent who leads selects the path, implicitly communicating their assessment of terrain difficulty and route quality
+- **Gait modification**: Slowing down, shortening stride, or turning sideways to face a companion are all active states that cross the social Markov blanket, communicating internal states (fatigue, attention, concern) to co-travelers
+
+### 2. Gestural Communication in Movement
+
+**Pointing**, **nodding**, and **directional gaze** are particularly powerful during movement:
+
+- A pointed finger during a hike directs the companion's visual inference to a specific environmental feature — reducing their spatial uncertainty about what to attend to
+- Gaze direction during navigation communicates attentional priorities — "my eyes are on the ground" signals treacherous footing; "my eyes are scanning the horizon" signals search behavior
+- **Joint attention** (both agents attending to the same environmental feature) is generalized synchrony made visible — the agents' generative models become aligned on a shared object of inference
+
+### 3. Proxemics: Space as Social Signal
+
+**Proxemics** (Hall, 1966) describes how the distance between agents communicates social information:
+
+- **Intimate distance** (0-18 inches): Reserved for close relationships — the Markov blankets of the two agents nearly overlap, enabling direct interoceptive resonance
+- **Personal distance** (18 inches-4 feet): Conversational range — verbal and non-verbal channels are both active
+- **Social distance** (4-12 feet): Professional interaction — verbal channel dominates; non-verbal signals are attenuated
+- **Public distance** (12+ feet): Performance or crowd — only large gestures and projected voice cross the blanket
+
+During movement through the world, proxemic distance signals trust, alertness, and social hierarchy — a bodyguard walks at personal distance but on the threat side; a subordinate walks a half-step behind.
+
+### 4. Coordinated Group Movement
+
+Groups moving through the world exhibit emergent coordination patterns:
+
+- **Formation**: Military patrols, sports teams, and even casual friend groups adopt characteristic spatial formations that communicate roles (point person, rear guard, flanker)
+- **Synchrony**: Matched step timing, rhythm, and pace create **group cohesion** — marching in step increases cooperative behavior and trust (Wiltermuth & Heath, 2009)
+- **Breakdown**: When group coordination fails (members separate, lose visual contact, or adopt conflicting paths), the collective Markov blanket dissolves — the "group agent" ceases to exist
 
 ## Applications
 
-In Embodied, we see Communication manifest in:
-*   **Specific Example 1**: In partner dancing (tango, contact improvisation), the lead communicates the next movement not through words but through subtle shifts of weight, pressure through the hands, and directional intention felt through the torso; the follow's body receives these signals at the tactile Markov blanket and her generative model predicts the incoming movement trajectory, creating a shared predictive loop where two bodies communicate entire movement sequences through the embodied language of pressure, momentum, and spatial intention.
-*   **Specific Example 2**: A basketball team executing a fast break communicates through coordinated movement -- a point guard's change of pace signals the wing to cut, a head fake communicates misdirection to the defense, and the timing of a bounce pass conveys expected arrival position; this movement-based communication operates through shared generative models where each player's body predicts the others' trajectories, creating a distributed active inference system where social coordination emerges from aligned embodied predictions rather than verbal instruction.
+- **Search and rescue teamwork**: A search team's formation and movement patterns communicate coverage strategy — spreading apart signals "sweep search," converging signals "focus found." Team leaders modulate the group's spatial configuration through their own movement, not through verbal commands.
+- **Dance as communication**: Partner dance (tango, swing, contact improvisation) is the purest form of embodied communication during movement — each partner's movement is simultaneously an action and a message, a prediction about the other's movement and an invitation for the other's response.
 
 ## Conclusion
 
-Understanding Communication allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Communication during movement through the world operates through locomotor signals, gestural direction, proxemic spacing, and group coordination. These channels implement coupled Active Inference — each agent's movements serve as observations for the other, creating a bilateral inference loop that underlies cooperative navigation. The next module examines planning in the context of world-engaged movement.

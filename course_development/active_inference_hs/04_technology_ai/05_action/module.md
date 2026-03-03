@@ -1,32 +1,50 @@
-# Module 05: Action in High School
+# Module 05: Action — Robotics and Embodied AI
 
 ## Learning Objectives
 
-1.  Define **Action** within the context of High School.
-2.  Analyze how Action interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of High School to the formal definition of Action.
+1. Describe the **sense-plan-act** architecture of a physical robot.
+2. Explain how **actuators** (motors, servos) implement actions selected by the robot's control algorithm.
+3. Connect the robotics control loop to the Active Inference predict-correct-act cycle.
 
 ## Introduction
 
-This module explores **Action**. In the **High School** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between Cognition and Learning.
+A robot is Active Inference made physical. Unlike a chatbot that only manipulates text, a robot manipulates the *physical world*: it picks up objects, navigates rooms, and assembles products. This module explores how robots turn computational decisions into physical actions — and the unique challenges that embodiment creates.
 
 ## Key Concepts
 
-### 1. Action as a Markov Blanket Boundary
-How does Action define the boundary between the agent and the environment?
+### 1. The Robotics Control Loop
 
-### 2. Generative Models of Action
-What parameters involved in Action must be optimized to minimize variational free energy?
+Every robot runs a tight loop:
 
-### 3. Active Inference Dynamics
-How does the process of Action drive the perception-action loop?
+1. **Sense**: Read sensors (LIDAR, cameras, force sensors, encoders)
+2. **Plan**: Run the control algorithm (compare sensor data to goals)
+3. **Act**: Send commands to actuators (motors, grippers, speakers)
+4. **Repeat**: At 10-1000 Hz
+
+This is the Active Inference perception-action loop implemented in hardware.
+
+### 2. Degrees of Freedom
+
+A **degree of freedom (DOF)** is one independent axis of motion. Your arm has 7 DOF (shoulder: 3, elbow: 1, wrist: 3). An industrial robot arm typically has 6 DOF. A self-driving car has effectively 2 (steering angle and speed). More DOF = more flexibility, but also more parameters the controller must manage.
+
+### 3. Sim-to-Real Transfer
+
+Training a robot in the real world is slow and expensive (robots break!). Modern robotics trains in a **simulation environment** first, then transfers the learned policy to the real robot. The gap between simulation and reality creates prediction errors that the robot must adapt to — this is the "sim-to-real" problem, and it maps directly onto Active Inference's concept of model mismatch.
 
 ## Applications
 
-In High School, we see Action manifest in:
-*   **Specific Example 1**: A robot vacuum like Roomba performs Active Inference action: it predicts clear floor space using its bump sensors and infrared cliff detectors, and when it hits an unexpected obstacle (prediction error), it immediately changes direction -- its action policy is to follow the path that minimizes the expected surprise of collisions, gradually building a map of the room through accumulated prediction errors.
-*   **Specific Example 2**: Autocorrect on your phone is an action system driven by Active Inference: the keyboard predicts what word you intend to type based on a language model and your typing patterns, and when the prediction error between your actual keystrokes and the predicted word exceeds a threshold, it takes the action of substituting the most probable correction -- which is why it sometimes "corrects" unusual words you actually intended to type.
+* **Warehouse Robots**: Amazon's Kiva robots navigate warehouses using a grid-based coordinate system. Each robot predicts traffic patterns and adjusts its path to avoid collisions.
+* **Surgical Robots**: The Da Vinci surgical system translates a surgeon's hand movements into micro-precise robotic actions. The robot's control system must maintain sub-millimeter accuracy while compensating for tissue deformation (prediction errors from unexpected material properties).
 
-## Conclusion
+## Discussion Questions
 
-Understanding Action allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+1. A self-driving car's steering controller and a brain controlling your arm both implement the same predict-correct loop. What is one key difference?
+2. Why is the "sim-to-real" gap a problem? How might Active Inference help a robot adapt to reality faster?
+
+## Summary
+
+Robots turn computational decisions into physical actions through actuators. The robotics control loop (sense-plan-act) is the embodied version of Active Inference. Sim-to-real transfer highlights the challenge of model mismatch between simulated and real environments.
+
+## References
+
+* Siciliano, B. et al. (2009). *Robotics: Modelling, Planning and Control*. Chapter 1.

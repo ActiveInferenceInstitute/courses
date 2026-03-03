@@ -7,6 +7,7 @@
 1. Implement **Dirichlet parameter learning** for the A and B matrices.
 2. Code the **learning rate decay** that naturally emerges from concentration parameters.
 3. Build an agent that **learns from experience** and improves over time.
+4. Implement **Bayesian Model Reduction** for structure learning.
 
 ## Key Concepts
 
@@ -127,10 +128,76 @@ def run_learning_experiment(agent, env, num_episodes=5, steps_per_episode=20):
     return all_rewards
 ```
 
+### 3. Learning Convergence Analysis
+
+```python
+def analyze_learning_convergence(agent, true_A):
+    """Measure how close the learned A matrix is to the true one."""
+    # Frobenius norm of the difference
+    error = np.linalg.norm(agent.A - true_A, 'fro')
+    
+    # KL divergence per column (observation distribution per state)
+    kl_per_state = []
+    for s in range(true_A.shape[1]):
+        p = true_A[:, s]
+        q = agent.A[:, s]
+        kl = (p * (np.log(p + 1e-16) - np.log(q + 1e-16))).sum()
+        kl_per_state.append(kl)
+    
+    # Effective sample size (total concentration minus prior)
+    effective_samples = agent.a.sum() - agent.a.shape[0] * agent.a.shape[1]
+    
+    return {
+        'frobenius_error': error,
+        'kl_per_state': kl_per_state,
+        'mean_kl': np.mean(kl_per_state),
+        'effective_samples': effective_samples,
+        'learning_rate': agent.get_effective_learning_rate()
+    }
+```
+
+> **Key insight**: The Frobenius error decreases as O(1/√N) with the number of observations N, while the KL divergence decreases as O(1/N). This means the agent's model becomes exponentially more precise with experience — but the rate depends on the prior strength. A strong wrong prior requires many observations to overcome.
+
+### 4. Bayesian Model Reduction
+
+**Bayesian Model Reduction** (BMR) enables structure learning — pruning unnecessary model components without re-evaluating all the data:
+
+```python
+def bayesian_model_reduction(agent, threshold=0.1):
+    """
+    Prune weak connections from the A matrix using BMR.
+    
+    If a concentration parameter is close to its prior, the connection
+    contributes little and can be removed (set to zero).
+    """
+    # Compare posterior to prior
+    a_prior_flat = np.ones_like(agent.a)  # assuming uniform prior
+    delta_a = agent.a - a_prior_flat
+    
+    # Connections that haven't been significantly updated
+    weak_connections = np.abs(delta_a) < threshold
+    
+    # Zero out weak connections
+    reduced_a = agent.a.copy()
+    reduced_a[weak_connections] = 1e-6  # near-zero concentration
+    
+    reduced_A = agent._dirichlet_mean(reduced_a, axis=0)
+    
+    n_pruned = weak_connections.sum()
+    print(f"BMR: pruned {n_pruned}/{agent.a.size} connections "
+          f"({100*n_pruned/agent.a.size:.1f}%)")
+    
+    return reduced_A, reduced_a
+```
+
+> **Why this matters**: BMR allows the agent to simplify its model after learning — keeping only the connections that are genuinely supported by data. This is the computational analog of synaptic pruning in the developing brain.
+
 ## Summary
 
-Parameter learning updates concentration parameters of Dirichlet distributions governing A and B matrices. The effective learning rate decreases naturally with experience. Over episodes, the agent's model converges toward the true environment dynamics.
+Parameter learning updates concentration parameters of Dirichlet distributions governing A and B matrices. The effective learning rate decreases naturally with experience as O(1/total_concentration). Over episodes, the agent's model converges toward the true environment dynamics, with convergence measurable via Frobenius error and KL divergence. Bayesian Model Reduction enables post-hoc structure learning by pruning unsupported connections.
 
 ## Further Reading
 
 - Friston, K. J. et al. (2016). Active inference and learning. *Neuroscience & Biobehavioral Reviews*, 68, 862-879.
+- Friston, K. J. et al. (2018). Bayesian model reduction. *NeuroImage*, 199, 635-648.
+- Da Costa, L. et al. (2020). Active inference on discrete state-spaces: A synthesis. *Journal of Mathematical Psychology*, 99, 102447.

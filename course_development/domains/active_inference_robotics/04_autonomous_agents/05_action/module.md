@@ -1,32 +1,58 @@
-# Module 05: Action in Robotics
+# Module 05: Action in Robotics — Autonomous Decision and Execution
 
 ## Learning Objectives
 
-1.  Define **Action** within the context of Robotics.
-2.  Analyze how Action interacts with other components of the Active Inference framework.
-3.  Apply specific constraints of Robotics to the formal definition of Action.
+1. Define **autonomous action** as self-directed policy execution that selects and performs motor behaviors without human oversight.
+2. Analyze how autonomous agents choose between **exploitation** (executing known effective policies) and **exploration** (testing new behaviors to improve the model).
+3. Apply the Expected Free Energy framework to explain autonomous action in unstructured environments.
 
 ## Introduction
 
-This module explores **Action**. In the **Robotics** curriculum, we approach this topic with a focus on specific applications and theoretical depth appropriate for the audience. Action is a critical component of the 8-part Active Inference spine, bridging the gap between Cognition and Learning.
+An autonomous robot's action repertoire must be far richer than a teleoperated or pre-programmed robot's — it must independently decide *what* to do, *when* to do it, and *how* to adjust when things don't go as planned. This module examines autonomous action: the capacity to select, execute, and adapt motor policies in real time without human guidance.
 
 ## Key Concepts
 
-### 1. Action as a Markov Blanket Boundary
-How does Action define the boundary between the agent and the environment?
+### 1. Policy Selection Under Uncertainty
 
-### 2. Generative Models of Action
-What parameters involved in Action must be optimized to minimize variational free energy?
+Autonomous agents select actions from a policy library by evaluating Expected Free Energy:
 
-### 3. Active Inference Dynamics
-How does the process of Action drive the perception-action loop?
+- **Known-good policies**: Actions the agent has executed before with reliable outcomes — high-precision model predictions, low EFE → exploitation
+- **Novel policies**: Actions the agent hasn't tried — uncertain outcomes, but potentially high information gain → exploration
+- **Emergency policies**: Pre-specified responses to dangerous situations (collision imminent → emergency stop) — override all other policy selection
+
+The EFE naturally balances these: early in a task or in an unfamiliar environment, epistemic value dominates (exploration); as the model matures, pragmatic value dominates (exploitation).
+
+### 2. Task and Motion Planning Integration (TAMP)
+
+Autonomous action requires integrating **symbolic task planning** (what sequence of actions achieves the goal?) with **continuous motion planning** (what trajectory executes each action?):
+
+- Task layer: "Pick up the object → Move to the target → Place the object" (symbolic action sequence)
+- Motion layer: "Joint trajectory from configuration A to B that avoids obstacles" (continuous optimization)
+- TAMP integrates both: the task planner proposes symbolic plans, the motion planner checks feasibility, and infeasible plans are rejected and re-planned
+
+### 3. Failure Recovery
+
+Autonomous agents must detect and recover from action failures:
+
+- **Grasp failure**: The object slips during manipulation → detect through tactile prediction error → re-plan grasp
+- **Navigation failure**: The planned path is blocked → detect through perception → re-plan route
+- **Task failure**: The overall task cannot be completed → escalate to human operator or modify the goal
+
+Failure detection is Active Inference surprise detection: a spike in prediction error signals that the current policy is not achieving its predicted outcomes.
+
+### 4. Human-Aware Action
+
+Autonomous robots operating near humans must consider human comfort, predictability, and safety:
+
+- **Legible motion**: The robot's movements should telegraph its intentions — humans should be able to predict what the robot will do next
+- **Socially compliant navigation**: The robot should follow implicit social rules (yield to humans, maintain personal space, move at comfortable speeds)
+- **Proactive assistance**: An autonomous assistant should predict human needs and act pre-emptively (pre-positioning tools, clearing workspace, opening doors)
 
 ## Applications
 
-In Robotics, we see Action manifest in:
-*   **Specific Example 1**: An autonomous race car (such as those in the Indy Autonomous Challenge) executes high-speed overtaking maneuvers at 250+ km/h by generating action commands through a nonlinear MPC that minimizes expected free energy over a 2-second horizon: the pragmatic component drives the car toward the optimal racing line while the risk-aversion component penalizes trajectories that come within unsafe distances of competitors, with tire-force saturation limits encoded as hard constraints on the action space that the generative model must respect.
-*   **Specific Example 2**: An autonomous agricultural robot performing selective weeding uses a delta-mechanism actuator to precisely strike individual weeds detected by an overhead camera at 20 targets per second; each strike action is generated by minimizing the prediction error between the desired impact point (weed centroid from vision) and the predicted tool tip position (from the delta kinematic model), with the active inference loop running at 200 Hz to compensate for plant sway due to wind and vehicle vibration during field operation.
+- **Autonomous bin picking**: A warehouse robot autonomously selects grasp strategies for randomly oriented parts in a bin — evaluating grasp quality (pragmatic EFE) and part identification confidence (epistemic EFE), executing the best grasp, and recovering from failures by re-sensing and re-planning.
+- **Autonomous eldercare assistant**: A home robot autonomously performs routine assistance tasks — fetching medication, clearing dishes, monitoring wellness — using human-aware motion planning that adapts its speed and approach direction to the resident's comfort and cognitive state.
 
 ## Conclusion
 
-Understanding Action allows us to better model complex adaptive systems. In the next module, we will expand on this foundation.
+Autonomous action integrates policy selection, task-motion planning, failure recovery, and human-aware behavior. Each component implements Active Inference at different levels — from low-level motor execution to high-level task strategy. The next module examines autonomous learning.
