@@ -11,6 +11,15 @@ institute:
   maturity: released
   steward: Active Inference Institute
 ecosystem:
+  relations:
+  - repo: ActiveInferenceInstitute/InstituteOS
+    relation: referenced-by
+    note: Federated via the InstituteOS .aii manifest.
+  - repo: ActiveInferenceInstitute/Active_Inference_Ontology
+    note: Uses Active Inference Ontology terms.
+  - repo: ActiveInferenceInstitute/ActiveInferenceJournal
+    relation: referenced-by
+    note: Featured in Institute materials.
   links:
     github: https://github.com/ActiveInferenceInstitute/courses
     website: https://www.activeinference.org
@@ -18,6 +27,10 @@ artifacts:
 - path: README.md
   kind: doc
   description: Repository overview.
+provenance:
+  license: CC-BY-4.0
+  citation:
+    text: Active Inference Institute — courses.
 instituteos:
   tags:
   - courses
@@ -26,3 +39,7 @@ instituteos:
   - html
 capabilities:
 - tested
+tasks:
+  inventory:
+    cmd: git ls-files
+    description: List tracked files.
