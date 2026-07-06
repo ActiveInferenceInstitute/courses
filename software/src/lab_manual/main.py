@@ -2,26 +2,21 @@
 
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 from . import config
 from .utils import (
     LabElement,
     TableConfig,
     create_data_table_html,
-    create_feasibility_html,
     create_lab_header_html,
     create_measurement_table_html,
     create_object_selection_html,
-    create_reflection_html,
     ensure_output_directory,
     expand_fillable_fields,
     get_output_path,
     html_to_pdf,
     markdown_to_html,
-    parse_object_selection,
-    parse_reflection,
-    parse_table_directive,
     read_markdown_file,
 )
 

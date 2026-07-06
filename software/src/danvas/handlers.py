@@ -8,7 +8,7 @@ arguments.  This keeps business logic separate from HTTP plumbing.
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from . import config, templates
+from . import templates
 from .announcements import get_announcements, post_announcement
 from .calendar_events import add_event, get_events
 from .discovery import discover_courses, get_course_by_id, get_course_modules

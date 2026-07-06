@@ -1,7 +1,5 @@
 """Tests for schedule utility functions."""
 
-import tempfile
-from pathlib import Path
 
 import pytest
 

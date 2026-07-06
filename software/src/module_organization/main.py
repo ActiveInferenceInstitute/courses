@@ -5,7 +5,6 @@ from typing import Any, Dict, List
 
 from . import config
 from .utils import (
-    check_directory_exists,
     check_file_exists,
     ensure_directory_exists,
     get_module_path,

@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from src.course_config.config import CONFIG_FILENAME, DEFAULT_CONFIG, VALID_SECTIONS
+from src.course_config.config import CONFIG_FILENAME, DEFAULT_CONFIG
 from src.course_config.utils import (
     deep_merge,
     find_config_chain,

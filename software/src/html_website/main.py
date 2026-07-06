@@ -1,13 +1,12 @@
 """Main functions for HTML website generation."""
 
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 from . import config
 from ..batch_processing.logging_config import get_logger
 from .utils import (
     ensure_output_directory,
-    extract_quiz_questions,
     find_audio_file,
     find_questions_file,
     find_text_file,

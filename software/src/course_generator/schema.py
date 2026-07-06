@@ -9,7 +9,6 @@ Dataclasses that encode the structure of any curriculum at three levels:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional
 
 
 # ─── Shared constants ───────────────────────────────────────────────────────

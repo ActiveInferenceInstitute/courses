@@ -170,7 +170,7 @@ def generate_quiz_content(module_data: Dict[str, Any], course_info: Dict[str, An
     # Assemble the quiz
     quiz_lines = [
         f"# Module Quiz: {subtitle or title}\n",
-        f"**Name**: _________________________ **Date**: _____________\n",
+        "**Name**: _________________________ **Date**: _____________\n",
         "---\n",
         "## Part A: Multiple Choice\n",
         "*Choose the best answer for each question.*\n",

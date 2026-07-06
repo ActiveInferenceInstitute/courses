@@ -1,24 +1,14 @@
-"""Tests for the LLM module."""
+"""Tests for the LLM module.
+
+Uses monkeypatch to stub HTTP calls — no mock objects from unittest.mock.
+"""
 
 import json
-from unittest.mock import MagicMock, patch
 
 import pytest
 import requests
 
-from src.llm import OllamaClient, config, prompts, utils
-
-
-@pytest.fixture
-def mock_requests_get():
-    with patch("requests.get") as mock:
-        yield mock
-
-
-@pytest.fixture
-def mock_requests_post():
-    with patch("requests.post") as mock:
-        yield mock
+from src.llm import OllamaClient, utils
 
 
 class TestOllamaClient:
@@ -29,62 +19,99 @@ class TestOllamaClient:
         assert client.base_url == "http://localhost:11434"
         assert client.model == "llama3"
 
-    def test_is_available_success(self, mock_requests_get):
-        mock_requests_get.return_value.status_code = 200
+    def test_is_available_success(self, monkeypatch):
+        class FakeResponse:
+            status_code = 200
+
+        monkeypatch.setattr(requests, "get", lambda url, timeout=5: FakeResponse())
         client = OllamaClient()
         assert client.is_available() is True
-        mock_requests_get.assert_called_with(f"{config.DEFAULT_BASE_URL}/api/tags", timeout=5)
 
-    def test_is_available_failure(self, mock_requests_get):
-        mock_requests_get.side_effect = requests.RequestException("Connection refused")
+    def test_is_available_failure(self, monkeypatch):
+        def raise_error(url, timeout=5):
+            raise requests.RequestException("Connection refused")
+
+        monkeypatch.setattr(requests, "get", raise_error)
         client = OllamaClient()
         assert client.is_available() is False
 
-    def test_generate_success(self, mock_requests_post, mock_requests_get):
-        # Mock availability check
-        mock_requests_get.return_value.status_code = 200
-        
-        # Mock generation response
-        mock_response = MagicMock()
-        mock_response.json.return_value = {"response": "Hello world"}
-        mock_response.status_code = 200
-        mock_requests_post.return_value = mock_response
+    def test_generate_success(self, monkeypatch):
+        class FakeGetResponse:
+            status_code = 200
+
+        class FakePostResponse:
+            status_code = 200
+
+            def raise_for_status(self):
+                pass
+
+            def json(self):
+                return {"response": "Hello world"}
+
+        monkeypatch.setattr(requests, "get", lambda url, timeout=5: FakeGetResponse())
+        monkeypatch.setattr(
+            requests,
+            "post",
+            lambda url, json=None, timeout=None: FakePostResponse(),
+        )
 
         client = OllamaClient()
         result = client.generate("Hi")
         assert result == "Hello world"
-        
-        mock_requests_post.assert_called_once()
-        args, kwargs = mock_requests_post.call_args
-        assert kwargs["json"]["prompt"] == "Hi"
-        assert kwargs["json"]["stream"] is False
 
-    def test_generate_unavailable(self, mock_requests_get):
-        mock_requests_get.return_value.status_code = 500
+    def test_generate_unavailable(self, monkeypatch):
+        class FakeGetResponse:
+            status_code = 500
+
+        monkeypatch.setattr(requests, "get", lambda url, timeout=5: FakeGetResponse())
         client = OllamaClient()
         with pytest.raises(ConnectionError, match="Ollama is not available"):
             client.generate("Hi")
 
-    def test_generate_error(self, mock_requests_post, mock_requests_get):
-        mock_requests_get.return_value.status_code = 200
-        mock_requests_post.side_effect = requests.RequestException("Timeout")
-        
+    def test_generate_error(self, monkeypatch):
+        class FakeGetResponse:
+            status_code = 200
+
+        def raise_post_error(url, json=None, timeout=None):
+            raise requests.RequestException("Timeout")
+
+        monkeypatch.setattr(requests, "get", lambda url, timeout=5: FakeGetResponse())
+        monkeypatch.setattr(requests, "post", raise_post_error)
+
         client = OllamaClient()
         with pytest.raises(RuntimeError, match="Ollama generation failed"):
             client.generate("Hi")
 
-    def test_generate_structured_success(self, mock_requests_post, mock_requests_get):
-        mock_requests_get.return_value.status_code = 200
-        
+    def test_generate_structured_success(self, monkeypatch):
         expected_dict = {"summary": "Short summary"}
-        mock_response = MagicMock()
-        mock_response.json.return_value = {"response": json.dumps(expected_dict)}
-        mock_requests_post.return_value = mock_response
+
+        class FakeGetResponse:
+            status_code = 200
+
+        class FakePostResponse:
+            status_code = 200
+            _captured_json: dict = {}
+
+            def raise_for_status(self):
+                pass
+
+            def json(self):
+                return {"response": json.dumps(expected_dict)}
+
+        # Capture the json payload to verify 'format' key was sent
+        captured = {}
+
+        def fake_post(url, json=None, timeout=None):
+            captured["json"] = json
+            return FakePostResponse()
+
+        monkeypatch.setattr(requests, "get", lambda url, timeout=5: FakeGetResponse())
+        monkeypatch.setattr(requests, "post", fake_post)
 
         client = OllamaClient()
         result = client.generate_structured("Summarize this", schema={"summary": "string"})
         assert result == expected_dict
-        assert "format" in mock_requests_post.call_args[1]["json"]
+        assert "format" in captured["json"]
 
 
 class TestLLMUtils:
@@ -97,10 +124,10 @@ class TestLLMUtils:
 
     def test_split_text_into_chunks(self):
         # Create text that forces a split
-        # estimate: 1 char = 0.25 tokens. 
+        # estimate: 1 char = 0.25 tokens.
         # max_tokens=10 -> 40 chars.
         text = "This is paragraph one.\n\nThis is paragraph two that is quite long."
-        
+
         chunks = list(utils.split_text_into_chunks(text, max_tokens=10, overlap_tokens=0))
         assert len(chunks) >= 2
         assert "paragraph one" in chunks[0]

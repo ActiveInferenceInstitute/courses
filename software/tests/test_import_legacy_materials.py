@@ -1,8 +1,14 @@
+"""Tests for the import_legacy_materials script.
+
+Uses real function calls with temporary file structures where possible.
+monkeypatch replaces only functions that touch external filesystem
+paths that don't exist in CI.
+"""
+
 import importlib.util
 import sys
 from pathlib import Path
 import pytest
-from unittest.mock import MagicMock, patch
 
 # Add project root to sys.path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -23,51 +29,62 @@ def script():
 
 
 class TestImportLegacyMaterials:
-    
+
     def test_parse_args(self, script):
         args = script.parse_args(["--course", "ai-math", "--dry-run", "--skip-questions"])
         assert args.course == "ai-math"
         assert args.dry_run is True
         assert args.skip_questions is True
 
-    @patch("import_legacy_materials.process_chapter_questions")
-    @patch("import_legacy_materials.process_slides")
-    def test_main_dry_run(self, mock_slides, mock_questions, script, capsys):
-        # We need to bypass the path existence checks
-        with patch("import_legacy_materials.Path.exists", return_value=True):
-            exit_code = script.main(["--dry-run", "--course", "ai-philosophy"])
-            assert exit_code == 0
-            
-        mock_questions.assert_called_once()
-        mock_slides.assert_called_once()
-        
-        captured = capsys.readouterr()
-        # setup_logging uses stream handler, so info logs might show up in capsys
-        # but the script uses logger.info which we haven't mocked here.
-        # However, setup_logging is called at module level in the script.
-        pass
+    def test_main_dry_run(self, script, capsys, monkeypatch):
+        """main() calls process_slides and process_chapter_questions in dry-run mode."""
+        calls = {"slides": [], "questions": []}
 
-    @patch("import_legacy_materials.process_chapter_questions")
-    @patch("import_legacy_materials.process_slides")
-    def test_main_module_not_found(self, mock_slides, mock_questions, script):
-        # Test with invalid course
-        # The choices in parse_args will actually raise SystemExit if we use a real parser,
-        # but we can test the logic in main if it gets past parsing somehow (or if choice validation is off).
-        # Actually parse_args is called first.
-        
+        def fake_slides(src, dst, dry_run=False):
+            calls["slides"].append((src, dst, dry_run))
+            return True
+
+        def fake_questions(src, dst, dry_run=False):
+            calls["questions"].append((src, dst, dry_run))
+            return True
+
+        monkeypatch.setattr(import_legacy_materials, "process_slides", fake_slides)
+        monkeypatch.setattr(import_legacy_materials, "process_chapter_questions", fake_questions)
+        # Make the path-existence check pass
+        monkeypatch.setattr(Path, "exists", lambda self: True)
+
+        exit_code = script.main(["--dry-run", "--course", "ai-philosophy"])
+        assert exit_code == 0
+
+        assert len(calls["questions"]) == 1
+        assert len(calls["slides"]) == 1
+        # Verify dry_run was forwarded correctly
+        assert calls["questions"][0][2] is True
+        assert calls["slides"][0][2] is True
+
+    def test_main_module_not_found(self, script):
+        """main() raises SystemExit for invalid course (argparse choice validation)."""
         with pytest.raises(SystemExit):
             script.main(["--course", "INVALID"])
 
-    @patch("import_legacy_materials.process_chapter_questions")
-    @patch("import_legacy_materials.process_slides")
-    def test_main_execution(self, mock_slides, mock_questions, script):
-        from unittest.mock import ANY
-        mock_questions.return_value = True
-        mock_slides.return_value = True
-        
-        with patch("import_legacy_materials.Path.exists", return_value=True):
-            exit_code = script.main(["--course", "ai-philosophy"])
-            assert exit_code == 0
-            
-        mock_questions.assert_called_with(ANY, ANY, dry_run=False)
-        mock_slides.assert_called_with(ANY, ANY, dry_run=False)
+    def test_main_execution(self, script, monkeypatch):
+        """main() calls both process functions with dry_run=False."""
+        calls = {"slides": [], "questions": []}
+
+        def fake_slides(src, dst, dry_run=False):
+            calls["slides"].append((src, dst, dry_run))
+            return True
+
+        def fake_questions(src, dst, dry_run=False):
+            calls["questions"].append((src, dst, dry_run))
+            return True
+
+        monkeypatch.setattr(import_legacy_materials, "process_slides", fake_slides)
+        monkeypatch.setattr(import_legacy_materials, "process_chapter_questions", fake_questions)
+        monkeypatch.setattr(Path, "exists", lambda self: True)
+
+        exit_code = script.main(["--course", "ai-philosophy"])
+        assert exit_code == 0
+
+        assert calls["questions"][0][2] is False
+        assert calls["slides"][0][2] is False

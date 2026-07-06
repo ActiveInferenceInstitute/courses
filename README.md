@@ -1,6 +1,6 @@
 # 🧠 Active Inference Institute — Courses
 
-[![Courses](https://img.shields.io/badge/courses-14-blue)](software/docs/COURSE_CATALOG.md)
+[![Courses](https://img.shields.io/badge/courses-14%2B1_archive-blue)](software/docs/COURSE_CATALOG.md)
 [![Modules](https://img.shields.io/badge/modules-464+-green)](software/docs/MODULES.md)
 [![Formats](https://img.shields.io/badge/output_formats-6-orange)](software/docs/QUICKSTART.md)
 [![Tests](https://img.shields.io/badge/tests-1021_passing-brightgreen)](software/docs/TESTING.md)
@@ -8,7 +8,7 @@
 
 > **Minimize surprise. Maximize evidence.**
 
-Welcome to the open-source curriculum infrastructure for **Active Inference education**. This repository hosts **14 complete courses** spanning Kindergarten to PhD, powered by a modular **Python publishing engine**.
+Welcome to the open-source curriculum infrastructure for **Active Inference education**. This repository hosts **14 complete courses** spanning Kindergarten to PhD (plus 1 YouTube transcript archive — 17 total entries in `COURSE_REGISTRY`), powered by a modular **Python publishing engine**.
 
 Maintained by **Dr. Daniel Ari Friedman** ([@docxology](https://github.com/docxology)) at the [Active Inference Institute](https://activeinference.institute).
 

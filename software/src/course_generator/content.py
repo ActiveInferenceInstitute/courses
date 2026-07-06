@@ -1014,9 +1014,9 @@ def _generate_mc_questions(
             "stem": f"Which of the following best describes {module.key_concepts[0]}?",
             "options": [
                 f"A) A core concept in {module.topic}",
-                f"B) An unrelated idea from a different field",
+                "B) An unrelated idea from a different field",
                 f"C) A synonym for {module.topic}",
-                f"D) None of the above",
+                "D) None of the above",
             ],
             "answer_idx": 0,
         })
@@ -1027,18 +1027,18 @@ def _generate_mc_questions(
                 f"A) It is central to understanding {module.topic}",
                 f"B) It is only relevant in {course.title}",
                 f"C) It contradicts {module.topic}",
-                f"D) It has no relationship",
+                "D) It has no relationship",
             ],
             "answer_idx": 0,
         })
     if module.learning_goals:
         questions.append({
-            "stem": f"After completing this module, you should be able to:",
+            "stem": "After completing this module, you should be able to:",
             "options": [
                 f"A) {module.learning_goals[0]}",
-                f"B) Recite the textbook from memory",
-                f"C) Ignore the topic entirely",
-                f"D) Only study for the final exam",
+                "B) Recite the textbook from memory",
+                "C) Ignore the topic entirely",
+                "D) Only study for the final exam",
             ],
             "answer_idx": 0,
         })

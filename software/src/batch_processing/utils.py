@@ -3,7 +3,7 @@
 import logging
 import re
 from pathlib import Path
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict
 
 from . import config
 
@@ -355,12 +355,12 @@ def find_modules_for_course(course_path: Path, course_id: str = None) -> List[Pa
 
     if reg:
         module_glob = reg.get("module_glob", "module-*")
-        has_course_subdir = reg.get("has_course_subdir", True)
+        has_course_subdir = reg.get("has_course_subdir", False)
         unit_glob = reg.get("unit_glob", None)
     else:
         # Default: legacy biology pattern
         module_glob = "module-*"
-        has_course_subdir = True
+        has_course_subdir = False
         unit_glob = None
 
     if has_course_subdir:

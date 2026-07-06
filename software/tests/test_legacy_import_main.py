@@ -4,12 +4,8 @@ Uses real implementations — WeasyPrint-dependent functionality is
 conditionally skipped via pytest.importorskip or pytest.skip.
 """
 
-import sys
-from pathlib import Path
-import pytest
 
 from src.legacy_import.config import get_chapter_to_module_mapping
-from src.legacy_import.utils import extract_chapter_number, create_comprehension_questions
 
 
 # Check if format_conversion is available (requires WeasyPrint system libs)

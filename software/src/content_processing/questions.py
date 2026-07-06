@@ -96,27 +96,27 @@ def generate_questions_content(module_data: Dict[str, Any], course_info: Dict[st
         if level in ("elementary", "middle"):
             lines.append(f"### Question {q_num}\n")
             lines.append(f"Think about: *{obj_clean}*\n")
-            lines.append(f"Give an example of how this works in your everyday life.\n")
+            lines.append("Give an example of how this works in your everyday life.\n")
         elif level in ("college", "graduate"):
             lines.append(f"### Question {q_num}\n")
             lines.append(f"Demonstrate your understanding: *{obj_clean}*\n")
-            lines.append(f"Construct a detailed example that illustrates this concept in action. "
-                        f"Identify the key components (beliefs, predictions, observations, actions) at each step.\n")
+            lines.append("Construct a detailed example that illustrates this concept in action. "
+                        "Identify the key components (beliefs, predictions, observations, actions) at each step.\n")
         elif level == "practitioner":
             lines.append(f"### Question {q_num}\n")
             lines.append(f"Consider: *{obj_clean}*\n")
-            lines.append(f"How have you experienced this in your own movement practice? "
-                        f"Describe a specific moment when this became apparent.\n")
+            lines.append("How have you experienced this in your own movement practice? "
+                        "Describe a specific moment when this became apparent.\n")
         elif level == "professional":
             lines.append(f"### Question {q_num}\n")
             lines.append(f"Apply: *{obj_clean}*\n")
-            lines.append(f"Design a brief intervention or process change for your organization "
-                        f"that leverages this concept. What would you measure to evaluate success?\n")
+            lines.append("Design a brief intervention or process change for your organization "
+                        "that leverages this concept. What would you measure to evaluate success?\n")
         elif level == "technical":
             lines.append(f"### Question {q_num}\n")
             lines.append(f"Apply: *{obj_clean}*\n")
-            lines.append(f"Describe a robotic scenario where this capability is essential. "
-                        f"What sensors, algorithms, and control strategies would be needed?\n")
+            lines.append("Describe a robotic scenario where this capability is essential. "
+                        "What sensors, algorithms, and control strategies would be needed?\n")
         else:
             lines.append(f"### Question {q_num}\n")
             lines.append(f"How would you apply the idea of *{obj_clean}* to a new situation? "
@@ -206,13 +206,13 @@ def generate_questions_content(module_data: Dict[str, Any], course_info: Dict[st
         )
     elif level == "practitioner":
         lines.append(
-            f"What insight from this module could you integrate into your daily practice starting today? "
-            f"Be specific about what you would do differently.\n"
+            "What insight from this module could you integrate into your daily practice starting today? "
+            "Be specific about what you would do differently.\n"
         )
     elif level == "professional":
         lines.append(
-            f"What is one organizational change, however small, that this module's insights suggest? "
-            f"How would you present this idea to a colleague who is unfamiliar with Active Inference?\n"
+            "What is one organizational change, however small, that this module's insights suggest? "
+            "How would you present this idea to a colleague who is unfamiliar with Active Inference?\n"
         )
     elif level == "technical":
         lines.append(
@@ -221,15 +221,15 @@ def generate_questions_content(module_data: Dict[str, Any], course_info: Dict[st
         )
     else:
         lines.append(
-            f"What from this module do you want to learn more about? "
-            f"What questions remain unanswered for you?\n"
+            "What from this module do you want to learn more about? "
+            "What questions remain unanswered for you?\n"
         )
     q_num += 1
 
     lines.append(f"### Question {q_num}\n")
     lines.append(
-        f"Rate your confidence in each of this module's learning objectives on a scale of 1-5. "
-        f"For any objective rated 3 or below, write one specific action you can take to improve your understanding.\n"
+        "Rate your confidence in each of this module's learning objectives on a scale of 1-5. "
+        "For any objective rated 3 or below, write one specific action you can take to improve your understanding.\n"
     )
     q_num += 1
 

@@ -2,8 +2,6 @@
 
 import re
 import subprocess
-import os
-import shutil
 from pathlib import Path
 from typing import Optional
 

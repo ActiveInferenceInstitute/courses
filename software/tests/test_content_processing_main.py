@@ -1,7 +1,5 @@
 """Tests for content_processing main module."""
 
-from pathlib import Path
-import pytest
 
 from src.content_processing.main import (
     process_questions_file,

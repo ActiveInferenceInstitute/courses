@@ -437,7 +437,8 @@ def process_module_by_type(
                     content = read_text_file(md_file)
                     text_content = extract_text_from_markdown(content)
                     generate_speech(text_content, str(audio_file))
-                    time.sleep(2)  # Add delay to avoid 429 errors
+                    if config.TTS_RATE_LIMIT_DELAY > 0:
+                        time.sleep(config.TTS_RATE_LIMIT_DELAY)  # Configurable delay to avoid 429 errors
                     results["by_type"][output_subdir].append(str(audio_file))
                     results["summary"]["mp3"] += 1
                 except Exception as e:
@@ -612,7 +613,8 @@ def process_syllabus(
                     content = read_text_file(md_file)
                     text_content = extract_text_from_markdown(content)
                     generate_speech(text_content, str(audio_file))
-                    time.sleep(2)  # Add delay to avoid 429 errors
+                    if config.TTS_RATE_LIMIT_DELAY > 0:
+                        time.sleep(config.TTS_RATE_LIMIT_DELAY)  # Configurable delay to avoid 429 errors
                     results["by_format"]["mp3"].append(str(audio_file))
                     results["summary"]["mp3"] += 1
                 except Exception as e:
@@ -742,7 +744,7 @@ def clear_all_outputs(repo_root: Path) -> Dict[str, Any]:
                 output_dirs.append(syllabus_path)
 
         # Labs output directory
-        if reg.get("has_course_subdir", True):
+        if reg.get("has_course_subdir", False):
             labs_output_path = course_path / "course" / "labs" / "output"
         else:
             labs_output_path = course_path / "labs" / "output"

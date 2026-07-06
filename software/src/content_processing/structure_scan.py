@@ -1,7 +1,6 @@
 """Core logic for structural scanning of course modules."""
 
 import re
-import json
 from pathlib import Path
 from collections import defaultdict
 from typing import Dict, List, Any, Tuple
@@ -188,7 +187,7 @@ def scan_course(course_id: str, course_config: Dict[str, Any], root_path: Path) 
                 course_issues.append({
                     "type": "missing_file",
                     "file": str(fpath),
-                    "detail": f"Required file missing"
+                    "detail": "Required file missing"
                 })
                 continue
 

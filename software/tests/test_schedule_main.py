@@ -1,7 +1,5 @@
 """Tests for schedule main module."""
 
-import tempfile
-from pathlib import Path
 
 import pytest
 

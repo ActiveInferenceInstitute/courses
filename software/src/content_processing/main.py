@@ -7,7 +7,6 @@ from typing import Optional, List
 
 from . import config
 from .utils import extract_questions_from_sectioned, format_as_continuous
-from src.batch_processing.config import COURSE_REGISTRY
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +63,8 @@ def renumber_questions_in_course(
     courses: Optional[List[str]] = None,
     module_filter: Optional[str] = None,
     dry_run: bool = False,
-    verbose: bool = False
+    verbose: bool = False,
+    course_registry: Optional[dict] = None,
 ) -> dict:
     """Renumber questions.md files in specified courses.
 
@@ -74,12 +74,19 @@ def renumber_questions_in_course(
         module_filter: Optional specific module to process (e.g., 'module-03')
         dry_run: If True, show what would be changed without writing
         verbose: If True, log detailed processing information
+        course_registry: Optional mapping of course IDs to registry metadata.
+            When provided, used to resolve course paths. Pass
+            ``batch_processing.config.COURSE_REGISTRY`` at the call site;
+            omitting it keeps content_processing free of batch_processing imports.
 
     Returns:
         Dictionary with processing results
     """
     if courses is None:
         courses = config.DEFAULT_COURSES
+
+    if course_registry is None:
+        course_registry = {}
 
     results = {
         "courses_processed": [],
@@ -89,8 +96,8 @@ def renumber_questions_in_course(
     }
 
     for course in courses:
-        if course in COURSE_REGISTRY:
-            entry = COURSE_REGISTRY[course]
+        if course in course_registry:
+            entry = course_registry[course]
             course_root = repo_root / entry["rel_path"]
             if entry.get("has_course_subdir", False):
                 course_path = course_root / config.COURSE_CONTENT_DIR
@@ -112,7 +119,11 @@ def renumber_questions_in_course(
         if module_filter:
             module_dirs = [course_path / module_filter]
         else:
-            module_dirs = sorted(course_path.glob('module-*'))
+            # Use the course-registry module_glob if available, else default to module-*
+            module_glob = 'module-*'
+            if course in course_registry:
+                module_glob = course_registry[course].get('module_glob', module_glob)
+            module_dirs = sorted(course_path.glob(module_glob))
 
         for module_dir in module_dirs:
             if not module_dir.exists():

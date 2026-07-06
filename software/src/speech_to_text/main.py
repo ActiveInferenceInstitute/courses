@@ -2,9 +2,8 @@
 
 import tempfile
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
-from . import config
 from .utils import (
     convert_audio_to_wav,
     ensure_output_directory,

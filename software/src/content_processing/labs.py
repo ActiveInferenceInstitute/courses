@@ -5,10 +5,8 @@ Refactored from software/scripts/fix_stub_labs.py.
 
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List
 
-from src.batch_processing.config import COURSE_REGISTRY
-from src.batch_processing.utils import extract_course_info_from_path as extract_course_info
 
 STUB_PATTERN = re.compile(r"explore .* through hands-on engagement", re.IGNORECASE)
 
@@ -28,7 +26,7 @@ def find_stub_labs(base: Path) -> List[Path]:
     return stubs
 
 
-from src.content_processing.utils import parse_module, get_audience_info
+from src.content_processing.utils import get_audience_info
 
 
 def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any]) -> str:
@@ -49,7 +47,7 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
     base_materials = [
         "Notebook or journal for recording observations",
         "Pen or pencil",
-        f"Access to this module's content ([module.md](./module.md))",
+        "Access to this module's content ([module.md](./module.md))",
     ]
 
     if level == "elementary":
@@ -85,7 +83,7 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
     # Build objective sentence
     lab_objectives = objectives[:3] if objectives else [
         f"explore the key concepts of {course_info['module_topic'].lower()}",
-        f"apply your understanding to real-world examples",
+        "apply your understanding to real-world examples",
         f"reflect on how {course_info['module_topic'].lower()} connects to Active Inference",
     ]
     
@@ -140,7 +138,7 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
             for i, (name, defn) in enumerate(concepts[:4]):
                 lab_lines.append(f"**{i+1}. {name}**\n")
                 lab_lines.append(f"*Hint*: {defn}\n")
-                lab_lines.append(f"Your drawing or sentence: _______________________________________________\n")
+                lab_lines.append("Your drawing or sentence: _______________________________________________\n")
         elif level == "middle":
             lab_lines.append(
                 "For each key concept below, write a one-sentence definition in your own words "
@@ -149,8 +147,8 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
             for i, (name, defn) in enumerate(concepts[:5]):
                 lab_lines.append(f"**{i+1}. {name}**\n")
                 lab_lines.append(f"- Module definition: {defn}")
-                lab_lines.append(f"- Your definition: _______________________________________________")
-                lab_lines.append(f"- Your example: _______________________________________________\n")
+                lab_lines.append("- Your definition: _______________________________________________")
+                lab_lines.append("- Your example: _______________________________________________\n")
         elif level in ("college", "graduate"):
             lab_lines.append(
                 "Create a concept map connecting the following key terms. "
@@ -175,9 +173,9 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
             for i, (name, defn) in enumerate(concepts[:4]):
                 lab_lines.append(f"**{i+1}. {name}**: {defn}\n")
                 lab_lines.append(
-                    f"- What do you notice in your body when you consider this concept?")
+                    "- What do you notice in your body when you consider this concept?")
                 lab_lines.append(
-                    f"- Where do you feel it? What quality does it have?\n")
+                    "- Where do you feel it? What quality does it have?\n")
         elif level == "professional":
             lab_lines.append(
                 "Consider each concept below in the context of your organization. "
@@ -185,7 +183,7 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
             )
             for i, (name, defn) in enumerate(concepts[:5]):
                 lab_lines.append(f"**{i+1}. {name}**: {defn}\n")
-                lab_lines.append(f"- Organizational example: _______________________________________________\n")
+                lab_lines.append("- Organizational example: _______________________________________________\n")
         elif level == "technical":
             lab_lines.append(
                 "For each concept below, describe how it would be implemented "
@@ -194,7 +192,7 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
             )
             for i, (name, defn) in enumerate(concepts[:5]):
                 lab_lines.append(f"**{i+1}. {name}**: {defn}\n")
-                lab_lines.append(f"- Implementation approach: _______________________________________________\n")
+                lab_lines.append("- Implementation approach: _______________________________________________\n")
         else:
             lab_lines.append(
                 "Review the key concepts below. For each one, write a brief "
@@ -202,7 +200,7 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
             )
             for i, (name, defn) in enumerate(concepts[:5]):
                 lab_lines.append(f"**{i+1}. {name}**: {defn}\n")
-                lab_lines.append(f"- Your example: _______________________________________________\n")
+                lab_lines.append("- Your example: _______________________________________________\n")
     else:
         # Fallback: use objectives
         lab_lines.append(
@@ -212,7 +210,7 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
         )
         for i, obj in enumerate(objectives[:4]):
             lab_lines.append(f"**{i+1}.** {obj}\n")
-            lab_lines.append(f"- Understanding (1-5): ___  Question: _______________________________________________\n")
+            lab_lines.append("- Understanding (1-5): ___  Question: _______________________________________________\n")
 
     lab_lines.append("---\n")
 
@@ -230,10 +228,10 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
             f"Find three examples of **{c1}** in the real world. "
             f"For each example:\n"
         )
-        lab_lines.append(f"1. Draw or describe what you found")
+        lab_lines.append("1. Draw or describe what you found")
         lab_lines.append(f"2. Explain why it is an example of {c1}")
         lab_lines.append(f"3. What would happen if {c1} did not work in this example?\n")
-        lab_lines.append(f"### Activity B: Teach a Friend\n")
+        lab_lines.append("### Activity B: Teach a Friend\n")
         lab_lines.append(
             f"With a partner, take turns explaining **{c2}** using only "
             f"everyday words (no textbook language). Your partner should be "
@@ -242,48 +240,48 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
     elif level == "middle":
         c1 = concepts[0][0] if concepts else course_info["module_topic"].lower()
         c2 = concepts[1][0] if len(concepts) > 1 else "this idea"
-        lab_lines.append(f"### Exercise A: Real-World Analysis\n")
+        lab_lines.append("### Exercise A: Real-World Analysis\n")
         lab_lines.append(
             f"Choose a situation from your daily life (at school, at home, with friends, "
             f"or in a hobby). Analyze it through the lens of **{c1}**:\n"
         )
-        lab_lines.append(f"1. Describe the situation in 2-3 sentences")
+        lab_lines.append("1. Describe the situation in 2-3 sentences")
         lab_lines.append(f"2. Identify where {c1} is at work")
-        lab_lines.append(f"3. What predictions are being made? By whom or what?")
-        lab_lines.append(f"4. What prediction errors might occur?\n")
+        lab_lines.append("3. What predictions are being made? By whom or what?")
+        lab_lines.append("4. What prediction errors might occur?\n")
         if len(concepts) > 1:
-            lab_lines.append(f"### Exercise B: Compare and Contrast\n")
+            lab_lines.append("### Exercise B: Compare and Contrast\n")
             lab_lines.append(
                 f"Compare **{c1}** and **{c2}**. "
                 f"Create a table or Venn diagram showing:\n"
             )
-            lab_lines.append(f"- What they have in common")
-            lab_lines.append(f"- How they differ")
-            lab_lines.append(f"- How they work together in the Active Inference framework\n")
+            lab_lines.append("- What they have in common")
+            lab_lines.append("- How they differ")
+            lab_lines.append("- How they work together in the Active Inference framework\n")
     elif level in ("college", "graduate"):
         c1 = concepts[0][0] if concepts else course_info["module_topic"].lower()
-        lab_lines.append(f"### Exercise A: Case Analysis\n")
+        lab_lines.append("### Exercise A: Case Analysis\n")
         lab_lines.append(
             f"Select a scenario relevant to {course_info['module_topic'].lower()} "
             f"(from the module content, from current research, or from your own experience). "
             f"Perform a structured analysis:\n"
         )
-        lab_lines.append(f"1. **Describe** the scenario in 3-4 sentences")
-        lab_lines.append(f"2. **Identify** the key Active Inference components at work "
-                        f"(generative model, prediction errors, belief updating, action selection)")
+        lab_lines.append("1. **Describe** the scenario in 3-4 sentences")
+        lab_lines.append("2. **Identify** the key Active Inference components at work "
+                        "(generative model, prediction errors, belief updating, action selection)")
         lab_lines.append(f"3. **Analyze** how **{c1}** specifically operates in this scenario")
-        lab_lines.append(f"4. **Predict** what would happen if one component were disrupted\n")
+        lab_lines.append("4. **Predict** what would happen if one component were disrupted\n")
         if objectives:
-            lab_lines.append(f"### Exercise B: Objective Deep-Dive\n")
+            lab_lines.append("### Exercise B: Objective Deep-Dive\n")
             obj_focus = objectives[0] if objectives else f"understand {c1}"
             lab_lines.append(
                 f"Choose the learning objective that you find most challenging: "
                 f"*\"{obj_focus}\"*\n"
             )
             lab_lines.append(
-                f"Write a 200-word explanation of this objective as if you were "
-                f"teaching it to a classmate who missed this module. Include at "
-                f"least one concrete example and one potential misconception.\n"
+                "Write a 200-word explanation of this objective as if you were "
+                "teaching it to a classmate who missed this module. Include at "
+                "least one concrete example and one potential misconception.\n"
             )
     elif level == "practitioner":
         c1 = concepts[0][0] if concepts else course_info["module_topic"].lower()
@@ -292,12 +290,12 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
             f"Find a space where you can move freely. Spend 10 minutes exploring "
             f"**{c1}** through your body:\n"
         )
-        lab_lines.append(f"1. Begin with simple, slow movements")
+        lab_lines.append("1. Begin with simple, slow movements")
         lab_lines.append(f"2. Notice what {c1} feels like in your body")
-        lab_lines.append(f"3. Gradually increase complexity or intensity")
+        lab_lines.append("3. Gradually increase complexity or intensity")
         lab_lines.append(f"4. Find the edges — where does {c1} break down or transform?\n")
-        lab_lines.append(f"Record your observations: What surprised you? What felt familiar?\n")
-        lab_lines.append(f"### Practice B: Partner Mirror\n")
+        lab_lines.append("Record your observations: What surprised you? What felt familiar?\n")
+        lab_lines.append("### Practice B: Partner Mirror\n")
         lab_lines.append(
             f"With a partner, take turns leading and following movement. "
             f"The leader explores {c1} through movement while the follower mirrors. "
@@ -306,15 +304,15 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
         )
     elif level == "professional":
         c1 = concepts[0][0] if concepts else course_info["module_topic"].lower()
-        lab_lines.append(f"### Exercise A: Organizational Mapping\n")
+        lab_lines.append("### Exercise A: Organizational Mapping\n")
         lab_lines.append(
             f"Map how **{c1}** manifests in your organization:\n"
         )
         lab_lines.append(f"1. Identify 2-3 concrete instances where {c1} operates")
-        lab_lines.append(f"2. For each instance, describe who is involved and what processes are affected")
-        lab_lines.append(f"3. Rate the effectiveness of each instance (1-5) and explain your rating")
-        lab_lines.append(f"4. Propose one improvement based on Active Inference principles\n")
-        lab_lines.append(f"### Exercise B: Stakeholder Perspective\n")
+        lab_lines.append("2. For each instance, describe who is involved and what processes are affected")
+        lab_lines.append("3. Rate the effectiveness of each instance (1-5) and explain your rating")
+        lab_lines.append("4. Propose one improvement based on Active Inference principles\n")
+        lab_lines.append("### Exercise B: Stakeholder Perspective\n")
         lab_lines.append(
             f"Choose one of the instances from Exercise A. Analyze it from "
             f"three different stakeholder perspectives (e.g., leadership, front-line "
@@ -323,16 +321,16 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
         )
     elif level == "technical":
         c1 = concepts[0][0] if concepts else course_info["module_topic"].lower()
-        lab_lines.append(f"### Exercise A: System Design\n")
+        lab_lines.append("### Exercise A: System Design\n")
         lab_lines.append(
             f"Design a robotic system or subsystem that implements **{c1}**:\n"
         )
-        lab_lines.append(f"1. **Sensors**: What information does the system need to acquire?")
+        lab_lines.append("1. **Sensors**: What information does the system need to acquire?")
         lab_lines.append(f"2. **Model**: What generative model would represent {c1}?")
-        lab_lines.append(f"3. **Inference**: How does the system update its beliefs?")
-        lab_lines.append(f"4. **Action**: What actions can the system take to minimize free energy?\n")
-        lab_lines.append(f"Sketch a block diagram of your design.\n")
-        lab_lines.append(f"### Exercise B: Comparative Analysis\n")
+        lab_lines.append("3. **Inference**: How does the system update its beliefs?")
+        lab_lines.append("4. **Action**: What actions can the system take to minimize free energy?\n")
+        lab_lines.append("Sketch a block diagram of your design.\n")
+        lab_lines.append("### Exercise B: Comparative Analysis\n")
         if len(concepts) > 1:
             c2 = concepts[1][0]
             lab_lines.append(
@@ -347,13 +345,13 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
             )
     else:
         c1 = concepts[0][0] if concepts else course_info["module_topic"].lower()
-        lab_lines.append(f"### Exercise A: Real-World Observation\n")
+        lab_lines.append("### Exercise A: Real-World Observation\n")
         lab_lines.append(
             f"Find a real-world example of **{c1}** in your environment. "
             f"Describe it in detail, explaining how it connects to the "
             f"Active Inference framework.\n"
         )
-        lab_lines.append(f"### Exercise B: Application\n")
+        lab_lines.append("### Exercise B: Application\n")
         lab_lines.append(
             f"Apply your understanding of {c1} to a new context not discussed "
             f"in the module. Explain your reasoning step by step.\n"
@@ -384,9 +382,9 @@ def generate_lab_content(module_data: Dict[str, Any], course_info: Dict[str, Any
         )
     if objectives:
         refl_questions.append(
-            f"Which learning objective do you feel most confident about now? "
-            f"Which one still needs more work? Be specific about what you understand "
-            f"and what remains unclear."
+            "Which learning objective do you feel most confident about now? "
+            "Which one still needs more work? Be specific about what you understand "
+            "and what remains unclear."
         )
 
     refl_questions.append(

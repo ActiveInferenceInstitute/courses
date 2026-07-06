@@ -1,7 +1,6 @@
 """Configuration for module organization."""
 
-from pathlib import Path
-from typing import Dict, List
+from typing import List
 
 # Required files in each module
 REQUIRED_FILES: List[str] = ["README.md", "AGENTS.md"]

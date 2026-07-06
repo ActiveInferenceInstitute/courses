@@ -4,15 +4,12 @@ This module provides comprehensive validation and logging for course output
 generation and publishing.
 """
 
-import json
 import logging
-from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from . import config
 from .config import (
-    get_expected_study_guide_files,
     get_syllabus_required_formats,
     DEFAULT_REQUIRED_FORMATS,
 )

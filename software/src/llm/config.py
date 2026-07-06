@@ -1,7 +1,6 @@
 """Configuration for the LLM module."""
 
 import os
-from typing import Any, Dict
 
 # Default Ollama settings
 DEFAULT_BASE_URL = os.getenv("OLLAMA_HOST", "http://localhost:11434")

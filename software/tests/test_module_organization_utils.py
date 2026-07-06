@@ -1,6 +1,5 @@
 """Tests for module_organization utility functions."""
 
-from pathlib import Path
 
 import pytest
 

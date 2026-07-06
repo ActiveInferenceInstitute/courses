@@ -1,7 +1,6 @@
 """Tests for course_generator scaffold (file system generation)."""
 
 import pytest
-from pathlib import Path
 from src.course_generator.schema import (
     CurriculumConfig, CourseConfig, ModuleConfig, MODULE_TOPICS,
 )

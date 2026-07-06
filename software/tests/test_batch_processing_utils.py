@@ -178,34 +178,31 @@ def test_get_formats_to_process(caplog):
 
 
 def test_generate_dry_run_report(temp_dir):
-    """Test dry run report generation with real module structure."""
+    """Test dry run report generation with flat module structure (AIF convention)."""
     repo_root = temp_dir
-    course_path = repo_root / "course_development/biol-1"
+    course_path = repo_root / "course_development/ai-philosophy"
     course_path.mkdir(parents=True)
     
-    # Create module structure
-    module_dir = course_path / "course" / "module-01"
-    module_dir.mkdir(parents=True)
-    (module_dir / "test.md").touch()
+    # Create flat module structure
+    module_dir = course_path / "module-01"
+    module_dir.mkdir()
+    (module_dir / "module.md").touch()
     
     # Assignments
     (module_dir / "assignments").mkdir()
     (module_dir / "assignments" / "assign.md").touch()
     
-    # Syllabus
-    syllabus_dir = course_path / "syllabus"
-    syllabus_dir.mkdir()
-    (syllabus_dir / "Syllabus.md").touch()
+    # Syllabus as file
+    (course_path / "syllabus.md").touch()
     
     # Labs
-    labs_dir = course_path / "course" / "labs"
+    labs_dir = course_path / "labs"
     labs_dir.mkdir(parents=True)
     (labs_dir / "lab-1.md").touch()
     
-    courses = [("course_development/biol-1", "BIOL-1")]
+    courses = [("course_development/ai-philosophy", "Active Inference: Philosophy", "ai-philosophy")]
     formats = ["pdf", "html"]
     
-    # Use real matches_module_number — no patching
     report = generate_dry_run_report(
         repo_root, 
         courses, 
@@ -216,12 +213,11 @@ def test_generate_dry_run_report(temp_dir):
     )
         
     assert "DRY RUN" in report
-    assert "BIOL-1" in report
+    assert "Active Inference" in report
     assert "module-01" in report
     assert "1 root files" in report
     assert "1 assignments" in report
     assert "website/index.html" in report
-    assert "Syllabus: 1 files" in report
     assert "Labs: 1 files" in report
     assert "pdf, html" in report
 

@@ -1,6 +1,5 @@
 """Main functions for Canvas integration."""
 
-import time
 from pathlib import Path
 from typing import Any, Dict, List
 

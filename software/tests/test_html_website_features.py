@@ -1,7 +1,6 @@
 """Tests for HTML website generation features."""
 
 import json
-import tempfile
 from pathlib import Path
 
 import pytest
@@ -230,7 +229,6 @@ class TestHTMLWebsiteConfig:
 
     def test_dark_mode_persists_via_localstorage(self):
         """Test that dark mode JavaScript uses localStorage for persistence."""
-        from src.html_website.config import HTML_TEMPLATE
         # Now located in the JS block, indirectly tested via string presence
         pass 
 

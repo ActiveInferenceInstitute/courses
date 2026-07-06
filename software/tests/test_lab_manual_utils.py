@@ -6,7 +6,6 @@ from pathlib import Path
 import pytest
 
 from src.lab_manual.utils import (
-    LabElement,
     TableConfig,
     create_data_table_html,
     create_feasibility_html,

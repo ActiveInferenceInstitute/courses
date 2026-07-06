@@ -17,7 +17,8 @@ sys.path.insert(0, str(software_dir))
 
 from src.batch_processing.config import COURSE_REGISTRY
 from src.batch_processing.utils import extract_course_info_from_path as extract_course_info
-from src.content_processing.labs import find_stub_labs, generate_lab_content, parse_module
+from src.content_processing.labs import find_stub_labs, generate_lab_content
+from src.content_processing.utils import parse_module
 
 DEFAULT_BASE = Path(__file__).resolve().parent.parent.parent / "course_development"
 

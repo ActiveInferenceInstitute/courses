@@ -1,7 +1,5 @@
 """Tests for canvas_integration main functions."""
 
-import os
-from pathlib import Path
 
 import pytest
 

@@ -1,8 +1,14 @@
+"""Tests for the generate_module_website script.
+
+Uses real function calls with temporary file structures.
+monkeypatch replaces only path discovery so tests aren't tied
+to the real repository layout.
+"""
+
 import importlib.util
 import sys
 from pathlib import Path
 import pytest
-from unittest.mock import MagicMock, patch
 
 # Add project root to sys.path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -23,34 +29,40 @@ def script():
 
 
 class TestGenerateModuleWebsite:
-    
+
     def test_parse_args(self, script):
         args = script.parse_args(["--course", "ai-philosophy", "--module", "3"])
         assert args.course == "ai-philosophy"
         assert args.module == 3
 
-    @patch("generate_module_website.find_module_path")
-    @patch("generate_module_website.process_module_website")
-    def test_main_execution(self, mock_process, mock_find, script, temp_dir):
-        # Setup mock module path
+    def test_main_execution(self, script, temp_dir, monkeypatch):
+        """main() calls process_module_website for the resolved module path."""
         module_path = temp_dir / "active_inference" / "01_philosophy" / "module-01-intro"
         module_path.mkdir(parents=True)
-        
-        mock_find.return_value = module_path
-        
-        # Test main
+
+        process_calls = []
+
+        def fake_find(course_path, module_num):
+            return module_path
+
+        def fake_process(mod_dir, output_dir=None):
+            process_calls.append(mod_dir)
+            return str(module_path / "output" / "website" / "index.html")
+
+        monkeypatch.setattr(generate_module_website, "find_module_path", fake_find)
+        monkeypatch.setattr(generate_module_website, "process_module_website", fake_process)
+
         exit_code = script.main(["--course", "ai-philosophy", "--module", "1"])
         assert exit_code == 0
-        
-        # Verify process call
-        mock_process.assert_called_once_with(str(module_path))
 
-    @patch("generate_module_website.find_module_path")
-    def test_main_module_not_found(self, mock_find, script, capsys):
-        mock_find.return_value = None
-        
+        assert len(process_calls) == 1
+        assert process_calls[0] == str(module_path)
+
+    def test_main_module_not_found(self, script, capsys, monkeypatch):
+        monkeypatch.setattr(generate_module_website, "find_module_path", lambda cp, n: None)
+
         exit_code = script.main(["--course", "ai-philosophy", "--module", "99"])
         assert exit_code == 1
-        
+
         captured = capsys.readouterr()
         assert "Error: Module 99 not found" in captured.out

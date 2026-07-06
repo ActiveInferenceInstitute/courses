@@ -101,7 +101,6 @@ def test_file_operations_are_real(temp_dir):
 
 def test_no_mock_objects_in_codebase():
     """Verify that no mock objects are used in the actual source code."""
-    import os
     import re
 
     src_dir = Path(__file__).parent.parent / "src"
@@ -129,7 +128,7 @@ def test_no_mock_objects_in_codebase():
 
     if issues:
         pytest.fail(
-            f"Found potential mock usage in source code (should only be in tests):\n"
+            "Found potential mock usage in source code (should only be in tests):\n"
             + "\n".join(issues)
         )
 

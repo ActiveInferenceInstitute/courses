@@ -7,8 +7,6 @@ from . import config
 from .utils import (
     check_required_directories_exist,
     check_required_files_exist,
-    get_file_extension,
-    has_module_prefix,
     is_kebab_case,
     is_valid_extension,
     validate_assignment_name,

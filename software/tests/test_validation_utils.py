@@ -1,6 +1,5 @@
 """Tests for validation/utils.py functions."""
 
-from pathlib import Path
 from src.validation.utils import (
     count_files_by_extension,
     get_module_directories,

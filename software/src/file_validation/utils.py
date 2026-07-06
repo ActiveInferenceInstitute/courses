@@ -1,6 +1,5 @@
 """Utility functions for file validation."""
 
-import re
 from pathlib import Path
 from typing import Any, Dict, List, Pattern
 

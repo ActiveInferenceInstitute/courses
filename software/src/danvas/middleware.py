@@ -4,7 +4,7 @@ Provides feature-flag gating, role-based permission checking, and
 request logging wrappers that can be composed around handler functions.
 """
 
-from typing import Any, Callable, Dict, List, Optional
+from typing import Dict, List, Optional
 
 from . import config
 

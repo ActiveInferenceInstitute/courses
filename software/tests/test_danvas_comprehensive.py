@@ -3,19 +3,19 @@
 Extends the base test_danvas_utils.py and test_danvas_main.py suites with
 deeper coverage: template rendering, HTML escaping/XSS, input validation,
 empty state handling, multi-course interactions, and API endpoint verification.
+
+All business logic (gradebook, announcements, roster, calendar) runs
+against real temporary data stores — no mocked data layer.
 """
 
 import html
 import io
 import json
-import re
-from http.server import HTTPServer
-from pathlib import Path
-from unittest.mock import MagicMock
 
 import pytest
 
 from src.danvas import config, templates
+from src.danvas.main import create_test_handler
 from src.danvas.store import load_store, save_store
 from src.danvas.discovery import discover_courses
 from src.danvas.enrollment import enroll_user, get_roster
@@ -23,7 +23,6 @@ from src.danvas.gradebook import record_grade, get_grades, calculate_course_grad
 from src.danvas.announcements import post_announcement, get_announcements
 from src.danvas.calendar_events import get_events
 from src.danvas import handlers as _handlers
-from src.danvas.main import DanvasHandler
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -57,29 +56,21 @@ def repo_root(tmp_path):
 
 @pytest.fixture
 def handler(repo_root, data_dir):
-    """Create a DanvasHandler wired to temp directories."""
-    mock_server = MagicMock(spec=HTTPServer)
-    mock_server.repo_root = repo_root
-    mock_server.data_dir = data_dir
-
-    h = DanvasHandler.__new__(DanvasHandler)
-    h.server = mock_server
-    h.headers = {"Content-Length": "0"}
-    h.rfile = io.BytesIO(b"")
-    h.wfile = io.BytesIO()
-    h.requestline = "GET / HTTP/1.1"
-    h.request_version = "HTTP/1.1"
-    h.client_address = ("127.0.0.1", 0)
-    h._headers_buffer = []
-    h.send_response = MagicMock()
-    h.send_header = MagicMock()
-    h.end_headers = MagicMock()
+    """Create a DanvasHandler wired to temp directories (no mocks)."""
+    h = create_test_handler(repo_root, data_dir)
+    h.path = "/"
     return h
 
 
 def _wfile_text(handler) -> str:
     """Read the handler's wfile output as UTF-8 string."""
     return handler.wfile.getvalue().decode("utf-8")
+
+
+def _reset_handler(handler):
+    """Reset handler state for a new request (no mocks)."""
+    handler.wfile = io.BytesIO()
+    handler._response_status = None
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -415,14 +406,6 @@ class TestConfig:
 class TestAPIIntegration:
     """Full-cycle integration: POST data via handler, retrieve via API."""
 
-    def _reset_handler(self, handler):
-        """Reset handler wfile for a new request."""
-        handler.wfile = io.BytesIO()
-        handler._headers_buffer = []
-        handler.send_response.reset_mock()
-        handler.send_header.reset_mock()
-        handler.end_headers.reset_mock()
-
     def test_gradebook_roundtrip(self, handler, data_dir):
         """POST a grade then verify it shows in the gradebook page."""
         # Post a grade
@@ -431,9 +414,10 @@ class TestAPIIntegration:
         handler.headers = {"Content-Length": str(len(form))}
         handler.path = "/course/test_course/gradebook"
         _handlers.handle_gradebook_post(handler, course_id="test_course")
+        assert handler._response_status == 303
 
         # Render the gradebook page
-        self._reset_handler(handler)
+        _reset_handler(handler)
         _handlers.handle_gradebook(handler, course_id="test_course")
         out = _wfile_text(handler)
         assert "Alice" in out
@@ -447,8 +431,9 @@ class TestAPIIntegration:
         handler.headers = {"Content-Length": str(len(form))}
         handler.path = "/course/test_course/announcements"
         _handlers.handle_announcements_post(handler, course_id="test_course")
+        assert handler._response_status == 303
 
-        self._reset_handler(handler)
+        _reset_handler(handler)
         _handlers.handle_announcements(handler, course_id="test_course")
         out = _wfile_text(handler)
         assert "Important" in out
@@ -461,8 +446,9 @@ class TestAPIIntegration:
         handler.headers = {"Content-Length": str(len(form))}
         handler.path = "/course/test_course/calendar"
         _handlers.handle_calendar_post(handler, course_id="test_course")
+        assert handler._response_status == 303
 
-        self._reset_handler(handler)
+        _reset_handler(handler)
         _handlers.handle_calendar(handler, course_id="test_course")
         out = _wfile_text(handler)
         assert "Lab Due" in out
@@ -476,7 +462,7 @@ class TestAPIIntegration:
         handler.path = "/course/test_course/roster"
         _handlers.handle_roster_post(handler, course_id="test_course")
 
-        self._reset_handler(handler)
+        _reset_handler(handler)
         _handlers.handle_roster(handler, course_id="test_course")
         out = _wfile_text(handler)
         assert "Charlie" in out
@@ -538,7 +524,7 @@ class TestRouteEdgeCases:
         assert "Page Not Found" in out
 
     def test_nonexistent_module_returns_404(self, handler):
-        _handlers.handle_module_detail(handler, 
+        _handlers.handle_module_detail(handler,
             course_id="test_course", module_num="99"
         )
         out = _wfile_text(handler)

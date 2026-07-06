@@ -1,0 +1,44 @@
+repos:
+  # Ruff: fast Python linter and formatter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.0
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        files: ^software/
+      - id: ruff-format
+        files: ^software/
+
+  # mypy: static type checking
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy type check
+        entry: bash -c 'cd software && uv run mypy src/'
+        language: system
+        pass_filenames: false
+        files: ^software/src/
+        types: [python]
+
+  # No-mocks policy: reject MonkeyPatch/mock in test files
+  - repo: local
+    hooks:
+      - id: no-mocks
+        name: Verify no-mocks policy
+        entry: python software/scripts/verify_no_mocks.py
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  # Trailing whitespace and end-of-file fixes
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+        exclude: \.(pdf|docx|png|jpg|jpeg|gif|svg)$
+      - id: check-yaml
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        args: [--fix=lf]

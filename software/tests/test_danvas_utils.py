@@ -1,7 +1,6 @@
 """Tests for danvas.utils — data layer operations."""
 
 import json
-from pathlib import Path
 
 import pytest
 

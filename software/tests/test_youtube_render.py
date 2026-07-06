@@ -533,33 +533,13 @@ class TestEnumeratePlaylistVideos:
     """Tests for playlist video enumeration (requires internet)."""
 
     def test_enumerate_known_playlist(self) -> None:
-        import src.youtube_transcript.utils as yt_utils
+        """Enumerate videos from a real known playlist (requires internet)."""
+        from src.youtube_transcript.utils import enumerate_playlist_videos
 
-        # Mock result
-        mock_videos = [
-            {
-                "id": "vid1",
-                "title": "Video 1",
-                "duration": 3600,
-                "upload_date": "20250101",
-                "playlist_index": 0
-            },
-            {
-                "id": "vid2",
-                "title": "Video 2",
-                "duration": 1800,
-                "upload_date": "20250115",
-                "playlist_index": 1
-            }
-        ]
+        videos = enumerate_playlist_videos(
+            "https://www.youtube.com/playlist?list=PLNm0u2n1Iwdr_sdTWe3T9WQGFBC3KVHJ"
+        )
 
-        with pytest.MonkeyPatch.context() as m:
-            m.setattr(yt_utils, "enumerate_playlist_videos", lambda url: mock_videos)
-            
-            videos = yt_utils.enumerate_playlist_videos(
-                "https://www.youtube.com/playlist?list=PLNm0u2n1Iwdr_sdTWe3T9WQGFBC3KVHJ"
-            )
-            
         assert len(videos) > 0
         first = videos[0]
         assert "id" in first

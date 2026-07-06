@@ -187,23 +187,40 @@ def copy_labs_and_dashboards(
 ) -> int:
     """Copy labs and dashboards to PUBLISHED directory.
 
+    Iterates COURSE_REGISTRY to determine the correct source path for each
+    course, using rel_path and has_course_subdir to locate the labs directory.
+
     Args:
         repo_root: Path to the repository root
-        courses: List of course names (default: ['biol-1', 'biol-8'])
+        courses: List of course IDs to process (default: all in COURSE_REGISTRY)
         verbose: If True, log detailed operations
 
     Returns:
         Number of files copied
     """
+    from ..batch_processing.config import COURSE_REGISTRY
+
     if courses is None:
-        from ..batch_processing.config import COURSE_REGISTRY
         courses = list(COURSE_REGISTRY.keys())
 
     published_dir = repo_root / config.PUBLISH_ROOT_NAME
     total_copied = 0
 
     for course in courses:
-        course_dev = repo_root / 'course_development' / course / 'course' / 'labs'
+        course_meta = COURSE_REGISTRY.get(course)
+        if course_meta is None:
+            logger.warning(f"Course '{course}' not found in COURSE_REGISTRY, skipping")
+            continue
+
+        rel_path = course_meta["rel_path"]
+        has_course_subdir = course_meta.get("has_course_subdir", False)
+
+        # Determine labs source: rel_path/course/labs or rel_path/labs
+        if has_course_subdir:
+            course_dev = repo_root / rel_path / 'course' / 'labs'
+        else:
+            course_dev = repo_root / rel_path / 'labs'
+
         course_pub = published_dir / course
 
         if not course_dev.exists():
@@ -251,23 +268,33 @@ def copy_slides(
 ) -> int:
     """Copy slide PDFs from resources/slides to PUBLISHED directory.
 
+    Iterates COURSE_REGISTRY to determine the correct source path for each
+    course using rel_path.
+
     Args:
         repo_root: Path to the repository root
-        courses: List of course names (default: ['biol-1', 'biol-8'])
+        courses: List of course IDs to process (default: all in COURSE_REGISTRY)
         verbose: If True, log detailed operations
 
     Returns:
         Number of files copied
     """
+    from ..batch_processing.config import COURSE_REGISTRY
+
     if courses is None:
-        from ..batch_processing.config import COURSE_REGISTRY
         courses = list(COURSE_REGISTRY.keys())
 
     published_dir = repo_root / config.PUBLISH_ROOT_NAME
     total_copied = 0
 
     for course in courses:
-        slides_src = repo_root / 'course_development' / course / 'resources' / 'slides'
+        course_meta = COURSE_REGISTRY.get(course)
+        if course_meta is None:
+            logger.warning(f"Course '{course}' not found in COURSE_REGISTRY, skipping")
+            continue
+
+        rel_path = course_meta["rel_path"]
+        slides_src = repo_root / rel_path / 'resources' / 'slides'
         slides_dest = published_dir / course / 'slides'
 
         if not slides_src.exists():
@@ -297,28 +324,37 @@ def copy_slides_to_modules(
 
     Maps module directories (e.g., module-01-exploring-life-science/) to slide files
     and copies slides into each module folder. Supports two naming conventions:
-    - biol-1: module-{num}-slides-*.pdf (e.g., module-1-slides-full.pdf)
-    - biol-8: Module {XX} - Topic.pdf (e.g., Module 01 - Exploring Life Science.pdf)
+    - module-{num}-slides-*.pdf (e.g., module-1-slides-full.pdf)
+    - Module {XX} - Topic.pdf (e.g., Module 01 - Exploring Life Science.pdf)
+
+    Iterates COURSE_REGISTRY to determine the correct source path for each
+    course using rel_path.
 
     Args:
         repo_root: Path to the repository root
-        courses: List of course names (default: ['biol-1', 'biol-8'])
+        courses: List of course IDs to process (default: all in COURSE_REGISTRY)
         verbose: If True, log detailed operations
 
     Returns:
         Number of files copied
     """
-    import re
-    
+
+    from ..batch_processing.config import COURSE_REGISTRY
+
     if courses is None:
-        from ..batch_processing.config import COURSE_REGISTRY
         courses = list(COURSE_REGISTRY.keys())
 
     published_dir = repo_root / config.PUBLISH_ROOT_NAME
     total_copied = 0
 
     for course in courses:
-        slides_src = repo_root / 'course_development' / course / 'resources' / 'slides'
+        course_meta = COURSE_REGISTRY.get(course)
+        if course_meta is None:
+            logger.warning(f"Course '{course}' not found in COURSE_REGISTRY, skipping")
+            continue
+
+        rel_path = course_meta["rel_path"]
+        slides_src = repo_root / rel_path / 'resources' / 'slides'
         course_pub = published_dir / course
 
         if not slides_src.exists() or not course_pub.exists():
@@ -369,47 +405,76 @@ def copy_slides_to_modules(
     return total_copied
 
 
-def copy_exams(repo_root: Path, verbose: bool = False) -> int:
+def copy_exams(
+    repo_root: Path,
+    courses: Optional[List[str]] = None,
+    verbose: bool = False
+) -> int:
     """Copy exam files from course/exams to PUBLISHED directory.
+
+    Iterates COURSE_REGISTRY (or the provided courses list) and copies exam
+    files for any course that has an exams directory. Uses rel_path and
+    has_course_subdir to locate the exams source directory.
 
     Args:
         repo_root: Path to the repository root
+        courses: List of course IDs to process (default: all in COURSE_REGISTRY)
         verbose: If True, log detailed operations
 
     Returns:
         Number of files copied
     """
+    from ..batch_processing.config import COURSE_REGISTRY
+
+    if courses is None:
+        courses = list(COURSE_REGISTRY.keys())
+
     published_dir = repo_root / config.PUBLISH_ROOT_NAME
     total_copied = 0
 
-    # BIOL-8 has exams in course/exams/
-    exams_src = repo_root / 'course_development' / 'biol-8' / 'course' / 'exams'
-    exams_dest = published_dir / 'biol-8' / 'exams'
+    for course in courses:
+        course_meta = COURSE_REGISTRY.get(course)
+        if course_meta is None:
+            logger.warning(f"Course '{course}' not found in COURSE_REGISTRY, skipping")
+            continue
 
-    if not exams_src.exists():
-        logger.warning(f"Exams directory not found: {exams_src}")
-        return 0
+        rel_path = course_meta["rel_path"]
+        has_course_subdir = course_meta.get("has_course_subdir", False)
 
-    exams_dest.mkdir(parents=True, exist_ok=True)
+        # Determine exams source: rel_path/course/exams or rel_path/exams
+        if has_course_subdir:
+            exams_src = repo_root / rel_path / 'course' / 'exams'
+        else:
+            exams_src = repo_root / rel_path / 'exams'
 
-    # Copy exam markdown files (exclude answer keys with _key suffix)
-    for exam_file in exams_src.glob('*.md'):
-        if not exam_file.stem.endswith('_key'):
-            dest = exams_dest / exam_file.name
-            shutil.copy2(exam_file, dest)
-            total_copied += 1
+        if not exams_src.exists():
+            if verbose:
+                logger.debug(f"Exams directory not found: {exams_src}")
+            continue
 
-    # Copy exam outputs (PDF, DOCX, etc.) if they exist
-    output_dir = exams_src / 'output'
-    if output_dir.exists():
-        for output_file in output_dir.rglob('*'):
-            if output_file.is_file():
-                dest = exams_dest / output_file.name
-                shutil.copy2(output_file, dest)
-                total_copied += 1
+        exams_dest = published_dir / course / 'exams'
+        exams_dest.mkdir(parents=True, exist_ok=True)
+        course_copied = 0
 
-    if total_copied > 0:
-        logger.info(f"  biol-8: Copied {total_copied} exam files")
+        # Copy exam markdown files (exclude answer keys with _key suffix)
+        for exam_file in exams_src.glob('*.md'):
+            if not exam_file.stem.endswith('_key'):
+                dest = exams_dest / exam_file.name
+                shutil.copy2(exam_file, dest)
+                course_copied += 1
+
+        # Copy exam outputs (PDF, DOCX, etc.) if they exist
+        output_dir = exams_src / 'output'
+        if output_dir.exists():
+            for output_file in output_dir.rglob('*'):
+                if output_file.is_file():
+                    dest = exams_dest / output_file.name
+                    shutil.copy2(output_file, dest)
+                    course_copied += 1
+
+        if course_copied > 0:
+            logger.info(f"  {course}: Copied {course_copied} exam files")
+            total_copied += course_copied
 
     return total_copied
 
@@ -425,23 +490,40 @@ def copy_practice_tests(
     rendered outputs (PDF, DOCX). Both tests and answer keys are published
     so students can self-assess.
 
+    Iterates COURSE_REGISTRY to determine the correct source path for each
+    course using rel_path and has_course_subdir.
+
     Args:
         repo_root: Path to the repository root
-        courses: List of course names (default: ['biol-1', 'biol-8'])
+        courses: List of course IDs to process (default: all in COURSE_REGISTRY)
         verbose: If True, log detailed operations
 
     Returns:
         Number of files copied
     """
+    from ..batch_processing.config import COURSE_REGISTRY
+
     if courses is None:
-        from ..batch_processing.config import COURSE_REGISTRY
         courses = list(COURSE_REGISTRY.keys())
 
     published_dir = repo_root / config.PUBLISH_ROOT_NAME
     total_copied = 0
 
     for course in courses:
-        practice_tests_src = repo_root / 'course_development' / course / 'course' / 'practice_tests'
+        course_meta = COURSE_REGISTRY.get(course)
+        if course_meta is None:
+            logger.warning(f"Course '{course}' not found in COURSE_REGISTRY, skipping")
+            continue
+
+        rel_path = course_meta["rel_path"]
+        has_course_subdir = course_meta.get("has_course_subdir", False)
+
+        # Determine practice_tests source: rel_path/course/practice_tests or rel_path/practice_tests
+        if has_course_subdir:
+            practice_tests_src = repo_root / rel_path / 'course' / 'practice_tests'
+        else:
+            practice_tests_src = repo_root / rel_path / 'practice_tests'
+
         practice_tests_dest = published_dir / course / 'practice_tests'
 
         if not practice_tests_src.exists():
@@ -496,7 +578,7 @@ def reorganize_to_categories(
 
     Args:
         published_dir: Path to the PUBLISHED directory
-        courses: List of course names (default: ['biol-1', 'biol-8'])
+        courses: List of course IDs to process (default: all in COURSE_REGISTRY)
         verbose: If True, log detailed operations
 
     Returns:

@@ -100,7 +100,6 @@ def test_transcribe_audio_error_handling(temp_dir):
 def test_read_audio_file_error():
     """Test read_audio_file with nonexistent file."""
     from src.speech_to_text.utils import read_audio_file
-    from pathlib import Path
 
     with pytest.raises(FileNotFoundError):
         read_audio_file(Path("/nonexistent/audio.mp3"))
@@ -124,7 +123,6 @@ def test_read_audio_file_invalid_format(temp_dir):
 def test_transcribe_audio_segment_error_handling(temp_dir):
     """Test error handling in transcribe_audio_segment."""
     from src.speech_to_text.utils import transcribe_audio_segment
-    from pathlib import Path
 
     # Create an invalid audio file
     invalid_audio = temp_dir / "invalid.wav"

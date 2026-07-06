@@ -8,7 +8,7 @@ import random
 import re
 from html import escape
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 from src.batch_processing.utils import extract_course_info_from_path as extract_course_info, prettify_name
 

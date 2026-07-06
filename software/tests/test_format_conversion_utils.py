@@ -1,7 +1,6 @@
 """Comprehensive tests for format conversion utilities."""
 
 from pathlib import Path
-import pytest
 
 from src.format_conversion.utils import (
     convert_docx_to_markdown,
@@ -16,7 +15,6 @@ from src.format_conversion.utils import (
     convert_html_to_pdf,
     convert_text_to_pdf,
     convert_text_to_html,
-    convert_audio_to_text,
 )
 
 

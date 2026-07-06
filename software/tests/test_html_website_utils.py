@@ -1,7 +1,6 @@
 """Tests for HTML website utility functions."""
 
 import json
-import tempfile
 from pathlib import Path
 
 import pytest

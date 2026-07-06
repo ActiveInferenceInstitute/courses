@@ -2,7 +2,6 @@
 
 from pathlib import Path
 
-import pytest
 
 from src.file_validation.main import validate_module_files
 from src.module_organization.main import create_module_structure

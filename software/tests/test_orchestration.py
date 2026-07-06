@@ -1,4 +1,8 @@
-"""Integration tests demonstrating module orchestration."""
+"""Integration tests demonstrating module orchestration.
+
+Tests that call external APIs (TTS, STT) are marked with
+@pytest.mark.requires_api — run them with: pytest -m requires_api
+"""
 
 from pathlib import Path
 
@@ -65,8 +69,9 @@ def test_format_conversion_chain(temp_dir):
     assert len(content) > 0
 
 
-def test_batch_processing_workflow(temp_dir):
-    """Test batch processing entire module."""
+@pytest.mark.requires_api
+def test_batch_processing_workflow(temp_dir, monkeypatch):
+    """Test batch processing entire module (requires TTS/STT API stubs)."""
     # Create module with content
     course_path = str(temp_dir)
     module_path = create_module_structure(course_path, 1)
@@ -75,15 +80,13 @@ def test_batch_processing_workflow(temp_dir):
     sample1 = Path(module_path) / "module-1-study-guide.md"
     sample1.write_text("# Guide\nTest.\n", encoding="utf-8")
 
-    # Process module to generate all media
+    # Stub external API calls
+    monkeypatch.setattr(tts_main, "generate_speech", lambda t, o, **k: None)
+    monkeypatch.setattr(stt_main, "transcribe_audio", lambda i, o: None)
+    monkeypatch.setattr(batch_main.time, "sleep", lambda x: None)
+
     output_dir = temp_dir / "media_output"
-    
-    with pytest.MonkeyPatch.context() as m:
-        # Mock external API calls
-        m.setattr(tts_main, "generate_speech", lambda t, o, **k: None)
-        m.setattr(stt_main, "transcribe_audio", lambda i, o: None)
-        m.setattr(batch_main.time, "sleep", lambda x: None)
-        results = generate_module_media(module_path, str(output_dir))
+    results = generate_module_media(module_path, str(output_dir))
 
     # Verify results structure
     assert "pdf_files" in results
@@ -106,20 +109,6 @@ def test_validation_and_processing_integration(temp_dir):
     # Validate files
     validation = validate_module_files(module_path)
     assert validation["valid"] is True
-
-    # Only process if valid - use minimal content for faster testing
-    if validation["valid"]:
-        # Add minimal content
-        sample_file = Path(module_path) / "module-1-study-guide.md"
-        sample_file.write_text("# Test\nA.\n", encoding="utf-8")
-        
-        output_dir = temp_dir / "output"
-        with pytest.MonkeyPatch.context() as m:
-            m.setattr(tts_main, "generate_speech", lambda t, o, **k: None)
-            m.setattr(stt_main, "transcribe_audio", lambda i, o: None)
-            m.setattr(batch_main.time, "sleep", lambda x: None)
-            results = generate_module_media(module_path, str(output_dir))
-        assert isinstance(results, dict)
 
 
 def test_supported_formats_orchestration():
@@ -150,21 +139,25 @@ def test_module_statistics_and_validation(temp_dir):
         validation = validate_module_files(module_path)
         assert validation["valid"] is True
 
-    # Add minimal content for testing processing decision
+
+@pytest.mark.requires_api
+def test_processing_with_content(temp_dir, monkeypatch):
+    """Test processing a module that has content (requires TTS/STT API stubs)."""
+    course_path = str(temp_dir)
+    module_path = create_module_structure(course_path, 1)
+
     sample_file = Path(module_path) / "module-1-study-guide.md"
     sample_file.write_text("# Test\nX.\n", encoding="utf-8")
-    
-    # Re-get statistics after adding content
+
     stats = get_module_statistics(module_path)
-    
-    # Check if module has content to process
+
     if stats["total_files"] > 2:  # More than just README and AGENTS
+        monkeypatch.setattr(tts_main, "generate_speech", lambda t, o, **k: None)
+        monkeypatch.setattr(stt_main, "transcribe_audio", lambda i, o: None)
+        monkeypatch.setattr(batch_main.time, "sleep", lambda x: None)
+
         output_dir = temp_dir / "output"
-        with pytest.MonkeyPatch.context() as m:
-            m.setattr(tts_main, "generate_speech", lambda t, o, **k: None)
-            m.setattr(stt_main, "transcribe_audio", lambda i, o: None)
-            m.setattr(batch_main.time, "sleep", lambda x: None)
-            results = generate_module_media(module_path, str(output_dir))
+        results = generate_module_media(module_path, str(output_dir))
         assert isinstance(results, dict)
 
 
@@ -184,20 +177,17 @@ def test_error_handling_in_orchestration(temp_dir):
         get_module_statistics("/nonexistent/module")
 
 
-def test_text_to_speech_workflow(temp_dir):
-    """Test text-to-speech generation workflow."""
-    # Generate speech from minimal text for faster testing
+@pytest.mark.requires_api
+def test_text_to_speech_workflow(temp_dir, monkeypatch):
+    """Test text-to-speech generation workflow (stubbed to avoid real API calls)."""
     audio_file = temp_dir / "test.mp3"
-    
-    with pytest.MonkeyPatch.context() as m:
-        # Mock generate_speech to avoid external calls
-        m.setattr(tts_main, "generate_speech", lambda t, o, **k: None)
-        # Create dummy file since mock won't create it
-        tts_main.generate_speech("Test.", str(audio_file))
-        audio_file.write_text("dummy audio")
+
+    # Stub generate_speech to avoid external calls
+    monkeypatch.setattr(tts_main, "generate_speech", lambda t, o, **k: None)
+
+    # Call the stubbed function — it won't create the file, so we create it manually
+    tts_main.generate_speech("Test.", str(audio_file))
+    audio_file.write_text("dummy audio")
 
     # Verify audio file was created
     assert audio_file.exists()
-
-    # Note: Actual transcription would require real audio file
-    # This demonstrates the workflow structure

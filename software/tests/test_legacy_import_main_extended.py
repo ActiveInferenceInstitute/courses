@@ -4,7 +4,6 @@ Uses real implementations — conditionally skips tests requiring
 WeasyPrint/format_conversion system dependencies.
 """
 
-from pathlib import Path
 import pytest
 
 from src.legacy_import.main import (

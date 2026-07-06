@@ -72,7 +72,8 @@ def main(argv=None):
         courses=courses,
         module_filter=args.module,
         dry_run=args.dry_run,
-        verbose=args.verbose
+        verbose=args.verbose,
+        course_registry=COURSE_REGISTRY
     )
 
     # Report results

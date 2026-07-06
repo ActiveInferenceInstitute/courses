@@ -153,7 +153,6 @@ def convert_markdown_to_docx(input_path: Path, output_path: Path) -> None:
         output_path: Path to output DOCX file
     """
     from docx import Document
-    from docx.shared import Inches
 
     from ..markdown_to_pdf.utils import markdown_to_html, read_markdown_file
 

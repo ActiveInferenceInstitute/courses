@@ -1,6 +1,5 @@
 """Tests for content_processing utils module."""
 
-import pytest
 
 from src.content_processing.utils import (
     extract_questions_from_sectioned,

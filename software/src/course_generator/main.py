@@ -5,17 +5,15 @@ and listing available configurations.
 """
 
 import argparse
-import logging
 import sys
 from pathlib import Path
 from typing import Optional
 
-from .config import ALL_CURRICULA, AGE_LEVEL_CURRICULA, DOMAIN_CURRICULA
+from .config import ALL_CURRICULA, AGE_LEVEL_CURRICULA
 from .logging_config import setup_logging, get_logger
 from .scaffold import generate_curriculum
 from .llm import OllamaClient, enrich_curriculum
 from .utils import resolve_repo_root, validate_structure
-from .schema import CurriculumConfig
 
 logger = get_logger()
 

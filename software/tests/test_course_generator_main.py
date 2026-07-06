@@ -1,9 +1,7 @@
 """Tests for course_generator main CLI and orchestration."""
 
 import pytest
-from pathlib import Path
 from src.course_generator.main import main, generate, list_curricula, validate
-from src.course_generator.config import ALL_CURRICULA
 
 
 class TestListCurricula:

@@ -1,6 +1,5 @@
 """Configuration for validation module."""
 
-from pathlib import Path
 from typing import Dict, List
 
 # All supported output formats
@@ -99,22 +98,18 @@ LAB_OUTPUT_FORMATS = ["pdf", "html"]
 COURSE_CONFIG: Dict[str, Dict] = {
     "ai-philosophy": {
         "expected_modules": 8,
-        "module_prefix": "",
         "module_glob": "[0-9][0-9]_*",
     },
     "ai-cognitive-science": {
         "expected_modules": 8,
-        "module_prefix": "",
         "module_glob": "[0-9][0-9]_*",
     },
     "ai-math": {
         "expected_modules": 8,
-        "module_prefix": "",
         "module_glob": "[0-9][0-9]_*",
     },
     "ai-computer-science": {
         "expected_modules": 8,
-        "module_prefix": "",
         "module_glob": "[0-9][0-9]_*",
     },
 }

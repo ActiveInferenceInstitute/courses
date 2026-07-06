@@ -9,7 +9,7 @@ import logging
 import os
 from pathlib import Path
 
-from .schema import CurriculumConfig, CourseConfig, ModuleConfig, ROOT_FILES, COURSE_FILES
+from .schema import CurriculumConfig, CourseConfig, ModuleConfig
 from . import content
 
 logger = logging.getLogger("course_generator")

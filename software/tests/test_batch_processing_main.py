@@ -48,18 +48,19 @@ class TestProcessModuleToAudio:
     """Tests for process_module_to_audio function."""
 
     @pytest.mark.requires_internet
-    def test_process_module_to_audio_success(self, sample_module_structure):
+    def test_process_module_to_audio_success(self, monkeypatch, sample_module_structure):
         """Test converting module text to audio (mocked to avoid API calls)."""
         output_dir = sample_module_structure.parent / "audio_output"
-        
-        with pytest.MonkeyPatch.context() as m:
-            # Mock generate_speech to avoid external calls
-            m.setattr("src.text_to_speech.main.generate_speech", lambda t, o, **k: None)
-            
-            result = process_module_to_audio(str(sample_module_structure), str(output_dir))
-            
-            assert isinstance(result, list)
-            assert all(f.endswith(".mp3") for f in result)
+
+        # Mock generate_speech to avoid external calls
+        monkeypatch.setattr(
+            "src.text_to_speech.main.generate_speech", lambda t, o, **k: None
+        )
+
+        result = process_module_to_audio(str(sample_module_structure), str(output_dir))
+
+        assert isinstance(result, list)
+        assert all(f.endswith(".mp3") for f in result)
 
     def test_process_module_to_audio_nonexistent(self, temp_dir):
         """Test processing non-existent module raises ValueError."""
@@ -72,38 +73,40 @@ class TestProcessModuleToText:
 
     def test_process_module_to_text_nonexistent(self, temp_dir):
         """Test processing non-existent module raises ValueError."""
-        with pytest.MonkeyPatch.context() as m:
-            m.setattr("src.speech_to_text.main.transcribe_audio", lambda i, o: None)
-            with pytest.raises(ValueError, match="does not exist"):
-                process_module_to_text(str(temp_dir / "nonexistent"), str(temp_dir / "output"))
+        # ValueError is raised before any transcribe_audio call — no mock needed
+        with pytest.raises(ValueError, match="does not exist"):
+            process_module_to_text(str(temp_dir / "nonexistent"), str(temp_dir / "output"))
 
     def test_process_module_to_text_no_audio(self, temp_dir):
         """Test processing module with no audio files."""
         module_dir = temp_dir / "module"
         module_dir.mkdir()
         output_dir = temp_dir / "output"
-        
-        with pytest.MonkeyPatch.context() as m:
-            m.setattr("src.speech_to_text.main.transcribe_audio", lambda i, o: None)
-            result = process_module_to_text(str(module_dir), str(output_dir))
-        
+
+        # No audio files → transcribe_audio is never called, no mock needed
+        result = process_module_to_text(str(module_dir), str(output_dir))
+
         assert result == []
 
 
 class TestGenerateModuleMedia:
     """Tests for generate_module_media function."""
 
-    def test_generate_module_media_structure(self, sample_module_structure):
+    @pytest.mark.requires_internet
+    def test_generate_module_media_structure(self, monkeypatch, sample_module_structure):
         """Test that generate_module_media returns correct structure."""
         output_dir = sample_module_structure.parent / "media_output"
-        
-        with pytest.MonkeyPatch.context() as m:
-            # Mock both speech generation and transcription
-            m.setattr("src.text_to_speech.main.generate_speech", lambda t, o, **k: None)
-            m.setattr("src.speech_to_text.main.transcribe_audio", lambda i, o: None)
-            
-            result = generate_module_media(str(sample_module_structure), str(output_dir))
-        
+
+        # Mock both speech generation and transcription to avoid external calls
+        monkeypatch.setattr(
+            "src.text_to_speech.main.generate_speech", lambda t, o, **k: None
+        )
+        monkeypatch.setattr(
+            "src.speech_to_text.main.transcribe_audio", lambda i, o: None
+        )
+
+        result = generate_module_media(str(sample_module_structure), str(output_dir))
+
         assert "pdf_files" in result
         assert "audio_files" in result
         assert "text_files" in result
@@ -135,7 +138,8 @@ class TestProcessModuleByType:
         with pytest.raises(ValueError, match="does not exist"):
             process_module_by_type(str(temp_dir / "nonexistent"), str(temp_dir / "output"))
 
-    def test_process_module_by_type_with_assignments(self, temp_dir):
+    @pytest.mark.requires_internet
+    def test_process_module_by_type_with_assignments(self, monkeypatch, temp_dir):
         """Test processing module with assignments directory."""
         module_dir = temp_dir / "module"
         module_dir.mkdir()
@@ -144,17 +148,22 @@ class TestProcessModuleByType:
         (assignments_dir / "assignment-1.md").write_text("# Assignment 1\n\nContent", encoding="utf-8")
         
         output_dir = temp_dir / "output"
-        
-        with pytest.MonkeyPatch.context() as m:
-            m.setattr("src.text_to_speech.main.generate_speech", lambda t, o, **k: None)
-            m.setattr("src.speech_to_text.main.transcribe_audio", lambda i, o: None)
-            m.setattr("src.batch_processing.main.time.sleep", lambda x: None)
-            result = process_module_by_type(str(module_dir), str(output_dir))
-        
+
+        monkeypatch.setattr(
+            "src.text_to_speech.main.generate_speech", lambda t, o, **k: None
+        )
+        monkeypatch.setattr(
+            "src.speech_to_text.main.transcribe_audio", lambda i, o: None
+        )
+        monkeypatch.setattr("src.batch_processing.main.time.sleep", lambda x: None)
+
+        result = process_module_by_type(str(module_dir), str(output_dir))
+
         assert "by_type" in result
         assert "errors" in result
 
-    def test_process_module_by_type_curriculum_types(self, temp_dir):
+    @pytest.mark.requires_internet
+    def test_process_module_by_type_curriculum_types(self, monkeypatch, temp_dir):
         """Test processing module with various curriculum types."""
         module_dir = temp_dir / "module"
         module_dir.mkdir()
@@ -166,13 +175,17 @@ class TestProcessModuleByType:
         (module_dir / "sample_assignment.md").write_text("# Assignment\n\nContent", encoding="utf-8")
         
         output_dir = temp_dir / "output"
-        
-        with pytest.MonkeyPatch.context() as m:
-            m.setattr("src.text_to_speech.main.generate_speech", lambda t, o, **k: None)
-            m.setattr("src.speech_to_text.main.transcribe_audio", lambda i, o: None)
-            m.setattr("src.batch_processing.main.time.sleep", lambda x: None)
-            result = process_module_by_type(str(module_dir), str(output_dir))
-        
+
+        monkeypatch.setattr(
+            "src.text_to_speech.main.generate_speech", lambda t, o, **k: None
+        )
+        monkeypatch.setattr(
+            "src.speech_to_text.main.transcribe_audio", lambda i, o: None
+        )
+        monkeypatch.setattr("src.batch_processing.main.time.sleep", lambda x: None)
+
+        result = process_module_by_type(str(module_dir), str(output_dir))
+
         # Should have processed multiple types
         total = sum(result["summary"].values())
         assert total > 0
@@ -456,4 +469,3 @@ class TestProcessSyllabusMdFormat:
         md_files = list(output_dir.rglob("*.md"))
         assert len(md_files) >= 1
         assert result["summary"]["md"] >= 1
-

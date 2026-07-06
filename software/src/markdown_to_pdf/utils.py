@@ -1,6 +1,5 @@
 """Utility functions for Markdown to PDF conversion."""
 
-import html
 import os
 import platform
 import subprocess

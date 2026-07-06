@@ -1,8 +1,6 @@
 """Tests for file_validation main functions."""
 
-from pathlib import Path
 
-import pytest
 
 from src.file_validation.main import (
     check_naming_conventions,

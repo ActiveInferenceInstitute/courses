@@ -1,8 +1,13 @@
+"""Tests for the publish_course script.
+
+Tests that publish to real course directories are marked with
+@pytest.mark.requires_api — run them with: pytest -m requires_api
+"""
+
 import importlib.util
 import sys
 from pathlib import Path
 import pytest
-from unittest.mock import MagicMock, patch
 
 # Add project root to sys.path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -23,42 +28,52 @@ def script():
 
 
 class TestPublishCourse:
-    
+
     def test_parse_args(self, script):
         args = script.parse_args(["--course", "ai-math"])
         assert args.course == "ai-math"
 
-    @patch("publish_course.publish_course")
-    def test_main_execution(self, mock_publish, script):
-        mock_publish.return_value = {
+    def test_main_invalid_course(self, script):
+        with pytest.raises(SystemExit):
+            script.main(["--course", "INVALID"])
+
+    @pytest.mark.requires_api
+    def test_main_execution(self, script, temp_dir, monkeypatch):
+        """main() calls publish_course and returns 0 on success (requires real paths)."""
+        fake_result = {
             "course": "Philosophy",
             "modules_published": 1,
             "syllabus_files": 1,
             "total_files": 2,
-            "modules": [{"name": "module-01", "files": 2}]
+            "modules": [{"name": "module-01", "files": 2}],
         }
-        
-        # Bypass filesystem checks
-        with patch("publish_course.Path.exists", return_value=True):
-            exit_code = script.main(["--course", "ai-philosophy"])
-            assert exit_code == 0
-            
-        mock_publish.assert_called_once()
 
-    @patch("publish_course.publish_course")
-    def test_main_all(self, mock_publish, script):
-        mock_publish.return_value = {
-            "course": "Any", "modules_published": 0, "syllabus_files": 0, "total_files": 0, "modules": []
-        }
-        
-        with patch("publish_course.Path.exists", return_value=True):
-            exit_code = script.main(["--course", "all"])
-            assert exit_code == 0
-            
-        # Should be called for each registered course
+        monkeypatch.setattr(publish_course_script, "publish_course", lambda *a, **kw: fake_result)
+        monkeypatch.setattr(Path, "exists", lambda self: True)
+
+        exit_code = script.main(["--course", "ai-philosophy"])
+        assert exit_code == 0
+
+    @pytest.mark.requires_api
+    def test_main_all(self, script, temp_dir, monkeypatch):
+        """main() calls publish_course once per registered course (requires real paths)."""
         from src.batch_processing.config import COURSE_REGISTRY
-        assert mock_publish.call_count == len(COURSE_REGISTRY)
 
-    def test_main_invalid_course(self, script):
-        with pytest.raises(SystemExit):
-            script.main(["--course", "INVALID"])
+        call_count = []
+
+        def fake_publish(*args, **kwargs):
+            call_count.append(1)
+            return {
+                "course": "Any",
+                "modules_published": 0,
+                "syllabus_files": 0,
+                "total_files": 0,
+                "modules": [],
+            }
+
+        monkeypatch.setattr(publish_course_script, "publish_course", fake_publish)
+        monkeypatch.setattr(Path, "exists", lambda self: True)
+
+        exit_code = script.main(["--course", "all"])
+        assert exit_code == 0
+        assert len(call_count) == len(COURSE_REGISTRY)
