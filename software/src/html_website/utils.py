@@ -118,7 +118,7 @@ def extract_quiz_questions(markdown_content: str) -> List[dict]:
                 # Remove leading number
                 for i in range(1, 10):
                     if question_text.startswith(f"{i}. "):
-                        question_text = question_text[len(f"{i}. "):]
+                        question_text = question_text[len(f"{i}. ") :]
                         break
                 current_question = {
                     "question": question_text,

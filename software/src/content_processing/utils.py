@@ -29,13 +29,13 @@ def extract_questions_from_sectioned(content: str) -> list[str]:
     questions = []
 
     # Find all bullet point questions (lines starting with * or -)
-    lines = content.split('\n')
+    lines = content.split("\n")
     for line in lines:
         stripped = line.strip()
         # Match lines that start with * or - and contain a question
-        if stripped.startswith('*') or stripped.startswith('-'):
+        if stripped.startswith("*") or stripped.startswith("-"):
             # Remove the bullet point marker
-            question = stripped.lstrip('*- \t')
+            question = stripped.lstrip("*- \t")
             if question and len(question) > 5:  # Skip very short items
                 questions.append(question)
 
@@ -58,7 +58,7 @@ def format_as_continuous(questions: list[str], title: str) -> str:
         lines.append(f"{i}. {q}")
         lines.append("")
 
-    return '\n'.join(lines)
+    return "\n".join(lines)
 
 
 def normalize_whitespace(content: str) -> str:
@@ -74,7 +74,7 @@ def normalize_whitespace(content: str) -> str:
     Returns:
         Normalized markdown content
     """
-    lines = content.split('\n')
+    lines = content.split("\n")
 
     # Remove trailing whitespace from each line
     lines = [line.rstrip() for line in lines]
@@ -83,7 +83,7 @@ def normalize_whitespace(content: str) -> str:
     result = []
     blank_count = 0
     for line in lines:
-        if line == '':
+        if line == "":
             blank_count += 1
             if blank_count <= 2:
                 result.append(line)
@@ -92,11 +92,11 @@ def normalize_whitespace(content: str) -> str:
             result.append(line)
 
     # Ensure single trailing newline
-    while result and result[-1] == '':
+    while result and result[-1] == "":
         result.pop()
-    result.append('')
+    result.append("")
 
-    return '\n'.join(result)
+    return "\n".join(result)
 
 
 def extract_headers(content: str) -> List[Tuple[int, str]]:
@@ -109,11 +109,11 @@ def extract_headers(content: str) -> List[Tuple[int, str]]:
         List of tuples (level, header_text) where level is 1-6
     """
     headers = []
-    lines = content.split('\n')
+    lines = content.split("\n")
 
     for line in lines:
         # Match markdown headers (# Header, ## Header, etc.)
-        match = re.match(r'^(#{1,6})\s+(.+)$', line)
+        match = re.match(r"^(#{1,6})\s+(.+)$", line)
         if match:
             level = len(match.group(1))
             text = match.group(2).strip()
@@ -137,7 +137,7 @@ def count_questions(content: str) -> Dict[str, int]:
         - bulleted: Questions starting with * or -
         - inline: Lines containing ? (potential questions)
     """
-    lines = content.split('\n')
+    lines = content.split("\n")
 
     counts = {
         "numbered": 0,
@@ -147,11 +147,11 @@ def count_questions(content: str) -> Dict[str, int]:
 
     for line in lines:
         stripped = line.strip()
-        if re.match(r'^\d+\.', stripped):
+        if re.match(r"^\d+\.", stripped):
             counts["numbered"] += 1
-        elif stripped.startswith('*') or stripped.startswith('-'):
+        elif stripped.startswith("*") or stripped.startswith("-"):
             counts["bulleted"] += 1
-        elif '?' in stripped:
+        elif "?" in stripped:
             counts["inline"] += 1
 
     return counts
@@ -167,11 +167,11 @@ def extract_numbered_items(content: str) -> List[str]:
         List of text for each numbered item
     """
     items = []
-    lines = content.split('\n')
+    lines = content.split("\n")
 
     for line in lines:
         # Match numbered list items: "1. Text" or "12. Text"
-        match = re.match(r'^\s*\d+\.\s+(.+)$', line)
+        match = re.match(r"^\s*\d+\.\s+(.+)$", line)
         if match:
             items.append(match.group(1))
 
@@ -198,11 +198,11 @@ def validate_question_format(content: str) -> Dict[str, any]:
         "issues": [],
     }
 
-    lines = content.split('\n')
+    lines = content.split("\n")
 
     # Check for title
     for line in lines:
-        if line.startswith('# '):
+        if line.startswith("# "):
             result["has_title"] = True
             break
 
@@ -228,9 +228,15 @@ def parse_module(module_dir: Path) -> Dict[str, Any]:
         return {}
     text = path.read_text(encoding="utf-8")
     data = {
-        "title": "", "subtitle": "", "overview": "", "objectives": [],
-        "key_concepts": [], "lesson_content": "", "summary": "",
-        "activities": [], "subsections": [],
+        "title": "",
+        "subtitle": "",
+        "overview": "",
+        "objectives": [],
+        "key_concepts": [],
+        "lesson_content": "",
+        "summary": "",
+        "activities": [],
+        "subsections": [],
     }
     lines = text.split("\n")
 
@@ -241,9 +247,22 @@ def parse_module(module_dir: Path) -> Dict[str, Any]:
             break
 
     # Subtitle (first H2 that isn't a section header keyword)
-    skip_kw = {"overview", "introduction", "learning", "key ", "core", "lesson",
-               "summary", "reference", "further", "example", "contents", "activity",
-               "connection", "practice"}
+    skip_kw = {
+        "overview",
+        "introduction",
+        "learning",
+        "key ",
+        "core",
+        "lesson",
+        "summary",
+        "reference",
+        "further",
+        "example",
+        "contents",
+        "activity",
+        "connection",
+        "practice",
+    }
     found_title = False
     for ln in lines:
         if ln.startswith("# "):
@@ -286,10 +305,13 @@ def parse_module(module_dir: Path) -> Dict[str, Any]:
 
     # Key concepts
     for k in sections:
-        if "key" in k.lower() and ("concept" in k.lower() or "vocab" in k.lower() or "term" in k.lower()):
+        if "key" in k.lower() and (
+            "concept" in k.lower() or "vocab" in k.lower() or "term" in k.lower()
+        ):
             for m in re.finditer(
                 r"-\s*\*\*([^*]+)\*\*\s*[-—:]\s*(.+?)(?=\n-|\n\n|\Z)",
-                sections[k], re.DOTALL,
+                sections[k],
+                re.DOTALL,
             ):
                 name = m.group(1).strip()
                 defn = m.group(2).strip().replace("\n", " ")
@@ -328,63 +350,72 @@ def get_audience_info(course: str) -> Dict[str, Any]:
     """Return audience-specific details for content generation."""
     if "es" in course and "embodied" not in course:
         return {
-            "level": "elementary", "tone": "Grades K-5",
+            "level": "elementary",
+            "tone": "Grades K-5",
             "lab_style": "hands-on activity with drawing and discussion",
             "time_total": "30-40 minutes",
             "part_times": ["10 minutes", "15 minutes", "10 minutes"],
         }
     elif "ms" in course:
         return {
-            "level": "middle", "tone": "Grades 6-8",
+            "level": "middle",
+            "tone": "Grades 6-8",
             "lab_style": "experiment and group investigation",
             "time_total": "40-50 minutes",
             "part_times": ["15 minutes", "20 minutes", "10 minutes"],
         }
     elif "hs" in course:
         return {
-            "level": "high_school", "tone": "Grades 9-12",
+            "level": "high_school",
+            "tone": "Grades 9-12",
             "lab_style": "structured analysis and collaborative discussion",
             "time_total": "45-55 minutes",
             "part_times": ["15 minutes", "20 minutes", "15 minutes"],
         }
     elif "101" in course:
         return {
-            "level": "college", "tone": "College First Semester",
+            "level": "college",
+            "tone": "College First Semester",
             "lab_style": "concept analysis, application, and reflection",
             "time_total": "50-60 minutes",
             "part_times": ["20 minutes", "20 minutes", "15 minutes"],
         }
     elif "401" in course:
         return {
-            "level": "graduate", "tone": "Graduate Level",
+            "level": "graduate",
+            "tone": "Graduate Level",
             "lab_style": "research exercise and critical analysis",
             "time_total": "60-90 minutes",
             "part_times": ["25 minutes", "30 minutes", "20 minutes"],
         }
     elif "embodied" in course:
         return {
-            "level": "practitioner", "tone": "Movement Practitioners",
+            "level": "practitioner",
+            "tone": "Movement Practitioners",
             "lab_style": "somatic exploration and embodied reflection",
             "time_total": "45-60 minutes",
             "part_times": ["15 minutes", "20 minutes", "15 minutes"],
         }
     elif "organizations" in course:
         return {
-            "level": "professional", "tone": "Organizational Leaders",
+            "level": "professional",
+            "tone": "Organizational Leaders",
             "lab_style": "case analysis and strategic exercise",
             "time_total": "45-60 minutes",
             "part_times": ["15 minutes", "20 minutes", "15 minutes"],
         }
     elif "robotics" in course:
         return {
-            "level": "technical", "tone": "Robotics Practitioners",
+            "level": "technical",
+            "tone": "Robotics Practitioners",
             "lab_style": "design exercise and system analysis",
             "time_total": "50-60 minutes",
             "part_times": ["20 minutes", "20 minutes", "15 minutes"],
         }
     else:
         return {
-            "level": "general", "tone": "General Audience",
+            "level": "general",
+            "tone": "General Audience",
             "lab_style": "exploration and reflection",
             "time_total": "40-50 minutes",
             "part_times": ["15 minutes", "20 minutes", "10 minutes"],

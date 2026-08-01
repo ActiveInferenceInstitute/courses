@@ -18,16 +18,23 @@ from pathlib import Path
 software_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(software_dir))
 
-from src.batch_processing.config import COURSE_REGISTRY
-from src.translation import translate_file
+from src.batch_processing.config import COURSE_REGISTRY  # noqa: E402
+from src.translation import translate_file  # noqa: E402
 
 DEFAULT_BASE = Path(__file__).resolve().parent.parent.parent / "course_development"
 
 
-def translate_course(course_key: str, base: Path, lang: str, dry_run: bool, model: str = None, output_dir: Path = None):
-    
+def translate_course(
+    course_key: str,
+    base: Path,
+    lang: str,
+    dry_run: bool,
+    model: str = None,
+    output_dir: Path = None,
+):
     # Initialize client if not dry_run to fail early if offline
     from src.llm import OllamaClient
+
     client = None
     if not dry_run:
         client = OllamaClient(model=model) if model else OllamaClient()
@@ -36,7 +43,7 @@ def translate_course(course_key: str, base: Path, lang: str, dry_run: bool, mode
             return
 
     print(f"Translating {course_key} to {lang} (model: {client.model if client else 'N/A'})...")
-    
+
     # Locate course dir
     # Simplified logic: find dir matching registry key approximation or explicit path
     course_path = None
@@ -45,19 +52,18 @@ def translate_course(course_key: str, base: Path, lang: str, dry_run: bool, mode
     if reg_path:
         # Check if reg_path is already absolute or relative to repo root
         # configured paths are relative to repo root, but base is course_development
-        # so we need to be careful. 
+        # so we need to be careful.
         # Actually COURSE_REGISTRY paths are "course_development/..."
         # So if base is course_development, we need to strip that prefix or just use repo root logic.
-        
+
         # Let's assume content acts on course_development as base.
         # If reg_path starts with course_development, we can relate it.
-        
+
         repo_root = base.parent
         p = repo_root / reg_path
         if p.exists():
             course_path = p
 
-    
     if not course_path:
         # Fallback search in base
         found = False
@@ -73,7 +79,8 @@ def translate_course(course_key: str, base: Path, lang: str, dry_run: bool, mode
     if output_dir:
         # Use full language name if available, else code
         from src.translation.utils import get_language_name
-        lang_name = get_language_name(lang).replace(" ", "_") # unexpected spaces safety
+
+        lang_name = get_language_name(lang).replace(" ", "_")  # unexpected spaces safety
         target_root = output_dir / lang_name / "courses"
         target_dir = target_root / course_path.name
     else:
@@ -82,7 +89,7 @@ def translate_course(course_key: str, base: Path, lang: str, dry_run: bool, mode
 
     print(f"Source: {course_path}")
     print(f"Target: {target_dir}")
-    
+
     if dry_run:
         print("[Dry Run] Would duplicate and translate files...")
         return
@@ -93,29 +100,33 @@ def translate_course(course_key: str, base: Path, lang: str, dry_run: bool, mode
     else:
         # Copy structure first to preserve non-text assets (images, etc)
         # Use shutil.copytree with ignore to skip generated outputs if needed
-        shutil.copytree(course_path, target_dir, dirs_exist_ok=True, 
-                        ignore=shutil.ignore_patterns("output", "*.pdf", "__pycache__"))
+        shutil.copytree(
+            course_path,
+            target_dir,
+            dirs_exist_ok=True,
+            ignore=shutil.ignore_patterns("output", "*.pdf", "__pycache__"),
+        )
         print("Copied directory structure.")
 
     # Translate MD files in place in the new directory
     for md_file in target_dir.rglob("*.md"):
         if "output" in md_file.parts:
             continue
-            
+
         print(f"Translating {md_file.name}...")
         try:
             # We translate in place: read, translate, overwrite
             # Using translate_file usually produces _lang.md
             # Here we want to REPLACE the file content in the NEW directory
             # so the filename stays "module.md" (important for build scripts)
-            
+
             # 1. Translate to temp file
-            temp_out = translate_file(str(md_file), lang, client=client) # creates file_lang.md
+            temp_out = translate_file(str(md_file), lang, client=client)  # creates file_lang.md
             temp_path = Path(temp_out)
-            
+
             # 2. Move temp file to original name (overwrite)
             temp_path.replace(md_file)
-            
+
         except Exception as e:
             print(f"Failed to translate {md_file}: {e}")
 
@@ -127,7 +138,9 @@ def parse_args(argv=None):
     parser.add_argument("--base", type=Path, default=DEFAULT_BASE)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--model", help="Ollama model override")
-    parser.add_argument("--output", type=Path, default=Path("published/translations"), help="Output directory base")
+    parser.add_argument(
+        "--output", type=Path, default=Path("published/translations"), help="Output directory base"
+    )
     return parser.parse_args(argv)
 
 

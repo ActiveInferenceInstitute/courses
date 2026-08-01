@@ -42,10 +42,7 @@ Examples:
     )
 
     parser.add_argument(
-        "--course",
-        choices=list(COURSE_REGISTRY.keys()),
-        help="Course to process",
-        required=True
+        "--course", choices=list(COURSE_REGISTRY.keys()), help="Course to process", required=True
     )
 
     parser.add_argument(

@@ -253,9 +253,7 @@ def transcribe_with_whisper(audio_path: Path, model: str = "base") -> str:
     try:
         import whisper  # type: ignore[import-not-found]
     except ImportError:
-        raise ImportError(
-            "openai-whisper is not installed. Install with: uv sync --extra whisper"
-        )
+        raise ImportError("openai-whisper is not installed. Install with: uv sync --extra whisper")
 
     whisper_model = whisper.load_model(model)
     result = whisper_model.transcribe(str(audio_path))

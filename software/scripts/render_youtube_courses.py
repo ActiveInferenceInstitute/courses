@@ -29,7 +29,6 @@ Examples:
 """
 
 import argparse
-import json
 import logging
 import sys
 import time
@@ -263,9 +262,7 @@ def main(argv=None) -> int:
             resume=resume,
         )
 
-        logger.info(
-            f"\nRender summary: {render_results['total_rendered']} modules rendered"
-        )
+        logger.info(f"\nRender summary: {render_results['total_rendered']} modules rendered")
         if render_results["total_errors"]:
             logger.warning(f"Errors: {len(render_results['total_errors'])}")
             for err in render_results["total_errors"][:10]:

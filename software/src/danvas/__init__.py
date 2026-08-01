@@ -22,7 +22,7 @@ Sub-modules
 from .main import DanvasHandler, start_server
 
 # Data-layer functions
-from .store import load_store, save_store
+from .store import load_store, save_store, store_transaction
 from .discovery import discover_courses, get_course_by_id, get_course_modules
 from .enrollment import enroll_user, unenroll_user, get_roster
 from .gradebook import record_grade, get_grades, calculate_course_grade
@@ -36,6 +36,7 @@ __all__ = [
     # store
     "load_store",
     "save_store",
+    "store_transaction",
     # discovery
     "discover_courses",
     "get_course_by_id",

@@ -96,6 +96,13 @@ Each course stores its state in `~/.danvas/<course_id>/danvas_store.json`:
 
 ## Role Permissions
 
+Mutating handlers are gated by role via `middleware.check_permission`. The
+default request role is the local-first `config.DEFAULT_ROLE` (`instructor`
+unless `DANVAS_ROLE` is set), so the tool works out of the box on loopback.
+When binding a non-loopback host, set `DANVAS_ROLE` to a least-privilege role
+and treat the server as unauthenticated (no login/session model is included):
+any anonymous client that can reach the server acts under that role.
+
 | Permission | Instructor | TA | Student |
 |---|---|---|---|
 | View course | ✅ | ✅ | ✅ |
@@ -106,10 +113,34 @@ Each course stores its state in `~/.danvas/<course_id>/danvas_store.json`:
 | Manage roster | ✅ | ❌ | ❌ |
 | Manage calendar | ✅ | ❌ | ❌ |
 
+Denials return HTTP 403.  Roles map to permissions in `config.ROLE_PERMISSIONS`.
+
+## Security hardening
+
+- **Path/identifier safety** — `course_id` is validated against a strict
+  ``[A-Za-z0-9_-]`` whitelist (`store.validate_course_id`) and enforced both in
+  the HTTP dispatch layer and the data layer, with a resolved-path containment
+  check in `_store_path`. Traversal ids (`..`, `/`, `%`) are rejected (404).
+- **Authorization** — role-based permission checks run for every mutating
+  handler before it is invoked (see Role Permissions above).
+- **Input validation** — grades must be finite numbers with non-negative
+  `max_score`; calendar events require a valid `YYYY-MM-DD` date and a
+  whitelisted `event_type`; announcement/author/user-name/event-title lengths
+  are capped.
+- **Body limits** — POST bodies are capped at `config.MAX_POST_BODY` (64 KiB)
+  and `Content-Length` is validated; oversized/invalid requests return 400.
+- **Concurrency & durability** — data-layer mutations run inside
+  `store.store_transaction` (per-course lock preventing lost updates), and
+  writes `fsync` before `os.replace` for durability. A corrupt/truncated store
+  falls back to the empty state instead of crashing every request.
+
 ## Testing
 
 ```bash
 uv run pytest tests/test_danvas_utils.py tests/test_danvas_main.py tests/test_danvas_comprehensive.py -v
 ```
 
-97 tests across 3 test files cover templates, HTML escaping, edge cases, input validation, multi-course isolation, config, API round-trips, and route dispatch.
+Tests cover templates, HTML escaping, path-traversal rejection, role-based
+authorization (403), body-limit enforcement, store transactions, edge cases,
+input validation, multi-course isolation, config, API round-trips, and route
+dispatch.

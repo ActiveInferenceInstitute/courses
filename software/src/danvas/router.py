@@ -16,31 +16,37 @@ ROUTES: List[Tuple[str, "re.Pattern[str]", str]] = [
     # (method, pattern, handler_name)
     # ── Dashboard ─────────────────────────────────────────────────────────
     ("GET", re.compile(r"^/$"), "handle_dashboard"),
-
     # ── Course pages ──────────────────────────────────────────────────────
-    ("GET",  re.compile(r"^/course/(?P<course_id>[^/]+)$"),                          "handle_course_detail"),
-    ("GET",  re.compile(r"^/course/(?P<course_id>[^/]+)/module/(?P<module_num>\d+)$"), "handle_module_detail"),
-
+    ("GET", re.compile(r"^/course/(?P<course_id>[^/]+)$"), "handle_course_detail"),
+    (
+        "GET",
+        re.compile(r"^/course/(?P<course_id>[^/]+)/module/(?P<module_num>\d+)$"),
+        "handle_module_detail",
+    ),
     # ── Gradebook ─────────────────────────────────────────────────────────
-    ("GET",  re.compile(r"^/course/(?P<course_id>[^/]+)/gradebook$"), "handle_gradebook"),
+    ("GET", re.compile(r"^/course/(?P<course_id>[^/]+)/gradebook$"), "handle_gradebook"),
     ("POST", re.compile(r"^/course/(?P<course_id>[^/]+)/gradebook$"), "handle_gradebook_post"),
-
     # ── Announcements ─────────────────────────────────────────────────────
-    ("GET",  re.compile(r"^/course/(?P<course_id>[^/]+)/announcements$"), "handle_announcements"),
-    ("POST", re.compile(r"^/course/(?P<course_id>[^/]+)/announcements$"), "handle_announcements_post"),
-
+    ("GET", re.compile(r"^/course/(?P<course_id>[^/]+)/announcements$"), "handle_announcements"),
+    (
+        "POST",
+        re.compile(r"^/course/(?P<course_id>[^/]+)/announcements$"),
+        "handle_announcements_post",
+    ),
     # ── Calendar ──────────────────────────────────────────────────────────
-    ("GET",  re.compile(r"^/course/(?P<course_id>[^/]+)/calendar$"), "handle_calendar"),
+    ("GET", re.compile(r"^/course/(?P<course_id>[^/]+)/calendar$"), "handle_calendar"),
     ("POST", re.compile(r"^/course/(?P<course_id>[^/]+)/calendar$"), "handle_calendar_post"),
-
     # ── Roster ────────────────────────────────────────────────────────────
-    ("GET",  re.compile(r"^/course/(?P<course_id>[^/]+)/roster$"), "handle_roster"),
+    ("GET", re.compile(r"^/course/(?P<course_id>[^/]+)/roster$"), "handle_roster"),
     ("POST", re.compile(r"^/course/(?P<course_id>[^/]+)/roster$"), "handle_roster_post"),
-
     # ── JSON API ──────────────────────────────────────────────────────────
-    ("GET", re.compile(r"^/api/courses$"),                                     "handle_api_courses"),
-    ("GET", re.compile(r"^/api/course/(?P<course_id>[^/]+)/grades$"),          "handle_api_grades"),
-    ("GET", re.compile(r"^/api/course/(?P<course_id>[^/]+)/announcements$"),   "handle_api_announcements"),
+    ("GET", re.compile(r"^/api/courses$"), "handle_api_courses"),
+    ("GET", re.compile(r"^/api/course/(?P<course_id>[^/]+)/grades$"), "handle_api_grades"),
+    (
+        "GET",
+        re.compile(r"^/api/course/(?P<course_id>[^/]+)/announcements$"),
+        "handle_api_announcements",
+    ),
 ]
 
 

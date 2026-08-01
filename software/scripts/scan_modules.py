@@ -10,21 +10,19 @@ from pathlib import Path
 software_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(software_dir))
 
-from src.batch_processing.config import COURSE_REGISTRY
-from src.content_processing.structure_scan import scan_course, format_report
+from src.batch_processing.config import COURSE_REGISTRY  # noqa: E402
+from src.content_processing.structure_scan import scan_course, format_report  # noqa: E402
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='[%(levelname)s] %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
+
 
 def main():
     repo_root = software_dir.parent
-    
+
     logger.info("Starting structural scan of modules...")
-    
+
     all_issues = []
     stats = {
         "total_modules_expected": 0,
@@ -46,16 +44,16 @@ def main():
         # Skip Youtube transcripts as they have different structure/requirements
         if course_id == "youtube":
             continue
-            
+
         logger.info(f"Scanning {course_id}...")
-        
+
         course_stats, summary, issues = scan_course(course_id, config, repo_root)
-        
+
         # Merge stats
         for k, v in course_stats.items():
             if k in stats:
                 stats[k] += v
-                
+
         course_summaries.update(summary)
         all_issues.extend(issues)
 
@@ -72,14 +70,17 @@ def main():
     json_path = repo_root / "structural_scan_data.json"
     json_data = {
         "stats": stats,
-        "course_summaries": {k: {
-            **v,
-            # Ensure sets/lists are serializable if any remain (though structure_scan uses lists)
-        } for k, v in course_summaries.items()},
+        "course_summaries": {
+            k: {
+                **v,
+                # Ensure sets/lists are serializable if any remain (though structure_scan uses lists)
+            }
+            for k, v in course_summaries.items()
+        },
         "issues_count": len(all_issues),
-        "issues_by_type": {}
+        "issues_by_type": {},
     }
-    
+
     for iss in all_issues:
         t = iss["type"]
         if t not in json_data["issues_by_type"]:
@@ -88,6 +89,7 @@ def main():
 
     json_path.write_text(json.dumps(json_data, indent=2), encoding="utf-8")
     logger.info(f"JSON data saved to: {json_path}")
+
 
 if __name__ == "__main__":
     main()

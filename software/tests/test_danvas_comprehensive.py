@@ -263,6 +263,21 @@ class TestEdgeCases:
         entry = record_grade("test", "alice", "hw", 0, 0.0, data_dir)
         assert entry["percentage"] == 0.0
 
+    def test_non_finite_grade_rejected(self, data_dir):
+        """Non-finite or negative grades must be rejected, not persisted."""
+        import math
+
+        with pytest.raises(ValueError):
+            record_grade("test", "alice", "hw", float("nan"), 100.0, data_dir)
+        with pytest.raises(ValueError):
+            record_grade("test", "alice", "hw", float("inf"), 100.0, data_dir)
+        with pytest.raises(ValueError):
+            record_grade("test", "alice", "hw", 50, -1.0, data_dir)
+        with pytest.raises(ValueError):
+            record_grade("test", "alice", "hw", 50, float("inf"), data_dir)
+        # Nothing was written for the rejected inputs.
+        assert get_grades("test", "alice", data_dir) == {}
+
     def test_very_long_assignment_name(self, data_dir):
         """Long assignment names should be stored correctly."""
         long_name = "A" * 1000

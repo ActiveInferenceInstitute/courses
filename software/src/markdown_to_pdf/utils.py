@@ -17,9 +17,7 @@ if platform.system() == "Darwin":
         _brew_lib = os.path.join(_brew_prefix, "lib")
         _current = os.environ.get("DYLD_LIBRARY_PATH", "")
         if _brew_lib not in _current:
-            os.environ["DYLD_LIBRARY_PATH"] = (
-                f"{_brew_lib}:{_current}" if _current else _brew_lib
-            )
+            os.environ["DYLD_LIBRARY_PATH"] = f"{_brew_lib}:{_current}" if _current else _brew_lib
     except (FileNotFoundError, subprocess.CalledProcessError):
         pass  # Homebrew not installed; skip
 
@@ -67,13 +65,20 @@ def markdown_to_html(markdown_text: str, extensions: Optional[list] = None) -> s
     return html_content
 
 
-def html_to_pdf(html_content: str, css_content: str, output_path: Path) -> None:
+def html_to_pdf(
+    html_content: str,
+    css_content: str,
+    output_path: Path,
+    pdf_options: Optional[dict] = None,
+) -> None:
     """Convert HTML content to PDF.
 
     Args:
         html_content: HTML content
         css_content: CSS styling
         output_path: Path for output PDF file
+        pdf_options: Optional page options (``page_size``, ``margin_*``) to
+            apply via an ``@page`` rule.
 
     Raises:
         OSError: If PDF generation fails
@@ -88,10 +93,29 @@ def html_to_pdf(html_content: str, css_content: str, output_path: Path) -> None:
             "See: https://doc.courtbouillon.org/weasyprint/stable/first_steps.html"
         ) from import_err
 
+    stylesheets = [CSS(string=css_content)]
+
+    if pdf_options:
+        page_rules = ["@page {"]
+        if pdf_options.get("page_size"):
+            page_rules.append(f"    size: {pdf_options['page_size']};")
+        margins = {
+            "margin_top": "margin-top",
+            "margin_bottom": "margin-bottom",
+            "margin_left": "margin-left",
+            "margin_right": "margin-right",
+        }
+        for key, css_key in margins.items():
+            val = pdf_options.get(key)
+            if val:
+                page_rules.append(f"    {css_key}: {val};")
+        page_rules.append("}")
+        if len(page_rules) > 2:  # only add a stylesheet if a page rule was set
+            stylesheets.append(CSS(string="\n".join(page_rules)))
+
     try:
         html_doc = HTML(string=html_content)
-        css_doc = CSS(string=css_content)
-        html_doc.write_pdf(output_path, stylesheets=[css_doc])
+        html_doc.write_pdf(output_path, stylesheets=stylesheets)
     except Exception as e:
         raise OSError(f"Failed to generate PDF: {e}") from e
 

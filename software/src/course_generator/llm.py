@@ -13,6 +13,7 @@ logger = logging.getLogger("course_generator")
 
 try:
     import requests
+
     HAS_REQUESTS = True
 except ImportError:
     HAS_REQUESTS = False
@@ -60,9 +61,7 @@ class OllamaClient:
             return self._available
 
         try:
-            resp = requests.get(
-                f"{self.base_url}/api/tags", timeout=5
-            )
+            resp = requests.get(f"{self.base_url}/api/tags", timeout=5)
             self._available = resp.status_code == 200
             if self._available:
                 logger.info(f"Ollama available at {self.base_url} (model: {self.model})")
@@ -140,8 +139,7 @@ class OllamaClient:
             RuntimeError: If generation or parsing fails.
         """
         json_prompt = (
-            f"{prompt}\n\nRespond ONLY with valid JSON. "
-            "No explanation, no markdown fences."
+            f"{prompt}\n\nRespond ONLY with valid JSON. No explanation, no markdown fences."
         )
 
         raw = self.generate(json_prompt, system_prompt, temperature)
@@ -248,8 +246,12 @@ def enrich_curriculum(
             try:
                 original = module_path.read_text(encoding="utf-8")
                 enriched = enrich_module(
-                    client, original, module.topic,
-                    course.title, config.audience, config.tone,
+                    client,
+                    original,
+                    module.topic,
+                    course.title,
+                    config.audience,
+                    config.tone,
                 )
                 if enriched != original:
                     module_path.write_text(enriched, encoding="utf-8")

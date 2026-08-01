@@ -110,9 +110,7 @@ def publish_course(course_path: str, publish_root: str = None) -> Dict[str, Any]
         source_path = module_path / module_src_name
 
         if not source_path.exists():
-            logger.warning(
-                f"Rendered output directory not found for {module_name}: {source_path}"
-            )
+            logger.warning(f"Rendered output directory not found for {module_name}: {source_path}")
             continue
 
         dest_path = published_course_dir / module_name
@@ -126,12 +124,8 @@ def publish_course(course_path: str, publish_root: str = None) -> Dict[str, Any]
         for extra_src in course_conf.get("additional_module_dirs", []):
             extra_path = module_path / extra_src
             if extra_path.exists():
-                logger.info(
-                    f"Publishing additional content from {extra_src} for {module_name}"
-                )
-                files_copied += copy_directory_contents(
-                    extra_path, dest_path / extra_src
-                )
+                logger.info(f"Publishing additional content from {extra_src} for {module_name}")
+                files_copied += copy_directory_contents(extra_path, dest_path / extra_src)
 
         if files_copied > 0:
             results["modules_published"] += 1
@@ -169,6 +163,7 @@ def publish_course(course_path: str, publish_root: str = None) -> Dict[str, Any]
             dest_path = published_course_dir / syllabus_path.name
             dest_path.parent.mkdir(parents=True, exist_ok=True)
             import shutil
+
             shutil.copy2(syllabus_path, dest_path)
             results["syllabus_files"] = 1
             results["total_files"] += 1

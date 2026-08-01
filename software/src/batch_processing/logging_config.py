@@ -63,7 +63,9 @@ def setup_logging(
     file_handler.setFormatter(file_format)
     logger.addHandler(file_handler)
 
-    logger.info(f"Logging initialized - Console: {logging.getLevelName(log_level)}, File: {logging.getLevelName(file_level)}")
+    logger.info(
+        f"Logging initialized - Console: {logging.getLevelName(log_level)}, File: {logging.getLevelName(file_level)}"
+    )
     logger.debug(f"Log file: {log_file}")
 
     return logger

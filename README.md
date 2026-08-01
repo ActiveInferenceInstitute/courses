@@ -3,7 +3,7 @@
 [![Courses](https://img.shields.io/badge/courses-14%2B1_archive-blue)](software/docs/COURSE_CATALOG.md)
 [![Modules](https://img.shields.io/badge/modules-464+-green)](software/docs/MODULES.md)
 [![Formats](https://img.shields.io/badge/output_formats-6-orange)](software/docs/QUICKSTART.md)
-[![Tests](https://img.shields.io/badge/tests-1021_passing-brightgreen)](software/docs/TESTING.md)
+[![Tests](https://img.shields.io/badge/tests-995_passing-brightgreen)](software/docs/TESTING.md)
 [![License](https://img.shields.io/badge/license-CC--BY--4.0-lightgrey)](#license)
 
 > **Minimize surprise. Maximize evidence.**
@@ -137,7 +137,7 @@ We welcome contributions to both the curriculum and the software engine!
 
 ### Testing
 
-We maintain a robust suite of **1,021 tests** ensuring curriculum integrity and software stability.
+We maintain a robust suite of **1,014 tests** ensuring curriculum integrity and software stability (the CI gate excludes internet / external-API / whisper-required tests; ~995 pass in CI on each Python version, ~75% source coverage).
 
 ```bash
 cd software

@@ -6,7 +6,7 @@ Technical documentation for course management software utilities, including func
 
 ## Test Coverage
 
-**Overall: 17%** (1,021 tests, 1,020 passed)
+**Overall: 75%** (1,014 tests collected; CI-equivalent gate ~995 passing, 34 network/external/whisper tests deselected)
 
 | Module | Coverage | Notes |
 | ------ | -------- | ----- |

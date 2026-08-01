@@ -29,7 +29,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.youtube_transcript.config import DEFAULT_CHANNEL_URL, DEFAULT_WHISPER_MODEL, OUTPUT_DIR_NAME
+from src.youtube_transcript.config import (
+    DEFAULT_CHANNEL_URL,
+    DEFAULT_WHISPER_MODEL,
+    OUTPUT_DIR_NAME,
+)
 from src.youtube_transcript.main import get_channel_video_list, transcribe_channel, transcribe_video
 from src.youtube_transcript.utils import ensure_output_directory, load_manifest, save_manifest
 

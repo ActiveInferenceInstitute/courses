@@ -14,9 +14,7 @@ from .utils import (
 )
 
 
-def transcribe_audio(
-    audio_path: str, output_path: str, language: str = "en"
-) -> str:
+def transcribe_audio(audio_path: str, output_path: str, language: str = "en") -> str:
     """Transcribe audio file to text using real speech recognition.
 
     Args:

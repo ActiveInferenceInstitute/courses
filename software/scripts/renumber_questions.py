@@ -18,7 +18,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.batch_processing.config import COURSE_REGISTRY
-from src.content_processing import process_questions_file, renumber_questions_in_course
+from src.content_processing import renumber_questions_in_course
 
 
 def parse_args(argv=None) -> argparse.Namespace:
@@ -31,23 +31,16 @@ def parse_args(argv=None) -> argparse.Namespace:
         type=str,
         choices=list(COURSE_REGISTRY.keys()) + ["all"],
         default="all",
-        help="Course to process (default: all)"
+        help="Course to process (default: all)",
     )
     parser.add_argument(
-        "--module",
-        type=str,
-        default=None,
-        help="Process a single module (e.g., module-03)"
+        "--module", type=str, default=None, help="Process a single module (e.g., module-03)"
     )
     parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Show what would be changed without writing files"
+        "--dry-run", action="store_true", help="Show what would be changed without writing files"
     )
     parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Show detailed processing information"
+        "--verbose", action="store_true", help="Show detailed processing information"
     )
 
     return parser.parse_args(argv)
@@ -73,7 +66,7 @@ def main(argv=None):
         module_filter=args.module,
         dry_run=args.dry_run,
         verbose=args.verbose,
-        course_registry=COURSE_REGISTRY
+        course_registry=COURSE_REGISTRY,
     )
 
     # Report results

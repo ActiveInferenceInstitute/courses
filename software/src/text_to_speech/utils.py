@@ -1,7 +1,6 @@
 """Utility functions for text-to-speech generation."""
 
 import re
-import subprocess
 from pathlib import Path
 from typing import Optional
 
@@ -67,46 +66,27 @@ def text_to_speech_audio(
     lang: str = "en",
     slow: bool = False,
 ) -> None:
-    """Generate speech audio from text using macOS 'say' and 'ffmpeg'.
-    
+    """Generate speech audio from text using gTTS (cross-platform).
+
+    Uses the real ``gTTS`` library (per the documented dependency) so ``lang``
+    and ``slow`` are honored and output works on any platform, not just macOS.
+
     Args:
         text: Text content to convert
         output_path: Path for output audio file
-        lang: Language code (default: "en") (Ignored for local say, uses system default)
-        slow: Whether to speak slowly (default: False) (Ignored for local say)
+        lang: Language code (default: "en")
+        slow: Whether to speak slowly (default: False)
 
     Raises:
         OSError: If audio generation fails
     """
-    tmp_aiff = output_path.with_suffix(".aiff")
-    tmp_txt = output_path.with_suffix(".tmp.txt")
-    
+    from gtts import gTTS
+
     try:
-        # Write text to temp file to handle large content/special chars
-        tmp_txt.write_text(text, encoding='utf-8')
-        
-        # 1. Generate AIFF using 'say'
-        # -v Alex is a good default, or system default
-        subprocess.run(["say", "--input-file", str(tmp_txt), "--output-file", str(tmp_aiff)], check=True)
-        
-        # 2. Convert to MP3 using ffmpeg
-        # -y to overwrite, -acodec libmp3lame, -q:a 2 (high quality)
-        subprocess.run([
-            "ffmpeg", "-y", 
-            "-i", str(tmp_aiff),
-            "-acodec", "libmp3lame",
-            "-q:a", "2",
-            str(output_path)
-        ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        
-    except subprocess.CalledProcessError as e:
-        raise OSError(f"Local TTS generation failed: {e}") from e
-    finally:
-        # Cleanup temp files
-        if tmp_aiff.exists():
-            tmp_aiff.unlink()
-        if tmp_txt.exists():
-            tmp_txt.unlink()
+        tts = gTTS(text=text, lang=lang or "en", slow=slow)
+        tts.save(str(output_path))
+    except Exception as e:
+        raise OSError(f"TTS generation failed: {e}") from e
 
 
 def ensure_output_directory(output_path: Path) -> None:

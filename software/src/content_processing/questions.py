@@ -30,11 +30,10 @@ def generate_questions_content(module_data: Dict[str, Any], course_info: Dict[st
     objectives = module_data.get("objectives", [])
     title = module_data.get("title", f"Module {course_info['module_num']}")
     subtitle = module_data.get("subtitle", "")
-    subsections = module_data.get("subsections", [])
 
     heading = subtitle or title
     topic = course_info["module_topic"].lower()
-    
+
     # Get audience-specific details
     audience = get_audience_info(course_info["course"])
     level = audience["level"]
@@ -60,26 +59,38 @@ def generate_questions_content(module_data: Dict[str, Any], course_info: Dict[st
     for i, (name, defn) in enumerate(concepts[:4]):
         if level == "elementary":
             lines.append(f"### Question {q_num}\n")
-            lines.append(f"Can you explain **{name}** in your own words? Use a real-life example.\n")
+            lines.append(
+                f"Can you explain **{name}** in your own words? Use a real-life example.\n"
+            )
         elif level == "middle":
             lines.append(f"### Question {q_num}\n")
-            lines.append(f"Define **{name}** in your own words. What makes it different from related concepts?\n")
+            lines.append(
+                f"Define **{name}** in your own words. What makes it different from related concepts?\n"
+            )
         elif level in ("college", "graduate"):
             lines.append(f"### Question {q_num}\n")
-            lines.append(f"Define **{name}** and explain its role in the Active Inference framework. "
-                        f"How does it relate to the broader goal of minimizing free energy?\n")
+            lines.append(
+                f"Define **{name}** and explain its role in the Active Inference framework. "
+                f"How does it relate to the broader goal of minimizing free energy?\n"
+            )
         elif level == "practitioner":
             lines.append(f"### Question {q_num}\n")
-            lines.append(f"Describe **{name}** in terms of bodily experience. "
-                        f"What does it feel like to encounter this concept in movement practice?\n")
+            lines.append(
+                f"Describe **{name}** in terms of bodily experience. "
+                f"What does it feel like to encounter this concept in movement practice?\n"
+            )
         elif level == "professional":
             lines.append(f"### Question {q_num}\n")
-            lines.append(f"Define **{name}** and describe how it manifests in organizational behavior. "
-                        f"Give a specific workplace example.\n")
+            lines.append(
+                f"Define **{name}** and describe how it manifests in organizational behavior. "
+                f"Give a specific workplace example.\n"
+            )
         elif level == "technical":
             lines.append(f"### Question {q_num}\n")
-            lines.append(f"Define **{name}** in both theoretical and computational terms. "
-                        f"How would you implement or measure this in a robotic system?\n")
+            lines.append(
+                f"Define **{name}** in both theoretical and computational terms. "
+                f"How would you implement or measure this in a robotic system?\n"
+            )
         else:
             lines.append(f"### Question {q_num}\n")
             lines.append(f"Define **{name}** and give an example from everyday experience.\n")
@@ -100,27 +111,37 @@ def generate_questions_content(module_data: Dict[str, Any], course_info: Dict[st
         elif level in ("college", "graduate"):
             lines.append(f"### Question {q_num}\n")
             lines.append(f"Demonstrate your understanding: *{obj_clean}*\n")
-            lines.append("Construct a detailed example that illustrates this concept in action. "
-                        "Identify the key components (beliefs, predictions, observations, actions) at each step.\n")
+            lines.append(
+                "Construct a detailed example that illustrates this concept in action. "
+                "Identify the key components (beliefs, predictions, observations, actions) at each step.\n"
+            )
         elif level == "practitioner":
             lines.append(f"### Question {q_num}\n")
             lines.append(f"Consider: *{obj_clean}*\n")
-            lines.append("How have you experienced this in your own movement practice? "
-                        "Describe a specific moment when this became apparent.\n")
+            lines.append(
+                "How have you experienced this in your own movement practice? "
+                "Describe a specific moment when this became apparent.\n"
+            )
         elif level == "professional":
             lines.append(f"### Question {q_num}\n")
             lines.append(f"Apply: *{obj_clean}*\n")
-            lines.append("Design a brief intervention or process change for your organization "
-                        "that leverages this concept. What would you measure to evaluate success?\n")
+            lines.append(
+                "Design a brief intervention or process change for your organization "
+                "that leverages this concept. What would you measure to evaluate success?\n"
+            )
         elif level == "technical":
             lines.append(f"### Question {q_num}\n")
             lines.append(f"Apply: *{obj_clean}*\n")
-            lines.append("Describe a robotic scenario where this capability is essential. "
-                        "What sensors, algorithms, and control strategies would be needed?\n")
+            lines.append(
+                "Describe a robotic scenario where this capability is essential. "
+                "What sensors, algorithms, and control strategies would be needed?\n"
+            )
         else:
             lines.append(f"### Question {q_num}\n")
-            lines.append(f"How would you apply the idea of *{obj_clean}* to a new situation? "
-                        f"Give a specific example.\n")
+            lines.append(
+                f"How would you apply the idea of *{obj_clean}* to a new situation? "
+                f"Give a specific example.\n"
+            )
         q_num += 1
 
     lines.append("---\n")

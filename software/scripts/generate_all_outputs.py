@@ -29,7 +29,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.batch_processing.config import COURSE_REGISTRY, AVAILABLE_FORMATS
+from src.batch_processing.config import COURSE_REGISTRY
 from src.batch_processing.logging_config import setup_logging
 from src.batch_processing.main import (
     clear_all_outputs,
@@ -60,10 +60,20 @@ def parse_args(argv=None) -> argparse.Namespace:
     parser.add_argument("--skip-clear", action="store_true")
     parser.add_argument("--no-website", action="store_true")
     parser.add_argument("--skip-labs", action="store_true")
-    parser.add_argument("--max-module", type=str, action="append", default=[],
-                        help="Max module per course (course:number, e.g., ai-math:6)")
-    parser.add_argument("--max-lab", type=str, action="append", default=[],
-                        help="Max lab per course (course:number, e.g., ai-math:5)")
+    parser.add_argument(
+        "--max-module",
+        type=str,
+        action="append",
+        default=[],
+        help="Max module per course (course:number, e.g., ai-math:6)",
+    )
+    parser.add_argument(
+        "--max-lab",
+        type=str,
+        action="append",
+        default=[],
+        help="Max lab per course (course:number, e.g., ai-math:5)",
+    )
     return parser.parse_args(argv)
 
 
@@ -107,7 +117,7 @@ def main(argv=None) -> int:
             formats,
             module_filter=args.module,
             generate_website=not args.no_website,
-            skip_labs=args.skip_labs
+            skip_labs=args.skip_labs,
         )
         print(changes)
         return 0
@@ -132,30 +142,27 @@ def main(argv=None) -> int:
                 module_filter=args.module,
                 generate_website=not args.no_website,
                 formats=formats,
-                max_module=max_module_limits.get(course_id) if course_id else None
+                max_module=max_module_limits.get(course_id) if course_id else None,
             )
 
             # Process Labs
             if not args.skip_labs and not args.module:
-                 logger.info(f"--- Processing Labs for {course_name} ---")
-                 process_course_labs(
-                     course_path,
-                     course_name,
-                     formats=formats,
-                     max_lab=max_lab_limits.get(course_id) if course_id else None,
-                     course_id=course_id
-                 )
+                logger.info(f"--- Processing Labs for {course_name} ---")
+                process_course_labs(
+                    course_path,
+                    course_name,
+                    formats=formats,
+                    max_lab=max_lab_limits.get(course_id) if course_id else None,
+                    course_id=course_id,
+                )
 
             # Process Syllabus (only if not filtering by module)
             if not args.module:
                 logger.info(f"--- Processing Syllabus for {course_name} ---")
                 process_course_syllabus(
-                    course_path, 
-                    course_name, 
-                    formats=formats,
-                    course_id=course_id
+                    course_path, course_name, formats=formats, course_id=course_id
                 )
-                
+
             # Process Practice Tests
             if not args.module:
                 logger.info(f"--- Processing Practice Tests for {course_name} ---")
@@ -168,7 +175,7 @@ def main(argv=None) -> int:
     duration = time.time() - start_time
     logger.info("=" * 60)
     logger.info(f"Generation completed in {duration:.1f}s")
-    
+
     return 0 if success else 1
 
 

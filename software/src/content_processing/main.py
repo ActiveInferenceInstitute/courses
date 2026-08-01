@@ -12,9 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 def process_questions_file(
-    filepath: Path,
-    dry_run: bool = False,
-    verbose: bool = False
+    filepath: Path, dry_run: bool = False, verbose: bool = False
 ) -> tuple[bool, int]:
     """Process a single questions.md file to use continuous numbering.
 
@@ -29,14 +27,14 @@ def process_questions_file(
     content = filepath.read_text()
 
     # Check if already in continuous format (no ### sections with Part headers)
-    if not re.search(r'\n###\s+Part', content):
+    if not re.search(r"\n###\s+Part", content):
         # Already in continuous format
-        count = len(re.findall(r'^\d+\.', content, re.MULTILINE))
+        count = len(re.findall(r"^\d+\.", content, re.MULTILINE))
         return False, count
 
     # Extract title from first line
-    first_line = content.split('\n')[0]
-    title = first_line.lstrip('# ').strip()
+    first_line = content.split("\n")[0]
+    title = first_line.lstrip("# ").strip()
 
     # Extract questions
     questions = extract_questions_from_sectioned(content)
@@ -120,16 +118,16 @@ def renumber_questions_in_course(
             module_dirs = [course_path / module_filter]
         else:
             # Use the course-registry module_glob if available, else default to module-*
-            module_glob = 'module-*'
+            module_glob = "module-*"
             if course in course_registry:
-                module_glob = course_registry[course].get('module_glob', module_glob)
+                module_glob = course_registry[course].get("module_glob", module_glob)
             module_dirs = sorted(course_path.glob(module_glob))
 
         for module_dir in module_dirs:
             if not module_dir.exists():
                 continue
 
-            questions_file = module_dir / 'questions.md'
+            questions_file = module_dir / "questions.md"
 
             if not questions_file.exists():
                 continue
@@ -139,11 +137,13 @@ def renumber_questions_in_course(
                     questions_file, dry_run=dry_run, verbose=verbose
                 )
 
-                course_result["modules"].append({
-                    "name": module_dir.name,
-                    "converted": was_changed,
-                    "question_count": count,
-                })
+                course_result["modules"].append(
+                    {
+                        "name": module_dir.name,
+                        "converted": was_changed,
+                        "question_count": count,
+                    }
+                )
 
                 if was_changed:
                     results["files_converted"] += 1

@@ -96,9 +96,24 @@ def check_permission(handler_name: str, role: str) -> bool:
     if not allowed:
         logger.warning(
             "Permission denied: role '%s' lacks '%s' for %s",
-            role, required, handler_name,
+            role,
+            required,
+            handler_name,
         )
     return allowed
+
+
+def permission_required(handler_name: str) -> Optional[str]:
+    """Return the permission string required by *handler_name*, if any.
+
+    Args:
+        handler_name: The handler function name.
+
+    Returns:
+        The required permission string, or ``None`` if the handler is
+        default-open (no permission needed).
+    """
+    return _PERMISSION_MAP.get(handler_name)
 
 
 def get_permissions_for_role(role: str) -> List[str]:

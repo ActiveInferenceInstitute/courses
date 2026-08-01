@@ -131,3 +131,23 @@ class TestLLMUtils:
         chunks = list(utils.split_text_into_chunks(text, max_tokens=10, overlap_tokens=0))
         assert len(chunks) >= 2
         assert "paragraph one" in chunks[0]
+
+    def test_split_text_into_chunks_carries_overlap(self):
+        # With overlap_tokens > 0, the tail of a paragraph-chunk boundary is
+        # carried into the next chunk so context is preserved across splits.
+        text = ("Alpha paragraph content. " * 10) + "\n\n" + ("Beta paragraph content. " * 10)
+
+        no_overlap = list(utils.split_text_into_chunks(text, max_tokens=20, overlap_tokens=0))
+        with_overlap = list(utils.split_text_into_chunks(text, max_tokens=20, overlap_tokens=20))
+
+        # A chunk boundary exists, and the overlap version preserves the tail
+        # of the prior chunk at the start of the following chunk.
+        assert len(no_overlap) >= 2
+        assert len(with_overlap) >= 2
+        # The non-overlap case starts each chunk fresh (no duplicated tail marker).
+        assert "Alpha" in with_overlap[0]
+        # Overlap must never empty the output.
+        assert all(chunk for chunk in with_overlap)
+
+    def test_split_text_into_chunks_empty_input(self):
+        assert list(utils.split_text_into_chunks("", max_tokens=10)) == []

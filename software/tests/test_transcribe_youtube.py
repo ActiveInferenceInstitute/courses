@@ -63,7 +63,7 @@ class TestTranscribeYoutube:
         ]
 
         monkeypatch.setattr(
-            transcribe_youtube_script, "get_channel_video_list", lambda **kw: fake_videos
+            transcribe_youtube_script, "get_channel_video_list", lambda channel, **kw: fake_videos
         )
 
         with caplog.at_level("INFO"):
@@ -80,7 +80,7 @@ class TestTranscribeYoutube:
         monkeypatch.setattr(
             transcribe_youtube_script,
             "get_channel_video_list",
-            lambda **kw: [{"id": "v1", "title": "V1"}],
+            lambda channel, **kw: [{"id": "v1", "title": "V1"}],
         )
 
         with caplog.at_level("INFO"):

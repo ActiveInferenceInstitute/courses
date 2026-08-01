@@ -109,7 +109,7 @@ class TestGenerateAllOutputs:
         assert modules_calls[0][1] == "Philosophy"
 
         assert len(labs_calls) == 1
-        assert labs_calls[0] == "ai-philosophy"
+        assert labs_calls[0] == "Philosophy"
 
         assert len(syllabus_calls) == 1
-        assert syllabus_calls[0] == "ai-philosophy"
+        assert syllabus_calls[0] == "Philosophy"

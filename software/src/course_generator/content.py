@@ -25,9 +25,7 @@ def render_module_md(
         Complete Markdown string for module.md.
     """
     concepts_list = "\n".join(f"- **{c}**" for c in module.key_concepts)
-    goals_list = "\n".join(
-        f"{i}. {g}" for i, g in enumerate(module.learning_goals, 1)
-    )
+    goals_list = "\n".join(f"{i}. {g}" for i, g in enumerate(module.learning_goals, 1))
 
     return f"""# Module {module.number:02d}: {module.topic.title()}
 
@@ -40,7 +38,7 @@ def render_module_md(
 
 This module explores **{module.topic}** through the lens of {course.perspective.lower()}. \
 As part of the {curriculum.title} curriculum, all content is designed for {curriculum.audience} \
-with a tone that is {curriculum.tone.split('.')[0].lower().strip()}.
+with a tone that is {curriculum.tone.split(".")[0].lower().strip()}.
 
 ## Learning Goals
 
@@ -97,9 +95,7 @@ def render_questions_md(
         Complete Markdown string for questions.md.
     """
     questions = _generate_questions(module, course, curriculum)
-    q_list = "\n\n".join(
-        f"### Question {i}\n\n{q}" for i, q in enumerate(questions, 1)
-    )
+    q_list = "\n\n".join(f"### Question {i}\n\n{q}" for i, q in enumerate(questions, 1))
 
     return f"""# Study Questions: {module.topic.title()}
 
@@ -116,9 +112,7 @@ Try to answer each one before looking at your notes.
 """
 
 
-def render_quiz_md(
-    module: ModuleConfig, course: CourseConfig, curriculum: CurriculumConfig
-) -> str:
+def render_quiz_md(module: ModuleConfig, course: CourseConfig, curriculum: CurriculumConfig) -> str:
     """Render the practice_quiz.md file with MC and short-answer questions.
 
     Args:
@@ -131,8 +125,7 @@ def render_quiz_md(
     """
     mc_questions = _generate_mc_questions(module, course, curriculum)
     mc_section = "\n\n".join(
-        f"### {i}. {q['stem']}\n\n"
-        + "\n".join(f"- {opt}" for opt in q["options"])
+        f"### {i}. {q['stem']}\n\n" + "\n".join(f"- {opt}" for opt in q["options"])
         for i, q in enumerate(mc_questions, 1)
     )
 
@@ -158,9 +151,7 @@ def render_quiz_md(
 """
 
 
-def render_lab_md(
-    module: ModuleConfig, course: CourseConfig, curriculum: CurriculumConfig
-) -> str:
+def render_lab_md(module: ModuleConfig, course: CourseConfig, curriculum: CurriculumConfig) -> str:
     """Render the lab.md hands-on activity file.
 
     Args:
@@ -241,7 +232,9 @@ def render_readme_md(
         format_table_separator(2),
         format_table_row(["[module.md](./module.md)", f"Full lecture ({module.subtitle})"]),
         format_table_row(["[questions.md](./questions.md)", "20 Study Questions"]),
-        format_table_row(["[practice_quiz.md](./practice_quiz.md)", "Practice Quiz (MC + Short Answer)"]),
+        format_table_row(
+            ["[practice_quiz.md](./practice_quiz.md)", "Practice Quiz (MC + Short Answer)"]
+        ),
         format_table_row(["[lab.md](./lab.md)", f"Lab: {module.subtitle}"]),
         format_table_row(["[dashboard.html](./dashboard.html)", "Interactive Dashboard"]),
     ]
@@ -298,7 +291,7 @@ def render_agents_md(
 - **Topics**: {module.topic.title()}
 - **Lab Style**: {course.lab_type}
 - **Audience**: {curriculum.audience}
-- **Tone**: {curriculum.tone.split('.')[0].strip()}
+- **Tone**: {curriculum.tone.split(".")[0].strip()}
 
 Ensure all content adheres to [../../resources/notation_table.md](../../resources/notation_table.md).
 """
@@ -326,8 +319,7 @@ def render_dashboard_html(
 
     quiz_items = _generate_mc_questions(module, course, curriculum)
     quiz_js_data = ",".join(
-        f'{{"q":"{q["stem"]}","a":{q.get("answer_idx", 0)}}}'
-        for q in quiz_items[:3]
+        f'{{"q":"{q["stem"]}","a":{q.get("answer_idx", 0)}}}' for q in quiz_items[:3]
     )
 
     return f"""<!DOCTYPE html>
@@ -391,21 +383,24 @@ def render_dashboard_html(
 
 # ─── Course-level content ──────────────────────────────────────────────────
 
-def render_course_readme(
-    course: CourseConfig, curriculum: CurriculumConfig
-) -> str:
+
+def render_course_readme(course: CourseConfig, curriculum: CurriculumConfig) -> str:
     """Render the per-course README.md."""
     mod_rows = [
         format_table_row(["#", "Topic", "Subtitle", "Lab Type"]),
         format_table_separator(4),
     ]
     for m in course.modules:
-        mod_rows.append(format_table_row([
-            str(m.number),
-            f"[{m.topic.title()}](./{m.dir_name}/README.md)",
-            m.subtitle,
-            course.lab_type,
-        ]))
+        mod_rows.append(
+            format_table_row(
+                [
+                    str(m.number),
+                    f"[{m.topic.title()}](./{m.dir_name}/README.md)",
+                    m.subtitle,
+                    course.lab_type,
+                ]
+            )
+        )
     mod_table = "\n".join(mod_rows)
 
     return f"""# {course.title}
@@ -444,9 +439,7 @@ This course is designed for {curriculum.audience}.
 """
 
 
-def render_course_agents(
-    course: CourseConfig, curriculum: CurriculumConfig
-) -> str:
+def render_course_agents(course: CourseConfig, curriculum: CurriculumConfig) -> str:
     """Render the per-course AGENTS.md."""
     return f"""# Course AGENTS: {course.title}
 
@@ -473,9 +466,7 @@ All modules in this course must:
 """
 
 
-def render_course_syllabus(
-    course: CourseConfig, curriculum: CurriculumConfig
-) -> str:
+def render_course_syllabus(course: CourseConfig, curriculum: CurriculumConfig) -> str:
     """Render the per-course syllabus.md."""
     schedule = "\n".join(
         f"| Week {m.number} | [{m.topic.title()}](./{m.dir_name}/module.md) "
@@ -516,6 +507,7 @@ Each module includes:
 
 # ─── Root-level content ────────────────────────────────────────────────────
 
+
 def render_root_readme(curriculum: CurriculumConfig) -> str:
     """Render the curriculum-level README.md."""
     course_rows = [
@@ -523,12 +515,16 @@ def render_root_readme(curriculum: CurriculumConfig) -> str:
         format_table_separator(4),
     ]
     for c in curriculum.courses:
-        course_rows.append(format_table_row([
-            str(c.number),
-            f"[{c.title}](./{c.dir_name}/README.md)",
-            c.perspective,
-            c.lab_type,
-        ]))
+        course_rows.append(
+            format_table_row(
+                [
+                    str(c.number),
+                    f"[{c.title}](./{c.dir_name}/README.md)",
+                    c.perspective,
+                    c.lab_type,
+                ]
+            )
+        )
     course_table = "\n".join(course_rows)
 
     return f"""# {curriculum.title}
@@ -579,9 +575,9 @@ def render_root_overview(curriculum: CurriculumConfig) -> str:
     course_sections = "\n\n".join(
         f"### Course {c.number}: {c.title}\n\n"
         f"**Perspective**: {c.perspective}\n\n"
-        f"Modules: " + ", ".join(
-            f"[{m.topic.title()}](./{c.dir_name}/{m.dir_name}/README.md)"
-            for m in c.modules
+        f"Modules: "
+        + ", ".join(
+            f"[{m.topic.title()}](./{c.dir_name}/{m.dir_name}/README.md)" for m in c.modules
         )
         for c in curriculum.courses
     )
@@ -646,18 +642,24 @@ See [resources/notation_table.md](./resources/notation_table.md).
 - **module.md**: Full lesson (500-1500 words depending on level)
 - **questions.md**: 10-20 study questions
 - **practice_quiz.md**: MC + short answer
-- **lab.md**: Hands-on activity ({', '.join(c.lab_type for c in curriculum.courses)})
+- **lab.md**: Hands-on activity ({", ".join(c.lab_type for c in curriculum.courses)})
 - **dashboard.html**: Interactive concept cards and quiz
 - **README.md**: Navigation hub
 - **AGENTS.md**: Maintenance conventions
 """
 
 
+def _sh_quote(value: str) -> str:
+    """Quote a value for safe single-quoted insertion into a shell script."""
+    # Escape single quotes so a hostile title/dir_name cannot break out of the
+    # quoted string and run arbitrary shell.
+    return "'" + value.replace("'", "'\\''") + "'"
+
+
 def render_audit_script(curriculum: CurriculumConfig) -> str:
     """Render the audit_modules.sh verification script."""
     course_checks = "\n".join(
-        f'check_course "{c.dir_name}" "{c.title}"'
-        for c in curriculum.courses
+        f"check_course {_sh_quote(c.dir_name)} {_sh_quote(c.title)}" for c in curriculum.courses
     )
 
     return f"""#!/usr/bin/env bash
@@ -735,6 +737,7 @@ fi
 
 
 # ─── Resource content ──────────────────────────────────────────────────────
+
 
 def render_resource_glossary(curriculum: CurriculumConfig) -> str:
     """Render the resources/glossary.md file."""
@@ -832,11 +835,18 @@ def render_resource_cross_course_map(curriculum: CurriculumConfig) -> str:
             if mod:
                 concepts = ", ".join(mod.key_concepts[:3])
                 link = f"[Go](../{course.dir_name}/{mod.dir_name}/README.md)"
-                rows.append(format_table_row([
-                    course.title, mod.subtitle, concepts, link,
-                ]))
+                rows.append(
+                    format_table_row(
+                        [
+                            course.title,
+                            mod.subtitle,
+                            concepts,
+                            link,
+                        ]
+                    )
+                )
         table = "\n".join(rows)
-        sections.append(f"## Module {MODULE_TOPICS.index(topic)+1}: {topic.title()}\n\n{table}")
+        sections.append(f"## Module {MODULE_TOPICS.index(topic) + 1}: {topic.title()}\n\n{table}")
 
     body = "\n\n---\n\n".join(sections)
 
@@ -962,6 +972,7 @@ notation, and references across all courses in {curriculum.title}.
 
 # ─── Private helpers ────────────────────────────────────────────────────────
 
+
 def _get_level_description(curriculum: CurriculumConfig) -> str:
     """Get a level-appropriate description for lesson content."""
     level_map = {
@@ -980,6 +991,7 @@ def _get_level_description(curriculum: CurriculumConfig) -> str:
 def _get_adjacent_topic(module_number: int, offset: int) -> str:
     """Get the topic name of an adjacent module."""
     from .schema import MODULE_TOPICS
+
     idx = module_number - 1 + offset
     if 0 <= idx < len(MODULE_TOPICS):
         return MODULE_TOPICS[idx].title()
@@ -998,9 +1010,7 @@ def _generate_questions(
         questions.append(f"In your own words, {goal.lower()}.")
     # Pad to at least 10
     while len(questions) < 10:
-        questions.append(
-            f"How does {module.topic} connect to other concepts in Active Inference?"
-        )
+        questions.append(f"How does {module.topic} connect to other concepts in Active Inference?")
     return questions[:20]
 
 
@@ -1010,36 +1020,42 @@ def _generate_mc_questions(
     """Generate multiple-choice questions for quizzes and dashboards."""
     questions = []
     if module.key_concepts:
-        questions.append({
-            "stem": f"Which of the following best describes {module.key_concepts[0]}?",
-            "options": [
-                f"A) A core concept in {module.topic}",
-                "B) An unrelated idea from a different field",
-                f"C) A synonym for {module.topic}",
-                "D) None of the above",
-            ],
-            "answer_idx": 0,
-        })
+        questions.append(
+            {
+                "stem": f"Which of the following best describes {module.key_concepts[0]}?",
+                "options": [
+                    f"A) A core concept in {module.topic}",
+                    "B) An unrelated idea from a different field",
+                    f"C) A synonym for {module.topic}",
+                    "D) None of the above",
+                ],
+                "answer_idx": 0,
+            }
+        )
     if len(module.key_concepts) > 1:
-        questions.append({
-            "stem": f"How does {module.key_concepts[1]} relate to {module.topic}?",
-            "options": [
-                f"A) It is central to understanding {module.topic}",
-                f"B) It is only relevant in {course.title}",
-                f"C) It contradicts {module.topic}",
-                "D) It has no relationship",
-            ],
-            "answer_idx": 0,
-        })
+        questions.append(
+            {
+                "stem": f"How does {module.key_concepts[1]} relate to {module.topic}?",
+                "options": [
+                    f"A) It is central to understanding {module.topic}",
+                    f"B) It is only relevant in {course.title}",
+                    f"C) It contradicts {module.topic}",
+                    "D) It has no relationship",
+                ],
+                "answer_idx": 0,
+            }
+        )
     if module.learning_goals:
-        questions.append({
-            "stem": "After completing this module, you should be able to:",
-            "options": [
-                f"A) {module.learning_goals[0]}",
-                "B) Recite the textbook from memory",
-                "C) Ignore the topic entirely",
-                "D) Only study for the final exam",
-            ],
-            "answer_idx": 0,
-        })
+        questions.append(
+            {
+                "stem": "After completing this module, you should be able to:",
+                "options": [
+                    f"A) {module.learning_goals[0]}",
+                    "B) Recite the textbook from memory",
+                    "C) Ignore the topic entirely",
+                    "D) Only study for the final exam",
+                ],
+                "answer_idx": 0,
+            }
+        )
     return questions

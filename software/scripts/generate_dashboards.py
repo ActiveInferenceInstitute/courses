@@ -12,9 +12,13 @@ from pathlib import Path
 software_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(software_dir))
 
-from src.batch_processing.config import COURSE_REGISTRY
-from src.batch_processing.utils import extract_course_info_from_path as extract_course_info
-from src.content_processing.dashboards import generate_dashboard_html, get_theme, DEFAULT_THEME
+from src.batch_processing.config import COURSE_REGISTRY  # noqa: E402
+from src.batch_processing.utils import extract_course_info_from_path as extract_course_info  # noqa: E402
+from src.content_processing.dashboards import (  # noqa: E402, F401  (re-exported for tests)
+    generate_dashboard_html,
+    get_theme,
+    DEFAULT_THEME,
+)
 
 DEFAULT_BASE = Path(__file__).resolve().parent.parent.parent / "course_development"
 
@@ -28,13 +32,18 @@ def generate_dashboard_files(module_dir: Path, base: Path, dry_run: bool = False
 def parse_args(argv=None):
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="Generate dashboards for AI courses.")
-    parser.add_argument("--course", choices=list(COURSE_REGISTRY.keys()),
-                        help="Only process this course")
-    parser.add_argument("--base", type=Path, default=DEFAULT_BASE,
-                        help="Base course_development directory")
+    parser.add_argument(
+        "--course", choices=list(COURSE_REGISTRY.keys()), help="Only process this course"
+    )
+    parser.add_argument(
+        "--base", type=Path, default=DEFAULT_BASE, help="Base course_development directory"
+    )
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--include-core", action="store_true",
-                        help="Also regenerate active_inference core dashboards")
+    parser.add_argument(
+        "--include-core",
+        action="store_true",
+        help="Also regenerate active_inference core dashboards",
+    )
     return parser.parse_args(argv)
 
 
@@ -47,24 +56,37 @@ def main(argv=None) -> None:
         md_dir = mmd.parent
         if "output" in md_dir.parts or any(p.startswith(("__", ".")) for p in md_dir.parts):
             continue
-            
+
         info = extract_course_info(mmd, base)
-        
+
         if args.course and info["course"] != args.course:
             continue
-            
+
         modules.append(md_dir)
 
     generated = skipped = errors = 0
     for md_dir in modules:
         info = extract_course_info(md_dir / "module.md", base)
-        
-        is_core = info["course"].startswith("ai-") and not any(x in info["course"] for x in ["es", "ms", "hs", "101", "401", "embodied", "organizations", "robotics", "family"])
-        
+
+        is_core = info["course"].startswith("ai-") and not any(
+            x in info["course"]
+            for x in [
+                "es",
+                "ms",
+                "hs",
+                "101",
+                "401",
+                "embodied",
+                "organizations",
+                "robotics",
+                "family",
+            ]
+        )
+
         if is_core and not args.include_core:
             skipped += 1
             continue
-            
+
         try:
             generate_dashboard_files(md_dir, base, dry_run=args.dry_run)
             generated += 1

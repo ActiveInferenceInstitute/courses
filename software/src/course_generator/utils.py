@@ -57,9 +57,7 @@ def resolve_repo_root(start_path: Path | None = None) -> Path:
             return current
         current = current.parent
 
-    raise FileNotFoundError(
-        f"Could not find repository root starting from {start_path}"
-    )
+    raise FileNotFoundError(f"Could not find repository root starting from {start_path}")
 
 
 def count_files(directory: Path, pattern: str = "*") -> int:
@@ -104,9 +102,7 @@ def validate_structure(
     actual_files = set()
     if curriculum_dir.exists():
         for f in curriculum_dir.rglob("*"):
-            if f.is_file() and not any(
-                part.startswith(".") for part in f.parts
-            ):
+            if f.is_file() and not any(part.startswith(".") for part in f.parts):
                 actual_files.add(str(f.relative_to(curriculum_dir)))
 
     expected_set = set(expected_files)

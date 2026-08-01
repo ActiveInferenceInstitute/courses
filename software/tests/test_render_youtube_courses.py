@@ -63,7 +63,7 @@ class TestRenderYoutubeCourses:
         }
         save_calls = []
         monkeypatch.setattr(
-            render_youtube_script, "enumerate_and_map_playlists", lambda **kw: fake_result
+            render_youtube_script, "enumerate_and_map_playlists", lambda channel, transcript_dir, **kw: fake_result
         )
         monkeypatch.setattr(
             render_youtube_script, "save_youtube_manifest", lambda m, p: save_calls.append(m)

@@ -47,8 +47,12 @@ def render_markdown_to_pdf(
     if css_content is None:
         css_content = config.DEFAULT_CSS
 
+    # Use default page options if not provided
+    if pdf_options is None:
+        pdf_options = config.DEFAULT_PDF_OPTIONS
+
     # Generate PDF
-    html_to_pdf(html_content, css_content, output_file)
+    html_to_pdf(html_content, css_content, output_file, pdf_options=pdf_options)
 
 
 def batch_render_markdown(directory: str, output_dir: str) -> List[str]:

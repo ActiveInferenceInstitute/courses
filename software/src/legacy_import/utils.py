@@ -61,17 +61,13 @@ def ensure_module_exists(course_root: Path, module_num: int, dry_run: bool) -> P
                     logger.error(f"Could not create module {module_num}: {e}")
                     raise
             except Exception as e:
-                logger.error(
-                    f"Unexpected error creating module {module_num}: {e}", exc_info=True
-                )
+                logger.error(f"Unexpected error creating module {module_num}: {e}", exc_info=True)
                 raise
 
     return module_path
 
 
-def create_comprehension_questions(
-    module_path: Path, module_num: int, dry_run: bool
-) -> None:
+def create_comprehension_questions(module_path: Path, module_num: int, dry_run: bool) -> None:
     """Create comprehension-questions.md file in resources directory.
 
     Args:
@@ -96,9 +92,7 @@ def create_comprehension_questions(
             logger.debug(f"Created: {file_path}")
 
 
-def create_questions_directory(
-    module_path: Path, module_num: int, dry_run: bool
-) -> None:
+def create_questions_directory(module_path: Path, module_num: int, dry_run: bool) -> None:
     """Create questions directory with questions.json, README.md, and AGENTS.md.
 
     Args:

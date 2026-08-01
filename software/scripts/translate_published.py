@@ -21,9 +21,9 @@ from pathlib import Path
 software_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(software_dir))
 
-from src.translation import translate_file
-from src.translation.config import SUPPORTED_LANGUAGES
-from src.translation.utils import get_language_name
+from src.translation import translate_file  # noqa: E402
+from src.translation.config import SUPPORTED_LANGUAGES  # noqa: E402
+from src.translation.utils import get_language_name  # noqa: E402
 
 logging.basicConfig(
     level=logging.INFO,
@@ -53,7 +53,9 @@ def translate_published_course(
         published_dir: Base published directory (default: published/).
     """
     if lang not in SUPPORTED_LANGUAGES:
-        logger.error(f"Unsupported language code '{lang}'. Supported: {list(SUPPORTED_LANGUAGES.keys())}")
+        logger.error(
+            f"Unsupported language code '{lang}'. Supported: {list(SUPPORTED_LANGUAGES.keys())}"
+        )
         return False
 
     published_dir = published_dir or DEFAULT_PUBLISHED
@@ -74,6 +76,7 @@ def translate_published_course(
     client = None
     if not dry_run:
         from src.llm import OllamaClient
+
         client = OllamaClient(model=model) if model else OllamaClient()
         if not client.is_available():
             logger.error("Ollama is not available. Please run 'ollama serve'.")

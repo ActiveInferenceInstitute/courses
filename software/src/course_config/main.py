@@ -1,5 +1,6 @@
 """Public API for per-course configuration."""
 
+import copy
 import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -47,7 +48,7 @@ def get_rendering_config(config: Dict[str, Any]) -> Dict[str, Any]:
     Returns:
         Rendering sub-dict.
     """
-    result: Dict[str, Any] = config.get("rendering", DEFAULT_CONFIG["rendering"])
+    result: Dict[str, Any] = copy.deepcopy(config.get("rendering", DEFAULT_CONFIG["rendering"]))
     return result
 
 
@@ -69,6 +70,10 @@ def is_format_enabled(config: Dict[str, Any], fmt: str) -> bool:
     if isinstance(format_config, dict):
         enabled: bool = format_config.get("enabled", True)
         return enabled
+    # A scalar boolean value (e.g. `pdf = false` in TOML) is a direct toggle.
+    if isinstance(format_config, bool):
+        return format_config
+    # Any other type (unknown format, malformed) defaults to enabled.
     return True
 
 

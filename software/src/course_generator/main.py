@@ -42,8 +42,7 @@ def generate(
     """
     if curriculum_id not in ALL_CURRICULA:
         raise KeyError(
-            f"Unknown curriculum: {curriculum_id}. "
-            f"Available: {list(ALL_CURRICULA.keys())}"
+            f"Unknown curriculum: {curriculum_id}. Available: {list(ALL_CURRICULA.keys())}"
         )
 
     config = ALL_CURRICULA[curriculum_id]
@@ -58,9 +57,7 @@ def generate(
     if use_llm:
         logger.info(f"Enriching with Ollama (model: {model})...")
         client = OllamaClient(model=model)
-        llm_stats = enrich_curriculum(
-            client, str(output_dir / config.id), config
-        )
+        llm_stats = enrich_curriculum(client, str(output_dir / config.id), config)
         stats["llm_enriched"] = llm_stats.get("enriched", 0)
         stats["llm_errors"] = llm_stats.get("errors", 0)
 
@@ -97,8 +94,11 @@ def generate_all(
 
         try:
             results[cid] = generate(
-                cid, cur_output, use_llm=use_llm,
-                model=model, overwrite=overwrite,
+                cid,
+                cur_output,
+                use_llm=use_llm,
+                model=model,
+                overwrite=overwrite,
             )
         except Exception as exc:
             logger.error(f"Failed to generate {cid}: {exc}")
@@ -164,19 +164,25 @@ def main(argv: Optional[list[str]] = None) -> int:
         help="Curriculum ID or 'all'",
     )
     gen_parser.add_argument(
-        "--output", "-o", type=Path, default=None,
+        "--output",
+        "-o",
+        type=Path,
+        default=None,
         help="Output directory",
     )
     gen_parser.add_argument(
-        "--llm", action="store_true",
+        "--llm",
+        action="store_true",
         help="Use Ollama LLM for content enrichment",
     )
     gen_parser.add_argument(
-        "--model", default="llama3.2",
+        "--model",
+        default="llama3.2",
         help="Ollama model name (default: llama3.2)",
     )
     gen_parser.add_argument(
-        "--overwrite", action="store_true",
+        "--overwrite",
+        action="store_true",
         help="Overwrite existing files",
     )
 
@@ -186,7 +192,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     # validate command
     val_parser = subparsers.add_parser("validate", help="Validate a curriculum")
     val_parser.add_argument(
-        "directory", type=Path,
+        "directory",
+        type=Path,
         help="Path to curriculum directory",
     )
 
@@ -206,15 +213,19 @@ def main(argv: Optional[list[str]] = None) -> int:
     elif args.command == "generate":
         if args.curriculum_id == "all":
             results = generate_all(
-                args.output, use_llm=args.llm,
-                model=args.model, overwrite=args.overwrite,
+                args.output,
+                use_llm=args.llm,
+                model=args.model,
+                overwrite=args.overwrite,
             )
             total = sum(r.get("files_created", 0) for r in results.values())
             print(f"\nGenerated {total} files across {len(results)} curricula")
         else:
             stats = generate(
-                args.curriculum_id, args.output,
-                use_llm=args.llm, model=args.model,
+                args.curriculum_id,
+                args.output,
+                use_llm=args.llm,
+                model=args.model,
                 overwrite=args.overwrite,
             )
             print(f"\nGenerated {stats.get('files_created', 0)} files")

@@ -155,6 +155,25 @@ class TestCurriculumConfig:
         errors = cur.validate()
         assert any("topic order mismatch" in e for e in errors)
 
+    def test_validate_duplicate_dir_names(self):
+        """Validation catches duplicate course dir_names (would overwrite files)."""
+        courses = []
+        for c in range(1, 5):
+            modules = [
+                ModuleConfig(number=i, topic=t, subtitle=f"Sub {t}")
+                for i, t in enumerate(MODULE_TOPICS, 1)
+            ]
+            courses.append(CourseConfig(
+                number=c, dir_name="01_same", title=f"Course {c}",
+                perspective="Testing", lab_type="Test Lab", modules=modules,
+            ))
+        cur = CurriculumConfig(
+            id="test", title="Test", audience="Testers", tone="Test.",
+            courses=courses,
+        )
+        errors = cur.validate()
+        assert any("Duplicate course dir_name" in e for e in errors)
+
     def test_empty_id_raises(self):
         """Test that empty ID raises ValueError."""
         with pytest.raises(ValueError, match="must not be empty"):

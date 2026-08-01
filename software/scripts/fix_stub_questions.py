@@ -28,10 +28,12 @@ def parse_args(argv=None):
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="Regenerate stub questions.md files")
     parser.add_argument("--dry-run", action="store_true", help="Preview without writing")
-    parser.add_argument("--base", type=Path, default=DEFAULT_BASE,
-                        help="Base course_development directory")
-    parser.add_argument("--course", choices=list(COURSE_REGISTRY.keys()),
-                        help="Process only this course")
+    parser.add_argument(
+        "--base", type=Path, default=DEFAULT_BASE, help="Base course_development directory"
+    )
+    parser.add_argument(
+        "--course", choices=list(COURSE_REGISTRY.keys()), help="Process only this course"
+    )
     return parser.parse_args(argv)
 
 
@@ -71,10 +73,14 @@ def main(argv=None):
             q_text = generate_questions_content(module_data, course_info)
 
             if args.dry_run:
-                print(f"  Would fix: {qf_path.relative_to(base)} ({len(concepts)} concepts, {len(objectives)} objectives)")
+                print(
+                    f"  Would fix: {qf_path.relative_to(base)} ({len(concepts)} concepts, {len(objectives)} objectives)"
+                )
             else:
                 qf_path.write_text(q_text, encoding="utf-8")
-                print(f"  Fixed: {qf_path.relative_to(base)} ({len(concepts)} concepts, {len(objectives)} objectives)")
+                print(
+                    f"  Fixed: {qf_path.relative_to(base)} ({len(concepts)} concepts, {len(objectives)} objectives)"
+                )
             fixed += 1
 
         except Exception as e:

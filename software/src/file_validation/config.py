@@ -31,14 +31,10 @@ ASSIGNMENT_PATTERN: Pattern[str] = re.compile(
 )
 
 # Lecture naming pattern
-LECTURE_PATTERN: Pattern[str] = re.compile(
-    r"^module-\d+-lecture-[a-z0-9-]+\.(pdf|pptx)$"
-)
+LECTURE_PATTERN: Pattern[str] = re.compile(r"^module-\d+-lecture-[a-z0-9-]+\.(pdf|pptx)$")
 
 # Lab protocol naming pattern
-LAB_PATTERN: Pattern[str] = re.compile(
-    r"^module-\d+-lab-\d+-[a-z0-9-]+\.md$"
-)
+LAB_PATTERN: Pattern[str] = re.compile(r"^module-\d+-lab-\d+-[a-z0-9-]+\.md$")
 
 # Study guide naming pattern
 STUDY_GUIDE_PATTERN: Pattern[str] = re.compile(r"^module-\d+-study-guide\.(md|pdf)$")

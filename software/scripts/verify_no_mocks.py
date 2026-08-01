@@ -9,6 +9,7 @@ Usage:
     python scripts/verify_no_mocks.py           # run from software/ dir
     python software/scripts/verify_no_mocks.py  # run from repo root
 """
+
 from __future__ import annotations
 
 import re
@@ -73,9 +74,7 @@ def check_file(path: Path) -> list[tuple[int, str, str]]:
             continue
         # Skip lines that are clearly pattern-definition string literals
         # e.g.  r"from unittest.mock import"  or  "MagicMock\("
-        if re.match(r'^\s*r?["\'].*["\'],?\s*$', line) and (
-            "import" in line or "\\" in line
-        ):
+        if re.match(r'^\s*r?["\'].*["\'],?\s*$', line) and ("import" in line or "\\" in line):
             continue
         for pattern, name in PROHIBITED_PATTERNS:
             if re.search(pattern, line):
@@ -90,9 +89,7 @@ def main() -> int:
         print(f"ERROR: {e}", file=sys.stderr)
         return 1
 
-    test_files = list(tests_dir.rglob("test_*.py")) + list(
-        tests_dir.rglob("conftest.py")
-    )
+    test_files = list(tests_dir.rglob("test_*.py")) + list(tests_dir.rglob("conftest.py"))
 
     total_violations = 0
     for test_file in sorted(test_files):

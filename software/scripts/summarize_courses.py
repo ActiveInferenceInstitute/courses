@@ -15,9 +15,9 @@ from pathlib import Path
 software_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(software_dir))
 
-from src.batch_processing.config import COURSE_REGISTRY
-from src.llm import OllamaClient
-from src.content_processing.labs import parse_module
+from src.batch_processing.config import COURSE_REGISTRY  # noqa: E402
+from src.llm import OllamaClient  # noqa: E402
+from src.content_processing.labs import parse_module  # noqa: E402
 
 DEFAULT_BASE = Path(__file__).resolve().parent.parent.parent / "course_development"
 
@@ -38,36 +38,34 @@ Your summary MUST include:
 Keep it engaging and professional.
 """
 
+
 def get_course_modules(base: Path, course_key: str) -> list[Path]:
     """Get all module directories for a course."""
     # This assumes standard structure: course_dir/module_dir/module.md
     # COURSE_REGISTRY maps keys to directory names, but structure varies
     # We'll use a heuristic: find module.md files where path contains course key parts
-    
-    modules = []
+
     # Simplified search strategy: look for directories matching registry entry
     # But registry entries are just dicts. Use batch_processing logic if possible
     # Or just search base/COURSE_REGISTRY[course_key]
-    
+
     # Actually, allow base search restricted by course info
     return sorted([m.parent for m in base.rglob("module.md") if course_key in str(m)])
 
 
 def generate_summary(course_key: str, base: Path, client: OllamaClient, output_dir: Path):
     print(f"Summarizing {course_key}...")
-    
-    # 1. Gather content
-    modules = []
+
     # 1. Gather content
     reg_entry = COURSE_REGISTRY.get(course_key, {})
     rel_path = reg_entry.get("rel_path")
-    
+
     course_path = None
     if rel_path:
         # COURSE_REGISTRY paths are relative to repo root
-        repo_root = base.parent 
+        repo_root = base.parent
         course_path = repo_root / rel_path
-    
+
     if not course_path or not course_path.exists():
         # Fallback search in base
         found = False
@@ -90,20 +88,17 @@ def generate_summary(course_key: str, base: Path, client: OllamaClient, output_d
         data = parse_module(md_file.parent)
         mod_num = md_file.parent.name
         title = data.get("title", "Unknown")
-        overview = data.get("overview", "")[:500] # Truncate
+        overview = data.get("overview", "")[:500]  # Truncate
         module_texts.append(f"- Module {mod_num}: {title}\n  Overview: {overview}...")
 
     context = "\n".join(module_texts)
-    
+
     # 2. Generate
-    prompt = SUMMARY_PROMPT.format(
-        course_name=course_key.upper(),
-        module_summaries=context
-    )
-    
+    prompt = SUMMARY_PROMPT.format(course_name=course_key.upper(), module_summaries=context)
+
     try:
         summary = client.generate(prompt)
-        
+
         # 3. Save
         out_file = output_dir / f"{course_key}_summary.md"
         out_file.write_text(summary, encoding="utf-8")
@@ -114,8 +109,12 @@ def generate_summary(course_key: str, base: Path, client: OllamaClient, output_d
 
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description="Generate 1-page course summaries via LLM")
-    parser.add_argument("--course", choices=list(COURSE_REGISTRY.keys()) + ["all"], required=True,
-                        help="Target course or 'all'")
+    parser.add_argument(
+        "--course",
+        choices=list(COURSE_REGISTRY.keys()) + ["all"],
+        required=True,
+        help="Target course or 'all'",
+    )
     parser.add_argument("--base", type=Path, default=DEFAULT_BASE)
     parser.add_argument("--output", type=Path, default=Path("published/summaries"))
     parser.add_argument("--model", help="Ollama model override")
@@ -125,15 +124,15 @@ def parse_args(argv=None):
 def main():
     args = parse_args()
     args.output.mkdir(exist_ok=True)
-    
+
     client = OllamaClient(model=args.model) if args.model else OllamaClient()
-    
+
     if not client.is_available():
         print("Error: Ollama is not available. Please run 'ollama serve'.")
         sys.exit(1)
 
     courses = [args.course] if args.course != "all" else list(COURSE_REGISTRY.keys())
-    
+
     for course in courses:
         generate_summary(course, args.base, client, args.output)
 

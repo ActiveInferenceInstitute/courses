@@ -99,9 +99,7 @@ def batch_generate_speech(input_dir: str, output_dir: str) -> List[str]:
     return output_files
 
 
-def configure_voice_settings(
-    voice: str, speed: float, pitch: float
-) -> Dict[str, Any]:
+def configure_voice_settings(voice: str, speed: float, pitch: float) -> Dict[str, Any]:
     """Configure voice settings for speech generation.
 
     Args:

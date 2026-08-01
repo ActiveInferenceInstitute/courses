@@ -36,8 +36,11 @@ def extract_course_info_from_path(file_path: Path, base: Path) -> Dict[str, str]
         # Fallback if not relative to base
         logger.warning(f"File {file_path} is not relative to base {base}")
         return {
-            "course": "unknown", "course_name": "Unknown",
-            "unit": "Unknown", "module_num": "00", "module_topic": "Unknown"
+            "course": "unknown",
+            "course_name": "Unknown",
+            "unit": "Unknown",
+            "module_num": "00",
+            "module_topic": "Unknown",
         }
 
     # Identify course from Registry — pick the most specific match (longest rel_path)
@@ -48,7 +51,7 @@ def extract_course_info_from_path(file_path: Path, base: Path) -> Dict[str, str]
     candidates = []
     for key, meta in config.COURSE_REGISTRY.items():
         meta_path = Path(meta["rel_path"])
-        
+
         # Determine registry path relative to base
         if "course_development" in meta_path.parts:
             try:
@@ -69,11 +72,11 @@ def extract_course_info_from_path(file_path: Path, base: Path) -> Dict[str, str]
     if matched_key and course_rel_path:
         course = matched_key
         course_name = matched_meta["display_name"]
-        
+
         try:
             inner = rel.relative_to(course_rel_path)
             parts = inner.parts
-            
+
             if "unit_glob" in matched_meta:
                 # Expecting unit/module/...
                 if len(parts) >= 2:
@@ -89,7 +92,7 @@ def extract_course_info_from_path(file_path: Path, base: Path) -> Dict[str, str]
         except (ValueError, IndexError):
             unit = "Unknown"
             module = "Unknown"
-            
+
         module_topic = prettify_name(module)
     else:
         # Fallback for paths not in registry
@@ -127,7 +130,7 @@ def extract_course_info_from_path(file_path: Path, base: Path) -> Dict[str, str]
 
 def preprocess_lab_markdown(content: str) -> str:
     """Preprocess lab markdown to expand fill directives into rendered HTML blocks.
-    
+
     Transforms raw template directives like {fill:textarea rows=8} into
     visible bordered response areas suitable for PDF/HTML rendering.
     Strips <!-- lab:... --> comment directives.
@@ -138,6 +141,7 @@ def preprocess_lab_markdown(content: str) -> str:
     Returns:
         Preprocessed markdown with fill directives expanded to HTML blocks.
     """
+
     # Replace {fill:textarea rows=N} with a bordered response box
     def textarea_replacement(match: re.Match) -> str:
         attrs = match.group(1) if match.group(1) else ""
@@ -147,10 +151,10 @@ def preprocess_lab_markdown(content: str) -> str:
         height = max(rows * 24, 80)
         return (
             f'\n<div style="border: 1px solid #ccc; border-radius: 4px; '
-            f'min-height: {height}px; padding: 8px; margin: 8px 0; '
+            f"min-height: {height}px; padding: 8px; margin: 8px 0; "
             f'background-color: #fafafa;">'
             f'<em style="color: #999; font-size: 0.85em;">'
-            f'Write your response here</em></div>\n'
+            f"Write your response here</em></div>\n"
         )
 
     content = re.sub(
@@ -182,10 +186,10 @@ def preprocess_lab_markdown(content: str) -> str:
         height = height_match.group(1) if height_match else "200"
         return (
             f'\n<div style="border: 1px solid #ccc; border-radius: 4px; '
-            f'min-height: {height}px; padding: 8px; margin: 8px 0; '
+            f"min-height: {height}px; padding: 8px; margin: 8px 0; "
             f'background-color: #fafafa;">'
             f'<em style="color: #999; font-size: 0.85em;">'
-            f'Drawing area</em></div>\n'
+            f"Drawing area</em></div>\n"
         )
 
     content = re.sub(
@@ -290,8 +294,7 @@ def get_courses_to_process(course_arg: str) -> List[tuple]:
         List of (relative_path, display_name, course_id) tuples
     """
     all_courses = [
-        (reg["rel_path"], reg["display_name"], cid)
-        for cid, reg in config.COURSE_REGISTRY.items()
+        (reg["rel_path"], reg["display_name"], cid) for cid, reg in config.COURSE_REGISTRY.items()
     ]
 
     if course_arg == "all":
@@ -375,26 +378,39 @@ def find_modules_for_course(course_path: Path, course_id: str = None) -> List[Pa
 
     # Two-level discovery: first find units, then modules inside each unit
     if unit_glob:
-        units = sorted([
-            d for d in search_dir.iterdir()
-            if d.is_dir() and not d.name.startswith(".") and not d.name.startswith("__")
-            and fnmatch.fnmatch(d.name, unit_glob)
-        ])
+        units = sorted(
+            [
+                d
+                for d in search_dir.iterdir()
+                if d.is_dir()
+                and not d.name.startswith(".")
+                and not d.name.startswith("__")
+                and fnmatch.fnmatch(d.name, unit_glob)
+            ]
+        )
         modules = []
         for unit_dir in units:
-            unit_modules = sorted([
-                d for d in unit_dir.iterdir()
-                if d.is_dir() and not d.name.startswith(".") and not d.name.startswith("__")
-                and fnmatch.fnmatch(d.name, module_glob)
-            ])
+            unit_modules = sorted(
+                [
+                    d
+                    for d in unit_dir.iterdir()
+                    if d.is_dir()
+                    and not d.name.startswith(".")
+                    and not d.name.startswith("__")
+                    and fnmatch.fnmatch(d.name, module_glob)
+                ]
+            )
             modules.extend(unit_modules)
         return modules
 
     # Single-level discovery (original behavior)
-    modules = sorted([
-        d for d in search_dir.iterdir()
-        if d.is_dir() and not d.name.startswith(".") and not d.name.startswith("__")
-    ])
+    modules = sorted(
+        [
+            d
+            for d in search_dir.iterdir()
+            if d.is_dir() and not d.name.startswith(".") and not d.name.startswith("__")
+        ]
+    )
 
     # Filter by glob pattern
     modules = [m for m in modules if fnmatch.fnmatch(m.name, module_glob)]
@@ -465,9 +481,7 @@ def generate_dry_run_report(
         modules = find_modules_for_course(course_path, course_id)
 
         if module_filter is not None:
-            modules = [
-                m for m in modules if matches_module_number(m.name, module_filter)
-            ]
+            modules = [m for m in modules if matches_module_number(m.name, module_filter)]
 
         for module_dir in modules:
             md_files = list(module_dir.glob("*.md"))

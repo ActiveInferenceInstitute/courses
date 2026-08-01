@@ -44,8 +44,7 @@ def generate_curriculum(
     _ensure_dir(curriculum_dir, stats)
 
     logger.info(
-        f"Generating curriculum '{config.title}' at {curriculum_dir} "
-        f"(~{config.total_files} files)"
+        f"Generating curriculum '{config.title}' at {curriculum_dir} (~{config.total_files} files)"
     )
 
     # Root-level files
@@ -92,9 +91,7 @@ def generate_single_course(
     Raises:
         ValueError: If course_number is invalid.
     """
-    course = next(
-        (c for c in config.courses if c.number == course_number), None
-    )
+    course = next((c for c in config.courses if c.number == course_number), None)
     if course is None:
         raise ValueError(f"No course with number {course_number}")
 
@@ -115,6 +112,7 @@ def generate_single_course(
 
 # ─── Private writers ────────────────────────────────────────────────────────
 
+
 def _ensure_dir(path: Path, stats: dict[str, int]) -> None:
     """Create directory if it doesn't exist."""
     if not path.exists():
@@ -128,16 +126,22 @@ def _write_file(
     file_content: str,
     overwrite: bool,
     stats: dict[str, int],
-) -> None:
-    """Write content to a file, respecting the overwrite flag."""
+) -> bool:
+    """Write content to a file, respecting the overwrite flag.
+
+    Returns:
+        ``True`` if the file was actually written, ``False`` if it was
+        skipped because it already exists and *overwrite* is ``False``.
+    """
     if path.exists() and not overwrite:
         stats["files_skipped"] += 1
         logger.debug(f"Skipped (exists): {path}")
-        return
+        return False
 
     path.write_text(file_content, encoding="utf-8")
     stats["files_created"] += 1
     logger.debug(f"Wrote: {path}")
+    return True
 
 
 def _write_root_files(
@@ -163,8 +167,8 @@ def _write_root_files(
 
     # Audit script (special: needs executable permission)
     audit_path = curriculum_dir / "audit_modules.sh"
-    _write_file(audit_path, content.render_audit_script(config), overwrite, stats)
-    if audit_path.exists():
+    wrote = _write_file(audit_path, content.render_audit_script(config), overwrite, stats)
+    if wrote:
         os.chmod(audit_path, 0o755)
 
 
@@ -204,17 +208,20 @@ def _write_course_files(
     _write_file(
         course_dir / "README.md",
         content.render_course_readme(course, config),
-        overwrite, stats,
+        overwrite,
+        stats,
     )
     _write_file(
         course_dir / "AGENTS.md",
         content.render_course_agents(course, config),
-        overwrite, stats,
+        overwrite,
+        stats,
     )
     _write_file(
         course_dir / "syllabus.md",
         content.render_course_syllabus(course, config),
-        overwrite, stats,
+        overwrite,
+        stats,
     )
 
 
@@ -241,5 +248,6 @@ def _write_module_files(
         _write_file(
             module_dir / filename,
             renderer(module, course, config),
-            overwrite, stats,
+            overwrite,
+            stats,
         )

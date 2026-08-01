@@ -135,6 +135,26 @@ class TestGetModuleDirectories:
         result = get_module_directories(temp_dir)
         assert len(result) == 1
 
+    def test_flat_layout(self, temp_dir):
+        """Active-Inference flat layout (XX_topic/ under course) is discovered."""
+        for name in ("01_systems", "02_agents", "03_perception"):
+            (temp_dir / name).mkdir()
+        result = get_module_directories(temp_dir)
+        assert [m.name for m in result] == ["01_systems", "02_agents", "03_perception"]
+
+    def test_two_level_layout(self, temp_dir):
+        """Level-adapted / domain layout (unit_dir/XX_topic/) is discovered."""
+        unit = temp_dir / "01_cognitive_science"
+        unit.mkdir()
+        (unit / "01_systems").mkdir()
+        (unit / "02_agents").mkdir()
+        unit2 = temp_dir / "02_comp_neuro"
+        unit2.mkdir()
+        (unit2 / "03_perception").mkdir()
+
+        result = get_module_directories(temp_dir)
+        assert [m.name for m in result] == ["01_systems", "02_agents", "03_perception"]
+
 
 class TestCheckOutputDirectory:
     """Tests for check_output_directory function."""

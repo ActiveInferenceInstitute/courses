@@ -7,8 +7,6 @@ import re
 from pathlib import Path
 from typing import Dict, List, Any
 
-from src.content_processing.utils import get_audience_info
-
 STUB_PATTERN = re.compile(
     r"A core concept in|An unrelated idea from a different field|A synonym for|None of the above"
 )
@@ -30,16 +28,11 @@ def generate_quiz_content(module_data: Dict[str, Any], course_info: Dict[str, An
     """Generate a complete practice quiz from module data."""
     concepts = module_data.get("key_concepts", [])
     objectives = module_data.get("objectives", [])
-    title = module_data.get("title", f"Module {course_info['module_num']}: {course_info['module_topic']}")
+    title = module_data.get(
+        "title", f"Module {course_info['module_num']}: {course_info['module_topic']}"
+    )
     subtitle = module_data.get("subtitle", "")
-    
-    # Get audience-specific details
-    course = course_info["course"]
-    audience = get_audience_info(course)
-    # The original script had slightly different tone names here, but we can reuse get_audience_info
-    # and map if strictly necessary, but sticking to standard levels is cleaner.
-    # Labs uses get_audience_info, so should stay consistent.
-    
+
     # Build questions from concepts
     mc_questions = []
     answer_key = []
@@ -75,9 +68,7 @@ def generate_quiz_content(module_data: Dict[str, Any], course_info: Dict[str, An
             f"**{q_num}.** Which of the following best describes **{name}**?\n\n"
             + "\n".join(f"{letters[k]}) {opt}" for k, opt in enumerate(options))
         )
-        answer_key.append(
-            f"| {q_num} | {letters[correct_idx]} | {name}: {defn} |"
-        )
+        answer_key.append(f"| {q_num} | {letters[correct_idx]} | {name}: {defn} |")
 
     # Add objective-based questions
     if objectives:
@@ -97,9 +88,7 @@ def generate_quiz_content(module_data: Dict[str, Any], course_info: Dict[str, An
             f"**{q_num}.** A primary learning goal of this module is to:\n\n"
             + "\n".join(f"{letters[k]}) {opt}" for k, opt in enumerate(options))
         )
-        answer_key.append(
-            f"| {q_num} | {letters[correct_idx]} | This module's first goal: {obj} |"
-        )
+        answer_key.append(f"| {q_num} | {letters[correct_idx]} | This module's first goal: {obj} |")
 
     if len(objectives) > 1:
         q_num = len(mc_questions) + 1
@@ -118,9 +107,7 @@ def generate_quiz_content(module_data: Dict[str, Any], course_info: Dict[str, An
             f"**{q_num}.** By the end of this module you should also be able to:\n\n"
             + "\n".join(f"{letters[k]}) {opt}" for k, opt in enumerate(options))
         )
-        answer_key.append(
-            f"| {q_num} | {letters[correct_idx]} | Another key goal: {obj} |"
-        )
+        answer_key.append(f"| {q_num} | {letters[correct_idx]} | Another key goal: {obj} |")
 
     # Build free-response questions from concepts and objectives
     fr_questions = []

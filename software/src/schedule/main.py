@@ -227,9 +227,7 @@ def batch_process_schedules(
 
     for schedule_file in schedule_files:
         try:
-            file_results = process_schedule(
-                str(schedule_file), output_dir, formats
-            )
+            file_results = process_schedule(str(schedule_file), output_dir, formats)
             results["processed_files"].append(str(schedule_file))
             for fmt in formats:
                 if fmt not in results["outputs"]:

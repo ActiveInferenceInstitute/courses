@@ -43,10 +43,7 @@ Examples:
     )
 
     parser.add_argument(
-        "--course",
-        choices=list(COURSE_REGISTRY.keys()),
-        help="Course to process",
-        required=True
+        "--course", choices=list(COURSE_REGISTRY.keys()), help="Course to process", required=True
     )
 
     parser.add_argument(
@@ -87,20 +84,19 @@ def main(argv=None) -> int:
     # Process all supported types for this module
     # We use module_path / "output" as the target
     output_dir = module_path / "output"
-    
+
     # 1. Module (Lecture)
     process_module_by_type(str(module_path), str(output_dir))
-    
+
     # 2. Lab
     if (module_path / "lab.md").exists():
         process_module_by_type(str(module_path), str(output_dir))
-        
+
     # 3. Questions
     if (module_path / "questions.md").exists():
         process_module_by_type(str(module_path), str(output_dir))
 
     return 0
-
 
 
 if __name__ == "__main__":

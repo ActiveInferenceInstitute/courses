@@ -66,6 +66,7 @@ COURSE_FILES: list[str] = [
 
 # ─── Dataclasses ────────────────────────────────────────────────────────────
 
+
 @dataclass
 class ModuleConfig:
     """Configuration for a single module within a course.
@@ -89,9 +90,7 @@ class ModuleConfig:
         if not 1 <= self.number <= 8:
             raise ValueError(f"Module number must be 1-8, got {self.number}")
         if self.topic not in MODULE_TOPICS:
-            raise ValueError(
-                f"Topic '{self.topic}' not in MODULE_TOPICS: {MODULE_TOPICS}"
-            )
+            raise ValueError(f"Topic '{self.topic}' not in MODULE_TOPICS: {MODULE_TOPICS}")
 
     @property
     def dir_name(self) -> str:
@@ -182,9 +181,16 @@ class CurriculumConfig:
         errors: list[str] = []
 
         if len(self.courses) != 4:
-            errors.append(
-                f"Expected 4 courses, got {len(self.courses)}"
-            )
+            errors.append(f"Expected 4 courses, got {len(self.courses)}")
+
+        # Directory-name collisions would silently overwrite each other's
+        # files during scaffolding; enforce uniqueness.
+        dir_names = [c.dir_name for c in self.courses]
+        seen: set[str] = set()
+        for d in dir_names:
+            if d in seen:
+                errors.append(f"Duplicate course dir_name: {d!r}")
+            seen.add(d)
 
         for course in self.courses:
             if len(course.modules) != 8:
@@ -201,4 +207,3 @@ class CurriculumConfig:
                 )
 
         return errors
-"""Module schema definitions for the course generator."""

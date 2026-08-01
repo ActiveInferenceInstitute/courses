@@ -36,7 +36,9 @@ def parse_schedule_table(content: str) -> List[Dict[str, str]]:
                 "week": columns[config.SCHEDULE_COLUMNS.get("week", 0)],
                 "date": columns[config.SCHEDULE_COLUMNS.get("date", 1)],
                 "topic": columns[config.SCHEDULE_COLUMNS.get("topic", 2)],
-                "notes": columns[config.SCHEDULE_COLUMNS.get("notes", 3)] if len(columns) > 3 else "",
+                "notes": columns[config.SCHEDULE_COLUMNS.get("notes", 3)]
+                if len(columns) > 3
+                else "",
             }
             schedule_entries.append(entry)
 

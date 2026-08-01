@@ -81,7 +81,9 @@ def discover_courses(repo_root: Path) -> List[Dict[str, Any]]:
             courses.append(
                 {
                     "id": cid,
-                    "title": reg.get("display_name", reg.get("title", cid.replace("_", " ").title())),
+                    "title": reg.get(
+                        "display_name", reg.get("title", cid.replace("_", " ").title())
+                    ),
                     "path": str(course_dir),
                     "module_count": modules,
                     "description": reg.get("description", ""),
@@ -108,9 +110,7 @@ def discover_courses(repo_root: Path) -> List[Dict[str, Any]]:
     return courses
 
 
-def get_course_by_id(
-    course_id: str, repo_root: Path
-) -> Optional[Dict[str, Any]]:
+def get_course_by_id(course_id: str, repo_root: Path) -> Optional[Dict[str, Any]]:
     """Return a single course dict, or ``None``."""
     for c in discover_courses(repo_root):
         if c["id"] == course_id:

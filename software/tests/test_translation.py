@@ -209,3 +209,27 @@ class TestTranslateFileErrors:
         fake = tmp_path / "does_not_exist" / "file.md"
         with pytest.raises(FileNotFoundError):
             translate_file(str(fake), target_lang="de")
+
+
+class TestTranslationHardening:
+    """Validation that does not require a live Ollama server."""
+
+    def test_unsafe_target_lang_rejected(self) -> None:
+        from src.translation.main import translate_text
+
+        # Path traversal / injection primitives must be rejected up front.
+        for bad in ("../../etc", "es/..", "a b", "<script>"):
+            with pytest.raises(ValueError):
+                translate_text("hello", target_lang=bad)
+
+    def test_all_chunks_failed_raises(self) -> None:
+        """If every chunk fails to translate, raise instead of returning source."""
+        from src.translation.main import translate_text
+
+        class _FailingClient:
+            def generate(self, prompt):  # noqa: D102
+                raise RuntimeError("LLM unavailable")
+
+        with pytest.raises(RuntimeError):
+            translate_text("Some text to translate", target_lang="es", client=_FailingClient())
+

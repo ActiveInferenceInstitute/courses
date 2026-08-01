@@ -34,7 +34,6 @@ from src.batch_processing.config import COURSE_REGISTRY
 from src.legacy_import import (
     process_chapter_questions,
     process_slides,
-    process_for_upload_all_modules,
 )
 
 # Setup logging
@@ -105,7 +104,7 @@ def main(argv=None) -> int:
     if not legacy_files_dir.exists():
         logger.error(f"Legacy files directory not found: {legacy_files_dir}")
         return 1
-        
+
     if not course_root.exists():
         logger.error(f"Course directory not found: {course_root}")
         return 1
@@ -115,26 +114,22 @@ def main(argv=None) -> int:
     # 2. Process Chapter Questions
     if not args.skip_questions:
         logger.info("\n--- Importing Chapter Questions ---")
-        qs_success = process_chapter_questions(
-            legacy_files_dir, course_root, dry_run=args.dry_run
-        )
+        qs_success = process_chapter_questions(legacy_files_dir, course_root, dry_run=args.dry_run)
         if not qs_success:
             success = False
 
     # 3. Process Slides
     if not args.skip_slides:
         logger.info("\n--- Importing Slides ---")
-        slides_success = process_slides(
-            legacy_files_dir, course_root, dry_run=args.dry_run
-        )
+        slides_success = process_slides(legacy_files_dir, course_root, dry_run=args.dry_run)
         if not slides_success:
             success = False
-            
+
     # 4. Process for Upload (renumbering)
     # This might be redundant if we are already renumbering, but legacy script does it
     # We can skip this if we trust renumber_questions.py, but keeping for compatibility
     if not args.dry_run:
-         pass 
+        pass
 
     logger.info("\n============================================================")
     if success:

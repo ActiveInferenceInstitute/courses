@@ -6,6 +6,8 @@ from typing import Optional
 import speech_recognition as sr
 from pydub import AudioSegment
 
+from . import config
+
 
 def read_audio_file(audio_path: Path) -> AudioSegment:
     """Read audio file and convert to format suitable for speech recognition.
@@ -47,6 +49,10 @@ def convert_audio_to_wav(audio: AudioSegment, output_path: Path) -> None:
 def transcribe_audio_segment(audio_path: Path, language: str = "en") -> str:
     """Transcribe audio file to text using speech recognition.
 
+    Bounds memory and request size by recording the audio in chunks of up to
+    ``config.RECORDING_CHUNK_SECONDS`` rather than loading the whole file at
+    once (an unbounded-resource bug for long clips).
+
     Args:
         audio_path: Path to audio file (WAV format preferred)
         language: Language code (default: "en")
@@ -63,19 +69,31 @@ def transcribe_audio_segment(audio_path: Path, language: str = "en") -> str:
         with sr.AudioFile(str(audio_path)) as source:
             # Adjust for ambient noise
             recognizer.adjust_for_ambient_noise(source, duration=0.5)
-            # Read audio data
-            audio_data = recognizer.record(source)
 
-        # Perform transcription using Google Speech Recognition
-        # This uses real Google Speech Recognition API
-        try:
-            text = recognizer.recognize_google(audio_data, language=language)
-            return text
-        except sr.UnknownValueError:
+            transcribed_parts = []
+            while True:
+                try:
+                    audio_data = recognizer.record(source, duration=config.RECORDING_CHUNK_SECONDS)
+                except (ValueError, EOFError):
+                    # audio file fully consumed
+                    break
+                if len(audio_data.get_raw_data()) == 0:
+                    break
+                try:
+                    text = recognizer.recognize_google(audio_data, language=language)
+                except sr.UnknownValueError:
+                    continue  # this chunk had no recognizable speech
+                except sr.RequestError as e:
+                    raise OSError(f"Speech recognition service error: {e}") from e
+                if text:
+                    transcribed_parts.append(text)
+
+        if not transcribed_parts:
             raise OSError("Speech recognition could not understand audio")
-        except sr.RequestError as e:
-            raise OSError(f"Speech recognition service error: {e}") from e
+        return " ".join(transcribed_parts)
 
+    except OSError:
+        raise
     except Exception as e:
         raise OSError(f"Failed to transcribe audio: {e}") from e
 

@@ -339,9 +339,7 @@ def scaffold_course_directory(
             try:
                 from .main import transcribe_video
 
-                result = transcribe_video(
-                    video_id, transcript_dir, skip_whisper=skip_whisper
-                )
+                result = transcribe_video(video_id, transcript_dir, skip_whisper=skip_whisper)
                 if result["status"] == "completed":
                     rel_path = result.get("transcript_path", "")
                     if rel_path:
@@ -404,11 +402,7 @@ def render_course_modules(
 
     # Find module directories (numbered dirs containing module.md)
     module_dirs = sorted(
-        [
-            d
-            for d in course_dir.iterdir()
-            if d.is_dir() and (d / "module.md").exists()
-        ]
+        [d for d in course_dir.iterdir() if d.is_dir() and (d / "module.md").exists()]
     )
 
     if not module_dirs:
@@ -430,9 +424,7 @@ def render_course_modules(
             lecture_dir = output_dir / "lecture-content"
             if lecture_dir.exists() and any(lecture_dir.iterdir()):
                 skipped_count += 1
-                module_results_list.append(
-                    {"name": module_dir.name, "status": "skipped"}
-                )
+                module_results_list.append({"name": module_dir.name, "status": "skipped"})
                 continue
 
         try:
@@ -493,11 +485,7 @@ def render_all_youtube_courses(
 
     # Find course directories
     course_dirs = sorted(
-        [
-            d
-            for d in youtube_courses_dir.iterdir()
-            if d.is_dir() and d.name != "__pycache__"
-        ]
+        [d for d in youtube_courses_dir.iterdir() if d.is_dir() and d.name != "__pycache__"]
     )
 
     if course_filter:
@@ -512,11 +500,7 @@ def render_all_youtube_courses(
 
     for course_dir in course_dirs:
         # Skip if no module dirs
-        has_modules = any(
-            (d / "module.md").exists()
-            for d in course_dir.iterdir()
-            if d.is_dir()
-        )
+        has_modules = any((d / "module.md").exists() for d in course_dir.iterdir() if d.is_dir())
         if not has_modules:
             continue
 

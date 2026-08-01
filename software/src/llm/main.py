@@ -2,6 +2,7 @@
 
 import json
 import logging
+import time
 from typing import Any, Dict, Optional, Union, Generator
 
 import requests
@@ -9,6 +10,10 @@ import requests
 from . import config, prompts
 
 logger = logging.getLogger(__name__)
+
+# Re-check availability after this many seconds so a transient failure
+# (startup ordering, Ollama restart) is not cached forever.
+_AVAILABILITY_TTL = 30.0
 
 
 class OllamaClient:
@@ -31,14 +36,24 @@ class OllamaClient:
         self.model = model
         self.timeout = timeout
         self._available: Optional[bool] = None
+        self._last_check: Optional[float] = None
 
     def is_available(self, force_check: bool = False) -> bool:
-        """Check if Ollama is reachable."""
-        if self._available is not None and not force_check:
+        """Check if Ollama is reachable.
+
+        The result is cached for a short TTL so transient failures are
+        re-probed on subsequent calls instead of being cached forever.
+        """
+        if (
+            not force_check
+            and self._available is not None
+            and self._last_check is not None
+            and (time.monotonic() - self._last_check) < _AVAILABILITY_TTL
+        ):
             return self._available
 
         try:
-            resp = requests.get(f"{self.base_url}/api/tags", timeout=5)
+            resp = requests.get(f"{self.base_url}/api/tags", timeout=max(5, self.timeout))
             self._available = resp.status_code == 200
             if self._available:
                 logger.debug(f"Ollama connected at {self.base_url}")
@@ -46,6 +61,7 @@ class OllamaClient:
             logger.debug(f"Ollama check failed: {e}")
             self._available = False
 
+        self._last_check = time.monotonic()
         return self._available
 
     def generate(
@@ -69,6 +85,10 @@ class OllamaClient:
 
         Returns:
             Generated text string (if stream=False) or generator (if stream=True).
+
+        Raises:
+            ConnectionError: If Ollama is not available.
+            RuntimeError: If generation failed after retries.
         """
         if not self.is_available():
             raise ConnectionError("Ollama is not available")
@@ -87,29 +107,56 @@ class OllamaClient:
         if format:
             payload["format"] = format
 
-        try:
-            if stream:
-                return self._stream_generation(url, payload)
-            else:
+        last_exc: Optional[Exception] = None
+        for attempt in range(config.MAX_RETRIES):
+            try:
+                if stream:
+                    return self._stream_generation(url, payload)
                 resp = requests.post(url, json=payload, timeout=self.timeout)
                 resp.raise_for_status()
                 return resp.json().get("response", "")
-        except requests.RequestException as e:
-            logger.error(f"Generation failed: {e}")
-            raise RuntimeError(f"Ollama generation failed: {e}")
+            except requests.RequestException as e:
+                last_exc = e
+                logger.warning(
+                    "Generation failed (attempt %d/%d): %s",
+                    attempt + 1,
+                    config.MAX_RETRIES,
+                    e,
+                )
+                if attempt < config.MAX_RETRIES - 1:
+                    self._available = None  # force availability re-probe next time
+                    self.is_available(force_check=True)
+                    time.sleep(config.RETRY_DELAY)
+
+        raise RuntimeError(f"Ollama generation failed: {last_exc}")
 
     def _stream_generation(self, url: str, payload: Dict[str, Any]) -> Generator[str, None, None]:
-        """Yield generated chunks from stream."""
-        with requests.post(url, json=payload, stream=True, timeout=self.timeout) as resp:
-            resp.raise_for_status()
-            for line in resp.iter_lines():
-                if line:
+        """Yield generated chunks from stream.
+
+        Errors are wrapped in ``RuntimeError`` (matching the non-streaming
+        path's contract) rather than leaking raw ``requests`` exceptions, and
+        malformed stream lines are counted and surfaced as a warning instead of
+        being silently dropped (which could truncate output with no signal).
+        """
+        bad_lines = 0
+        try:
+            with requests.post(url, json=payload, stream=True, timeout=self.timeout) as resp:
+                resp.raise_for_status()
+                for line in resp.iter_lines():
+                    if not line:
+                        continue
                     try:
                         chunk = json.loads(line)
                         if "response" in chunk:
                             yield chunk["response"]
                     except json.JSONDecodeError:
-                        continue
+                        bad_lines += 1
+                        if bad_lines <= 5:
+                            logger.warning("Skipping malformed stream line: %r", line[:120])
+        except requests.RequestException as e:
+            raise RuntimeError(f"Ollama stream generation failed: {e}") from e
+        if bad_lines:
+            logger.warning("Streaming: %d malformed line(s) skipped", bad_lines)
 
     def generate_structured(
         self,
@@ -132,7 +179,7 @@ class OllamaClient:
         # Note: minimal plumbing for now; fuller schema enforcement can be added later
         # or via guidance/structured generation libraries if needed.
         # For now, we rely on the generic JSON instruction.
-        
+
         system_prompt = prompts.SYSTEM_JSON
         if schema:
             system_prompt += f"\nFollow this schema: {json.dumps(schema)}"
@@ -143,7 +190,7 @@ class OllamaClient:
             model=model,
             temperature=temperature,
             format="json",
-            stream=False
+            stream=False,
         )
 
         try:

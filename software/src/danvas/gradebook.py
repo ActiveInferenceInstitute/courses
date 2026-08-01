@@ -7,9 +7,10 @@ letter-grade conversion using ``config.DEFAULT_GRADING_SCHEMA``.
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
+import math
 
 from . import config
-from .store import load_store, save_store
+from .store import load_store, store_transaction
 
 try:
     from ..batch_processing.logging_config import get_logger
@@ -55,24 +56,38 @@ def record_grade(
 
     Returns:
         The grade entry dict.
-    """
-    store = load_store(course_id, data_dir)
-    grades = store.setdefault("grades", {})
-    user_grades = grades.setdefault(user_name, {})
 
-    entry: Dict[str, Any] = {
-        "score": score,
-        "max_score": max_score,
-        "percentage": round((score / max_score) * 100, 2) if max_score else 0.0,
-        "updated_at": datetime.now().strftime(config.DATETIME_FORMAT),
-    }
-    user_grades[assignment] = entry
-    save_store(course_id, store, data_dir)
-    logger.info(
-        "Recorded grade %s/%s for '%s' on '%s' in %s",
-        score, max_score, user_name, assignment, course_id,
-    )
-    return entry
+    Raises:
+        ValueError: If *score* or *max_score* is not finite, or if
+            *max_score* is negative.
+    """
+    if not math.isfinite(score):
+        raise ValueError(f"score must be finite, got {score!r}")
+    if not math.isfinite(max_score):
+        raise ValueError(f"max_score must be finite, got {max_score!r}")
+    if max_score < 0:
+        raise ValueError(f"max_score must be non-negative, got {max_score!r}")
+
+    with store_transaction(course_id, data_dir) as store:
+        grades = store.setdefault("grades", {})
+        user_grades = grades.setdefault(user_name, {})
+
+        entry: Dict[str, Any] = {
+            "score": score,
+            "max_score": max_score,
+            "percentage": round((score / max_score) * 100, 2) if max_score else 0.0,
+            "updated_at": datetime.now().strftime(config.DATETIME_FORMAT),
+        }
+        user_grades[assignment] = entry
+        logger.info(
+            "Recorded grade %s/%s for '%s' on '%s' in %s",
+            score,
+            max_score,
+            user_name,
+            assignment,
+            course_id,
+        )
+        return entry
 
 
 # ──────────────────────────────────────────────────────────────────────────────

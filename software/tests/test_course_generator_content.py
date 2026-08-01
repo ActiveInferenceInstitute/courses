@@ -172,6 +172,38 @@ class TestRootLevelContent:
         result = render_audit_script(sample_curriculum)
         assert result.startswith("#!/usr/bin/env bash")
 
+    def test_audit_script_shell_quotes_hostile_input(self):
+        """Titles/dir_names with shell metacharacters must not break out."""
+        from src.course_generator.schema import CourseConfig, CurriculumConfig, ModuleConfig
+
+        modules = [
+            ModuleConfig(
+                number=i, topic=MODULE_TOPICS[i - 1],
+                subtitle=f"Test {MODULE_TOPICS[i-1].title()}",
+            )
+            for i in range(1, 9)
+        ]
+        hostile = "$(rm -rf /)"
+        title_hostile = "'; echo pwned; '"
+        course = CourseConfig(
+            number=1,
+            dir_name=hostile,
+            title=title_hostile,
+            perspective="Testing",
+            lab_type="Test Lab",
+            modules=modules,
+        )
+        cur = CurriculumConfig(
+            id="t", title="T", audience="a", tone="neutral",
+            courses=[course] * 4,
+        )
+        script = render_audit_script(cur)
+        # Hostile metacharacters must be safely single-quoted, not active.
+        assert "check_course '$(" in script
+        assert "$(rm -rf /)" in script
+        # A single-quote in the value is escaped so it cannot break out.
+        assert "\\''" in script or "'\\''" in script
+
 
 class TestResourceContent:
     """Tests for resource file rendering."""

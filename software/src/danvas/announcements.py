@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from . import config
-from .store import load_store, save_store
+from .store import load_store, store_transaction
 
 try:
     from ..batch_processing.logging_config import get_logger
@@ -56,26 +56,25 @@ def post_announcement(
         The announcement record dict.
     """
     if len(body) > config.MAX_ANNOUNCEMENT_LENGTH:
-        raise ValueError(
-            f"Announcement body exceeds {config.MAX_ANNOUNCEMENT_LENGTH} chars"
-        )
+        raise ValueError(f"Announcement body exceeds {config.MAX_ANNOUNCEMENT_LENGTH} chars")
+    if len(title) > config.MAX_FIELD_LENGTH:
+        raise ValueError(f"Announcement title exceeds {config.MAX_FIELD_LENGTH} chars")
+    if len(author) > config.MAX_USER_NAME_LENGTH:
+        raise ValueError(f"Author name exceeds {config.MAX_USER_NAME_LENGTH} chars")
 
-    store = load_store(course_id, data_dir)
-    record: Dict[str, Any] = {
-        "id": str(uuid.uuid4()),
-        "title": title,
-        "body": body,
-        "author": author,
-        "posted_at": datetime.now().strftime(config.DATETIME_FORMAT),
-    }
-    store["announcements"].insert(0, record)  # newest first
-    save_store(course_id, store, data_dir)
-    logger.info("Posted announcement '%s' in %s", title, course_id)
-    return record
+    with store_transaction(course_id, data_dir) as store:
+        record: Dict[str, Any] = {
+            "id": str(uuid.uuid4()),
+            "title": title,
+            "body": body,
+            "author": author,
+            "posted_at": datetime.now().strftime(config.DATETIME_FORMAT),
+        }
+        store["announcements"].insert(0, record)  # newest first
+        logger.info("Posted announcement '%s' in %s", title, course_id)
+        return record
 
 
-def get_announcements(
-    course_id: str, data_dir: Optional[Path] = None
-) -> List[Dict[str, Any]]:
+def get_announcements(course_id: str, data_dir: Optional[Path] = None) -> List[Dict[str, Any]]:
     """Return announcements for a course (newest first)."""
     return load_store(course_id, data_dir).get("announcements", [])

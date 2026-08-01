@@ -29,4 +29,3 @@ __all__ = [
     "flatten_published",
     "get_course_config",
 ]
-

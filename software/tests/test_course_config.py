@@ -3,6 +3,7 @@
 All tests use real file operations (no mocks), per project convention.
 """
 
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -212,13 +213,18 @@ class TestResolveConfigChain:
         assert result["metadata"]["title"] == "Child"
         assert result["metadata"]["description"] == "From parent"
 
-    def test_skips_bad_files_with_warning(self, tmp_path: Path) -> None:
+    def test_malformed_file_raises(self, tmp_path: Path) -> None:
+        """A malformed config file must raise, not silently drop the settings."""
         good = tmp_path / "good.toml"
         bad = tmp_path / "bad.toml"
         good.write_text('[metadata]\ntitle = "Good"\n', encoding="utf-8")
         bad.write_text("this is not valid toml [[", encoding="utf-8")
-        result = resolve_config_chain([bad, good])
-        assert result["metadata"]["title"] == "Good"
+        # A chain containing a malformed file raises so the author's settings
+        # are never silently discarded.
+        with pytest.raises(tomllib.TOMLDecodeError):
+            resolve_config_chain([bad, good])
+        with pytest.raises(tomllib.TOMLDecodeError):
+            resolve_config_chain([good, bad])
 
 
 # ---------------------------------------------------------------------------

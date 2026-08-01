@@ -6,23 +6,27 @@ Refactored from software/scripts/generate_dashboards.py.
 import json
 import random
 import re
+import zlib
 from html import escape
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
-from src.batch_processing.utils import extract_course_info_from_path as extract_course_info, prettify_name
+from src.batch_processing.utils import (
+    extract_course_info_from_path as extract_course_info,
+    prettify_name,
+)
 
 THEMES = {
-    "ai-philosophy":         {"accent": "#38bdf8", "gradient": "135deg, #0ea5e9, #6366f1"},
-    "ai-101":                {"accent": "#22d3ee", "gradient": "135deg, #06b6d4, #8b5cf6"},
-    "ai-401":                {"accent": "#a78bfa", "gradient": "135deg, #8b5cf6, #ec4899"},
-    "ai-es":                 {"accent": "#4ade80", "gradient": "135deg, #22c55e, #06b6d4"},
-    "ai-family":             {"accent": "#fb923c", "gradient": "135deg, #f97316, #eab308"},
-    "ai-hs":                 {"accent": "#818cf8", "gradient": "135deg, #6366f1, #a855f7"},
-    "ai-ms":                 {"accent": "#2dd4bf", "gradient": "135deg, #14b8a6, #3b82f6"},
-    "ai-embodied":           {"accent": "#fb7185", "gradient": "135deg, #f43f5e, #a855f7"},
-    "ai-organizations":      {"accent": "#fbbf24", "gradient": "135deg, #f59e0b, #ef4444"},
-    "ai-robotics":           {"accent": "#34d399", "gradient": "135deg, #10b981, #0ea5e9"},
+    "ai-philosophy": {"accent": "#38bdf8", "gradient": "135deg, #0ea5e9, #6366f1"},
+    "ai-101": {"accent": "#22d3ee", "gradient": "135deg, #06b6d4, #8b5cf6"},
+    "ai-401": {"accent": "#a78bfa", "gradient": "135deg, #8b5cf6, #ec4899"},
+    "ai-es": {"accent": "#4ade80", "gradient": "135deg, #22c55e, #06b6d4"},
+    "ai-family": {"accent": "#fb923c", "gradient": "135deg, #f97316, #eab308"},
+    "ai-hs": {"accent": "#818cf8", "gradient": "135deg, #6366f1, #a855f7"},
+    "ai-ms": {"accent": "#2dd4bf", "gradient": "135deg, #14b8a6, #3b82f6"},
+    "ai-embodied": {"accent": "#fb7185", "gradient": "135deg, #f43f5e, #a855f7"},
+    "ai-organizations": {"accent": "#fbbf24", "gradient": "135deg, #f59e0b, #ef4444"},
+    "ai-robotics": {"accent": "#34d399", "gradient": "135deg, #10b981, #0ea5e9"},
 }
 DEFAULT_THEME = {"accent": "#38bdf8", "gradient": "135deg, #6366f1, #a855f7"}
 
@@ -289,11 +293,25 @@ def get_theme(course_id: str) -> Dict[str, str]:
 def parse_module_md(module_dir: Path) -> Dict[str, Any]:
     path = module_dir / "module.md"
     if not path.exists():
-        return {"title": "", "subtitle": "", "overview": "",
-                "objectives": [], "key_concepts": [], "core_sections": [], "summary": ""}
+        return {
+            "title": "",
+            "subtitle": "",
+            "overview": "",
+            "objectives": [],
+            "key_concepts": [],
+            "core_sections": [],
+            "summary": "",
+        }
     text = path.read_text(encoding="utf-8")
-    data = {"title": "", "subtitle": "", "overview": "",
-            "objectives": [], "key_concepts": [], "core_sections": [], "summary": ""}
+    data = {
+        "title": "",
+        "subtitle": "",
+        "overview": "",
+        "objectives": [],
+        "key_concepts": [],
+        "core_sections": [],
+        "summary": "",
+    }
 
     lines = text.split("\n")
 
@@ -304,8 +322,20 @@ def parse_module_md(module_dir: Path) -> Dict[str, Any]:
             break
 
     # Subtitle (first H2 that isn't a known section header)
-    skip_kw = {"overview", "introduction", "learning", "key ", "core", "lesson",
-               "summary", "reference", "further", "example", "contents", "activity"}
+    skip_kw = {
+        "overview",
+        "introduction",
+        "learning",
+        "key ",
+        "core",
+        "lesson",
+        "summary",
+        "reference",
+        "further",
+        "example",
+        "contents",
+        "activity",
+    }
     found_title = False
     for ln in lines:
         if ln.startswith("# "):
@@ -353,7 +383,8 @@ def parse_module_md(module_dir: Path) -> Dict[str, Any]:
             # Try full pattern: - **name** — definition (separator on same line)
             for m in re.finditer(
                 r"-\s*\*\*([^*]+)\*\*[ \t]*[-\u2014:][ \t]+(.+?)(?=\n-|\n\n|\Z)",
-                concept_text, re.DOTALL,
+                concept_text,
+                re.DOTALL,
             ):
                 name = m.group(1).strip()
                 defn = m.group(2).strip().replace("\n", " ")
@@ -445,29 +476,40 @@ def parse_practice_quiz(module_dir: Path) -> List[Dict[str, Any]]:
             explain = answer_explanations.get(q_num, "")
             if not explain:
                 explain = f"{chr(65 + correct)}) {options[correct]}"
-            questions.append({
-                "q": question,
-                "opts": options,
-                "correct": correct,
-                "explain": explain,
-            })
+            questions.append(
+                {
+                    "q": question,
+                    "opts": options,
+                    "correct": correct,
+                    "explain": explain,
+                }
+            )
     return questions
 
 
 def is_stub_quiz(questions: List[Dict[str, Any]]) -> bool:
     if not questions:
         return True
-    stub_pats = [r"a core concept", r"an unrelated idea", r"a synonym for",
-                 r"none of the above", r"recite the textbook", r"ignore the topic",
-                 r"only study for the final"]
+    stub_pats = [
+        r"a core concept",
+        r"an unrelated idea",
+        r"a synonym for",
+        r"none of the above",
+        r"recite the textbook",
+        r"ignore the topic",
+        r"only study for the final",
+    ]
     stub_count = sum(
-        1 for q in questions
+        1
+        for q in questions
         if any(re.search(p, " ".join(q.get("opts", [])).lower()) for p in stub_pats)
     )
     return stub_count > len(questions) / 2
 
 
-def _shuffle_with_correct(opts: List[str], correct_idx: int, rng: random.Random) -> Tuple[List[str], int]:
+def _shuffle_with_correct(
+    opts: List[str], correct_idx: int, rng: random.Random
+) -> Tuple[List[str], int]:
     """Shuffle options and return (shuffled_opts, new_correct_index)."""
     indices = list(range(len(opts)))
     rng.shuffle(indices)
@@ -476,11 +518,15 @@ def _shuffle_with_correct(opts: List[str], correct_idx: int, rng: random.Random)
     return shuffled, new_correct
 
 
-def generate_quiz_from_module(module_data: Dict[str, Any], seed_text: str = "") -> List[Dict[str, Any]]:
+def generate_quiz_from_module(
+    module_data: Dict[str, Any], seed_text: str = ""
+) -> List[Dict[str, Any]]:
     concepts = module_data.get("key_concepts", [])
     objectives = module_data.get("objectives", [])
-    # Use module-specific seed so different modules get different shuffles
-    rng = random.Random(hash(seed_text) if seed_text else 42)
+    # Use module-specific seed so different modules get different shuffles.
+    # zlib.crc32 is deterministic across processes (unlike the salt-affected
+    # built-in hash()) so generated artifacts are reproducible.
+    rng = random.Random(zlib.crc32(seed_text.encode("utf-8")) if seed_text else 42)
     questions: List[Dict[str, Any]] = []
 
     for i, (name, definition) in enumerate(concepts):
@@ -493,40 +539,50 @@ def generate_quiz_from_module(module_data: Dict[str, Any], seed_text: str = "") 
             opts.append(GENERIC_WRONG[gi % len(GENERIC_WRONG)])
             gi += 1
         shuffled, correct = _shuffle_with_correct(opts, 0, rng)
-        questions.append({
-            "q": f'Which of the following best describes "{name}"?',
-            "opts": shuffled,
-            "correct": correct,
-            "explain": f"{name}: {definition}",
-        })
+        questions.append(
+            {
+                "q": f'Which of the following best describes "{name}"?',
+                "opts": shuffled,
+                "correct": correct,
+                "explain": f"{name}: {definition}",
+            }
+        )
 
     if objectives:
         obj = objectives[0]
-        opts = [obj,
-                "Memorize all definitions without applying them to real situations.",
-                "Skip foundational concepts and focus only on advanced material.",
-                "Review content from a completely different subject area."]
+        opts = [
+            obj,
+            "Memorize all definitions without applying them to real situations.",
+            "Skip foundational concepts and focus only on advanced material.",
+            "Review content from a completely different subject area.",
+        ]
         shuffled, correct = _shuffle_with_correct(opts, 0, rng)
-        questions.append({
-            "q": "A primary learning goal of this module is to:",
-            "opts": shuffled,
-            "correct": correct,
-            "explain": f"This module focuses on: {obj}",
-        })
+        questions.append(
+            {
+                "q": "A primary learning goal of this module is to:",
+                "opts": shuffled,
+                "correct": correct,
+                "explain": f"This module focuses on: {obj}",
+            }
+        )
 
     if len(objectives) > 1:
         obj = objectives[-1]
-        opts = [obj,
-                "Complete unrelated worksheets for extra credit.",
-                "Watch videos without taking notes or reflecting.",
-                "Repeat previous module content without new application."]
+        opts = [
+            obj,
+            "Complete unrelated worksheets for extra credit.",
+            "Watch videos without taking notes or reflecting.",
+            "Repeat previous module content without new application.",
+        ]
         shuffled, correct = _shuffle_with_correct(opts, 0, rng)
-        questions.append({
-            "q": "By the end of this module you should also be able to:",
-            "opts": shuffled,
-            "correct": correct,
-            "explain": f"Another key goal: {obj}",
-        })
+        questions.append(
+            {
+                "q": "By the end of this module you should also be able to:",
+                "opts": shuffled,
+                "correct": correct,
+                "explain": f"Another key goal: {obj}",
+            }
+        )
 
     return questions[:7]
 
@@ -547,17 +603,20 @@ def get_sibling_modules(module_dir: Path) -> List[Dict[str, Any]]:
             pass
         mod_name = child.name
         topic = prettify_name(mod_name)
-        siblings.append({
-            "dir": mod_name,
-            "topic": topic,
-            "title": title or topic,
-            "is_current": child == module_dir,
-        })
+        siblings.append(
+            {
+                "dir": mod_name,
+                "topic": topic,
+                "title": title or topic,
+                "is_current": child == module_dir,
+            }
+        )
     return siblings
 
 
-def build_concept_cards(concepts: List[Tuple], core_sections: List[Tuple],
-                        overview: str = "") -> str:
+def build_concept_cards(
+    concepts: List[Tuple], core_sections: List[Tuple], overview: str = ""
+) -> str:
     if not concepts:
         return '<p style="color:#94a3b8">No key concepts defined for this module.</p>'
     cards: List[str] = []
@@ -572,16 +631,18 @@ def build_concept_cards(concepts: List[Tuple], core_sections: List[Tuple],
         # Fallback: extract a relevant sentence from overview text
         if not detail and overview:
             first_word = name.lower().split()[0]
-            for sentence in re.split(r'(?<=[.!?])\s+', overview):
+            for sentence in re.split(r"(?<=[.!?])\s+", overview):
                 if first_word in sentence.lower():
-                    clean = re.sub(r'\*\*([^*]+)\*\*', r'\1', sentence)
-                    clean = re.sub(r'\*([^*]+)\*', r'\1', clean)
+                    clean = re.sub(r"\*\*([^*]+)\*\*", r"\1", sentence)
+                    clean = re.sub(r"\*([^*]+)\*", r"\1", clean)
                     detail = f"<p>{escape(clean[:250])}</p>"
                     break
         # Final fallback: use a contextual note instead of duplicating brief
         if not detail:
-            detail = (f"<p>Explore how {escape(name)} connects to the other "
-                      f"concepts in this module through the lecture and lab materials.</p>")
+            detail = (
+                f"<p>Explore how {escape(name)} connects to the other "
+                f"concepts in this module through the lecture and lab materials.</p>"
+            )
         cards.append(
             f'<div class="concept-card">'
             f'<h3>{escape(name)} <span class="toggle">+</span></h3>'
@@ -589,7 +650,7 @@ def build_concept_cards(concepts: List[Tuple], core_sections: List[Tuple],
             f'<div class="detail">{detail}</div>'
             f'<div class="meter"><div class="meter-fill" style="width:{relevance}%"></div></div>'
             f'<p class="meter-label">Centrality to module</p>'
-            f'</div>'
+            f"</div>"
         )
     return "\n".join(cards)
 
@@ -597,10 +658,7 @@ def build_concept_cards(concepts: List[Tuple], core_sections: List[Tuple],
 def build_checklist(objectives: List[str]) -> str:
     if not objectives:
         return '<label><input type="checkbox"> Complete this module</label>'
-    return "\n".join(
-        f'<label><input type="checkbox"> {escape(obj)}</label>'
-        for obj in objectives
-    )
+    return "\n".join(f'<label><input type="checkbox"> {escape(obj)}</label>' for obj in objectives)
 
 
 def build_module_nav(siblings: List[Dict[str, Any]]) -> str:
@@ -610,8 +668,8 @@ def build_module_nav(siblings: List[Dict[str, Any]]) -> str:
         href = "#" if sib["is_current"] else f"../{sib['dir']}/dashboard.html"
         links.append(
             f'<a class="{cls}" href="{href}">'
-            f'<strong>Module {sib["dir"][:2]}: {escape(sib["topic"])}</strong>'
-            f'{escape(sib["title"][:60])}</a>'
+            f"<strong>Module {sib['dir'][:2]}: {escape(sib['topic'])}</strong>"
+            f"{escape(sib['title'][:60])}</a>"
         )
     return "\n".join(links)
 
@@ -622,15 +680,16 @@ def generate_dashboard_html(module_dir: Path, base: Path) -> str:
     if is_stub_quiz(quiz):
         quiz = generate_quiz_from_module(md, seed_text=str(module_dir))
     if not quiz:
-        quiz = [{"q": "Quiz coming soon!", "opts": ["Check back later"],
-                 "correct": 0, "explain": ""}]
+        quiz = [
+            {"q": "Quiz coming soon!", "opts": ["Check back later"], "correct": 0, "explain": ""}
+        ]
 
     # Standardized course info extraction
     course_info = extract_course_info(module_dir / "module.md", base)
-    
+
     theme = get_theme(course_info["course"])
     siblings = get_sibling_modules(module_dir)
-    
+
     course_name = course_info["course_name"]
     unit = course_info["unit"]
     mod_name = module_dir.name
@@ -644,12 +703,13 @@ def generate_dashboard_html(module_dir: Path, base: Path) -> str:
     page_title = f"Dashboard: {topic} \u2014 {unit}"
     course_tag = f"{course_name} \u2014 {unit}"
     footer_text = f"{course_name} \u2014 {unit} \u2014 Module {mod_num}: {topic}"
-    
+
     # Storage key using registry course ID
     storage_key = f"ai_{course_info['course']}_{unit.lower().replace(' ', '_')}_{mod_name}"
 
-    cards_html = build_concept_cards(md.get("key_concepts", []), md.get("core_sections", []),
-                                     md.get("overview", ""))
+    cards_html = build_concept_cards(
+        md.get("key_concepts", []), md.get("core_sections", []), md.get("overview", "")
+    )
     check_html = build_checklist(md.get("objectives", []))
     nav_html = build_module_nav(siblings)
     obj_count = len(md.get("objectives", [])) or 1

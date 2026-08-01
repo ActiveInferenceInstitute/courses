@@ -80,9 +80,7 @@ def validate_module_files(module_path: str) -> Dict[str, Any]:
                     if len(file_path.parts) - len(module_dir.parts) > 1:
                         # File is in a subdirectory, check basic kebab-case
                         if not is_kebab_case(file_path.stem):
-                            naming_violations.append(
-                                str(file_path.relative_to(module_dir))
-                            )
+                            naming_violations.append(str(file_path.relative_to(module_dir)))
                     else:
                         # File is directly in module, should match a pattern
                         naming_violations.append(str(file_path.relative_to(module_dir)))
@@ -200,15 +198,19 @@ def validate_course_structure(course_path: str) -> Dict[str, Any]:
     issues = []
 
     # Find all module directories
-    module_dirs = [d for d in course_dir_path.iterdir() if d.is_dir() and d.name.startswith("module-")]
+    module_dirs = [
+        d for d in course_dir_path.iterdir() if d.is_dir() and d.name.startswith("module-")
+    ]
 
     for module_dir in sorted(module_dirs):
         module_validation = validate_module_files(str(module_dir))
-        modules.append({
-            "module_path": str(module_dir),
-            "module_name": module_dir.name,
-            "validation": module_validation,
-        })
+        modules.append(
+            {
+                "module_path": str(module_dir),
+                "module_name": module_dir.name,
+                "validation": module_validation,
+            }
+        )
 
         if not module_validation["valid"]:
             issues.append(f"Module {module_dir.name} has validation issues")
@@ -269,7 +271,9 @@ def get_validation_report(module_path: str) -> Dict[str, Any]:
     if validation.get("missing_files"):
         recommendations.append(f"Add missing files: {', '.join(validation['missing_files'])}")
     if validation.get("missing_directories"):
-        recommendations.append(f"Create missing directories: {', '.join(validation['missing_directories'])}")
+        recommendations.append(
+            f"Create missing directories: {', '.join(validation['missing_directories'])}"
+        )
     if naming_violations:
         recommendations.append(f"Fix naming violations: {len(naming_violations)} files")
     if not recommendations:

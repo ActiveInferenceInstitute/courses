@@ -12,7 +12,6 @@ from .utils import (
     find_audio_files,
     find_markdown_files,
     find_modules_for_course,
-    get_course_id_from_path,
     get_relative_output_path,
     preprocess_lab_markdown,
     should_process_file,
@@ -48,18 +47,14 @@ def process_module_to_pdf(module_path: str, output_dir: str) -> List[str]:
     markdown_files = find_markdown_files(module_dir)
 
     # Filter out files in skip directories
-    markdown_files = [
-        f for f in markdown_files if should_process_file(f, config.SKIP_DIRECTORIES)
-    ]
+    markdown_files = [f for f in markdown_files if should_process_file(f, config.SKIP_DIRECTORIES)]
 
     output_files = []
 
     for md_file in markdown_files:
         try:
             # Get output path maintaining structure
-            output_file = get_relative_output_path(
-                md_file, module_dir, output_directory
-            )
+            output_file = get_relative_output_path(md_file, module_dir, output_directory)
             output_file = output_file.with_suffix(".pdf")
 
             # Ensure output directory exists
@@ -103,18 +98,14 @@ def process_module_to_audio(module_path: str, output_dir: str) -> List[str]:
     text_files.extend(module_dir.rglob("*.txt"))
 
     # Filter out files in skip directories
-    text_files = [
-        f for f in text_files if should_process_file(f, config.SKIP_DIRECTORIES)
-    ]
+    text_files = [f for f in text_files if should_process_file(f, config.SKIP_DIRECTORIES)]
 
     output_files = []
 
     for text_file in text_files:
         try:
             # Get output path maintaining structure
-            output_file = get_relative_output_path(
-                text_file, module_dir, output_directory
-            )
+            output_file = get_relative_output_path(text_file, module_dir, output_directory)
             output_file = output_file.with_suffix(".mp3")
 
             # Ensure output directory exists
@@ -167,18 +158,14 @@ def process_module_to_text(module_path: str, output_dir: str) -> List[str]:
     audio_files = find_audio_files(module_dir)
 
     # Filter out files in skip directories
-    audio_files = [
-        f for f in audio_files if should_process_file(f, config.SKIP_DIRECTORIES)
-    ]
+    audio_files = [f for f in audio_files if should_process_file(f, config.SKIP_DIRECTORIES)]
 
     output_files = []
 
     for audio_file in audio_files:
         try:
             # Get output path maintaining structure
-            output_file = get_relative_output_path(
-                audio_file, module_dir, output_directory
-            )
+            output_file = get_relative_output_path(audio_file, module_dir, output_directory)
             output_file = output_file.with_suffix(".txt")
 
             # Ensure output directory exists
@@ -247,14 +234,10 @@ def generate_module_media(module_path: str, output_dir: str) -> Dict[str, Any]:
         # First generate audio if not already done
         if not results["audio_files"]:
             audio_output = base_output / config.OUTPUT_DIRECTORIES["audio"]
-            results["audio_files"] = process_module_to_audio(
-                module_path, str(audio_output)
-            )
+            results["audio_files"] = process_module_to_audio(module_path, str(audio_output))
         # Then transcribe the generated audio
         if results["audio_files"]:
-            results["text_files"] = process_module_to_text(
-                str(audio_output), str(text_output)
-            )
+            results["text_files"] = process_module_to_text(str(audio_output), str(text_output))
     except Exception as e:
         results["errors"].append(f"Text transcription error: {e}")
 
@@ -309,12 +292,15 @@ def process_module_by_type(
     # Find all sample markdown files
     markdown_files = find_markdown_files(module_dir)
     files_to_process = [f for f in markdown_files if f.name.startswith(config.SAMPLE_FILE_PREFIX)]
-    
+
     # Process root-level source files (keys-to-success.md, questions.md)
-    root_md_files = [f for f in module_dir.glob("*.md") 
-                     if not f.name.startswith("README") and not f.name.startswith("AGENTS")]
+    root_md_files = [
+        f
+        for f in module_dir.glob("*.md")
+        if not f.name.startswith("README") and not f.name.startswith("AGENTS")
+    ]
     files_to_process.extend(root_md_files)
-    
+
     # Process assignment files
     assignments_dir = module_dir / "assignments"
     if assignments_dir.exists():
@@ -438,7 +424,9 @@ def process_module_by_type(
                     text_content = extract_text_from_markdown(content)
                     generate_speech(text_content, str(audio_file))
                     if config.TTS_RATE_LIMIT_DELAY > 0:
-                        time.sleep(config.TTS_RATE_LIMIT_DELAY)  # Configurable delay to avoid 429 errors
+                        time.sleep(
+                            config.TTS_RATE_LIMIT_DELAY
+                        )  # Configurable delay to avoid 429 errors
                     results["by_type"][output_subdir].append(str(audio_file))
                     results["summary"]["mp3"] += 1
                 except Exception as e:
@@ -466,6 +454,7 @@ def process_module_by_type(
                 try:
                     html_file = type_output_dir / f"{base_name}.html"
                     from ..format_conversion.main import convert_file as convert_file_func
+
                     logger.debug(f"Generating HTML: {html_file.name}")
                     convert_file_func(str(render_file), "html", str(html_file))
                     results["by_type"][output_subdir].append(str(html_file))
@@ -501,6 +490,7 @@ def process_module_by_type(
                     md_output_file = type_output_dir / f"{base_name}.md"
                     logger.debug(f"Generating MD: {md_output_file.name}")
                     import shutil
+
                     shutil.copy2(str(render_file), str(md_output_file))
                     results["by_type"][output_subdir].append(str(md_output_file))
                     results["summary"]["md"] += 1
@@ -513,6 +503,7 @@ def process_module_by_type(
             if _temp_file is not None:
                 try:
                     import os
+
                     os.unlink(_temp_file.name)
                 except OSError:
                     pass
@@ -520,9 +511,22 @@ def process_module_by_type(
         except Exception as e:
             logger.error(f"Processing failed for {md_file.name}: {e}", exc_info=True)
             results["errors"].append(f"Processing failed for {md_file.name}: {e}")
+        finally:
+            # Ensure the preprocessed-lab temp file never leaks, even if an
+            # error interrupted the per-file pipeline above the cleanup point.
+            if _temp_file is not None:
+                try:
+                    import os as _os
+
+                    if _os.path.exists(_temp_file.name):
+                        _os.unlink(_temp_file.name)
+                except OSError:
+                    pass
 
     total_outputs = sum(results["summary"].values())
-    logger.info(f"Processed module {module_dir.name}: {len(files_to_process)} files, {total_outputs} outputs generated")
+    logger.info(
+        f"Processed module {module_dir.name}: {len(files_to_process)} files, {total_outputs} outputs generated"
+    )
     if results["errors"]:
         logger.warning(f"Module processing completed with {len(results['errors'])} errors")
 
@@ -569,7 +573,8 @@ def process_syllabus(
     # Find all markdown files in syllabus directory (excluding README and AGENTS)
     markdown_files = find_markdown_files(syllabus_dir)
     syllabus_files = [
-        f for f in markdown_files
+        f
+        for f in markdown_files
         if not f.name.startswith("README") and not f.name.startswith("AGENTS")
     ]
 
@@ -614,7 +619,9 @@ def process_syllabus(
                     text_content = extract_text_from_markdown(content)
                     generate_speech(text_content, str(audio_file))
                     if config.TTS_RATE_LIMIT_DELAY > 0:
-                        time.sleep(config.TTS_RATE_LIMIT_DELAY)  # Configurable delay to avoid 429 errors
+                        time.sleep(
+                            config.TTS_RATE_LIMIT_DELAY
+                        )  # Configurable delay to avoid 429 errors
                     results["by_format"]["mp3"].append(str(audio_file))
                     results["summary"]["mp3"] += 1
                 except Exception as e:
@@ -642,6 +649,7 @@ def process_syllabus(
                 try:
                     html_file = base_output / f"{base_name}.html"
                     from ..format_conversion.main import convert_file as convert_file_func
+
                     logger.debug(f"Generating HTML: {html_file.name}")
                     convert_file_func(str(md_file), "html", str(html_file))
                     results["by_format"]["html"].append(str(html_file))
@@ -677,6 +685,7 @@ def process_syllabus(
                     md_output_file = base_output / f"{base_name}.md"
                     logger.debug(f"Generating MD: {md_output_file.name}")
                     import shutil
+
                     shutil.copy2(str(md_file), str(md_output_file))
                     results["by_format"]["md"].append(str(md_output_file))
                     results["summary"]["md"] += 1
@@ -689,7 +698,9 @@ def process_syllabus(
             logger.error(f"Processing failed for {md_file.name}: {e}", exc_info=True)
             results["errors"].append(f"Processing failed for {md_file.name}: {e}")
 
-    logger.info(f"Processed syllabus: {len(syllabus_files)} files, {sum(results['summary'].values())} outputs generated")
+    logger.info(
+        f"Processed syllabus: {len(syllabus_files)} files, {sum(results['summary'].values())} outputs generated"
+    )
     if results["errors"]:
         logger.warning(f"Syllabus processing completed with {len(results['errors'])} errors")
 
@@ -774,7 +785,9 @@ def clear_all_outputs(repo_root: Path) -> Dict[str, Any]:
             results["total_files_removed"] += file_count
 
             # Use DEBUG for per-directory details to reduce console verbosity
-            logger.debug(f"Cleared {file_count} files and {dir_count} directories from {output_dir.relative_to(repo_root)}")
+            logger.debug(
+                f"Cleared {file_count} files and {dir_count} directories from {output_dir.relative_to(repo_root)}"
+            )
 
         except Exception as e:
             error_msg = f"Failed to clear {output_dir}: {e}"
@@ -786,7 +799,9 @@ def clear_all_outputs(repo_root: Path) -> Dict[str, Any]:
         count = sum(1 for d in results["cleared_directories"] if reg["rel_path"] in d)
         if count > 0:
             logger.info(f"  {reg['display_name']}: {count} directories")
-    logger.info(f"Output clearing completed: {len(results['cleared_directories'])} directories, {results['total_files_removed']} files removed")
+    logger.info(
+        f"Output clearing completed: {len(results['cleared_directories'])} directories, {results['total_files_removed']} files removed"
+    )
     if results["errors"]:
         logger.warning(f"Output clearing completed with {len(results['errors'])} errors")
 
@@ -816,14 +831,15 @@ def process_course_modules(
     """
     from ..module_organization.utils import matches_module_number
 
-    # Use registry-aware module discovery
-    course_id = get_course_id_from_path(str(course_path.relative_to(course_path.parents[len(course_path.parts) - 3])))
-    if not course_id:
-        # Try to infer from path
-        for cid, reg in config.COURSE_REGISTRY.items():
-            if str(course_path).endswith(reg["rel_path"]):
-                course_id = cid
-                break
+    # Resolve the registry course id by matching the course's rel_path suffix.
+    # This is robust to how the module is laid out (flat, unit/XX_topic, etc.)
+    # and avoids the fragile multi-level relative_to computation that could
+    # both mis-resolve and raise IndexError on short paths.
+    course_id = None
+    for cid, reg in config.COURSE_REGISTRY.items():
+        if str(course_path).endswith(reg["rel_path"]):
+            course_id = cid
+            break
 
     modules = find_modules_for_course(course_path, course_id)
     if not modules:
@@ -845,12 +861,14 @@ def process_course_modules(
 
     # Filter by max_module: include modules 1 through max_module
     if max_module is not None:
+
         def get_module_number(name: str) -> int:
             """Extract module number from name like 'module-01-topic' or 'module-1'."""
             import re
-            match = re.search(r'module-(\d+)', name)
+
+            match = re.search(r"module-(\d+)", name)
             return int(match.group(1)) if match else 999
-        
+
         modules = [m for m in modules if get_module_number(m.name) <= max_module]
         logger.info(f"Filtering to modules 1-{max_module}: {len(modules)} modules")
 
@@ -866,20 +884,22 @@ def process_course_modules(
                 str(module_dir), str(output_dir), formats=formats
             )
             module_duration = time.time() - module_start
-            results["modules"].append({
-                "name": module_name,
-                "outputs": module_results,
-                "duration": module_duration,
-            })
+            results["modules"].append(
+                {
+                    "name": module_name,
+                    "outputs": module_results,
+                    "duration": module_duration,
+                }
+            )
 
             # Compact single-line format summary
-            summary_str = format_summary(module_results['summary'])
-            logger.info(f"  {STATUS_EMOJI['success']} {module_name} ({module_duration:.2f}s) → {summary_str}")
+            summary_str = format_summary(module_results["summary"])
+            logger.info(
+                f"  {STATUS_EMOJI['success']} {module_name} ({module_duration:.2f}s) → {summary_str}"
+            )
 
             if module_results["errors"]:
-                logger.warning(
-                    f"Errors in {module_name}: {len(module_results['errors'])} errors"
-                )
+                logger.warning(f"Errors in {module_name}: {len(module_results['errors'])} errors")
                 for error in module_results["errors"]:
                     logger.error(f"  {module_name}: {error}")
                     results["errors"].append(f"{module_name}: {error}")
@@ -896,9 +916,7 @@ def process_course_modules(
             try:
                 website_file = process_module_website(str(module_dir))
                 website_duration = time.time() - website_start
-                logger.info(
-                    f"Website generated in {website_duration:.2f}s: {website_file}"
-                )
+                logger.info(f"Website generated in {website_duration:.2f}s: {website_file}")
             except Exception as e:
                 error_msg = f"Failed to generate website for {module_name}: {e}"
                 logger.error(error_msg, exc_info=True)
@@ -927,9 +945,7 @@ def process_course_syllabus(
     # Determine syllabus location from registry if available
     syllabus_location = "syllabus"
     if course_id and course_id in config.COURSE_REGISTRY:
-        syllabus_location = config.COURSE_REGISTRY[course_id].get(
-            "syllabus_location", "syllabus"
-        )
+        syllabus_location = config.COURSE_REGISTRY[course_id].get("syllabus_location", "syllabus")
 
     # If syllabus_location is a file (e.g. "syllabus.md"), it's per-module,
     # not a top-level directory — skip silently
@@ -953,13 +969,13 @@ def process_course_syllabus(
         results = process_syllabus(str(syllabus_dir), str(output_dir), formats=formats)
         syllabus_duration = time.time() - syllabus_start
         # Compact single-line format summary
-        summary_str = format_summary(results['summary'])
-        logger.info(f"  {STATUS_EMOJI['success']} Syllabus ({syllabus_duration:.2f}s) → {summary_str}")
+        summary_str = format_summary(results["summary"])
+        logger.info(
+            f"  {STATUS_EMOJI['success']} Syllabus ({syllabus_duration:.2f}s) → {summary_str}"
+        )
 
         if results["errors"]:
-            logger.warning(
-                f"Errors in syllabus processing: {len(results['errors'])} errors"
-            )
+            logger.warning(f"Errors in syllabus processing: {len(results['errors'])} errors")
             for error in results["errors"]:
                 logger.error(f"  {error}")
 
@@ -998,9 +1014,7 @@ def process_course_labs(
     # Determine labs path from registry if available
     has_course_subdir = True
     if course_id and course_id in config.COURSE_REGISTRY:
-        has_course_subdir = config.COURSE_REGISTRY[course_id].get(
-            "has_course_subdir", True
-        )
+        has_course_subdir = config.COURSE_REGISTRY[course_id].get("has_course_subdir", True)
 
     if has_course_subdir:
         labs_dir = course_path / "course" / "labs"
@@ -1089,7 +1103,7 @@ def process_course_practice_tests(
 
     output_dir = practice_tests_dir / "output"
     output_dir.mkdir(parents=True, exist_ok=True)
-    
+
     start_time = time.time()
 
     results: Dict[str, Any] = {
@@ -1107,7 +1121,8 @@ def process_course_practice_tests(
 
     # Find all practice test markdown files (excluding README)
     md_files = [
-        f for f in practice_tests_dir.glob("*.md")
+        f
+        for f in practice_tests_dir.glob("*.md")
         if not f.name.startswith("README") and not f.name.startswith("AGENTS")
     ]
 
@@ -1131,9 +1146,7 @@ def process_course_practice_tests(
             results["errors"].append(error_msg)
 
     results["duration"] = time.time() - start_time
-    logger.info(
-        f"  PDF: {len(results['files'])} practice test files rendered"
-    )
+    logger.info(f"  PDF: {len(results['files'])} practice test files rendered")
     logger.info(
         f"Practice test rendering completed in {results['duration']:.2f}s: "
         f"{len(results['files'])} files"
@@ -1143,7 +1156,6 @@ def process_course_practice_tests(
 
 
 def process_module_website(module_path: str, output_dir: Optional[str] = None) -> str:
-
     """Generate HTML website for a module.
 
     Args:

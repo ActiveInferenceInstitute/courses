@@ -13,3 +13,9 @@ SUPPORTED_AUDIO_FORMATS: list = [".mp3", ".wav", ".m4a", ".flac", ".ogg"]
 
 # Output format
 OUTPUT_FORMAT: str = "txt"
+
+# Maximum seconds of audio transcribed per recognizer.record() call.  Recording
+# a whole (possibly hours-long) file into memory and handing it to the cloud
+# API at once is an unbounded-resource bug; chunking bounds memory and request
+# size.  Chunked results are joined with a space.
+RECORDING_CHUNK_SECONDS: float = 30.0

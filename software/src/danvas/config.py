@@ -27,7 +27,7 @@ FEATURE_FLAGS: Dict[str, bool] = {
     "calendar": True,
     "roster": True,
     "discussions": False,  # future
-    "analytics": False,    # future
+    "analytics": False,  # future
 }
 
 # ---------------------------------------------------------------------------
@@ -35,18 +35,31 @@ FEATURE_FLAGS: Dict[str, bool] = {
 # ---------------------------------------------------------------------------
 ROLES: List[str] = ["instructor", "ta", "student"]
 
+# Default role for requests.  Local-first tool: when no authenticated
+# principal is supplied, requests are treated as instructor so the tool works
+# out of the box on loopback.  Configure ``DANVAS_ROLE`` (or bind a remote
+# host) to scope it down; see AGENTS.md threat model.
+DEFAULT_ROLE: str = os.environ.get("DANVAS_ROLE", "instructor")
+
 ROLE_PERMISSIONS: Dict[str, List[str]] = {
     "instructor": [
-        "view_course", "edit_course",
-        "view_gradebook", "edit_gradebook",
-        "post_announcement", "view_announcement",
-        "manage_roster", "view_roster",
-        "manage_calendar", "view_calendar",
+        "view_course",
+        "edit_course",
+        "view_gradebook",
+        "edit_gradebook",
+        "post_announcement",
+        "view_announcement",
+        "manage_roster",
+        "view_roster",
+        "manage_calendar",
+        "view_calendar",
     ],
     "ta": [
         "view_course",
-        "view_gradebook", "edit_gradebook",
-        "post_announcement", "view_announcement",
+        "view_gradebook",
+        "edit_gradebook",
+        "post_announcement",
+        "view_announcement",
         "view_roster",
         "view_calendar",
     ],
@@ -94,5 +107,10 @@ EMPTY_STORE: Dict[str, Any] = {
 APP_NAME: str = "Danvas"
 APP_TAGLINE: str = "Course Management, Simplified"
 MAX_ANNOUNCEMENT_LENGTH: int = 5000
+MAX_USER_NAME_LENGTH: int = 200
+MAX_FIELD_LENGTH: int = 500
+# Maximum accepted HTTP POST body (bytes).  Prevents memory-exhaustion DoS via
+# an attacker-controlled Content-Length / oversized form body.
+MAX_POST_BODY: int = 64 * 1024
 DATE_FORMAT: str = "%Y-%m-%d"
 DATETIME_FORMAT: str = "%Y-%m-%dT%H:%M:%S"

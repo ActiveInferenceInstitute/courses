@@ -17,9 +17,9 @@ The **ActiveInferenceInstitute/courses** repository contains:
 
 - **14 courses** across levels (ES, Family, MS, HS, 101, Core, 401) and domains (metallurgy, robotics, organisations, embodied, inventions)
 - **464 modules** following the 8-topic spine: Systems → Agents → Perception → Cognition → Action → Learning → Communication → Planning
+- **1,014 tests** — all real implementations, no mocks
 - A **Python publishing engine** (`software/`) that renders Markdown + TOML course configs into PDF, DOCX, HTML, and audio artefacts
 - A **YouTube transcript archive** and spoken-word generation pipeline
-- **1,021 passing tests** — all real implementations, no mocks
 
 ## Directory map
 
@@ -30,7 +30,7 @@ courses/
 ├── software/                # Python engine
 │   ├── src/                 # 21 importable modules
 │   ├── scripts/             # 22 CLI entry points
-│   ├── tests/               # 1,021 tests
+│   ├── tests/               # ~1,014 tests
 │   └── docs/                # Architecture, CONTRIBUTING, QUICKSTART, …
 ├── summaries/               # Auto-generated course summaries
 ├── publish.py               # Top-level pipeline entry point

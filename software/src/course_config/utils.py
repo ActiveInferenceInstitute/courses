@@ -100,15 +100,18 @@ def resolve_config_chain(config_files: List[Path]) -> Dict[str, Any]:
 
     Returns:
         Fully merged configuration dict.
+
+    Raises:
+        tomllib.TOMLDecodeError: If any config file is malformed.  A broken
+            config must not silently fall back to defaults (that would drop a
+            course author's settings without any trace); the caller is expected
+            to surface the error.
     """
     result = copy.deepcopy(DEFAULT_CONFIG)
     for config_path in config_files:
-        try:
-            toml_data = load_toml_file(config_path)
-            result = deep_merge(result, toml_data)
-            logger.debug("Merged config from %s", config_path)
-        except Exception as e:
-            logger.warning("Failed to load config %s: %s", config_path, e)
+        toml_data = load_toml_file(config_path)  # may raise TOMLDecodeError
+        result = deep_merge(result, toml_data)
+        logger.debug("Merged config from %s", config_path)
     return result
 
 

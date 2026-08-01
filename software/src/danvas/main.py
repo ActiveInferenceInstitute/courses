@@ -81,6 +81,7 @@ def create_test_handler(
     handler._response_status = None
     return handler
 
+
 try:
     from ..batch_processing.logging_config import get_logger
 except Exception:
@@ -122,6 +123,12 @@ class DanvasHandler(BaseHTTPRequestHandler):
     def data_dir(self) -> Path:
         return self.server.data_dir  # type: ignore[attr-defined]
 
+    @property
+    def role(self) -> str:
+        """Request principal's role, defaulting to the local-first default."""
+        server_role = getattr(self.server, "role", None)
+        return server_role or config.DEFAULT_ROLE
+
     # ── Dispatch ──────────────────────────────────────────────────────────
 
     def do_GET(self) -> None:  # noqa: N802
@@ -148,6 +155,27 @@ class DanvasHandler(BaseHTTPRequestHandler):
             self._send_html(templates.render_404(), status=404)
             return
 
+        # Role-based authorization: mutating handlers require a permission
+        # that the principal's role holds; deny with 403 otherwise.
+        if _mw.permission_required(handler_name) is not None and not _mw.check_permission(
+            handler_name, self.role
+        ):
+            _mw.log_request(method, path, "%s (403 denied, role=%s)" % (handler_name, self.role))
+            self._send_forbidden()
+            return
+
+        # Reject unsafe course ids before any handler runs, so a traversal
+        # primitive in the URL can never reach the data layer.
+        course_id = kwargs.get("course_id")
+        if course_id is not None:
+            try:
+                _handlers.validate_course_id_safe(course_id)
+            except ValueError:
+                # 404 keeps the shape semantically (unroutable) and avoids
+                # leaking validation details.
+                self._send_html(templates.render_404(), status=404)
+                return
+
         handler_fn = getattr(_handlers, handler_name, None)
         if handler_fn:
             handler_fn(self, **kwargs)
@@ -168,6 +196,24 @@ class DanvasHandler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         body = json.dumps(data, indent=2, default=str).encode("utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _send_error(self, message: str, status: int = 400) -> None:
+        """Send a plain-text error response."""
+        self.send_response(status)
+        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        body = message.encode("utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _send_forbidden(self) -> None:
+        """Send a 403 Forbidden response."""
+        self.send_response(403)
+        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        body = b"Forbidden"
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
@@ -200,8 +246,26 @@ class DanvasHandler(BaseHTTPRequestHandler):
         pass
 
     def _read_form(self) -> Dict[str, str]:
-        """Read URL-encoded POST body and return a flat dict."""
-        length = int(self.headers.get("Content-Length", 0))
+        """Read URL-encoded POST body and return a flat dict.
+
+        Caps the body at ``config.MAX_POST_BODY`` and validates the
+        ``Content-Length`` header so an attacker cannot force an unbounded
+        read or crash on a non-numeric length.
+
+        Returns:
+            Parsed form fields.
+
+        Raises:
+            ValueError: If ``Content-Length`` is missing/invalid or the body
+                exceeds ``config.MAX_POST_BODY``.
+        """
+        raw_len = self.headers.get("Content-Length", "0")
+        try:
+            length = int(raw_len)
+        except (TypeError, ValueError):
+            raise ValueError("Invalid Content-Length header")
+        if length < 0 or length > config.MAX_POST_BODY:
+            raise ValueError("Request body too large or invalid")
         raw = self.rfile.read(length).decode("utf-8")
         parsed = parse_qs(raw)
         return {k: v[0] for k, v in parsed.items()}
@@ -240,7 +304,10 @@ def start_server(
 
     logger.info(
         "Danvas starting on http://%s:%d  (repo=%s, data=%s)",
-        host, port, repo_root, server.data_dir,
+        host,
+        port,
+        repo_root,
+        server.data_dir,
     )
 
     try:

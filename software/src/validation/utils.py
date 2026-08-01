@@ -20,37 +20,77 @@ def count_files_by_extension(directory: Path) -> Dict[str, int]:
         Dictionary mapping extension to count
     """
     counts: Dict[str, int] = {}
-    
+
     if not directory.exists():
         return counts
-        
+
     for file_path in directory.rglob("*"):
         if file_path.is_file() and not file_path.name.startswith("."):
             ext = file_path.suffix.lower().lstrip(".")
             if ext:
                 counts[ext] = counts.get(ext, 0) + 1
-                
+
     return counts
 
 
 def get_module_directories(course_path: Path) -> List[Path]:
     """Get list of module directories in a course.
 
+    Supports all three course layouts used across the repository:
+
+    - Legacy biology: ``course/module-*``
+    - Active Inference flat: ``XX_topic/``
+    - Level-adapted / domain: ``unit_dir/XX_topic/`` (two-level)
+
+    Falls back gracefully to the legacy ``course/module-*`` pattern when the
+    layout is unknown.
+
     Args:
         course_path: Path to course directory
 
     Returns:
-        Sorted list of module directory paths
+        Sorted list of module directory paths (which may span multiple unit
+        subdirectories for two-level courses).
     """
+    # 1) Flat layout (XX_topic/ directly under the course): the numbered
+    #    children are modules themselves (they hold files, not more numbered
+    #    subdirs).  Two-level units are also numbered but contain numbered
+    #    subdirectories, so we distinguish them.
+    numbered_children = [
+        d
+        for d in course_path.iterdir()
+        if d.is_dir() and not d.name.startswith(".") and d.name[:2].isdigit()
+    ]
+
+    if numbered_children:
+        # Decide flat vs two-level: if any numbered child itself contains
+        # numbered subdirectories, treat the course as two-level.
+        has_nested_units = any(
+            any(c.is_dir() and c.name[:2].isdigit() for c in child.iterdir())
+            for child in numbered_children
+        )
+        if not has_nested_units:
+            return sorted(numbered_children)
+
+        # 2) Two-level layout: units hold the XX_topic module directories.
+        two_level = []
+        for unit in numbered_children:
+            unit_mods = sorted(
+                d
+                for d in unit.iterdir()
+                if d.is_dir() and not d.name.startswith(".") and d.name[:2].isdigit()
+            )
+            two_level.extend(unit_mods)
+        return sorted(two_level)
+
+    # 3) Legacy biology layout (course/module-*).
     modules_path = course_path / "course"
-    
-    if not modules_path.exists():
-        return []
-        
-    return sorted([
-        d for d in modules_path.iterdir()
-        if d.is_dir() and d.name.startswith("module-")
-    ])
+    if modules_path.exists():
+        return sorted(
+            d for d in modules_path.iterdir() if d.is_dir() and d.name.startswith("module-")
+        )
+
+    return []
 
 
 def check_output_directory(module_path: Path) -> Tuple[bool, Dict[str, bool]]:
@@ -63,15 +103,15 @@ def check_output_directory(module_path: Path) -> Tuple[bool, Dict[str, bool]]:
         Tuple of (has_output, dict of subdirectory existence)
     """
     output_path = module_path / "output"
-    
+
     if not output_path.exists():
         return False, {}
-        
+
     subdirs = {
         "study_guides": (output_path / config.OUTPUT_DIRS["study_guides"]).exists(),
         "website": (output_path / config.OUTPUT_DIRS["website"]).exists(),
     }
-    
+
     return True, subdirs
 
 
@@ -80,7 +120,7 @@ def check_study_guide_files(module_path: Path, formats: List[str] = None) -> Dic
 
     Study guide files are named with module prefix, e.g.:
     module-01-study-of-life-keys-to-success.pdf
-    
+
     This function checks for files ending with expected base names.
 
     Args:
@@ -92,19 +132,19 @@ def check_study_guide_files(module_path: Path, formats: List[str] = None) -> Dic
         Dictionary mapping expected base suffix to existence
     """
     study_guides_path = module_path / "output" / config.OUTPUT_DIRS["study_guides"]
-    
+
     # Get expected files based on formats
     if formats is not None:
         expected_files = config.get_expected_study_guide_files(formats)
     else:
         expected_files = config.EXPECTED_STUDY_GUIDE_FILES
-    
+
     if not study_guides_path.exists():
         return {f: False for f in expected_files}
-    
+
     # Get all files in study guides directory
     existing_files = [f.name for f in study_guides_path.iterdir() if f.is_file()]
-    
+
     result = {}
     for expected_suffix in expected_files:
         # Check if any file ends with this suffix (e.g., "-keys-to-success.pdf")
@@ -112,7 +152,7 @@ def check_study_guide_files(module_path: Path, formats: List[str] = None) -> Dic
         suffix_to_check = f"-{expected_suffix}"
         found = any(f.endswith(suffix_to_check) or f == expected_suffix for f in existing_files)
         result[expected_suffix] = found
-        
+
     return result
 
 
@@ -149,7 +189,7 @@ def format_file_counts(counts: Dict[str, int]) -> str:
     """
     if not counts:
         return "none"
-        
+
     return ", ".join(f"{ext}:{count}" for ext, count in sorted(counts.items()))
 
 
@@ -178,7 +218,7 @@ def check_lab_files(course_path: Path, max_lab: int = None) -> Dict[str, Any]:
         - issues: List of issues found
     """
     import re
-    
+
     result: Dict[str, Any] = {
         "source_labs": 0,
         "output_files": {},
@@ -193,16 +233,17 @@ def check_lab_files(course_path: Path, max_lab: int = None) -> Dict[str, Any]:
 
     # Count source lab files - filter by max_lab if specified
     all_source_labs = list(labs_dir.glob("lab-*.md"))
-    
+
     if max_lab:
         # Filter to only labs 1 through max_lab
         def get_lab_number(lab_path):
-            match = re.match(r'lab-(\d+)', lab_path.stem)
+            match = re.match(r"lab-(\d+)", lab_path.stem)
             return int(match.group(1)) if match else 0
+
         source_labs = [lab for lab in all_source_labs if get_lab_number(lab) <= max_lab]
     else:
         source_labs = all_source_labs
-    
+
     result["source_labs"] = len(source_labs)
 
     # Check rendered output files (both flat output/*.fmt and subdirectory output/fmt/*.fmt)

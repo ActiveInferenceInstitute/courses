@@ -81,6 +81,26 @@ class TestRouteDispatch:
         _handlers.handle_course_detail(handler, course_id="nonexistent")
         assert handler._response_status == 404
 
+    def test_traversal_course_id_rejected_at_dispatch(self, handler):
+        """A '..' course_id must be rejected before reaching any handler (404)."""
+        handler.path = "/course/../roster"
+        handler._dispatch("GET")
+        assert handler._response_status == 404
+        assert b"danvas_store.json" not in handler.wfile.getvalue()
+
+    def test_traversal_course_id_rejected_by_validator(self):
+        """validate_course_id_safe rejects path separators and '..'."""
+        from src.danvas.handlers import validate_course_id_safe
+
+        with pytest.raises(ValueError):
+            validate_course_id_safe("..")
+        with pytest.raises(ValueError):
+            validate_course_id_safe("nested/course")
+        with pytest.raises(ValueError):
+            validate_course_id_safe("../etc")
+        # Safe ids are allowed through.
+        assert validate_course_id_safe("demo_course") == "demo_course"
+
     def test_module_detail_route(self, handler):
         _handlers.handle_module_detail(handler, course_id="demo_course", module_num="1")
         output = handler.wfile.getvalue().decode("utf-8")
@@ -224,6 +244,61 @@ class TestAPIEndpoints:
         output = handler.wfile.getvalue().decode("utf-8")
         data = json.loads(output)
         assert len(data["announcements"]) == 1
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Security hardening tests
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+class TestSecurityHardening:
+    """Path traversal, authorization, and body-limit protections."""
+
+    def test_insufficient_role_rejected_with_403(self, handler, data_dir):
+        """A student principal cannot POST a grade (instructor-only action)."""
+        handler.server.role = "student"
+        handler.path = "/course/demo_course/gradebook"
+        form = b"user_name=Alice&assignment=Quiz+1&score=88&max_score=100"
+        handler.rfile = io.BytesIO(form)
+        handler.headers = {"Content-Length": str(len(form))}
+        handler._dispatch("POST")
+        assert handler._response_status == 403
+        # Nothing was written.
+        grades = get_grades("demo_course", data_dir=data_dir)
+        assert grades == {}
+
+    def test_instructor_role_allowed(self, handler, data_dir):
+        """An instructor principal can POST a grade (default role)."""
+        handler.server.role = "instructor"
+        handler.path = "/course/demo_course/gradebook"
+        form = b"user_name=Bob&assignment=Quiz+1&score=77&max_score=100"
+        handler.rfile = io.BytesIO(form)
+        handler.headers = {"Content-Length": str(len(form))}
+        handler._dispatch("POST")
+        assert handler._response_status == 303
+        grades = get_grades("demo_course", data_dir=data_dir)
+        assert "Bob" in grades
+
+    def test_oversized_body_rejected(self, handler, data_dir):
+        """A POST body larger than MAX_POST_BODY must be rejected with 400."""
+        handler.server.role = "instructor"
+        handler.path = "/course/demo_course/gradebook"
+        # Announce a huge content-length; _read_form rejects before reading.
+        big = b"user_name=Alice&assignment=Q&score=1&max_score=100" + b"&pad=" + b"x" * (1024 * 1024)
+        handler.rfile = io.BytesIO(big)
+        # Only claim a length beyond the cap so the body is not read in full.
+        from src.danvas import config
+        handler.headers = {"Content-Length": str(config.MAX_POST_BODY + 1)}
+        handler._dispatch("POST")
+        assert handler._response_status == 400
+
+    def test_invalid_content_length_rejected(self, handler):
+        """A non-numeric Content-Length must yield a clean 400, not a crash."""
+        handler.path = "/course/demo_course/roster"
+        handler.rfile = io.BytesIO(b"user_name=Bob&role=student")
+        handler.headers = {"Content-Length": "not-a-number"}
+        handler._dispatch("POST")
+        assert handler._response_status == 400
 
 
 # ──────────────────────────────────────────────────────────────────────────────

@@ -15,10 +15,10 @@ from pathlib import Path
 software_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(software_dir))
 
-from src.batch_processing.config import COURSE_REGISTRY
-from src.batch_processing.utils import extract_course_info_from_path as extract_course_info
-from src.content_processing.labs import find_stub_labs, generate_lab_content
-from src.content_processing.utils import parse_module
+from src.batch_processing.config import COURSE_REGISTRY  # noqa: E402
+from src.batch_processing.utils import extract_course_info_from_path as extract_course_info  # noqa: E402
+from src.content_processing.labs import find_stub_labs, generate_lab_content  # noqa: E402
+from src.content_processing.utils import parse_module  # noqa: E402
 
 DEFAULT_BASE = Path(__file__).resolve().parent.parent.parent / "course_development"
 
@@ -27,10 +27,12 @@ def parse_args(argv=None):
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="Regenerate stub lab.md files")
     parser.add_argument("--dry-run", action="store_true", help="Preview without writing")
-    parser.add_argument("--base", type=Path, default=DEFAULT_BASE,
-                        help="Base course_development directory")
-    parser.add_argument("--course", choices=list(COURSE_REGISTRY.keys()),
-                        help="Process only this course")
+    parser.add_argument(
+        "--base", type=Path, default=DEFAULT_BASE, help="Base course_development directory"
+    )
+    parser.add_argument(
+        "--course", choices=list(COURSE_REGISTRY.keys()), help="Process only this course"
+    )
     return parser.parse_args(argv)
 
 
@@ -72,10 +74,14 @@ def main(argv=None):
             if args.dry_run:
                 n_concepts = len(concepts)
                 n_obj = len(objectives)
-                print(f"  Would fix: {lab_path.relative_to(base)} ({n_concepts} concepts, {n_obj} objectives)")
+                print(
+                    f"  Would fix: {lab_path.relative_to(base)} ({n_concepts} concepts, {n_obj} objectives)"
+                )
             else:
                 lab_path.write_text(lab_text, encoding="utf-8")
-                print(f"  Fixed: {lab_path.relative_to(base)} ({len(concepts)} concepts, {len(objectives)} objectives)")
+                print(
+                    f"  Fixed: {lab_path.relative_to(base)} ({len(concepts)} concepts, {len(objectives)} objectives)"
+                )
             fixed += 1
 
         except Exception as e:

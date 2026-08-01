@@ -2,7 +2,10 @@
 
 # Default courses to process
 DEFAULT_COURSES = [
-    "ai-philosophy", "ai-cognitive-science", "ai-math", "ai-computer-science",
+    "ai-philosophy",
+    "ai-cognitive-science",
+    "ai-math",
+    "ai-computer-science",
 ]
 
 # Course development directory name

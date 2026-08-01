@@ -482,12 +482,13 @@ def _sidebar_html(active: str = "", course_id: str = "", course_title: str = "")
     # Footer
     html += '<div style="flex:1"></div>\n'
     html += '<a href="#" onclick="toggleDarkMode(); return false;"><span class="icon">🌓</span> Toggle Theme</a>\n'
-    html += '</nav>\n'
+    html += "</nav>\n"
     return html
 
 
-def _page(title: str, content: str, active: str = "",
-          course_id: str = "", course_title: str = "") -> str:
+def _page(
+    title: str, content: str, active: str = "", course_id: str = "", course_title: str = ""
+) -> str:
     """Wrap content in the full page layout."""
     return _BASE_TEMPLATE.format(
         title=title,
@@ -509,11 +510,11 @@ def render_dashboard(courses: List[Dict[str, Any]]) -> str:
     for c in courses:
         cards += f"""
         <div class="card">
-          <div class="card-title">{_esc(c['title'])}</div>
-          <div class="card-meta">{c['module_count']} modules</div>
-          {f'<div class="card-meta">{_esc(c.get("description", ""))}</div>' if c.get('description') else ''}
-          <div class="progress-bar"><div class="progress-fill" style="width:{min(c['module_count']*10, 100)}%"></div></div>
-          <a class="card-link" href="/course/{c['id']}">Open Course →</a>
+          <div class="card-title">{_esc(c["title"])}</div>
+          <div class="card-meta">{c["module_count"]} modules</div>
+          {f'<div class="card-meta">{_esc(c.get("description", ""))}</div>' if c.get("description") else ""}
+          <div class="progress-bar"><div class="progress-fill" style="width:{min(c["module_count"] * 10, 100)}%"></div></div>
+          <a class="card-link" href="/course/{c["id"]}">Open Course →</a>
         </div>"""
 
     if not courses:
@@ -542,47 +543,50 @@ def render_course_detail(
     for m in modules:
         file_count = len(m.get("files", []))
         mod_html += f"""
-        <a class="module-item" href="/course/{course['id']}/module/{m['number']}">
-          <div class="module-num">{m['number']}</div>
+        <a class="module-item" href="/course/{course["id"]}/module/{m["number"]}">
+          <div class="module-num">{m["number"]}</div>
           <div class="module-info">
-            <div class="module-name">{_esc(m['name'])}</div>
+            <div class="module-name">{_esc(m["name"])}</div>
             <div class="module-files">{file_count} files</div>
           </div>
         </a>"""
 
     if not modules:
-        mod_html = '<div class="empty-state"><div class="icon">📂</div><p>No modules found.</p></div>'
+        mod_html = (
+            '<div class="empty-state"><div class="icon">📂</div><p>No modules found.</p></div>'
+        )
 
     # Recent announcements (up to 3)
     ann_html = ""
     for a in announcements[:3]:
         ann_html += f"""
         <div class="timeline-item">
-          <div class="tl-title">{_esc(a['title'])}</div>
-          <div class="tl-meta">{a.get('author', '')} · {a.get('posted_at', '')}</div>
-          <div class="tl-body">{_esc(a['body'][:200])}</div>
+          <div class="tl-title">{_esc(a["title"])}</div>
+          <div class="tl-meta">{_esc(a.get("author", ""))} · {_esc(a.get("posted_at", ""))}</div>
+          <div class="tl-body">{_esc(a["body"][:200])}</div>
         </div>"""
 
     content = f"""
     <div class="top-bar">
-      <h1>{_esc(course['title'])}</h1>
+      <h1>{_esc(course["title"])}</h1>
       <div class="actions">
         <a class="btn btn-outline" href="/">← All Courses</a>
       </div>
     </div>
     <h2 style="margin-bottom:16px; font-size:1.15rem;">Modules</h2>
     <div class="module-list">{mod_html}</div>
-    {'<h2 style="margin:32px 0 16px; font-size:1.15rem;">Recent Announcements</h2><div class="timeline">' + ann_html + '</div>' if ann_html else ''}
+    {'<h2 style="margin:32px 0 16px; font-size:1.15rem;">Recent Announcements</h2><div class="timeline">' + ann_html + "</div>" if ann_html else ""}
     """
     return _page(
-        course["title"], content,
-        active="modules", course_id=course["id"], course_title=course["title"],
+        course["title"],
+        content,
+        active="modules",
+        course_id=course["id"],
+        course_title=course["title"],
     )
 
 
-def render_module_detail(
-    course: Dict[str, Any], module: Dict[str, Any]
-) -> str:
+def render_module_detail(course: Dict[str, Any], module: Dict[str, Any]) -> str:
     """Render a single module's file listing."""
     files_html = ""
     for f in sorted(module.get("files", [])):
@@ -590,9 +594,9 @@ def render_module_detail(
 
     content = f"""
     <div class="top-bar">
-      <h1>Module {module['number']}: {_esc(module['name'])}</h1>
+      <h1>Module {module["number"]}: {_esc(module["name"])}</h1>
       <div class="actions">
-        <a class="btn btn-outline" href="/course/{course['id']}">← Back to Modules</a>
+        <a class="btn btn-outline" href="/course/{course["id"]}">← Back to Modules</a>
       </div>
     </div>
     <div class="table-wrap">
@@ -603,14 +607,15 @@ def render_module_detail(
     </div>
     """
     return _page(
-        f"Module {module['number']}", content,
-        active="modules", course_id=course["id"], course_title=course["title"],
+        f"Module {module['number']}",
+        content,
+        active="modules",
+        course_id=course["id"],
+        course_title=course["title"],
     )
 
 
-def render_gradebook(
-    course: Dict[str, Any], grades: Dict[str, Any]
-) -> str:
+def render_gradebook(course: Dict[str, Any], grades: Dict[str, Any]) -> str:
     """Render the gradebook page."""
     rows = ""
     for user, assignments in grades.items():
@@ -619,15 +624,15 @@ def render_gradebook(
             <tr>
               <td>{_esc(user)}</td>
               <td>{_esc(asg)}</td>
-              <td>{entry.get('score', '')}/{entry.get('max_score', '')}</td>
-              <td>{entry.get('percentage', '')}%</td>
-              <td>{entry.get('updated_at', '')}</td>
+              <td>{_esc(entry.get("score", ""))}/{_esc(entry.get("max_score", ""))}</td>
+              <td>{_esc(entry.get("percentage", ""))}%</td>
+              <td>{_esc(entry.get("updated_at", ""))}</td>
             </tr>"""
 
     form = f"""
     <div class="card" style="margin-top:24px; max-width:500px;">
       <div class="card-title">Record Grade</div>
-      <form method="POST" action="/course/{course['id']}/gradebook">
+      <form method="POST" action="/course/{course["id"]}/gradebook">
         <div class="form-group"><label>Student</label><input type="text" name="user_name" required></div>
         <div class="form-group"><label>Assignment</label><input type="text" name="assignment" required></div>
         <div class="form-group"><label>Score</label><input type="number" name="score" step="0.1" required></div>
@@ -650,31 +655,34 @@ def render_gradebook(
     {form}
     """
     return _page(
-        "Gradebook", content,
-        active="gradebook", course_id=course["id"], course_title=course["title"],
+        "Gradebook",
+        content,
+        active="gradebook",
+        course_id=course["id"],
+        course_title=course["title"],
     )
 
 
-def render_announcements(
-    course: Dict[str, Any], announcements: List[Dict[str, Any]]
-) -> str:
+def render_announcements(course: Dict[str, Any], announcements: List[Dict[str, Any]]) -> str:
     """Render the announcements timeline page."""
     items = ""
     for a in announcements:
         items += f"""
         <div class="timeline-item">
-          <div class="tl-title">{_esc(a['title'])}</div>
-          <div class="tl-meta">{_esc(a.get('author', ''))} · {a.get('posted_at', '')}</div>
-          <div class="tl-body">{_esc(a['body'])}</div>
+          <div class="tl-title">{_esc(a["title"])}</div>
+          <div class="tl-meta">{_esc(a.get("author", ""))} · {_esc(a.get("posted_at", ""))}</div>
+          <div class="tl-body">{_esc(a["body"])}</div>
         </div>"""
 
     if not announcements:
-        items = '<div class="empty-state"><div class="icon">📢</div><p>No announcements yet.</p></div>'
+        items = (
+            '<div class="empty-state"><div class="icon">📢</div><p>No announcements yet.</p></div>'
+        )
 
     form = f"""
     <div class="card" style="margin-top:24px; max-width:600px;">
       <div class="card-title">Post Announcement</div>
-      <form method="POST" action="/course/{course['id']}/announcements">
+      <form method="POST" action="/course/{course["id"]}/announcements">
         <div class="form-group"><label>Title</label><input type="text" name="title" required></div>
         <div class="form-group"><label>Author</label><input type="text" name="author" value="Instructor"></div>
         <div class="form-group"><label>Message</label><textarea name="body" required></textarea></div>
@@ -689,33 +697,36 @@ def render_announcements(
     {form}
     """
     return _page(
-        "Announcements", content,
-        active="announcements", course_id=course["id"], course_title=course["title"],
+        "Announcements",
+        content,
+        active="announcements",
+        course_id=course["id"],
+        course_title=course["title"],
     )
 
 
-def render_calendar(
-    course: Dict[str, Any], events: List[Dict[str, Any]]
-) -> str:
+def render_calendar(course: Dict[str, Any], events: List[Dict[str, Any]]) -> str:
     """Render the calendar events page."""
     items = ""
     for e in events:
         items += f"""
         <div class="event-item">
-          <div class="event-date-badge">{_esc(e['date'])}</div>
+          <div class="event-date-badge">{_esc(e["date"])}</div>
           <div class="event-info">
-            <div class="event-title">{_esc(e['title'])}</div>
-            <div class="event-desc">{_esc(e.get('description', ''))}</div>
+            <div class="event-title">{_esc(e["title"])}</div>
+            <div class="event-desc">{_esc(e.get("description", ""))}</div>
           </div>
         </div>"""
 
     if not events:
-        items = '<div class="empty-state"><div class="icon">📅</div><p>No events scheduled.</p></div>'
+        items = (
+            '<div class="empty-state"><div class="icon">📅</div><p>No events scheduled.</p></div>'
+        )
 
     form = f"""
     <div class="card" style="margin-top:24px; max-width:500px;">
       <div class="card-title">Add Event</div>
-      <form method="POST" action="/course/{course['id']}/calendar">
+      <form method="POST" action="/course/{course["id"]}/calendar">
         <div class="form-group"><label>Title</label><input type="text" name="title" required></div>
         <div class="form-group"><label>Date</label><input type="date" name="date" required></div>
         <div class="form-group"><label>Type</label>
@@ -739,29 +750,31 @@ def render_calendar(
     {form}
     """
     return _page(
-        "Calendar", content,
-        active="calendar", course_id=course["id"], course_title=course["title"],
+        "Calendar",
+        content,
+        active="calendar",
+        course_id=course["id"],
+        course_title=course["title"],
     )
 
 
-def render_roster(
-    course: Dict[str, Any], enrollments: List[Dict[str, Any]]
-) -> str:
+def render_roster(course: Dict[str, Any], enrollments: List[Dict[str, Any]]) -> str:
     """Render the roster / enrollment page."""
     rows = ""
     for e in enrollments:
-        badge_cls = f"badge-{e['role']}"
+        role = e.get("role", "student")
+        badge_cls = f"badge-{role}" if role in {"instructor", "ta", "student"} else "badge-student"
         rows += f"""
         <tr>
-          <td>{_esc(e['user_name'])}</td>
-          <td><span class="badge {badge_cls}">{e['role']}</span></td>
-          <td>{e.get('enrolled_at', '')}</td>
+          <td>{_esc(e["user_name"])}</td>
+          <td><span class="badge {badge_cls}">{_esc(role)}</span></td>
+          <td>{_esc(e.get("enrolled_at", ""))}</td>
         </tr>"""
 
     form = f"""
     <div class="card" style="margin-top:24px; max-width:500px;">
       <div class="card-title">Enroll User</div>
-      <form method="POST" action="/course/{course['id']}/roster">
+      <form method="POST" action="/course/{course["id"]}/roster">
         <div class="form-group"><label>Name</label><input type="text" name="user_name" required></div>
         <div class="form-group"><label>Role</label>
           <select name="role">
@@ -786,8 +799,11 @@ def render_roster(
     {form}
     """
     return _page(
-        "Roster", content,
-        active="roster", course_id=course["id"], course_title=course["title"],
+        "Roster",
+        content,
+        active="roster",
+        course_id=course["id"],
+        course_title=course["title"],
     )
 
 

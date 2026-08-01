@@ -27,10 +27,12 @@ def parse_args(argv=None):
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="Regenerate stub practice quizzes")
     parser.add_argument("--dry-run", action="store_true", help="Preview without writing")
-    parser.add_argument("--base", type=Path, default=DEFAULT_BASE,
-                        help="Base course_development directory")
-    parser.add_argument("--course", choices=list(COURSE_REGISTRY.keys()),
-                        help="Process only this course")
+    parser.add_argument(
+        "--base", type=Path, default=DEFAULT_BASE, help="Base course_development directory"
+    )
+    parser.add_argument(
+        "--course", choices=list(COURSE_REGISTRY.keys()), help="Process only this course"
+    )
     return parser.parse_args(argv)
 
 
@@ -61,7 +63,9 @@ def main(argv=None):
             action = "Would fix" if args.dry_run else "Fixed"
             if not args.dry_run:
                 quiz_path.write_text(quiz_text, encoding="utf-8")
-            print(f"  {action}: {quiz_path.relative_to(base)} ({len(module_data.get('key_concepts', []))} concepts, {len(module_data.get('objectives', []))} objectives)")
+            print(
+                f"  {action}: {quiz_path.relative_to(base)} ({len(module_data.get('key_concepts', []))} concepts, {len(module_data.get('objectives', []))} objectives)"
+            )
             fixed += 1
         except Exception as e:
             print(f"  ERROR: {quiz_path.relative_to(base)}: {e}")

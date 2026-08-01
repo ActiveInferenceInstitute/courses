@@ -1,6 +1,5 @@
 """Configuration for the publish module."""
 
-
 # Root directory name for published content (relative to repo root)
 PUBLISH_ROOT_NAME = "published"
 
@@ -26,7 +25,6 @@ COURSE_CONFIGS = {
         "syllabus_source_dir": "output",
         "include_syllabus": True,
     },
-
     # -------------------------------------------------------------------------
     # Active Inference Institute — core consolidated course
     # -------------------------------------------------------------------------
@@ -36,7 +34,6 @@ COURSE_CONFIGS = {
         "include_syllabus": True,
         "copy_dashboards": True,
     },
-
     # -------------------------------------------------------------------------
     # Active Inference — legacy individual sub-course entries (Deprecated)
     # -------------------------------------------------------------------------
@@ -64,7 +61,6 @@ COURSE_CONFIGS = {
         "include_syllabus": True,
         "copy_dashboards": True,
     },
-
     # -------------------------------------------------------------------------
     # Level-adapted courses
     # -------------------------------------------------------------------------
@@ -104,7 +100,6 @@ COURSE_CONFIGS = {
         "include_syllabus": True,
         "copy_dashboards": True,
     },
-
     # -------------------------------------------------------------------------
     # Domain courses
     # -------------------------------------------------------------------------
@@ -150,7 +145,6 @@ COURSE_CONFIGS = {
         "include_syllabus": True,
         "copy_dashboards": True,
     },
-
     # -------------------------------------------------------------------------
     # YouTube transcript archive
     # -------------------------------------------------------------------------

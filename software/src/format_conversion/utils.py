@@ -104,6 +104,8 @@ def convert_text_to_pdf(input_path: Path, output_path: Path) -> None:
         input_path: Path to input text file
         output_path: Path to output PDF file
     """
+    from html import escape
+
     from weasyprint import HTML
 
     text_content = input_path.read_text(encoding="utf-8")
@@ -117,7 +119,7 @@ def convert_text_to_pdf(input_path: Path, output_path: Path) -> None:
     </style>
 </head>
 <body>
-    <pre>{text_content}</pre>
+    <pre>{escape(text_content)}</pre>
 </body>
 </html>"""
     HTML(string=html_content).write_pdf(output_path)
@@ -130,16 +132,18 @@ def convert_text_to_html(input_path: Path, output_path: Path) -> None:
         input_path: Path to input text file
         output_path: Path to output HTML file
     """
+    from html import escape
+
     text_content = input_path.read_text(encoding="utf-8")
     # Escape HTML and wrap in pre tag
     html_content = f"""<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{input_path.stem}</title>
+    <title>{escape(input_path.stem)}</title>
 </head>
 <body>
-    <pre>{text_content}</pre>
+    <pre>{escape(text_content)}</pre>
 </body>
 </html>"""
     output_path.write_text(html_content, encoding="utf-8")
@@ -147,6 +151,9 @@ def convert_text_to_html(input_path: Path, output_path: Path) -> None:
 
 def convert_markdown_to_docx(input_path: Path, output_path: Path) -> None:
     """Convert Markdown file to DOCX.
+
+    Preserves headings (H1-H6), ordered/unordered lists, and paragraphs so the
+    DOCX keeps the course document's structure instead of flattening it.
 
     Args:
         input_path: Path to input Markdown file
@@ -156,40 +163,86 @@ def convert_markdown_to_docx(input_path: Path, output_path: Path) -> None:
 
     from ..markdown_to_pdf.utils import markdown_to_html, read_markdown_file
 
-    # Read and convert Markdown to HTML first
+    # Read Markdown and convert to HTML so we can walk real block structure.
     markdown_content = read_markdown_file(input_path)
     html_content = markdown_to_html(markdown_content)
 
-    # Create DOCX document
     doc = Document()
 
-    # Parse HTML and add to document
-    # For simplicity, we'll extract text from HTML
     from html.parser import HTMLParser
 
-    class TextExtractor(HTMLParser):
-        def __init__(self):
-            super().__init__()
-            self.text = []
-            self.current_para = []
+    class DocxBuilder(HTMLParser):
+        """Walk markdown-generated HTML and emit docx paragraphs/headings."""
 
-        def handle_data(self, data):
-            self.current_para.append(data.strip())
+        def __init__(self, document):
+            super().__init__()
+            self.doc = document
+            self.pending = []
+            self.in_li = False
+            self.list_depth = 0
+
+        def handle_starttag(self, tag, attrs):
+            if tag in ("h1", "h2", "h3", "h4", "h5", "h6"):
+                self._flush_para()
+                self._heading_level = int(tag[1])
+                self.in_heading = True
+            elif tag == "p":
+                self.pending = []
+            elif tag in ("ul", "ol"):
+                self.list_depth += 1
+            elif tag == "li":
+                self._flush_para()
+                self.in_li = True
+                self.pending = []
+            elif tag in ("strong", "b"):
+                pass
+            elif tag == "br":
+                self.pending.append(" ")
 
         def handle_endtag(self, tag):
-            if tag in ["p", "h1", "h2", "h3", "h4", "h5", "h6"]:
-                text = " ".join(self.current_para).strip()
+            if tag in ("h1", "h2", "h3", "h4", "h5", "h6"):
+                self._flush_heading()
+                self.in_heading = False
+            elif tag == "p":
+                self._flush_paragraph()
+            elif tag in ("ul", "ol"):
+                self.list_depth = max(0, self.list_depth - 1)
+            elif tag == "li":
+                self._flush_list_item()
+                self.in_li = False
+
+        def handle_data(self, data):
+            self.pending.append(data.strip())
+
+        def _text(self):
+            return " ".join(t for t in self.pending if t).strip()
+
+        def _flush_para(self):
+            self.pending = []
+
+        def _flush_paragraph(self):
+            text = self._text()
+            if text:
+                self.doc.add_paragraph(text)
+            self.pending = []
+
+        def _flush_heading(self):
+            if getattr(self, "in_heading", False):
+                text = self._text()
                 if text:
-                    self.text.append(text)
-                self.current_para = []
+                    self.doc.add_heading(text, level=self._heading_level)
+            self.pending = []
 
-    parser = TextExtractor()
+        def _flush_list_item(self):
+            if self.in_li:
+                text = self._text()
+                if text:
+                    self.doc.add_paragraph(text, style="List Bullet")
+            self.pending = []
+
+    parser = DocxBuilder(doc)
     parser.feed(html_content)
-
-    # Add paragraphs to document
-    for text in parser.text:
-        if text:
-            doc.add_paragraph(text)
+    parser.close()
 
     doc.save(str(output_path))
 
@@ -247,9 +300,7 @@ def convert_docx_to_markdown(input_path: Path) -> str:
         # Extract table header
         if table.rows:
             header_row = table.rows[0]
-            header_cells = [
-                _extract_formatted_text(cell) for cell in header_row.cells
-            ]
+            header_cells = [_extract_formatted_text(cell) for cell in header_row.cells]
             markdown_lines.append("| " + " | ".join(header_cells) + " |")
             markdown_lines.append("| " + " | ".join(["---"] * len(header_cells)) + " |")
 
@@ -308,7 +359,9 @@ def convert_pdf_to_text(input_path: Path, output_path: Path) -> None:
     text_content = []
 
     for page in reader.pages:
-        text_content.append(page.extract_text())
+        # pypdf's extract_text() may return None for unscannable pages; guard
+        # so we never write a literal "None" into the transcript.
+        text_content.append(page.extract_text() or "")
 
     full_text = "\n\n".join(text_content)
     output_path.write_text(full_text, encoding="utf-8")

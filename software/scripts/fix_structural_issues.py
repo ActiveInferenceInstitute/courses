@@ -1,11 +1,9 @@
-
-import json
 import re
 from pathlib import Path
-import os
 
 ROOT_DIR = Path("/Users/4d/Documents/GitHub/courses")
 DATA_FILE = ROOT_DIR / "structural_scan_data.json"
+
 
 def fix_broken_links():
     print("Fixing broken links...")
@@ -14,20 +12,23 @@ def fix_broken_links():
     if module_path.exists():
         content = module_path.read_text()
         # Fix [delta](psi -> [delta] (psi
-        new_content = re.sub(r'(\[delta_\{o=i, s=j\}\])\(psi', r'\1 (psi', content)
+        new_content = re.sub(r"(\[delta_\{o=i, s=j\}\])\(psi", r"\1 (psi", content)
         if content != new_content:
             module_path.write_text(new_content)
             print(f"Fixed {module_path}")
-    
+
     # Fix questions.md
-    questions_path = ROOT_DIR / "course_development/active_inference/03_math/06_learning/questions.md"
+    questions_path = (
+        ROOT_DIR / "course_development/active_inference/03_math/06_learning/questions.md"
+    )
     if questions_path.exists():
         content = questions_path.read_text()
         # Fix [N_{ij}](psi -> [N_{ij}] (psi
-        new_content = re.sub(r'(\[N_\{ij\}\])\(psi', r'\1 (psi', content)
+        new_content = re.sub(r"(\[N_\{ij\}\])\(psi", r"\1 (psi", content)
         if content != new_content:
             questions_path.write_text(new_content)
             print(f"Fixed {questions_path}")
+
 
 def fix_quizzes():
     print("Fixing quiz structures...")
@@ -35,19 +36,20 @@ def fix_quizzes():
     for quiz_file in ROOT_DIR.rglob("practice_quiz.md"):
         content = quiz_file.read_text()
         # Replace **1.** with 1.
-        new_content = re.sub(r'^\s*\*\*(\d+)\.\*\*', r'\1.', content, flags=re.MULTILINE)
-        
+        new_content = re.sub(r"^\s*\*\*(\d+)\.\*\*", r"\1.", content, flags=re.MULTILINE)
+
         if content != new_content:
             quiz_file.write_text(new_content)
             print(f"Fixed formatting in {quiz_file}")
 
+
 def generate_missing_files():
     print("Generating context-aware files (updating all)...")
-    
-    # We want to traverse the entire course_development structure and update 
+
+    # We want to traverse the entire course_development structure and update
     # module.md, questions.md, practice_quiz.md, lab.md, dashboard.html
     # wherever they exist or should exist.
-    
+
     course_dev_path = ROOT_DIR / "course_development"
     if not course_dev_path.exists():
         print("Course development directory not found!")
@@ -55,14 +57,20 @@ def generate_missing_files():
 
     # Topic mapping for the 8-module spine
     TOPIC_MAP = {
-        "01": "Systems", "02": "Agents", "03": "Perception", "04": "Cognition",
-        "05": "Action", "06": "Learning", "07": "Communication", "08": "Planning"
+        "01": "Systems",
+        "02": "Agents",
+        "03": "Perception",
+        "04": "Cognition",
+        "05": "Action",
+        "06": "Learning",
+        "07": "Communication",
+        "08": "Planning",
     }
 
     TARGET_FILES = ["module.md", "questions.md", "practice_quiz.md", "lab.md", "dashboard.html"]
-    
+
     files_to_process = []
-    
+
     # Find all existing target files
     for path in course_dev_path.rglob("*"):
         if path.is_file() and path.name in TARGET_FILES:
@@ -71,45 +79,47 @@ def generate_missing_files():
     # Note: This logic only updates EXISTING files. If we needed to create files where they are missing
     # but the directory exists, we would need different logic.
     # Given the previous steps created files, this should cover most cases.
-    
+
     print(f"Found {len(files_to_process)} files to update.")
-        
+
     for file_path in files_to_process:
         print(f"Updating {file_path}")
-        
+
         filename = file_path.name
-        
+
         # Extract context
         parts = file_path.parts
         course_name = "Active Inference"
         module_name = "Module"
         topic_name = "Topic"
-        
+
         # Try to find course and module context from path
         for i, part in enumerate(parts):
             if part == "course_development":
                 if i + 1 < len(parts):
-                    course_raw = parts[i+1]
+                    course_raw = parts[i + 1]
                     if course_raw == "domains" and i + 2 < len(parts):
                         # Handle domains/active_inference_robotics structure
-                        course_raw = parts[i+2]
+                        course_raw = parts[i + 2]
                         # Bump index for module detection
                         module_start_idx = i + 3
                     else:
                         module_start_idx = i + 2
-                    
-                    course_name = course_raw.replace("active_inference_", "").replace("_", " ").title()
-                    if course_name == "Active Inference": # Handle core course special case
-                         course_name = "Active Inference Core"
-                
+
+                    course_name = (
+                        course_raw.replace("active_inference_", "").replace("_", " ").title()
+                    )
+                    if course_name == "Active Inference":  # Handle core course special case
+                        course_name = "Active Inference Core"
+
                 if module_start_idx < len(parts):
                     # We look for the directory that contains the file (file_path.parent)
                     # and see if it matches our numbering pattern.
-                    
+
                     parent_dir = file_path.parent
                     # Verify if parent dir is indeed the module dir, or if we are deeper
                     # The module dir usually starts with a digit like "01_systems"
-                    
+
                     if re.match(r"\d{2}_", parent_dir.name):
                         module_raw = parent_dir.name
                     elif re.match(r"\d{2}_", parent_dir.parent.name):
@@ -291,6 +301,7 @@ Design and simulate a simple agent that demonstrates the principles of **{topic_
             pass
 
         file_path.write_text(content)
+
 
 if __name__ == "__main__":
     fix_broken_links()

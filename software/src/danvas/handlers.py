@@ -14,6 +14,26 @@ from .calendar_events import add_event, get_events
 from .discovery import discover_courses, get_course_by_id, get_course_modules
 from .enrollment import enroll_user, get_roster
 from .gradebook import get_grades, record_grade
+from .store import validate_course_id
+
+
+def validate_course_id_safe(course_id: str) -> str:
+    """Validate a URL-supplied *course_id* is a safe, non-traversal identifier.
+
+    Thin re-export of :func:`danvas.store.validate_course_id` so the HTTP
+    dispatch layer can enforce the same whitelist used by the data layer.
+
+    Args:
+        course_id: Candidate course identifier from the request path.
+
+    Returns:
+        The validated id.
+
+    Raises:
+        ValueError: If *course_id* is not a safe identifier.
+    """
+    return validate_course_id(course_id)
+
 
 try:
     from ..batch_processing.logging_config import get_logger
@@ -42,6 +62,24 @@ logger = get_logger("danvas.handlers")
 def _get_course(ctx: Any, course_id: str) -> Optional[Dict[str, Any]]:
     """Look up a course or return ``None``."""
     return get_course_by_id(course_id, ctx.repo_root)
+
+
+def _read_post_form(ctx: Any) -> Optional[Dict[str, Any]]:
+    """Read a POST form, sending a 400/413 and returning ``None`` on failure.
+
+    Args:
+        ctx: The handler context.
+
+    Returns:
+        Parsed form fields, or ``None`` if the body was invalid or too large
+        (in which case a 400/413 response has already been sent).
+    """
+    try:
+        return ctx._read_form()
+    except ValueError as e:
+        logger.warning("Rejected POST body: %s", e)
+        ctx._send_error("Invalid or oversized request body.", status=400)
+        return None
 
 
 def _send_404(ctx: Any) -> None:
@@ -105,16 +143,29 @@ def handle_gradebook(ctx: Any, course_id: str) -> None:
 
 
 def handle_gradebook_post(ctx: Any, course_id: str) -> None:
-    """Process a gradebook form POST and redirect."""
-    form = ctx._read_form()
-    record_grade(
-        course_id,
-        user_name=form.get("user_name", ""),
-        assignment=form.get("assignment", ""),
-        score=float(form.get("score", 0)),
-        max_score=float(form.get("max_score", 100)),
-        data_dir=ctx.data_dir,
-    )
+    """Process a gradebook form POST and redirect.
+
+    Invalid or non-finite numeric input is rejected with a 400 response
+    rather than surfacing an unhandled exception.
+    """
+    form = _read_post_form(ctx)
+    if form is None:
+        return
+    try:
+        score = float(form.get("score", 0))
+        max_score = float(form.get("max_score", 100))
+        record_grade(
+            course_id,
+            user_name=form.get("user_name", ""),
+            assignment=form.get("assignment", ""),
+            score=score,
+            max_score=max_score,
+            data_dir=ctx.data_dir,
+        )
+    except ValueError as e:
+        logger.warning("Rejected invalid grade input for %s: %s", course_id, e)
+        ctx._send_error("Invalid grade: score and max score must be finite numbers.")
+        return
     ctx._redirect(f"/course/{course_id}/gradebook")
 
 
@@ -135,14 +186,21 @@ def handle_announcements(ctx: Any, course_id: str) -> None:
 
 def handle_announcements_post(ctx: Any, course_id: str) -> None:
     """Process an announcement form POST and redirect."""
-    form = ctx._read_form()
-    post_announcement(
-        course_id,
-        title=form.get("title", ""),
-        body=form.get("body", ""),
-        author=form.get("author", "Instructor"),
-        data_dir=ctx.data_dir,
-    )
+    form = _read_post_form(ctx)
+    if form is None:
+        return
+    try:
+        post_announcement(
+            course_id,
+            title=form.get("title", ""),
+            body=form.get("body", ""),
+            author=form.get("author", "Instructor"),
+            data_dir=ctx.data_dir,
+        )
+    except ValueError as e:
+        logger.warning("Rejected invalid announcement for %s: %s", course_id, e)
+        ctx._send_error(f"Invalid announcement: {e}")
+        return
     ctx._redirect(f"/course/{course_id}/announcements")
 
 
@@ -163,15 +221,22 @@ def handle_calendar(ctx: Any, course_id: str) -> None:
 
 def handle_calendar_post(ctx: Any, course_id: str) -> None:
     """Process a calendar event form POST and redirect."""
-    form = ctx._read_form()
-    add_event(
-        course_id,
-        title=form.get("title", ""),
-        date=form.get("date", ""),
-        description=form.get("description", ""),
-        event_type=form.get("event_type", "other"),
-        data_dir=ctx.data_dir,
-    )
+    form = _read_post_form(ctx)
+    if form is None:
+        return
+    try:
+        add_event(
+            course_id,
+            title=form.get("title", ""),
+            date=form.get("date", ""),
+            description=form.get("description", ""),
+            event_type=form.get("event_type", "other"),
+            data_dir=ctx.data_dir,
+        )
+    except ValueError as e:
+        logger.warning("Rejected invalid calendar event for %s: %s", course_id, e)
+        ctx._send_error(f"Invalid event: {e}")
+        return
     ctx._redirect(f"/course/{course_id}/calendar")
 
 
@@ -192,13 +257,20 @@ def handle_roster(ctx: Any, course_id: str) -> None:
 
 def handle_roster_post(ctx: Any, course_id: str) -> None:
     """Process a roster enrollment form POST and redirect."""
-    form = ctx._read_form()
-    enroll_user(
-        course_id,
-        user_name=form.get("user_name", ""),
-        role=form.get("role", "student"),
-        data_dir=ctx.data_dir,
-    )
+    form = _read_post_form(ctx)
+    if form is None:
+        return
+    try:
+        enroll_user(
+            course_id,
+            user_name=form.get("user_name", ""),
+            role=form.get("role", "student"),
+            data_dir=ctx.data_dir,
+        )
+    except ValueError as e:
+        logger.warning("Rejected invalid roster input for %s: %s", course_id, e)
+        ctx._send_error(f"Invalid enrollment: {e}")
+        return
     ctx._redirect(f"/course/{course_id}/roster")
 
 

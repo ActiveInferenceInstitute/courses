@@ -55,25 +55,25 @@ def main(argv=None) -> int:
 
     # Paths
     repo_root = Path(__file__).parent.parent.parent
-    
+
     if args.course not in COURSE_REGISTRY:
         print(f"Error: Course {args.course} not found in registry")
         return 1
-        
+
     rel_path = COURSE_REGISTRY[args.course]["rel_path"]
-    
+
     # Check if syllabus location is defined in registry, otherwise default to "syllabus"
     syllabus_loc = COURSE_REGISTRY[args.course].get("syllabus_location", "syllabus")
-    
+
     # If syllabus_location is a file (ends in .md), get parent dir
     # If it's a dir, use it directly
     course_root = repo_root / rel_path
-    
+
     if syllabus_loc.endswith(".md"):
         syllabus_path = course_root / Path(syllabus_loc).parent
     else:
         syllabus_path = course_root / syllabus_loc
-        
+
     output_dir = syllabus_path / "output"
 
     if not syllabus_path.exists():
