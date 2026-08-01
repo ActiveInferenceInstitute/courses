@@ -207,7 +207,7 @@ def generate_module_media(module_path: str, output_dir: str) -> Dict[str, Any]:
     base_output = Path(output_dir)
     ensure_output_directory(base_output)
 
-    results = {
+    results: Dict[str, Any] = {
         "pdf_files": [],
         "audio_files": [],
         "text_files": [],
@@ -315,7 +315,7 @@ def process_module_by_type(
 
     logger.debug(f"Found {len(files_to_process)} markdown files to process")
 
-    results = {
+    results: Dict[str, Any] = {
         "by_type": {t: [] for t in type_mapping.values()},
         "summary": {"pdf": 0, "mp3": 0, "docx": 0, "html": 0, "txt": 0, "md": 0},
         "errors": [],
@@ -578,7 +578,7 @@ def process_syllabus(
         if not f.name.startswith("README") and not f.name.startswith("AGENTS")
     ]
 
-    results = {
+    results: Dict[str, Any] = {
         "by_format": {"pdf": [], "mp3": [], "docx": [], "html": [], "txt": [], "md": []},
         "summary": {"pdf": 0, "mp3": 0, "docx": 0, "html": 0, "txt": 0, "md": 0},
         "errors": [],
@@ -725,7 +725,7 @@ def clear_all_outputs(repo_root: Path) -> Dict[str, Any]:
         - errors: List of errors encountered
     """
     logger.info("Starting output clearing process")
-    results = {
+    results: Dict[str, Any] = {
         "cleared_directories": [],
         "total_files_removed": 0,
         "errors": [],

@@ -54,7 +54,7 @@ def generate_module_website(
     sidebar_links = []
 
     # Helper to create section HTML
-    def create_section(id, title, content):
+    def create_section(id: str, title: str, content: str) -> str:
         section_html = f'<section id="{id}">\n'
         section_html += f'<div class="section-header" onclick="toggleSection(\'{id}\')">\n'
         section_html += f"<h2>{title}</h2>\n"

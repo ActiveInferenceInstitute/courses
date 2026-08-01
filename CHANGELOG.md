@@ -66,11 +66,19 @@ All notable changes to the Active Inference Institute courses repository.
 - Dead `pdf_options` no-op, `get_theme`/`DEFAULT_THEME` re-export corrected
   (kept with `# noqa` for tests), unused imports and locals (ruff F401/F841).
 
+### Type-check gate
+- **`mypy src/` now passes with zero errors** across all 109 source files
+  (was ~288 chronic errors).  The reconciliation was annotation-only — explicit
+  return/param types, `cast()` for `Any`-returning third-party APIs
+  (`json.loads`, `requests` responses), `# type: ignore[...]` on
+  runtime-dynamic constructs and stub-less imports, plus `ignore_missing_imports`
+  for first-party deps without type stubs.  No runtime behavior changed.
+- The CI type-check (`mypy src/`), lint (`ruff check`), format
+  (`ruff format --check`), and the 995-test CI gate are now all green.
+
 ### Notes
 - The CI-equivalent test gate passes: **995 passed / 0 failed / 34
   deselected**, **75% source coverage**; `ruff check` and `ruff format --check`
   are clean.
-- The `mypy src/` gate remains red (~288 errors) from long-standing systemic
-  type-annotation debt predating this pass (see `TODO.md` "Open — scoped").
 - Live-network YouTube and WeasyPrint-render tests fail only where the
   environment blocks YouTube or lacks native Pango/cairo — environmental.

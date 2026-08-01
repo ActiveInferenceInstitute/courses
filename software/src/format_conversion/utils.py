@@ -1,7 +1,7 @@
 """Utility functions for format conversion."""
 
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 
 def get_file_extension(file_path: Path) -> str:
@@ -174,14 +174,16 @@ def convert_markdown_to_docx(input_path: Path, output_path: Path) -> None:
     class DocxBuilder(HTMLParser):
         """Walk markdown-generated HTML and emit docx paragraphs/headings."""
 
-        def __init__(self, document):
+        def __init__(self, document: Any) -> None:
             super().__init__()
             self.doc = document
-            self.pending = []
+            self.pending: list[str] = []
             self.in_li = False
             self.list_depth = 0
+            self.in_heading = False
+            self._heading_level = 1
 
-        def handle_starttag(self, tag, attrs):
+        def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
             if tag in ("h1", "h2", "h3", "h4", "h5", "h6"):
                 self._flush_para()
                 self._heading_level = int(tag[1])
@@ -199,7 +201,7 @@ def convert_markdown_to_docx(input_path: Path, output_path: Path) -> None:
             elif tag == "br":
                 self.pending.append(" ")
 
-        def handle_endtag(self, tag):
+        def handle_endtag(self, tag: str) -> None:
             if tag in ("h1", "h2", "h3", "h4", "h5", "h6"):
                 self._flush_heading()
                 self.in_heading = False
@@ -211,29 +213,29 @@ def convert_markdown_to_docx(input_path: Path, output_path: Path) -> None:
                 self._flush_list_item()
                 self.in_li = False
 
-        def handle_data(self, data):
+        def handle_data(self, data: str) -> None:
             self.pending.append(data.strip())
 
-        def _text(self):
+        def _text(self) -> str:
             return " ".join(t for t in self.pending if t).strip()
 
-        def _flush_para(self):
+        def _flush_para(self) -> None:
             self.pending = []
 
-        def _flush_paragraph(self):
+        def _flush_paragraph(self) -> None:
             text = self._text()
             if text:
                 self.doc.add_paragraph(text)
             self.pending = []
 
-        def _flush_heading(self):
-            if getattr(self, "in_heading", False):
+        def _flush_heading(self) -> None:
+            if self.in_heading:
                 text = self._text()
                 if text:
                     self.doc.add_heading(text, level=self._heading_level)
             self.pending = []
 
-        def _flush_list_item(self):
+        def _flush_list_item(self) -> None:
             if self.in_li:
                 text = self._text()
                 if text:
@@ -267,7 +269,8 @@ def convert_docx_to_markdown(input_path: Path) -> str:
             continue
 
         # Check if paragraph is a heading
-        style_name = paragraph.style.name.lower()
+        style = paragraph.style
+        style_name = style.name.lower() if style is not None else ""
         if "heading" in style_name:
             level = 1
             if "heading 1" in style_name or "title" in style_name:
@@ -317,7 +320,7 @@ def convert_docx_to_markdown(input_path: Path) -> str:
     return "\n".join(markdown_lines)
 
 
-def _extract_formatted_text(paragraph) -> str:
+def _extract_formatted_text(paragraph: Any) -> str:
     """Extract text from paragraph with formatting preserved as Markdown.
 
     Args:

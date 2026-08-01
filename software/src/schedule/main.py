@@ -92,7 +92,7 @@ def process_schedule(
     output_directory = Path(output_dir)
     ensure_output_directory(output_directory)
 
-    results = {
+    results: Dict[str, Any] = {
         "outputs": {fmt: [] for fmt in formats},
         "summary": {fmt: 0 for fmt in formats},
         "errors": [],
@@ -134,7 +134,7 @@ def generate_schedule_outputs(
         ValueError: If format is not supported
         OSError: If file generation fails
     """
-    outputs = {fmt: [] for fmt in formats}
+    outputs: Dict[str, List[str]] = {fmt: [] for fmt in formats}
     ensure_output_directory(output_dir)
 
     # Generate markdown first (used as source for other formats)
@@ -215,7 +215,7 @@ def batch_process_schedules(
 
     schedule_files = find_schedule_files(directory_path)
 
-    results = {
+    results: Dict[str, Any] = {
         "processed_files": [],
         "outputs": {},
         "summary": {},

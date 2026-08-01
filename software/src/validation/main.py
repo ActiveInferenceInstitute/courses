@@ -46,7 +46,7 @@ def _get_module_number(module_name: str) -> int:
 
 def validate_outputs(
     course_path: str,
-    formats: List[str] = None,
+    formats: Optional[List[str]] = None,
     max_module: Optional[int] = None,
     max_lab: Optional[int] = None,
 ) -> Dict[str, Any]:
@@ -84,7 +84,7 @@ def validate_outputs(
     if max_lab:
         logger.info(f"  Max lab: {max_lab}")
 
-    results = {
+    results: Dict[str, Any] = {
         "valid": True,
         "course": course_name,
         "formats_validated": formats,
@@ -151,7 +151,9 @@ def validate_outputs(
     return results
 
 
-def _validate_module_outputs(module_path: Path, formats: List[str] = None) -> Dict[str, Any]:
+def _validate_module_outputs(
+    module_path: Path, formats: Optional[List[str]] = None
+) -> Dict[str, Any]:
     """Validate outputs for a single module.
 
     Args:
@@ -163,7 +165,7 @@ def _validate_module_outputs(module_path: Path, formats: List[str] = None) -> Di
     """
     module_name = module_path.name
 
-    result = {
+    result: Dict[str, Any] = {
         "name": module_name,
         "valid": True,
         "has_output_dir": False,
@@ -208,7 +210,9 @@ def _validate_module_outputs(module_path: Path, formats: List[str] = None) -> Di
     return result
 
 
-def _validate_syllabus_outputs(course_dir: Path, formats: List[str] = None) -> Dict[str, Any]:
+def _validate_syllabus_outputs(
+    course_dir: Path, formats: Optional[List[str]] = None
+) -> Dict[str, Any]:
     """Validate syllabus outputs for a course.
 
     Syllabus outputs are placed directly in the syllabus/output/ directory
@@ -221,7 +225,7 @@ def _validate_syllabus_outputs(course_dir: Path, formats: List[str] = None) -> D
     Returns:
         Dictionary with syllabus validation results
     """
-    result = {
+    result: Dict[str, Any] = {
         "valid": True,
         "formats_checked": formats,
         "files": {},
@@ -270,7 +274,7 @@ def validate_published(published_path: str) -> Dict[str, Any]:
 
     logger.info(f"Validating published directory: {pub_dir}")
 
-    results = {
+    results: Dict[str, Any] = {
         "valid": True,
         "path": str(pub_dir),
         "timestamp": get_timestamp(),
@@ -323,7 +327,7 @@ def validate_published(published_path: str) -> Dict[str, Any]:
 def generate_validation_report(
     course_name: str,
     repo_root: Optional[str] = None,
-    formats: List[str] = None,
+    formats: Optional[List[str]] = None,
     max_module: Optional[int] = None,
     max_lab: Optional[int] = None,
 ) -> Dict[str, Any]:
@@ -352,7 +356,7 @@ def generate_validation_report(
     if formats:
         logger.info(f"  Validating formats: {', '.join(formats)}")
 
-    report = {
+    report: Dict[str, Any] = {
         "course": course_name,
         "timestamp": get_timestamp(),
         "formats_validated": formats or DEFAULT_REQUIRED_FORMATS,
@@ -410,7 +414,7 @@ def get_output_summary(course_path: str) -> Dict[str, Any]:
     course_dir = Path(course_path).resolve()
     course_name = course_dir.name
 
-    summary = {
+    summary: Dict[str, Any] = {
         "course": course_name,
         "timestamp": get_timestamp(),
         "modules": {},

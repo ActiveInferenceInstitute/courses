@@ -11,7 +11,15 @@
 > All findings from the red-team review have been implemented, tested, and
 > verified.  Real results below: CI-equivalent gate **995 passed / 0 failed /
 > 34 deselected**; `ruff check src/ scripts/` clean; `ruff format --check`
-> clean.
+> clean; **`mypy src/` — Success: no issues found in 109 source files**.
+
+### Type-check gate (mypy) reconciled
+- `mypy src/` now passes with **zero errors** across all 109 source files
+  (was ~288 chronic errors before this pass).  Additions were annotation-only:
+  real return/param types, `cast()` for genuinely-`Any` third-party returns
+  (json.loads, requests responses), and targeted `# type: ignore[...]` for
+  runtime-dynamic constructs and stub-less third-party imports.  No runtime
+  behavior changed.
 
 ### Test-suite defects
 - Fixed 4 genuine test bugs: `test_generate_all_outputs::test_main_execution`
@@ -96,25 +104,6 @@
 - Docs corrected: README / `software/AGENTS.md` / SKILL.md now state the
   measured reality (1,014 tests collected, ~995 CI-passing, 77% source
   coverage) instead of stale "1,021 / 100% / 17%".
-
----
-
-## Open — scoped for a dedicated follow-up (NOT a regression from this pass)
-
-### Mypy type-check gate is chronically red
-- **Affected:** whole `software/src/` (293 → 288 errors after adding
-  `ignore_missing_imports` for the stub-less deps).
-- **What:** `mypy src/` (the CI `lint` job) reports ~288 errors dominated by
-  systemic `index` (90), `attr-defined` (85), `no-untyped-def` (16), and
-  `assignment` (14) — the strict `disallow_untyped_defs`/`warn_return_any`
-  config against a codebase that predates it (this was ~279 errors **before**
-  this review began). It is not a regression introduced here.
-- **Why it matters:** the CI type-check job does not pass cleanly today.
-- **Fix (separate, mechanical):** add annotations across src (the
-  `no_implicit_optional` migration, explicit `list[...]`/`dict[...]` on
-  inferred collections, `# type: ignore` on known dynamic-server
-  attributes), or relax `disallow_untyped_defs`. Best done as its own
-  change-set with the full suite re-run.
 
 ---
 

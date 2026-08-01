@@ -13,7 +13,7 @@ try:
 except Exception:
     import logging
 
-    def get_logger(name: str) -> logging.Logger:
+    def get_logger(name: str = "danvas") -> logging.Logger:
         """Fallback logger factory."""
         _logger = logging.getLogger(name)
         if not _logger.handlers:

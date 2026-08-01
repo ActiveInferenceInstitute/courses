@@ -69,7 +69,7 @@ def extract_course_info_from_path(file_path: Path, base: Path) -> Dict[str, str]
         candidates.sort(key=lambda x: len(str(x[2])), reverse=True)
         matched_key, matched_meta, course_rel_path = candidates[0]
 
-    if matched_key and course_rel_path:
+    if matched_key and course_rel_path and matched_meta is not None:
         course = matched_key
         course_name = matched_meta["display_name"]
 
@@ -222,7 +222,7 @@ def find_markdown_files(directory: Path) -> List[Path]:
     Returns:
         List of Markdown file paths
     """
-    markdown_files = []
+    markdown_files: List[Path] = []
     for pattern in ["*.md", "*.markdown"]:
         markdown_files.extend(directory.rglob(pattern))
     return sorted(markdown_files)
@@ -237,7 +237,7 @@ def find_audio_files(directory: Path) -> List[Path]:
     Returns:
         List of audio file paths
     """
-    audio_files = []
+    audio_files: List[Path] = []
     for pattern in ["*.mp3", "*.wav", "*.m4a", "*.flac", "*.ogg"]:
         audio_files.extend(directory.rglob(pattern))
     return sorted(audio_files)
@@ -329,7 +329,7 @@ def get_formats_to_process(formats_arg: str) -> List[str]:
     return [f for f in formats if f in config.AVAILABLE_FORMATS]
 
 
-def find_modules_for_course(course_path: Path, course_id: str = None) -> List[Path]:
+def find_modules_for_course(course_path: Path, course_id: Optional[str] = None) -> List[Path]:
     """Discover module directories for a course using COURSE_REGISTRY metadata.
 
     Supports three patterns:

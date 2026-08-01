@@ -40,7 +40,7 @@ try:
 except Exception:
     import logging
 
-    def get_logger(name: str) -> logging.Logger:
+    def get_logger(name: str = "danvas") -> logging.Logger:
         """Fallback logger factory."""
         _logger = logging.getLogger(name)
         if not _logger.handlers:
@@ -75,7 +75,7 @@ def _read_post_form(ctx: Any) -> Optional[Dict[str, Any]]:
         (in which case a 400/413 response has already been sent).
     """
     try:
-        return ctx._read_form()
+        return ctx._read_form()  # type: ignore[no-any-return]
     except ValueError as e:
         logger.warning("Rejected POST body: %s", e)
         ctx._send_error("Invalid or oversized request body.", status=400)

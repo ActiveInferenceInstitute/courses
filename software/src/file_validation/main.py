@@ -194,8 +194,8 @@ def validate_course_structure(course_path: str) -> Dict[str, Any]:
             "issues": ["Course directory does not contain 'course' subdirectory"],
         }
 
-    modules = []
-    issues = []
+    modules: List[Dict[str, Any]] = []
+    issues: List[str] = []
 
     # Find all module directories
     module_dirs = [

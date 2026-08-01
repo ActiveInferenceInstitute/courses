@@ -1,6 +1,6 @@
 """Configuration for validation module."""
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 # All supported output formats
 ALL_SUPPORTED_FORMATS = ["pdf", "docx", "html", "txt", "mp3", "md"]
@@ -34,7 +34,7 @@ OPTIONAL_STUDY_GUIDE_FILES = [
 ]
 
 
-def get_expected_study_guide_files(formats: List[str] = None) -> List[str]:
+def get_expected_study_guide_files(formats: Optional[List[str]] = None) -> List[str]:
     """Get expected study guide files based on requested formats.
 
     Args:
@@ -63,7 +63,7 @@ SYLLABUS_REQUIRED_FORMATS = ["pdf", "docx"]  # Minimum for syllabus
 SYLLABUS_OPTIONAL_FORMATS = ["html", "txt", "mp3", "md"]  # Nice to have
 
 
-def get_syllabus_required_formats(formats: List[str] = None) -> List[str]:
+def get_syllabus_required_formats(formats: Optional[List[str]] = None) -> List[str]:
     """Get required syllabus formats based on requested formats.
 
     Args:

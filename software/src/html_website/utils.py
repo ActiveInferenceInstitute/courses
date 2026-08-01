@@ -2,9 +2,9 @@
 
 import json
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast
 
-import markdown
+import markdown  # type: ignore[import-untyped]
 
 
 def read_markdown_file(file_path: Path) -> str:
@@ -34,7 +34,7 @@ def markdown_to_html(markdown_content: str) -> str:
         HTML content
     """
     md = markdown.Markdown(extensions=["extra", "codehilite", "tables"])
-    return md.convert(markdown_content)
+    return str(md.convert(markdown_content))
 
 
 def find_audio_file(base_name: str, output_dir: Path, curriculum_type: str) -> Optional[Path]:
@@ -101,7 +101,7 @@ def extract_quiz_questions(markdown_content: str) -> List[dict]:
     questions = []
     lines = markdown_content.split("\n")
     in_questions = False
-    current_question = None
+    current_question: Optional[Dict[str, Any]] = None
 
     for line in lines:
         line_lower = line.lower()
@@ -167,7 +167,7 @@ def parse_questions_json(questions_file: Path) -> List[Dict]:
     if "questions" not in data:
         return []
 
-    return data["questions"]
+    return cast(List[Dict], data["questions"])
 
 
 def find_questions_file(module_dir: Path) -> Optional[Path]:

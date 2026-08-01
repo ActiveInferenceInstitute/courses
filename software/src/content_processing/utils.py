@@ -178,7 +178,7 @@ def extract_numbered_items(content: str) -> List[str]:
     return items
 
 
-def validate_question_format(content: str) -> Dict[str, any]:
+def validate_question_format(content: str) -> Dict[str, Any]:
     """Validate that a questions.md file has proper format.
 
     Args:
@@ -191,7 +191,7 @@ def validate_question_format(content: str) -> Dict[str, any]:
         - question_count: number of detected questions
         - issues: list of format issues found
     """
-    result = {
+    result: Dict[str, Any] = {
         "valid": True,
         "has_title": False,
         "question_count": 0,
@@ -227,7 +227,7 @@ def parse_module(module_dir: Path) -> Dict[str, Any]:
     if not path.exists():
         return {}
     text = path.read_text(encoding="utf-8")
-    data = {
+    data: Dict[str, Any] = {
         "title": "",
         "subtitle": "",
         "overview": "",

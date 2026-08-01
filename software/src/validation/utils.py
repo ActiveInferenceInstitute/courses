@@ -3,7 +3,7 @@
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from . import config
 
@@ -115,7 +115,9 @@ def check_output_directory(module_path: Path) -> Tuple[bool, Dict[str, bool]]:
     return True, subdirs
 
 
-def check_study_guide_files(module_path: Path, formats: List[str] = None) -> Dict[str, bool]:
+def check_study_guide_files(
+    module_path: Path, formats: Optional[List[str]] = None
+) -> Dict[str, bool]:
     """Check which study guide files exist for a module.
 
     Study guide files are named with module prefix, e.g.:
@@ -202,7 +204,7 @@ def get_timestamp() -> str:
     return datetime.now().strftime(config.LOG_DATE_FORMAT)
 
 
-def check_lab_files(course_path: Path, max_lab: int = None) -> Dict[str, Any]:
+def check_lab_files(course_path: Path, max_lab: Optional[int] = None) -> Dict[str, Any]:
     """Check lab output files and dashboards for a course.
 
     Args:
@@ -236,7 +238,7 @@ def check_lab_files(course_path: Path, max_lab: int = None) -> Dict[str, Any]:
 
     if max_lab:
         # Filter to only labs 1 through max_lab
-        def get_lab_number(lab_path):
+        def get_lab_number(lab_path: Path) -> int:
             match = re.match(r"lab-(\d+)", lab_path.stem)
             return int(match.group(1)) if match else 0
 

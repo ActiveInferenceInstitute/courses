@@ -2,14 +2,14 @@
 
 import time
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
-import requests
+import requests  # type: ignore[import-untyped]
 
 from . import config
 
 
-def get_canvas_api_url(domain: str, endpoint: str, **kwargs) -> str:
+def get_canvas_api_url(domain: str, endpoint: str, **kwargs: object) -> str:
     """Build Canvas API URL.
 
     Args:
@@ -30,7 +30,7 @@ def make_canvas_request(
     url: str,
     api_key: str,
     headers: Optional[Dict[str, str]] = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> requests.Response:
     """Make a request to Canvas API with rate limiting.
 

@@ -7,12 +7,12 @@ template-based content when Ollama is unavailable.
 
 import json
 import logging
-from typing import Any, Optional
+from typing import Any, Optional, cast
 
 logger = logging.getLogger("course_generator")
 
 try:
-    import requests
+    import requests  # type: ignore[import-untyped]
 
     HAS_REQUESTS = True
 except ImportError:
@@ -114,7 +114,8 @@ class OllamaClient:
             )
             resp.raise_for_status()
             data = resp.json()
-            return data.get("response", "")
+            response_text = data.get("response", "")
+            return response_text if isinstance(response_text, str) else str(response_text)
         except requests.RequestException as exc:
             raise RuntimeError(f"Ollama generation failed: {exc}") from exc
 
@@ -146,14 +147,14 @@ class OllamaClient:
 
         # Try to extract JSON from the response
         try:
-            return json.loads(raw)
+            return cast(dict[str, Any], json.loads(raw))
         except json.JSONDecodeError:
             # Try to find JSON in the response
             start = raw.find("{")
             end = raw.rfind("}") + 1
             if start >= 0 and end > start:
                 try:
-                    return json.loads(raw[start:end])
+                    return cast(dict[str, Any], json.loads(raw[start:end]))
                 except json.JSONDecodeError:
                     pass
             raise RuntimeError(f"Could not parse JSON from Ollama response: {raw[:200]}")

@@ -17,7 +17,7 @@ try:
 except Exception:
     import logging
 
-    def get_logger(name: str) -> logging.Logger:
+    def get_logger(name: str = "danvas") -> logging.Logger:
         """Fallback logger factory."""
         _logger = logging.getLogger(name)
         if not _logger.handlers:
@@ -92,4 +92,4 @@ def add_event(
 
 def get_events(course_id: str, data_dir: Optional[Path] = None) -> List[Dict[str, Any]]:
     """Return calendar events for a course (sorted by date)."""
-    return load_store(course_id, data_dir).get("calendar_events", [])
+    return load_store(course_id, data_dir).get("calendar_events", [])  # type: ignore[no-any-return]

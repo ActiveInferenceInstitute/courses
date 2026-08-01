@@ -69,9 +69,9 @@ def create_test_handler(
     handler.server = SimpleNamespace(
         repo_root=repo_root,
         data_dir=data_dir or repo_root / ".danvas",
-    )
+    )  # type: ignore[assignment]
     encoded_body = body.encode("utf-8")
-    handler.headers = {"Content-Length": str(len(encoded_body))}
+    handler.headers = {"Content-Length": str(len(encoded_body))}  # type: ignore[assignment]
     handler.rfile = io.BytesIO(encoded_body)
     handler.wfile = io.BytesIO()
     handler.requestline = f"{method} {path} HTTP/1.1"
@@ -87,7 +87,7 @@ try:
 except Exception:
     import logging
 
-    def get_logger(name: str) -> logging.Logger:
+    def get_logger(name: str = "danvas") -> logging.Logger:
         logger = logging.getLogger(name)
         if not logger.handlers:
             handler = logging.StreamHandler()
@@ -115,13 +115,16 @@ class DanvasHandler(BaseHTTPRequestHandler):
     :mod:`handlers`.
     """
 
+    # Runtime-injected attributes (set by start_server / create_test_handler).
+    _response_status: Optional[int] = None
+
     @property
     def repo_root(self) -> Path:
-        return self.server.repo_root  # type: ignore[attr-defined]
+        return self.server.repo_root  # type: ignore[attr-defined, no-any-return]
 
     @property
     def data_dir(self) -> Path:
-        return self.server.data_dir  # type: ignore[attr-defined]
+        return self.server.data_dir  # type: ignore[attr-defined, no-any-return]
 
     @property
     def role(self) -> str:
@@ -235,7 +238,7 @@ class DanvasHandler(BaseHTTPRequestHandler):
         self.responded = False  # suppress super() write
         # We call super() but it writes to a socket we don't have.
         # In test mode, wfile is BytesIO; we skip the write by doing nothing.
-        self._headers_buffer = []
+        self._headers_buffer: list = []
 
     def send_header(self, keyword: str, value: str) -> None:
         """Override send_header — capture but don't write in test mode."""
@@ -307,7 +310,7 @@ def start_server(
         host,
         port,
         repo_root,
-        server.data_dir,
+        server.data_dir,  # type: ignore[attr-defined]
     )
 
     try:
@@ -325,7 +328,7 @@ def start_server(
 # ──────────────────────────────────────────────────────────────────────────────
 
 
-def _parse_args(argv: list = None) -> argparse.Namespace:
+def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
     """Parse CLI arguments."""
     parser = argparse.ArgumentParser(
         prog="danvas",

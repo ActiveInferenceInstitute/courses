@@ -5,9 +5,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-import markdown
-
-
+import markdown  # type: ignore[import-untyped]
 from . import config
 
 
@@ -441,7 +439,7 @@ def markdown_to_html(content: str) -> str:
     md = markdown.Markdown(
         extensions=["tables", "fenced_code", "nl2br"],
     )
-    return md.convert(content)
+    return str(md.convert(content))
 
 
 def read_markdown_file(file_path: Path) -> str:

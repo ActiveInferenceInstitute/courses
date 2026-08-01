@@ -17,7 +17,7 @@ try:
 except Exception:
     import logging
 
-    def get_logger(name: str) -> logging.Logger:
+    def get_logger(name: str = "danvas") -> logging.Logger:
         """Fallback logger factory."""
         _logger = logging.getLogger(name)
         if not _logger.handlers:
@@ -77,4 +77,4 @@ def post_announcement(
 
 def get_announcements(course_id: str, data_dir: Optional[Path] = None) -> List[Dict[str, Any]]:
     """Return announcements for a course (newest first)."""
-    return load_store(course_id, data_dir).get("announcements", [])
+    return load_store(course_id, data_dir).get("announcements", [])  # type: ignore[no-any-return]

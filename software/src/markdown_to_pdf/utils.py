@@ -6,7 +6,7 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
-import markdown
+import markdown  # type: ignore[import-untyped]
 
 # Ensure Homebrew libraries are discoverable on macOS (required for WeasyPrint)
 if platform.system() == "Darwin":
@@ -62,7 +62,7 @@ def markdown_to_html(markdown_text: str, extensions: Optional[list] = None) -> s
     md = markdown.Markdown(extensions=extensions)
     html_content = md.convert(markdown_text)
 
-    return html_content
+    return str(html_content)
 
 
 def html_to_pdf(

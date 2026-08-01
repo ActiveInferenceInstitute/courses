@@ -163,7 +163,7 @@ def scan_course(
     # Calculate base path from repo root
     base_path = root_path / course_config["rel_path"]
 
-    course_stats = {
+    course_stats: Dict[str, Any] = {
         "modules_expected": 0,  # Will be determined by glob
         "modules_found": 0,
         "missing_files": [],

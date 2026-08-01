@@ -17,7 +17,7 @@ try:
 except Exception:
     import logging
 
-    def get_logger(name: str) -> logging.Logger:
+    def get_logger(name: str = "danvas") -> logging.Logger:
         """Fallback logger factory."""
         _logger = logging.getLogger(name)
         if not _logger.handlers:
@@ -63,7 +63,7 @@ def enroll_user(
         for e in store["enrollments"]:
             if e["user_name"] == user_name:
                 logger.info("User '%s' already enrolled in %s", user_name, course_id)
-                return e
+                return e  # type: ignore[no-any-return]
 
         record: Dict[str, Any] = {
             "id": str(uuid.uuid4()),
@@ -93,4 +93,4 @@ def unenroll_user(course_id: str, user_name: str, data_dir: Optional[Path] = Non
 
 def get_roster(course_id: str, data_dir: Optional[Path] = None) -> List[Dict[str, Any]]:
     """Return the enrollment list for a course."""
-    return load_store(course_id, data_dir)["enrollments"]
+    return load_store(course_id, data_dir)["enrollments"]  # type: ignore[no-any-return]

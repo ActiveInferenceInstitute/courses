@@ -7,7 +7,7 @@ and listing available configurations.
 import argparse
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 from .config import ALL_CURRICULA, AGE_LEVEL_CURRICULA
 from .logging_config import setup_logging, get_logger
@@ -123,7 +123,7 @@ def validate(curriculum_dir: str) -> dict:
     return validate_structure(path)
 
 
-def list_curricula() -> list[dict[str, str]]:
+def list_curricula() -> list[dict[str, Any]]:
     """List all available curriculum configurations.
 
     Returns:

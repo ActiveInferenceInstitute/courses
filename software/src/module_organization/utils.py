@@ -14,7 +14,7 @@ def ensure_directory_exists(directory: Path) -> None:
     directory.mkdir(parents=True, exist_ok=True)
 
 
-def write_template_file(file_path: Path, template: str, **kwargs) -> None:
+def write_template_file(file_path: Path, template: str, **kwargs: object) -> None:
     """Write a template file with substitutions.
 
     Args:

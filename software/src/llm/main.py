@@ -3,9 +3,9 @@
 import json
 import logging
 import time
-from typing import Any, Dict, Optional, Union, Generator
+from typing import Any, Dict, Optional, Union, Generator, cast
 
-import requests
+import requests  # type: ignore[import-untyped]
 
 from . import config, prompts
 
@@ -114,7 +114,7 @@ class OllamaClient:
                     return self._stream_generation(url, payload)
                 resp = requests.post(url, json=payload, timeout=self.timeout)
                 resp.raise_for_status()
-                return resp.json().get("response", "")
+                return str(resp.json().get("response", ""))
             except requests.RequestException as e:
                 last_exc = e
                 logger.warning(
@@ -194,7 +194,7 @@ class OllamaClient:
         )
 
         try:
-            return json.loads(str(response_text))
+            return cast(Dict[str, Any], json.loads(str(response_text)))
         except json.JSONDecodeError as e:
-            logger.error(f"Failed to parse JSON response: {response_text[:200]}...")
+            logger.error(f"Failed to parse JSON response: {str(response_text)[:200]}...")
             raise RuntimeError(f"Invalid JSON response from LLM: {e}")

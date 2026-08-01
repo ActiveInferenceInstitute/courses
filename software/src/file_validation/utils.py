@@ -226,7 +226,7 @@ def validate_file_name_structure(file_name: str) -> Dict[str, Any]:
         - module_number: Extracted module number (if available)
         - issues: List of validation issues
     """
-    result = {
+    result: Dict[str, Any] = {
         "valid": True,
         "file_type": "unknown",
         "module_number": None,

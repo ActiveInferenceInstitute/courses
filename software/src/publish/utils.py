@@ -2,7 +2,7 @@
 
 import shutil
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 import logging
 
 from . import config
@@ -10,7 +10,7 @@ from . import config
 logger = logging.getLogger(__name__)
 
 
-def get_course_config(course_name: str) -> Dict[str, str]:
+def get_course_config(course_name: str) -> Dict[str, Any]:
     """Get configuration for a specific course.
 
     Args:

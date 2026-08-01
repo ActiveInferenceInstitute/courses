@@ -39,7 +39,7 @@ def generate_quiz_content(module_data: Dict[str, Any], course_info: Dict[str, An
 
     for i, (name, defn) in enumerate(concepts[:5]):
         # Build wrong answers from other concepts' definitions or plausible alternatives
-        wrong = []
+        wrong: List[str] = []
         for j, (other_name, other_defn) in enumerate(concepts):
             if j != i and len(wrong) < 3:
                 wrong.append(other_defn)

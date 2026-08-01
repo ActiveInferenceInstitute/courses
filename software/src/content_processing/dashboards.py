@@ -303,7 +303,7 @@ def parse_module_md(module_dir: Path) -> Dict[str, Any]:
             "summary": "",
         }
     text = path.read_text(encoding="utf-8")
-    data = {
+    data: Dict[str, Any] = {
         "title": "",
         "subtitle": "",
         "overview": "",

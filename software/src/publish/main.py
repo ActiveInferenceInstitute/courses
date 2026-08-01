@@ -36,7 +36,7 @@ def _get_registry_entry(course_name: str) -> Optional[Dict[str, Any]]:
     return None
 
 
-def publish_course(course_path: str, publish_root: str = None) -> Dict[str, Any]:
+def publish_course(course_path: str, publish_root: Optional[str] = None) -> Dict[str, Any]:
     """Publish course materials to the published directory.
 
     Uses COURSE_REGISTRY-aware module discovery via

@@ -11,7 +11,8 @@ import re
 import tempfile
 import threading
 from pathlib import Path
-from typing import Any, Dict, Optional
+from types import TracebackType
+from typing import Any, Dict, Literal, Optional
 
 from . import config
 
@@ -20,7 +21,7 @@ try:
 except Exception:  # standalone usage
     import logging
 
-    def get_logger(name: str) -> logging.Logger:
+    def get_logger(name: str = "danvas") -> logging.Logger:
         """Fallback logger factory."""
         _logger = logging.getLogger(name)
         if not _logger.handlers:
@@ -157,7 +158,12 @@ class _StoreTransaction:
             self._lock.release()
             raise
 
-    def __exit__(self, exc_type, exc, tb) -> bool:
+    def __exit__(
+        self,
+        exc_type: Optional[type],
+        exc: Optional[BaseException],
+        tb: Optional[TracebackType],
+    ) -> Literal[False]:
         try:
             if exc_type is None:
                 save_store(self.course_id, self._store, self.data_dir)

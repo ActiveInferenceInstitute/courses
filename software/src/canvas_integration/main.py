@@ -1,9 +1,9 @@
 """Main functions for Canvas integration."""
 
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, cast
 
-import requests
+import requests  # type: ignore[import-untyped]
 
 from . import config
 from .utils import (
@@ -43,7 +43,7 @@ def upload_module_to_canvas(
     if not validation["valid"]:
         raise ValueError(f"Module structure is invalid: {validation}")
 
-    results = {
+    results: Dict[str, Any] = {
         "uploaded_files": [],
         "failed_files": [],
         "errors": [],
@@ -204,4 +204,4 @@ def _upload_file_to_canvas(
         upload_response = requests.post(upload_url, files=files)
 
     upload_response.raise_for_status()
-    return upload_response.json()
+    return cast(Dict[str, Any], upload_response.json())

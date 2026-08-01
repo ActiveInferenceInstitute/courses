@@ -3,7 +3,7 @@
 import re
 import logging
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 
 from . import config
 from .utils import extract_questions_from_sectioned, format_as_continuous
@@ -86,7 +86,7 @@ def renumber_questions_in_course(
     if course_registry is None:
         course_registry = {}
 
-    results = {
+    results: Dict[str, Any] = {
         "courses_processed": [],
         "files_converted": 0,
         "total_questions": 0,
@@ -109,7 +109,7 @@ def renumber_questions_in_course(
             results["errors"].append(f"Course path not found: {course_path}")
             continue
 
-        course_result = {
+        course_result: Dict[str, Any] = {
             "name": course,
             "modules": [],
         }

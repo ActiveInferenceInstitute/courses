@@ -17,7 +17,7 @@ try:
 except Exception:
     import logging
 
-    def get_logger(name: str) -> logging.Logger:
+    def get_logger(name: str = "danvas") -> logging.Logger:
         """Fallback logger factory."""
         _logger = logging.getLogger(name)
         if not _logger.handlers:
@@ -105,9 +105,9 @@ def get_grades(
     If *user_name* is provided, returns that student's grades dict.
     Otherwise returns the full gradebook mapping.
     """
-    grades = load_store(course_id, data_dir).get("grades", {})
+    grades: Dict[str, Any] = load_store(course_id, data_dir).get("grades", {})
     if user_name:
-        return grades.get(user_name, {})
+        return grades.get(user_name, {})  # type: ignore[no-any-return]
     return grades
 
 

@@ -177,7 +177,7 @@ def find_schedule_files(directory: Path) -> List[Path]:
     Returns:
         List of schedule file paths
     """
-    schedule_files = []
+    schedule_files: List[Path] = []
     for pattern in config.SCHEDULE_FILE_PATTERNS:
         if "*" in pattern:
             # Handle glob patterns

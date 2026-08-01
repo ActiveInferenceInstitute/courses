@@ -39,7 +39,7 @@ def process_chapter_questions(
     """
     from src.format_conversion.utils import convert_docx_to_markdown
 
-    results = {
+    results: Dict[str, Any] = {
         "processed": [],
         "skipped": [],
         "errors": [],
@@ -169,7 +169,7 @@ def process_slides(
             - errors: List of errors encountered
             - summary: Aggregate counts
     """
-    results = {
+    results: Dict[str, Any] = {
         "processed": [],
         "skipped": [],
         "errors": [],
@@ -352,7 +352,7 @@ def create_for_upload_files(module_path: Path, module_num: int, dry_run: bool) -
             - errors: List of errors encountered
             - summary: Aggregate counts (pdf, docx, slides_copied, errors)
     """
-    results = {
+    results: Dict[str, Any] = {
         "processed": [],
         "errors": [],
         "summary": {"pdf": 0, "docx": 0, "slides_copied": 0, "errors": 0},
@@ -447,7 +447,7 @@ def process_for_upload_all_modules(course_dir: Path, dry_run: bool) -> Dict[str,
             - total_slides: Total slides copied
             - errors: List of error details
     """
-    results = {
+    results: Dict[str, Any] = {
         "modules_processed": 0,
         "modules_errors": 0,
         "total_pdf": 0,
