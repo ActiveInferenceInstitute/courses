@@ -234,8 +234,9 @@ class TestCheckStudyGuideFiles:
         (sg_dir / "module-01-study-guide-keys-to-success.pdf").write_text("pdf", encoding="utf-8")
 
         result = check_study_guide_files(temp_dir)
-        # At least one file should be found if suffix matches
-        # This depends on EXPECTED_STUDY_GUIDE_FILES config
+        # The keys-to-success file is discovered; at least one expected suffix
+        # (that ends with "-keys-to-success.pdf") must resolve to True.
+        assert any(v for v in result.values())
 
 
 class TestCheckWebsiteFiles:
