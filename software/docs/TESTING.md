@@ -105,6 +105,7 @@ Test individual module functionality:
 | `test_file_validation_main.py` | file_validation | File validation |
 | `test_file_validation_utils.py` | file_validation | Validation utilities |
 | `test_module_organization_main.py` | module_organization | Module scaffolding |
+| `test_module_organization_main_extended.py` | module_organization | Extended scaffolding |
 | `test_module_organization_utils.py` | module_organization | Organization utilities |
 | `test_schedule_main.py` | schedule | Schedule processing |
 | `test_schedule_utils.py` | schedule | Schedule utilities |
@@ -114,11 +115,13 @@ Test individual module functionality:
 | `test_validation_utils.py` | validation | Validation utilities |
 | `test_content_processing_main.py` | content_processing | Content transforms |
 | `test_content_processing_utils.py` | content_processing | Content utilities |
+| `test_content_processing_utils_extended.py` | content_processing | Extended content utilities |
 | `test_lab_manual_main.py` | lab_manual | Lab rendering |
 | `test_lab_manual_utils.py` | lab_manual | Lab utilities |
 | `test_canvas_integration_main.py` | canvas_integration | Canvas upload |
 | `test_canvas_integration_utils.py` | canvas_integration | Canvas utilities |
 | `test_legacy_import_main.py` | legacy_import | Legacy import |
+| `test_legacy_import_main_extended.py` | legacy_import | Extended legacy import |
 | `test_legacy_import_utils.py` | legacy_import | Import utilities |
 | `test_course_generator_main.py` | course_generator | Curriculum generation |
 | `test_course_generator_schema.py` | course_generator | Schema validation |
@@ -128,6 +131,7 @@ Test individual module functionality:
 | `test_course_config.py` | course_config | Per-course config |
 | `test_youtube_transcript_main.py` | youtube_transcript | YouTube transcription |
 | `test_youtube_transcript_utils.py` | youtube_transcript | YouTube utilities |
+| `test_youtube_render.py` | youtube_transcript | YouTube course rendering |
 | `test_danvas_main.py` | danvas | Danvas server |
 | `test_danvas_utils.py` | danvas | Danvas utilities |
 | `test_danvas_comprehensive.py` | danvas | Comprehensive Danvas tests |

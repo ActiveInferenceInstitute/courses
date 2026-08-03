@@ -4,7 +4,7 @@
 
 ## Overview
 
-This directory contains structured transcripts from **38 playlists** covering the Active Inference Institute's [YouTube channel](https://www.youtube.com/@ActiveInference), totaling approximately **2,600 videos**.
+This directory contains structured transcripts from **38 playlists** covering the Active Inference Institute's [YouTube channel](https://www.youtube.com/@ActiveInference), totaling approximately **821 videos** (per `youtube_courses.json` metadata).
 
 ---
 
@@ -12,7 +12,7 @@ This directory contains structured transcripts from **38 playlists** covering th
 
 | Category | Playlists | Highlights |
 |----------|-----------|------------|
-| **Lecture Series** | Livestreams, FEP Lectures, Podcasts | 1,000+ paper discussions |
+| **Lecture Series** | Livestreams, FEP Lectures, Podcasts | 171 paper discussions |
 | **Guest Speakers** | GuestStreams | Invited experts across disciplines |
 | **Textbook Groups** | Cohorts 1, 3, 4, 6, 7, 8, 9 | Parr et al. textbook deep dives |
 | **Symposia** | Applied AI Symposia 2021–2025 | Annual applied research |

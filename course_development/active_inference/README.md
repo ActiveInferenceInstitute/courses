@@ -92,7 +92,7 @@ Each module folder contains 7 files:
 | File | Description | Format |
 |------|-------------|--------|
 | `module.md` | Full lecture content with learning objectives, key terms, core concepts, examples, and references | 7 sections, ~90 lines |
-| `questions.md` | 20 study questions (biol-1 format: simple numbered list) | Numbered list, course-specific |
+| `questions.md` | 20 study questions (simple numbered list) | Numbered list, course-specific |
 | `practice_quiz.md` | Part A: Multiple Choice (7 questions, A-D format) + Part B: Free Response (3 questions) | Formal quiz format |
 | `lab.md` | Multi-part structured lab with learning goals, `{fill:textarea}` fields, and summary table | Course-specific activity type |
 | `dashboard.html` | Interactive HTML5 dashboard with concept cards, progress meters, and quiz | Dark theme, JS-powered |
@@ -130,7 +130,7 @@ Each module folder contains 7 files:
 3. **Consistent Terminology**: Preferred terms are defined in [glossary.md](./resources/glossary.md).
 4. **Cross-References**: Every module links to its counterparts in all other courses.
 5. **Incremental Onboarding**: The philosophy course (Course 1) starts with big-picture concepts accessible to all learners, progressively introducing technical detail.
-6. **biol-1 Format Compliance**: All content files follow the formatting conventions from `biol-1/course`.
+6. **Format Compliance**: All content files follow the formatting conventions documented in this README.
 7. **Real Content Only**: No mocks, stubs, or placeholder brackets in any file.
 
 ---

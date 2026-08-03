@@ -884,7 +884,7 @@ def publish_course(course_path: str, publish_root: str = None) -> Dict[str, Any]
     Publish course materials to the published directory.
     
     Args:
-        course_path: Path to the course directory (e.g., 'biol-1')
+        course_path: Path to the course directory (e.g., 'active_inference/01_philosophy')
         publish_root: Root directory for publishing (default: PUBLISHED in repo root)
     
     Returns:
@@ -907,7 +907,7 @@ def get_course_config(course_name: str) -> Dict[str, str]:
     Get configuration for a specific course.
     
     Args:
-        course_name: Name of the course directory (e.g., 'biol-1')
+        course_name: Name of the course directory (e.g., 'active-inference')
     
     Returns:
         Dictionary with configuration options

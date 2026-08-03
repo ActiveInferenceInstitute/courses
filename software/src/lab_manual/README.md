@@ -23,7 +23,7 @@ output = render_lab_manual(
     "resources/lab-1-measurement-methods.md",
     "output/lab-1.pdf",
     output_format="pdf",
-    course_name="BIOL-1: Introduction to Biology"
+    course_name="Active Inference"
 )
 
 # Render to HTML (interactive)
@@ -65,7 +65,7 @@ outputs = batch_render_lab_manuals(
     "course/module-1/labs",
     "output/module-1-labs",
     output_format="pdf",
-    course_name="BIOL-1"
+    course_name="Active Inference"
 )
 ```
 
@@ -159,7 +159,7 @@ print(template)
 
 ## Example Lab
 
-See `course_development/biol-1/course/module-1/resources/lab-1-measurement-methods.md` for a complete example using all features.
+See `course_development/active_inference/01_philosophy/01_systems/resources/lab.md` for a complete example using all features.
 
 ## API Reference
 

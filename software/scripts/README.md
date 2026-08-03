@@ -2,7 +2,7 @@
 
 > **Navigation**: [← README](../README.md) | [AGENTS.md](../AGENTS.md) | [docs/](../docs/) | [src/](../src/)
 
-Thin CLI orchestrators for course material generation and publishing. All business logic resides in `src/` modules; scripts handle CLI parsing and orchestration only.
+Thin CLI orchestrators for course material generation and publishing. All business logic resides in `src/` modules; scripts handle CLI parsing and orchestration only. This directory contains **23 scripts** — see [docs/CLI_REFERENCE.md](../docs/CLI_REFERENCE.md) for the complete reference with verified options.
 
 ---
 
@@ -31,14 +31,24 @@ Scripts do NOT contain business logic. They:
 | `generate_module_renderings.py` | `batch_processing` | Single module processing |
 | `generate_module_website.py` | `html_website` | Website generation |
 | `generate_syllabus_renderings.py` | `schedule`, `batch_processing` | Syllabus processing |
+| `generate_dashboards.py` | `content_processing` | Dashboard generation |
 | `publish_course.py` | `publish` | Publish to PUBLISHED/ |
-| `validate_outputs.py` | `validation` | Validate generated outputs |
 | `flatten_published.py` | `publish.utils` | Flatten directory structure |
+| `validate_outputs.py` | `validation` | Validate generated outputs |
+| `scan_modules.py` | `content_processing.structure_scan` | Scan for missing files |
+| `fix_structural_issues.py` | — (standalone) | Fix directory structure issues |
 | `renumber_questions.py` | `content_processing` | Question renumbering |
 | `import_legacy_materials.py` | `legacy_import` | Import legacy format |
 | `fix_stub_labs.py` | `content_processing` | Generate labs from module content |
 | `fix_stub_quizzes.py` | `content_processing` | Generate quizzes from module content |
 | `fix_stub_questions.py` | `content_processing` | Generate study questions from module content |
+| `transcribe_youtube.py` | `youtube_transcript` | YouTube transcription |
+| `render_youtube_courses.py` | `youtube_transcript`, `batch_processing` | YouTube course rendering |
+| `translate_course.py` | `translation` | Course translation |
+| `translate_youtube.py` | `translation` | YouTube translation |
+| `translate_published.py` | `translation` | Published-output translation |
+| `summarize_courses.py` | `llm` | LLM course summaries |
+| `verify_no_mocks.py` | — (policy checker) | Enforce no-mocks policy in tests |
 
 ---
 
@@ -53,17 +63,11 @@ The main orchestrator that runs the complete publish pipeline:
 3. **Validate** → Verify all outputs
 
 ```bash
-# Full publish (~17 min with MP3)
+# Full publish
 uv run python scripts/publish_all.py --clean --verbose
 
-# Skip MP3 for faster iteration (~5 min)
-uv run python scripts/publish_all.py --clean --skip-mp3
-
-# PDF-only for quick testing
-uv run python scripts/publish_all.py --clean --formats pdf
-
-# Specific course only
-uv run python scripts/publish_all.py --course biol-8
+# Specific course
+uv run python scripts/publish_all.py --course ai-philosophy
 
 # Dry run (preview only)
 uv run python scripts/publish_all.py --dry-run
@@ -73,9 +77,8 @@ uv run python scripts/publish_all.py --dry-run
 |--------|-------------|
 | `--clean` | Clear outputs before generation |
 | `--verbose` | Detailed progress output |
-| `--skip-mp3` | Skip audio generation |
 | `--formats` | Comma-separated list: pdf,docx,html,txt,md,mp3 |
-| `--course` | Specific course: biol-1, biol-8, or all |
+| `--course` | Specific registered course ID, or `all` |
 | `--dry-run` | Preview without executing |
 
 ---
@@ -86,21 +89,21 @@ Generate all output formats for modules in a course:
 
 ```bash
 # Generate for one course
-uv run python scripts/generate_all_outputs.py --course biol-8
+uv run python scripts/generate_all_outputs.py --course ai-philosophy
 
 # Generate for specific module
-uv run python scripts/generate_all_outputs.py --course biol-1 --module 1
+uv run python scripts/generate_all_outputs.py --course ai-philosophy --module 1
 
 # All courses, all modules
 uv run python scripts/generate_all_outputs.py --course all
 
 # Dry run
-uv run python scripts/generate_all_outputs.py --course biol-8 --dry-run
+uv run python scripts/generate_all_outputs.py --course ai-philosophy --dry-run
 ```
 
 | Option | Description |
 |--------|-------------|
-| `--course` | Required: biol-1, biol-8, or all |
+| `--course` | Registered course ID (see `COURSE_REGISTRY`), or `all` |
 | `--module` | Optional: specific module number |
 | `--formats` | Output formats (default: all) |
 | `--dry-run` | Preview without generating |
@@ -121,12 +124,12 @@ Copy generated outputs to the PUBLISHED directory:
 uv run python scripts/publish_course.py --course all
 
 # Publish specific course
-uv run python scripts/publish_course.py --course biol-8
+uv run python scripts/publish_course.py --course ai-philosophy
 ```
 
 | Option | Description |
 |--------|-------------|
-| `--course` | Required: biol-1, biol-8, or all |
+| `--course` | Registered course ID, or `all` |
 
 **Module Used**: `src/publish`
 
@@ -141,7 +144,7 @@ Validate that generated outputs meet quality standards:
 uv run python scripts/validate_outputs.py --course all
 
 # Validate specific course
-uv run python scripts/validate_outputs.py --course biol-8
+uv run python scripts/validate_outputs.py --course ai-philosophy
 
 # Verbose output
 uv run python scripts/validate_outputs.py --course all --verbose
@@ -149,7 +152,7 @@ uv run python scripts/validate_outputs.py --course all --verbose
 
 | Option | Description |
 |--------|-------------|
-| `--course` | Required: biol-1, biol-8, or all |
+| `--course` | Registered course ID, or `all` |
 | `--verbose` | Detailed validation output |
 
 **Module Used**: `src/validation`
@@ -160,17 +163,16 @@ uv run python scripts/validate_outputs.py --course all --verbose
 
 ### `generate_module_renderings.py` — Single Module Processing
 
-Process one module:
+Process one module of a course:
 
 ```bash
-uv run python scripts/generate_module_renderings.py /path/to/module-01 --formats pdf,docx
+uv run python scripts/generate_module_renderings.py --course ai-philosophy --module 1
 ```
 
 | Option | Description |
 |--------|-------------|
-| `path` | Required: path to module directory |
-| `--formats` | Output formats (default: all) |
-| `--output-dir` | Custom output directory |
+| `--course` | Registered course ID (required) |
+| `--module` | Module number (default: 1) |
 
 **Module Used**: `src/batch_processing`
 
@@ -181,14 +183,13 @@ uv run python scripts/generate_module_renderings.py /path/to/module-01 --formats
 Generate interactive HTML website for a module:
 
 ```bash
-uv run python scripts/generate_module_website.py /path/to/module-01
+uv run python scripts/generate_module_website.py --course ai-philosophy --module 1
 ```
 
 | Option | Description |
 |--------|-------------|
-| `path` | Required: path to module directory |
-| `--output-dir` | Custom output directory |
-| `--course-name` | Course name for display |
+| `--course` | Registered course ID (required) |
+| `--module` | Module number (default: 1) |
 
 **Module Used**: `src/html_website`
 
@@ -196,17 +197,15 @@ uv run python scripts/generate_module_website.py /path/to/module-01
 
 ### `generate_syllabus_renderings.py` — Syllabus Processing
 
-Generate outputs for syllabus files:
+Generate outputs for syllabus files of a course:
 
 ```bash
-uv run python scripts/generate_syllabus_renderings.py /path/to/Schedule.md
+uv run python scripts/generate_syllabus_renderings.py --course ai-philosophy
 ```
 
 | Option | Description |
 |--------|-------------|
-| `path` | Required: path to schedule file or directory |
-| `--formats` | Output formats (default: all) |
-| `--output-dir` | Custom output directory |
+| `--course` | Registered course ID (default: `ai-philosophy`) |
 
 **Module Used**: `src/schedule`, `src/batch_processing`
 
@@ -231,6 +230,7 @@ uv run python scripts/flatten_published.py --verbose
 
 | Option | Description |
 |--------|-------------|
+| `--path` | PUBLISHED directory (default: auto-detect) |
 | `--dry-run` | Preview without modifying |
 | `--verbose` | Show each file operation |
 
@@ -247,10 +247,10 @@ Convert section-based question numbering to continuous numbering:
 uv run python scripts/renumber_questions.py --course all
 
 # Specific course
-uv run python scripts/renumber_questions.py --course biol-1
+uv run python scripts/renumber_questions.py --course ai-philosophy
 
 # Dry run
-uv run python scripts/renumber_questions.py --course biol-8 --dry-run
+uv run python scripts/renumber_questions.py --course ai-philosophy --dry-run
 ```
 
 Before: `1.`, `2.`, `3.` per section
@@ -260,21 +260,40 @@ After: `1.`, `2.`, `3.`, `4.`, `5.`... continuously
 
 ---
 
+### `verify_no_mocks.py` — No-Mocks Policy Enforcement
+
+Scans `tests/` for prohibited mock/stub patterns (`unittest.mock`, `MagicMock`,
+`patch()`, etc.) and exits non-zero if any are found. Runs in CI and as a
+pre-commit hook.
+
+```bash
+uv run python scripts/verify_no_mocks.py    # from software/
+python software/scripts/verify_no_mocks.py  # from repo root
+```
+
+**Note**: pytest's `monkeypatch` fixture is intentionally allowed — it sets
+env vars / cwd / sys.path and does not create mock objects.
+
+---
+
 ## Migration Scripts
 
 ### `import_legacy_materials.py` — Legacy Import
 
-Import materials from legacy bio_1_2025 format:
+Import materials from a legacy course archive into the standardized structure:
 
 ```bash
-uv run python scripts/import_legacy_materials.py /path/to/legacy --course biol-1
+uv run python scripts/import_legacy_materials.py --course ai-philosophy
+uv run python scripts/import_legacy_materials.py --dry-run
+uv run python scripts/import_legacy_materials.py --skip-questions
 ```
 
 | Option | Description |
 |--------|-------------|
-| `source_path` | Required: path to legacy materials |
-| `--course` | Target course directory |
+| `--course` | Course to import into (registered ID) |
 | `--dry-run` | Preview without importing |
+| `--skip-questions` | Skip chapter questions |
+| `--skip-slides` | Skip slides |
 
 **Module Used**: `src/legacy_import`
 
@@ -347,6 +366,7 @@ Each run creates a new timestamped log file with:
 
 | Document | Description |
 |----------|-------------|
+| [../docs/CLI_REFERENCE.md](../docs/CLI_REFERENCE.md) | Complete CLI reference (all 23 scripts) |
 | [../docs/QUICKSTART.md](../docs/QUICKSTART.md) | Installation and quick commands |
 | [../docs/ORCHESTRATION.md](../docs/ORCHESTRATION.md) | Multi-module workflows |
 | [../src/README.md](../src/README.md) | Source module overview |

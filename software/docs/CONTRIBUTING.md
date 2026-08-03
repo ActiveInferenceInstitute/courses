@@ -43,11 +43,11 @@ Mocks drift from reality. Real tests ensure that upgrades to our dependencies (l
 
 ## 📝 Code Standards
 
-We use `ruff` and `black` (via `uv`) to enforce standards.
+We use `ruff` (via `uv`) to enforce standards.
 
 ```bash
 # Format code
-uv run black src/ tests/ scripts/
+uv run ruff format src/ scripts/
 
 # Lint code
 uv run ruff check src/ scripts/

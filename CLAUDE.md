@@ -93,4 +93,4 @@ Source markdown in `course_development/` is rendered through the pipeline to `pu
 - **Active Inference Core**: `ai-philosophy`, `ai-cognitive-science`, `ai-math`, `ai-computer-science`
 - **Level-Adapted**: `ai-es` (elementary), `ai-family`, `ai-ms` (middle school), `ai-hs` (high school), `ai-101` (college intro), `ai-401` (advanced PhD)
 - **Domain**: `ai-embodied`, `ai-organizations`, `ai-robotics`, `ai-crochet`, `ai-inventions`, `ai-metallurgy`, `ai-comedy` — Domain-specific
-- **Archive**: `youtube` (transcript archive, ~2600 videos)
+- **Archive**: `youtube` (transcript archive, ~821 videos / 38 playlists)
