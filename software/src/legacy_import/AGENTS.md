@@ -1,8 +1,8 @@
-# Legacy Import Module - Technical Documentation
+# Legacy Import Module — Technical Documentation
 
 ## Overview
 
-Extracts and organizes legacy course materials (DOCX chapter questions, PDF slides) from the `bio_1_2025` archive into the standardized `biol-1` module structure. This is a one-time migration tool.
+Extracts and organizes legacy-format course materials (DOCX chapter questions, PDF slides) into the standardized course module structure. This is a one-time migration tool for importing older course archives.
 
 ## Module Structure
 
@@ -20,7 +20,7 @@ src/legacy_import/
 ### config.py
 
 #### `get_chapter_to_module_mapping() -> Dict[int, int]`
-Returns a 1:1 mapping of chapter numbers (1-17) to module numbers (1-17).
+Returns a 1:1 mapping of chapter numbers to module numbers.
 
 #### Constants
 - `CHAPTER_COUNT = 17` - Total number of chapters/modules
@@ -41,7 +41,7 @@ Extracts chapter number from a filename containing "Chapter NN" pattern.
 
 #### `ensure_module_exists(course_root: Path, module_num: int, dry_run: bool) -> Path`
 Ensures a module directory exists, creating it via `create_module_structure()` if needed.
-- **Args:** `course_root` - Course root path (e.g., biol-1), `module_num` - Module number, `dry_run` - Skip creation if True
+- **Args:** `course_root` - Course root path, `module_num` - Module number, `dry_run` - Skip creation if True
 - **Returns:** Path to module directory
 
 #### `create_comprehension_questions(module_path: Path, module_num: int, dry_run: bool) -> None`
@@ -69,7 +69,7 @@ Creates `for_upload/` directory with PDF and DOCX conversions of markdown resour
 
 #### `process_for_upload_all_modules(course_dir: Path, dry_run: bool) -> Dict[str, Any]`
 Runs `create_for_upload_files()` for every module in the course directory.
-- **Args:** `course_dir` - Course directory (e.g., biol-1/course), `dry_run` - Preview mode
+- **Args:** `course_dir` - Course directory, `dry_run` - Preview mode
 - **Returns:** Dict with `modules_processed`, `modules_errors`, `total_pdf`, `total_docx`, `total_slides`, `errors` keys
 
 ## Dependencies

@@ -229,7 +229,8 @@ All code in this software uses real methods and implementations. No mocks, stubs
 
 ## Test Coverage
 
-- **1,021 tests collected** (verify with `uv run pytest --collect-only`)
+- **1,014 tests collected** (verify with `uv run pytest --collect-only`); the CI gate runs
+  ~995 of them (34 internet/API/whisper-marked tests deselected), ~75% source coverage.
 - Tests cover all major functionality across 21 modules
 - Run tests with: `uv run pytest tests/ -v`
 - Measure coverage with: `uv run pytest --cov=src --cov-report=html`

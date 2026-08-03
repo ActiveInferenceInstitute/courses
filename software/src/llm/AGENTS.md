@@ -16,7 +16,7 @@ Main entry point for LLM interactions.
 #### `__init__(base_url, model, timeout)`
 
 - **base_url**: Defaults to `http://localhost:11434`.
-- **model**: Defaults to `llama3.2`.
+- **model**: Defaults to `gemma3:4b` (configurable via `OLLAMA_MODEL`).
 - **timeout**: Defaults to 120s.
 
 #### `generate(prompt, system, ...)`

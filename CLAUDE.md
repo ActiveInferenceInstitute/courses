@@ -27,7 +27,7 @@ cd software && uv run pytest tests/ -k "test_name_pattern"
 cd software && uv run ruff check src/
 
 # Format
-cd software && uv run black src/ tests/
+cd software && uv run ruff format src/ scripts/
 
 # Type check
 cd software && uv run mypy src/
@@ -55,7 +55,7 @@ Defined in `software/src/batch_processing/config.py`. Maps course IDs (e.g., `ai
 
 ### Script Count
 
-- 22 CLI scripts in `scripts/`
+- 23 CLI scripts in `scripts/`
 - 21 modules in `src/`
 - 67 test files in `tests/`
 
@@ -83,7 +83,7 @@ Source markdown in `course_development/` is rendered through the pipeline to `pu
 
 - **No mocks in tests.** All tests use real implementations — real file operations, real library calls. This is a strict policy enforced across the codebase (see `.cursorrules` files).
 - **uv-first.** Always use `uv run` for commands, never bare `python`.
-- **Line length: 100** (black and ruff).
+- **Line length: 100** (ruff and mypy).
 - **Type hints required** on all functions (`mypy --disallow-untyped-defs`).
 - **Test markers**: `requires_internet` and `requires_api` for tests needing external access.
 - **PDF generation** requires system libraries: `brew install cairo pango gdk-pixbuf glib` (macOS).

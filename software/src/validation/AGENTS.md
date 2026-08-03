@@ -24,7 +24,7 @@ def validate_outputs(course_path: str) -> Dict[str, Any]
     """Validate that all expected outputs exist for a course.
     
     Args:
-        course_path: Path to course directory (e.g., course_development/biol-8)
+        course_path: Path to course directory (e.g., course_development/active_inference)
         
     Returns:
         Dictionary with validation results including valid status,
@@ -46,7 +46,7 @@ def generate_validation_report(course_name: str, repo_root: str = None) -> Dict[
     """Generate comprehensive validation report for a course.
     
     Args:
-        course_name: Name of course (biol-1 or biol-8)
+        course_name: Name of course (e.g., ai-philosophy)
         repo_root: Optional repo root path (auto-detected if not provided)
         
     Returns:
@@ -97,13 +97,6 @@ def get_timestamp() -> str
 - **Study Guides**: keys-to-success and questions in PDF, DOCX, HTML, TXT, MP3
 - **Website**: index.html
 
-### Course Expectations
-
-| Course | Expected Modules |
-|--------|------------------|
-| BIOL-1 | 17 |
-| BIOL-8 | 15 |
-
 ## Usage
 
 ### Command Line
@@ -119,12 +112,12 @@ uv run python scripts/validate_outputs.py --course all
 from src.validation import validate_outputs, generate_validation_report
 
 # Validate a single course
-results = validate_outputs("../course_development/biol-8")
+results = validate_outputs("../course_development/active_inference/01_philosophy")
 print(f"Valid: {results['valid']}")
 print(f"Modules: {results['modules_valid']}/{results['modules_checked']}")
 
 # Generate full report
-report = generate_validation_report("biol-8")
+report = generate_validation_report("ai-philosophy")
 print(f"Source valid: {report['summary']['source_valid']}")
 print(f"Published files: {report['summary']['published_files']}")
 ```
@@ -136,10 +129,10 @@ print(f"Published files: {report['summary']['published_files']}")
 ```json
 {
     "valid": true,
-    "course": "biol-8",
+    "course": "ai-philosophy",
     "timestamp": "2026-01-29 10:50:00",
-    "modules_checked": 15,
-    "modules_valid": 15,
+    "modules_checked": 8,
+    "modules_valid": 8,
     "modules": [...],
     "syllabus_valid": true,
     "issues": []
@@ -154,8 +147,8 @@ print(f"Published files: {report['summary']['published_files']}")
     "path": "/path/to/PUBLISHED",
     "timestamp": "2026-01-29 10:50:00",
     "courses": {
-        "biol-1": {"files_by_type": {...}, "total_files": 100},
-        "biol-8": {"files_by_type": {...}, "total_files": 150}
+        "ai-philosophy": {"files_by_type": {...}, "total_files": 100},
+        "ai-math": {"files_by_type": {...}, "total_files": 150}
     },
     "total_files": 250,
     "issues": []
@@ -164,4 +157,4 @@ print(f"Published files: {report['summary']['published_files']}")
 
 ---
 
-*Created: 2026-01-29*
+*Created: 2026-01-29 · Updated: 2026-08-02 (removed legacy biology-repo examples)*

@@ -4,7 +4,7 @@
 
 ## Repository Overview
 
-This repository contains the complete curriculum infrastructure for the Active Inference Institute: **14 courses**, **464 modules**, **6,100+ content files**, a **Python publishing engine**, and a **YouTube transcript archive** with **1,021 passing tests**.
+This repository contains the complete curriculum infrastructure for the Active Inference Institute: **14 courses**, **464 modules**, **6,100+ content files**, a **Python publishing engine**, and a **YouTube transcript archive** with **1,014 passing tests** (~995 in the CI gate, 34 internet/API/whisper tests deselected).
 
 ---
 
@@ -14,7 +14,7 @@ This repository contains the complete curriculum infrastructure for the Active I
 |-----------|---------|-----------|
 | `course_development/` | All source curricula (14 courses across levels and domains) | [AGENTS.md](course_development/AGENTS.md) |
 | `published/` | Rendered outputs for distribution (generated, not hand-edited) | [AGENTS.md](published/AGENTS.md) |
-| `software/` | Python engine: 21 modules, 22 scripts, 18 docs, 1,021 tests | [AGENTS.md](software/AGENTS.md) |
+| `software/` | Python engine: 21 modules, 23 scripts, 17 docs, 1,014 tests | [AGENTS.md](software/AGENTS.md) |
 | `summaries/` | Generated course summaries | [AGENTS.md](summaries/AGENTS.md) |
 | `publish.py` | Top-level pipeline entry point | — |
 | `publish.toml` | Publishing configuration (courses, formats, options) | — |
@@ -62,7 +62,7 @@ Course content must match the target audience's level:
 
 ### 5. The 8-Topic Spine
 
-All 10 courses follow this exact topic order in every unit:
+All 14 courses follow this exact topic order in every unit:
 
 1. **Systems** → 2. **Agents** → 3. **Perception** → 4. **Cognition** → 5. **Action** → 6. **Learning** → 7. **Communication** → 8. **Planning**
 

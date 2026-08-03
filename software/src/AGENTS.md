@@ -1,6 +1,6 @@
 # Source Code Technical Documentation
 
-**Test Coverage: 1020 tests passed**
+**Test Coverage: 1,014 tests collected; ~995 pass in CI (34 internet/API/whisper tests deselected); ~75% source coverage**
 
 ## Code Structure
 

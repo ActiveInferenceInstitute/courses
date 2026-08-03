@@ -15,7 +15,7 @@ requires: [uv, python>=3.11]
 
 The **ActiveInferenceInstitute/courses** repository contains:
 
-- **14 courses** across levels (ES, Family, MS, HS, 101, Core, 401) and domains (metallurgy, robotics, organisations, embodied, inventions)
+- **14 courses** across levels (ES, Family, MS, HS, 101, Core, 401) and domains (embodied, organizations, robotics, crochet, inventions, metallurgy, comedy)
 - **464 modules** following the 8-topic spine: Systems → Agents → Perception → Cognition → Action → Learning → Communication → Planning
 - **1,014 tests** — all real implementations, no mocks
 - A **Python publishing engine** (`software/`) that renders Markdown + TOML course configs into PDF, DOCX, HTML, and audio artefacts
@@ -29,7 +29,7 @@ courses/
 ├── published/               # Rendered outputs (generated, not hand-edited)
 ├── software/                # Python engine
 │   ├── src/                 # 21 importable modules
-│   ├── scripts/             # 22 CLI entry points
+│   ├── scripts/             # 23 CLI entry points
 │   ├── tests/               # ~1,014 tests
 │   └── docs/                # Architecture, CONTRIBUTING, QUICKSTART, …
 ├── summaries/               # Auto-generated course summaries
@@ -43,7 +43,7 @@ courses/
 |------|---------|
 | Install deps | `cd software && uv sync --extra dev` |
 | Run all tests | `cd software && uv run pytest tests/ -v` |
-| Publish one course | `uv run python scripts/generate_all_outputs.py --course active_inference` |
+| Publish one course | `uv run python scripts/generate_all_outputs.py --course active-inference` |
 | Top-level publish | `python publish.py` |
 | Lint | `cd software && uv run ruff check src/ scripts/` |
 | Type check | `cd software && uv run mypy src/` |

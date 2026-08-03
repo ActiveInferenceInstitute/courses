@@ -58,7 +58,7 @@ was_changed, count = process_questions_file(
 # Process all questions in a course
 results = renumber_questions_in_course(
     repo_root=Path("/path/to/repo"),
-    courses=["biol-1"],
+    courses=["ai-philosophy"],
     dry_run=True
 )
 ```

@@ -21,7 +21,7 @@ Generate HTML website for a module.
 **Args**:
 - `module_path`: Path to module directory
 - `output_dir`: Output directory (defaults to `module_path/output/website`)
-- `course_name`: Course name for display (optional, defaults to "BIOL-1")
+- `course_name`: Course name for display (optional, defaults to "Active Inference")
 
 **Returns**:
 - Path to generated HTML file (index.html)
@@ -293,8 +293,8 @@ from src.html_website.main import generate_module_website
 
 # Generate website for module-1
 html_file = generate_module_website(
-    "biol-1/course/module-1",
-    course_name="BIOL-1"
+    "course_development/active_inference/01_philosophy/01_systems",
+    course_name="Active Inference"
 )
 
 print(f"Website generated: {html_file}")

@@ -14,7 +14,7 @@ Publishes course materials to the published directory.
 
 **Args:**
 
-- `course_path`: Path to the course directory (e.g., 'biol-1')
+- `course_path`: Path to the course directory (e.g., 'active_inference/01_philosophy')
 - `publish_root`: Root directory for publishing (default: PUBLISHED in repo root)
 
 **Returns:**
@@ -65,10 +65,7 @@ Copy slide PDFs from resources/slides to PUBLISHED/slides directory.
 
 ##### `copy_slides_to_modules(repo_root: Path, courses: Optional[List[str]] = None, verbose: bool = False) -> int`
 
-Copy slide PDFs into each module's published folder. Supports two naming conventions:
-
-- `module-{num}-slides-*.pdf` (biol-1 style)
-- `Module {XX} - Topic.pdf` (biol-8 style)
+Copy slide PDFs into each module's published folder.
 
 ##### `copy_exams(repo_root: Path, verbose: bool = False) -> int`
 
@@ -80,12 +77,14 @@ Copy practice test files (markdown and rendered outputs) to PUBLISHED directory.
 
 ## Configuration
 
-Course configurations in `config.py`:
+Course configurations in `config.py` (keyed by course directory name or COURSE_REGISTRY ID;
+legacy `biol-*` entries are retained for backward compatibility):
 
 | Course | Module Source | Syllabus Source | Include Syllabus |
 |--------|--------------|-----------------|------------------|
-| biol-1 | `output` | `output` | Yes |
-| biol-8 | `output` | `output` | Yes |
+| active-inference | `output` | `output` | Yes |
+| ai-philosophy | `output` | `output` | Yes |
+| ai-es | `output` | `output` | Yes |
 
 ## Usage
 
@@ -94,7 +93,7 @@ from src.publish.main import publish_course
 from src.publish.utils import copy_slides_to_modules, flatten_published
 
 # Publish a course
-results = publish_course("course_development/biol-8")
+results = publish_course("course_development/active_inference/01_philosophy")
 print(f"Published {results['modules_published']} modules")
 
 # Copy slides to module folders

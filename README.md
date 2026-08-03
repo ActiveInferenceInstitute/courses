@@ -8,7 +8,7 @@
 
 > **Minimize surprise. Maximize evidence.**
 
-Welcome to the open-source curriculum infrastructure for **Active Inference education**. This repository hosts **14 complete courses** spanning Kindergarten to PhD (plus 1 YouTube transcript archive — 17 total entries in `COURSE_REGISTRY`), powered by a modular **Python publishing engine**.
+Welcome to the open-source curriculum infrastructure for **Active Inference education**. This repository hosts **14 complete courses** spanning Kindergarten to PhD (plus a YouTube transcript archive — 19 total entries in `COURSE_REGISTRY`), powered by a modular **Python publishing engine**.
 
 Maintained by **Dr. Daniel Ari Friedman** ([@docxology](https://github.com/docxology)) at the [Active Inference Institute](https://activeinference.institute).
 
@@ -116,10 +116,10 @@ We maintain `AGENTS.md` files at **every directory level** to provide context-aw
 
 ## 🎬 YouTube Archive
 
-We maintain a structured archive of **~2,600 video transcripts** from the Active Inference Institute's YouTube channel, organized into 38 playlists including:
+We maintain a structured archive of **~821 video transcripts** (38 playlists) from the Active Inference Institute's YouTube channel, organized into playlists including:
 
-- **Livestreams & Paper Discussions** (1,000+ videos)
-- **GuestStreams** (900+ videos)
+- **Livestreams & Paper Discussions** (171 videos)
+- **GuestStreams** (142 videos)
 - **Textbook Cohorts** (Parr et al. 2022)
 - **Applied Active Inference Symposia**
 

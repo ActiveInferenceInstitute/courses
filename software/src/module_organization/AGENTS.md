@@ -148,9 +148,8 @@ List required directories that are missing.
 
 Extract module number from module directory path.
 
-Handles both naming conventions:
-- BIOL-1 style: `module-1`, `module-2`, `module-10`
-- BIOL-8 style: `module-01-topic-name`, `module-02-chemistry-of-life`
+Handles the Active Inference course naming convention: `module-01-topic-name`
+(e.g., `module-01-systems`, `module-02-agents`).
 
 **Returns**:
 - Module number
@@ -162,12 +161,10 @@ Handles both naming conventions:
 
 Check if a directory name matches a target module number.
 
-Handles both naming conventions:
-- BIOL-1 style: `module-1`, `module-2`, `module-10`
-- BIOL-8 style: `module-01-topic-name`, `module-02-chemistry-of-life`
+Handles the `module-NN-topic-name` naming convention used by Active Inference courses.
 
 **Args**:
-- `dirname`: Directory name (e.g., "module-1" or "module-01-topic-name")
+- `dirname`: Directory name (e.g., "module-01-systems")
 - `target`: Target module number to match
 
 **Returns**:
@@ -176,7 +173,7 @@ Handles both naming conventions:
 **Examples**:
 ```python
 matches_module_number("module-1", 1)  # True
-matches_module_number("module-01-exploring-life-science", 1)  # True
+matches_module_number("module-01-systems", 1)  # True
 matches_module_number("module-10", 1)  # False
 matches_module_number("module-1", 10)  # False
 ```

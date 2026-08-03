@@ -125,7 +125,7 @@ All 14 courses contain 4 or 5 units each (58 units total). Each unit contains 8 
 
 | Course | Audience | Description |
 |--------|----------|-------------|
-| [YouTube Archive](./youtube/) | All | Transcript collection from Active Inference Institute YouTube channel (~2,600 videos across 38 playlists) |
+| [YouTube Archive](./youtube/) | All | Transcript collection from Active Inference Institute YouTube channel (~821 videos across 38 playlists) |
 
 ---
 

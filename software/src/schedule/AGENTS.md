@@ -247,7 +247,7 @@ Schedule markdown files should contain:
 ```markdown
 | Week | Date | Topic | Notes |
 |------|------|-------|-------|
-| 1 | 1/19/2026 | Biology: The Study of Life | |
+| 1 | 1/19/2026 | Introduction to Active Inference | |
 ```
 
 ### Output Formats
