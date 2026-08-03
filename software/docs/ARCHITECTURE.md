@@ -116,7 +116,7 @@ courses/
 ├── software/                  # The Engine
 │   ├── src/                   # Python Modules (21)
 │   ├── scripts/               # CLI Tools (23)
-│   ├── tests/                 # pytest Suite (65+)
+│   ├── tests/                 # pytest Suite (67 files)
 │   └── docs/                  # Documentation
 │
 ├── publish.py                 # Main Entry Point
@@ -137,4 +137,4 @@ courses/
 | **Black** | Formatter | `pyproject.toml` |
 
 ---
-*Last Updated: 2026-02-14*
+*Last Updated: 2026-08-02*

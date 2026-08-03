@@ -13,8 +13,6 @@ Detailed reference for all 21 Python modules in `software/src/`. Each module fol
 | **0** | [module_organization](#module_organization) | `create_module_structure()` | Scaffold module directories |
 | **0** | [file_validation](#file_validation) | `validate_module_files()` | Validate module structure |
 | **0** | [content_processing](#content_processing) | `renumber_questions_in_course()` | Content transformations |
-| **0** | [publish](#publish) | `publish_course()` | Copy outputs to published/ |
-| **0** | [validation](#validation) | `validate_published_directory()` | Validate published outputs |
 | **0** | [lab_manual](#lab_manual) | `render_lab_manual()` | Lab worksheet rendering |
 | **0** | [legacy_import](#legacy_import) | `import_legacy_course()` | Import legacy formats |
 | **0** | [course_config](#course_config) | `load_course_config()` | Per-course TOML config |
@@ -30,6 +28,8 @@ Detailed reference for all 21 Python modules in `software/src/`. Each module fol
 | **3** | [course_generator](#course_generator) | `generate()` | Curriculum generation |
 | **3** | [youtube_transcript](#youtube_transcript) | `transcribe_video()` | YouTube transcription |
 | **3** | [danvas](#danvas) | `start_server()` | Self-hosted course management |
+| **4** | [publish](#publish) | `publish_course()` | Copy outputs to published/ |
+| **4** | [validation](#validation) | `validate_published()` | Validate published outputs |
 | **4** | [canvas_integration](#canvas_integration) | `upload_module_to_canvas()` | Canvas LMS upload |
 
 ---
@@ -44,7 +44,7 @@ Create and manage module directory structures.
 from src.module_organization.main import create_module_structure
 ```
 
-**`create_module_structure(base_path, module_name, template=None)`** — Creates a standardized module directory with placeholder content files.
+**`create_module_structure(course_path, module_number)`** — Creates a standardized module directory (`course/module-{N}`) with README/AGENTS and `assignments/` scaffolding.
 
 ---
 
@@ -77,30 +77,6 @@ Additional sub-modules:
 
 ---
 
-### publish
-
-Copy rendered outputs to the `published/` directory.
-
-```python
-from src.publish.main import publish_course
-```
-
-**`publish_course(course_path, publish_root)`** — Copies output directories from modules to the publish root, organized by course ID.
-
----
-
-### validation
-
-Validate published output completeness and quality.
-
-```python
-from src.validation.main import validate_published_directory
-```
-
-**`validate_published_directory(published_path)`** — Returns `{"valid": bool, "total_files": N, "missing": [...]}`.
-
----
-
 ### lab_manual
 
 Render lab manual markdown files with special formatting (fill-in boxes, procedure sections).
@@ -117,7 +93,7 @@ from src.lab_manual.main import render_lab_manual, batch_render_lab_manuals
 
 ### legacy_import
 
-Import materials from legacy course formats (bio_1_2025 structure).
+Import materials from legacy course formats.
 
 ```python
 from src.legacy_import.main import (
@@ -162,7 +138,7 @@ Convert Markdown files to PDF using WeasyPrint.
 from src.markdown_to_pdf.main import render_markdown_to_pdf
 ```
 
-**`render_markdown_to_pdf(input_path, output_path, css_file=None)`** — Converts Markdown to styled PDF.
+**`render_markdown_to_pdf(input_path, output_path, css_content=None, pdf_options=None)`** — Converts Markdown to styled PDF.
 
 **System dependency**: Requires `cairo`, `pango`, `gdk-pixbuf`, `glib` (install via `brew install cairo pango gdk-pixbuf glib` on macOS).
 
@@ -177,7 +153,7 @@ from src.text_to_speech.main import generate_speech
 from src.text_to_speech.utils import extract_text_from_markdown, read_text_file
 ```
 
-**`generate_speech(text, output_path, lang="en", slow=False)`** — Generates MP3 audio from text.
+**`generate_speech(text, output_path, voice="default", lang=None, slow=False)`** — Generates MP3 audio from text.
 
 **`extract_text_from_markdown(content)`** — Strips Markdown formatting to plain text suitable for TTS.
 
@@ -193,7 +169,7 @@ Transcribe audio files to text using SpeechRecognition.
 from src.speech_to_text.main import transcribe_audio
 ```
 
-**`transcribe_audio(audio_path, output_path)`** — Transcribes an audio file to text.
+**`transcribe_audio(audio_path, output_path, language="en")`** — Transcribes an audio file to text.
 
 ---
 
@@ -239,7 +215,7 @@ Convert files between Markdown, HTML, DOCX, TXT, and other formats.
 from src.format_conversion.main import convert_file
 ```
 
-**`convert_file(input_path, target_format, output_path)`** — Converts a file to the target format. Supported targets: `html`, `docx`, `txt`, `md`.
+**`convert_file(input_path, output_format, output_path)`** — Converts a file to the target format. Supported targets: `html`, `docx`, `txt`, `md`, `pdf`.
 
 ---
 
@@ -272,6 +248,7 @@ from src.batch_processing.main import (
     process_module_by_type,      # Render a single module to all formats
     process_module_to_pdf,       # Module -> PDF
     process_module_to_audio,     # Module -> MP3
+    process_module_to_text,      # Module -> TXT transcription
     process_syllabus,            # Render syllabus files
     process_course_modules,      # Render all modules for a course
     process_course_syllabus,     # Render course syllabus
@@ -310,7 +287,7 @@ Generate interactive HTML websites for course modules.
 from src.html_website.main import generate_module_website
 ```
 
-**`generate_module_website(module_path, output_dir=None)`** — Generates a standalone HTML website with sidebar navigation, embedded audio players, interactive quizzes, dark mode toggle, and progress tracking.
+**`generate_module_website(module_path, output_dir=None, course_name=None)`** — Generates a standalone HTML website with sidebar navigation, embedded audio players, interactive quizzes, dark mode toggle, and progress tracking.
 
 ---
 
@@ -339,7 +316,7 @@ from src.course_generator.main import (
 )
 ```
 
-**`generate(curriculum_id, output_dir=None, use_llm=False, model="llama3.2")`** — Generates a curriculum from schema-defined templates. Optionally enriches content using Ollama.
+**`generate(curriculum_id, output_dir=None, use_llm=False, model="llama3.2", overwrite=False)`** — Generates a curriculum from schema-defined templates. Optionally enriches content using Ollama.
 
 See [COURSE_GENERATOR.md](COURSE_GENERATOR.md) for the full generation guide.
 
@@ -359,7 +336,7 @@ from src.youtube_transcript.main import (
 
 **`transcribe_video(video_id, output_dir, whisper_model="base", skip_whisper=False)`** — Tries auto-captions first, falls back to Whisper.
 
-**`transcribe_channel(channel_url, output_dir=None, limit=None, resume=True)`** — Full channel transcription with manifest tracking and crash recovery.
+**`transcribe_channel(channel_url=DEFAULT_CHANNEL_URL, output_dir=None, whisper_model="base", skip_whisper=False, limit=None, resume=True)`** — Full channel transcription with manifest tracking and crash recovery.
 
 See [YOUTUBE.md](YOUTUBE.md) for the full YouTube guide.
 
@@ -385,6 +362,30 @@ See [DANVAS.md](DANVAS.md) for the full Danvas guide.
 
 ## Layer 4 — Pipeline
 
+### publish
+
+Copy rendered outputs to the `published/` directory.
+
+```python
+from src.publish.main import publish_course
+```
+
+**`publish_course(course_path, publish_root)`** — Copies output directories from modules to the publish root, organized by course ID.
+
+---
+
+### validation
+
+Validate published output completeness and quality.
+
+```python
+from src.validation.main import validate_published
+```
+
+**`validate_published(published_path)`** — Returns `{"valid": bool, "total_files": N, "missing": [...]}`.
+
+---
+
 ### canvas_integration
 
 Upload course materials to Canvas LMS.
@@ -393,7 +394,7 @@ Upload course materials to Canvas LMS.
 from src.canvas_integration.main import upload_module_to_canvas
 ```
 
-**`upload_module_to_canvas(module_path, canvas_url, api_token, course_id)`** — Batch upload rendered module files to Canvas.
+**`upload_module_to_canvas(module_path, course_id, api_key, domain="canvas.instructure.com")`** — Batch upload rendered module files to Canvas.
 
 ---
 
@@ -441,4 +442,4 @@ danvas           -> batch_processing (config, discovery)
 
 ---
 
-*Last Updated: 2026-02-14*
+*Last Updated: 2026-08-02*

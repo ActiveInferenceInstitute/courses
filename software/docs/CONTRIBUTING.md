@@ -68,7 +68,10 @@ Every module in `src/` must follow the [Modular Architecture](ARCHITECTURE.md):
 
 ## 🧪 Testing
 
-We require **100% test coverage** for new features.
+We require **tests for all new features** using real implementations (no mocks). The
+suite currently collects 1,014 tests with ~75% source coverage; the CI gate runs all
+tests except the internet/API/whisper-marked ones (~995 passing) and does not configure
+a `--cov-fail-under` threshold — new code should keep coverage from regressing.
 
 ```bash
 # Run all tests
@@ -90,4 +93,4 @@ See **[TESTING.md](TESTING.md)** for detailed patterns on writing real-implement
 4. **Test**: Run `uv run python scripts/generate_all_outputs.py --course <new_course_id>`.
 
 ---
-*Last Updated: 2026-02-14*
+*Last Updated: 2026-08-02*

@@ -66,7 +66,7 @@ uv run python scripts/translate_youtube.py --lang ja
 
 ## ⚙️ How It Works
 
-1. **Chunking**: Long documents are split into chunks (default ~2,000 tokens) to fit within the LLM context window.
+1. **Chunking**: Long documents are split into chunks (default 4,096 tokens) to fit within the LLM context window.
 2. **LLM Translation**: Each chunk is sent to Ollama with a system prompt preserving Markdown formatting.
 3. **Reassembly**: Translated chunks are reassembled into the final document.
 4. **Formatting Preservation**: Headers, code blocks, tables, and lists are preserved.
@@ -76,7 +76,7 @@ uv run python scripts/translate_youtube.py --lang ja
 | Environment Variable | Default | Description |
 | :--- | :--- | :--- |
 | `OLLAMA_HOST` | `http://localhost:11434` | Ollama server URL |
-| `OLLAMA_MODEL` | `llama3.2` | Model to use for translation |
+| `OLLAMA_MODEL` | `gemma3:4b` | Model to use for translation |
 | `OLLAMA_TIMEOUT` | `120` | Timeout per chunk (seconds) |
 
 ---
@@ -133,4 +133,4 @@ export OLLAMA_MODEL=llama3.2:1b
 - Sufficient disk space for translated outputs (~1x source size per language)
 
 ---
-*Last Updated: 2026-02-15*
+*Last Updated: 2026-08-02*

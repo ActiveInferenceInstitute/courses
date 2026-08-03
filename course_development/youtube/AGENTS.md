@@ -4,7 +4,7 @@
 
 ## Overview
 
-This directory contains structured transcripts from **38 playlists** (~2,600 videos) from the Active Inference Institute YouTube channel. These are source materials — not hand-authored course content.
+This directory contains structured transcripts from **38 playlists** (~821 videos, per `youtube_courses.json`) from the Active Inference Institute YouTube channel. These are source materials — not hand-authored course content.
 
 ---
 

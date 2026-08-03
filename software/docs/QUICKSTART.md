@@ -55,7 +55,7 @@ See what would happen without actually writing files.
 
 ```bash
 cd ..  # Return to repo root
-uv run python publish.py --dry-run
+python publish.py --dry-run
 ```
 
 ---
@@ -76,7 +76,8 @@ All commands are run from the `software/` directory using `uv run`.
 - `ai-philosophy`, `ai-cognitive-science`, `ai-math`, `ai-computer-science`
 - `active-inference` (The consolidated core)
 - `ai-es`, `ai-family`, `ai-ms`, `ai-hs`, `ai-101`, `ai-401`
-- `ai-embodied`, `ai-organizations`, `ai-robotics`, `ai-crochet`, `ai-inventions`, `ai-metallurgy`
+- `ai-embodied`, `ai-organizations`, `ai-robotics`, `ai-crochet`, `ai-inventions`, `ai-metallurgy`, `ai-comedy`
+- `youtube` (transcript archive)
 
 ---
 
@@ -87,4 +88,4 @@ All commands are run from the `software/` directory using `uv run`.
 - **[Content Authoring](CONTENT_AUTHORING.md)**: Learn how to write course modules.
 
 ---
-*Last Updated: 2026-02-15*
+*Last Updated: 2026-08-02*

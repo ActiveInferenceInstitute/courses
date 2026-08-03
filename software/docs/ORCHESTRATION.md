@@ -2,7 +2,7 @@
 
 > **Navigation**: [← Quick Start](QUICKSTART.md) | [README](README.md) | [Architecture](ARCHITECTURE.md) | [Modules](MODULES.md) | [CLI Reference](CLI_REFERENCE.md)
 
-This guide demonstrates how to combine multiple modules for complex workflows. All examples use `uv run` and reference Active Inference course paths.
+This guide demonstrates how to combine multiple modules for complex workflows. Examples use `uv run` from `software/` (except the repo-root `publish.py`, which runs as plain `python` — it has no project root of its own) and reference Active Inference course paths.
 
 ---
 
@@ -99,7 +99,7 @@ courses = get_courses_to_process("all")
 for course_dir, course_name in courses:
     print(f"Processing {course_name}...")
     results = process_course_modules(
-        course_dir, formats=["txt", "md", "html"]
+        course_dir, course_name, formats=["txt", "md", "html"]
     )
 ```
 
@@ -166,9 +166,8 @@ for fmt, count in results["summary"].items():
 Generate interactive module websites:
 
 ```bash
-# Single module
-uv run python scripts/generate_module_website.py \
-    ../course_development/active_inference/01_philosophy/01_systems
+# Single module (module 1 by default)
+uv run python scripts/generate_module_website.py --course ai-philosophy --module 1
 
 # All modules for a course
 uv run python scripts/generate_all_outputs.py --course ai-philosophy
@@ -212,7 +211,7 @@ uv run python scripts/publish_all.py --clean --verbose
 
 ```python
 from src.publish.main import publish_course
-from src.validation.main import validate_published_directory
+from src.validation.main import validate_published
 from pathlib import Path
 
 result = publish_course(
@@ -221,7 +220,7 @@ result = publish_course(
 )
 
 # Validate output
-validation = validate_published_directory(Path("/path/to/published/ai-philosophy"))
+validation = validate_published(Path("/path/to/published/ai-philosophy"))
 print(f"Valid: {validation['valid']}, Files: {validation['total_files']}")
 ```
 
@@ -342,4 +341,4 @@ uv run pytest tests/ -v
 
 ---
 
-*Last Updated: 2026-02-14*
+*Last Updated: 2026-08-02*

@@ -117,7 +117,7 @@ Uses `{fill:textarea}` for interactive PDFs/HTML.
 - [ ] `questions.md` has exactly 20 items.
 - [ ] `practice_quiz.md` has answers/explanations.
 - [ ] Key terms are **bolded** on first use.
-- [ ] No "TODO" or placeholder text (use "Coming Soon" if needed).
+- [ ] No "TODO" or placeholder text — write real, substantive content (no "Coming Soon" placeholders).
 
 ---
-*Last Updated: 2026-02-14*
+*Last Updated: 2026-08-02*

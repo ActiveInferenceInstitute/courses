@@ -2,7 +2,7 @@
 
 > **Navigation**: [← Docs Index](README.md) | [Modules](MODULES.md) | [Course Catalog](COURSE_CATALOG.md)
 
-Schema-driven curriculum generation tool. Creates directory structures and content scaffolds for new courses, following the standardized 4-unit × 8-module pattern.
+Schema-driven curriculum generation tool. Creates directory structures and content scaffolds for new courses, following the standardized 4-unit × 8-module pattern (32 modules per course).
 
 ---
 
@@ -36,7 +36,7 @@ All curricula follow this canonical structure, adapted for the audience level an
 7. **Communication** — Information exchange between agents
 8. **Planning** — Temporal reasoning and goal-directed behavior
 
-Each topic maps to one module per unit, giving 8 modules × 4 units = **32 modules** per course.
+Each topic maps to one module per unit, giving 8 modules × 4 units = **32 modules** per course. (Two domain courses — Comedy and Crochet — extend the pattern to 5 units × 8 modules = 40 modules; see [COURSE_CATALOG.md](COURSE_CATALOG.md).)
 
 ---
 
@@ -108,4 +108,4 @@ The generator schema is defined in `src/course_generator/config.py`. You can cus
 - **Target audience metadata** (grade level, prerequisites)
 
 ---
-*Last Updated: 2026-02-15*
+*Last Updated: 2026-08-02*

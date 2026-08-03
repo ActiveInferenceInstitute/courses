@@ -13,7 +13,7 @@ Complete catalog of all courses managed by the Active Inference Institute publis
 | [Core](#core-consolidated) | 1 consolidated + 4 legacy individual | The primary Active Inference textbook |
 | [Level-Adapted](#level-adapted-courses) | 6 | Same curriculum adapted for different audiences |
 | [Domain-Specific](#domain-specific-courses) | 7 | Active Inference applied to specific fields |
-| [Archive](#youtube-transcript-archive) | 1 | ~2600 YouTube video transcripts |
+| [Archive](#youtube-transcript-archive) | 1 | 38 playlists / ~821 YouTube video transcripts |
 
 ---
 
@@ -174,7 +174,7 @@ uv run python scripts/generate_all_outputs.py --course ai-embodied --formats txt
 
 ### `youtube` — YouTube Transcripts
 
-An archive of transcripts from the Active Inference Institute YouTube channel (~2600 videos organized into playlists).
+An archive of transcripts from the Active Inference Institute YouTube channel (38 playlists, ~821 videos per playlist metadata).
 
 | Field | Value |
 |-------|-------|
@@ -245,7 +245,6 @@ All courses are registered in `COURSE_REGISTRY` inside `software/src/batch_proce
 | `display_name` | `str` | Human-readable name for logs/CLI |
 | `module_glob` | `str` | Glob pattern for module directories |
 | `unit_glob` | `str` | Glob pattern for unit directories (multi-level courses) |
-| `has_course_subdir` | `bool` | Whether modules are under a `course/` subdirectory |
 | `content_files` | `list[str]` | Files to render per module |
 | `syllabus_location` | `str` | Where to find the syllabus |
 | `static_dirs` | `list[str]` | Additional directories to copy during publish |
@@ -281,4 +280,4 @@ python publish.py --dry-run
 
 ---
 
-*Last Updated: 2026-03-03*
+*Last Updated: 2026-08-02*

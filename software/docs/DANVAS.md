@@ -41,7 +41,7 @@ Built on Python's standard `http.server` with **zero external dependencies**.
 
 ## 🛠️ Features
 
-- **Course Browser**: Auto-generated from your local `course_development/` folder. Displays all 17 courses across levels and domains.
+- **Course Browser**: Auto-generated from your local `course_development/` folder. Displays all 14 courses across levels and domains.
 - **Gradebook**: Track student progress per module and unit (stored locally as JSON).
 - **Announcements**: Post updates to course streams.
 - **Roster**: Manage student enrollment per course.
@@ -83,10 +83,10 @@ Built on Python's standard `http.server` with **zero external dependencies**.
 
 ```bash
 cd software
-uv run pytest tests/test_danvas/ -v
+uv run pytest tests/test_danvas_main.py tests/test_danvas_utils.py tests/test_danvas_comprehensive.py -v
 ```
 
 The Danvas tests use **real HTTP requests** (no mocks), verifying actual server behavior including course discovery, template rendering, and data persistence.
 
 ---
-*Last Updated: 2026-02-15*
+*Last Updated: 2026-08-02*

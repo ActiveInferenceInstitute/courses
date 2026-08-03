@@ -11,7 +11,7 @@ Comprehensive guide to the test suite, conventions, and practices for the Active
 | Metric | Value |
 |--------|-------|
 | Framework | pytest |
-| Test files | 65+ |
+| Test files | 67 |
 | Test location | `software/tests/` |
 | Coverage tool | pytest-cov |
 | Mock policy | **No mocks.** All tests use real implementations. |
@@ -45,7 +45,7 @@ uv run pytest tests/test_batch_processing_main.py -v
 uv run pytest tests/test_batch_processing_main.py::TestProcessModuleByType -v
 
 # Single test function
-uv run pytest tests/test_batch_processing_main.py::TestProcessModuleByType::test_success -v
+uv run pytest tests/test_batch_processing_main.py::TestProcessModuleByType::test_process_module_by_type_structure -v
 
 # By keyword
 uv run pytest tests/ -k "test_pdf" -v
@@ -64,7 +64,8 @@ uv run pytest tests/ --cov=src --cov-report=term-missing
 uv run pytest tests/ --cov=src --cov-report=html
 open htmlcov/index.html
 
-# Minimum threshold
+# Fail the run below a coverage threshold (optional; the repo does not
+# configure a global --cov-fail-under — see pyproject.toml)
 uv run pytest tests/ --cov=src --cov-fail-under=70
 ```
 
@@ -305,4 +306,4 @@ uv run pytest tests/ -m "not (requires_internet or requires_api)" -k "not pdf" -
 
 ---
 
-*Last Updated: 2026-02-14*
+*Last Updated: 2026-08-02*
