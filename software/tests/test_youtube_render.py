@@ -317,9 +317,7 @@ class TestScaffoldCourseDirectory:
         course_meta = {"id": "PL", "title": "Test", "url": ""}
 
         # First scaffold
-        scaffold_course_directory(
-            "test-course", videos, transcript_dir, youtube_dir, course_meta
-        )
+        scaffold_course_directory("test-course", videos, transcript_dir, youtube_dir, course_meta)
 
         # Second scaffold should skip
         result = scaffold_course_directory(
@@ -363,9 +361,7 @@ class TestScaffoldCourseDirectory:
         course_meta = {"id": "PL", "title": "Test Playlist", "url": ""}
 
         # First scaffold creates module.md
-        scaffold_course_directory(
-            "test-course", videos, transcript_dir, youtube_dir, course_meta
-        )
+        scaffold_course_directory("test-course", videos, transcript_dir, youtube_dir, course_meta)
         course_dir = youtube_dir / "test-course"
         mod_dir = course_dir / "01_test-video-title"
         module_md = mod_dir / "module.md"
@@ -403,9 +399,7 @@ class TestScaffoldCourseDirectory:
             "url": "https://youtube.com/playlist?list=PLtest",
         }
 
-        scaffold_course_directory(
-            "my-course", [], transcript_dir, youtube_dir, course_meta
-        )
+        scaffold_course_directory("my-course", [], transcript_dir, youtube_dir, course_meta)
 
         course_json = youtube_dir / "my-course" / "course.json"
         assert course_json.exists()

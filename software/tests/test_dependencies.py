@@ -123,15 +123,9 @@ def test_all_dependencies_are_real_implementations():
 
 
 def test_no_conflicting_dependencies():
-    """Verify there are no conflicting dependency versions."""
-    # This is a basic check - more sophisticated version checking could be added
-    try:
-        import gtts
-        import speech_recognition
-        import pydub
+    """Verify all optional media dependencies are importable."""
+    import importlib.util
 
-        # If we get here, basic imports work
-        # More sophisticated version checking could verify compatibility
-        assert True
-    except ImportError as e:
-        pytest.fail(f"Dependency conflict detected: {e}")
+    for module_name in ("gtts", "speech_recognition", "pydub"):
+        if importlib.util.find_spec(module_name) is None:
+            pytest.fail(f"Dependency conflict detected: {module_name} is missing")

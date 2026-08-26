@@ -1,6 +1,5 @@
 """Tests for content_processing utils module."""
 
-
 from src.content_processing.utils import (
     extract_questions_from_sectioned,
     format_as_continuous,

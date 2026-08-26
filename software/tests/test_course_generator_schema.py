@@ -19,8 +19,11 @@ class TestModuleConfig:
     def test_valid_module(self):
         """Test creating a valid module configuration."""
         mod = ModuleConfig(
-            number=1, topic="systems", subtitle="Test Systems",
-            key_concepts=["boundaries"], learning_goals=["Define systems"],
+            number=1,
+            topic="systems",
+            subtitle="Test Systems",
+            key_concepts=["boundaries"],
+            learning_goals=["Define systems"],
         )
         assert mod.number == 1
         assert mod.topic == "systems"
@@ -60,8 +63,11 @@ class TestCourseConfig:
     def test_valid_course(self):
         """Test creating a valid course configuration."""
         course = CourseConfig(
-            number=1, dir_name="01_test", title="Test Course",
-            perspective="Testing", lab_type="Test Lab",
+            number=1,
+            dir_name="01_test",
+            title="Test Course",
+            perspective="Testing",
+            lab_type="Test Lab",
         )
         assert course.number == 1
         assert course.title == "Test Course"
@@ -70,15 +76,21 @@ class TestCourseConfig:
         """Test that course number 5 raises ValueError."""
         with pytest.raises(ValueError, match="Course number must be 1-4"):
             CourseConfig(
-                number=5, dir_name="05_test", title="Test",
-                perspective="Testing", lab_type="Test Lab",
+                number=5,
+                dir_name="05_test",
+                title="Test",
+                perspective="Testing",
+                lab_type="Test Lab",
             )
 
     def test_default_modules(self):
         """Test that modules default to an empty list."""
         course = CourseConfig(
-            number=1, dir_name="01_test", title="Test",
-            perspective="Testing", lab_type="Test Lab",
+            number=1,
+            dir_name="01_test",
+            title="Test",
+            perspective="Testing",
+            lab_type="Test Lab",
         )
         assert course.modules == []
 
@@ -94,13 +106,22 @@ class TestCurriculumConfig:
                 ModuleConfig(number=i, topic=t, subtitle=f"Sub {t}")
                 for i, t in enumerate(MODULE_TOPICS, 1)
             ]
-            courses.append(CourseConfig(
-                number=c, dir_name=f"{c:02d}_test", title=f"Course {c}",
-                perspective="Testing", lab_type="Test Lab", modules=modules,
-            ))
+            courses.append(
+                CourseConfig(
+                    number=c,
+                    dir_name=f"{c:02d}_test",
+                    title=f"Course {c}",
+                    perspective="Testing",
+                    lab_type="Test Lab",
+                    modules=modules,
+                )
+            )
         return CurriculumConfig(
-            id="test_curriculum", title="Test Curriculum",
-            audience="Testers", tone="Testing tone.", courses=courses,
+            id="test_curriculum",
+            title="Test Curriculum",
+            audience="Testers",
+            tone="Testing tone.",
+            courses=courses,
         )
 
     def test_valid_curriculum(self):
@@ -119,8 +140,11 @@ class TestCurriculumConfig:
     def test_validate_wrong_course_count(self):
         """Test validation catches wrong number of courses."""
         cur = CurriculumConfig(
-            id="test", title="Test", audience="Testers",
-            tone="Test.", courses=[],
+            id="test",
+            title="Test",
+            audience="Testers",
+            tone="Test.",
+            courses=[],
         )
         errors = cur.validate()
         assert any("Expected 4 courses" in e for e in errors)
@@ -128,12 +152,19 @@ class TestCurriculumConfig:
     def test_validate_wrong_module_count(self):
         """Test validation catches wrong number of modules."""
         course = CourseConfig(
-            number=1, dir_name="01_test", title="Test",
-            perspective="Testing", lab_type="Test Lab", modules=[],
+            number=1,
+            dir_name="01_test",
+            title="Test",
+            perspective="Testing",
+            lab_type="Test Lab",
+            modules=[],
         )
         cur = CurriculumConfig(
-            id="test", title="Test", audience="Testers",
-            tone="Test.", courses=[course] * 4,
+            id="test",
+            title="Test",
+            audience="Testers",
+            tone="Test.",
+            courses=[course] * 4,
         )
         errors = cur.validate()
         assert any("0 modules" in e for e in errors)
@@ -145,12 +176,19 @@ class TestCurriculumConfig:
             for i, t in enumerate(reversed(MODULE_TOPICS), 1)
         ]
         course = CourseConfig(
-            number=1, dir_name="01_test", title="Test",
-            perspective="Testing", lab_type="Test Lab", modules=modules,
+            number=1,
+            dir_name="01_test",
+            title="Test",
+            perspective="Testing",
+            lab_type="Test Lab",
+            modules=modules,
         )
         cur = CurriculumConfig(
-            id="test", title="Test", audience="Testers",
-            tone="Test.", courses=[course] * 4,
+            id="test",
+            title="Test",
+            audience="Testers",
+            tone="Test.",
+            courses=[course] * 4,
         )
         errors = cur.validate()
         assert any("topic order mismatch" in e for e in errors)
@@ -163,12 +201,21 @@ class TestCurriculumConfig:
                 ModuleConfig(number=i, topic=t, subtitle=f"Sub {t}")
                 for i, t in enumerate(MODULE_TOPICS, 1)
             ]
-            courses.append(CourseConfig(
-                number=c, dir_name="01_same", title=f"Course {c}",
-                perspective="Testing", lab_type="Test Lab", modules=modules,
-            ))
+            courses.append(
+                CourseConfig(
+                    number=c,
+                    dir_name="01_same",
+                    title=f"Course {c}",
+                    perspective="Testing",
+                    lab_type="Test Lab",
+                    modules=modules,
+                )
+            )
         cur = CurriculumConfig(
-            id="test", title="Test", audience="Testers", tone="Test.",
+            id="test",
+            title="Test",
+            audience="Testers",
+            tone="Test.",
             courses=courses,
         )
         errors = cur.validate()

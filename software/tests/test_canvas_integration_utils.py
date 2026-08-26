@@ -12,7 +12,9 @@ from src.canvas_integration.utils import (
 
 def test_get_canvas_api_url():
     """Test building Canvas API URL."""
-    url = get_canvas_api_url("canvas.instructure.com", "/api/v1/courses/{course_id}", course_id="123")
+    url = get_canvas_api_url(
+        "canvas.instructure.com", "/api/v1/courses/{course_id}", course_id="123"
+    )
     assert "canvas.instructure.com" in url
     assert "/api/v1/courses/123" in url
 
@@ -76,14 +78,20 @@ def test_get_file_mime_type_docx(temp_dir):
     """Test get_file_mime_type for DOCX."""
     docx_file = temp_dir / "test.docx"
     docx_file.touch()
-    assert get_file_mime_type(docx_file) == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    assert (
+        get_file_mime_type(docx_file)
+        == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
 
 
 def test_get_file_mime_type_pptx(temp_dir):
     """Test get_file_mime_type for PPTX."""
     pptx_file = temp_dir / "test.pptx"
     pptx_file.touch()
-    assert get_file_mime_type(pptx_file) == "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    assert (
+        get_file_mime_type(pptx_file)
+        == "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    )
 
 
 def test_get_file_mime_type_unknown(temp_dir):

@@ -2,17 +2,33 @@
 
 import pytest
 from src.course_generator.schema import (
-    ModuleConfig, CourseConfig, CurriculumConfig, MODULE_TOPICS,
+    ModuleConfig,
+    CourseConfig,
+    CurriculumConfig,
+    MODULE_TOPICS,
 )
 from src.course_generator.content import (
-    render_module_md, render_questions_md, render_quiz_md,
-    render_lab_md, render_readme_md, render_agents_md,
-    render_dashboard_html, render_course_readme, render_course_agents,
-    render_course_syllabus, render_root_readme, render_root_overview,
-    render_root_agents, render_audit_script,
-    render_resource_glossary, render_resource_notation,
-    render_resource_references, render_resource_cross_course_map,
-    render_resource_faq, render_resource_readme, render_resource_agents,
+    render_module_md,
+    render_questions_md,
+    render_quiz_md,
+    render_lab_md,
+    render_readme_md,
+    render_agents_md,
+    render_dashboard_html,
+    render_course_readme,
+    render_course_agents,
+    render_course_syllabus,
+    render_root_readme,
+    render_root_overview,
+    render_root_agents,
+    render_audit_script,
+    render_resource_glossary,
+    render_resource_notation,
+    render_resource_references,
+    render_resource_cross_course_map,
+    render_resource_faq,
+    render_resource_readme,
+    render_resource_agents,
     render_resource_learning_pathways,
 )
 
@@ -24,19 +40,30 @@ def sample_curriculum():
     for c in range(1, 5):
         modules = [
             ModuleConfig(
-                number=i, topic=t, subtitle=f"Test {t.title()}",
+                number=i,
+                topic=t,
+                subtitle=f"Test {t.title()}",
                 key_concepts=[f"{t}_concept_1", f"{t}_concept_2"],
                 learning_goals=[f"Learn {t}", f"Apply {t}"],
             )
             for i, t in enumerate(MODULE_TOPICS, 1)
         ]
-        courses.append(CourseConfig(
-            number=c, dir_name=f"{c:02d}_test", title=f"Test Course {c}",
-            perspective="Testing", lab_type="Test Lab", modules=modules,
-        ))
+        courses.append(
+            CourseConfig(
+                number=c,
+                dir_name=f"{c:02d}_test",
+                title=f"Test Course {c}",
+                perspective="Testing",
+                lab_type="Test Lab",
+                modules=modules,
+            )
+        )
     return CurriculumConfig(
-        id="test_content", title="Test Content Curriculum",
-        audience="Test audience", tone="Testing tone. Clear.", courses=courses,
+        id="test_content",
+        title="Test Content Curriculum",
+        audience="Test audience",
+        tone="Testing tone. Clear.",
+        courses=courses,
     )
 
 
@@ -178,8 +205,9 @@ class TestRootLevelContent:
 
         modules = [
             ModuleConfig(
-                number=i, topic=MODULE_TOPICS[i - 1],
-                subtitle=f"Test {MODULE_TOPICS[i-1].title()}",
+                number=i,
+                topic=MODULE_TOPICS[i - 1],
+                subtitle=f"Test {MODULE_TOPICS[i - 1].title()}",
             )
             for i in range(1, 9)
         ]
@@ -194,7 +222,10 @@ class TestRootLevelContent:
             modules=modules,
         )
         cur = CurriculumConfig(
-            id="t", title="T", audience="a", tone="neutral",
+            id="t",
+            title="T",
+            audience="a",
+            tone="neutral",
             courses=[course] * 4,
         )
         script = render_audit_script(cur)

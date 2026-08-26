@@ -2,7 +2,10 @@
 
 import pytest
 from src.course_generator.schema import (
-    CurriculumConfig, CourseConfig, ModuleConfig, MODULE_TOPICS,
+    CurriculumConfig,
+    CourseConfig,
+    ModuleConfig,
+    MODULE_TOPICS,
 )
 from src.course_generator.scaffold import generate_curriculum, generate_single_course
 from src.course_generator.config import CURRICULUM_ES, ALL_CURRICULA
@@ -14,19 +17,30 @@ def _make_test_curriculum() -> CurriculumConfig:
     for c in range(1, 5):
         modules = [
             ModuleConfig(
-                number=i, topic=t, subtitle=f"Test {t.title()}",
-                key_concepts=[f"{t}_concept"], learning_goals=[f"Learn {t}"],
+                number=i,
+                topic=t,
+                subtitle=f"Test {t.title()}",
+                key_concepts=[f"{t}_concept"],
+                learning_goals=[f"Learn {t}"],
             )
             for i, t in enumerate(MODULE_TOPICS, 1)
         ]
-        courses.append(CourseConfig(
-            number=c, dir_name=f"{c:02d}_test_course", title=f"Test Course {c}",
-            perspective="Testing perspective", lab_type="Test Lab",
-            modules=modules,
-        ))
+        courses.append(
+            CourseConfig(
+                number=c,
+                dir_name=f"{c:02d}_test_course",
+                title=f"Test Course {c}",
+                perspective="Testing perspective",
+                lab_type="Test Lab",
+                modules=modules,
+            )
+        )
     return CurriculumConfig(
-        id="test_scaffold", title="Test Scaffold Curriculum",
-        audience="Test audience", tone="Test tone.", courses=courses,
+        id="test_scaffold",
+        title="Test Scaffold Curriculum",
+        audience="Test audience",
+        tone="Test tone.",
+        courses=courses,
     )
 
 
@@ -62,6 +76,7 @@ class TestGenerateCurriculum:
         generate_curriculum(config, tmp_path)
         audit = tmp_path / config.id / "audit_modules.sh"
         import os
+
         assert os.access(audit, os.X_OK)
 
     def test_resource_files_exist(self, tmp_path):
@@ -100,8 +115,13 @@ class TestGenerateCurriculum:
         generate_curriculum(config, tmp_path)
         cur_dir = tmp_path / config.id
         expected_files = [
-            "module.md", "questions.md", "practice_quiz.md",
-            "lab.md", "dashboard.html", "README.md", "AGENTS.md",
+            "module.md",
+            "questions.md",
+            "practice_quiz.md",
+            "lab.md",
+            "dashboard.html",
+            "README.md",
+            "AGENTS.md",
         ]
         course = config.courses[0]
         module = course.modules[0]
@@ -137,7 +157,11 @@ class TestGenerateCurriculum:
     def test_invalid_config_raises(self, tmp_path):
         """Test that an invalid config raises ValueError."""
         config = CurriculumConfig(
-            id="bad", title="Bad", audience="None", tone="None.", courses=[],
+            id="bad",
+            title="Bad",
+            audience="None",
+            tone="None.",
+            courses=[],
         )
         with pytest.raises(ValueError, match="Invalid curriculum"):
             generate_curriculum(config, tmp_path)

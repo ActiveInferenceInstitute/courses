@@ -26,29 +26,29 @@ def course_structure(temp_dir):
     """Create a mock course structure."""
     base = temp_dir / "course_development"
     base.mkdir()
-    
+
     # ai-philosophy (Core/Flat)
     course_dir = base / "active_inference" / "01_philosophy"
     course_dir.mkdir(parents=True)
     module_dir = course_dir / "01_intro"
     module_dir.mkdir()
-    
+
     (module_dir / "module.md").write_text(
         "# Intro to Active Inference\n\n## Overview\nOverview here.\n\n## Key Concepts\n- **Concept A** - Description A\n\n## Learning Objectives\n1. Objective A\n",
-        encoding="utf-8"
+        encoding="utf-8",
     )
     (module_dir / "lab.md").write_text(
-        "# Lab: Title\n\nexplore active inference through hands-on engagement\n",
-        encoding="utf-8"
+        "# Lab: Title\n\nexplore active inference through hands-on engagement\n", encoding="utf-8"
     )
-    
+
     return base
 
 
 class TestFixStubLabs:
-    
     def test_parse_args(self, script, course_structure):
-        args = script.parse_args(["--base", str(course_structure), "--dry-run", "--course", "ai-philosophy"])
+        args = script.parse_args(
+            ["--base", str(course_structure), "--dry-run", "--course", "ai-philosophy"]
+        )
         assert args.base == course_structure
         assert args.dry_run is True
         assert args.course == "ai-philosophy"
@@ -61,9 +61,9 @@ class TestFixStubLabs:
     def test_main_dry_run(self, script, course_structure, capsys):
         lab_path = course_structure / "active_inference" / "01_philosophy" / "01_intro" / "lab.md"
         original = lab_path.read_text("utf-8")
-        
+
         script.main(["--base", str(course_structure), "--dry-run"])
-        
+
         captured = capsys.readouterr()
         assert "Found 1 stub labs" in captured.out
         assert "Would fix" in captured.out
@@ -71,12 +71,12 @@ class TestFixStubLabs:
 
     def test_main_execution(self, script, course_structure, capsys):
         lab_path = course_structure / "active_inference" / "01_philosophy" / "01_intro" / "lab.md"
-        
+
         script.main(["--base", str(course_structure)])
-        
+
         captured = capsys.readouterr()
         assert "Fixed:" in captured.out
-        
+
         new_content = lab_path.read_text("utf-8")
         assert "hands-on engagement" not in new_content
         assert "Lab: Intro to Active Inference" in new_content
@@ -88,9 +88,9 @@ class TestFixStubLabs:
         other = course_structure / "courses" / "other" / "01_mod"
         other.mkdir(parents=True)
         (other / "lab.md").write_text("explore other through hands-on engagement", "utf-8")
-        
+
         script.main(["--base", str(course_structure), "--course", "ai-philosophy", "--dry-run"])
-        
+
         captured = capsys.readouterr()
         assert "Found 2 stub labs" in captured.out
         assert "active_inference/01_philosophy" in captured.out

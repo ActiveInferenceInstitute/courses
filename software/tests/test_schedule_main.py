@@ -1,6 +1,5 @@
 """Tests for schedule main module."""
 
-
 import pytest
 
 from src.schedule.main import (
@@ -104,9 +103,7 @@ class TestProcessSchedule:
         """Test processing schedule with txt format."""
         output_dir = temp_dir / "output"
 
-        result = process_schedule(
-            str(sample_schedule_file), str(output_dir), formats=["txt"]
-        )
+        result = process_schedule(str(sample_schedule_file), str(output_dir), formats=["txt"])
 
         assert "outputs" in result
         assert "summary" in result
@@ -117,9 +114,7 @@ class TestProcessSchedule:
         """Test processing schedule with PDF format."""
         output_dir = temp_dir / "output"
 
-        result = process_schedule(
-            str(sample_schedule_file), str(output_dir), formats=["pdf"]
-        )
+        result = process_schedule(str(sample_schedule_file), str(output_dir), formats=["pdf"])
 
         assert "outputs" in result
         assert result["summary"]["pdf"] >= 1
@@ -131,9 +126,7 @@ class TestProcessSchedule:
         """Test processing schedule with HTML format."""
         output_dir = temp_dir / "output"
 
-        result = process_schedule(
-            str(sample_schedule_file), str(output_dir), formats=["html"]
-        )
+        result = process_schedule(str(sample_schedule_file), str(output_dir), formats=["html"])
 
         assert "outputs" in result
         assert result["summary"]["html"] >= 1
@@ -145,9 +138,7 @@ class TestProcessSchedule:
         """Test processing schedule with DOCX format."""
         output_dir = temp_dir / "output"
 
-        result = process_schedule(
-            str(sample_schedule_file), str(output_dir), formats=["docx"]
-        )
+        result = process_schedule(str(sample_schedule_file), str(output_dir), formats=["docx"])
 
         assert "outputs" in result
         assert result["summary"]["docx"] >= 1
@@ -160,9 +151,7 @@ class TestProcessSchedule:
         """Test processing schedule with MP3 format (requires internet for gTTS)."""
         output_dir = temp_dir / "output"
 
-        result = process_schedule(
-            str(sample_schedule_file), str(output_dir), formats=["mp3"]
-        )
+        result = process_schedule(str(sample_schedule_file), str(output_dir), formats=["mp3"])
 
         assert "outputs" in result
         assert result["summary"]["mp3"] >= 1
@@ -172,9 +161,7 @@ class TestProcessSchedule:
         output_dir = temp_dir / "output"
 
         with pytest.raises(ValueError, match="Unsupported output formats"):
-            process_schedule(
-                str(sample_schedule_file), str(output_dir), formats=["invalid"]
-            )
+            process_schedule(str(sample_schedule_file), str(output_dir), formats=["invalid"])
 
     def test_process_schedule_nonexistent_file(self, temp_dir):
         """Test processing a non-existent file raises error."""
@@ -188,9 +175,7 @@ class TestProcessSchedule:
         output_dir = temp_dir / "nested" / "output"
         assert not output_dir.exists()
 
-        result = process_schedule(
-            str(sample_schedule_file), str(output_dir), formats=["txt"]
-        )
+        result = process_schedule(str(sample_schedule_file), str(output_dir), formats=["txt"])
 
         assert output_dir.exists()
         assert result["summary"]["txt"] >= 1
@@ -266,9 +251,7 @@ class TestGenerateScheduleOutputs:
         docx_file = output_dir / "schedule.docx"
         assert docx_file.exists()
 
-    def test_generate_schedule_outputs_unsupported_format(
-        self, sample_schedule_file, temp_dir
-    ):
+    def test_generate_schedule_outputs_unsupported_format(self, sample_schedule_file, temp_dir):
         """Test generating unsupported format raises error."""
         result = parse_schedule_markdown(str(sample_schedule_file))
         output_dir = temp_dir / "output"
@@ -286,15 +269,11 @@ class TestBatchProcessSchedules:
         # Create multiple schedule files
         schedule_dir = temp_dir / "schedules"
         schedule_dir.mkdir()
-        (schedule_dir / "Schedule.md").write_text(
-            sample_schedule_content, encoding="utf-8"
-        )
+        (schedule_dir / "Schedule.md").write_text(sample_schedule_content, encoding="utf-8")
 
         output_dir = temp_dir / "output"
 
-        result = batch_process_schedules(
-            str(schedule_dir), str(output_dir), formats=["txt"]
-        )
+        result = batch_process_schedules(str(schedule_dir), str(output_dir), formats=["txt"])
 
         assert "processed_files" in result
         assert "outputs" in result
@@ -326,22 +305,16 @@ class TestBatchProcessSchedules:
 
         output_dir = temp_dir / "output"
 
-        result = batch_process_schedules(
-            str(schedule_dir), str(output_dir), formats=["txt"]
-        )
+        result = batch_process_schedules(str(schedule_dir), str(output_dir), formats=["txt"])
 
         # Should not raise, errors are collected
         assert "errors" in result
 
-    def test_batch_process_schedules_default_formats(
-        self, temp_dir, sample_schedule_content
-    ):
+    def test_batch_process_schedules_default_formats(self, temp_dir, sample_schedule_content):
         """Test batch processing with default formats (uses all)."""
         schedule_dir = temp_dir / "schedules"
         schedule_dir.mkdir()
-        (schedule_dir / "Schedule.md").write_text(
-            sample_schedule_content, encoding="utf-8"
-        )
+        (schedule_dir / "Schedule.md").write_text(sample_schedule_content, encoding="utf-8")
 
         output_dir = temp_dir / "output"
 

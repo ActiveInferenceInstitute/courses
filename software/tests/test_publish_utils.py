@@ -1,6 +1,5 @@
 """Tests for publish utils module — COURSE_REGISTRY-aware paths."""
 
-
 from src.publish.utils import (
     flatten_module,
     flatten_published,
@@ -23,6 +22,7 @@ from src.publish import config
 def _rel_path(course_id: str) -> str:
     """Return the COURSE_REGISTRY rel_path for a known course ID."""
     from src.batch_processing.config import COURSE_REGISTRY
+
     return COURSE_REGISTRY[course_id]["rel_path"]
 
 

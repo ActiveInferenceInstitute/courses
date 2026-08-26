@@ -12,7 +12,10 @@ try:
     from pydub import AudioSegment
 except ImportError:
     # Skip all tests if dependencies aren't available
-    pytest.skip("Required dependencies (gtts, speech_recognition, pydub) not available", allow_module_level=True)
+    pytest.skip(
+        "Required dependencies (gtts, speech_recognition, pydub) not available",
+        allow_module_level=True,
+    )
 
 
 def test_text_to_speech_uses_real_gtts():
@@ -31,8 +34,9 @@ def test_text_to_speech_uses_real_gtts():
     try:
         source = inspect.getsource(text_to_speech_audio)
         # Accept either gTTS (cross-platform) or say command (macOS native)
-        assert "gTTS" in source or "gtts" in source or "say" in source, \
+        assert "gTTS" in source or "gtts" in source or "say" in source, (
             "text_to_speech_audio should use gTTS or macOS say command"
+        )
     except OSError:
         # Source not available, but we verified gTTS is imported
         pass
@@ -185,7 +189,4 @@ def test_format_conversion_uses_real_libraries():
     # Verify it uses real libraries (check source for library usage)
     source = inspect.getsource(convert_file)
     # Should reference real conversion libraries
-    assert any(
-        lib in source.lower()
-        for lib in ["markdown", "weasyprint", "docx", "pypdf", "html"]
-    )
+    assert any(lib in source.lower() for lib in ["markdown", "weasyprint", "docx", "pypdf", "html"])

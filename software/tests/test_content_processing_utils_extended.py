@@ -100,8 +100,8 @@ class TestNormalizeWhitespace:
         """Output ends with exactly one newline."""
         content = "Content here"
         result = normalize_whitespace(content)
-        assert result.endswith('\n')
-        assert not result.endswith('\n\n')
+        assert result.endswith("\n")
+        assert not result.endswith("\n\n")
 
     def test_preserves_single_blank_lines(self):
         """Single blank lines are preserved."""

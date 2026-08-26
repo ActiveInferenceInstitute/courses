@@ -29,7 +29,6 @@ def script():
 
 
 class TestGenerateModuleWebsite:
-
     def test_parse_args(self, script):
         args = script.parse_args(["--course", "ai-philosophy", "--module", "3"])
         assert args.course == "ai-philosophy"

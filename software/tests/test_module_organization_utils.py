@@ -1,6 +1,5 @@
 """Tests for module_organization utility functions."""
 
-
 import pytest
 
 from src.module_organization.utils import (

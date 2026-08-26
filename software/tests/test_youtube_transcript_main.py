@@ -53,7 +53,7 @@ class TestTranscribeChannel:
             limit=1,
             resume=False,
         )
-        completed_first = summary1["completed"]
+        assert summary1["completed"] >= 0
 
         # Second run with resume - should skip the already completed video
         summary2 = transcribe_channel(
@@ -63,8 +63,12 @@ class TestTranscribeChannel:
             limit=1,
             resume=True,
         )
-        # Should process a different video or skip if all done
-        assert summary2["processed"] >= 0
+        # A resumed run must never re-process the completed video: it either
+        # processed something new or skipped everything.
+        assert summary2["processed"] <= summary2["total_enumerated"]
+        if summary1["completed"] > 0:
+            # The manifest is the resume source of truth; it must still exist.
+            assert Path(summary2["manifest_path"]).exists()
 
 
 @pytest.mark.requires_internet

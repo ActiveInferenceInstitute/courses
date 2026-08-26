@@ -4,7 +4,6 @@ Uses real function calls with temporary file structures — no mocks.
 Tests use flat module structure (AIF convention).
 """
 
-
 from src.batch_processing.main import (
     process_course_modules,
 )
@@ -23,9 +22,7 @@ class TestProcessCourseModules:
         mod2.mkdir()
         (mod2 / "module.md").write_text("# Module 2\n\nContent.", encoding="utf-8")
 
-        result = process_course_modules(
-            temp_dir, "Test Course", formats=["txt"]
-        )
+        result = process_course_modules(temp_dir, "Test Course", formats=["txt"])
 
         assert result["course"] == "Test Course"
         assert len(result["modules"]) == 2
@@ -49,9 +46,7 @@ class TestProcessCourseModules:
         mod2.mkdir()
         (mod2 / "module.md").write_text("# Module 2", encoding="utf-8")
 
-        result = process_course_modules(
-            temp_dir, "Test Course", module_filter=1, formats=["txt"]
-        )
+        result = process_course_modules(temp_dir, "Test Course", module_filter=1, formats=["txt"])
 
         assert len(result["modules"]) == 1
         assert result["modules"][0]["name"] == "module-01"
@@ -61,8 +56,6 @@ class TestProcessCourseModules:
         mod1 = temp_dir / "01_systems"
         mod1.mkdir()
 
-        result = process_course_modules(
-            temp_dir, "Test Course", module_filter=99, formats=["txt"]
-        )
+        result = process_course_modules(temp_dir, "Test Course", module_filter=99, formats=["txt"])
 
         assert len(result["modules"]) == 0

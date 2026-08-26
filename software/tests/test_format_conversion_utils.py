@@ -83,7 +83,7 @@ class TestConvertMarkdownToHtml:
         convert_markdown_to_html(md_file, html_file)
 
         content = html_file.read_text()
-        assert html_file.exists()
+        assert "<h1>Hello World</h1>" in content
 
     def test_convert_markdown_to_html_list(self, temp_dir):
         """Test converting markdown list to HTML."""

@@ -21,9 +21,7 @@ class TestGenerateModuleWebsite:
         (module_dir / "module.md").write_text(
             "# Lecture Content\n\nThis is lecture content.", encoding="utf-8"
         )
-        (module_dir / "lab.md").write_text(
-            "# Lab Protocol\n\nThis is a lab.", encoding="utf-8"
-        )
+        (module_dir / "lab.md").write_text("# Lab Protocol\n\nThis is a lab.", encoding="utf-8")
 
         output_dir = temp_dir / "output" / "website"
         result = generate_module_website(str(module_dir), str(output_dir))
@@ -55,9 +53,7 @@ class TestGenerateModuleWebsite:
         module_dir.mkdir()
 
         output_dir = temp_dir / "output"
-        result = generate_module_website(
-            str(module_dir), str(output_dir), course_name="BIOL-8"
-        )
+        result = generate_module_website(str(module_dir), str(output_dir), course_name="BIOL-8")
 
         html_content = Path(result).read_text()
         assert "BIOL-8" in html_content
@@ -121,9 +117,7 @@ class TestGenerateModuleWebsite:
                 },
             ]
         }
-        (questions_dir / "questions.json").write_text(
-            json.dumps(questions_data), encoding="utf-8"
-        )
+        (questions_dir / "questions.json").write_text(json.dumps(questions_data), encoding="utf-8")
 
         output_dir = temp_dir / "output"
         result = generate_module_website(str(module_dir), str(output_dir))
@@ -138,16 +132,12 @@ class TestGenerateModuleWebsite:
         module_dir.mkdir()
 
         # Create content file
-        (module_dir / "module.md").write_text(
-            "# Lecture", encoding="utf-8"
-        )
+        (module_dir / "module.md").write_text("# Lecture", encoding="utf-8")
 
         # Create output with audio
         output_base = module_dir / "output" / "lecture-content"
         output_base.mkdir(parents=True)
-        (output_base / "module.mp3").write_text(
-            "fake audio", encoding="utf-8"
-        )
+        (output_base / "module.mp3").write_text("fake audio", encoding="utf-8")
 
         output_dir = temp_dir / "website_output"
         result = generate_module_website(str(module_dir), str(output_dir))
@@ -230,7 +220,7 @@ class TestHTMLWebsiteConfig:
     def test_dark_mode_persists_via_localstorage(self):
         """Test that dark mode JavaScript uses localStorage for persistence."""
         # Now located in the JS block, indirectly tested via string presence
-        pass 
+        pass
 
 
 class TestHTMLWebsiteQuizStyles:
@@ -280,12 +270,13 @@ class TestEnhancedAccessibilityFeatures:
     def test_html_template_has_back_to_top(self):
         """Test that template includes back to top link."""
         from src.html_website.config import HTML_TEMPLATE
+
         assert "back-to-top" in HTML_TEMPLATE
         assert "scrollToTop" in HTML_TEMPLATE
 
     def test_template_has_mobile_toggle(self):
         """Test that template includes mobile sidebar toggle."""
         from src.html_website.config import HTML_TEMPLATE
+
         assert "toggleSidebar()" in HTML_TEMPLATE
         assert "mobile-menu-btn" in HTML_TEMPLATE
-

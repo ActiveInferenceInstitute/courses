@@ -284,10 +284,13 @@ class TestSecurityHardening:
         handler.server.role = "instructor"
         handler.path = "/course/demo_course/gradebook"
         # Announce a huge content-length; _read_form rejects before reading.
-        big = b"user_name=Alice&assignment=Q&score=1&max_score=100" + b"&pad=" + b"x" * (1024 * 1024)
+        big = (
+            b"user_name=Alice&assignment=Q&score=1&max_score=100" + b"&pad=" + b"x" * (1024 * 1024)
+        )
         handler.rfile = io.BytesIO(big)
         # Only claim a length beyond the cap so the body is not read in full.
         from src.danvas import config
+
         handler.headers = {"Content-Length": str(config.MAX_POST_BODY + 1)}
         handler._dispatch("POST")
         assert handler._response_status == 400

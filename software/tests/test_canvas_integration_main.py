@@ -1,6 +1,5 @@
 """Tests for canvas_integration main functions."""
 
-
 import pytest
 
 from src.canvas_integration.main import (
@@ -87,15 +86,12 @@ def test_validate_upload_readiness_file_too_large(temp_dir):
     (module_dir / "README.md").write_text("# Module 1\n", encoding="utf-8")
     (module_dir / "AGENTS.md").write_text("# Docs\n", encoding="utf-8")
 
-    # Create a large file (simulate by checking the validation logic)
-    # The actual size check happens in validate_file_size
     large_file = module_dir / "large_file.bin"
-    # Create a file that's larger than MAX_FILE_SIZE (500MB default)
-    # For testing, we'll just verify the function checks file sizes
     large_file.write_bytes(b"x" * 100)  # Small for test, but tests the path
 
     issues = validate_upload_readiness(str(module_dir))
-    # Should not have size issues for small file
+    # Small file: no size issue reported for it.
+    assert all("large_file.bin" not in str(i) for i in issues)
     # But we're testing that the path is covered
 
 

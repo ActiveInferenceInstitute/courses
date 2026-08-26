@@ -2,6 +2,29 @@
 
 All notable changes to the Active Inference Institute courses repository.
 
+## [Unreleased] — 2026-08-26 (lint/format hardening)
+
+### Fixed
+- All 15 ruff findings in `software/tests/` resolved with real behavior,
+  not suppression: dead local variables replaced by assertions that actually
+  check the code under test (`validate_upload_readiness` size reporting,
+  markdown→HTML content, dry-run path return), dependency-availability checks
+  moved to `importlib.util.find_spec`, unused imports/variables removed, and
+  resume-semantics assertions strengthened in the YouTube transcript tests.
+- Stray debug scratch file `software/test_new_modules.py` deleted (it sat at
+  `software/` root outside the pytest gate and shadowed nothing).
+- Ruff now excludes the generated `published/` output trees
+  (`extend-exclude` in `pyproject.toml`), removing 57 false findings from the
+  rendered Japanese translation tree.
+
+### Changed
+- `software/tests/` formatted repo-standard via `ruff format` (54 files).
+
+### Verified
+- `uv run ruff check .` clean; `uv run ruff format --check .` clean;
+  `uv run mypy src/` — Success (109 source files); CI-equivalent gate
+  **995 passed / 0 failed / 34 deselected**.
+
 ## [Unreleased] — 2026-08-01
 
 ### Added

@@ -28,7 +28,6 @@ def script():
 
 
 class TestPublishCourse:
-
     def test_parse_args(self, script):
         args = script.parse_args(["--course", "ai-math"])
         assert args.course == "ai-math"

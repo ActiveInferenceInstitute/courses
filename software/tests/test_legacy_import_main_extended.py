@@ -13,18 +13,10 @@ from src.legacy_import.main import (
 
 
 # Detect availability of rendering dependencies
-_has_pdf_renderer = True
-try:
-    from src.markdown_to_pdf.main import render_markdown_to_pdf
-except (ImportError, OSError):
-    _has_pdf_renderer = False
+import importlib.util
 
-_has_format_conversion = True
-try:
-    from src.format_conversion.main import convert_file
-    from src.format_conversion.utils import convert_docx_to_markdown
-except (ImportError, OSError):
-    _has_format_conversion = False
+_has_pdf_renderer = importlib.util.find_spec("src.markdown_to_pdf.main") is not None
+_has_format_conversion = importlib.util.find_spec("src.format_conversion.main") is not None
 
 
 class TestCreateForUploadFiles:
@@ -105,9 +97,7 @@ class TestProcessChapterQuestionsExtended:
         # Ensure module exists
         (course_dir / "module-1").mkdir(parents=True)
 
-        results = process_chapter_questions(
-            source_dir, course_root, course_dir, dry_run=False
-        )
+        results = process_chapter_questions(source_dir, course_root, course_dir, dry_run=False)
 
         # Real converter may error on fake DOCX, but the structure is correct
         assert "summary" in results
@@ -125,9 +115,7 @@ class TestProcessChapterQuestionsExtended:
         course_dir = course_root / "course"
         course_dir.mkdir(parents=True)
 
-        results = process_chapter_questions(
-            source_dir, course_root, course_dir, dry_run=True
-        )
+        results = process_chapter_questions(source_dir, course_root, course_dir, dry_run=True)
 
         # All three chapters should be listed
         assert len(results["processed"]) == 3
@@ -145,9 +133,7 @@ class TestProcessChapterQuestionsExtended:
         course_dir.mkdir(parents=True)
         # Don't pre-create module-2 — let ensure_module_exists handle it
 
-        results = process_chapter_questions(
-            source_dir, course_root, course_dir, dry_run=False
-        )
+        results = process_chapter_questions(source_dir, course_root, course_dir, dry_run=False)
 
         # The module should have been created by ensure_module_exists
         module_2 = course_dir / "module-2"

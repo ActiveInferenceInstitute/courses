@@ -81,8 +81,13 @@ def _reset_handler(handler):
 class TestTemplateRendering:
     """Verify that all templates produce valid HTML with expected content."""
 
-    _COURSE = {"id": "c1", "title": "Course X", "path": "/tmp/c1",
-               "module_count": 0, "description": ""}
+    _COURSE = {
+        "id": "c1",
+        "title": "Course X",
+        "path": "/tmp/c1",
+        "module_count": 0,
+        "description": "",
+    }
 
     def test_dashboard_template_contains_css(self):
         html_out = templates.render_dashboard([])
@@ -106,8 +111,13 @@ class TestTemplateRendering:
         assert "My Courses" in html_out
 
     def test_course_detail_template(self):
-        course = {"id": "c1", "title": "Test Course", "path": "/tmp/c1",
-                  "module_count": 2, "description": "A test"}
+        course = {
+            "id": "c1",
+            "title": "Test Course",
+            "path": "/tmp/c1",
+            "module_count": 2,
+            "description": "A test",
+        }
         modules = [
             {"number": 1, "name": "Intro", "dir_name": "01_intro", "files": ["a.md"]},
             {"number": 2, "name": "Advanced", "dir_name": "02_adv", "files": ["b.md", "c.md"]},
@@ -120,8 +130,13 @@ class TestTemplateRendering:
 
     def test_module_detail_template(self):
         course = {"id": "c1", "title": "Test", "path": "/tmp", "module_count": 1, "description": ""}
-        module_info = {"number": 1, "name": "First", "dir_name": "01_first",
-                       "files": ["module.md", "lab.md"], "path": "/tmp/01_first"}
+        module_info = {
+            "number": 1,
+            "name": "First",
+            "dir_name": "01_first",
+            "files": ["module.md", "lab.md"],
+            "path": "/tmp/01_first",
+        }
         html_out = templates.render_module_detail(course, module_info)
         assert "Module 1: First" in html_out
         assert "module.md" in html_out
@@ -134,7 +149,14 @@ class TestTemplateRendering:
 
     def test_gradebook_template_with_data(self):
         grades = {
-            "alice": {"hw1": {"score": 95, "max_score": 100, "percentage": 95.0, "updated_at": "2026-01-01T12:00:00"}},
+            "alice": {
+                "hw1": {
+                    "score": 95,
+                    "max_score": 100,
+                    "percentage": 95.0,
+                    "updated_at": "2026-01-01T12:00:00",
+                }
+            },
         }
         html_out = templates.render_gradebook(self._COURSE, grades)
         assert "alice" in html_out
@@ -147,7 +169,12 @@ class TestTemplateRendering:
 
     def test_announcements_template_with_data(self):
         announcements = [
-            {"title": "Welcome!", "body": "Hello class", "author": "Prof", "posted_at": "2026-01-01T10:00:00"},
+            {
+                "title": "Welcome!",
+                "body": "Hello class",
+                "author": "Prof",
+                "posted_at": "2026-01-01T10:00:00",
+            },
         ]
         html_out = templates.render_announcements(self._COURSE, announcements)
         assert "Welcome!" in html_out
@@ -160,8 +187,13 @@ class TestTemplateRendering:
 
     def test_calendar_template_with_events(self):
         events = [
-            {"title": "Midterm", "date": "2026-03-15", "description": "Ch 1-5",
-             "event_type": "exam", "created_at": "2026-01-01T12:00:00"},
+            {
+                "title": "Midterm",
+                "date": "2026-03-15",
+                "description": "Ch 1-5",
+                "event_type": "exam",
+                "created_at": "2026-01-01T12:00:00",
+            },
         ]
         html_out = templates.render_calendar(self._COURSE, events)
         assert "Midterm" in html_out
@@ -265,8 +297,6 @@ class TestEdgeCases:
 
     def test_non_finite_grade_rejected(self, data_dir):
         """Non-finite or negative grades must be rejected, not persisted."""
-        import math
-
         with pytest.raises(ValueError):
             record_grade("test", "alice", "hw", float("nan"), 100.0, data_dir)
         with pytest.raises(ValueError):
@@ -281,7 +311,7 @@ class TestEdgeCases:
     def test_very_long_assignment_name(self, data_dir):
         """Long assignment names should be stored correctly."""
         long_name = "A" * 1000
-        entry = record_grade("test", "alice", long_name, 50, 100.0, data_dir)
+        record_grade("test", "alice", long_name, 50, 100.0, data_dir)
         grades = get_grades("test", "alice", data_dir)
         assert long_name in grades
 
@@ -539,8 +569,6 @@ class TestRouteEdgeCases:
         assert "Page Not Found" in out
 
     def test_nonexistent_module_returns_404(self, handler):
-        _handlers.handle_module_detail(handler,
-            course_id="test_course", module_num="99"
-        )
+        _handlers.handle_module_detail(handler, course_id="test_course", module_num="99")
         out = _wfile_text(handler)
         assert "Page Not Found" in out

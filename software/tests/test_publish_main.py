@@ -30,21 +30,21 @@ class TestPublishCourse:
         assert (publish_root / "ai-philosophy" / "01_philosophy" / "test.pdf").exists()
 
     def test_publish_flat_structure_no_syllabus_subdir(self, temp_dir):
-            """Test publishing without a syllabus directory."""
-            course_dir = temp_dir / "ai-philosophy"
-            course_dir.mkdir()
+        """Test publishing without a syllabus directory."""
+        course_dir = temp_dir / "ai-philosophy"
+        course_dir.mkdir()
 
-            mod1 = course_dir / "01_systems"
-            mod1.mkdir()
-            (mod1 / "output").mkdir()
-            (mod1 / "output" / "gen.pdf").write_text("content")
+        mod1 = course_dir / "01_systems"
+        mod1.mkdir()
+        (mod1 / "output").mkdir()
+        (mod1 / "output" / "gen.pdf").write_text("content")
 
-            publish_root = temp_dir / "PUBLISHED"
-            results = publish_course(str(course_dir), str(publish_root))
+        publish_root = temp_dir / "PUBLISHED"
+        results = publish_course(str(course_dir), str(publish_root))
 
-            assert results["course"] == "ai-philosophy"
-            assert results["modules_published"] == 1
-            assert (publish_root / "ai-philosophy" / "01_systems" / "gen.pdf").exists()
+        assert results["course"] == "ai-philosophy"
+        assert results["modules_published"] == 1
+        assert (publish_root / "ai-philosophy" / "01_systems" / "gen.pdf").exists()
 
     def test_clean_directory(self, temp_dir):
         """Test that destination is cleaned before publishing."""

@@ -27,7 +27,7 @@ class TestExtractChapterNumber:
         """Test invalid filename patterns raise ValueError."""
         with pytest.raises(ValueError, match="Could not extract"):
             extract_chapter_number("No Number Here.docx")
-        
+
         with pytest.raises(ValueError):
             extract_chapter_number("Module 01.docx")
 
@@ -61,11 +61,13 @@ class TestEnsureModuleExists:
         """Test dry run skips creation."""
         (temp_dir / "course").mkdir(parents=True)
 
-        result = ensure_module_exists(temp_dir, 3, dry_run=True)
+        returned_path = ensure_module_exists(temp_dir, 3, dry_run=True)
 
         # In dry run, the module should NOT be created
         module_path = temp_dir / "course" / "module-3"
         assert not module_path.exists()
+        # The computed path is still reported without touching disk.
+        assert returned_path == module_path
 
     def test_existing_module_returns_correct_path(self, temp_dir):
         """Test that returned path matches expected module path."""

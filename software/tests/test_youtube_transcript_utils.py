@@ -148,8 +148,12 @@ class TestManifestIO:
 
     def test_save_overwrites_existing(self, tmp_path: Path) -> None:
         path = tmp_path / "manifest.json"
-        save_manifest({"channel_url": "first", "last_updated": "", "total_videos": 0, "videos": {}}, path)
-        save_manifest({"channel_url": "second", "last_updated": "", "total_videos": 0, "videos": {}}, path)
+        save_manifest(
+            {"channel_url": "first", "last_updated": "", "total_videos": 0, "videos": {}}, path
+        )
+        save_manifest(
+            {"channel_url": "second", "last_updated": "", "total_videos": 0, "videos": {}}, path
+        )
         loaded = load_manifest(path)
         assert loaded["channel_url"] == "second"
 

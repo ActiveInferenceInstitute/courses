@@ -28,7 +28,6 @@ def script():
 
 
 class TestTranscribeYoutube:
-
     def test_parse_args(self, script):
         args = script.parse_args(["--video-id", "test123", "--limit", "10", "--dry-run"])
         assert args.video_id == "test123"
@@ -99,9 +98,7 @@ class TestTranscribeYoutube:
             "failed": 0,
             "manifest_path": str(temp_dir / "manifest.json"),
         }
-        monkeypatch.setattr(
-            transcribe_youtube_script, "transcribe_channel", lambda **kw: result
-        )
+        monkeypatch.setattr(transcribe_youtube_script, "transcribe_channel", lambda **kw: result)
 
         exit_code = script.main(["--limit", "1", "--output", str(temp_dir)])
         assert exit_code == 0

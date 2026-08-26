@@ -28,7 +28,6 @@ def script():
 
 
 class TestPublishAll:
-
     def test_parse_args(self, script):
         args = script.parse_args(["--clean", "--skip-mp3", "--formats", "pdf,html"])
         assert args.clean is True

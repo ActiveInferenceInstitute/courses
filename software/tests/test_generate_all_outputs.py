@@ -28,7 +28,6 @@ def script():
 
 
 class TestGenerateAllOutputs:
-
     def test_parse_args(self, script):
         args = script.parse_args(["--course", "ai-philosophy", "--formats", "pdf,mp3", "--dry-run"])
         assert args.course == "ai-philosophy"
@@ -49,10 +48,13 @@ class TestGenerateAllOutputs:
         class FakeLogger:
             def info(self, msg, *a, **kw):
                 log_calls.append(msg)
+
             def warning(self, *a, **kw):
                 pass
+
             def error(self, *a, **kw):
                 pass
+
             def debug(self, *a, **kw):
                 pass
 

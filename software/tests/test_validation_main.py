@@ -165,7 +165,11 @@ class TestValidateOutputsWithLabs:
 
         result = validate_outputs(str(course_dir))
 
-        lab_issues = [i for i in result["issues"] if "Lab" in i or "lab" in i.lower() or "Dashboard" in i or "dashboard" in i.lower()]
+        lab_issues = [
+            i
+            for i in result["issues"]
+            if "Lab" in i or "lab" in i.lower() or "Dashboard" in i or "dashboard" in i.lower()
+        ]
         assert len(lab_issues) > 0
 
     def test_lab_missing_outputs_reported(self, temp_dir):
@@ -502,4 +506,3 @@ class TestGenerateValidationReport:
         assert "source_modules_valid" in summary
         assert "published_valid" in summary
         assert "published_files" in summary
-

@@ -29,7 +29,6 @@ def script():
 
 
 class TestImportLegacyMaterials:
-
     def test_parse_args(self, script):
         args = script.parse_args(["--course", "ai-math", "--dry-run", "--skip-questions"])
         assert args.course == "ai-math"

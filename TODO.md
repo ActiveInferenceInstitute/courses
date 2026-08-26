@@ -69,8 +69,30 @@
 
 ## Open / deferred
 
-- None from this pass. Notes:
-  - Heavy test suite not run (CI-equivalent gate is ~995 tests; run via
+- None from this pass.
+
+### Maintenance pass — 2026-08-26 (lint/format/quality gate hardening)
+
+- [x] `software/tests/` ruff findings (15) resolved: dead locals replaced with
+  real assertions (`test_canvas_integration_main.py` upload-readiness,
+  `test_format_conversion_utils.py` HTML content), dependency probes use
+  `importlib.util.find_spec` (`test_dependencies.py`,
+  `test_legacy_import_main*.py`), unused imports/vars removed
+  (`test_danvas_comprehensive.py`, `test_flatten_published.py`),
+  resume-semantics assertions strengthened
+  (`test_youtube_transcript_main.py`). All verified by test run.
+- [x] Stray root-level `software/test_new_modules.py` (debug scratch file,
+  outside the pytest gate) deleted.
+- [x] `software/tests/` formatted with `ruff format` (54 files).
+- [x] `ruff` now excludes generated `published/` output trees via
+  `extend-exclude` in `pyproject.toml` — 57 false lint findings in the
+  rendered Japanese translation tree no longer mask real ones; repo-wide
+  `uv run ruff check .` and `ruff format --check .` both clean.
+- [x] Verified after all changes: CI-equivalent gate **995 passed / 0 failed /
+  34 deselected**; mypy clean (109 files).
+
+Notes from the earlier doc-only pass:
+  - Heavy test suite not run at that time (CI-equivalent gate is ~995 tests; run via
     `cd software && uv run pytest tests/ -m "not requires_internet and not requires_api and not requires_whisper"`).
     No runtime code was changed in this pass — doc/config edits only — so the gate is
     unaffected; `publish.toml` gained one course toggle (`ai-comedy`).

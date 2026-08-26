@@ -186,15 +186,11 @@ def sample_unit_module_structure(temp_dir):
             (module / "module.md").write_text(
                 f"# {mod_name.title()}\n\nContent.\n", encoding="utf-8"
             )
-            (module / "questions.md").write_text(
-                "# Questions\n\n1. Question?\n", encoding="utf-8"
-            )
+            (module / "questions.md").write_text("# Questions\n\n1. Question?\n", encoding="utf-8")
             (module / "practice_quiz.md").write_text(
                 "# Practice Quiz\n\n1. Quiz?\n", encoding="utf-8"
             )
-            (module / "lab.md").write_text(
-                "# Lab\n\n## Objectives\n\nLearn.\n", encoding="utf-8"
-            )
+            (module / "lab.md").write_text("# Lab\n\n## Objectives\n\nLearn.\n", encoding="utf-8")
 
         # Unit-level syllabus
         (unit_dir / "syllabus.md").write_text(

@@ -28,7 +28,6 @@ def script():
 
 
 class TestRenumberQuestions:
-
     def test_parse_args(self, script):
         args = script.parse_args(["--course", "ai-math", "--dry-run", "--verbose"])
         assert args.course == "ai-math"

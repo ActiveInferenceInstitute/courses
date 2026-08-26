@@ -29,7 +29,6 @@ def script():
 
 
 class TestGenerateSyllabusRenderings:
-
     def test_parse_args(self, script):
         args = script.parse_args(["--course", "ai-math"])
         assert args.course == "ai-math"
@@ -42,7 +41,14 @@ class TestGenerateSyllabusRenderings:
             calls.append(syllabus_dir)
             return {
                 "summary": {"pdf": 1, "mp3": 0, "docx": 0, "html": 0, "txt": 0, "md": 0},
-                "by_format": {"pdf": ["test.pdf"], "mp3": [], "docx": [], "html": [], "txt": [], "md": []},
+                "by_format": {
+                    "pdf": ["test.pdf"],
+                    "mp3": [],
+                    "docx": [],
+                    "html": [],
+                    "txt": [],
+                    "md": [],
+                },
                 "errors": [],
             }
 
@@ -70,7 +76,14 @@ class TestGenerateSyllabusRenderings:
             calls.append(str(syllabus_dir))
             return {
                 "summary": {"pdf": 0, "mp3": 0, "docx": 0, "html": 0, "txt": 1, "md": 0},
-                "by_format": {"pdf": [], "mp3": [], "docx": [], "html": [], "txt": ["file.txt"], "md": []},
+                "by_format": {
+                    "pdf": [],
+                    "mp3": [],
+                    "docx": [],
+                    "html": [],
+                    "txt": ["file.txt"],
+                    "md": [],
+                },
                 "errors": [],
             }
 

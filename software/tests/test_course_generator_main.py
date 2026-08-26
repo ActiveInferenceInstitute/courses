@@ -75,10 +75,14 @@ class TestMainCLI:
 
     def test_generate_command(self, tmp_path):
         """Test 'generate' command for a single curriculum."""
-        exit_code = main([
-            "generate", "active_inference_es",
-            "--output", str(tmp_path),
-        ])
+        exit_code = main(
+            [
+                "generate",
+                "active_inference_es",
+                "--output",
+                str(tmp_path),
+            ]
+        )
         assert exit_code == 0
         assert (tmp_path / "active_inference_es").is_dir()
 

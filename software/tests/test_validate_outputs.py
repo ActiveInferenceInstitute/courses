@@ -28,7 +28,6 @@ def script():
 
 
 class TestValidateOutputs:
-
     def test_parse_args(self, script):
         args = script.parse_args(["--course", "ai-philosophy", "--formats", "pdf,html", "--json"])
         assert args.course == "ai-philosophy"
@@ -60,6 +59,7 @@ class TestValidateOutputs:
         assert script.parse_formats(None) is None
         # Should handle unknown formats gracefully
         from src.validation.config import ALL_SUPPORTED_FORMATS
+
         valid_format = ALL_SUPPORTED_FORMATS[0]
         assert script.parse_formats(f"{valid_format},invalid") == [valid_format]
 

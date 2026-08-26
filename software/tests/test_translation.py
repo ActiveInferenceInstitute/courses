@@ -232,4 +232,3 @@ class TestTranslationHardening:
 
         with pytest.raises(RuntimeError):
             translate_text("Some text to translate", target_lang="es", client=_FailingClient())
-

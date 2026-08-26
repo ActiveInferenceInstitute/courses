@@ -43,6 +43,7 @@ def test_text_to_speech_module_imports():
     """Verify text_to_speech module imports work."""
     try:
         from src.text_to_speech import generate_speech, batch_generate_speech
+
         assert generate_speech is not None
         assert batch_generate_speech is not None
     except ImportError as e:
@@ -53,6 +54,7 @@ def test_speech_to_text_module_imports():
     """Verify speech_to_text module imports work."""
     try:
         from src.speech_to_text import transcribe_audio, batch_transcribe_audio
+
         assert transcribe_audio is not None
         assert batch_transcribe_audio is not None
     except ImportError as e:
@@ -68,6 +70,7 @@ def test_batch_processing_imports():
             process_module_website,
             process_syllabus,
         )
+
         assert clear_all_outputs is not None
         assert process_module_by_type is not None
         assert process_module_website is not None
@@ -80,6 +83,7 @@ def test_format_conversion_imports():
     """Verify format_conversion module imports work."""
     try:
         from src.format_conversion.main import convert_file, get_supported_formats
+
         assert convert_file is not None
         assert get_supported_formats is not None
     except (ImportError, OSError) as e:
@@ -97,6 +101,7 @@ def test_module_organization_imports():
             get_module_statistics,
             validate_module_structure,
         )
+
         assert create_module_structure is not None
         assert get_module_statistics is not None
         assert validate_module_structure is not None
@@ -108,6 +113,7 @@ def test_html_website_imports():
     """Verify html_website module imports work."""
     try:
         from src.html_website.main import generate_module_website
+
         assert generate_module_website is not None
     except ImportError as e:
         pytest.fail(f"Failed to import html_website functions: {e}")
@@ -121,12 +127,14 @@ def test_text_to_speech_utils_imports():
             read_text_file,
             text_to_speech_audio,
         )
+
         assert extract_text_from_markdown is not None
         assert read_text_file is not None
         assert text_to_speech_audio is not None
 
         # Verify gTTS is imported (real implementation)
         from gtts import gTTS
+
         assert gTTS is not None
     except ImportError as e:
         pytest.fail(f"Failed to import text_to_speech utils or gTTS: {e}")
@@ -141,6 +149,7 @@ def test_speech_to_text_utils_imports():
             read_audio_file,
             transcribe_audio_segment,
         )
+
         assert convert_audio_to_wav is not None
         assert is_audio_file is not None
         assert read_audio_file is not None
@@ -148,6 +157,7 @@ def test_speech_to_text_utils_imports():
 
         # Verify speech_recognition is imported (real implementation)
         import speech_recognition as sr
+
         assert sr is not None
     except ImportError as e:
         pytest.fail(f"Failed to import speech_to_text utils or speech_recognition: {e}")

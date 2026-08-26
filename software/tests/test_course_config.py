@@ -55,16 +55,15 @@ def fake_curriculum(fake_repo: Path) -> Path:
     # Curriculum-level config
     (curriculum / CONFIG_FILENAME).write_text(
         '[metadata]\ntitle = "Active Inference"\ninstitution = "AII"\n'
-        "[audience]\ndifficulty = \"intermediate\"\nestimated_hours = 160\n"
-        "[localization]\nlanguage = \"en\"\n"
-        "[rendering.audio]\nlang = \"en\"\n",
+        '[audience]\ndifficulty = "intermediate"\nestimated_hours = 160\n'
+        '[localization]\nlanguage = "en"\n'
+        '[rendering.audio]\nlang = "en"\n',
         encoding="utf-8",
     )
 
     # Course-level config (overrides title)
     (course / CONFIG_FILENAME).write_text(
-        '[metadata]\ntitle = "Active Inference: Philosophy"\n'
-        "[audience]\nestimated_hours = 40\n",
+        '[metadata]\ntitle = "Active Inference: Philosophy"\n[audience]\nestimated_hours = 40\n',
         encoding="utf-8",
     )
 
@@ -157,9 +156,7 @@ class TestFindConfigChain:
         assert chain[0].parent.name == "active_inference"
         assert chain[1].parent.name == "01_philosophy"
 
-    def test_finds_only_curriculum_config_from_module(
-        self, fake_curriculum: Path
-    ) -> None:
+    def test_finds_only_curriculum_config_from_module(self, fake_curriculum: Path) -> None:
         repo_root = fake_curriculum.parent.parent
         module_path = fake_curriculum / "01_philosophy" / "01_systems"
         chain = find_config_chain(module_path, repo_root)
@@ -190,9 +187,7 @@ class TestResolveConfigChain:
 
     def test_merges_single_file(self, tmp_path: Path) -> None:
         toml_file = tmp_path / "course.toml"
-        toml_file.write_text(
-            '[metadata]\ntitle = "Test Course"\n', encoding="utf-8"
-        )
+        toml_file.write_text('[metadata]\ntitle = "Test Course"\n', encoding="utf-8")
         result = resolve_config_chain([toml_file])
         assert result["metadata"]["title"] == "Test Course"
         # Other defaults preserved
@@ -206,9 +201,7 @@ class TestResolveConfigChain:
             '[metadata]\ntitle = "Parent"\ndescription = "From parent"\n',
             encoding="utf-8",
         )
-        child_toml.write_text(
-            '[metadata]\ntitle = "Child"\n', encoding="utf-8"
-        )
+        child_toml.write_text('[metadata]\ntitle = "Child"\n', encoding="utf-8")
         result = resolve_config_chain([parent_toml, child_toml])
         assert result["metadata"]["title"] == "Child"
         assert result["metadata"]["description"] == "From parent"
@@ -258,9 +251,7 @@ class TestValidateConfig:
         assert any("rtl" in w for w in warnings)
 
     def test_audio_slow_not_boolean(self) -> None:
-        cfg = deep_merge(
-            DEFAULT_CONFIG, {"rendering": {"audio": {"slow": "yes"}}}
-        )
+        cfg = deep_merge(DEFAULT_CONFIG, {"rendering": {"audio": {"slow": "yes"}}})
         warnings = validate_config(cfg)
         assert any("slow" in w for w in warnings)
 
@@ -285,9 +276,7 @@ class TestLoadCourseConfig:
         assert config["metadata"]["institution"] == "AII"
         assert config["audience"]["estimated_hours"] == 160
 
-    def test_course_level_overrides_curriculum(
-        self, fake_curriculum: Path
-    ) -> None:
+    def test_course_level_overrides_curriculum(self, fake_curriculum: Path) -> None:
         repo_root = fake_curriculum.parent.parent
         course_path = fake_curriculum / "01_philosophy"
         config = load_course_config(course_path, repo_root)
@@ -314,7 +303,7 @@ class TestLoadCourseConfig:
         module_path = fake_curriculum / "01_philosophy" / "01_systems"
         # Add a module-level config
         (module_path / CONFIG_FILENAME).write_text(
-            "[rendering.audio]\nlang = \"es\"\nslow = true\n",
+            '[rendering.audio]\nlang = "es"\nslow = true\n',
             encoding="utf-8",
         )
         config = load_course_config(module_path, repo_root)
@@ -352,9 +341,7 @@ class TestIsFormatEnabled:
         assert is_format_enabled(config, "html") is True
 
     def test_mp3_alias(self) -> None:
-        config = deep_merge(
-            DEFAULT_CONFIG, {"rendering": {"audio": {"enabled": False}}}
-        )
+        config = deep_merge(DEFAULT_CONFIG, {"rendering": {"audio": {"enabled": False}}})
         assert is_format_enabled(config, "mp3") is False
 
     def test_unknown_format_returns_true(self) -> None:
@@ -375,9 +362,7 @@ class TestGetMetadata:
 
 class TestGetLocalization:
     def test_extracts_localization(self) -> None:
-        config = deep_merge(
-            DEFAULT_CONFIG, {"localization": {"language": "es"}}
-        )
+        config = deep_merge(DEFAULT_CONFIG, {"localization": {"language": "es"}})
         loc = get_localization(config)
         assert loc["language"] == "es"
         assert loc["locale"] == "en-US"  # default

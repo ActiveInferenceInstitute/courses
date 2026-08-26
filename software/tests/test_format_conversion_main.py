@@ -188,11 +188,11 @@ def test_convert_audio_to_text(temp_dir):
         f.write(b"WAVE")
         f.write(b"fmt ")
         f.write(struct.pack("<I", 16))  # chunk size
-        f.write(struct.pack("<H", 1))   # PCM format
-        f.write(struct.pack("<H", 1))   # mono
+        f.write(struct.pack("<H", 1))  # PCM format
+        f.write(struct.pack("<H", 1))  # mono
         f.write(struct.pack("<I", sample_rate))
         f.write(struct.pack("<I", sample_rate * 2))  # byte rate
-        f.write(struct.pack("<H", 2))   # block align
+        f.write(struct.pack("<H", 2))  # block align
         f.write(struct.pack("<H", 16))  # bits per sample
         f.write(b"data")
         f.write(struct.pack("<I", data_size))

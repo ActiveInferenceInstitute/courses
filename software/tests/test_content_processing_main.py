@@ -1,6 +1,5 @@
 """Tests for content_processing main module."""
 
-
 from src.content_processing.main import (
     process_questions_file,
     renumber_questions_in_course,
@@ -162,9 +161,7 @@ class TestRenumberQuestionsInCourse:
         )
         (mod1 / "questions.md").write_text(original, encoding="utf-8")
 
-        results = renumber_questions_in_course(
-            temp_dir, courses=["biol-1"], dry_run=True
-        )
+        results = renumber_questions_in_course(temp_dir, courses=["biol-1"], dry_run=True)
 
         assert results["files_converted"] == 1
         # File should be unchanged

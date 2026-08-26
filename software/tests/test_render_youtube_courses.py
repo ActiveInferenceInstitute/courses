@@ -28,7 +28,6 @@ def script():
 
 
 class TestRenderYoutubeCourses:
-
     def test_parse_args(self, script):
         args = script.parse_args(["--limit", "5", "--formats", "pdf,txt", "--dry-run"])
         assert args.limit == 5
@@ -63,7 +62,9 @@ class TestRenderYoutubeCourses:
         }
         save_calls = []
         monkeypatch.setattr(
-            render_youtube_script, "enumerate_and_map_playlists", lambda channel, transcript_dir, **kw: fake_result
+            render_youtube_script,
+            "enumerate_and_map_playlists",
+            lambda channel, transcript_dir, **kw: fake_result,
         )
         monkeypatch.setattr(
             render_youtube_script, "save_youtube_manifest", lambda m, p: save_calls.append(m)
@@ -79,9 +80,7 @@ class TestRenderYoutubeCourses:
     @pytest.mark.requires_api
     def test_main_execution(self, script, monkeypatch):
         """main() scaffolds and renders courses (requires API)."""
-        fake_manifest = {
-            "playlists": {"slug1": {"title": "Title 1", "videos": []}}
-        }
+        fake_manifest = {"playlists": {"slug1": {"title": "Title 1", "videos": []}}}
         scaffold_calls = []
         render_calls = []
 

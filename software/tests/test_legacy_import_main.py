@@ -4,16 +4,13 @@ Uses real implementations — WeasyPrint-dependent functionality is
 conditionally skipped via pytest.importorskip or pytest.skip.
 """
 
-
 from src.legacy_import.config import get_chapter_to_module_mapping
 
 
 # Check if format_conversion is available (requires WeasyPrint system libs)
-_has_format_conversion = True
-try:
-    from src.format_conversion.utils import convert_docx_to_markdown
-except (ImportError, OSError):
-    _has_format_conversion = False
+import importlib.util
+
+_has_format_conversion = importlib.util.find_spec("src.format_conversion.utils") is not None
 
 
 class TestProcessChapterQuestions:
@@ -65,9 +62,7 @@ class TestProcessChapterQuestions:
         course_dir = course_root / "course"
         course_dir.mkdir(parents=True)
 
-        results = process_chapter_questions(
-            source_dir, course_root, course_dir, dry_run=True
-        )
+        results = process_chapter_questions(source_dir, course_root, course_dir, dry_run=True)
 
         # In dry run, files are listed but not converted
         assert len(results["processed"]) == 1

@@ -21,7 +21,9 @@ class TestOllamaClient:
     def test_custom_init(self):
         """Test custom initialization."""
         client = OllamaClient(
-            model="mistral", base_url="http://custom:8080", timeout=60,
+            model="mistral",
+            base_url="http://custom:8080",
+            timeout=60,
         )
         assert client.model == "mistral"
         assert client.base_url == "http://custom:8080"
@@ -72,8 +74,12 @@ class TestEnrichModule:
         client._available = False
         original = "# Test Content\n\nThis is test content."
         result = enrich_module(
-            client, original, "systems",
-            "Test Course", "Testers", "Test tone.",
+            client,
+            original,
+            "systems",
+            "Test Course",
+            "Testers",
+            "Test tone.",
         )
         assert result == original
 
@@ -88,8 +94,12 @@ class TestEnrichModule:
 
         original = "# Test Content\n\nThis is test content."
         result = enrich_module(
-            client, original, "systems",
-            "Test Course", "Testers", "Test tone.",
+            client,
+            original,
+            "systems",
+            "Test Course",
+            "Testers",
+            "Test tone.",
         )
         # Should fall back to original on any connection failure
         assert result == original
@@ -99,8 +109,12 @@ class TestEnrichModule:
         client = OllamaClient()
         client._available = False
         result = enrich_module(
-            client, "", "systems",
-            "Test Course", "Testers", "Test tone.",
+            client,
+            "",
+            "systems",
+            "Test Course",
+            "Testers",
+            "Test tone.",
         )
         assert result == ""
 
@@ -110,7 +124,11 @@ class TestEnrichModule:
         client._available = False
         original = "# Title\n\n## Section\n\n- Item 1\n- Item 2\n\n```python\nprint('hi')\n```\n"
         result = enrich_module(
-            client, original, "systems",
-            "Test Course", "Testers", "Test tone.",
+            client,
+            original,
+            "systems",
+            "Test Course",
+            "Testers",
+            "Test tone.",
         )
         assert result == original

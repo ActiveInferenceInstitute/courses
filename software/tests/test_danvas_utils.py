@@ -68,23 +68,44 @@ class TestStore:
         assert store["enrollments"] == []
 
     def test_save_and_load_roundtrip(self, data_dir):
-        store = {"enrollments": [{"name": "Alice"}], "grades": {}, "announcements": [], "calendar_events": []}
+        store = {
+            "enrollments": [{"name": "Alice"}],
+            "grades": {},
+            "announcements": [],
+            "calendar_events": [],
+        }
         save_store("test_course", store, data_dir)
         loaded = load_store("test_course", data_dir)
         assert loaded["enrollments"][0]["name"] == "Alice"
 
     def test_save_creates_directories(self, data_dir):
-        save_store("nested_course", {"enrollments": [], "grades": {}, "announcements": [], "calendar_events": []}, data_dir)
+        save_store(
+            "nested_course",
+            {"enrollments": [], "grades": {}, "announcements": [], "calendar_events": []},
+            data_dir,
+        )
         assert (data_dir / "nested_course" / config.STORE_FILENAME).exists()
 
     def test_save_rejects_path_traversal_course_id(self, data_dir):
         """A course_id containing path separators or '..' must never escape data_dir."""
         with pytest.raises(ValueError):
-            save_store("nested/course", {"enrollments": [], "grades": {}, "announcements": [], "calendar_events": []}, data_dir)
+            save_store(
+                "nested/course",
+                {"enrollments": [], "grades": {}, "announcements": [], "calendar_events": []},
+                data_dir,
+            )
         with pytest.raises(ValueError):
-            save_store("..", {"enrollments": [], "grades": {}, "announcements": [], "calendar_events": []}, data_dir)
+            save_store(
+                "..",
+                {"enrollments": [], "grades": {}, "announcements": [], "calendar_events": []},
+                data_dir,
+            )
         with pytest.raises(ValueError):
-            save_store("../etc", {"enrollments": [], "grades": {}, "announcements": [], "calendar_events": []}, data_dir)
+            save_store(
+                "../etc",
+                {"enrollments": [], "grades": {}, "announcements": [], "calendar_events": []},
+                data_dir,
+            )
         # Nothing may have been written outside the data dir.
         assert not (data_dir.parent / "danvas_store.json").exists()
 
@@ -93,7 +114,17 @@ class TestStore:
         course_dir = data_dir / "manual_course"
         course_dir.mkdir(parents=True)
         store_path = course_dir / config.STORE_FILENAME
-        store_path.write_text(json.dumps({"enrollments": [{"user": "Bob"}], "grades": {}, "announcements": [], "calendar_events": []}), encoding="utf-8")
+        store_path.write_text(
+            json.dumps(
+                {
+                    "enrollments": [{"user": "Bob"}],
+                    "grades": {},
+                    "announcements": [],
+                    "calendar_events": [],
+                }
+            ),
+            encoding="utf-8",
+        )
         loaded = load_store("manual_course", data_dir)
         assert loaded["enrollments"][0]["user"] == "Bob"
 
@@ -106,7 +137,16 @@ class TestStore:
         assert loaded["enrollments"] == []
         assert "grades" in loaded
         # A subsequent write still works and replaces the corrupt file.
-        save_store("corrupt_course", {"enrollments": [{"name": "A"}], "grades": {}, "announcements": [], "calendar_events": []}, data_dir)
+        save_store(
+            "corrupt_course",
+            {
+                "enrollments": [{"name": "A"}],
+                "grades": {},
+                "announcements": [],
+                "calendar_events": [],
+            },
+            data_dir,
+        )
         reloaded = load_store("corrupt_course", data_dir)
         assert reloaded["enrollments"][0]["name"] == "A"
 

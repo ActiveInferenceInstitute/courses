@@ -1,6 +1,5 @@
 """Tests for schedule utility functions."""
 
-
 import pytest
 
 from src.schedule.utils import (
@@ -181,9 +180,7 @@ class TestGenerateScheduleMarkdown:
 
     def test_generate_schedule_markdown_basic(self):
         """Test generating markdown for basic entries."""
-        entries = [
-            {"week": "1", "date": "1/19/2026", "topic": "Intro", "notes": "First day"}
-        ]
+        entries = [{"week": "1", "date": "1/19/2026", "topic": "Intro", "notes": "First day"}]
         result = generate_schedule_markdown(entries)
 
         assert "| Week | Date | Topic | Notes |" in result

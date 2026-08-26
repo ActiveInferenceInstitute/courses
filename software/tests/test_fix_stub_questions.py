@@ -28,32 +28,32 @@ def course_structure(temp_dir):
     # Pattern: course_development/active_inference/01_philosophy
     base = temp_dir / "course_development"
     base.mkdir()
-    
+
     # Create ai-philosophy structure
     course_dir = base / "active_inference" / "01_philosophy"
     course_dir.mkdir(parents=True)
-    
+
     module_dir = course_dir / "01_systems"
     module_dir.mkdir()
-    
+
     # Stub content
     (module_dir / "module.md").write_text(
-        "# Module 1: Systems\n\n## Overview\n\nOverview content.\n\n## Key Concepts\n- **System** - A set of things.\n\n## Learning Objectives\n1. **Define** a system.\n", 
-        encoding="utf-8"
+        "# Module 1: Systems\n\n## Overview\n\nOverview content.\n\n## Key Concepts\n- **System** - A set of things.\n\n## Learning Objectives\n1. **Define** a system.\n",
+        encoding="utf-8",
     )
     (module_dir / "questions.md").write_text(
-        "# Questions\n\n... and why does it matter ...", 
-        encoding="utf-8"
+        "# Questions\n\n... and why does it matter ...", encoding="utf-8"
     )
-    
+
     return base
 
 
 class TestFixStubQuestions:
-    
     def test_parse_args(self, script, course_structure):
         """Test argument parsing."""
-        args = script.parse_args(["--base", str(course_structure), "--dry-run", "--course", "ai-philosophy"])
+        args = script.parse_args(
+            ["--base", str(course_structure), "--dry-run", "--course", "ai-philosophy"]
+        )
         assert args.base == course_structure
         assert args.dry_run is True
         assert args.course == "ai-philosophy"
@@ -70,16 +70,19 @@ class TestFixStubQuestions:
         assert callable(script.extract_course_info)
         # And check it corresponds to the imported one
         from src.batch_processing.utils import extract_course_info_from_path
+
         assert script.extract_course_info == extract_course_info_from_path
 
     def test_main_dry_run(self, script, course_structure, capsys):
         """Test dry run does not modify files."""
-        qf_path = course_structure / "active_inference" / "01_philosophy" / "01_systems" / "questions.md"
+        qf_path = (
+            course_structure / "active_inference" / "01_philosophy" / "01_systems" / "questions.md"
+        )
         original_content = qf_path.read_text("utf-8")
-        
+
         # Run main with dry-run
         script.main(["--base", str(course_structure), "--dry-run"])
-        
+
         captured = capsys.readouterr()
         assert "Found 1 stub questions files" in captured.out
         # "Would fix" should appear because it found a match
@@ -88,14 +91,16 @@ class TestFixStubQuestions:
 
     def test_main_execution(self, script, course_structure, capsys):
         """Test execution modifies files."""
-        qf_path = course_structure / "active_inference" / "01_philosophy" / "01_systems" / "questions.md"
-        
+        qf_path = (
+            course_structure / "active_inference" / "01_philosophy" / "01_systems" / "questions.md"
+        )
+
         # Run main
         script.main(["--base", str(course_structure)])
-        
+
         captured = capsys.readouterr()
         assert "Fixed:" in captured.out
-        
+
         new_content = qf_path.read_text("utf-8")
         assert "and why does it matter" not in new_content
         assert "Recall and Define" in new_content
@@ -109,23 +114,23 @@ class TestFixStubQuestions:
         other_course = course_structure / "courses" / "other_course" / "01_module"
         other_course.mkdir(parents=True)
         (other_course / "questions.md").write_text("... and why does it matter ...", "utf-8")
-        
+
         script.main(["--base", str(course_structure), "--course", "ai-philosophy", "--dry-run"])
-        
+
         captured = capsys.readouterr()
-        
+
         # It should find 2 potential stubs, but filter one out.
         # "Found 2 stub questions files"
         assert "Found 2 stub questions files" in captured.out
-        
+
         # Should verify that the OTHER file is NOT in the "Would fix" list
         # We need to capture the output and check lines.
         # "Would fix: .../active_inference/..." should be present.
         # "Would fix: .../courses/other_course/..." should NOT be present.
-        
+
         output = captured.out
         target_path_part = "active_inference/01_philosophy"
         other_path_part = "courses/other_course"
-        
+
         assert target_path_part in output
         assert other_path_part not in output
