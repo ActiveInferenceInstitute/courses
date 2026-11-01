@@ -6,6 +6,8 @@
 
 This portfolio contains **14 courses**, **58 units**, **464 modules**, and **6,100+ content files** for the Active Inference Institute. All courses share a common 8-topic spiral structure grounded in the **Free Energy Principle (FEP)** and **Active Inference**, adapted for audiences ranging from kindergarten to PhD researchers.
 
+Two supplementary tracks are registered in `COURSE_REGISTRY` but are **not** part of the 14-course count or the 464 topic modules: the [GNN Syntax track](./gnn/) (a notation skills track) and the [YouTube transcript archive](./youtube/). The 8-topic spine rule applies to the 14 courses, not to these tracks.
+
 Agents working anywhere in this repository must follow the universal rules below and consult the course-specific AGENTS.md for local conventions.
 
 ---

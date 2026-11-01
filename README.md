@@ -8,7 +8,7 @@
 
 > **Minimize surprise. Maximize evidence.**
 
-Welcome to the open-source curriculum infrastructure for **Active Inference education**. This repository hosts **14 complete courses** spanning Kindergarten to PhD (plus a YouTube transcript archive — 19 total entries in `COURSE_REGISTRY`), powered by a modular **Python publishing engine**.
+Welcome to the open-source curriculum infrastructure for **Active Inference education**. This repository hosts **14 complete courses** spanning Kindergarten to PhD (plus a YouTube transcript archive and a GNN syntax track — 20 total entries in `COURSE_REGISTRY`), powered by a modular **Python publishing engine**.
 
 Maintained by **Dr. Daniel Ari Friedman** ([@docxology](https://github.com/docxology)) at the [Active Inference Institute](https://activeinference.institute).
 

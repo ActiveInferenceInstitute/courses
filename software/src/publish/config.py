@@ -146,6 +146,15 @@ COURSE_CONFIGS = {
         "copy_dashboards": True,
     },
     # -------------------------------------------------------------------------
+    # Supplementary content tracks
+    # -------------------------------------------------------------------------
+    "gnn": {
+        "module_source_dir": "output",
+        "syllabus_source_dir": "output",
+        "include_syllabus": True,
+        "copy_dashboards": True,
+    },
+    # -------------------------------------------------------------------------
     # YouTube transcript archive
     # -------------------------------------------------------------------------
     "youtube": {

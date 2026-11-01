@@ -178,6 +178,16 @@ COURSE_REGISTRY: Dict[str, Dict[str, Any]] = {
         "content_files": ["module.md", "questions.md", "practice_quiz.md", "lab.md"],
         "syllabus_location": "syllabus.md",
     },
+    # --- GNN Syntax Track (supplementary content tree) ---
+    # Not one of the 14 spiral courses: a skills track that teaches Generalized
+    # Notation Notation (GNN) using verbatim exemplars from the GNN project.
+    "gnn": {
+        "rel_path": "course_development/gnn",
+        "display_name": "GNN Syntax Track",
+        "module_glob": "[0-9][0-9]_*",
+        "content_files": ["module.md", "questions.md", "practice_quiz.md", "lab.md"],
+        "syllabus_location": "README.md",
+    },
     # --- YouTube Transcript Archive ---
     "youtube": {
         "rel_path": "course_development/youtube",
