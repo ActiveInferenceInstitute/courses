@@ -81,7 +81,7 @@ Source markdown in `course_development/` is rendered through the pipeline to `pu
 
 ## Key Conventions
 
-- **No mocks in tests.** All tests use real implementations — real file operations, real library calls. This is a strict policy enforced across the codebase (see `.cursorrules` files).
+- **No mocks in tests.** All tests use real implementations — real file operations, real library calls. This is a strict policy enforced across the codebase (see `software/AGENTS.md` and `software/tests/AGENTS.md`).
 - **uv-first.** Always use `uv run` for commands, never bare `python`.
 - **Line length: 100** (ruff and mypy).
 - **Type hints required** on all functions (`mypy --disallow-untyped-defs`).

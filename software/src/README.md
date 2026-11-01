@@ -182,7 +182,7 @@ Each module has its own AGENTS.md with:
 - **Python PEP 8**: Style guidelines followed
 - **Type Hints**: All functions have type annotations
 - **Docstrings**: All public functions documented
-- **Real Methods**: No mocks or stubs (see [.cursorrules](.cursorrules))
+- **Real Methods**: No mocks or stubs (see [AGENTS.md](../AGENTS.md) and [CONTRIBUTING.md](../docs/CONTRIBUTING.md))
 - **Modular**: Self-contained, reusable modules
 - **Logged**: Operations logged for debugging
 
