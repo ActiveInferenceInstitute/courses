@@ -121,10 +121,11 @@ All 14 courses contain 4 or 5 units each (58 units total). Each unit contains 8 
 | 4 | Moving Through World | Digital Transformation | Autonomous Agents | Circle & Community | Innovation Ecology | Material Properties | Crowd & Callback |
 | 5 | — | — | — | — | — | — | Riff & Repertoire |
 
-### YouTube Transcript Archive
+### Supplementary Tracks
 
-| Course | Audience | Description |
-|--------|----------|-------------|
+| Track | Audience | Description |
+|-------|----------|-------------|
+| [GNN Syntax](./gnn/) | Middle school through 401 | Reading, writing, and running Generalized Notation Notation (GNN) specifications, with five verbatim exemplars from the GNN project |
 | [YouTube Archive](./youtube/) | All | Transcript collection from Active Inference Institute YouTube channel (~821 videos across 38 playlists) |
 
 ---
@@ -170,6 +171,7 @@ Each course has a `resources/` directory with:
 | Total Content Files | 6,100+ |
 | Interactive Dashboards | 464 |
 | Audience Range | K-5 through Graduate |
+| Supplementary Tracks | 2 (GNN Syntax, YouTube archive) — registered in `COURSE_REGISTRY`, not counted in the 464 topic modules |
 
 ---
 

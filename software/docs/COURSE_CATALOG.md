@@ -13,6 +13,7 @@ Complete catalog of all courses managed by the Active Inference Institute publis
 | [Core](#core-consolidated) | 1 consolidated + 4 legacy individual | The primary Active Inference textbook |
 | [Level-Adapted](#level-adapted-courses) | 6 | Same curriculum adapted for different audiences |
 | [Domain-Specific](#domain-specific-courses) | 7 | Active Inference applied to specific fields |
+| [Supplementary](#gnn-syntax-track) | 1 | Skills tracks that support the courses |
 | [Archive](#youtube-transcript-archive) | 1 | 38 playlists / ~821 YouTube video transcripts |
 
 ---
@@ -166,6 +167,37 @@ Same 4-unit x 8-module pattern, adapted for domain context:
 ```bash
 # Render a domain course
 uv run python scripts/generate_all_outputs.py --course ai-embodied --formats txt,md
+```
+
+---
+
+## GNN Syntax Track
+
+### `gnn` — GNN Syntax Track
+
+A supplementary skills track that teaches Generalized Notation Notation (GNN)
+using five verbatim exemplars from the GNN v5.0.3 exemplar corpus. This is not
+one of the 14 spiral courses and is not counted in the 464-module total.
+
+| Field | Value |
+|-------|-------|
+| **Registry ID** | `gnn` |
+| **Display name** | GNN Syntax Track |
+| **Path** | `course_development/gnn/` |
+| **Structure** | 1 lesson module (`01_gnn_syntax/`) + 5 exemplar models |
+| **Module glob** | `[0-9][0-9]_*` |
+| **Content files** | `module.md`, `questions.md`, `practice_quiz.md`, `lab.md` |
+| **Syllabus** | `README.md` (track overview) |
+| **Source pin** | GNN v5.0.3, commit `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1` |
+
+The lesson walks through the Static Perception Model section by section, computes
+its perception update, and runs the GNN pipeline over the shipped exemplars.
+See [course_development/gnn/README.md](../../course_development/gnn/README.md)
+for the level mapping and provenance.
+
+```bash
+# Render the track
+uv run python scripts/generate_all_outputs.py --course gnn --formats txt,md
 ```
 
 ---
