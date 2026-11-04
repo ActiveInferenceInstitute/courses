@@ -94,7 +94,7 @@ class OllamaClient:
             raise ConnectionError("Ollama is not available")
 
         url = f"{self.base_url}/api/generate"
-        payload = {
+        payload: dict[str, Any] = {
             "model": model or self.model,
             "prompt": prompt,
             "system": system,

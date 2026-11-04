@@ -96,7 +96,7 @@ class OllamaClient:
         if not self.is_available():
             raise ConnectionError("Ollama is not available")
 
-        payload = {
+        payload: dict[str, Any] = {
             "model": self.model,
             "prompt": prompt,
             "system": system_prompt,
