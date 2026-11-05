@@ -63,6 +63,11 @@ Steps 3 (parse) and 5 (type check) need no simulator; steps 11 (render) and 12
 (execute) report `unsupported` for frameworks that cannot represent a given
 model, and `skipped` when a toolchain is missing locally.
 
+The repository's `gnn conformance (pinned)` CI job runs the same parser and type
+checker over the five exemplars. It installs the revision recorded in
+[`.github/gnn-pin.json`](../../.github/gnn-pin.json) (GNN `v5.0.3`) and fails if
+an exemplar stops parsing or type-checking.
+
 ---
 
 ## Publishing
