@@ -60,6 +60,9 @@ code, and Step 12 executes what the local toolchain supports. Render and execute
 results depend on the frameworks installed in the GNN environment; parse and
 type-check results do not require any renderer.
 
+The repository's `gnn conformance (pinned)` CI job runs steps 3 and 5 over this
+folder with the revision in [`.github/gnn-pin.json`](../../../../.github/gnn-pin.json).
+
 ---
 
 > *"Minimize surprise. Maximize evidence."* — Active Inference Institute
