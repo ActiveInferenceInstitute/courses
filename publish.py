@@ -38,7 +38,9 @@ except ImportError:
     try:
         import tomli as tomllib  # Fallback for older Python
     except ImportError:
-        print("ERROR: Python 3.11+ required, or install 'tomli' package.", file=sys.stderr)
+        print(
+            "ERROR: Python 3.11+ required, or install 'tomli' package.", file=sys.stderr
+        )
         sys.exit(1)
 
 
@@ -110,11 +112,15 @@ def run_youtube_scaffold(repo_root: Path, dry_run: bool = False) -> bool:
     logger.info("Pre-generation: scaffolding YouTube transcripts...")
 
     if dry_run:
-        logger.info("  [DRY RUN] Would scaffold YouTube module.md files with real transcripts")
+        logger.info(
+            "  [DRY RUN] Would scaffold YouTube module.md files with real transcripts"
+        )
         return True
 
     cmd = [
-        "uv", "run", "python",
+        "uv",
+        "run",
+        "python",
         str(repo_root / "software" / "scripts" / "render_youtube_courses.py"),
         "--force-scaffold",
         "--skip-render",
@@ -155,10 +161,14 @@ def run_generation(
     """
     for course in courses:
         cmd = [
-            "uv", "run", "python",
+            "uv",
+            "run",
+            "python",
             str(repo_root / "software" / "scripts" / "generate_all_outputs.py"),
-            "--course", course,
-            "--formats", ",".join(formats),
+            "--course",
+            course,
+            "--formats",
+            ",".join(formats),
         ]
 
         if dry_run:
@@ -170,7 +180,9 @@ def run_generation(
         if skip_labs:
             cmd.append("--skip-labs")
 
-        logger.info(f"{'[DRY RUN] ' if dry_run else ''}Generating {course}: {', '.join(formats)}")
+        logger.info(
+            f"{'[DRY RUN] ' if dry_run else ''}Generating {course}: {', '.join(formats)}"
+        )
         result = subprocess.run(cmd, cwd=str(repo_root / "software"))
 
         if result.returncode != 0:
@@ -183,7 +195,9 @@ def run_generation(
     return True
 
 
-def run_publish(repo_root: Path, courses: list, output_dir: str, dry_run: bool = False) -> bool:
+def run_publish(
+    repo_root: Path, courses: list, output_dir: str, dry_run: bool = False
+) -> bool:
     """Copy generated outputs to the published directory.
 
     Args:
@@ -238,7 +252,9 @@ def run_publish(repo_root: Path, courses: list, output_dir: str, dry_run: bool =
 
             if dry_run:
                 file_count = sum(1 for _ in output_dir_path.rglob("*") if _.is_file())
-                logger.info(f"  Would copy {file_count} files from {module_dir.name}/output/")
+                logger.info(
+                    f"  Would copy {file_count} files from {module_dir.name}/output/"
+                )
             else:
                 for f in output_dir_path.rglob("*"):
                     if f.is_file():
@@ -262,24 +278,28 @@ def run_publish(repo_root: Path, courses: list, output_dir: str, dry_run: bool =
             # static_dir is relative to course root (from config)
             # e.g. "04_computer_science/src/active_inference"
             source_dir = course_path / static_dir
-            
+
             if not source_dir.exists():
                 logger.warning(f"Static dir not found: {source_dir}")
                 continue
-                
+
             # Destination preserves structure relative to course
             dest = course_pub / static_dir
-            
+
             if dry_run:
                 file_count = sum(1 for _ in source_dir.rglob("*") if _.is_file())
-                logger.info(f"  Would copy static dir {static_dir} ({file_count} files)")
+                logger.info(
+                    f"  Would copy static dir {static_dir} ({file_count} files)"
+                )
             else:
                 if dest.exists():
                     shutil.rmtree(dest)
                 shutil.copytree(source_dir, dest)
                 created_files = sum(1 for _ in dest.rglob("*") if _.is_file())
                 total_copied += created_files
-                logger.info(f"  Copied static dir: {static_dir} ({created_files} files)")
+                logger.info(
+                    f"  Copied static dir: {static_dir} ({created_files} files)"
+                )
 
     if not dry_run:
         logger.info(f"Published {total_copied} files to {published_path}")
@@ -291,16 +311,30 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Active Inference Institute Course Publishing Pipeline"
     )
-    parser.add_argument("--dry-run", action="store_true", help="Preview without generating")
-    parser.add_argument("--override-formats", type=str, help="Comma-separated format override")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Preview without generating"
+    )
+    parser.add_argument(
+        "--override-formats", type=str, help="Comma-separated format override"
+    )
     parser.add_argument("--course", type=str, help="Process only this course ID")
-    parser.add_argument("--skip-clear", action="store_true", help="Skip clearing outputs")
-    parser.add_argument("--no-website", action="store_true", help="Skip website generation")
+    parser.add_argument(
+        "--skip-clear", action="store_true", help="Skip clearing outputs"
+    )
+    parser.add_argument(
+        "--no-website", action="store_true", help="Skip website generation"
+    )
     parser.add_argument("--skip-labs", action="store_true", help="Skip lab rendering")
-    parser.add_argument("--generate-dashboards", action="store_true",
-                        help="Regenerate interactive dashboards")
-    parser.add_argument("--publish-only", action="store_true",
-                        help="Re-publish existing outputs without regenerating")
+    parser.add_argument(
+        "--generate-dashboards",
+        action="store_true",
+        help="Regenerate interactive dashboards",
+    )
+    parser.add_argument(
+        "--publish-only",
+        action="store_true",
+        help="Re-publish existing outputs without regenerating",
+    )
     parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
 
     args = parser.parse_args()
@@ -329,7 +363,9 @@ def main() -> int:
     # CLI flags override config options
     no_website = args.no_website or not options.get("generate_website", True)
     skip_labs = args.skip_labs or options.get("skip_labs", False)
-    generate_dashboards = args.generate_dashboards or options.get("generate_dashboards", False)
+    generate_dashboards = args.generate_dashboards or options.get(
+        "generate_dashboards", False
+    )
 
     logger.info("=" * 60)
     logger.info("Active Inference Institute — Course Publishing Pipeline")
@@ -358,7 +394,9 @@ def main() -> int:
         if "youtube" in courses:
             scaffold_ok = run_youtube_scaffold(repo_root, dry_run=args.dry_run)
             if not scaffold_ok:
-                logger.warning("YouTube scaffold had errors (continuing with generation)")
+                logger.warning(
+                    "YouTube scaffold had errors (continuing with generation)"
+                )
 
         # Step 1: Generate outputs
         success = run_generation(
@@ -385,6 +423,7 @@ def main() -> int:
             published_path = repo_root / output_dir
             if published_path.exists():
                 import shutil
+
                 for item in published_path.iterdir():
                     if item.name.startswith("."):
                         continue
