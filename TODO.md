@@ -2,7 +2,7 @@
 
 **Status:** Active
 **Owner:** Dr. Daniel Ari Friedman (docxology), Active Inference Institute
-**Last reviewed:** 2026-08-02 (mega-deep documentation review + implementation pass)
+**Last reviewed:** 2026-11-11 (documentation completion pass 3)
 
 **Section guide:**
 - **Minor** = typo, broken link, formatting, single stale number
@@ -24,7 +24,7 @@
 - [x] ✓ `TESTING.md:14` "65+" → 67 test files. (f4789c39)
 - [x] ✓ `TESTING.md:48` nonexistent test node `TestProcessModuleByType::test_success` → real node (`test_process_module_by_type_structure`). (f4789c39)
 - [x] ✓ `TESTING.md:68` `--cov-fail-under=70` presented as project threshold — no threshold configured; reworded. (f4789c39)
-- [x] ✓ `TESTING.md` tables now list the 4 previously undocumented test files (`test_*_extended.py` ×3, `test_youtube_render.py`). (pending commit)
+- [x] ✓ `TESTING.md` tables now list the 4 previously undocumented test files (`test_*_extended.py` ×3, `test_youtube_render.py`). (f4789c39)
 - [x] ✓ `CONTENT_AUTHORING.md:120` "Coming Soon" placeholder endorsement → no-placeholder rule. (f4789c39)
 - [x] ✓ `COURSE_CATALOG.md:248` `has_course_subdir` registry field — not a real key; removed. (f4789c39)
 - [x] ✓ `QUICKSTART.md:76-79` course-ID list missing `ai-comedy` and `youtube`; added. (f4789c39)
@@ -69,7 +69,44 @@
 
 ## Open / deferred
 
-- None from this pass.
+- None from the earlier passes.
+
+### Documentation completion pass 3 — 2026-11-11
+
+Completed in this pass:
+
+- [x] Added `software/docs/PIPELINE.md` — the end-to-end `publish.py` run: stage order,
+  `published/` output layout, and offline vs. network requirements. Linked from the docs
+  index and the root `README.md`.
+- [x] Fixed the broken relative link in `course_development/AGENTS.md`
+  (`../active_inference/...` → `./active_inference/...`); it was the only broken relative
+  link across the root, `.aii/`, and `software/docs/` guides.
+- [x] Root `README.md`: added a table of contents, an honest Status table (what works
+  offline vs. what needs network, system libraries, or a local LLM), a Documentation hub
+  section, and a current last-updated date.
+- [x] `software/docs/CONFIGURATION.md`: replaced the invalid `[project.dependencies]`
+  TOML block with the real PEP 621 `dependencies = [...]` list; corrected the "add a new
+  course" step, which described every toggle as defaulting to `false`.
+- [x] `software/docs/ARCHITECTURE.md` and `software/AGENTS.md`: clarified that Ruff is the
+  linter and formatter used in CI, with Black's config retained for compatibility.
+- [x] Bumped `Last Updated` dates on
+  `software/docs/{README,ARCHITECTURE,CONFIGURATION,TROUBLESHOOTING}.md`.
+- [x] `.aii/readiness.json`: corrected `baseline.commit` from a commit that only exists on
+  the `refactor/publish-format` branch to `origin/main` (`4e050dc6…`), and set
+  `measured_at` to 2026-11-11.
+
+Open items found in this pass, left for the owner:
+
+- [ ] `published/` has no top-level `README.md`, and its committed `AGENTS.md` is deleted
+  by `publish.py` when `clean_before_publish = true` (the clean step preserves only
+  dot-prefixed entries). The guide is therefore transient after a full publish run.
+  Decide whether to preserve it (e.g. teach the clean step to keep it) or generate it.
+- [ ] `software/transcription/captions/` and `software/transcription/transcripts/` (775
+  tracked files each) have no folder guide. They are bulk generated transcript data, so no
+  README was added under the "skip generated/vendored data" rule.
+- [ ] `published/` subdirectories are tracked in Git even though `.gitignore` ignores
+  `published/*/` — the tracked rendered outputs are stale relative to the pipeline and
+  will churn on every publish. Owner decision on whether to keep tracking them.
 
 ### Maintenance pass — 2026-08-26 (lint/format/quality gate hardening)
 

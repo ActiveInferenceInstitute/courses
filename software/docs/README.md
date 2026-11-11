@@ -26,6 +26,7 @@ Understand the system's design principles and structure:
 | :--- | :--- |
 | **[ARCHITECTURE](ARCHITECTURE.md)** | High-level system design, module layers, and data flow. |
 | **[ORCHESTRATION](ORCHESTRATION.md)** | How modules coordinate to process courses in batches. |
+| **[PIPELINE](PIPELINE.md)** | End-to-end run of `publish.py`: stages, output layout, requirements. |
 | **[AGENTS](AGENTS.md)** | Guidelines for AI agents working in this codebase. |
 
 ---
@@ -57,4 +58,4 @@ For course authors and curriculum designers:
 | **[YOUTUBE](YOUTUBE.md)** | Transcription and archiving for YouTube content. |
 
 ---
-*Last Updated: 2026-08-02*
+*Last Updated: 2026-11-11*

@@ -70,11 +70,18 @@ Managed by `uv`. Defines the Python environment.
 [project]
 name = "aii-courses"
 requires-python = ">=3.11"
-
-[project.dependencies]
-weasyprint = ">=60.0"   # PDF engine
-gtts = ">=2.5.0"        # Text-to-Speech
-markdown = ">=3.5.0"    # Markdown processing
+dependencies = [
+    "markdown>=3.5.0",
+    "weasyprint>=60.0",
+    "gtts>=2.5.0",
+    "requests>=2.31.0",
+    "speechrecognition>=3.10.0",
+    "pydub>=0.25.1",
+    "pypdf>=4.0.0",
+    "python-docx>=1.1.0",
+    "markdown2>=2.4.0",
+    "yt-dlp>=2025.9.0",
+]
 ```
 
 **Usage**:
@@ -108,7 +115,7 @@ COURSE_REGISTRY = {
 To add a new course, you **must**:
 
 1. Add it to `COURSE_REGISTRY`.
-2. Add it to `publish.toml` (default `false`).
+2. Add it to `publish.toml` with an explicit toggle.
 
 ---
 
@@ -120,4 +127,4 @@ To add a new course, you **must**:
 | `DYLD_LIBRARY_PATH` | (System Dependent) | macOS library path for WeasyPrint |
 
 ---
-*Last Updated: 2026-02-14*
+*Last Updated: 2026-11-11*

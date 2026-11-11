@@ -133,8 +133,8 @@ courses/
 | **pytest** | Testing | `pyproject.toml` |
 | **WeasyPrint** | PDF Engine | System libraries (Cairo/Pango) |
 | **gTTS** | Text-to-Speech | Google Translate API |
-| **Ruff** | Linter | `pyproject.toml` |
-| **Black** | Formatter | `pyproject.toml` |
+| **Ruff** | Linter & formatter (used in CI) | `pyproject.toml` |
+| **Black** | Formatter config retained for compatibility | `pyproject.toml` |
 
 ---
-*Last Updated: 2026-08-02*
+*Last Updated: 2026-11-11*

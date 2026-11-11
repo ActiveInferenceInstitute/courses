@@ -570,7 +570,8 @@ Test files in `tests/` mirror the source structure:
 
 - pytest: Testing framework
 - pytest-cov: Code coverage
-- black: Code formatting
+- ruff: Linting and formatting (the formatter used in CI)
+- black: Formatter config retained for compatibility
 - mypy: Type checking
 
 ## Build and Deployment

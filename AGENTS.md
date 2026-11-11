@@ -142,7 +142,9 @@ See [Curriculum Overview](course_development/README.md) for the full course map.
 
 | Resource | Path | Purpose |
 |----------|------|---------|
+| Documentation hub | [`software/docs/README.md`](software/docs/README.md) | Index of every technical guide |
 | Publishing config | [`publish.toml`](publish.toml) | Toggle courses, formats, options |
+| Pipeline runbook | [`software/docs/PIPELINE.md`](software/docs/PIPELINE.md) | End-to-end `publish.py` stages and outputs |
 | Quick start | [`software/docs/QUICKSTART.md`](software/docs/QUICKSTART.md) | Installation & setup |
 | Architecture | [`software/docs/ARCHITECTURE.md`](software/docs/ARCHITECTURE.md) | System design |
 | Course catalog | [`software/docs/COURSE_CATALOG.md`](software/docs/COURSE_CATALOG.md) | All courses at a glance |

@@ -101,7 +101,7 @@ Match the tone and complexity to the course's target audience:
 When linking between courses, always use relative paths. Format:
 
 ```markdown
-See the [mathematical formulation](../active_inference/03_math/03_perception/module.md) for the formal derivation.
+See the [mathematical formulation](./active_inference/03_math/03_perception/module.md) for the formal derivation.
 ```
 
 ### 5. Quality Checklist (Universal)
