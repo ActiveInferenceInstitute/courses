@@ -12,6 +12,9 @@ Options:
     --override-formats  Comma-separated formats to override publish.toml
     --course COURSE     Override to process only this course ID
     --skip-clear        Skip clearing existing outputs before generation
+    --no-website        Skip website generation
+    --skip-labs         Skip lab rendering
+    --generate-dashboards  Generate interactive dashboards
     --publish-only      Re-publish existing outputs without regenerating
     --verbose           Enable verbose output
 

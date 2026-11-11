@@ -8,6 +8,37 @@ This repository contains the complete curriculum infrastructure for the Active I
 
 ---
 
+## Commands
+
+Software commands run from `software/` with [`uv`](https://docs.astral.sh/uv/) on Python 3.11+; the engine declares its dependencies in [`software/pyproject.toml`](software/pyproject.toml).
+
+```bash
+# Install the engine and its development tools
+cd software && uv sync --extra dev
+
+# Run the test suite the way CI does (the offline gate)
+cd software && uv run pytest tests/ -m "not requires_internet and not requires_api and not requires_whisper"
+
+# Run one test file
+cd software && uv run pytest tests/test_batch_processing_main.py -v
+
+# Lint, format check, and type check
+cd software && uv run ruff check src/ scripts/
+cd software && uv run ruff format --check src/ scripts/
+cd software && uv run mypy src/
+
+# Render one course to Text and Markdown
+cd software && uv run python scripts/generate_all_outputs.py --course ai-philosophy --formats txt,md
+
+# Preview the top-level pipeline from the repository root
+python publish.py --dry-run
+```
+
+The authoritative gate is [`.github/workflows/ci.yml`](.github/workflows/ci.yml); markers, coverage
+and single-test invocations are documented in [`software/docs/TESTING.md`](software/docs/TESTING.md).
+
+---
+
 ## Directory Roles
 
 | Directory | Purpose | AGENTS.md |

@@ -39,6 +39,7 @@ Institute repositories without touching this project's own content. The schema i
 | Task | Command | Working directory | Description |
 | --- | --- | --- | --- |
 | `inventory` | `git ls-files` | `.` | List tracked files. |
+| `test` | `uv run pytest tests/ -m "not requires_internet and not requires_api and not requires_whisper"` | `software` | Run the offline test suite the CI gate uses. |
 
 ## Links
 

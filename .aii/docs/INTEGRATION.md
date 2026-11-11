@@ -42,12 +42,18 @@
 | `AGENTS.md` | `doc` | Agent guidance. |
 | `LICENSE` | `doc` | License. |
 | `CHANGELOG.md` | `doc` | Changelog. |
+| `publish.py` | `code` | Top-level pipeline entry point driven by publish.toml. |
+| `publish.toml` | `metadata` | Publishing configuration for courses, formats and pipeline options. |
+| `course_development/` | `source` | Markdown source for every course and module. |
+| `software/` | `code` | Python rendering engine (21 modules, 23 CLI scripts, tests and docs). |
+| `published/` | `publication` | Rendered course outputs produced by the pipeline. |
 
 ## Portable tasks
 
 | Task | Command | Working directory | Description |
 | --- | --- | --- | --- |
 | `inventory` | `git ls-files` | `.` | List tracked files. |
+| `test` | `uv run pytest tests/ -m "not requires_internet and not requires_api and not requires_whisper"` | `software` | Run the offline test suite the CI gate uses. |
 
 ## Validation
 

@@ -102,7 +102,7 @@ graph TD
 ```
 
 - **[Architecture Guide](software/docs/ARCHITECTURE.md)**: Deep dive into the 5-layer system design.
-- **[CLI Reference](software/docs/CLI_REFERENCE.md)**: Documentation for all 22 CLI scripts.
+- **[CLI Reference](software/docs/CLI_REFERENCE.md)**: Documentation for all 23 CLI scripts.
 - **[Module API](software/docs/MODULES.md)**: Reference for the Python source modules.
 
 ### 🤖 Agent-Friendly Codebase

@@ -1,7 +1,7 @@
 # AII sidecar — InstituteOS metadata. Schema: aii_platform.aii_sidecar
 meta:
-  sidecar_version: 1.2.1
-  updated: '2026-11-10'
+  sidecar_version: 1.3.0
+  updated: '2026-11-11'
 repo:
   name: courses
   slug: courses
@@ -20,6 +20,7 @@ ecosystem:
     relation: referenced-by
     note: Federated via the InstituteOS .aii manifest.
   - repo: ActiveInferenceInstitute/Active_Inference_Ontology
+    relation: references
     note: Uses Active Inference Ontology terms.
   - repo: ActiveInferenceInstitute/ActiveInferenceJournal
     relation: referenced-by
@@ -40,6 +41,21 @@ artifacts:
 - path: CHANGELOG.md
   kind: doc
   description: Changelog.
+- path: publish.py
+  kind: code
+  description: Top-level pipeline entry point driven by publish.toml.
+- path: publish.toml
+  kind: metadata
+  description: Publishing configuration for courses, formats and pipeline options.
+- path: course_development/
+  kind: source
+  description: Markdown source for every course and module.
+- path: software/
+  kind: code
+  description: Python rendering engine (21 modules, 23 CLI scripts, tests and docs).
+- path: published/
+  kind: publication
+  description: Rendered course outputs produced by the pipeline.
 provenance:
   license: CC-BY-4.0
   citation:
@@ -58,6 +74,10 @@ tasks:
   inventory:
     cmd: git ls-files
     description: List tracked files.
+  test:
+    cmd: uv run pytest tests/ -m "not requires_internet and not requires_api and not requires_whisper"
+    cwd: software
+    description: Run the offline test suite the CI gate uses.
 docs:
 - README.md
 - AGENTS.md
