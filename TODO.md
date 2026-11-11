@@ -107,6 +107,16 @@ Open items found in this pass, left for the owner:
 - [ ] `published/` subdirectories are tracked in Git even though `.gitignore` ignores
   `published/*/` — the tracked rendered outputs are stale relative to the pipeline and
   will churn on every publish. Owner decision on whether to keep tracking them.
+- [ ] Test-count arithmetic does not reconcile: `1,014 tests collected` (root `README.md`,
+  `AGENTS.md`, `software/AGENTS.md`) versus `~995 passing` + `34 deselected` (= 1,029).
+  A static count finds 1,029 `def test_` functions across the 67 `test_*.py` files, which
+  matches 995 + 34 rather than 1,014. The exact collected/passing split needs a real
+  `uv run pytest` run; the offline environment cannot build the env (missing
+  `speechrecognition==3.14.5` wheel), so the claims are left unchanged pending measurement.
+- [ ] `464 modules` (root `AGENTS.md`; README badge `modules-464+`) understates a
+  filesystem count: 512 module directories contain a `module.md` across the 14 courses
+  (excluding the `youtube/` archive and the `gnn/` track). Confirm the intended counting
+  rule before changing the figure.
 
 ### Maintenance pass — 2026-08-26 (lint/format/quality gate hardening)
 

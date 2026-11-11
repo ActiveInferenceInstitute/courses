@@ -45,7 +45,7 @@ and single-test invocations are documented in [`software/docs/TESTING.md`](softw
 |-----------|---------|-----------|
 | `course_development/` | All source curricula (14 courses across levels and domains) | [AGENTS.md](course_development/AGENTS.md) |
 | `published/` | Rendered outputs for distribution (generated, not hand-edited) | [AGENTS.md](published/AGENTS.md) |
-| `software/` | Python engine: 21 modules, 23 scripts, 17 docs, 1,014 tests | [AGENTS.md](software/AGENTS.md) |
+| `software/` | Python engine: 21 modules, 23 scripts, 18 docs, 1,014 tests | [AGENTS.md](software/AGENTS.md) |
 | `summaries/` | Generated course summaries | [AGENTS.md](summaries/AGENTS.md) |
 | `publish.py` | Top-level pipeline entry point | — |
 | `publish.toml` | Publishing configuration (courses, formats, options) | — |

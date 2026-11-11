@@ -8,7 +8,7 @@ Standards and processes for maintaining documentation in the Active Inference In
 
 ## Documentation Map
 
-### This Directory (`software/docs/`) — 17 files
+### This Directory (`software/docs/`) — 18 files
 
 **Getting Started:**
 
@@ -27,6 +27,7 @@ Standards and processes for maintaining documentation in the Active Inference In
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System design, COURSE_REGISTRY | Developers |
 | [MODULES.md](MODULES.md) | API reference for all 21 modules | Developers |
 | [ORCHESTRATION.md](ORCHESTRATION.md) | Multi-module workflows | Developers |
+| [PIPELINE.md](PIPELINE.md) | End-to-end `publish.py` run: stages, output layout, requirements | Developers |
 | [CONFIGURATION.md](CONFIGURATION.md) | All config files and schemas | Developers |
 
 **Reference:**
