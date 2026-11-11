@@ -1,11 +1,15 @@
-# AII sidecar — InstituteOS metadata. Schema: instituteos.platform.aii_sidecar
+# AII sidecar — InstituteOS metadata. Schema: aii_platform.aii_sidecar
 meta:
-  updated: '2026-06-30'
+  sidecar_version: 1.2.1
+  updated: '2026-11-10'
 repo:
   name: courses
   slug: courses
   full_name: ActiveInferenceInstitute/courses
-  description: Courses for learning Active Inference
+  description: Welcome to the open-source curriculum infrastructure for Active Inference
+    education. This repository hosts 14 complete courses spanning Kindergarten to
+    PhD (plus a YouTube transcript archive and a GNN syntax track — 20 total entries
+    in COURSE_REGISTRY), powered by a modular Python publishing engine.
 institute:
   category: education
   maturity: released
@@ -27,6 +31,15 @@ artifacts:
 - path: README.md
   kind: doc
   description: Repository overview.
+- path: AGENTS.md
+  kind: doc
+  description: Agent guidance.
+- path: LICENSE
+  kind: doc
+  description: License.
+- path: CHANGELOG.md
+  kind: doc
+  description: Changelog.
 provenance:
   license: CC-BY-4.0
   citation:
@@ -34,12 +47,21 @@ provenance:
 instituteos:
   tags:
   - courses
+  - education
   - learning
-  - inference
+  - active-inference
   - html
 capabilities:
 - tested
+- ci
 tasks:
   inventory:
     cmd: git ls-files
     description: List tracked files.
+docs:
+- README.md
+- AGENTS.md
+- docs/INTEGRATION.md
+- docs/README.md
+- docs/AGENTS.md
+schema: aii-sidecar/v1
