@@ -7,9 +7,9 @@ with `./run.sh metrics`; `./run.sh docs` fails if this file is stale.
 
 | Fact | Value |
 | --- | --- |
-| Tests collected (`pytest --collect-only`) | 1062 |
-| Test files (`software/tests/test_*.py`) | 68 |
-| Files scanned by the no-mocks check | 69 |
+| Tests collected (`pytest --collect-only`) | 1067 |
+| Test files (`software/tests/test_*.py`) | 69 |
+| Files scanned by the no-mocks check | 70 |
 | Importable modules (`software/src/*/__init__.py`) | 22 |
 | Python scripts (`software/scripts/*.py`) | 28 |
 | Pages under `docs/` (excluding `_generated/`) | 5 |
