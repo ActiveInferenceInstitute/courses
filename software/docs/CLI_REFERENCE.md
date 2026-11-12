@@ -2,7 +2,12 @@
 
 > **Navigation**: [← Docs Index](README.md) | [Quick Start](QUICKSTART.md) | [Configuration](CONFIGURATION.md)
 
-Complete reference for all **23 CLI scripts** in `software/scripts/`.
+Complete reference for the **23 course CLI scripts** in `software/scripts/`.
+
+The directory also holds three gate tools — `check_docs.py`,
+`generate_gate_metrics.py`, and `verify_gnn_conformance.py` — which are run
+through `./run.sh` and documented in
+[`../../docs/RUN_GUIDE.md`](../../docs/RUN_GUIDE.md), not here.
 
 **Note**: Unless noted otherwise, all commands must be run from `software/` using `uv run`.
 The repo-root `publish.py` is the exception — it runs as plain `python` from the repository root.

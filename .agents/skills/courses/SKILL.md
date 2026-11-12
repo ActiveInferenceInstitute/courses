@@ -17,7 +17,7 @@ The **ActiveInferenceInstitute/courses** repository contains:
 
 - **14 courses** across levels (ES, Family, MS, HS, 101, Core, 401) and domains (embodied, organizations, robotics, crochet, inventions, metallurgy, comedy)
 - **464 modules** following the 8-topic spine: Systems → Agents → Perception → Cognition → Action → Learning → Communication → Planning
-- **1,014 tests** — all real implementations, no mocks
+- **1,029 collected tests** (995 in the offline gate, 34 network-marked) — all real implementations, no mocks
 - A **Python publishing engine** (`software/`) that renders Markdown + TOML course configs into PDF, DOCX, HTML, and audio artefacts
 - A **YouTube transcript archive** and spoken-word generation pipeline
 
@@ -42,12 +42,15 @@ courses/
 | Task | Command |
 |------|---------|
 | Install deps | `cd software && uv sync --extra dev` |
-| Run all tests | `cd software && uv run pytest tests/ -v` |
+| Offline test gate | `./run.sh test` |
+| Every test (needs network) | `./run.sh test-full` |
 | Publish one course | `uv run python scripts/generate_all_outputs.py --course active-inference` |
 | Top-level publish | `python publish.py` |
-| Lint | `cd software && uv run ruff check src/ scripts/` |
-| Type check | `cd software && uv run mypy src/` |
-| Verify no-mocks | `cd software && python scripts/verify_no_mocks.py` |
+| Lint | `./run.sh lint` |
+| Type check | `./run.sh types` |
+| Verify no-mocks | `./run.sh no-mocks` |
+| Docs links + generated facts | `./run.sh docs` |
+| GNN conformance | `./run.sh gnn` |
 
 ## How agents should work with this repo
 
@@ -80,7 +83,7 @@ Match formalism, code, and lab style to the target audience level (see AGENTS.md
 
 ## CI / pre-commit
 
-- **GitHub Actions** (`.github/workflows/ci.yml`): lint → no-mocks → tests (py3.11 + py3.12)
+- **GitHub Actions** (`.github/workflows/ci.yml`): three independent jobs — `static` (lint, types, no-mocks, docs arms), `test` (offline gate on py3.11 + py3.12), `gnn-conformance` (pinned parser). Each job runs `./run.sh <arm>`; see `docs/RUN_GUIDE.md`.
 - **pre-commit** (`.pre-commit-config.yaml`): ruff, ruff-format, mypy, no-mocks, standard hooks
 - Install hooks: `pre-commit install` (from repo root)
 

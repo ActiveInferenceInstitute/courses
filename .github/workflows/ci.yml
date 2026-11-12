@@ -1,5 +1,12 @@
 name: CI
 
+# Every check below is one `./run.sh` arm. The arms are the same commands a
+# contributor runs locally (docs/RUN_GUIDE.md); this workflow adds no second
+# copy of a command, so a green local arm and a green CI step cannot diverge.
+#
+# Jobs are independent: no `needs:` chain, so one slow arm does not delay the
+# others. Each job syncs the environment once and then runs its arms in it.
+
 on:
   push:
     branches: [main]
@@ -13,76 +20,15 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  # Hosted runs must not append to the tracked timing receipts.
+  GATE_TIMINGS: "0"
+
 jobs:
-  gnn-conformance:
-    name: gnn conformance (pinned)
+  static:
+    name: Static checks (lint, types, no-mocks, docs)
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Set up Python
-        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
-        with:
-          python-version: "3.12"
-      - name: Install pinned GNN parser
-        run: |
-          python -m pip install --disable-pip-version-check defusedxml psutil pyyaml
-          python - <<'PY'
-          import json
-          import subprocess
-          import sys
-          from pathlib import Path
-
-          pin = json.loads(Path(".github/gnn-pin.json").read_text(encoding="utf-8"))
-          assert pin["repository"] == "ActiveInferenceInstitute/Generalized_Notation_Notation"
-          spec = (
-              "generalized-notation-notation @ "
-              f"git+https://github.com/{pin['repository']}.git@{pin['revision']}"
-          )
-          subprocess.check_call(
-              [sys.executable, "-m", "pip", "install", "--disable-pip-version-check", "--no-deps", spec]
-          )
-          PY
-      - name: Parse and type-check GNN exemplars
-        run: |
-          python - <<'PY'
-          import json
-          import tempfile
-          from pathlib import Path
-
-          from gnn import __version__
-          from gnn.parsers.basic import parse_gnn_formal, validate_gnn_syntax
-          from gnn.type_checker import GNNTypeChecker
-
-          pin = json.loads(Path(".github/gnn-pin.json").read_text(encoding="utf-8"))
-          expected_version = pin["tag"].removeprefix("v")
-          if __version__ != expected_version:
-              raise SystemExit(f"installed GNN {__version__!r} does not match {pin['tag']!r}")
-
-          models = Path("course_development/gnn/01_gnn_syntax/models")
-          sketches = sorted(path for path in models.glob("*.md") if path.name != "README.md")
-          if len(sketches) != 5:
-              raise SystemExit(f"expected 5 GNN exemplars, found {len(sketches)}")
-
-          for sketch in sketches:
-              parsed = parse_gnn_formal(sketch)
-              if parsed is None or getattr(parsed, "parse_errors", None):
-                  raise SystemExit(f"{sketch.name} did not parse cleanly")
-              valid, errors = validate_gnn_syntax(sketch.read_text(encoding="utf-8"))
-              if not valid:
-                  raise SystemExit(f"{sketch.name} syntax errors: {errors!r}")
-
-          with tempfile.TemporaryDirectory(prefix="courses-gnn-") as output_dir:
-              if not GNNTypeChecker().validate_gnn_files(models, Path(output_dir)):
-                  raise SystemExit("GNN type checker rejected the exemplar directory")
-
-          print(json.dumps({"gnn-version": __version__, "parsed": len(sketches), "type-checked": len(sketches), "result": "verified"}, indent=2, sort_keys=True))
-          PY
-
-  lint:
-    timeout-minutes: 60
-    name: Lint & Type Check
-    runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -98,44 +44,22 @@ jobs:
         working-directory: software
         run: uv sync --extra dev
 
-      - name: Ruff lint
-        working-directory: software
-        run: uv run ruff check src/ scripts/ --output-format=github
+      - name: Lint (ruff check + format check)
+        run: ./run.sh lint
 
-      - name: Ruff format check
-        working-directory: software
-        run: uv run ruff format --check src/ scripts/
+      - name: Types (mypy)
+        run: ./run.sh types
 
-      - name: mypy type check
-        working-directory: software
-        run: uv run mypy src/
+      - name: No-mocks policy
+        run: ./run.sh no-mocks
 
-  verify-no-mocks:
-    timeout-minutes: 60
-    name: Verify No Mocks Policy
-    runs-on: ubuntu-latest
-    needs: lint
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
-        with:
-          enable-cache: true
-
-      - name: Set up Python 3.11
-        run: uv python install 3.11
-
-      - name: Run no-mocks verification
-        run: |
-          python scripts/verify_no_mocks.py
-        working-directory: software
+      - name: Docs (relative links + generated facts)
+        run: ./run.sh docs
 
   test:
-    timeout-minutes: 60
     name: Tests (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
-    needs: verify-no-mocks
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -156,15 +80,8 @@ jobs:
         working-directory: software
         run: uv sync --extra dev
 
-      - name: Run tests
-        working-directory: software
-        run: |
-          uv run pytest tests/ \
-            -v \
-            -m "not requires_internet and not requires_api and not requires_whisper" \
-            --cov=src \
-            --cov-report=term-missing \
-            --cov-report=xml
+      - name: Offline test gate
+        run: ./run.sh test
 
       - name: Upload coverage
         if: matrix.python-version == '3.12'
@@ -172,3 +89,20 @@ jobs:
         with:
           files: software/coverage.xml
           fail_ci_if_error: false
+
+  gnn-conformance:
+    name: gnn conformance (pinned)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+
+      # The arm creates its own seeded venv and installs the parser pinned in
+      # .github/gnn-pin.json; nothing else in the repository needs that package.
+      - name: GNN conformance (pin, parse, type-check)
+        run: ./run.sh gnn

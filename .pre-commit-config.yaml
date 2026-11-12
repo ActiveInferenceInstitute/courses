@@ -25,7 +25,7 @@ repos:
     hooks:
       - id: no-mocks
         name: Verify no-mocks policy
-        entry: python software/scripts/verify_no_mocks.py
+        entry: bash -c 'cd software && uv run python scripts/verify_no_mocks.py'
         language: system
         pass_filenames: false
         always_run: true

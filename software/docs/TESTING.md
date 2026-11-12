@@ -20,6 +20,16 @@ Comprehensive guide to the test suite, conventions, and practices for the Active
 
 ## Running Tests
 
+### The gate arms
+
+The repository has one entry point for checks, and CI runs these same arms
+([`../../docs/RUN_GUIDE.md`](../../docs/RUN_GUIDE.md)):
+
+```bash
+./run.sh test       # offline gate: 995 passed, 34 deselected (the CI arm)
+./run.sh test-full  # every test, including internet/API/whisper
+```
+
 ### All Tests
 
 ```bash

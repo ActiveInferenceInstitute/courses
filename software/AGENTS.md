@@ -6,7 +6,7 @@ Technical documentation for course management software utilities, including func
 
 ## Test Coverage
 
-**Overall: 75%** (1,014 tests collected; CI-equivalent gate ~995 passing, 34 network/external/whisper tests deselected)
+**Overall: 75%** (1,029 tests collected; the offline gate runs 995 and deselects 34 network/external/whisper tests — see [`../docs/_generated/GATE_METRICS.md`](../docs/_generated/GATE_METRICS.md))
 
 | Module | Coverage | Notes |
 | ------ | -------- | ----- |
