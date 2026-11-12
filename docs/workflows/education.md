@@ -126,10 +126,12 @@ member's documentation hub; `manuscript` is the command that renders its manuscr
 | `Start` | `uv run start-gate {lint,types,fast,full,docs,numbers,gnn,gnn-exemplar,artifacts,smoke,audit,lock,smoke-macos}` (`scripts/gate.py:65`, `pyproject.toml:73`) | `docs/README.md`, `docs/documentation-index.md` | none | `.github/gnn-pin.json` — `v5.0.3`, `8f293d9` |
 | `Active_Skillference` | `./gates.sh {default,all,record,sync,lint,types,fast,test,artifacts,checks,docs,gnn,render}` (`gates.sh:107`) | `docs/README.md`, `docs/documentation-index.md` | `./gates.sh render` → `scripts/render_manuscript.py` | none — `GNN_ROOT` names a prepared checkout (`gates.sh:89`) |
 
-Every member carries an `.aii/config.yaml` sidecar at `aii-sidecar/v1`. All eleven list
-`docs/INTEGRATION.md` under `docs:`; that file exists in none of them. The sidecar's
-document list is unvalidated in every member — a defect this contract records rather than
-inherits.
+Every member carries an `.aii/config.yaml` sidecar at `aii-sidecar/v1`. Ten of the eleven
+list `docs/INTEGRATION.md` under `docs:`, and that file exists in none of them; `gen25`,
+`ActiveInferenceImplementations`, `ActiveInferenceCategoryTheory` and `Symposium` also list
+`docs/AGENTS.md`, which is absent in those four. `Parr_et_al_2022_ActInf_Textbook` is the
+exception: ten entries, every one present. The sidecar's document list is unvalidated in
+every member — a defect this contract records rather than inherits.
 
 ---
 
