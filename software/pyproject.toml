@@ -42,10 +42,11 @@ pythonpath = ["."]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+# Coverage is on by default; the HTML report is opt-in (`--cov-report=html`)
+# because writing it on every run costs more than reading the terminal table.
 addopts = [
     "--cov=src",
     "--cov-report=term-missing",
-    "--cov-report=html",
     "-v",
     "-W",
     "ignore::DeprecationWarning:speech_recognition",
