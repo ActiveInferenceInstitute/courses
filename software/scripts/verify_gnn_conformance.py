@@ -151,8 +151,14 @@ def verify(pin: dict[str, str]) -> dict[str, object]:
             raise ConformanceError(f"{sketch.name} syntax errors: {errors!r}")
 
     with tempfile.TemporaryDirectory(prefix="courses-gnn-") as output_dir:
-        if not GNNTypeChecker().validate_gnn_files(MODELS_DIR, Path(output_dir)):
-            raise ConformanceError("GNN type checker rejected the exemplar directory")
+        checked = GNNTypeChecker().validate_gnn_files(MODELS_DIR, Path(output_dir))
+        if checked is not True:
+            # 2 is the checker's "invalid files or none found" warning; truthiness
+            # would let it pass. Anything but literal True is a failed gate.
+            raise ConformanceError(
+                "GNN type checker rejected the exemplar directory "
+                f"(validate_gnn_files returned {checked!r}; expected True)"
+            )
 
     return {
         "gnn-version": __version__,
