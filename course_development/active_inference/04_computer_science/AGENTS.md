@@ -18,6 +18,7 @@ Agents working on this course (Computer Science) should approach all content fro
 | `src/` | Directory | `active_inference` Python package (v0.4.0) — 3 subpackages, 56 exports |
 | `tests/` | Directory | pytest suite — 253 tests (agent, math, visualization, config, output) |
 | `output/` | Directory | Generated visualization figures (30 PNGs from test suite) |
+| `models/` | Directory | Repository-owned GNN models — `tmaze.gnn.md` mirrors the `tmaze_model` fixture |
 | `01_systems/` | Directory | Module 1: Systems — Generative Process vs Generative Model in pymdp |
 | `02_agents/` | Directory | Module 2: Agents — The Agent Class: States, Observations, and A-E Matrices |
 | `03_perception/` | Directory | Module 3: Perception — State Estimation with A-Matrix and B-Matrix |
