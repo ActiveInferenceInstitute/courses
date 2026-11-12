@@ -38,7 +38,7 @@ COVERAGE_JSON = SOFTWARE / "coverage.json"
 PIN_PATH = ROOT / ".github" / "gnn-pin.json"
 MODELS_DIR = ROOT / "course_development" / "gnn" / "01_gnn_syntax" / "models"
 
-ARMS = ("lint", "types", "no-mocks", "test", "test-full", "docs", "gnn")
+ARMS = ("lint", "types", "no-mocks", "test", "test-full", "docs", "contract", "gnn")
 COLLECTED_RE = re.compile(r"(\d+) tests? collected")
 
 

@@ -7,14 +7,14 @@ with `./run.sh metrics`; `./run.sh docs` fails if this file is stale.
 
 | Fact | Value |
 | --- | --- |
-| Tests collected (`pytest --collect-only`) | 1029 |
-| Test files (`software/tests/test_*.py`) | 67 |
-| Files scanned by the no-mocks check | 68 |
-| Importable modules (`software/src/*/__init__.py`) | 21 |
-| Python scripts (`software/scripts/*.py`) | 26 |
-| Pages under `docs/` (excluding `_generated/`) | 4 |
+| Tests collected (`pytest --collect-only`) | 1062 |
+| Test files (`software/tests/test_*.py`) | 68 |
+| Files scanned by the no-mocks check | 69 |
+| Importable modules (`software/src/*/__init__.py`) | 22 |
+| Python scripts (`software/scripts/*.py`) | 28 |
+| Pages under `docs/` (excluding `_generated/`) | 5 |
 | Pages under `software/docs/` | 18 |
-| Tracked Markdown files (excluding `docs/_generated/`) | 9273 |
+| Tracked Markdown files (excluding `docs/_generated/`) | 9274 |
 
 ## GNN pin
 

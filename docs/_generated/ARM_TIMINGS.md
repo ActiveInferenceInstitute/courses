@@ -9,14 +9,15 @@ when `CI` is unset).
 
 | Arm | Wall time | Exit | Host | Commit |
 | --- | --- | --- | --- | --- |
-| `lint` | 0.2 s | 0 | Daniels-MacBook-Pro | `a4593e5a` |
-| `types` | 1.0 s | 0 | Daniels-MacBook-Pro | `3632cf25` |
-| `no-mocks` | 0.1 s | 0 | Daniels-MacBook-Pro | `3632cf25` |
-| `test` | 90.6 s | 0 | Daniels-MacBook-Pro | `3632cf25` |
+| `lint` | 0.2 s | 0 | Daniels-MacBook-Pro | `a1e25320` |
+| `types` | 0.7 s | 0 | Daniels-MacBook-Pro | `a1e25320` |
+| `no-mocks` | 0.1 s | 0 | Daniels-MacBook-Pro | `a1e25320` |
+| `test` | 58.1 s | 0 | Daniels-MacBook-Pro | `a1e25320` |
 | `test-full` | not measured | - | - | - |
-| `docs` | 1.5 s | 0 | Daniels-MacBook-Pro | `a4593e5a` |
-| `gnn` | 0.4 s | 0 | Daniels-MacBook-Pro | `3632cf25` |
+| `docs` | 0.9 s | 0 | Daniels-MacBook-Pro | `a1e25320` |
+| `contract` | 0.2 s | 0 | Daniels-MacBook-Pro | `a1e25320` |
+| `gnn` | 0.2 s | 0 | Daniels-MacBook-Pro | `a1e25320` |
 
-Coverage: 75% of `software/src` (last `./run.sh test` run).
+Coverage: 76% of `software/src` (last `./run.sh test` run).
 
 The commands behind each arm are listed in [`../RUN_GUIDE.md`](../RUN_GUIDE.md).

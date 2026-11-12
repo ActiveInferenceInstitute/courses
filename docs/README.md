@@ -18,6 +18,7 @@ this hub routes to them rather than copying them.
 | Current test/module/doc counts | [`_generated/GATE_METRICS.md`](_generated/GATE_METRICS.md) |
 | Last measured wall time per arm | [`_generated/ARM_TIMINGS.md`](_generated/ARM_TIMINGS.md) |
 | What the GNN conformance job parses | [`../.github/GNN.md`](../.github/GNN.md) |
+| The education group's shared curriculum schema | [`workflows/education.md`](workflows/education.md) |
 | Engine install, rendering, publishing | [`../software/docs/README.md`](../software/docs/README.md) |
 | Contribution rules and the no-mocks policy | [`../software/docs/CONTRIBUTING.md`](../software/docs/CONTRIBUTING.md) |
 
@@ -53,6 +54,7 @@ match a fresh generation.
 | Path | Purpose |
 | --- | --- |
 | [`RUN_GUIDE.md`](RUN_GUIDE.md) | The single gate entry point, its arms, and what each arm proves. |
+| [`workflows/education.md`](workflows/education.md) | The education workflow group's contract: unit, prerequisite edge, objective and glossary-term schema, its canonical home, and each member's migration step. |
 | [`documentation-index.md`](documentation-index.md) | Flat index of every long-lived document in the repository. |
 | [`AGENTS.md`](AGENTS.md) | Guidance for agents editing this directory. |
 | [`_generated/`](_generated/README.md) | Script-produced facts. Never hand-edited. |

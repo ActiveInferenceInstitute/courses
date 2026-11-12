@@ -106,7 +106,7 @@ Canonical definitions for all key terms used across the Active Inference curricu
 
 ## K
 
-- **KL Divergence** — See D_KL.
+- **KL Divergence** — The Kullback-Leibler divergence, written `D_KL[q||p]`: a non-symmetric measure of how far one distribution diverges from another, `D_KL[q||p] = E_q[ln q − ln p]`. Always non-negative, and zero only when q = p. See also D_KL.
 
 ## L
 

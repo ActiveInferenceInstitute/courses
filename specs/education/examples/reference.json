@@ -1,0 +1,105 @@
+{
+  "schema": "education-contract/v1",
+  "provenance": {
+    "repository": "ActiveInferenceInstitute/courses",
+    "generator": "hand-written worked example: course_development/active_inference/resources/learning_pathways.md plus each discipline module.md"
+  },
+  "units": [
+    {
+      "unit_id": "philosophy",
+      "title": "Active Inference: Philosophy",
+      "course_id": "active-inference",
+      "audience_level": "core",
+      "objectives": [
+        {
+          "objective_id": "obj-1",
+          "statement": "Articulate the philosophical foundations of Active Inference, connecting the Free Energy Principle to traditions in phenomenology, enactivism, and epistemology."
+        }
+      ],
+      "prerequisites": [],
+      "glossary_terms": ["active-inference", "markov-blanket"],
+      "source_path": "course_development/active_inference/01_philosophy/module.md"
+    },
+    {
+      "unit_id": "cognitive-science",
+      "title": "Active Inference: Cognitive Science",
+      "course_id": "active-inference",
+      "audience_level": "core",
+      "objectives": [
+        {
+          "objective_id": "obj-1",
+          "statement": "Identify the neural substrates and behavioral correlates associated with key Active Inference processes, including prediction error, precision, and belief updating."
+        }
+      ],
+      "prerequisites": ["philosophy"],
+      "glossary_terms": ["active-inference"],
+      "source_path": "course_development/active_inference/02_cognitive_science/module.md"
+    },
+    {
+      "unit_id": "mathematics",
+      "title": "Active Inference: Mathematics",
+      "course_id": "active-inference",
+      "audience_level": "core",
+      "objectives": [
+        {
+          "objective_id": "obj-1",
+          "statement": "Derive the core equations of Active Inference, including the variational free energy bound, the KL divergence, and the expected free energy functional."
+        }
+      ],
+      "prerequisites": ["cognitive-science"],
+      "glossary_terms": ["markov-blanket"],
+      "source_path": "course_development/active_inference/03_math/module.md"
+    },
+    {
+      "unit_id": "computer-science",
+      "title": "Active Inference: Computer Science",
+      "course_id": "active-inference",
+      "audience_level": "core",
+      "objectives": [
+        {
+          "objective_id": "obj-1",
+          "statement": "Build a complete Active Inference agent with A, B, C, D, and E matrices using the `active_inference` library."
+        }
+      ],
+      "prerequisites": ["mathematics"],
+      "glossary_terms": ["active-inference"],
+      "source_path": "course_development/active_inference/04_computer_science/module.md"
+    }
+  ],
+  "prerequisite_edges": [
+    {
+      "from_unit": "philosophy",
+      "to_unit": "cognitive-science",
+      "kind": "hard",
+      "rationale": "learning_pathways.md: 'Course 1: Philosophy ──→ Course 2: Cognitive Science'."
+    },
+    {
+      "from_unit": "cognitive-science",
+      "to_unit": "mathematics",
+      "kind": "hard",
+      "rationale": "learning_pathways.md: 'Course 2: Cognitive Science ──→ Course 3: Mathematics'."
+    },
+    {
+      "from_unit": "mathematics",
+      "to_unit": "computer-science",
+      "kind": "hard",
+      "rationale": "learning_pathways.md: 'Course 3: Mathematics ──→ Course 4: Computer Science'."
+    }
+  ],
+  "glossary": [
+    {
+      "term_id": "active-inference",
+      "term": "Active Inference",
+      "definition": "A corollary of the Free Energy Principle stating that organisms act to minimize expected free energy, unifying perception, action, learning, and planning under a single imperative. All behavior can be cast as inference about the causes of sensory data and the selection of actions that minimize expected surprise.",
+      "aliases": ["AIF"],
+      "source": "course_development/active_inference/resources/glossary.md"
+    },
+    {
+      "term_id": "markov-blanket",
+      "term": "Markov Blanket",
+      "definition": "A set of states that renders internal states conditionally independent of external states: `μ ⊥ η | b`. Consists of sensory states σ and active states α. The formal definition of a system boundary in the FEP. Named after the concept in Bayesian networks (Pearl, 1988).",
+      "notation": "b = (σ, α)",
+      "source": "course_development/active_inference/resources/glossary.md"
+    }
+  ]
+}

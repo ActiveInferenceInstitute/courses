@@ -22,9 +22,12 @@ repository documentation. Generated facts live in
 - **[docs/RUN_GUIDE.md](RUN_GUIDE.md)** — the single gate entry point, `./run.sh`, and its arms.
 - **[docs/documentation-index.md](documentation-index.md)** — this file.
 - **[docs/AGENTS.md](AGENTS.md)** — rules for editing this directory.
+- **[docs/workflows/education.md](workflows/education.md)** — the education group's shared curriculum contract and member migration steps.
 - **[.github/workflows/ci.yml](../.github/workflows/ci.yml)** — the workflow; it calls the same `./run.sh` arms.
 - **[.github/GNN.md](../.github/GNN.md)** — what the `gnn conformance (pinned)` job parses, and what it does not.
 - **[.github/gnn-pin.json](../.github/gnn-pin.json)** — canonical GNN parser pin (`gnn-importer-pin/v1`).
+- **[specs/education/schema.json](../specs/education/schema.json)** — canonical education-contract document schema (`education-contract/v1`).
+- **[specs/education/contract.json](../specs/education/contract.json)** — the member registry the `contract` arm reads.
 - **[.pre-commit-config.yaml](../.pre-commit-config.yaml)** — local hooks (ruff, ruff-format, mypy, no-mocks).
 - **[docs/_generated/GATE_METRICS.md](_generated/GATE_METRICS.md)** — generated counts and pin facts.
 - **[docs/_generated/ARM_TIMINGS.md](_generated/ARM_TIMINGS.md)** — generated per-arm wall times and coverage.
