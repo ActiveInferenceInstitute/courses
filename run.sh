@@ -3,11 +3,13 @@
 #
 #   ./run.sh [arm]
 #
-# Arms: lint, types, no-mocks, test (default), test-full, docs, gnn, metrics, all.
+# Arms: lint, types, no-mocks, test (default), test-full, docs, contract, gnn,
+# metrics, all.
 # Commands are documented in docs/RUN_GUIDE.md and measured in
 # docs/_generated/ARM_TIMINGS.md. Nothing here re-implements a check: `gnn`
 # delegates to software/scripts/verify_gnn_conformance.py, `docs` to
-# software/scripts/check_docs.py, `metrics` to generate_gate_metrics.py.
+# software/scripts/check_docs.py, `contract` to check_education_contract.py plus the
+# bundle staleness check, `metrics` to generate_gate_metrics.py.
 
 set -euo pipefail
 
@@ -71,6 +73,14 @@ arm_docs() {
     ( cd "$SOFTWARE" && uv run python scripts/check_docs.py )
 }
 
+arm_contract() {
+    # The group contract: the canonical schema, every member's vendored copy, and this
+    # repository's own bundle. The second command fails when the committed bundle no
+    # longer matches the course tree it was transcribed from.
+    ( cd "$SOFTWARE" && uv run python scripts/check_education_contract.py )
+    ( cd "$SOFTWARE" && uv run python scripts/export_education_bundle.py --check )
+}
+
 arm_gnn() {
     # The pinned parser is a separate toolchain: its own seeded venv, pinned by
     # .github/gnn-pin.json, installed only when the version does not match.
@@ -92,10 +102,11 @@ case "$ARM" in
     test) run_arm test arm_test ;;
     test-full) run_arm test-full arm_test_full ;;
     docs) run_arm docs arm_docs ;;
+    contract) run_arm contract arm_contract ;;
     gnn) run_arm gnn arm_gnn ;;
     metrics) run_arm metrics arm_metrics ;;
     all)
-        for arm in lint types no-mocks test docs; do
+        for arm in lint types no-mocks test docs contract; do
             "$ROOT/run.sh" "$arm"
         done
         ;;

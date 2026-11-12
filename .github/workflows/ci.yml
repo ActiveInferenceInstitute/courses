@@ -26,7 +26,7 @@ env:
 
 jobs:
   static:
-    name: Static checks (lint, types, no-mocks, docs)
+    name: Static checks (lint, types, no-mocks, docs, contract)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -55,6 +55,9 @@ jobs:
 
       - name: Docs (relative links + generated facts)
         run: ./run.sh docs
+
+      - name: Education contract (schema, member copies, bundle freshness)
+        run: ./run.sh contract
 
   test:
     name: Tests (Python ${{ matrix.python-version }})

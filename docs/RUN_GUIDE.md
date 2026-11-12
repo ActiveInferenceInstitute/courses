@@ -33,17 +33,18 @@ the single `software/` environment.
 | `test` *(default)* | `uv run pytest tests/ -m "not requires_internet and not requires_api and not requires_whisper" --cov-report=xml --cov-report=json` | The offline gate: hermetic, no network, no external API, no Whisper. |
 | `test-full` | `uv run pytest tests/` | Every test, including the network/API/Whisper-marked ones. Needs network; see below. |
 | `docs` | `uv run python scripts/check_docs.py` | Every relative link in the documentation surfaces resolves, and `docs/_generated/GATE_METRICS.md` matches a fresh generation. |
+| `contract` | `uv run python scripts/check_education_contract.py` then `uv run python scripts/export_education_bundle.py --check` | The canonical education schema, every member's vendored copy and pointer, and this repository's own bundle are current. See [the group contract](workflows/education.md). |
 | `gnn` | `software/.venv-gnn/bin/python software/scripts/verify_gnn_conformance.py --install` | The installed GNN parser matches the pinned tag, and all five exemplars parse and type-check. |
 | `metrics` | `uv run python scripts/generate_gate_metrics.py` | Rewrites `docs/_generated/` from the current tree. Not a check. |
-| `all` | `lint`, `types`, `no-mocks`, `test`, `docs` in order | The offline gate in one command. |
+| `all` | `lint`, `types`, `no-mocks`, `test`, `docs`, `contract` in order | The offline gate in one command. |
 
 `test-full` is a required arm: it runs the 34 tests marked `requires_internet`,
 `requires_api`, or `requires_whisper`, and it is green only on a host with
 working network access to YouTube, gTTS, and Ollama. On this host it is red, and
 it was red when the gate work landed — see [Known red arm](#known-red-arm--test-full).
 
-The offline arms (`lint`, `types`, `no-mocks`, `test`, `docs`) plus `gnn` are
-green. That is not the same claim as "every arm is green", and this document
+The offline arms (`lint`, `types`, `no-mocks`, `test`, `docs`, `contract`) plus
+`gnn` are green. That is not the same claim as "every arm is green", and this document
 does not make that claim.
 
 ---
@@ -52,7 +53,7 @@ does not make that claim.
 
 | Job key | Display name | Arms |
 | --- | --- | --- |
-| `static` | Static checks (lint, types, no-mocks, docs) | `lint`, `types`, `no-mocks`, `docs` |
+| `static` | Static checks (lint, types, no-mocks, docs, contract) | `lint`, `types`, `no-mocks`, `docs`, `contract` |
 | `test` | Tests (Python 3.11 / 3.12) | `test` |
 | `gnn-conformance` | gnn conformance (pinned) | `gnn` |
 
