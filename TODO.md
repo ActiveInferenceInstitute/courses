@@ -2,7 +2,8 @@
 
 **Status:** Active
 **Owner:** Dr. Daniel Ari Friedman (docxology), Active Inference Institute
-**Last reviewed:** 2026-11-11 (documentation completion pass 3)
+**Last reviewed:** 2026-11-12 (education-contract pass; open items reconciled with
+counts measured on this date)
 
 **Section guide:**
 - **Minor** = typo, broken link, formatting, single stale number
@@ -90,8 +91,11 @@
 - [x] Added `software/scripts/check_docs.py` — the repository had no
   documentation check (no mkdocs, no markdown-link-check); it resolves relative
   links in the documentation surfaces and fails on a stale generated document.
-- [x] Corrected the test counts across the docs: 1,029 collected, 995 in the
-  offline gate, 34 deselected.
+- [x] Corrected the test counts across the docs to that day's measurement:
+  1,029 collected, 995 in the offline gate, 34 deselected. Those numbers went
+  stale when the contract tests landed (#28); the measured figures and the nine
+  files still quoting them are listed in the education-contract open items
+  below.
 
 Open items from this pass:
 
@@ -109,11 +113,80 @@ Open items from this pass:
   not claim the full gate is green. See
   [`docs/RUN_GUIDE.md`](docs/RUN_GUIDE.md#known-red-arm--test-full).
 - [ ] `software/docs/AGENTS.md` still describes 18 files under `software/docs/`;
-  that remains accurate, but the repository-level `docs/` tree is not mentioned
-  there. Left for the owner to decide whether the two hubs should cross-link
-  more deeply.
+  that remains accurate (re-counted 2026-11-12), but the repository-level
+  `docs/` tree is not mentioned there. Owner: whoever owns the two hubs; blocked
+  only on that cross-linking decision.
 - [ ] `pre-commit` pins ruff `v0.9.0` while the project environment resolves
-  ruff 0.14.x; the two can disagree on formatting. Not changed here.
+  ruff 0.14.x; the two can disagree on formatting. Not changed here. Owner:
+  whoever next touches formatting; blocked on the pin bump itself, which needs a
+  full `ruff format` pass to land with it.
+
+### Education-contract pass — 2026-11-12
+
+Completed in this pass:
+
+- [x] Adopted `education-contract/v1` as the group's lead repository: canonical
+  schema `specs/education/schema.json`, the pointer `education-contract.json`
+  carrying its `schema_sha256`, and this repository's own bundle
+  `specs/education/active-inference.json`. (3e834dfb)
+- [x] Added the `contract` arm: `./run.sh contract` runs
+  `software/scripts/check_education_contract.py` (registry plus every member's
+  vendored schema and pointer) and `software/scripts/export_education_bundle.py
+  --check` (the committed bundle still matches the course tree). It is part of
+  `./run.sh all` and of the `static` CI job. (3e834dfb)
+- [x] Added the shared engine `software/src/education_contract/` — `schema.py`,
+  `rules.py`, `registry.py`, `catalog.py` — with
+  `software/tests/test_education_contract.py` as the drift test. (3e834dfb)
+- [x] Documented the contract for the eleven members in
+  [`docs/workflows/education.md`](docs/workflows/education.md), linked from
+  `docs/README.md` and `docs/documentation-index.md`. (3e834dfb)
+- [x] Corrected the sidecar claim in that document: the `docs:` list is
+  unvalidated in ten members, and `Parr_et_al_2022_ActInf_Textbook` is the
+  exception rather than the rule. (f1e5af62)
+- [x] Regenerated `docs/_generated/GATE_METRICS.md` and
+  `docs/_generated/ARM_TIMINGS.md` from the tree, which is what keeps the
+  measured counts out of hand-written prose for the facts the generator covers.
+  (3e834dfb)
+
+Open items from this pass:
+
+- [ ] **This repository's bundle covers one course.** `specs/education/` holds
+  `active-inference.json` plus the example, while the migration row for `courses`
+  in [`docs/workflows/education.md`](docs/workflows/education.md) §6 names six
+  more spine-shaped courses (`active_inference_101`, `_401`, `_es`, `_family`,
+  `_hs`, `_ms`) that still need `export_education_bundle.py --course <name>`
+  output added to `bundles`, `prerequisite_edges` authored from the prose in
+  `course_development/active_inference/resources/learning_pathways.md`, and one
+  authored `topic` per unit in `course_development/domains/` before it can be
+  transcribed. Owner: the curriculum author; blocked on authored metadata, not
+  on tooling — the extractor and the checker already exist.
+- [ ] **GNN revision drift.** `.github/gnn-pin.json` pins v5.0.3
+  (`8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1`) while the estate importer
+  repositories moved to v5.1.0
+  (`75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf`, confirmed 2026-11-12 with
+  `git ls-remote --tags`). This repository is not a bare importer: it owns five
+  GNN exemplars under `course_development/gnn/01_gnn_syntax/models`, and the
+  check asserts `gnn.__version__` against the pin's tag
+  (`software/scripts/verify_gnn_conformance.py:86,139`), so a bump has to
+  re-install the parser from the pinned commit into `software/.venv-gnn` and
+  re-run `./run.sh gnn`. Owner: whoever owns the estate GNN pin; blocked on that
+  decision plus network access — every hosted `CI` run currently fails within
+  seconds (billing), so the evidence has to be local.
+- [ ] **Documented test counts drifted again after #28.** Nine surfaces still
+  quote 1,029 collected / 995 offline. `uv run pytest tests/ --collect-only`
+  on 2026-11-12 reports **1,062 collected**, of which **1,028** are in the
+  offline selection and **34** are the internet/API/whisper tests. Files:
+  `README.md:6,207-209` (badge and prose), `AGENTS.md:7,56`,
+  `software/README.md:232-233`, `software/AGENTS.md:9`,
+  `software/docs/CONTRIBUTING.md:72-73`, `software/docs/README.md:44`,
+  `software/docs/TESTING.md:29`, `docs/RUN_GUIDE.md:90`,
+  `.agents/skills/courses/SKILL.md:20`. The module and script counts drifted with
+  them: `docs/_generated/GATE_METRICS.md` reports **22** importable modules and
+  **28** Python scripts, while `AGENTS.md:56`, `CLAUDE.md:70-71`,
+  `docs/INTEGRATION.md:48` and `.aii/config.yaml:55` still say 21 modules and
+  23 course scripts plus 3 gate tools (it is now 5 gate tools). Owner: the next
+  docs pass; nothing external blocks it, and `./run.sh docs` does not check prose
+  numbers.
 
 ### Documentation completion pass 3 — 2026-11-11
 
@@ -145,22 +218,26 @@ Open items found in this pass, left for the owner:
   by `publish.py` when `clean_before_publish = true` (the clean step preserves only
   dot-prefixed entries). The guide is therefore transient after a full publish run.
   Decide whether to preserve it (e.g. teach the clean step to keep it) or generate it.
+  Re-checked 2026-11-12: `published/README.md` is still absent and `published/AGENTS.md`
+  is tracked. Owner: whoever owns the publish clean step; blocked on that decision.
 - [ ] `software/transcription/captions/` and `software/transcription/transcripts/` (775
-  tracked files each) have no folder guide. They are bulk generated transcript data, so no
-  README was added under the "skip generated/vendored data" rule.
+  tracked files each, re-counted 2026-11-12) have no folder guide. They are bulk generated
+  transcript data, so no README was added under the "skip generated/vendored data" rule.
+  Owner: the docs pass; blocked on that rule decision.
 - [ ] `published/` subdirectories are tracked in Git even though `.gitignore` ignores
   `published/*/` — the tracked rendered outputs are stale relative to the pipeline and
-  will churn on every publish. Owner decision on whether to keep tracking them.
-- [ ] Test-count arithmetic does not reconcile: `1,014 tests collected` (root `README.md`,
-  `AGENTS.md`, `software/AGENTS.md`) versus `~995 passing` + `34 deselected` (= 1,029).
-  A static count finds 1,029 `def test_` functions across the 67 `test_*.py` files, which
-  matches 995 + 34 rather than 1,014. The exact collected/passing split needs a real
-  `uv run pytest` run; the offline environment cannot build the env (missing
-  `speechrecognition==3.14.5` wheel), so the claims are left unchanged pending measurement.
+  will churn on every publish (14,799 tracked files, re-counted 2026-11-12). Owner: the
+  repository owner; blocked on whether to keep tracking them.
+- [x] ✓ Test-count arithmetic — resolved by measurement, not by argument:
+  `uv run pytest tests/ --collect-only` on 2026-11-12 reports 1,062 collected, 1,028 in
+  the offline selection, 34 deselected. The 1,014 versus 995 + 34 split was measured
+  before the suite grew; the figures that are current today are quoted with their files
+  in the education-contract open items above.
 - [ ] `464 modules` (root `AGENTS.md`; README badge `modules-464+`) understates a
   filesystem count: 512 module directories contain a `module.md` across the 14 courses
-  (excluding the `youtube/` archive and the `gnn/` track). Confirm the intended counting
-  rule before changing the figure.
+  (excluding the `youtube/` archive and the `gnn/` track; re-counted 2026-11-12). Confirm
+  the intended counting rule before changing the figure. Owner: the curriculum author;
+  blocked on that rule decision.
 
 ### Maintenance pass — 2026-08-26 (lint/format/quality gate hardening)
 
