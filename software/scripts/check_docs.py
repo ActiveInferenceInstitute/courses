@@ -55,17 +55,23 @@ LINK_RE = re.compile(r"\[[^\]]*\]\(\s*<?([^)\s>]+)>?(?:\s+\"[^\"]*\")?\s*\)")
 SKIP_SCHEMES = ("http://", "https://", "mailto:", "tel:", "data:", "ftp://")
 
 
-def tracked_docs() -> list[Path]:
-    """Return the tracked documentation files, in a stable order."""
-    proc = subprocess.run(
-        ["git", "ls-files", "-z", "--", *DOC_GLOBS],
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    paths = [ROOT / name for name in proc.stdout.split("\0") if name]
-    return sorted(set(paths))
+def documentation_files() -> list[Path]:
+    """Return the documentation files, tracked and untracked-but-not-ignored.
+
+    Untracked files are included so a new guide is link-checked before it is
+    staged; `git ls-files` alone would silently skip it.
+    """
+    names: set[str] = set()
+    for extra in ((), ("--others", "--exclude-standard")):
+        proc = subprocess.run(
+            ["git", "ls-files", "-z", *extra, "--", *DOC_GLOBS],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        names.update(name for name in proc.stdout.split("\0") if name)
+    return sorted(ROOT / name for name in names)
 
 
 def strip_non_prose(text: str) -> str:
@@ -100,7 +106,7 @@ def check_file(path: Path) -> list[tuple[int, str]]:
 def main() -> int:
     failures = 0
     checked = 0
-    for path in tracked_docs():
+    for path in documentation_files():
         checked += 1
         for line_number, target in check_file(path):
             failures += 1
