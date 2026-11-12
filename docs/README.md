@@ -21,6 +21,11 @@ this hub routes to them rather than copying them.
 | Engine install, rendering, publishing | [`../software/docs/README.md`](../software/docs/README.md) |
 | Contribution rules and the no-mocks policy | [`../software/docs/CONTRIBUTING.md`](../software/docs/CONTRIBUTING.md) |
 
+**Known gap:** `./run.sh test-full` is red on this host — one failure in the
+YouTube playlist enumeration test, then a block on caption download. The offline
+arms and `gnn` are green. Details in
+[`RUN_GUIDE.md`](RUN_GUIDE.md#known-red-arm--test-full).
+
 ---
 
 ## Evidence and freshness

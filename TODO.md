@@ -95,12 +95,19 @@
 
 Open items from this pass:
 
-- [ ] `./run.sh test-full` cannot be green without network access: the
-  `requires_internet`/`requires_api` tests hit YouTube, gTTS, and Ollama. On
-  2026-11-12 `tests/test_youtube_render.py::TestEnumeratePlaylistVideos::test_enumerate_known_playlist`
-  failed with `HTTP Error 400` from the YouTube playlist API and
-  `tests/test_youtube_transcript_main.py` blocked on caption download. This is
-  the arm's documented scope, not a code defect; the gate is `./run.sh test`.
+- [ ] **`./run.sh test-full` is red; #25 merged anyway.** The arm runs the 34
+  `requires_internet`/`requires_api`/`requires_whisper` tests. On 2026-11-12 it
+  reached 97% with
+  `tests/test_youtube_render.py::TestEnumeratePlaylistVideos::test_enumerate_known_playlist`
+  failing (`yt_dlp` `HTTP Error 400` from the YouTube playlist API), then blocked
+  for more than two minutes in `tests/test_youtube_transcript_main.py` on caption
+  download and was interrupted. The arm is a required arm, not an optional
+  investigation: the estate condition was "every arm green locally before
+  landing", so #25 landed in violation of it. Closing this needs either
+  reachable network/API access or an explicit decision to make the network tests
+  self-skip when unreachable. Until then, treat `test-full` as unproven and do
+  not claim the full gate is green. See
+  [`docs/RUN_GUIDE.md`](docs/RUN_GUIDE.md#known-red-arm--test-full).
 - [ ] `software/docs/AGENTS.md` still describes 18 files under `software/docs/`;
   that remains accurate, but the repository-level `docs/` tree is not mentioned
   there. Left for the owner to decide whether the two hubs should cross-link

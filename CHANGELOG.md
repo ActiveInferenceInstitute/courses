@@ -37,9 +37,16 @@ All notable changes to the Active Inference Institute courses repository.
   Python setup step on a runner that provides only `python3`.
 
 ### Verified
-- `./run.sh lint`, `./run.sh types`, `./run.sh no-mocks`, `./run.sh test`,
-  `./run.sh docs` green locally; per-arm wall times in
+- Offline arms green locally: `./run.sh lint`, `./run.sh types`,
+  `./run.sh no-mocks`, `./run.sh test`, `./run.sh docs`, plus `./run.sh gnn`
+  (parser 5.0.3, 5 parsed, 5 type-checked). Per-arm wall times in
   `docs/_generated/ARM_TIMINGS.md`.
+- **Not verified:** `./run.sh test-full`. It reached 97% with one failure
+  (`test_enumerate_known_playlist`, YouTube `HTTP 400`) and then blocked on
+  caption download. This entry landed as #25 with that required arm red, against
+  the "every arm green before landing" condition; the state is recorded in
+  [`docs/RUN_GUIDE.md`](docs/RUN_GUIDE.md#known-red-arm--test-full) and
+  [`TODO.md`](TODO.md).
 
 ## [Unreleased] — 2026-08-26 (lint/format hardening)
 
