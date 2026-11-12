@@ -8,7 +8,19 @@ Course rendering and publishing pipeline for the **Active Inference Institute**.
 
 ## Commands
 
-All `software/` commands use `uv run` from the `software/` directory:
+All `software/` commands use `uv run` from the `software/` directory. The gate
+arms below run from the repository root and are the same commands CI runs
+([`docs/RUN_GUIDE.md`](docs/RUN_GUIDE.md)):
+
+```bash
+./run.sh lint      # ruff check + ruff format --check (src/ scripts/)
+./run.sh types     # mypy src/
+./run.sh no-mocks  # no-mocks policy scan
+./run.sh test      # offline test gate (default arm)
+./run.sh test-full # every test, including internet/API/whisper
+./run.sh docs      # relative links + generated facts current
+./run.sh gnn       # pinned GNN conformance
+```
 
 ```bash
 # Install dependencies
@@ -24,7 +36,7 @@ cd software && uv run pytest tests/test_batch_processing_main.py -v
 cd software && uv run pytest tests/ -k "test_name_pattern"
 
 # Lint
-cd software && uv run ruff check src/
+cd software && uv run ruff check src/ scripts/
 
 # Format
 cd software && uv run ruff format src/ scripts/
@@ -55,7 +67,7 @@ Defined in `software/src/batch_processing/config.py`. Maps course IDs (e.g., `ai
 
 ### Script Count
 
-- 23 CLI scripts in `scripts/`
+- 23 course CLI scripts in `scripts/`, plus 3 gate tools (`check_docs.py`, `generate_gate_metrics.py`, `verify_gnn_conformance.py`)
 - 21 modules in `src/`
 - 67 test files in `tests/`
 

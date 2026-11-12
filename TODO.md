@@ -71,6 +71,43 @@
 
 - None from the earlier passes.
 
+### Gate and documentation pass — 2026-11-12
+
+- [x] Added `run.sh`: one entry point, one command per arm (`lint`, `types`,
+  `no-mocks`, `test`, `test-full`, `docs`, `gnn`, `metrics`, `all`). CI calls
+  the same arms.
+- [x] Rewrote `.github/workflows/ci.yml`: three independent jobs (`static`,
+  `test`, `gnn-conformance`), no `needs:` chain, one environment sync per job.
+  The `verify-no-mocks` job became the `no-mocks` arm inside `static`; it had
+  been running `python scripts/verify_no_mocks.py` with no interpreter setup,
+  which fails on a runner that only has `python3`.
+- [x] Extracted the GNN conformance heredocs into
+  `software/scripts/verify_gnn_conformance.py`; the job and `./run.sh gnn` now
+  run the same script against `.github/gnn-pin.json`.
+- [x] Added `docs/` (hub, run guide, flat index, folder guide) and
+  `docs/_generated/` (`GATE_METRICS.md`, `ARM_TIMINGS.md`) produced by
+  `software/scripts/generate_gate_metrics.py`.
+- [x] Added `software/scripts/check_docs.py` — the repository had no
+  documentation check (no mkdocs, no markdown-link-check); it resolves relative
+  links in the documentation surfaces and fails on a stale generated document.
+- [x] Corrected the test counts across the docs: 1,029 collected, 995 in the
+  offline gate, 34 deselected.
+
+Open items from this pass:
+
+- [ ] `./run.sh test-full` cannot be green without network access: the
+  `requires_internet`/`requires_api` tests hit YouTube, gTTS, and Ollama. On
+  2026-11-12 `tests/test_youtube_render.py::TestEnumeratePlaylistVideos::test_enumerate_known_playlist`
+  failed with `HTTP Error 400` from the YouTube playlist API and
+  `tests/test_youtube_transcript_main.py` blocked on caption download. This is
+  the arm's documented scope, not a code defect; the gate is `./run.sh test`.
+- [ ] `software/docs/AGENTS.md` still describes 18 files under `software/docs/`;
+  that remains accurate, but the repository-level `docs/` tree is not mentioned
+  there. Left for the owner to decide whether the two hubs should cross-link
+  more deeply.
+- [ ] `pre-commit` pins ruff `v0.9.0` while the project environment resolves
+  ruff 0.14.x; the two can disagree on formatting. Not changed here.
+
 ### Documentation completion pass 3 — 2026-11-11
 
 Completed in this pass:

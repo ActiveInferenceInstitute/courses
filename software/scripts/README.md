@@ -2,7 +2,11 @@
 
 > **Navigation**: [← README](../README.md) | [AGENTS.md](../AGENTS.md) | [docs/](../docs/) | [src/](../src/)
 
-Thin CLI orchestrators for course material generation and publishing. All business logic resides in `src/` modules; scripts handle CLI parsing and orchestration only. This directory contains **23 scripts** — see [docs/CLI_REFERENCE.md](../docs/CLI_REFERENCE.md) for the complete reference with verified options.
+Thin CLI orchestrators for course material generation and publishing. All business logic resides in `src/` modules; scripts handle CLI parsing and orchestration only. This directory contains **23 course CLI scripts** — see [docs/CLI_REFERENCE.md](../docs/CLI_REFERENCE.md) for the complete reference with verified options.
+
+It also holds three gate tools that are not course CLI: `check_docs.py`,
+`generate_gate_metrics.py`, and `verify_gnn_conformance.py`. They are invoked
+through `./run.sh` and documented in [`../../docs/RUN_GUIDE.md`](../../docs/RUN_GUIDE.md).
 
 ---
 

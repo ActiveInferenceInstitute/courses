@@ -69,15 +69,19 @@ Every module in `src/` must follow the [Modular Architecture](ARCHITECTURE.md):
 ## 🧪 Testing
 
 We require **tests for all new features** using real implementations (no mocks). The
-suite currently collects 1,014 tests with ~75% source coverage; the CI gate runs all
-tests except the internet/API/whisper-marked ones (~995 passing) and does not configure
-a `--cov-fail-under` threshold — new code should keep coverage from regressing.
+suite currently collects 1,029 tests with ~75% source coverage; the offline gate runs
+995 of them (34 internet/API/whisper tests deselected) and does not configure a
+`--cov-fail-under` threshold — new code should keep coverage from regressing. The
+numbers are generated in [`../../docs/_generated/GATE_METRICS.md`](../../docs/_generated/GATE_METRICS.md).
 
 ```bash
-# Run all tests
-uv run pytest tests/ -v
+# The gate arm CI runs
+../../run.sh test
 
-# Run with coverage
+# Run all tests, including the network-marked ones
+../../run.sh test-full
+
+# Run with an HTML coverage report
 uv run pytest tests/ --cov=src --cov-report=html
 ```
 

@@ -22,9 +22,9 @@ uv sync --extra dev
 cd ..
 pre-commit install
 
-# 4. Verify everything works
-cd software
-uv run pytest tests/ -v -m "not requires_internet and not requires_api and not requires_whisper"
+# 4. Verify everything works (the same arms CI runs)
+./run.sh lint
+./run.sh test
 ```
 
 ## Key rules (short version)

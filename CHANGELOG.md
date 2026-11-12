@@ -2,6 +2,45 @@
 
 All notable changes to the Active Inference Institute courses repository.
 
+## [Unreleased] — 2026-11-12 (gate entry point and docs tree)
+
+### Added
+- `run.sh`: the single gate entry point. Arms: `lint`, `types`, `no-mocks`,
+  `test` (default), `test-full`, `docs`, `gnn`, `metrics`, `all`. Each arm is
+  one command, and CI invokes the same arms.
+- `docs/`: repository-level hub (`README.md`), `RUN_GUIDE.md`, flat
+  `documentation-index.md`, folder `AGENTS.md`, and `_generated/` with
+  `GATE_METRICS.md` and `ARM_TIMINGS.md`.
+- `software/scripts/generate_gate_metrics.py`: produces the generated facts and
+  `--check`s them; no count in the docs is hand-written.
+- `software/scripts/check_docs.py`: resolves relative links across the
+  documentation surfaces and fails on a stale generated document. The
+  repository previously had no documentation check.
+- `software/scripts/verify_gnn_conformance.py`: the GNN conformance check as a
+  runnable script, replacing two heredocs embedded in the workflow.
+
+### Changed
+- `.github/workflows/ci.yml`: three independent jobs (`static`, `test`,
+  `gnn-conformance`) instead of five chained ones; one environment sync per job
+  and no `needs:` serialization. The `verify-no-mocks` job is now the `no-mocks`
+  arm inside `static`.
+- `.github/GNN.md`: records the job key (`gnn-conformance`), the display name,
+  the pin path and schema, the implementing script, and the fact that the
+  workflow does not use the shared `setup-python-uv` composite action.
+- `.pre-commit-config.yaml`: the no-mocks hook runs the same command as the
+  gate arm instead of a bare `python` that is not on `PATH`.
+- Documentation counts corrected to the measured suite: 1,029 collected, 995 in
+  the offline gate, 34 deselected.
+
+### Fixed
+- The `verify-no-mocks` CI job could not run: it called `python` without any
+  Python setup step on a runner that provides only `python3`.
+
+### Verified
+- `./run.sh lint`, `./run.sh types`, `./run.sh no-mocks`, `./run.sh test`,
+  `./run.sh docs` green locally; per-arm wall times in
+  `docs/_generated/ARM_TIMINGS.md`.
+
 ## [Unreleased] — 2026-08-26 (lint/format hardening)
 
 ### Fixed

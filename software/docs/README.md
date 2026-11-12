@@ -12,7 +12,8 @@ If you are new to the repository, start here:
 
 | Document | Purpose |
 | :--- | :--- |
-| **[QUICKSTART](QUICKSTART.md)** | **Start Here.** Installation, setup, and first commands. |
+| **[Gate run guide](../../docs/RUN_GUIDE.md)** | **Start Here for checks.** One entry point (`./run.sh`) and its arms. |
+| **[QUICKSTART](QUICKSTART.md)** | Installation, setup, and first render commands. |
 | **[CONTRIBUTING](CONTRIBUTING.md)** | Guidelines for code, testing, and pull requests. |
 | **[TROUBLESHOOTING](TROUBLESHOOTING.md)** | Solutions for common errors (PDF, gTTS, etc.). |
 
@@ -40,7 +41,7 @@ Detailed specifications for developers and power users:
 | **[CLI_REFERENCE](CLI_REFERENCE.md)** | Complete documentation for all 23 CLI scripts. |
 | **[MODULES](MODULES.md)** | Python API reference for the source (`src/`) modules. |
 | **[CONFIGURATION](CONFIGURATION.md)** | Schema for `publish.toml` and `pyproject.toml`. |
-| **[TESTING](TESTING.md)** | Guide to the 1,014-test suite and "No Mocks" policy. |
+| **[TESTING](TESTING.md)** | Guide to the test suite (1,029 collected) and "No Mocks" policy. |
 | **[COURSE_CATALOG](COURSE_CATALOG.md)** | Full list of all 14 courses and their structures. |
 
 ---

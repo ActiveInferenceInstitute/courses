@@ -4,7 +4,7 @@
 
 ## Repository Overview
 
-This repository contains the complete curriculum infrastructure for the Active Inference Institute: **14 courses**, **464 modules**, **6,100+ content files**, a **Python publishing engine**, and a **YouTube transcript archive** with **1,014 passing tests** (~995 in the CI gate, 34 internet/API/whisper tests deselected).
+This repository contains the complete curriculum infrastructure for the Active Inference Institute: **14 courses**, **464 modules**, **6,100+ content files**, a **Python publishing engine**, and a **YouTube transcript archive** with **1,029 collected tests** (995 pass in the offline gate; 34 internet/API/whisper tests are deselected). Counts are generated in [`docs/_generated/GATE_METRICS.md`](docs/_generated/GATE_METRICS.md).
 
 ---
 
@@ -12,20 +12,27 @@ This repository contains the complete curriculum infrastructure for the Active I
 
 Software commands run from `software/` with [`uv`](https://docs.astral.sh/uv/) on Python 3.11+; the engine declares its dependencies in [`software/pyproject.toml`](software/pyproject.toml).
 
+The gate has one entry point. Each arm is a single command, and
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) calls these same arms
+([`docs/RUN_GUIDE.md`](docs/RUN_GUIDE.md)):
+
+```bash
+./run.sh lint       # ruff check + ruff format --check (src/ scripts/)
+./run.sh types      # mypy src/
+./run.sh no-mocks   # no-mocks policy scan
+./run.sh test       # offline test gate (default arm)
+./run.sh test-full  # every test, including internet/API/whisper
+./run.sh docs       # relative links + generated facts current
+./run.sh gnn        # pinned GNN conformance
+./run.sh all        # the offline arms in order
+```
+
 ```bash
 # Install the engine and its development tools
 cd software && uv sync --extra dev
 
-# Run the test suite the way CI does (the offline gate)
-cd software && uv run pytest tests/ -m "not requires_internet and not requires_api and not requires_whisper"
-
 # Run one test file
 cd software && uv run pytest tests/test_batch_processing_main.py -v
-
-# Lint, format check, and type check
-cd software && uv run ruff check src/ scripts/
-cd software && uv run ruff format --check src/ scripts/
-cd software && uv run mypy src/
 
 # Render one course to Text and Markdown
 cd software && uv run python scripts/generate_all_outputs.py --course ai-philosophy --formats txt,md
@@ -34,8 +41,9 @@ cd software && uv run python scripts/generate_all_outputs.py --course ai-philoso
 python publish.py --dry-run
 ```
 
-The authoritative gate is [`.github/workflows/ci.yml`](.github/workflows/ci.yml); markers, coverage
-and single-test invocations are documented in [`software/docs/TESTING.md`](software/docs/TESTING.md).
+Markers, coverage, and single-test invocations are documented in
+[`software/docs/TESTING.md`](software/docs/TESTING.md); measured counts and
+per-arm wall times are generated into [`docs/_generated/`](docs/_generated/README.md).
 
 ---
 
@@ -45,7 +53,8 @@ and single-test invocations are documented in [`software/docs/TESTING.md`](softw
 |-----------|---------|-----------|
 | `course_development/` | All source curricula (14 courses across levels and domains) | [AGENTS.md](course_development/AGENTS.md) |
 | `published/` | Rendered outputs for distribution (generated, not hand-edited) | [AGENTS.md](published/AGENTS.md) |
-| `software/` | Python engine: 21 modules, 23 scripts, 18 docs, 1,014 tests | [AGENTS.md](software/AGENTS.md) |
+| `software/` | Python engine: 21 modules, 23 course scripts + 3 gate tools, 18 docs, 1,029 tests | [AGENTS.md](software/AGENTS.md) |
+| `docs/` | Repository-level documentation: gate, CI, documentation index | [AGENTS.md](docs/AGENTS.md) |
 | `summaries/` | Generated course summaries | [AGENTS.md](summaries/AGENTS.md) |
 | `publish.py` | Top-level pipeline entry point | — |
 | `publish.toml` | Publishing configuration (courses, formats, options) | — |
