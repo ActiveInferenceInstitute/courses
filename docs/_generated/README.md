@@ -14,6 +14,10 @@ Do not edit them by hand: a hand edit is overwritten and, until it is, fails
 `GATE_METRICS.md` is deterministic for a given tree, so `./run.sh docs` compares
 it byte-for-byte with a fresh generation and fails when a count has drifted.
 
+One caveat: the tracked-Markdown count reads the Git index, so stage new
+documentation (`git add`) before running `./run.sh metrics`, or the count will
+be regenerated again on the next commit.
+
 `ARM_TIMINGS.md` is a record of measurements, not a contract: each row names the
 host, commit, and exit code it came from, and a missing arm is reported as
 `not measured` rather than guessed.

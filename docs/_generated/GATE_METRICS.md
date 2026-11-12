@@ -14,7 +14,7 @@ with `./run.sh metrics`; `./run.sh docs` fails if this file is stale.
 | Python scripts (`software/scripts/*.py`) | 26 |
 | Pages under `docs/` (excluding `_generated/`) | 4 |
 | Pages under `software/docs/` | 18 |
-| Tracked Markdown files in the repository | 9269 |
+| Tracked Markdown files (excluding `docs/_generated/`) | 9273 |
 
 ## GNN pin
 

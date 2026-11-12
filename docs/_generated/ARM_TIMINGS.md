@@ -9,12 +9,12 @@ when `CI` is unset).
 
 | Arm | Wall time | Exit | Host | Commit |
 | --- | --- | --- | --- | --- |
-| `lint` | 0.1 s | 0 | Daniels-MacBook-Pro | `3632cf25` |
+| `lint` | 0.2 s | 0 | Daniels-MacBook-Pro | `a4593e5a` |
 | `types` | 1.0 s | 0 | Daniels-MacBook-Pro | `3632cf25` |
 | `no-mocks` | 0.1 s | 0 | Daniels-MacBook-Pro | `3632cf25` |
 | `test` | 90.6 s | 0 | Daniels-MacBook-Pro | `3632cf25` |
 | `test-full` | not measured | - | - | - |
-| `docs` | 1.8 s | 0 | Daniels-MacBook-Pro | `3632cf25` |
+| `docs` | 1.4 s | 0 | Daniels-MacBook-Pro | `a4593e5a` |
 | `gnn` | 0.4 s | 0 | Daniels-MacBook-Pro | `3632cf25` |
 
 Coverage: 75% of `software/src` (last `./run.sh test` run).

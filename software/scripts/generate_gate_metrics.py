@@ -97,14 +97,20 @@ def static_facts() -> dict[str, object]:
         "cli_scripts": len(scripts),
         "root_docs_pages": len(markdown_pages(ROOT / "docs")),
         "software_docs_pages": len(markdown_pages(SOFTWARE / "docs")),
+        # The generated directory counts itself out: otherwise every change to
+        # this file's own output would move the number it reports.
         "tracked_markdown": len(
-            subprocess.run(
-                ["git", "ls-files", "*.md"],
-                cwd=ROOT,
-                capture_output=True,
-                text=True,
-                check=True,
-            ).stdout.splitlines()
+            [
+                path
+                for path in subprocess.run(
+                    ["git", "ls-files", "*.md"],
+                    cwd=ROOT,
+                    capture_output=True,
+                    text=True,
+                    check=True,
+                ).stdout.splitlines()
+                if not path.startswith("docs/_generated/")
+            ]
         ),
         "gnn_schema": pin["schema"],
         "gnn_tag": pin["tag"],
@@ -131,7 +137,7 @@ with `./run.sh metrics`; `./run.sh docs` fails if this file is stale.
 | Python scripts (`software/scripts/*.py`) | {facts["cli_scripts"]} |
 | Pages under `docs/` (excluding `_generated/`) | {facts["root_docs_pages"]} |
 | Pages under `software/docs/` | {facts["software_docs_pages"]} |
-| Tracked Markdown files in the repository | {facts["tracked_markdown"]} |
+| Tracked Markdown files (excluding `docs/_generated/`) | {facts["tracked_markdown"]} |
 
 ## GNN pin
 
