@@ -37,10 +37,14 @@ the single `software/` environment.
 | `metrics` | `uv run python scripts/generate_gate_metrics.py` | Rewrites `docs/_generated/` from the current tree. Not a check. |
 | `all` | `lint`, `types`, `no-mocks`, `test`, `docs` in order | The offline gate in one command. |
 
-`test-full` is an investigation arm, not a gate arm. It runs the 34 tests marked
-`requires_internet`, `requires_api`, or `requires_whisper`; on a host without
-reachable YouTube/gTTS/Ollama it fails or blocks, by design. The gate is
-`./run.sh test`.
+`test-full` is a required arm: it runs the 34 tests marked `requires_internet`,
+`requires_api`, or `requires_whisper`, and it is green only on a host with
+working network access to YouTube, gTTS, and Ollama. On this host it is red, and
+it was red when the gate work landed — see [Known red arm](#known-red-arm--test-full).
+
+The offline arms (`lint`, `types`, `no-mocks`, `test`, `docs`) plus `gnn` are
+green. That is not the same claim as "every arm is green", and this document
+does not make that claim.
 
 ---
 
@@ -83,8 +87,8 @@ dated record, not a second source of truth.
 | mypy | `uv run mypy src/`, 23 s on a cold environment | `./run.sh types`, 9.7 s cold cache / 1.0–1.3 s warm | pass, 109 files |
 | No-mocks | `python scripts/verify_no_mocks.py` — **not runnable** (no `python` on PATH) | `./run.sh no-mocks`, 0.1–0.2 s | pass, 68 files, 0 violations |
 | Offline tests | `uv run pytest tests/ -m "not requires_internet and not requires_api and not requires_whisper"`, 92 s | `./run.sh test`, 85–91 s | 995 passed, 34 deselected, 75% coverage |
-| Full tests | `uv run pytest tests/` | `./run.sh test-full` | not completed here: 1 failure at 97% (`test_enumerate_known_playlist`, YouTube `HTTP 400`), then blocked > 2 min on caption download |
-| Docs | no check existed | `./run.sh docs`, 1.6–1.8 s | 59 files, 0 broken relative links, generated facts current |
+| Full tests | `uv run pytest tests/` | `./run.sh test-full` | **red on this host** — not an accepted gate result; see [Known red arm](#known-red-arm--test-full) |
+| Docs | no check existed | `./run.sh docs`, 1.6–1.8 s | 66 files, 0 broken relative links, generated facts current |
 | GNN conformance | two heredocs inside `ci.yml`, not runnable outside Actions | `./run.sh gnn`, 29.8 s first run (installs the pin) / 0.4 s after | pass, parser 5.0.3, 5 parsed, 5 type-checked |
 
 Two changes account for the offline-test difference: the arm writes `xml` and
@@ -96,6 +100,27 @@ The old workflow ran five jobs — `lint`, `verify-no-mocks`, `test` (3.11),
 `test` (3.12), `gnn-conformance` — chained by `needs:` and repeating the
 uv/Python setup in four of them. It now runs three independent jobs and syncs
 the environment once per job.
+
+### Known red arm — `test-full`
+
+`./run.sh test-full` is **not green on this host**, and it was not green when
+the gate work merged as #25. Recorded rather than resolved:
+
+- Run: `uv run pytest tests/` on 2026-11-12, macOS arm64, Python 3.11.
+- Result: 97% complete, 1 failure —
+  `tests/test_youtube_render.py::TestEnumeratePlaylistVideos::test_enumerate_known_playlist`
+  with `yt_dlp.utils.DownloadError: ERROR: [youtube:tab] … Unable to download API
+  page: HTTP Error 400: Bad Request`. Execution then blocked for more than two
+  minutes in `tests/test_youtube_transcript_main.py` (caption download) and was
+  interrupted at 2m16s.
+- Cause shown by the run: live network dependency of the marked tests. These
+  runs do not establish a code defect, and they do not establish that the arm
+  passes anywhere.
+- Not fixed. Making it green needs reachable network/API access, or a deliberate
+  decision to make network tests self-skip when unreachable; neither was done.
+- Consequence: the estate's "every arm green locally before landing" condition
+  was violated when #25 merged. The next landing must either satisfy that arm or
+  keep the PR open.
 
 ---
 
