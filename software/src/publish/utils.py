@@ -1,5 +1,7 @@
 """Utility functions for the publish module."""
 
+import hashlib
+import json
 import shutil
 import os
 import tempfile
@@ -84,40 +86,133 @@ def copy_directory_contents(
 # =============================================================================
 
 
+_FLATTEN_CATEGORIES = {
+    "assignments", "lab-protocols", "lecture-content", "study-guides",
+    "pdf", "docx", "html", "txt", "md", "mp3",
+}
+_FLATTEN_RECEIPT_NAME = ".flatten-receipt.json"
+_FLATTEN_RECEIPT_SCHEMA = "courses-publication-flatten/v1"
+
+
+def _file_sha256(path: Path) -> str:
+    with path.open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
+def _load_flatten_receipt(module_dir: Path) -> Dict[str, Dict[str, str]]:
+    """Admit only our source-relative, uniquely owned flattened file bindings."""
+    receipt_path = module_dir / _FLATTEN_RECEIPT_NAME
+    require_contained(receipt_path, module_dir)
+    if not receipt_path.exists():
+        return {}
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    if (
+        not isinstance(receipt, dict)
+        or receipt.get("schema") != _FLATTEN_RECEIPT_SCHEMA
+        or not isinstance(receipt.get("artifacts"), dict)
+    ):
+        raise ValueError(f"Invalid flattened publication receipt: {receipt_path}")
+    bindings = receipt["artifacts"]
+    targets = set()
+    for origin, binding in bindings.items():
+        if not isinstance(origin, str) or not isinstance(binding, dict):
+            raise ValueError(f"Invalid flattened publication binding: {receipt_path}")
+        relative = Path(origin)
+        name, digest = binding.get("path"), binding.get("sha256")
+        if (
+            len(relative.parts) < 2
+            or relative.parts[0] not in _FLATTEN_CATEGORIES
+            or relative.as_posix() != origin
+            or any(part.startswith(".") for part in relative.parts)
+            or not isinstance(name, str)
+            or not name
+            or Path(name).name != name
+            or name.startswith(".")
+            or name in ("README.md", "AGENTS.md")
+            or name in targets
+            or not isinstance(digest, str)
+            or len(digest) != 64
+            or any(character not in "0123456789abcdef" for character in digest)
+        ):
+            raise ValueError(f"Invalid flattened publication binding: {receipt_path}")
+        require_contained(module_dir / relative, module_dir)
+        require_contained(module_dir / name, module_dir)
+        targets.add(name)
+    return bindings
+
+
+def _save_flatten_receipt(module_dir: Path, bindings: Dict[str, Dict[str, str]]) -> None:
+    """Publish ownership atomically, using the same receipt pattern as rendering."""
+    receipt_path = module_dir / _FLATTEN_RECEIPT_NAME
+    require_contained(receipt_path, module_dir)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", dir=module_dir, delete=False,
+        ) as stream:
+            temporary = Path(stream.name)
+            json.dump(
+                {"schema": _FLATTEN_RECEIPT_SCHEMA, "artifacts": bindings},
+                stream, sort_keys=True,
+            )
+            stream.write("\n")
+        os.replace(temporary, receipt_path)
+    finally:
+        if temporary is not None and temporary.exists():
+            temporary.unlink()
+
+
 def flatten_module(module_dir: Path, dry_run: bool = False, verbose: bool = False) -> int:
-    """Flatten rendered categories only, never unit/module or website directories."""
-    categories = {
-        "assignments", "lab-protocols", "lecture-content", "study-guides",
-        "pdf", "docx", "html", "txt", "md", "mp3",
-    }
+    """Replace only byte-bound owned artifacts; foreign root files keep their bytes.
+
+    Each generated category-relative source keeps its flattened identity across
+    publications. An absent receipt, or a changed destination digest, never grants
+    overwrite authority, even when a foreign file happens to match the new bytes.
+    Admit every collision before moving any file or updating the hidden receipt.
+    """
+    bindings = _load_flatten_receipt(module_dir)
+    claimed = {binding["path"]: origin for origin, binding in bindings.items()}
     moves = []
-    claimed = {}
     for directory in sorted(module_dir.iterdir()):
-        if not directory.is_dir() or directory.name not in categories:
+        if not directory.is_dir() or directory.name not in _FLATTEN_CATEGORIES:
             continue
         for source in sorted(directory.rglob("*")):
-            if not source.is_file() or source.name in ("README.md", "AGENTS.md"):
+            if (
+                not source.is_file()
+                or source.name in ("README.md", "AGENTS.md")
+                or any(part.startswith(".") for part in source.relative_to(module_dir).parts)
+            ):
                 continue
             require_contained(source, module_dir)
-            name = source.name
-            target = module_dir / name
-            existing = claimed.get(name, target if target.is_file() else None)
-            if existing is not None and existing.read_bytes() != source.read_bytes():
-                name = f"{directory.name}_{source.name}"
+            origin = source.relative_to(module_dir).as_posix()
+            previous = bindings.get(origin)
+            names = ([previous["path"]] if previous is not None else []) + [
+                source.name, f"{directory.name}_{source.name}",
+            ]
+            for name in dict.fromkeys(names):
                 target = module_dir / name
-                existing = claimed.get(name, target if target.is_file() else None)
-                if existing is not None and existing.read_bytes() != source.read_bytes():
-                    raise FileExistsError(f"Ambiguous flattened payload: {target}")
-            claimed[name] = source
-            target = module_dir / name
-            require_contained(target, module_dir)
-            moves.append((source, target))
-    if not dry_run:
-        for source, target in moves:
-            if target.is_file() and target.read_bytes() == source.read_bytes():
-                source.unlink()
+                require_contained(target, module_dir)
+                if name in claimed and claimed[name] != origin:
+                    continue
+                if target.exists() and (
+                    not target.is_file()
+                    or previous is None
+                    or previous["path"] != name
+                    or _file_sha256(target) != previous["sha256"]
+                ):
+                    continue
+                claimed[name] = origin
+                bindings[origin] = {"path": name, "sha256": _file_sha256(source)}
+                moves.append((source, target))
+                break
             else:
-                shutil.move(str(source), str(target))
+                raise FileExistsError(
+                    f"Ambiguous flattened payload: {module_dir / names[-1]}"
+                )
+    if moves and not dry_run:
+        for source, target in moves:
+            os.replace(source, target)
+        _save_flatten_receipt(module_dir, bindings)
     return len(moves)
 
 

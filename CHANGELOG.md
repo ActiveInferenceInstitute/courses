@@ -2,6 +2,18 @@
 
 All notable changes to the Active Inference Institute courses repository.
 
+## [Unreleased] — 2026-11-16 (integration review corrections)
+
+- Reject symlinked or escaped publication destinations and publication roots
+  overlapping authored course sources before cleanup or copying.
+- Repair repeat publication of owned flattened artifacts and cleanup with a
+  relative repository root, preserving unrelated publication bytes.
+- Anchor the no-mocks gate to this checkout and compare every admitted
+  cross-repository term definition, including later bundles from one owner.
+- Retain the original bounded qualification and negative receipts as history;
+  these corrections require their own focused acceptance. Hosted GNN artifact
+  delivery, genuine installed-origin cases and full-network acceptance remain open.
+
 ## [Unreleased] — 2026-11-13 (bounded qualification)
 
 - Qualified the explicit-source GNN bootstrap/full-manifest guard and actual

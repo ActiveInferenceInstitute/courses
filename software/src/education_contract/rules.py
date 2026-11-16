@@ -175,10 +175,11 @@ def run_cross_rules(
 
     A single bundle per repository remains accepted for existing callers.
     Group callers pass every bundle, not a last-bundle-wins mapping.
+    Retain every owner's distinct definitions so later bundles cannot hide drift.
     """
     issues: list[Issue] = []
     units_by_id: dict[str, str] = {}
-    definitions: dict[str, tuple[str, str]] = {}
+    definitions: dict[str, dict[str, set[str]]] = {}
     for repository, bundles in sorted(documents.items()):
         for document in bundles if isinstance(bundles, list) else [bundles]:
             for unit in _as_dicts(document.get("units")):
@@ -195,13 +196,15 @@ def run_cross_rules(
             for term in _as_dicts(document.get("glossary")):
                 term_id = str(term.get("term_id", ""))
                 definition = str(term.get("definition", "")).strip()
-                previous = definitions.setdefault(term_id, (definition, repository))
-                if previous[0] != definition and previous[1] != repository:
-                    issues.append(
-                        Issue(
-                            "EC121", "$.glossary",
-                            f"term_id {term_id!r} means different things in "
-                            f"{previous[1]!r} and {repository!r}",
+                owners = definitions.setdefault(term_id, {})
+                for owner, previous in owners.items():
+                    if owner != repository and any(value != definition for value in previous):
+                        issues.append(
+                            Issue(
+                                "EC121", "$.glossary",
+                                f"term_id {term_id!r} means different things in "
+                                f"{owner!r} and {repository!r}",
+                            )
                         )
-                    )
+                owners.setdefault(repository, set()).add(definition)
     return issues

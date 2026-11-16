@@ -409,3 +409,63 @@ def test_static_destinations_preserve_layout_guides_and_cleanup_switches(
         assert (destination / "GUIDE.md").read_bytes() == b"Authored static guide.\n"
         assert (destination / "obsolete.py").exists() is (not clean or skip_clear)
         assert destination.stat().st_ino == identities[destination]
+
+
+@pytest.mark.parametrize("alias", ["publication", "course", "unit", "module", "file", "static"])
+@pytest.mark.parametrize("skip_clear", [False, True])
+def test_publication_aliases_never_modify_authored_sources(
+    publication_repo: Path, alias: str, skip_clear: bool
+) -> None:
+    """Reject real source aliases before either cleanup or copying can follow them."""
+    repo = publication_repo
+    course_id = "active-inference"
+    _configure(repo, courses=(course_id,))
+    source = _module(repo, course_id, "01_philosophy/01_systems")
+    _write(source / "output" / "module.md", b"generated replacement\n")
+    publication = repo / PUBLICATION_DIR
+    course_pub = publication / course_id
+    module_pub = course_pub / "01_philosophy/01_systems"
+    course = repo / COURSE_REGISTRY[course_id]["rel_path"]
+    if alias == "publication":
+        link, target = publication, course
+    elif alias == "course":
+        link, target = course_pub, course
+    elif alias == "unit":
+        link, target = course_pub / "01_philosophy", source.parent
+    elif alias == "module":
+        link, target = module_pub, source
+    elif alias == "file":
+        link, target = module_pub / "module.md", source / "module.md"
+    else:
+        relative = COURSE_REGISTRY[course_id]["static_dirs"][0]
+        target = course / relative
+        _write(target / "authored.py", b"AUTHORED = True\n")
+        link = course_pub / relative
+    link.parent.mkdir(parents=True, exist_ok=True)
+    link.symlink_to(target, target_is_directory=target.is_dir())
+    before = _snapshot(repo)
+    args = ["--publish-only"]
+    if skip_clear:
+        args.append("--skip-clear")
+
+    result = _run_cli(repo, *args)
+
+    assert result.returncode != 0
+    assert "publication" in (result.stdout + result.stderr).lower()
+    assert _snapshot(repo) == before
+
+
+def test_publication_root_cannot_overlap_authored_course(publication_repo: Path) -> None:
+    """A configured source directory is not an admissible publication root."""
+    repo = publication_repo
+    source = _module(repo, "ai-philosophy")
+    _write(source / "output/new.txt", b"generated\n")
+    config = repo / "publish.toml"
+    config.write_text(config.read_text().replace(PUBLICATION_DIR, "course_development"))
+    before = _snapshot(repo)
+
+    result = _run_cli(repo, "--publish-only")
+
+    assert result.returncode != 0
+    assert "overlaps authored course source" in result.stdout + result.stderr
+    assert _snapshot(repo) == before

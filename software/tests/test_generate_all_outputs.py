@@ -1,5 +1,9 @@
 """Real-file regressions for admitted generation and scoped cleanup."""
 
+import subprocess
+import sys
+from pathlib import Path
+
 import pytest
 
 from scripts.generate_all_outputs import main
@@ -53,6 +57,30 @@ def test_selected_generation_preserves_other_units_modules_formats_guides(tmp_pa
     changed = {name for name in before.keys() | after.keys() if before.get(name) != after.get(name)}
     assert changed == {str(output.relative_to(tmp_path))}
     assert output.parent.stat().st_ino == output_directory_inode
+
+
+@pytest.mark.parametrize("relative_root", [".", "child"])
+def test_cli_relative_repo_root_cleans_and_regenerates_only_selected_output(tmp_path, relative_root):
+    """Relative CLI roots share the planner's absolute cleanup boundary."""
+    _, paths = modules(tmp_path)
+    before = snapshot(tmp_path)
+    output = paths[0] / "output/lecture-content/01_systems-module.md"
+    directory_inode = output.parent.stat().st_ino
+    script = Path(__file__).resolve().parents[1] / "scripts/generate_all_outputs.py"
+    cwd = tmp_path if relative_root == "." else tmp_path.parent
+    root_argument = "." if relative_root == "." else tmp_path.name
+    result = subprocess.run(
+        [sys.executable, str(script), "--repo-root", root_argument,
+         "--course", "active-inference", "--unit", "01_philosophy", "--module", "1",
+         "--formats", "md", "--skip-labs", "--no-website"],
+        cwd=cwd, capture_output=True, text=True, check=False,
+    )
+    assert result.returncode == 0, result.stderr
+    after = snapshot(tmp_path)
+    assert output.read_bytes() == (paths[0] / "module.md").read_bytes()
+    changed = {name for name in before.keys() | after.keys() if before.get(name) != after.get(name)}
+    assert changed == {str(output.relative_to(tmp_path))}
+    assert output.parent.stat().st_ino == directory_inode
 
 
 @pytest.mark.parametrize("extra", [

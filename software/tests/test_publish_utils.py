@@ -62,12 +62,97 @@ class TestFlattenModule:
         (sub / "hw1.pdf").write_text("c")
         moved = flatten_module(md, dry_run=True)
         assert moved == 1
+        assert not (md / ".flatten-receipt.json").exists()
         assert (sub / "hw1.pdf").exists()
 
     def test_empty_module(self, temp_dir):
         md = temp_dir / "module-01"
         md.mkdir()
         assert flatten_module(md) == 0
+
+    def test_category_collisions_keep_independent_owners_on_republication(self, tmp_path):
+        """Distinct generated sources retain their own stable flattened paths."""
+        module = tmp_path / "01_systems"
+        sources = [
+            module / "assignments/shared.pdf",
+            module / "study-guides/shared.pdf",
+        ]
+        for source in sources:
+            source.parent.mkdir(parents=True)
+        targets = [module / "shared.pdf", module / "study-guides_shared.pdf"]
+        for revision in range(3):
+            for index, source in enumerate(sources):
+                text = "same initial bytes" if revision == 0 else f"{index}: revision {revision}"
+                source.write_text(text)
+            expected = [source.read_bytes() for source in sources]
+            assert flatten_module(module) == 2
+            assert [target.read_bytes() for target in targets] == expected
+            assert set(module.glob("*.pdf")) == set(targets)
+            assert all(not source.exists() for source in sources)
+
+    @pytest.mark.parametrize("matching_bytes", [False, True])
+    def test_unknown_root_collision_is_never_adopted(self, tmp_path, matching_bytes):
+        """Equal bytes do not make an authored root file generated ownership."""
+        module = tmp_path / "01_systems"
+        source = module / "lecture-content/lesson.md"
+        source.parent.mkdir(parents=True)
+        foreign = module / "lesson.md"
+        authored = "revision 0" if matching_bytes else "authored root payload"
+        foreign.write_text(authored)
+        target = module / "lecture-content_lesson.md"
+        for revision in range(3):
+            source.write_text(f"revision {revision}")
+            assert flatten_module(module) == 1
+            assert foreign.read_text() == authored
+            assert target.read_text() == f"revision {revision}"
+            assert set(module.glob("*.md")) == {foreign, target}
+
+    def test_changed_owned_root_is_preserved_as_foreign(self, tmp_path):
+        """An authored edit revokes the receipt's permission to replace a root."""
+        module = tmp_path / "01_systems"
+        source = module / "lecture-content/lesson.md"
+        source.parent.mkdir(parents=True)
+        source.write_text("first generation")
+        assert flatten_module(module) == 1
+        foreign = module / "lesson.md"
+        foreign.write_text("authored replacement")
+        for revision in (1, 2):
+            source.write_text(f"generation {revision}")
+            assert flatten_module(module) == 1
+            assert foreign.read_text() == "authored replacement"
+            assert (module / "lecture-content_lesson.md").read_text() == f"generation {revision}"
+
+    def test_foreign_prefixed_collision_rejects_before_any_move(self, tmp_path):
+        """A second collision leaves both foreign files and every source intact."""
+        module = tmp_path / "01_systems"
+        category = module / "lecture-content"
+        category.mkdir(parents=True)
+        (category / "a-first.md").write_text("admitted but not yet moved")
+        (category / "lesson.md").write_text("generated")
+        (module / "lesson.md").write_text("authored root")
+        (module / "lecture-content_lesson.md").write_text("authored prefix")
+        before = {path.relative_to(module): path.read_bytes()
+                  for path in module.rglob("*") if path.is_file()}
+        with pytest.raises(FileExistsError, match="Ambiguous flattened payload"):
+            flatten_module(module)
+        after = {path.relative_to(module): path.read_bytes()
+                 for path in module.rglob("*") if path.is_file()}
+        assert after == before
+
+    def test_dry_run_preserves_existing_receipt_and_owned_payload(self, tmp_path):
+        """Planning changed bytes must not alter either data or ownership."""
+        module = tmp_path / "01_systems"
+        source = module / "lecture-content/lesson.md"
+        source.parent.mkdir(parents=True)
+        source.write_text("first generation")
+        assert flatten_module(module) == 1
+        source.write_text("second generation")
+        before = {path.relative_to(module): path.read_bytes()
+                  for path in module.rglob("*") if path.is_file()}
+        assert flatten_module(module, dry_run=True) == 1
+        after = {path.relative_to(module): path.read_bytes()
+                 for path in module.rglob("*") if path.is_file()}
+        assert after == before
 
 
 class TestFlattenPublished:

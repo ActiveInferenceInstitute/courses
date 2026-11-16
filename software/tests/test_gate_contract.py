@@ -1,6 +1,7 @@
 """Exercise the real gate/checker/exporter, never substitute a passing command."""
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -67,6 +68,35 @@ def test_gate_success_stdout_is_one_complete_json_value(tmp_path):
     assert result.returncode == 0, result.stderr
     payload = json.loads(result.stdout)
     assert payload["ok"] is True and payload["export"]["ok"] is True
+
+
+@pytest.mark.parametrize("checkout_has_violation", [False, True])
+def test_no_mocks_gate_scans_checkout_not_callers_tests(tmp_path, checkout_has_violation):
+    """Run the real gate and checker from a caller with the opposite policy status."""
+    checkout = tmp_path / "checkout"
+    scripts = checkout / "software/scripts"
+    scripts.mkdir(parents=True)
+    shutil.copyfile(ROOT / "run.sh", checkout / "run.sh")
+    shutil.copyfile(ROOT / "software/scripts/verify_no_mocks.py", scripts / "verify_no_mocks.py")
+    caller = tmp_path / "caller"
+    forbidden = "from " + ".".join(("unittest", "mock")) + " import patch\n"
+    allowed = "from pathlib import Path\n"
+    for root, has_violation, filename in (
+        (checkout / "software", checkout_has_violation, "test_checkout.py"),
+        (caller, not checkout_has_violation, "test_foreign.py"),
+    ):
+        tests = root / "tests"
+        tests.mkdir(parents=True)
+        (tests / filename).write_text(forbidden if has_violation else allowed)
+    result = subprocess.run(
+        ["bash", str(checkout / "run.sh"), "no-mocks"],
+        cwd=caller,
+        env={**os.environ, "COURSES_PYTHON": sys.executable, "GATE_TIMINGS": "0",
+             "PYTHONDONTWRITEBYTECODE": "1"},
+        capture_output=True, text=True, check=False,
+    )
+    assert result.returncode == (1 if checkout_has_violation else 0), result.stdout + result.stderr
+    assert "test_foreign.py" not in result.stdout + result.stderr
 
 
 def test_strict_pending_member_fails_with_machine_readable_report(tmp_path, capsys):

@@ -92,7 +92,8 @@ arm_types() {
 }
 
 arm_no_mocks() {
-    project_python "$SOFTWARE/scripts/verify_no_mocks.py" "$@"
+    # The checker locates tests/ relative to its working directory.
+    ( cd "$SOFTWARE" && project_python "$SOFTWARE/scripts/verify_no_mocks.py" "$@" )
 }
 
 arm_test() {

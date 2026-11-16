@@ -325,9 +325,12 @@ def clear_all_outputs(repo_root: Path, *, plans: List[dict]) -> Dict[str, Any]:
     """Clear only exact admitted artifact paths. An explicit plan is mandatory.
 
     Never recurse-delete an output directory, guide, hidden file, unrelated
-    format, course, unit or module. Validate all targets before the first unlink.
+    format, course, unit or module. Normalize the root as the planner does, then
+    validate all targets before the first unlink.
     """
     from .utils import require_contained
+
+    repo_root = repo_root.absolute()
 
     paths = sorted({a["destination"] for plan in plans for a in plan["artifacts"]
                     if a["destination"].name not in ("README.md", "AGENTS.md")

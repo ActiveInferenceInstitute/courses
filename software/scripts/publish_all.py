@@ -122,7 +122,7 @@ def parse_args(argv=None) -> argparse.Namespace:
 
 def main(argv=None) -> int:
     args = parse_args(argv)
-    root = args.repo_root
+    root = args.repo_root.absolute()
     published = root / PUBLISH_ROOT_NAME
     try:
         formats = get_formats_to_process(args.formats)

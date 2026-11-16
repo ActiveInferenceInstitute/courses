@@ -132,14 +132,33 @@ def _is_authored_markdown(
     )
 
 
+def _validate_publication_path(destination: Path, publication_root: Path) -> None:
+    """Refuse escaped paths and symlink aliases before touching publication bytes."""
+    root = publication_root.absolute()
+    path = destination.absolute()
+    if not path.resolve().is_relative_to(root.resolve()):
+        raise ValueError(f"Publication destination escapes its root: {destination}")
+    if not path.is_relative_to(root):
+        raise ValueError(f"Publication destination is outside its root: {destination}")
+    for node in (path, *path.parents):
+        if node.is_symlink():
+            raise ValueError(f"Symlinked publication destination: {node}")
+        if node == root:
+            break
+
+
 def _clean_generated_destination(
-    destination: Path, generated_markdown: set[str] | None = None
+    destination: Path, generated_markdown: set[str] | None = None, *,
+    publication_root: Path,
 ) -> None:
     """Remove payload files only inside a discovered generated destination.
 
     Keep authored Markdown, hidden entries and directory identities. In particular,
     never recursively remove a selected course, unit, module or static tree.
     """
+    _validate_publication_path(destination, publication_root)
+    for path in destination.rglob("*"):
+        _validate_publication_path(path, publication_root)
     for path in destination.rglob("*"):
         if any(part.startswith(".") for part in path.relative_to(destination).parts):
             continue
@@ -274,6 +293,20 @@ def run_publish(
         return False
 
     published_path = repo_root / output_dir
+    try:
+        _validate_publication_path(published_path, repo_root)
+        for course_id in courses:
+            source = (repo_root / COURSE_REGISTRY[course_id]["rel_path"]).resolve()
+            publication = published_path.resolve()
+            if source.is_relative_to(publication) or publication.is_relative_to(source):
+                raise ValueError(f"Publication overlaps authored course source: {source}")
+            course_pub = published_path / course_id
+            _validate_publication_path(course_pub, published_path)
+            for path in course_pub.rglob("*"):
+                _validate_publication_path(path, published_path)
+    except ValueError as error:
+        logger.error("%s", error)
+        return False
     if not dry_run:
         published_path.mkdir(parents=True, exist_ok=True)
     clean = clean_before_publish and not skip_clear
@@ -307,9 +340,13 @@ def run_publish(
                     generated_markdown = content_names | {
                         f"{module_pub.name}-{name}" for name in content_names
                     }
-                    _clean_generated_destination(module_pub, generated_markdown)
+                    _clean_generated_destination(
+                        module_pub, generated_markdown, publication_root=published_path
+                    )
                 for static_dir in reg.get("static_dirs", []):
-                    _clean_generated_destination(course_pub / static_dir)
+                    _clean_generated_destination(
+                        course_pub / static_dir, publication_root=published_path
+                    )
 
         for module_dir in modules:
             output_dir_path = module_dir / "output"

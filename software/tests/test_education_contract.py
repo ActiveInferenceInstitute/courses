@@ -544,6 +544,58 @@ def test_group_rules_see_every_member_bundle(tmp_path: Path, reference: dict) ->
     assert report.ok is False
 
 
+@pytest.mark.parametrize("multi_bundle_owner", ["alpha", "beta"])
+@pytest.mark.parametrize("matching_bundle", [0, 1])
+def test_group_term_drift_checks_every_owner_definition(
+    tmp_path: Path, reference: dict, multi_bundle_owner: str, matching_bundle: int,
+) -> None:
+    """A peer matching either definition must not hide the other bundle's drift."""
+    from src.education_contract.registry import Registry
+
+    definitions = ("A definition of the shared concept.", "A different definition of that concept.")
+    specs = []
+    paths = {}
+    for identity in ("alpha", "beta"):
+        repository = f"ActiveInferenceInstitute/{identity}"
+        root = tmp_path / f"actual-{identity}-lane"
+        member_definitions = (
+            definitions if identity == multi_bundle_owner else (definitions[matching_bundle],)
+        )
+        for index, definition in enumerate(member_definitions):
+            document = copy.deepcopy(reference)
+            document["provenance"]["repository"] = repository
+            document["units"] = [copy.deepcopy(reference["units"][0])]
+            document["units"][0].update(
+                unit_id=f"{identity}-{index}", prerequisites=[],
+                glossary_terms=[reference["glossary"][0]["term_id"]],
+            )
+            document["prerequisite_edges"] = []
+            document["glossary"] = [copy.deepcopy(reference["glossary"][0])]
+            document["glossary"][0]["definition"] = definition
+            if index == 0:
+                _adopt(root, schema_bytes=DEFAULT_SCHEMA_PATH.read_bytes(),
+                       digest=schema_digest(), bundle=document)
+            else:
+                (root / "specs/education/tail.json").write_text(json.dumps(document))
+                pointer = load(root / "education-contract.json")
+                pointer["bundles"].append("specs/education/tail.json")
+                (root / "education-contract.json").write_text(json.dumps(pointer))
+        specs.append(MemberSpec(identity, repository))
+        paths[identity] = root
+    (tmp_path / "contract.md").write_text("Fixture contract document.")
+    registry = Registry(tmp_path / "registry.json", "education-contract/v1", schema_digest(),
+                        "contract.md", tuple(specs))
+    report = check_contract(registry, member_root=tmp_path / "unused-parent",
+                            canonical_schema=DEFAULT_SCHEMA_PATH, repo_root=tmp_path,
+                            member_paths=paths)
+    assert all(member.state == ADOPTED for member in report.members)
+    assert [len(member.documents) for member in report.members] == (
+        [2, 1] if multi_bundle_owner == "alpha" else [1, 2]
+    )
+    assert codes(report.registry_issues) == {"EC121"}
+    assert report.ok is False
+
+
 def test_duplicate_registry_identity_is_not_silently_overwritten(tmp_path: Path) -> None:
     data = load(REGISTRY)
     data["members"] = [data["members"][0], data["members"][0]]
