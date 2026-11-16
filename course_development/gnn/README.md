@@ -34,7 +34,7 @@ development, including the "triple play" of text, graph, and executable forms.
 | Path | Description |
 |------|-------------|
 | [`01_gnn_syntax/`](./01_gnn_syntax/) | Lesson: reading a real GNN exemplar section by section, computing its perception update, and running the pipeline |
-| [`01_gnn_syntax/models/`](./01_gnn_syntax/models/README.md) | Five verbatim GNN exemplars (GNN v5.0.3) mapped to course levels |
+| [`01_gnn_syntax/models/`](./01_gnn_syntax/models/README.md) | Five verbatim GNN exemplars (GNN v5.1.0) mapped to course levels |
 
 ---
 
@@ -65,7 +65,7 @@ model, and `skipped` when a toolchain is missing locally.
 
 The repository's `gnn conformance (pinned)` CI job runs the same parser and type
 checker over the five exemplars. It installs the revision recorded in
-[`.github/gnn-pin.json`](../../.github/gnn-pin.json) (GNN `v5.0.3`) and fails if
+[`.github/gnn-pin.json`](../../.github/gnn-pin.json) (GNN `v5.1.0`) and fails if
 an exemplar stops parsing or type-checking.
 
 ---

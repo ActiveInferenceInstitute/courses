@@ -160,17 +160,17 @@ Open items from this pass:
   authored `topic` per unit in `course_development/domains/` before it can be
   transcribed. Owner: the curriculum author; blocked on authored metadata, not
   on tooling — the extractor and the checker already exist.
-- [ ] **GNN revision drift.** `.github/gnn-pin.json` pins v5.0.3
-  (`8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1`) while the estate importer
-  repositories moved to v5.1.0
-  (`75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf`, confirmed 2026-11-12 with
-  `git ls-remote --tags`). This repository is not a bare importer: it owns five
-  GNN exemplars under `course_development/gnn/01_gnn_syntax/models`, and the
-  check asserts `gnn.__version__` against the pin's tag
-  (`software/scripts/verify_gnn_conformance.py:86,139`), so a bump has to
-  re-install the parser from the pinned commit into `software/.venv-gnn` and
-  re-run `./run.sh gnn`. Owner: whoever owns the estate GNN pin; blocked on that
-  decision plus network access — every hosted `CI` run currently fails within
+- [x] **GNN revision drift.** Resolved 2026-11-16: `.github/gnn-pin.json` now
+  pins v5.1.0 (`75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf`), matching the estate
+  importer repositories (previously v5.0.3,
+  `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1`). The five exemplars under
+  `course_development/gnn/01_gnn_syntax/models` are byte-identical at both
+  commits (`git show <commit>:<path>` against the upstream checkout), so only
+  their provenance moved; no model bytes changed. The pinned check
+  (`software/scripts/verify_gnn_conformance.py`) passed locally against an
+  installed GNN 5.1.0 built from the pinned commit; the hosted `Static checks`
+  job on the cutover pull request is a second witness. Local evidence stays the
+  record of this pass because hosted runs here have failed within
   seconds (billing), so the evidence has to be local.
 - [ ] **Documented test counts drifted again after #28.** Nine surfaces still
   quote 1,029 collected / 995 offline. `uv run pytest tests/ --collect-only`

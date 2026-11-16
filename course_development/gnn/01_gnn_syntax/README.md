@@ -49,7 +49,7 @@ By the end of this module, students will be able to:
 | [questions.md](./questions.md) | 20 Study Questions |
 | [practice_quiz.md](./practice_quiz.md) | Practice Quiz (7 multiple choice + 3 short answer) |
 | [lab.md](./lab.md) | Lab: Reading and Running a GNN Specification |
-| [models/](./models/README.md) | Five GNN exemplars copied from GNN v5.0.3, mapped to course levels |
+| [models/](./models/README.md) | Five GNN exemplars copied from GNN v5.1.0, mapped to course levels |
 | [dashboard.html](./dashboard.html) | Interactive Dashboard |
 
 ## Recommended Readings

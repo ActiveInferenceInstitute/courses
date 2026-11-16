@@ -114,7 +114,7 @@ while the interpretation is declared.
 
 ### 3. A real exemplar, in full
 
-Here is the complete Static Perception Model from the GNN v5.0.3 exemplar
+Here is the complete Static Perception Model from the GNN v5.1.0 exemplar
 corpus, reproduced unmodified from
 [`models/static_perception.md`](./models/static_perception.md):
 
@@ -297,8 +297,8 @@ curriculum. The mapping is by *conceptual demand*, not by age label alone:
 | Core curriculum | [`actinf_pomdp_agent.md`](./models/actinf_pomdp_agent.md) | The canonical full Active Inference agent with A–E matrices. |
 | Advanced 401 | [`dirichlet_likelihood_learning.md`](./models/dirichlet_likelihood_learning.md) | Adds learning: Dirichlet concentration updates of parameters. |
 
-Each file is a verbatim copy from the GNN v5.0.3 exemplar corpus at commit
-`8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1`; provenance and verification
+Each file is a verbatim copy from the GNN v5.1.0 exemplar corpus at commit
+`75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf`; provenance and verification
 commands are in [`models/README.md`](./models/README.md).
 
 ---
@@ -387,7 +387,7 @@ well as research — a student can see *why* a simulation behaves as it does.
    Active Inference Models.* Zenodo.
    <https://zenodo.org/records/7803328>
 2. Active Inference Institute. *Generalized_Notation_Notation* (GNN) repository,
-   release v5.0.3, commit `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1`.
+   release v5.1.0, commit `75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf`.
    <https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation>
 3. Active InferAnt Stream 014.1, *Generalized Notation Notation: From Plaintext
    to Triple Play* (2025).
