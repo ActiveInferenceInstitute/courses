@@ -7,7 +7,8 @@ All notable changes to the Active Inference Institute courses repository.
 - Reject symlinked or escaped publication destinations and publication roots
   overlapping authored course sources before cleanup or copying.
 - Repair repeat publication of owned flattened artifacts and cleanup with a
-  relative repository root, preserving unrelated publication bytes.
+  relative repository root, preserving unrelated publication bytes. Ownership
+  receipts admit only origin-derived filenames, never arbitrary root targets.
 - Anchor the no-mocks gate to this checkout and compare every admitted
   cross-repository term definition, including later bundles from one owner.
 - Retain the original bounded qualification and negative receipts as history;

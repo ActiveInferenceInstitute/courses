@@ -128,6 +128,7 @@ def _load_flatten_receipt(module_dir: Path) -> Dict[str, Dict[str, str]]:
             or not name
             or Path(name).name != name
             or name.startswith(".")
+            or name not in (relative.name, f"{relative.parts[0]}_{relative.name}")
             or name in ("README.md", "AGENTS.md")
             or name in targets
             or not isinstance(digest, str)

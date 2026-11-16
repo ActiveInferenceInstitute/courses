@@ -1,5 +1,8 @@
 """Tests for publish utils module — COURSE_REGISTRY-aware paths."""
 
+import hashlib
+import json
+
 import pytest
 
 from src.publish.utils import (
@@ -138,6 +141,33 @@ class TestFlattenModule:
         after = {path.relative_to(module): path.read_bytes()
                  for path in module.rglob("*") if path.is_file()}
         assert after == before
+
+    @pytest.mark.parametrize("target_name", ["dashboard.html", "other-category_lesson.md"])
+    def test_receipt_cannot_authorize_unrelated_root_target(self, tmp_path, target_name):
+        """Even a matching digest cannot grant ownership of an unrelated filename."""
+        module = tmp_path / "01_systems"
+        source = module / "lecture-content/lesson.md"
+        source.parent.mkdir(parents=True)
+        source.write_text("generated lesson")
+        foreign = module / target_name
+        foreign.write_text("authored unrelated root payload")
+        (module / ".flatten-receipt.json").write_text(json.dumps({
+            "schema": "courses-publication-flatten/v1",
+            "artifacts": {
+                "lecture-content/lesson.md": {
+                    "path": target_name,
+                    "sha256": hashlib.sha256(foreign.read_bytes()).hexdigest(),
+                },
+            },
+        }))
+        before = {path.relative_to(module): path.read_bytes()
+                  for path in module.rglob("*") if path.is_file()}
+
+        with pytest.raises(ValueError, match="Invalid flattened publication binding"):
+            flatten_module(module)
+
+        assert {path.relative_to(module): path.read_bytes()
+                for path in module.rglob("*") if path.is_file()} == before
 
     def test_dry_run_preserves_existing_receipt_and_owned_payload(self, tmp_path):
         """Planning changed bytes must not alter either data or ownership."""
