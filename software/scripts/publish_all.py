@@ -17,10 +17,7 @@ Usage:
 
 import argparse
 import logging
-import subprocess
 import sys
-import time
-from datetime import datetime
 from pathlib import Path
 
 # Add software directory to path
@@ -28,9 +25,15 @@ software_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(software_dir))
 
 from src.batch_processing.config import COURSE_REGISTRY  # noqa: E402
-from src.batch_processing.main import clear_all_outputs  # noqa: E402
+from src.batch_processing.main import clear_all_outputs, generate_selected_outputs  # noqa: E402
+from src.batch_processing.utils import (  # noqa: E402
+    describe_generation, get_courses_to_process, get_formats_to_process,
+    parse_limits, plan_generation,
+)
+from src.publish.main import publish_course  # noqa: E402
+from src.publish.config import PUBLISH_ROOT_NAME  # noqa: E402
+from src.validation.main import validate_plan  # noqa: E402
 from src.publish.utils import (  # noqa: E402
-    clean_published,
     copy_labs_and_dashboards,
     copy_practice_tests,
     copy_slides,
@@ -48,45 +51,19 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def get_repo_root() -> Path:
-    """Get the repository root directory."""
-    return Path(__file__).parent.parent.parent
 
 
-def run_script(script_name: str, args: list[str] = None, verbose: bool = False) -> bool:
-    """Run a Python script and return success status."""
-    repo_root = get_repo_root()
-    script_path = repo_root / "software" / "scripts" / script_name
-
-    if not script_path.exists():
-        logger.error(f"Script not found: {script_path}")
-        return False
-
-    cmd = [sys.executable, str(script_path)]
-    if args:
-        cmd.extend(args)
-
-    logger.info(f"Running: {script_name} {' '.join(args or [])}")
-
-    try:
-        result = subprocess.run(
-            cmd, cwd=str(repo_root / "software"), capture_output=not verbose, text=True
-        )
-
-        if result.returncode != 0:
-            logger.error(f"Script failed: {script_name}")
-            if not verbose and result.stderr:
-                logger.error(result.stderr[-500:])
-            return False
-
-        return True
-    except Exception as e:
-        logger.error(f"Error running {script_name}: {e}")
-        return False
 
 
 def parse_args(argv=None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Publish all courses - Complete pipeline")
+    parser.add_argument("--repo-root", type=Path, default=Path(__file__).resolve().parents[2])
+    parser.add_argument("--course", choices=[*COURSE_REGISTRY, "all"], default="all")
+    parser.add_argument("--module", type=int)
+    parser.add_argument("--unit")
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--no-website", action="store_true")
+    parser.add_argument("--skip-clear", action="store_true")
     parser.add_argument(
         "--clean", action="store_true", help="Clean PUBLISHED directory before starting"
     )
@@ -143,152 +120,67 @@ def parse_args(argv=None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv=None):
+def main(argv=None) -> int:
     args = parse_args(argv)
-
-    start_time = time.time()
-    repo_root = get_repo_root()
-    published_dir = repo_root / "PUBLISHED"
-    courses = list(COURSE_REGISTRY.keys())
-
-    print("\n" + "=" * 70)
-    print("  PUBLISH ALL COURSES - Complete Pipeline")
-    print("  " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    print("=" * 70 + "\n")
-
-    # Step 1: Clean if requested
-    if args.clean:
-        logger.info("🧹 STEP 1: Cleaning PUBLISHED directory")
-        clean_published(published_dir)
-    else:
-        logger.info("⏭️  STEP 1: Skipping clean (use --clean to clean first)")
-
-    # Step 1.5: Clean source outputs if requested
-    if args.clean_source_outputs:
-        logger.info("\n🧹 STEP 1.5: Cleaning source output directories")
-        clear_results = clear_all_outputs(repo_root / "course_development")
-        logger.info(
-            f"  ✅ Cleared {clear_results['total_files_removed']} files from {len(clear_results['cleared_directories'])} directories"
-        )
-
-    # Step 2: Generate outputs
-    if not args.skip_generation:
-        logger.info("\n⚙️  STEP 2: Generating all outputs")
-
-        # Build generation args
-        gen_args = ["--course", "all"]
-
-        # Handle format options
+    root = args.repo_root
+    published = root / PUBLISH_ROOT_NAME
+    try:
+        formats = get_formats_to_process(args.formats)
         if args.skip_mp3:
-            gen_args.extend(["--formats", "pdf,docx,html,txt"])
-            logger.info("  Skipping MP3 generation (--skip-mp3)")
-        elif args.formats != "all":
-            gen_args.extend(["--formats", args.formats])
-            logger.info(f"  Formats: {args.formats}")
-
-        # Pass through skip-labs flag
-        if args.skip_labs:
-            gen_args.append("--skip-labs")
-            logger.info("  Skipping lab rendering (--skip-labs)")
-
-        # Pass through module/lab limits
-        for limit in getattr(args, "max_module", []) or []:
-            gen_args.extend(["--max-module", limit])
-            logger.info(f"  Module limit: {limit}")
-        for limit in getattr(args, "max_lab", []) or []:
-            gen_args.extend(["--max-lab", limit])
-            logger.info(f"  Lab limit: {limit}")
-
-        if not run_script("generate_all_outputs.py", gen_args, args.verbose):
-            logger.error("❌ Generation failed!")
-            return 1
-        logger.info("  ✅ Generation complete")
-    else:
-        logger.info("\n⏭️  STEP 2: Skipping generation (--skip-generation)")
-
-    # Step 3: Publish to PUBLISHED/
-    if not args.skip_publish:
-        logger.info("\n📦 STEP 3: Publishing to PUBLISHED/")
-        if not run_script("publish_course.py", ["--course", "all"], args.verbose):
-            logger.error("❌ Publishing failed!")
-            return 1
-        logger.info("  ✅ Publishing complete")
-    else:
-        logger.info("\n⏭️  STEP 3: Skipping publish (--skip-publish)")
-
-    # Step 4: Copy labs and dashboards
-    if not args.skip_copy_extras:
-        logger.info("\n📋 STEP 4: Copying labs and dashboards")
-        copied = copy_labs_and_dashboards(repo_root, courses, args.verbose)
-        logger.info(f"  ✅ Copied {copied} files")
-    else:
-        logger.info("\n⏭️  STEP 4: Skipping copy extras (--skip-copy-extras)")
-
-    # Step 4.5: Copy slides and practice tests
-    # Note: Exams are NOT published - they are teacher-only materials
-    if not args.skip_copy_extras:
-        logger.info("\n🎯 STEP 4.5: Copying slides and practice tests")
-        slides_copied = copy_slides(repo_root, courses, args.verbose)
-        module_slides_copied = copy_slides_to_modules(repo_root, courses, args.verbose)
-        practice_tests_copied = copy_practice_tests(repo_root, courses, args.verbose)
-        logger.info(
-            f"  ✅ Copied {slides_copied} slides to central dir, {module_slides_copied} to module folders, {practice_tests_copied} practice tests"
+            formats = [fmt for fmt in formats if fmt != "mp3"]
+        plans = plan_generation(
+            root, get_courses_to_process(args.course), formats,
+            module_filter=args.module, unit_filter=args.unit,
+            max_modules=parse_limits(args.max_module), max_labs=parse_limits(args.max_lab),
+            skip_labs=args.skip_labs, generate_website=not args.no_website,
         )
-
-    # Step 5: Flatten structure
-    if not args.skip_flatten:
-        logger.info("\n📁 STEP 5: Flattening module structure")
-        moved = flatten_published(published_dir)
-        logger.info(f"  ✅ Flattened {moved} files")
-    else:
-        logger.info("\n⏭️  STEP 5: Skipping flatten (--skip-flatten)")
-
-    # Step 5.5: Reorganize to category folders
-    if not args.skip_flatten:
-        logger.info("\n📂 STEP 5.5: Reorganizing to category folders")
-        reorganized = reorganize_to_categories(published_dir, courses, args.verbose)
-        logger.info(f"  ✅ Reorganized {reorganized} files into category folders")
-
-    # Step 6: Validate
-    if not args.skip_validate:
-        logger.info("\n🔍 STEP 6: Validating outputs")
-        # Pass formats to validation so it only checks what was generated
-        validate_args = ["--course", "all"]
-        if args.formats and args.formats != "all":
-            validate_args.extend(["--formats", args.formats])
-        # Pass through module/lab limits to validation
-        for limit in getattr(args, "max_module", []) or []:
-            validate_args.extend(["--max-module", limit])
-        for limit in getattr(args, "max_lab", []) or []:
-            validate_args.extend(["--max-lab", limit])
-        if not run_script("validate_outputs.py", validate_args, args.verbose):
-            logger.error("❌ Validation failed!")
-            return 1
-        logger.info("  ✅ Validation complete")
-    else:
-        logger.info("\n⏭️  STEP 6: Skipping validation (--skip-validate)")
-
-    # Summary
-    duration = time.time() - start_time
-
-    total_files = sum(1 for _ in published_dir.rglob("*") if _.is_file())
-
-    # Calculate per-course breakdown
-    course_counts = {}
-    for course_dir in sorted(published_dir.iterdir()):
-        if course_dir.is_dir() and not course_dir.name.startswith("."):
-            course_counts[course_dir.name] = sum(1 for _ in course_dir.rglob("*") if _.is_file())
-
-    print("\n" + "=" * 70)
-    print("  PUBLISH COMPLETE")
-    print("=" * 70)
-    print(f"  Total files in PUBLISHED: {total_files}")
-    for course, count in course_counts.items():
-        print(f"    {course}: {count} files")
-    print(f"  Duration: {duration:.1f}s")
-    print("=" * 70 + "\n")
-
-    return 0
+        if args.skip_generation and args.clean_source_outputs:
+            raise ValueError("--clean-source-outputs requires generation")
+        if args.dry_run:
+            print(describe_generation(plans))
+            return 0
+        if not args.skip_generation:
+            if not args.skip_clear:
+                clearing = clear_all_outputs(root, plans=plans)
+                if clearing["errors"]:
+                    raise OSError("\n".join(clearing["errors"]))
+            generated = generate_selected_outputs(plans)
+            if generated["errors"]:
+                raise OSError("\n".join(generated["errors"]))
+        if not args.skip_validate:
+            issues = [issue for plan in plans for issue in validate_plan(plan)["issues"]]
+            if issues:
+                raise ValueError("\n".join(issues))
+        if not args.skip_publish:
+            for plan in plans:
+                result = publish_course(
+                    str(plan["path"]), str(published), course_id=plan["course_id"],
+                    plan=plan, clean=args.clean and not args.skip_clear,
+                )
+                if result["errors"]:
+                    raise OSError("\n".join(result["errors"]))
+            courses = [plan["course_id"] for plan in plans]
+            selected = {plan["course_id"]: plan["modules"] for plan in plans}
+            if not args.skip_copy_extras:
+                copy_labs_and_dashboards(root, courses, args.verbose, plans=plans,
+                                         skip_labs=args.skip_labs)
+                if "pdf" in formats:
+                    copy_slides_to_modules(root, courses, args.verbose, selected_modules=selected)
+                if args.module is None and args.unit is None and not args.max_module and not args.max_lab:
+                    if "pdf" in formats:
+                        copy_slides(root, courses, args.verbose)
+                    copy_practice_tests(root, courses, args.verbose, formats=formats)
+            if not args.skip_flatten:
+                modules = [
+                    published / plan["course_id"] / module.relative_to(plan["path"])
+                    for plan in plans for module in plan["modules"]
+                ]
+                flatten_published(published, modules=modules)
+                reorganize_to_categories(published, courses, modules=modules)
+        return 0
+    except (OSError, ValueError) as error:
+        logger.error("Publication failed: %s", error)
+        return 1
 
 
 if __name__ == "__main__":

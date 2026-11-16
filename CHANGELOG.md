@@ -2,6 +2,20 @@
 
 All notable changes to the Active Inference Institute courses repository.
 
+## [Unreleased] — 2026-11-13 (bounded qualification)
+
+- Qualified the explicit-source GNN bootstrap/full-manifest guard and actual
+  five-exemplar gate at the unchanged pin. Fixed the parser caller to pass a
+  filesystem path rather than file contents.
+- Documented admitted manifest-scoped generation, complete publication identity,
+  failure propagation, explicit-root multi-bundle education and bound YouTube resume.
+- Reused earlier accepted engine evidence rather than repeating its suite.
+  Installed-origin fixtures, hosted artifact delivery and full-network acceptance
+  remain open; no coverage, timing or release result was manufactured.
+- Replaced copied current counts with source-bound fact references, linked both
+  documentation hubs and corrected numbered domain-tracker arithmetic without
+  authoring or changing any domain's status.
+
 ## [Unreleased] — 2026-11-12 (gate entry point and docs tree)
 
 ### Added

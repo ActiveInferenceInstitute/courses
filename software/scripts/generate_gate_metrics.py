@@ -28,12 +28,16 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from gate_receipt import SCHEMA, coverage_identity, runtime_binding, source_binding  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 SOFTWARE = ROOT / "software"
 GENERATED = ROOT / "docs" / "_generated"
 METRICS_PATH = GENERATED / "GATE_METRICS.md"
 TIMINGS_PATH = GENERATED / "ARM_TIMINGS.md"
 TIMINGS_LOG = GENERATED / "arm-timings.jsonl"
+BOUND_TIMINGS_LOG = GENERATED / "arm-timings-v2.jsonl"
 COVERAGE_JSON = SOFTWARE / "coverage.json"
 PIN_PATH = ROOT / ".github" / "gnn-pin.json"
 MODELS_DIR = ROOT / "course_development" / "gnn" / "01_gnn_syntax" / "models"
@@ -156,66 +160,91 @@ job parses and what it deliberately does not scan.
 """
 
 
-def read_timings() -> dict[str, dict[str, object]]:
-    """Return the newest receipt per arm."""
+def read_timings(paths: list[Path] | None = None) -> dict[str, dict[str, object]]:
+    """Read legacy history and new source-bound receipts without rewriting either."""
     latest: dict[str, dict[str, object]] = {}
-    if not TIMINGS_LOG.is_file():
-        return latest
-    for line in TIMINGS_LOG.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line:
+    for path in [TIMINGS_LOG, BOUND_TIMINGS_LOG] if paths is None else paths:
+        if not path.is_file():
             continue
-        try:
-            receipt = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        arm = receipt.get("arm")
-        if isinstance(arm, str):
-            latest[arm] = receipt
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            try:
+                receipt = json.loads(line)
+            except json.JSONDecodeError as error:
+                raise ValueError(f"Unreadable timing receipt in {path}: {error}") from error
+            if not isinstance(receipt, dict) or not isinstance(receipt.get("arm"), str):
+                raise ValueError(f"Invalid timing record in {path}")
+            latest[receipt["arm"]] = receipt
     return latest
 
 
-def read_coverage() -> str:
-    if not COVERAGE_JSON.is_file():
-        return "not measured (run `./run.sh test`)"
+def read_coverage(
+    path: Path | None = None, timings: dict | None = None, root: Path = ROOT,
+) -> str:
+    coverage_path = root / "software/coverage.json" if path is None else path
+    if not coverage_path.is_file():
+        return "not measured"
     try:
-        data = json.loads(COVERAGE_JSON.read_text(encoding="utf-8"))
+        data = json.loads(coverage_path.read_text(encoding="utf-8"))
         percent = float(data["totals"]["percent_covered"])
-    except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
-        return "not measured (unreadable software/coverage.json)"
-    return f"{percent:.0f}% of `software/src` (last `./run.sh test` run)"
+        import math
+
+        if not math.isfinite(percent) or not 0 <= percent <= 100:
+            raise ValueError("coverage percentage outside [0,100]")
+        receipt = (read_timings() if timings is None else timings).get("test", {})
+        bound = (
+            receipt.get("schema") == SCHEMA and receipt.get("attribution") == "bound"
+            and receipt.get("source_unchanged") is True
+            and receipt.get("runtime_unchanged") is True and receipt.get("rc") == 0
+            and coverage_path.resolve() == (root / "software/coverage.json").resolve()
+            and receipt.get("coverage") == coverage_identity(root)
+            and receipt.get("coverage") is not None
+            and receipt.get("source_before") == source_binding(root)
+            and receipt.get("runtime") == runtime_binding()
+        )
+    except (OSError, KeyError, TypeError, ValueError):
+        return "unavailable (unreadable coverage or provenance)"
+    qualification = (
+        "source/runtime-bound successful test receipt" if bound
+        else "unbound historical coverage; not evidence of the latest test run"
+    )
+    return f"{percent:.0f}% of `software/src` ({qualification})"
 
 
-def render_timings(timings: dict[str, dict[str, object]]) -> str:
+def render_timings(timings: dict[str, dict[str, object]], *, root: Path = ROOT) -> str:
     rows = []
     for arm in ARMS:
         receipt = timings.get(arm)
         if receipt is None:
-            rows.append(f"| `{arm}` | not measured | - | - | - |")
+            rows.append(f"| `{arm}` | not measured | - | - | - | - |")
             continue
+        bound = receipt.get("schema") == SCHEMA and receipt.get("attribution") == "bound"
+        identity = (
+            receipt.get("source_before", {}).get("sha256", "unknown")
+            if bound else receipt.get("commit", "unknown")
+        )
+        qualification = "source/runtime-bound" if bound else "historical/unbound"
+        if receipt.get("attribution") == "rejected-drift":
+            qualification = "rejected: source/runtime drift"
         rows.append(
-            "| `{arm}` | {seconds:.1f} s | {rc} | {host} | `{commit}` |".format(
-                arm=arm,
-                seconds=float(receipt.get("seconds", 0.0)),
-                rc=receipt.get("rc", "?"),
-                host=receipt.get("host", "?"),
-                commit=str(receipt.get("commit", "?"))[:12],
-            )
+            f"| `{arm}` | {float(receipt['seconds']):.1f} s | {receipt.get('rc', '?')} | "
+            f"{receipt.get('host', '?')} | `{identity}` | {qualification} |"
         )
     return f"""# Arm timings
 
 <!-- generated by software/scripts/generate_gate_metrics.py; do not edit by hand -->
 
-Wall time per gate arm, measured by `./run.sh` on the host named in each row.
-One run per arm; these are observations, not guarantees. `./run.sh metrics`
-rewrites this table from `arm-timings.jsonl` (the receipts `./run.sh` appends
-when `CI` is unset).
+Wall time per gate arm on the named host, not a guarantee or a current passing
+gate claim. Legacy `arm-timings.jsonl` is immutable, unbound history. New receipts
+in `arm-timings-v2.jsonl` bind the exact pre-execution source manifest and Python
+runtime and reject changed-source attribution. `GATE_TIMINGS=0` disables recording.
 
-| Arm | Wall time | Exit | Host | Commit |
-| --- | --- | --- | --- | --- |
+| Arm | Wall time | Exit | Host | Source identity | Qualification |
+| --- | --- | --- | --- | --- | --- |
 {chr(10).join(rows)}
 
-Coverage: {read_coverage()}.
+Coverage: {read_coverage(timings=timings, root=root)}.
 
 The commands behind each arm are listed in [`../RUN_GUIDE.md`](../RUN_GUIDE.md).
 """
@@ -258,7 +287,11 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     ok = write_or_check(METRICS_PATH, render_metrics(facts), check=args.check)
-    timings_doc = render_timings(read_timings())
+    try:
+        timings_doc = render_timings(read_timings())
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        print(f"cannot read timing evidence: {error}", file=sys.stderr)
+        return 1
     if args.check:
         ok = check_timings_shape(TIMINGS_PATH) and ok
     else:

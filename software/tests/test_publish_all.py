@@ -1,75 +1,41 @@
-"""Tests for the publish_all script.
-
-Tests that orchestrate the full publish pipeline are marked with
-@pytest.mark.requires_api — run them with: pytest -m requires_api
-"""
-
-import importlib.util
-import sys
-from pathlib import Path
-import pytest
-
-# Add project root to sys.path
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
-# Load the script
-SCRIPT_PATH = PROJECT_ROOT / "scripts" / "publish_all.py"
-spec = importlib.util.spec_from_file_location("publish_all", SCRIPT_PATH)
-publish_all = importlib.util.module_from_spec(spec)
-sys.modules["publish_all"] = publish_all
-spec.loader.exec_module(publish_all)
+"""Run the complete local Markdown pipeline against isolated authored files."""
+from scripts.publish_all import main
 
 
-@pytest.fixture
-def script():
-    return publish_all
+def test_pipeline_generates_validates_publishes_lowercase_unit_identities(tmp_path):
+    course = tmp_path / "course_development/active_inference"
+    for unit in ("01_philosophy", "02_cognitive_science"):
+        module = course / unit / "01_systems"
+        module.mkdir(parents=True)
+        (module / "module.md").write_text(f"# Systems\n\n{unit} content.")
+    args = ["--repo-root", str(tmp_path), "--course", "active-inference",
+            "--formats", "md", "--no-website", "--skip-copy-extras"]
+    assert main(args) == 0
+    for unit in ("01_philosophy", "02_cognitive_science"):
+        output = tmp_path / "published/active-inference" / unit / "01_systems/01_systems-module.md"
+        assert output.read_bytes() == (course / unit / "01_systems/module.md").read_bytes()
+    names = {path.name for path in tmp_path.iterdir()}
+    assert "published" in names and "PUBLISHED" not in names
 
 
-class TestPublishAll:
-    def test_parse_args(self, script):
-        args = script.parse_args(["--clean", "--skip-mp3", "--formats", "pdf,html"])
-        assert args.clean is True
-        assert args.skip_mp3 is True
-        assert args.formats == "pdf,html"
+def test_generation_error_never_proceeds_to_publication(tmp_path):
+    module = tmp_path / "course_development/active_inference/01_philosophy/01_systems"
+    module.mkdir(parents=True)
+    (module / "module.md").write_bytes(b"\xff")
+    assert main(["--repo-root", str(tmp_path), "--course", "ai-philosophy",
+                 "--formats", "txt", "--no-website"]) == 1
+    assert not (tmp_path / "published").exists()
 
-    @pytest.mark.requires_api
-    def test_main_execution(self, script, temp_dir, monkeypatch):
-        """main() orchestrates generate → publish → validate pipeline (requires API)."""
-        run_calls = []
 
-        def fake_run(script_name, *args, **kwargs):
-            run_calls.append(script_name)
-            return True
-
-        monkeypatch.setattr(publish_all, "run_script", fake_run)
-        monkeypatch.setattr(publish_all, "clean_published", lambda *a, **kw: None)
-        monkeypatch.setattr(publish_all, "copy_labs_and_dashboards", lambda *a, **kw: 5)
-        monkeypatch.setattr(publish_all, "copy_slides", lambda *a, **kw: 2)
-        monkeypatch.setattr(publish_all, "copy_slides_to_modules", lambda *a, **kw: 2)
-        monkeypatch.setattr(publish_all, "copy_practice_tests", lambda *a, **kw: 1)
-        monkeypatch.setattr(publish_all, "flatten_published", lambda *a, **kw: 10)
-        monkeypatch.setattr(publish_all, "reorganize_to_categories", lambda *a, **kw: 10)
-        monkeypatch.setattr(publish_all, "get_repo_root", lambda: temp_dir)
-
-        # Create PUBLISHED dir so the summary print doesn't crash
-        (temp_dir / "PUBLISHED").mkdir()
-
-        exit_code = script.main(["--skip-mp3"])
-        assert exit_code == 0
-
-        # --clean was NOT passed, so clean_published should not be called
-        # Verify orchestration order
-        assert run_calls[0] == "generate_all_outputs.py"
-        assert run_calls[1] == "publish_course.py"
-        assert run_calls[2] == "validate_outputs.py"
-
-    @pytest.mark.requires_api
-    def test_main_failure(self, script, temp_dir, monkeypatch):
-        """main() returns 1 when a script in the pipeline fails (requires API)."""
-        monkeypatch.setattr(publish_all, "run_script", lambda *a, **kw: False)
-        monkeypatch.setattr(publish_all, "get_repo_root", lambda: temp_dir)
-
-        exit_code = script.main([])
-        assert exit_code == 1
+def test_filtered_pipeline_keeps_other_publication_and_website(tmp_path):
+    module = tmp_path / "course_development/active_inference/01_philosophy/01_systems"
+    module.mkdir(parents=True)
+    (module / "module.md").write_text("# Systems\n\nSelected.")
+    untouched = tmp_path / "published/active-inference/02_cognitive_science/01_systems/old.md"
+    untouched.parent.mkdir(parents=True)
+    untouched.write_text("custody")
+    assert main(["--repo-root", str(tmp_path), "--course", "active-inference",
+                 "--unit", "01_philosophy", "--module", "1", "--formats", "md",
+                 "--clean", "--skip-copy-extras"]) == 0
+    assert untouched.read_text() == "custody"
+    assert (tmp_path / "published/active-inference/01_philosophy/01_systems/website/index.html").is_file()

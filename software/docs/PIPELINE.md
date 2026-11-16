@@ -34,7 +34,7 @@ graph TD
     SEL --> DASH["1. generate_dashboards.py<br/>(only with --generate-dashboards)"]
     DASH --> YT["2. render_youtube_courses.py<br/>(only when 'youtube' is selected)"]
     YT --> GEN["3. generate_all_outputs.py<br/>(per course)"]
-    GEN --> CLEAN["4. clean published/<br/>(when clean_before_publish = true)"]
+    GEN --> CLEAN["4. clean selected generated destinations<br/>(unless cleanup is disabled)"]
     CLEAN --> COPY["5. copy module outputs + static dirs<br/>into published/&lt;course&gt;/"]
 ```
 
@@ -43,11 +43,18 @@ graph TD
 | 1. Dashboards | `scripts/generate_dashboards.py` | Optional; failures are warnings, not aborts. |
 | 2. YouTube scaffold | `scripts/render_youtube_courses.py --force-scaffold --skip-render --skip-whisper` | Only when `youtube` is enabled; injects real transcripts before rendering. |
 | 3. Generate | `scripts/generate_all_outputs.py --course <id> --formats <list>` | One subprocess per course; a non-zero exit aborts the run. |
-| 4. Clean | (in-process) | Deletes top-level entries of `published/` that do **not** start with `.`. |
+| 4. Clean | (in-process) | Removes selected courses' generated destinations only; preserves unselected courses and authored guides. Disabled by `--skip-clear` or `clean_before_publish = false`. |
 | 5. Copy | (in-process) | Copies each module's `output/` plus `dashboard.html` and configured `static_dirs`. |
 
 `.github/workflows/ci.yml` does **not** run this pipeline; it runs lint, the no-mocks
 check, and the test suite.
+
+The root publisher validates course and format selections before any mutation.
+`--dry-run` is read-only, including publication-directory creation and cleanup.
+These guarantees cover the root publisher, not all subprocess internals:
+`generate_all_outputs.py` still invokes repository-wide `clear_all_outputs`.
+Normal generation therefore remains unsafe for preserving unrelated generated
+outputs; `--publish-only` avoids that generator and re-copies existing outputs.
 
 ---
 
@@ -108,4 +115,4 @@ The `published/` subdirectories are generated; edit the Markdown sources in
 A `--dry-run` preview needs no network and renders nothing.
 
 ---
-*Last Updated: 2026-11-11*
+*Last Updated: 2026-11-13*

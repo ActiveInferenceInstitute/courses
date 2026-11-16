@@ -1,14 +1,13 @@
 # 🧠 Active Inference Institute — Courses
 
-[![Courses](https://img.shields.io/badge/courses-14%2B1_archive-blue)](software/docs/COURSE_CATALOG.md)
-[![Modules](https://img.shields.io/badge/modules-464+-green)](software/docs/MODULES.md)
+[Course catalogue](software/docs/COURSE_CATALOG.md) · [Module reference](software/docs/MODULES.md)
 [![Formats](https://img.shields.io/badge/output_formats-6-orange)](software/docs/QUICKSTART.md)
-[![Tests](https://img.shields.io/badge/tests-1029_collected-brightgreen)](docs/_generated/GATE_METRICS.md)
+[Measured test facts](docs/_generated/GATE_METRICS.md)
 [![License](https://img.shields.io/badge/license-CC--BY--4.0-lightgrey)](#license)
 
 > **Minimize surprise. Maximize evidence.**
 
-Welcome to the open-source curriculum infrastructure for **Active Inference education**. This repository hosts **14 complete courses** spanning Kindergarten to PhD (plus a YouTube transcript archive and a GNN syntax track — 20 total entries in `COURSE_REGISTRY`), powered by a modular **Python publishing engine**.
+This repository hosts Active Inference curricula spanning Kindergarten to PhD, a YouTube transcript archive and a GNN syntax track, powered by a modular Python publishing engine. See the [catalogue](software/docs/COURSE_CATALOG.md) and [source-bound measurements](docs/_generated/GATE_METRICS.md) rather than copied counts.
 
 Maintained by **Dr. Daniel Ari Friedman** ([@docxology](https://github.com/docxology)) at the [Active Inference Institute](https://activeinference.institute).
 
@@ -204,12 +203,11 @@ We welcome contributions to both the curriculum and the software engine!
 
 ### Testing
 
-We maintain a robust suite of **1,029 collected tests** ensuring curriculum
-integrity and software stability. The gate excludes internet / external-API /
-whisper-required tests: **995 pass, 34 are deselected**, at ~75% source
-coverage. Those numbers are generated in
-[`docs/_generated/GATE_METRICS.md`](docs/_generated/GATE_METRICS.md); do not
-copy them into prose.
+The offline gate excludes internet, external-API and Whisper-required tests.
+Use [generated facts](docs/_generated/GATE_METRICS.md) with their source/runtime
+provenance; old counts and coverage do not qualify new source. The
+[run guide](docs/RUN_GUIDE.md) separates focused acceptance, the actual GNN
+source-mode gate, installed-origin limits and the still-unproved full-network arm.
 
 ```bash
 ./run.sh test      # the offline gate (default arm)

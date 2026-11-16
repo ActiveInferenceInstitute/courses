@@ -10,165 +10,128 @@ all three course layouts:
 """
 
 from pathlib import Path
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, Optional
 import logging
 
 from . import config
-from .utils import get_course_config, clean_directory, copy_directory_contents
-from src.batch_processing.config import COURSE_REGISTRY
-from src.batch_processing.utils import find_modules_for_course
+from .utils import clean_directory, copy_file, get_course_config
+from ..batch_processing.config import COURSE_REGISTRY
+from ..batch_processing.utils import require_contained, resolve_course_id, select_modules
 
 logger = logging.getLogger(__name__)
 
 
-def _get_registry_entry(course_name: str) -> Optional[Dict[str, Any]]:
-    """Return COURSE_REGISTRY entry for *course_name*, or None if not found.
 
-    Tries an exact key match first, then falls back to matching by path suffix
-    so that callers can pass either a registry ID or a bare directory name.
+
+def publish_course(
+    course_path: str, publish_root: Optional[str] = None, *,
+    course_id: Optional[str] = None, plan: Optional[dict] = None, clean: bool = False,
+) -> Dict[str, Any]:
+    """Publish source-relative module identities, retaining every copy failure.
+
+    Cleaning removes only files this invocation owns; directory identities,
+    authored guides and unselected payloads are preserved.
     """
-    if course_name in COURSE_REGISTRY:
-        return COURSE_REGISTRY[course_name]
-    # Fuzzy: match courses whose rel_path ends with the given name
-    for reg in COURSE_REGISTRY.values():
-        if reg["rel_path"].endswith(course_name):
-            return reg
-    return None
-
-
-def publish_course(course_path: str, publish_root: Optional[str] = None) -> Dict[str, Any]:
-    """Publish course materials to the published directory.
-
-    Uses COURSE_REGISTRY-aware module discovery via
-    ``batch_processing.utils.find_modules_for_course`` instead of the legacy
-    hardcoded ``course/module-*`` glob pattern.
-
-    Args:
-        course_path: Path to the course directory (e.g., 'biol-1' or an abs path).
-        publish_root: Root directory for publishing (default: PUBLISHED in repo root).
-
-    Returns:
-        Dictionary with publishing results::
-
-            {
-                "course":             str,   # course directory name
-                "modules_published":  int,
-                "syllabus_files":     int,
-                "total_files":        int,
-                "modules":            list[{"name": str, "files": int}],
-                "errors":             list[str],
-            }
-    """
-    course_dir = Path(course_path).resolve()
-    course_name = course_dir.name
-
-    if publish_root:
-        out_root = Path(publish_root)
-    else:
-        # Repo root is four levels up from software/src/publish/main.py
-        repo_root = Path(__file__).resolve().parent.parent.parent.parent
-        out_root = repo_root / config.PUBLISH_ROOT_NAME
-
-    published_course_dir = out_root / course_name
-
-    logger.info(f"Publishing {course_name} to {published_course_dir}")
-
-    # ------------------------------------------------------------------
-    # Resolve publish-time config (COURSE_CONFIGS → DEFAULT_CONFIG)
-    # ------------------------------------------------------------------
-    course_conf = get_course_config(course_name)
-    module_src_name = course_conf["module_source_dir"]
-    syllabus_src_name = course_conf["syllabus_source_dir"]
-
-    results: Dict[str, Any] = {
-        "course": course_name,
-        "modules_published": 0,
-        "syllabus_files": 0,
-        "total_files": 0,
-        "modules": [],
-        "errors": [],
+    course_dir = Path(course_path)
+    identity = course_id or resolve_course_id(course_dir) or course_dir.name
+    out_root = (
+        Path(publish_root) if publish_root is not None
+        else Path(__file__).resolve().parents[3] / config.PUBLISH_ROOT_NAME
+    )
+    published_course = out_root / identity
+    result: Dict[str, Any] = {
+        "course": identity, "modules_published": 0, "syllabus_files": 0,
+        "total_files": 0, "modules": [], "errors": [],
     }
-
-    # Ensure destination root exists
-    published_course_dir.mkdir(parents=True, exist_ok=True)
-
-    # ------------------------------------------------------------------
-    # 1. Module discovery via COURSE_REGISTRY
-    # ------------------------------------------------------------------
-    # find_modules_for_course accepts either an abs path (preferred) or a
-    # registry ID.  We pass the abs path; it will auto-match the registry.
-    modules: List[Path] = find_modules_for_course(course_dir, course_name)
-
-    if not modules:
-        logger.warning(
-            f"No modules discovered for {course_name} at {course_dir}. "
-            "Check COURSE_REGISTRY or that the course directory exists."
-        )
-
-    for module_path in modules:
-        module_name = module_path.name
-        source_path = module_path / module_src_name
-
-        if not source_path.exists():
-            logger.warning(f"Rendered output directory not found for {module_name}: {source_path}")
-            continue
-
-        dest_path = published_course_dir / module_name
-
-        # Clean destination to ensure fresh state
-        clean_directory(dest_path)
-
-        files_copied = copy_directory_contents(source_path, dest_path)
-
-        # Additional sources (e.g. slides)
-        for extra_src in course_conf.get("additional_module_dirs", []):
-            extra_path = module_path / extra_src
-            if extra_path.exists():
-                logger.info(f"Publishing additional content from {extra_src} for {module_name}")
-                files_copied += copy_directory_contents(extra_path, dest_path / extra_src)
-
-        if files_copied > 0:
-            results["modules_published"] += 1
-            results["total_files"] += files_copied
-            results["modules"].append({"name": module_name, "files": files_copied})
-            logger.info(f"Published {module_name}: {files_copied} files")
+    try:
+        if course_id is not None and course_id not in COURSE_REGISTRY:
+            raise ValueError(f"Unknown course: {course_id}")
+        require_contained(published_course, out_root)
+        if plan is not None and plan["path"].resolve() != course_dir.resolve():
+            raise ValueError("Publication plan belongs to a different course")
+        if plan is not None and plan["course_id"] not in (None, identity):
+            raise ValueError("Publication plan belongs to a different registry identity")
+        modules = plan["modules"] if plan is not None else select_modules(course_dir, course_id)
+        conf = get_course_config(identity)
+        copies: list[tuple[Path, Path, str]] = []
+        if plan is not None:
+            for artifact in plan["artifacts"]:
+                source = artifact["destination"]
+                module = artifact.get("module")
+                if module is not None:
+                    relative = module.relative_to(course_dir)
+                    target = published_course / relative / source.relative_to(module / "output")
+                    group = relative.as_posix()
+                elif artifact["kind"] == "syllabus":
+                    target = published_course / "syllabus" / source.name
+                    group = "syllabus"
+                else:
+                    target = published_course / source.relative_to(course_dir)
+                    group = artifact["kind"]
+                copies.append((source, target, group))
         else:
-            logger.warning(f"No files found to publish in {module_name}")
-
-    # ------------------------------------------------------------------
-    # 2. Syllabus publishing
-    # ------------------------------------------------------------------
-    if course_conf.get("include_syllabus"):
-        # Prefer the registry's syllabus_location, fall back to "syllabus/"
-        reg_entry = _get_registry_entry(course_name)
-        syllabus_location = (
-            reg_entry.get("syllabus_location", "syllabus") if reg_entry else "syllabus"
-        )
-        syllabus_path = course_dir / syllabus_location
-
-        if syllabus_path.is_dir():
-            # Directory-style syllabus (legacy biology: syllabus/output/)
-            source_path = syllabus_path / syllabus_src_name
-            if source_path.exists():
-                dest_path = published_course_dir / "syllabus"
-                clean_directory(dest_path)
-                files_copied = copy_directory_contents(source_path, dest_path)
-                results["syllabus_files"] = files_copied
-                results["total_files"] += files_copied
-                logger.info(f"Published syllabus: {files_copied} files")
-            else:
-                logger.warning(f"Syllabus output directory not found: {source_path}")
-        elif syllabus_path.is_file():
-            # Single-file syllabus (Active Inference style: syllabus.md)
-            dest_path = published_course_dir / syllabus_path.name
-            dest_path.parent.mkdir(parents=True, exist_ok=True)
-            import shutil
-
-            shutil.copy2(syllabus_path, dest_path)
-            results["syllabus_files"] = 1
-            results["total_files"] += 1
-            logger.info(f"Published syllabus file: {syllabus_path.name}")
-        else:
-            logger.warning(f"Syllabus not found at expected location: {syllabus_path}")
-
-    return results
+            for module in modules:
+                relative = module.relative_to(course_dir)
+                source_dir = module / conf["module_source_dir"]
+                if not source_dir.is_dir():
+                    result["errors"].append(f"Rendered output directory missing: {source_dir}")
+                    continue
+                for source in sorted(source_dir.rglob("*")):
+                    if source.is_file() and source.name not in ("README.md", "AGENTS.md") and not any(
+                        part.startswith(".") for part in source.relative_to(source_dir).parts
+                    ):
+                        copies.append((
+                            source, published_course / relative / source.relative_to(source_dir),
+                            relative.as_posix(),
+                        ))
+                for extra in conf.get("additional_module_dirs", []):
+                    extra_dir = module / extra
+                    if extra_dir.is_dir():
+                        for source in sorted(extra_dir.rglob("*")):
+                            if source.is_file():
+                                copies.append((
+                                    source, published_course / relative / extra / source.relative_to(extra_dir),
+                                    relative.as_posix(),
+                                ))
+        reg = COURSE_REGISTRY.get(identity, {})
+        syllabus = course_dir / reg.get("syllabus_location", "syllabus")
+        whole_course = plan is None or plan.get("include_course_extras", True)
+        if whole_course and conf.get("include_syllabus"):
+            if syllabus.is_file():
+                copies.append((syllabus, published_course / syllabus.name, "syllabus"))
+            elif plan is None and (syllabus / conf["syllabus_source_dir"]).is_dir():
+                source_dir = syllabus / conf["syllabus_source_dir"]
+                for source in sorted(source_dir.rglob("*")):
+                    if source.is_file():
+                        copies.append((
+                            source, published_course / "syllabus" / source.relative_to(source_dir),
+                            "syllabus",
+                        ))
+        if not copies:
+            result["errors"].append(f"No generated outputs to publish for {identity}")
+        for source, destination, _ in copies:
+            require_contained(source, course_dir)
+            require_contained(destination, out_root)
+            if not source.is_file() or source.stat().st_size == 0:
+                result["errors"].append(f"Required publication input missing or empty: {source}")
+        if result["errors"]:
+            return result
+        if clean:
+            clean_directory(out_root, files=[destination for _, destination, _ in copies])
+        counts: dict[str, int] = {}
+        for source, destination, group in copies:
+            try:
+                copy_file(source, destination, root=out_root)
+                result["total_files"] += 1
+                counts[group] = counts.get(group, 0) + 1
+            except (OSError, ValueError) as error:
+                result["errors"].append(f"{source} -> {destination}: {error}")
+        result["syllabus_files"] = counts.get("syllabus", 0)
+        for module in modules:
+            name = module.relative_to(course_dir).as_posix()
+            if counts.get(name):
+                result["modules"].append({"name": name, "files": counts[name]})
+        result["modules_published"] = len(result["modules"])
+    except (OSError, ValueError) as error:
+        result["errors"].append(str(error))
+    return result

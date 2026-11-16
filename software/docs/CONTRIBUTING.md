@@ -68,11 +68,11 @@ Every module in `src/` must follow the [Modular Architecture](ARCHITECTURE.md):
 
 ## 🧪 Testing
 
-We require **tests for all new features** using real implementations (no mocks). The
-suite currently collects 1,029 tests with ~75% source coverage; the offline gate runs
-995 of them (34 internet/API/whisper tests deselected) and does not configure a
-`--cov-fail-under` threshold — new code should keep coverage from regressing. The
-numbers are generated in [`../../docs/_generated/GATE_METRICS.md`](../../docs/_generated/GATE_METRICS.md).
+Use real implementations, not mocks, for consumer-visible regression tests.
+The offline gate excludes internet/API/Whisper cases; that selection is not
+full-network acceptance. Counts and coverage belong in
+[generated facts](../../docs/_generated/GATE_METRICS.md) with matching source/runtime
+provenance. No copied percentage or old receipt accepts new source.
 
 ```bash
 # The gate arm CI runs

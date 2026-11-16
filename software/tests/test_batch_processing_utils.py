@@ -1,6 +1,9 @@
 """Tests for batch processing utility functions."""
 
 from pathlib import Path
+
+import pytest
+
 from src.batch_processing.utils import (
     find_markdown_files,
     find_audio_files,
@@ -136,101 +139,42 @@ def test_get_relative_output_path():
 
 
 def test_get_courses_to_process():
-    """Test course selection logic using the real COURSE_REGISTRY."""
-    # Use the real COURSE_REGISTRY — no patching
-    all_courses = get_courses_to_process("all")
-
-    # Should return all registered courses
-    assert len(all_courses) == len(config.COURSE_REGISTRY)
-
-    # Each entry should be (rel_path, display_name, course_id)
-    course_names = {name for _, name, _ in all_courses}
-    assert "Active Inference: Philosophy" in course_names
-
-    # Test selecting a specific known course
-    ai_phil = get_courses_to_process("ai-philosophy")
-    assert len(ai_phil) == 1
-    assert ai_phil[0][0] == config.COURSE_REGISTRY["ai-philosophy"]["rel_path"]
-    assert ai_phil[0][2] == "ai-philosophy"
-
-    # Test selecting a non-existent course returns empty
-    assert get_courses_to_process("nonexistent-course") == []
+    entries = get_courses_to_process("all")
+    paths = [Path(relative) for relative, _, _ in entries]
+    assert all(not left.is_relative_to(right) for left in paths for right in paths if left != right)
+    assert any(identity == "active-inference" for _, _, identity in entries)
+    assert get_courses_to_process("ai-philosophy")[0][0] == config.COURSE_REGISTRY["ai-philosophy"]["rel_path"]
+    with pytest.raises(ValueError):
+        get_courses_to_process("nonexistent-course")
 
 
-def test_get_formats_to_process(caplog):
-    """Test format parsing logic using real AVAILABLE_FORMATS."""
-    # "all" should return all available formats
-    all_formats = get_formats_to_process("all")
-    assert set(all_formats) == set(config.AVAILABLE_FORMATS)
+@pytest.mark.parametrize("formats", ["", "pdf,unknown", "pdf,", ",", "xyz"])
+def test_rejects_every_invalid_format(formats):
+    with pytest.raises(ValueError):
+        get_formats_to_process(formats)
 
-    # Single known format
-    assert get_formats_to_process("pdf") == ["pdf"]
 
-    # Multiple comma-separated formats
-    result = get_formats_to_process("pdf, html")
-    assert set(result) == {"pdf", "html"}
-
-    # Invalid format should be filtered out, valid kept
-    result = get_formats_to_process("pdf, invalid_format_xyz")
-    assert "pdf" in result
-    assert "invalid_format_xyz" not in result
-    assert "Unknown formats will be ignored" in caplog.text
+def test_format_selection_is_explicit_and_deduplicated():
+    assert get_formats_to_process("md, txt,md") == ["md", "txt"]
+    assert set(get_formats_to_process("all")) == set(config.AVAILABLE_FORMATS)
 
 
 def test_generate_dry_run_report(temp_dir):
-    """Test dry run report generation with flat module structure (AIF convention)."""
-    repo_root = temp_dir
-    course_path = repo_root / "course_development/ai-philosophy"
-    course_path.mkdir(parents=True)
-
-    # Create flat module structure
-    module_dir = course_path / "module-01"
-    module_dir.mkdir()
-    (module_dir / "module.md").touch()
-
-    # Assignments
-    (module_dir / "assignments").mkdir()
-    (module_dir / "assignments" / "assign.md").touch()
-
-    # Syllabus as file
-    (course_path / "syllabus.md").touch()
-
-    # Labs
-    labs_dir = course_path / "labs"
-    labs_dir.mkdir(parents=True)
-    (labs_dir / "lab-1.md").touch()
-
-    courses = [
-        ("course_development/ai-philosophy", "Active Inference: Philosophy", "ai-philosophy")
-    ]
-    formats = ["pdf", "html"]
-
-    report = generate_dry_run_report(
-        repo_root, courses, formats, module_filter=None, generate_website=True, skip_labs=False
-    )
-
-    assert "DRY RUN" in report
-    assert "Active Inference" in report
-    assert "module-01" in report
-    assert "1 root files" in report
-    assert "1 assignments" in report
-    assert "website/index.html" in report
-    assert "Labs: 1 files" in report
-    assert "pdf, html" in report
+    course = temp_dir / config.COURSE_REGISTRY["ai-philosophy"]["rel_path"]
+    module = course / "01_systems"
+    module.mkdir(parents=True)
+    (module / "module.md").write_text("# Systems\n\nExplanation.")
+    (course / "syllabus.md").write_text("# File syllabus")
+    report = generate_dry_run_report(temp_dir, get_courses_to_process("ai-philosophy"),
+                                     ["md"], generate_website=False)
+    assert str(module / "output/lecture-content/01_systems-module.md") in report
+    assert "syllabus/output" not in report
+    assert not (module / "output").exists()
 
 
 def test_generate_dry_run_report_filter(temp_dir):
-    """Test dry run report with module filter using real matches_module_number."""
-    repo_root = temp_dir
-    course_path = repo_root / "course_development/biol-1"
-    course_path.mkdir(parents=True)
-    (course_path / "course" / "module-01").mkdir(parents=True)
-
-    courses = [("course_development/biol-1", "BIOL-1")]
-    formats = ["pdf"]
-
-    # Use real matches_module_number — module 99 should not match module-01
-    report = generate_dry_run_report(repo_root, courses, formats, module_filter=99)
-
-    # Should not show any modules since 99 doesn't match module-01
-    assert "module-01" not in report
+    course = temp_dir / config.COURSE_REGISTRY["ai-philosophy"]["rel_path"]
+    (course / "01_systems").mkdir(parents=True)
+    with pytest.raises(ValueError, match="No modules"):
+        generate_dry_run_report(temp_dir, get_courses_to_process("ai-philosophy"),
+                                ["md"], module_filter=99)

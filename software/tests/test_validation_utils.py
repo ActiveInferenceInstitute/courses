@@ -209,34 +209,21 @@ class TestCheckOutputDirectory:
 
 
 class TestCheckStudyGuideFiles:
-    """Tests for check_study_guide_files function."""
+    def test_absent_authored_study_guides_create_no_obligations(self, temp_dir):
+        (temp_dir / "module.md").write_text("# Lecture\n\nBody.")
+        assert check_study_guide_files(temp_dir, formats=["md", "mp3"]) == {}
 
-    def test_no_study_guides_dir(self, temp_dir):
-        """No study-guides directory returns all False."""
-        result = check_study_guide_files(temp_dir)
-        # All expected files should be False
-        assert all(not v for v in result.values())
-
-    def test_empty_study_guides_dir(self, temp_dir):
-        """Empty study-guides directory returns all False."""
-        sg_dir = temp_dir / "output" / "study-guides"
-        sg_dir.mkdir(parents=True)
-
-        result = check_study_guide_files(temp_dir)
-        assert all(not v for v in result.values())
-
-    def test_with_matching_files(self, temp_dir):
-        """Files with expected suffixes are found."""
-        sg_dir = temp_dir / "output" / "study-guides"
-        sg_dir.mkdir(parents=True)
-
-        # Create files with module prefix but matching suffix
-        (sg_dir / "module-01-study-guide-keys-to-success.pdf").write_text("pdf", encoding="utf-8")
-
-        result = check_study_guide_files(temp_dir)
-        # The keys-to-success file is discovered; at least one expected suffix
-        # (that ends with "-keys-to-success.pdf") must resolve to True.
-        assert any(v for v in result.values())
+    def test_only_authored_study_guides_and_all_requested_formats_are_checked(self, temp_dir):
+        module = temp_dir / "01_systems"
+        module.mkdir()
+        (module / "questions.md").write_text("# Questions\n\nExplain the system.")
+        source = module / "output/study-guides/01_systems-questions.md"
+        source.parent.mkdir(parents=True)
+        source.write_bytes((module / "questions.md").read_bytes())
+        result = check_study_guide_files(module, formats=["md", "mp3"])
+        assert result == {"01_systems-questions.md": True, "01_systems-questions.mp3": False}
+        source.write_text("")
+        assert check_study_guide_files(module, formats=["md"]) == {"01_systems-questions.md": False}
 
 
 class TestCheckWebsiteFiles:

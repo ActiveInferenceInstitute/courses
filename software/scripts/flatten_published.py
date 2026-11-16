@@ -43,7 +43,7 @@ def main(argv=None):
     if args.path:
         published_dir = Path(args.path)
     else:
-        published_dir = Path(__file__).parent.parent.parent / "PUBLISHED"
+        published_dir = Path(__file__).parent.parent.parent / "published"
 
     if not published_dir.exists():
         print(f"ERROR: PUBLISHED directory not found: {published_dir}")
@@ -54,7 +54,11 @@ def main(argv=None):
     print("=" * 60)
 
     # Delegate to module function
-    moved = flatten_published(published_dir, dry_run=args.dry_run, verbose=args.verbose)
+    try:
+        moved = flatten_published(published_dir, dry_run=args.dry_run, verbose=args.verbose)
+    except (OSError, ValueError) as error:
+        print(f"Flattening failed: {error}", file=sys.stderr)
+        return 1
 
     print("\n" + "=" * 60)
     print(f"{prefix}Flattening complete! {moved} files moved")

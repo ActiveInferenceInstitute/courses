@@ -8,7 +8,11 @@ Standards and processes for maintaining documentation in the Active Inference In
 
 ## Documentation Map
 
-### This Directory (`software/docs/`) — 18 files
+### This Directory (`software/docs/`)
+
+The [repository documentation hub](../../docs/README.md) owns gate/CI guidance.
+This directory owns engine guidance; link between them rather than copying facts.
+Counts belong in [generated measurements](../../docs/_generated/GATE_METRICS.md).
 
 **Getting Started:**
 
@@ -25,7 +29,7 @@ Standards and processes for maintaining documentation in the Active Inference In
 | File | Purpose | Audience |
 |------|---------|----------|
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System design, COURSE_REGISTRY | Developers |
-| [MODULES.md](MODULES.md) | API reference for all 21 modules | Developers |
+| [MODULES.md](MODULES.md) | Source-module API reference | Developers |
 | [ORCHESTRATION.md](ORCHESTRATION.md) | Multi-module workflows | Developers |
 | [PIPELINE.md](PIPELINE.md) | End-to-end `publish.py` run: stages, output layout, requirements | Developers |
 | [CONFIGURATION.md](CONFIGURATION.md) | All config files and schemas | Developers |
@@ -34,9 +38,9 @@ Standards and processes for maintaining documentation in the Active Inference In
 
 | File | Purpose | Audience |
 |------|---------|----------|
-| [CLI_REFERENCE.md](CLI_REFERENCE.md) | Complete reference for all 23 scripts | Users/Developers |
-| [COURSE_CATALOG.md](COURSE_CATALOG.md) | Full catalog of all 14 courses | Everyone |
-| [TESTING](TESTING.md) | Test suite guide (67 test files) | Developers |
+| [CLI_REFERENCE.md](CLI_REFERENCE.md) | CLI reference | Users/Developers |
+| [COURSE_CATALOG.md](COURSE_CATALOG.md) | Course catalogue | Everyone |
+| [TESTING](TESTING.md) | Test suite guide and proof boundaries | Developers |
 | [AGENTS.md](AGENTS.md) | Documentation standards (this file) | Contributors |
 
 **Subsystems:**
@@ -52,7 +56,7 @@ Standards and processes for maintaining documentation in the Active Inference In
 
 | File | Purpose |
 |------|---------|
-| [src/README.md](../src/README.md) | Source code overview (21 modules) |
+| [src/README.md](../src/README.md) | Source code overview |
 | [tests/README.md](../tests/README.md) | Test suite overview |
 | [scripts/README.md](../scripts/README.md) | CLI scripts reference |
 

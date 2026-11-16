@@ -16,10 +16,16 @@ curl -LsS https://astral.sh/uv/install.sh | sh
 cd software && uv sync --extra dev
 ```
 
-The `gnn` arm is the exception: it creates its own seeded virtual environment
-(`software/.venv-gnn`, git-ignored) and installs the parser pinned in
-[`.github/gnn-pin.json`](../.github/gnn-pin.json). Every other arm runs inside
-the single `software/` environment.
+Setup is a separately authorized operation, not a side effect of a gate. Select
+an existing engine interpreter with `COURSES_PYTHON`; the gate preserves that
+selection and does not implicitly synchronize another environment.
+
+`gnn` requires an existing `COURSES_GNN_PYTHON`, explicit `COURSES_GNN_MODE`
+(`source` or `installed`), and independently reviewed `COURSES_GNN_BOOTSTRAP`
+and `COURSES_GNN_MANIFEST`. Source mode additionally requires
+`COURSES_GNN_PACKAGE_ROOT` and import resolution selecting its parent directory.
+No install or environment creation occurs inside the gate; `--install` is removed.
+See [the GNN pointer](../.github/GNN.md) for guard and provenance boundaries.
 
 ---
 
@@ -33,19 +39,19 @@ the single `software/` environment.
 | `test` *(default)* | `uv run pytest tests/ -m "not requires_internet and not requires_api and not requires_whisper" --cov-report=xml --cov-report=json` | The offline gate: hermetic, no network, no external API, no Whisper. |
 | `test-full` | `uv run pytest tests/` | Every test, including the network/API/Whisper-marked ones. Needs network; see below. |
 | `docs` | `uv run python scripts/check_docs.py` | Every relative link in the documentation surfaces resolves, and `docs/_generated/GATE_METRICS.md` matches a fresh generation. |
-| `contract` | `uv run python scripts/check_education_contract.py` then `uv run python scripts/export_education_bundle.py --check` | The canonical education schema, every member's vendored copy and pointer, and this repository's own bundle are current. See [the group contract](workflows/education.md). |
-| `gnn` | `software/.venv-gnn/bin/python software/scripts/verify_gnn_conformance.py --install` | The installed GNN parser matches the pinned tag, and all five exemplars parse and type-check. |
+| `contract` | Canonical checker and exporter through the registry in `run.sh` | Explicit roots, contained multi-bundle members, schema/semantic rules, export freshness and one complete JSON value on `--json`; either phase's failure is nonzero. |
+| `gnn` | Selected `COURSES_GNN_PYTHON` and `verify_gnn_conformance.py` | Frozen bootstrap, independent full manifest, explicit origin and real guarded parse/syntax/type verdicts. |
 | `metrics` | `uv run python scripts/generate_gate_metrics.py` | Rewrites `docs/_generated/` from the current tree. Not a check. |
 | `all` | `lint`, `types`, `no-mocks`, `test`, `docs`, `contract` in order | The offline gate in one command. |
 
-`test-full` is a required arm: it runs the 34 tests marked `requires_internet`,
-`requires_api`, or `requires_whisper`, and it is green only on a host with
-working network access to YouTube, gTTS, and Ollama. On this host it is red, and
-it was red when the gate work landed — see [Known red arm](#known-red-arm--test-full).
+`test-full` remains required for full acceptance and needs the admitted external
+services. Its historical failure is retained below, not silently converted into
+a skip or rerun without service authorization.
 
-The offline arms (`lint`, `types`, `no-mocks`, `test`, `docs`, `contract`) plus
-`gnn` are green. That is not the same claim as "every arm is green", and this document
-does not make that claim.
+The previously accepted focused engine paths are retained. The new source-mode
+GNN controls and actual five-exemplar gate passed after correcting a file-path
+caller. No fresh full-suite, coverage, installed-origin or hosted CI result is
+claimed by this bounded qualification.
 
 ---
 
@@ -57,23 +63,22 @@ does not make that claim.
 | `test` | Tests (Python 3.11 / 3.12) | `test` |
 | `gnn-conformance` | gnn conformance (pinned) | `gnn` |
 
-Jobs are independent — there is no `needs:` chain, so one slow arm cannot delay
-another, and each job syncs the environment once for all of its arms. The
-former standalone `verify-no-mocks` job is now the `no-mocks` arm inside
-`static`: it used to run `python scripts/verify_no_mocks.py` with no interpreter
-step, which fails on a runner that has only `python3`.
+Jobs remain independent. The declared Python matrix explicitly selects its
+interpreter; a local run on one interpreter is not evidence for every matrix row.
+The GNN job provisions dependencies separately and requires reviewed artifact URLs
+in `COURSES_GNN_BOOTSTRAP_URL` and `COURSES_GNN_MANIFEST_URL`. Their publication and
+hosted variable configuration remain operational prerequisites, not local proof.
 
 ---
 
 ## Measurements
 
-Wall time per arm, one run each, on the host and commit named in
-[`_generated/ARM_TIMINGS.md`](_generated/ARM_TIMINGS.md). That table is
-generated: `./run.sh` appends a receipt per arm to
-`docs/_generated/arm-timings.jsonl` when `CI` is unset, and `./run.sh metrics`
-rewrites the table. Do not retype a timing into prose.
-
-Coverage (last `./run.sh test` run) is reported in the same generated table.
+Generated timings and coverage are historical until measured against the final
+source and runtime. Current receipts use version 2 and bind pre/post source and
+runtime identity; drift is rejected. Coverage is accepted only with a matching
+fresh provenance receipt. `GATE_TIMINGS=0` suppresses timing publication for bounded
+qualification; it does not manufacture measurements. Preserve existing JSONL
+history and never hand-edit generated numbers.
 
 ### Before → after, measured once each
 
@@ -143,5 +148,5 @@ guessing.
 
 - **`uv: command not found`** — install uv; the arms assume it is on `PATH`.
 - **WeasyPrint/PDF failures on macOS** — `export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"` before running the test arms.
-- **`gnn` arm fails with "the pinned GNN parser is not importable"** — the install step needs network access to GitHub; re-run `./run.sh gnn`.
+- **GNN admission fails** — check the explicit mode, selected interpreter/import root, frozen bootstrap and full manifest. Do not install implicitly, change the pin, or fall back from failed installed admission to source mode.
 - **`docs` arm reports a stale generated document** — run `./run.sh metrics`; never hand-edit `docs/_generated/`.

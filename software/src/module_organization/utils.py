@@ -100,120 +100,41 @@ def list_missing_directories(module_path: Path, required_dirs: List[str]) -> Lis
 
 
 def get_module_number_from_path(module_path: Path) -> int:
-    """Extract module number from module directory path.
-
-    Handles both naming conventions:
-    - BIOL-1 style: module-1, module-2, module-10
-    - BIOL-8 style: module-01-topic-name, module-02-chemistry-of-life
-
-    Args:
-        module_path: Path to module directory
-
-    Returns:
-        Module number
-
-    Raises:
-        ValueError: If module number cannot be extracted
-    """
-    module_name = module_path.name
-    if not module_name.startswith("module-"):
-        raise ValueError(f"Invalid module directory name: {module_name}")
-
-    try:
-        # Extract the number part after "module-"
-        # Works for both "module-1" and "module-01-topic-name"
-        module_number = int(module_name.split("-")[1])
-        return module_number
-    except (IndexError, ValueError) as e:
-        raise ValueError(f"Could not extract module number from: {module_name}") from e
+    """Read current NN_topic and legacy module-N[-topic] numeric identities."""
+    match = re.match(r"^(?:module-(\d+)(?:-|$)|(\d+)_)", module_path.name)
+    if match is None:
+        raise ValueError(f"Invalid module directory name: {module_path.name}")
+    return int(match.group(1) or match.group(2))
 
 
 def matches_module_number(dirname: str, target: int) -> bool:
-    """Check if a directory name matches a target module number.
-
-    Handles both naming conventions:
-    - BIOL-1 style: module-1, module-2, module-10
-    - BIOL-8 style: module-01-topic-name, module-02-chemistry-of-life
-
-    Args:
-        dirname: Directory name (e.g., "module-1" or "module-01-topic-name")
-        target: Target module number to match
-
-    Returns:
-        True if the directory matches the target module number
-    """
-    # Pattern matches "module-" followed by the number (with optional leading zeros)
-    # and then either end of string or a hyphen (for topic suffix)
-    pattern = rf"^module-0*{target}(?:-|$)"
-    return bool(re.match(pattern, dirname))
+    try:
+        return get_module_number_from_path(Path(dirname)) == target
+    except ValueError:
+        return False
 
 
-def find_module_path(course_path: Path, module_number: int) -> Optional[Path]:
-    """Find the module directory for a given module number.
-
-    Searches for module directories matching the module number,
-    supporting both naming conventions (module-N and module-NN-topic-name).
-
-    Args:
-        course_path: Path to course directory
-        module_number: Module number to find
-
-    Returns:
-        Path to module directory if found, None otherwise
-    """
-    course_dir = course_path / "course"
-    if not course_dir.exists():
-        return None
-
-    for item in course_dir.iterdir():
-        if item.is_dir() and item.name.startswith("module-"):
-            if matches_module_number(item.name, module_number):
-                return item
-
-    return None
+def find_module_path(course_path: Path, module_number: int,
+                     unit: Optional[str] = None) -> Optional[Path]:
+    """Find a unique current/legacy module, rejecting ambiguous numeric selectors."""
+    modules = list_all_modules(course_path)
+    if unit is not None:
+        if Path(unit).is_absolute() or len(Path(unit).parts) != 1 or unit in ("", ".", ".."):
+            raise ValueError(f"Invalid unit: {unit}")
+        modules = [m for m in modules if m.parent.relative_to(course_path).as_posix() == unit]
+    matches = [m for m in modules if matches_module_number(m.name, module_number)]
+    if len(matches) > 1:
+        raise ValueError(f"Ambiguous module {module_number}; supply --unit")
+    return matches[0] if matches else None
 
 
 def list_all_modules(course_path: Path) -> List[Path]:
-    """List all module directories in a course.
+    from ..batch_processing.utils import find_modules_for_course
 
-    Args:
-        course_path: Path to course directory
-
-    Returns:
-        List of module directory paths, sorted by module number
-    """
-    course_dir = course_path / "course"
-    if not course_dir.exists():
-        return []
-
-    modules = []
-    for item in course_dir.iterdir():
-        if item.is_dir() and item.name.startswith("module-"):
-            try:
-                get_module_number_from_path(item)
-                modules.append(item)
-            except ValueError:
-                # Skip invalid module directories
-                continue
-
-    # Sort by module number
-    modules.sort(key=lambda p: get_module_number_from_path(p))
-    return modules
+    return sorted(find_modules_for_course(course_path),
+                  key=lambda p: (p.parent.as_posix(), get_module_number_from_path(p)))
 
 
 def get_next_module_number(course_path: Path) -> int:
-    """Get the next available module number for a course.
-
-    Args:
-        course_path: Path to course directory
-
-    Returns:
-        Next available module number (1 if no modules exist)
-    """
     modules = list_all_modules(course_path)
-    if not modules:
-        return 1
-
-    # Get the highest module number and add 1
-    max_number = max(get_module_number_from_path(m) for m in modules)
-    return max_number + 1
+    return max((get_module_number_from_path(m) for m in modules), default=0) + 1

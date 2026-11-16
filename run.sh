@@ -16,96 +16,130 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 SOFTWARE="$ROOT/software"
 ARM="${1:-test}"
+if [[ $# -gt 0 ]]; then shift; fi
 
-now() { python3 -c 'import time; print(f"{time.time():.3f}")'; }
-
-record() { # record <arm> <seconds> <rc>
-    # CI sets GATE_TIMINGS=0: a hosted run must not rewrite a tracked receipt.
-    [[ "${GATE_TIMINGS:-1}" == "0" ]] && return 0
-    local log="$ROOT/docs/_generated/arm-timings.jsonl"
-    mkdir -p "$(dirname "$log")"
-    printf '{"arm":"%s","seconds":%s,"rc":%s,"at":"%s","host":"%s","commit":"%s"}\n' \
-        "$1" "$2" "$3" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$(hostname -s)" \
-        "$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo unknown)" >>"$log"
+project_python() {
+    if [[ -n "${COURSES_PYTHON:-}" ]]; then
+        "$COURSES_PYTHON" "$@"
+    elif [[ -n "${UV_PYTHON:-}" ]]; then
+        uv run --project "$SOFTWARE" --no-sync --python "$UV_PYTHON" python "$@"
+    else
+        uv run --project "$SOFTWARE" --no-sync python "$@"
+    fi
 }
 
-run_arm() { # run_arm <arm> <command...>
+gnn_python() {
+    local runtime="${COURSES_GNN_PYTHON:-$SOFTWARE/.venv-gnn/bin/python}"
+    if [[ ! -x "$runtime" ]]; then
+        echo "[run.sh] GNN runtime unavailable; provision it separately and set COURSES_GNN_PYTHON" >&2
+        return 2
+    fi
+    "$runtime" -B "$@"
+}
+
+receipt_python() {
+    if [[ "$ARM" == "gnn" ]]; then
+        gnn_python "$@"
+    else
+        project_python "$@"
+    fi
+}
+
+
+run_arm() {
     local arm="$1"
     shift
-    echo "[run.sh] arm=$arm"
-    local start end rc
-    start="$(now)"
-    set +e
-    "$@"
-    rc=$?
-    set -e
-    end="$(now)"
-    record "$arm" "$(python3 -c "print(f'{$end - $start:.3f}')")" "$rc"
+    local snapshot="" rc evidence_rc
+    echo "[run.sh] arm=$arm" >&2
+    if [[ "${GATE_TIMINGS:-1}" != "0" ]] && \
+        { [[ "$arm" != "gnn" ]] || [[ -x "${COURSES_GNN_PYTHON:-$SOFTWARE/.venv-gnn/bin/python}" ]]; }; then
+        snapshot="$(mktemp "${TMPDIR:-/tmp}/courses-gate.XXXXXX")"
+        if ! receipt_python "$SOFTWARE/scripts/gate_receipt.py" start \
+            --root "$ROOT" --arm "$arm" --out "$snapshot" -- "$@"; then
+            rm -f "$snapshot"
+            return 1
+        fi
+    elif [[ "${GATE_TIMINGS:-1}" != "0" ]]; then
+        echo "[run.sh] GNN timing unmeasured: selected parser runtime is unavailable" >&2
+    fi
+    # Functions below explicitly combine statuses; Bash conditional context must
+    # never be relied on for errexit inside a multi-command arm.
+    if "$@"; then rc=0; else rc=$?; fi
+    if [[ -n "$snapshot" ]]; then
+        if receipt_python "$SOFTWARE/scripts/gate_receipt.py" finish \
+            --root "$ROOT" --snapshot "$snapshot" --rc "$rc" \
+            --log "${GATE_TIMINGS_LOG:-$ROOT/docs/_generated/arm-timings-v2.jsonl}"; then
+            evidence_rc=0
+        else
+            evidence_rc=$?
+        fi
+        rm -f "$snapshot"
+        if [[ $rc -eq 0 && $evidence_rc -ne 0 ]]; then rc=$evidence_rc; fi
+    fi
     if [[ $rc -ne 0 ]]; then
         echo "[run.sh] arm=$arm FAILED (exit $rc)" >&2
     fi
-    return $rc
+    return "$rc"
 }
 
 arm_lint() {
-    ( cd "$SOFTWARE" && uv run ruff check src/ scripts/ && uv run ruff format --check src/ scripts/ )
+    ( cd "$SOFTWARE" && project_python -m ruff check src/ scripts/ "$@" \
+        && project_python -m ruff format --check src/ scripts/ "$@" )
 }
 
 arm_types() {
-    ( cd "$SOFTWARE" && uv run mypy src/ )
+    ( cd "$SOFTWARE" && project_python -m mypy src/ "$@" )
 }
 
 arm_no_mocks() {
-    ( cd "$SOFTWARE" && uv run python scripts/verify_no_mocks.py )
+    project_python "$SOFTWARE/scripts/verify_no_mocks.py" "$@"
 }
 
 arm_test() {
-    ( cd "$SOFTWARE" && uv run pytest tests/ \
+    ( cd "$SOFTWARE" && project_python -m pytest tests/ \
         -m "not requires_internet and not requires_api and not requires_whisper" \
-        --cov-report=xml --cov-report=json )
+        --cov-report=xml --cov-report=json "$@" )
 }
 
 arm_test_full() {
-    ( cd "$SOFTWARE" && uv run pytest tests/ )
+    ( cd "$SOFTWARE" && project_python -m pytest tests/ "$@" )
 }
 
 arm_docs() {
-    ( cd "$SOFTWARE" && uv run python scripts/check_docs.py )
+    project_python "$SOFTWARE/scripts/check_docs.py" "$@"
 }
 
 arm_contract() {
-    # The group contract: the canonical schema, every member's vendored copy, and this
-    # repository's own bundle. The second command fails when the committed bundle no
-    # longer matches the course tree it was transcribed from.
-    ( cd "$SOFTWARE" && uv run python scripts/check_education_contract.py )
-    ( cd "$SOFTWARE" && uv run python scripts/export_education_bundle.py --check )
+    # One machine report includes both checker and exporter outcomes. The
+    # checker preserves caller-relative paths and runs freshness even on failure.
+    project_python "$SOFTWARE/scripts/check_education_contract.py" --check-export "$@"
 }
 
 arm_gnn() {
-    # The pinned parser is a separate toolchain: its own seeded venv, pinned by
-    # .github/gnn-pin.json, installed only when the version does not match.
-    local venv="$SOFTWARE/.venv-gnn"
-    if [[ ! -x "$venv/bin/python" ]]; then
-        uv venv --seed --python 3.12 "$venv" >/dev/null
-    fi
-    "$venv/bin/python" "$SOFTWARE/scripts/verify_gnn_conformance.py" --install
+    # Admission mode and independent artifacts are explicit CLI/env inputs.
+    # This arm never installs, probes an unqualified package, or changes modes.
+    gnn_python "$SOFTWARE/scripts/verify_gnn_conformance.py" "$@"
 }
 
 arm_metrics() {
-    ( cd "$SOFTWARE" && uv run python scripts/generate_gate_metrics.py )
+    project_python "$SOFTWARE/scripts/generate_gate_metrics.py" "$@"
 }
 
 case "$ARM" in
-    lint) run_arm lint arm_lint ;;
-    types) run_arm types arm_types ;;
-    no-mocks) run_arm no-mocks arm_no_mocks ;;
-    test) run_arm test arm_test ;;
-    test-full) run_arm test-full arm_test_full ;;
-    docs) run_arm docs arm_docs ;;
-    contract) run_arm contract arm_contract ;;
-    gnn) run_arm gnn arm_gnn ;;
-    metrics) run_arm metrics arm_metrics ;;
+    lint) run_arm lint arm_lint "$@" ;;
+    types) run_arm types arm_types "$@" ;;
+    no-mocks) run_arm no-mocks arm_no_mocks "$@" ;;
+    test) run_arm test arm_test "$@" ;;
+    test-full) run_arm test-full arm_test_full "$@" ;;
+    docs) run_arm docs arm_docs "$@" ;;
+    contract) run_arm contract arm_contract "$@" ;;
+    gnn) run_arm gnn arm_gnn "$@" ;;
+    metrics) run_arm metrics arm_metrics "$@" ;;
     all)
+        if [[ $# -ne 0 ]]; then
+            echo "all does not accept shared arguments; select an arm" >&2
+            exit 2
+        fi
         for arm in lint types no-mocks test docs contract; do
             "$ROOT/run.sh" "$arm"
         done
