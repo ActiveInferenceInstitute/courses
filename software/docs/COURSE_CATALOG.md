@@ -176,7 +176,7 @@ uv run python scripts/generate_all_outputs.py --course ai-embodied --formats txt
 ### `gnn` — GNN Syntax Track
 
 A supplementary skills track that teaches Generalized Notation Notation (GNN)
-using five verbatim exemplars from the GNN v5.0.3 exemplar corpus. This is not
+using five verbatim exemplars from the GNN v5.1.0 exemplar corpus. This is not
 one of the 14 spiral courses and is not counted in the 464-module total.
 
 | Field | Value |
@@ -188,7 +188,7 @@ one of the 14 spiral courses and is not counted in the 464-module total.
 | **Module glob** | `[0-9][0-9]_*` |
 | **Content files** | `module.md`, `questions.md`, `practice_quiz.md`, `lab.md` |
 | **Syllabus** | `README.md` (track overview) |
-| **Source pin** | GNN v5.0.3, commit `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1` |
+| **Source pin** | GNN v5.1.0, commit `75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf` |
 
 The lesson walks through the Static Perception Model section by section, computes
 its perception update, and runs the GNN pipeline over the shipped exemplars.

@@ -114,7 +114,7 @@ member's documentation hub; `manuscript` is the command that renders its manuscr
 
 | Member | Gate command | Docs index | Manuscript | GNN pin |
 | --- | --- | --- | --- | --- |
-| `courses` | `./run.sh {lint,types,no-mocks,test,test-full,docs,contract,gnn,metrics,all}` (`run.sh:88`) | `docs/README.md`, `docs/documentation-index.md` | none (course outputs via `publish.py`) | `.github/gnn-pin.json` — `v5.0.3`, `8f293d9` |
+| `courses` | `./run.sh {lint,types,no-mocks,test,test-full,docs,contract,gnn,metrics,all}` (`run.sh:88`) | `docs/README.md`, `docs/documentation-index.md` | none (course outputs via `publish.py`) | `.github/gnn-pin.json` — `v5.1.0`, `75c834b` |
 | `cognitive` | **red**: `./run.sh` execs `code/scripts/gate.py`, which does not exist (`run.sh:4`); CI runs the arms directly (`.github/workflows/quality.yml:37,54-56,62,98-99,170,177`) | `docs/README.md` (no `documentation-index.md`) | `python -m scripts.build_manuscript --no-pdf --output <dir>` (`quality.yml:99`) | `specs/gnn-pin.json` — `v5.0.3`, `commit` |
 | `fundamentals` | `./gate.sh {lint,fast,full,docs,validators,manuscript-check,manuscript,gnn,all}` (`gate.sh:166`) | `docs/README.md` (no `documentation-index.md`) | `./gate.sh manuscript` → `scripts/render_manuscript.py` | `specs/gnn-pin.json` — `v5.0.3`, `commit` |
 | `GEN24` | `./run.sh {lint,test-fast,docs,gnn,test-full,fast,all}` (`run.sh:90`) | `docs/README.md`, `docs/documentation-index.md` | none | `NHIM/gnn-pin.json` — `v5.0.3`, `release` |

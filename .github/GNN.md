@@ -10,8 +10,8 @@
 | Pin file | [`.github/gnn-pin.json`](gnn-pin.json) |
 | Pin schema | `gnn-importer-pin/v1` |
 | Pinned repository | `ActiveInferenceInstitute/Generalized_Notation_Notation` |
-| Pinned release | `v5.0.3` |
-| Pinned revision | `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1` |
+| Pinned release | `v5.1.0` |
+| Pinned revision | `75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf` |
 
 The job and the local arm run the same script; neither carries its own copy of
 the check. The script reads the pin, installs that exact revision into a

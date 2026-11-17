@@ -14,16 +14,18 @@ type-check, render, and execute.
 | Field | Value |
 |-------|-------|
 | Source repository | [ActiveInferenceInstitute/Generalized_Notation_Notation](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation) |
-| Release | v5.0.3 |
-| Commit | `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1` |
+| Release | v5.1.0 |
+| Commit | `75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf` |
 | Source folder | `input/gnn_files/` |
 | License | MIT (per the source repository) |
 
-These copies are verbatim: no edits, no parameter changes. Verify a copy with:
+These copies are verbatim: no edits, no parameter changes. All five are
+byte-identical at the earlier v5.0.3 commit `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1`
+and at the v5.1.0 commit above (checked 2026-11-16). Verify a copy with:
 
 ```bash
 # From a GNN checkout at the pinned commit:
-git -C <gnn-checkout> show 8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1:input/gnn_files/basics/static_perception.md \
+git -C <gnn-checkout> show 75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf:input/gnn_files/basics/static_perception.md \
   | diff - models/static_perception.md
 ```
 
