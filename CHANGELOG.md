@@ -10,6 +10,8 @@ All notable changes to the Active Inference Institute courses repository.
   retaining the frozen source guard and all original model/type/negative controls.
 - Carry upstream's documentation, model provenance and generated metrics forward;
   do not relabel earlier v5.0.3 passes as v5.1.0 or installed/scientific proof.
+- Bind hosted parser artifact paths from the allocated runner environment in a
+  workflow step; job-level environment expressions cannot access `runner`.
 
 ## [Unreleased] — 2026-11-16 (integration review corrections)
 

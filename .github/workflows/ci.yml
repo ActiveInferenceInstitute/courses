@@ -111,15 +111,20 @@ jobs:
     timeout-minutes: 15
     env:
       COURSES_GNN_MODE: source
-      COURSES_GNN_PYTHON: ${{ runner.temp }}/courses-gnn/bin/python
-      COURSES_GNN_BOOTSTRAP: ${{ runner.temp }}/courses-gnn-bootstrap.py
-      COURSES_GNN_MANIFEST: ${{ runner.temp }}/courses-gnn-manifest.json
       COURSES_GNN_PACKAGE_ROOT: ${{ github.workspace }}/.gnn-source/src/gnn
       COURSES_GNN_TEST_REQUIRED: "1"
       PYTHONPATH: ${{ github.workspace }}/software:${{ github.workspace }}/.gnn-source/src
       PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Bind isolated parser paths after runner allocation
+        shell: bash
+        run: |
+          printf '%s\n' \
+            "COURSES_GNN_PYTHON=$RUNNER_TEMP/courses-gnn/bin/python" \
+            "COURSES_GNN_BOOTSTRAP=$RUNNER_TEMP/courses-gnn-bootstrap.py" \
+            "COURSES_GNN_MANIFEST=$RUNNER_TEMP/courses-gnn-manifest.json" >> "$GITHUB_ENV"
 
       - name: Select the exact v5.1.0 source artifact
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
