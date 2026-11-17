@@ -11,9 +11,12 @@ All notable changes to the Active Inference Institute courses repository.
   receipts admit only origin-derived filenames, never arbitrary root targets.
 - Anchor the no-mocks gate to this checkout and compare every admitted
   cross-repository term definition, including later bundles from one owner.
+- Wire hosted GNN artifact delivery to the immutable, independently published
+  bootstrap and v5.0.3 manifest; remove the unavailable repository URL-variable
+  prerequisite without changing the parser pin, content digests or gate scope.
 - Retain the original bounded qualification and negative receipts as history;
-  these corrections require their own focused acceptance. Hosted GNN artifact
-  delivery, genuine installed-origin cases and full-network acceptance remain open.
+  these corrections require their own focused acceptance. Hosted execution,
+  genuine installed-origin cases and full-network acceptance are separate proofs.
 
 ## [Unreleased] — 2026-11-13 (bounded qualification)
 

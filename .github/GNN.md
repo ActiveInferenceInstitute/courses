@@ -53,9 +53,13 @@ changed/missing/extra package files are rejected.
 The workflow does **not** use the shared composite action
 `ActiveInferenceInstitute/.github/.github/actions/setup-python-uv@7159e67315330aac8e414aebae0ad1e999a41448`.
 The GNN job selects the exact source artifact and provisions dependencies outside
-the gate. `COURSES_GNN_BOOTSTRAP_URL` and `COURSES_GNN_MANIFEST_URL` must point to
-the reviewed frozen artifacts; publication and repository-variable setup remain
-unqualified. A local source-mode pass does not certify the hosted job.
+the gate. It downloads the independently reviewed bootstrap and v5.0.3 manifest
+from immutable resource-delivery commit
+`66d491f86895443cf588011cc6f40c37b8bae8fd`; the verifier still enforces their
+original SHA-256 digests. This resource commit is not the parser pin, which stays
+at `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1`. No repository URL variables or
+fallback selectors are needed. A local source-mode pass does not certify the
+hosted job.
 
 ## Updating the pin
 

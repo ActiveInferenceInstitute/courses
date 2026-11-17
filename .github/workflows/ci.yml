@@ -115,8 +115,6 @@ jobs:
       COURSES_GNN_BOOTSTRAP: ${{ runner.temp }}/courses-gnn-bootstrap.py
       COURSES_GNN_MANIFEST: ${{ runner.temp }}/courses-gnn-manifest.json
       COURSES_GNN_PACKAGE_ROOT: ${{ github.workspace }}/.gnn-source/src/gnn
-      COURSES_GNN_BOOTSTRAP_URL: ${{ vars.COURSES_GNN_BOOTSTRAP_URL }}
-      COURSES_GNN_MANIFEST_URL: ${{ vars.COURSES_GNN_MANIFEST_URL }}
       COURSES_GNN_TEST_REQUIRED: "1"
       PYTHONPATH: ${{ github.workspace }}/software:${{ github.workspace }}/.gnn-source/src
       PYTHONDONTWRITEBYTECODE: "1"
@@ -134,12 +132,12 @@ jobs:
       - name: Retrieve independently reviewed qualification artifacts
         shell: bash
         run: |
-          : "${COURSES_GNN_BOOTSTRAP_URL:?Configure the reviewed bootstrap artifact URL}"
-          : "${COURSES_GNN_MANIFEST_URL:?Configure the independent v5.0.3 manifest URL}"
           curl --fail --location --proto '=https' --proto-redir '=https' \
-            "$COURSES_GNN_BOOTSTRAP_URL" --output "$COURSES_GNN_BOOTSTRAP"
+            'https://raw.githubusercontent.com/ActiveInferenceInstitute/Generalized_Notation_Notation/66d491f86895443cf588011cc6f40c37b8bae8fd/interop/gnn_bootstrap.py' \
+            --output "$COURSES_GNN_BOOTSTRAP"
           curl --fail --location --proto '=https' --proto-redir '=https' \
-            "$COURSES_GNN_MANIFEST_URL" --output "$COURSES_GNN_MANIFEST"
+            'https://raw.githubusercontent.com/ActiveInferenceInstitute/Generalized_Notation_Notation/66d491f86895443cf588011cc6f40c37b8bae8fd/interop/v5.0.3-source-manifest.json' \
+            --output "$COURSES_GNN_MANIFEST"
 
       - name: Install uv
         uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
