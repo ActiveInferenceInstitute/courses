@@ -31,7 +31,6 @@ Examples:
 import argparse
 import logging
 import sys
-import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -62,6 +61,8 @@ def parse_args(argv=None) -> argparse.Namespace:
         description="Render YouTube playlists as courses.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
+    parser.add_argument("--repo-root", type=Path, default=Path(__file__).resolve().parents[2])
+    parser.add_argument("--transcript-dir", type=Path)
     parser.add_argument(
         "--channel",
         type=str,
@@ -124,153 +125,78 @@ def parse_args(argv=None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def get_formats(formats_str: str) -> list[str] | None:
-    """Parse formats argument into list or None for all.
+def get_formats(formats_str: str) -> list[str]:
+    from src.batch_processing.utils import get_formats_to_process
 
-    Args:
-        formats_str: Comma-separated format string or 'all'
-
-    Returns:
-        List of format strings, or None for all formats
-    """
-    if formats_str == "all":
-        return None
-    return [f.strip() for f in formats_str.split(",") if f.strip()]
+    return get_formats_to_process(formats_str)
 
 
 def main(argv=None) -> int:
-    """Main entry point for YouTube course rendering."""
     args = parse_args(argv)
-    start_time = time.time()
-
-    # Resolve paths
-    repo_root = Path(__file__).parent.parent.parent
-    transcript_dir = Path(__file__).parent.parent / OUTPUT_DIR_NAME
-    youtube_courses_dir = repo_root / "course_development" / YOUTUBE_COURSES_SUBDIR
-    manifest_path = youtube_courses_dir / MANIFEST_FILENAME
-
-    logger.info("=" * 60)
-    logger.info("YouTube Course Renderer")
-    logger.info(f"Channel: {args.channel}")
-    logger.info(f"Courses dir: {youtube_courses_dir}")
-    logger.info(f"Transcript dir: {transcript_dir}")
-
-    formats = get_formats(args.formats)
-    resume = not args.no_resume
-
-    # --list-playlists: enumerate + save manifest + exit
-    if args.list_playlists:
-        manifest = enumerate_and_map_playlists(args.channel, transcript_dir)
-        if not args.dry_run:
-            youtube_courses_dir.mkdir(parents=True, exist_ok=True)
-            save_youtube_manifest(manifest, manifest_path)
-            logger.info(f"Manifest saved: {manifest_path}")
-
-        logger.info(f"\nPlaylists ({manifest['total_playlists']}):")
-        for slug, playlist in manifest["playlists"].items():
-            logger.info(f"  {slug}: {playlist['title']} ({playlist['video_count']} videos)")
-
-        elapsed = time.time() - start_time
-        logger.info(f"\nCompleted in {elapsed:.1f}s")
-        return 0
-
-    # --dry-run: load manifest, print summary + exit
-    if args.dry_run:
-        manifest = load_youtube_manifest(manifest_path)
-        if not manifest["playlists"]:
-            logger.info("No manifest found. Run --list-playlists first.")
-            return 1
-
-        logger.info(f"\nDry run - {manifest['total_playlists']} playlists:")
-        for slug, playlist in manifest["playlists"].items():
-            logger.info(f"  {slug}: {playlist['title']} ({playlist['video_count']} videos)")
-
-        # Check existing scaffolded courses
-        if youtube_courses_dir.exists():
-            existing = [
-                d.name
-                for d in youtube_courses_dir.iterdir()
-                if d.is_dir() and d.name != "__pycache__"
-            ]
-            logger.info(f"\nExisting course directories: {len(existing)}")
-            for name in sorted(existing):
-                module_count = sum(
-                    1
-                    for d in (youtube_courses_dir / name).iterdir()
-                    if d.is_dir() and (d / "module.md").exists()
-                )
-                logger.info(f"  {name}: {module_count} modules")
-
-        formats_desc = ", ".join(formats) if formats else "all"
-        logger.info(f"\nFormats: {formats_desc}")
-        logger.info(f"Resume: {resume}")
-        return 0
-
-    # Scaffold phase (unless --skip-scaffold)
-    if not args.skip_scaffold:
-        logger.info("\n--- Scaffold Phase ---")
-
-        # Load or enumerate playlists
-        manifest = load_youtube_manifest(manifest_path)
-        if not manifest["playlists"]:
-            logger.info("No manifest found, enumerating playlists...")
-            manifest = enumerate_and_map_playlists(args.channel, transcript_dir)
-            youtube_courses_dir.mkdir(parents=True, exist_ok=True)
-            save_youtube_manifest(manifest, manifest_path)
-
-        playlists = list(manifest["playlists"].items())
-        if args.course:
-            playlists = [(s, p) for s, p in playlists if s == args.course]
+    root = args.repo_root
+    transcript_dir = args.transcript_dir or root / "software" / OUTPUT_DIR_NAME
+    courses_dir = root / "course_development" / YOUTUBE_COURSES_SUBDIR
+    manifest_path = courses_dir / MANIFEST_FILENAME
+    errors = []
+    selected = None
+    try:
+        formats = get_formats(args.formats)
+        if args.limit is not None and args.limit < 1:
+            raise ValueError("--limit must be positive")
+        if args.skip_scaffold and args.skip_render and not args.list_playlists:
+            raise ValueError("Both phases are disabled")
+        # Dry-run is local-only, including --list-playlists.
+        if args.dry_run or not args.skip_scaffold or args.list_playlists:
+            manifest = load_youtube_manifest(manifest_path)
+            if (args.list_playlists or not manifest["playlists"]) and not args.dry_run:
+                manifest = enumerate_and_map_playlists(args.channel, transcript_dir)
+            playlists = list(manifest["playlists"].items())
+            if args.course is not None:
+                playlists = [(slug, value) for slug, value in playlists if slug == args.course]
+            if args.limit is not None:
+                playlists = playlists[: args.limit]
             if not playlists:
-                logger.error(f"Course not found: {args.course}")
-                return 1
-
-        if args.limit:
-            playlists = playlists[: args.limit]
-
-        total_created = 0
-        total_skipped = 0
-        total_failed = 0
-
-        for slug, playlist in playlists:
-            logger.info(f"\nScaffolding: {playlist['title']} ({len(playlist['videos'])} videos)")
-            scaffold_results = scaffold_course_directory(
-                course_slug=slug,
-                videos=playlist["videos"],
-                transcript_dir=transcript_dir,
-                youtube_courses_dir=youtube_courses_dir,
-                course_metadata=playlist,
-                skip_whisper=args.skip_whisper,
-                force=args.force_scaffold,
+                raise ValueError(
+                    "No playlists match selection; local dry-run requires an existing manifest"
+                )
+            selected = [slug for slug, _ in playlists]
+            if args.dry_run:
+                for slug, playlist in playlists:
+                    print(f"{slug}: {len(playlist['videos'])} videos; formats={','.join(formats)}")
+                return 0
+            if args.list_playlists:
+                save_youtube_manifest(manifest, manifest_path)
+                return 0
+            save_youtube_manifest(manifest, manifest_path)
+            for slug, playlist in playlists:
+                try:
+                    outcome = scaffold_course_directory(
+                        slug,
+                        playlist["videos"],
+                        transcript_dir,
+                        courses_dir,
+                        playlist,
+                        skip_whisper=args.skip_whisper,
+                        force=args.force_scaffold,
+                    )
+                    errors.extend(outcome["errors"])
+                except (OSError, ValueError, KeyError, TypeError) as error:
+                    errors.append(f"{slug}: {error}")
+        if not args.skip_render:
+            rendered = render_all_youtube_courses(
+                courses_dir,
+                formats,
+                args.course,
+                not args.no_resume,
+                course_slugs=selected,
+                limit=args.limit,
             )
-            total_created += scaffold_results["created"]
-            total_skipped += scaffold_results["skipped"]
-            total_failed += scaffold_results["failed"]
-
-        logger.info(
-            f"\nScaffold summary: {total_created} created, "
-            f"{total_skipped} skipped, {total_failed} failed"
-        )
-
-    # Render phase (unless --skip-render)
-    if not args.skip_render:
-        logger.info("\n--- Render Phase ---")
-        render_results = render_all_youtube_courses(
-            youtube_courses_dir=youtube_courses_dir,
-            formats=formats,
-            course_filter=args.course,
-            resume=resume,
-        )
-
-        logger.info(f"\nRender summary: {render_results['total_rendered']} modules rendered")
-        if render_results["total_errors"]:
-            logger.warning(f"Errors: {len(render_results['total_errors'])}")
-            for err in render_results["total_errors"][:10]:
-                logger.error(f"  {err}")
-
-    elapsed = time.time() - start_time
-    logger.info(f"\nCompleted in {elapsed:.1f}s")
-    return 0
+            errors.extend(rendered["total_errors"])
+    except Exception as error:
+        errors.append(str(error))
+    for error in errors:
+        logger.error(error)
+    return 1 if errors else 0
 
 
 if __name__ == "__main__":

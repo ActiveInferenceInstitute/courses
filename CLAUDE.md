@@ -65,11 +65,11 @@ python publish.py --dry-run
 
 Defined in `software/src/batch_processing/config.py`. Maps course IDs (e.g., `ai-philosophy`) to structural metadata: paths, glob patterns, content file lists. All module discovery flows through this registry — no hardcoded paths.
 
-### Script Count
+### Inventory and measurements
 
-- 23 course CLI scripts in `scripts/`, plus 3 gate tools (`check_docs.py`, `generate_gate_metrics.py`, `verify_gnn_conformance.py`)
-- 21 modules in `src/`
-- 67 test files in `tests/`
+Use [`docs/_generated/GATE_METRICS.md`](docs/_generated/GATE_METRICS.md) with its
+source/runtime provenance for module, script and test counts. A prior measurement
+does not accept changed source; the [run guide](docs/RUN_GUIDE.md) states proof limits.
 
 ### Module layering
 

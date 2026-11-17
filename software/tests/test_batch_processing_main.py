@@ -47,18 +47,6 @@ class TestProcessModuleToPdf:
 class TestProcessModuleToAudio:
     """Tests for process_module_to_audio function."""
 
-    @pytest.mark.requires_internet
-    def test_process_module_to_audio_success(self, monkeypatch, sample_module_structure):
-        """Test converting module text to audio (mocked to avoid API calls)."""
-        output_dir = sample_module_structure.parent / "audio_output"
-
-        # Mock generate_speech to avoid external calls
-        monkeypatch.setattr("src.text_to_speech.main.generate_speech", lambda t, o, **k: None)
-
-        result = process_module_to_audio(str(sample_module_structure), str(output_dir))
-
-        assert isinstance(result, list)
-        assert all(f.endswith(".mp3") for f in result)
 
     def test_process_module_to_audio_nonexistent(self, temp_dir):
         """Test processing non-existent module raises ValueError."""
@@ -90,21 +78,6 @@ class TestProcessModuleToText:
 class TestGenerateModuleMedia:
     """Tests for generate_module_media function."""
 
-    @pytest.mark.requires_internet
-    def test_generate_module_media_structure(self, monkeypatch, sample_module_structure):
-        """Test that generate_module_media returns correct structure."""
-        output_dir = sample_module_structure.parent / "media_output"
-
-        # Mock both speech generation and transcription to avoid external calls
-        monkeypatch.setattr("src.text_to_speech.main.generate_speech", lambda t, o, **k: None)
-        monkeypatch.setattr("src.speech_to_text.main.transcribe_audio", lambda i, o: None)
-
-        result = generate_module_media(str(sample_module_structure), str(output_dir))
-
-        assert "pdf_files" in result
-        assert "audio_files" in result
-        assert "text_files" in result
-        assert "errors" in result
 
     def test_generate_module_media_nonexistent(self, temp_dir):
         """Test generating media for non-existent module raises ValueError."""
@@ -113,78 +86,38 @@ class TestGenerateModuleMedia:
 
 
 class TestProcessModuleByType:
-    """Tests for process_module_by_type function."""
+    def test_authored_types_are_rendered_once_in_selected_formats(self, temp_dir):
+        module = temp_dir / "01_systems"
+        module.mkdir()
+        (module / "module.md").write_text("# Systems\n\nLecture body.")
+        (module / "questions.md").write_text("# Questions\n\nExplain a system.")
+        (module / "lab.md").write_text("# Lab\n\nObserve a system.")
+        assignments = module / "assignments"
+        assignments.mkdir()
+        (assignments / "assignment-1.md").write_text("# Assignment\n\nDescribe a system.")
+        result = process_module_by_type(str(module), str(module / "output"), formats=["md", "txt"])
+        assert result["errors"] == []
+        assert result["summary"]["md"] == result["summary"]["txt"] == 4
+        assert (module / "output/lecture-content/01_systems-module.md").read_bytes() == (module / "module.md").read_bytes()
+        assert "Explain a system" in (module / "output/study-guides/01_systems-questions.txt").read_text()
+        assert not list((module / "output").rglob("*.mp3"))
 
-    def test_process_module_by_type_structure(self, sample_module_structure):
-        """Test that process_module_by_type returns correct structure."""
-        output_dir = sample_module_structure.parent / "typed_output"
-
-        result = process_module_by_type(str(sample_module_structure), str(output_dir))
-
-        assert "by_type" in result
-        assert "summary" in result
-        assert "errors" in result
-        assert "assignments" in result["by_type"]
-        assert "lecture-content" in result["by_type"]
-
-    def test_process_module_by_type_nonexistent(self, temp_dir):
-        """Test processing non-existent module raises ValueError."""
+    def test_missing_source_is_rejected(self, temp_dir):
         with pytest.raises(ValueError, match="does not exist"):
-            process_module_by_type(str(temp_dir / "nonexistent"), str(temp_dir / "output"))
+            process_module_by_type(str(temp_dir / "missing"), str(temp_dir / "output"), formats=["md"])
 
-    @pytest.mark.requires_internet
-    def test_process_module_by_type_with_assignments(self, monkeypatch, temp_dir):
-        """Test processing module with assignments directory."""
-        module_dir = temp_dir / "module"
-        module_dir.mkdir()
-        assignments_dir = module_dir / "assignments"
-        assignments_dir.mkdir()
-        (assignments_dir / "assignment-1.md").write_text(
-            "# Assignment 1\n\nContent", encoding="utf-8"
-        )
-
-        output_dir = temp_dir / "output"
-
-        monkeypatch.setattr("src.text_to_speech.main.generate_speech", lambda t, o, **k: None)
-        monkeypatch.setattr("src.speech_to_text.main.transcribe_audio", lambda i, o: None)
-        monkeypatch.setattr("src.batch_processing.main.time.sleep", lambda x: None)
-
-        result = process_module_by_type(str(module_dir), str(output_dir))
-
-        assert "by_type" in result
-        assert "errors" in result
-
-    @pytest.mark.requires_internet
-    def test_process_module_by_type_curriculum_types(self, monkeypatch, temp_dir):
-        """Test processing module with various curriculum types."""
-        module_dir = temp_dir / "module"
-        module_dir.mkdir()
-
-        # Create sample files for each type
-        (module_dir / "sample_lecture-content.md").write_text(
-            "# Lecture\n\nContent", encoding="utf-8"
-        )
-        (module_dir / "sample_study-guide.md").write_text(
-            "# Study Guide\n\nContent", encoding="utf-8"
-        )
-        (module_dir / "sample_lab-protocol.md").write_text(
-            "# Lab Protocol\n\nContent", encoding="utf-8"
-        )
-        (module_dir / "sample_assignment.md").write_text(
-            "# Assignment\n\nContent", encoding="utf-8"
-        )
-
-        output_dir = temp_dir / "output"
-
-        monkeypatch.setattr("src.text_to_speech.main.generate_speech", lambda t, o, **k: None)
-        monkeypatch.setattr("src.speech_to_text.main.transcribe_audio", lambda i, o: None)
-        monkeypatch.setattr("src.batch_processing.main.time.sleep", lambda x: None)
-
-        result = process_module_by_type(str(module_dir), str(output_dir))
-
-        # Should have processed multiple types
-        total = sum(result["summary"].values())
-        assert total > 0
+    def test_copy_failure_is_retained_with_source_and_destination(self, temp_dir):
+        module = temp_dir / "01_systems"
+        module.mkdir()
+        (module / "module.md").write_text("# Systems\n\nBody.")
+        output = temp_dir / "output"
+        output.write_text("blocking file")
+        result = process_module_by_type(str(module), str(output), formats=["md"])
+        assert result["summary"]["md"] == 0
+        assert len(result["errors"]) == 1
+        assert str(module / "module.md") in result["errors"][0]
+        assert str(output / "lecture-content/01_systems-module.md") in result["errors"][0]
+        assert output.read_text() == "blocking file"
 
 
 class TestProcessSyllabus:
@@ -197,11 +130,11 @@ class TestProcessSyllabus:
         (syllabus_dir / "Syllabus.md").write_text("# Syllabus\n\nCourse overview", encoding="utf-8")
 
         output_dir = temp_dir / "output"
-        result = process_syllabus(str(syllabus_dir), str(output_dir))
+        result = process_syllabus(str(syllabus_dir), str(output_dir), formats=["md", "txt"])
 
-        assert "by_format" in result
-        assert "summary" in result
-        assert "errors" in result
+        assert result["errors"] == []
+        assert (output_dir / "Syllabus.md").read_bytes() == (syllabus_dir / "Syllabus.md").read_bytes()
+        assert "Course overview" in (output_dir / "Syllabus.txt").read_text()
 
     def test_process_syllabus_nonexistent(self, temp_dir):
         """Test processing non-existent syllabus raises ValueError."""
@@ -217,74 +150,47 @@ class TestProcessSyllabus:
         (syllabus_dir / "Syllabus.md").write_text("# Syllabus", encoding="utf-8")
 
         output_dir = temp_dir / "output"
-        result = process_syllabus(str(syllabus_dir), str(output_dir))
+        result = process_syllabus(str(syllabus_dir), str(output_dir), formats=["md"])
 
-        # Only Syllabus.md should be processed
-        assert result["summary"]["pdf"] <= 1
+        assert result["errors"] == []
+        assert {path.name for path in output_dir.iterdir()} == {"Syllabus.md"}
 
 
 class TestClearAllOutputs:
-    """Tests for clear_all_outputs function."""
-
-    def test_clear_all_outputs_structure(self, temp_dir):
-        """Test that clear_all_outputs returns correct structure."""
-        result = clear_all_outputs(temp_dir)
-
-        assert "cleared_directories" in result
-        assert "total_files_removed" in result
-        assert "errors" in result
-
-    def test_clear_all_outputs_clears_files(self, temp_dir):
-        """Test that clear_all_outputs removes files."""
-        # Create a mock course structure matching COURSE_REGISTRY rel_path
-        # biol-1 uses: course_development/biol-1/course/module-*/output/
-        course_dir = temp_dir / "course_development" / "biol-1" / "course" / "module-1" / "output"
-        course_dir.mkdir(parents=True)
-        (course_dir / "test.pdf").write_text("test", encoding="utf-8")
-
-        # Also test Active Inference pattern: course_development/active_inference/01_philosophy/01_systems/output/
-        ai_dir = (
-            temp_dir
-            / "course_development"
-            / "active_inference"
-            / "01_philosophy"
-            / "01_systems"
-            / "output"
-        )
-        ai_dir.mkdir(parents=True)
-        (ai_dir / "module.txt").write_text("test", encoding="utf-8")
-
-        result = clear_all_outputs(temp_dir)
-
-        # Should have cleared the output directories
-        assert result["total_files_removed"] >= 1 or len(result["cleared_directories"]) >= 1
-
-    def test_clear_all_outputs_no_courses(self, temp_dir):
-        """Test clear_all_outputs with no course directories."""
-        result = clear_all_outputs(temp_dir)
-
-        assert result["cleared_directories"] == []
+    def test_explicit_cleanup_preserves_guides_and_unselected_files(self, temp_dir):
+        output = temp_dir / "output"
+        output.mkdir()
+        for name in ("selected.md", "other.pdf", "README.md", "AGENTS.md", ".keep"):
+            (output / name).write_text(name)
+        before_inode = output.stat().st_ino
+        result = clear_all_outputs(temp_dir, plans=[{"artifacts": [
+            {"destination": output / name} for name in ("selected.md", "README.md", ".keep")
+        ]}])
         assert result["errors"] == []
+        assert result["total_files_removed"] == 1
+        assert {path.name for path in output.iterdir()} == {"other.pdf", "README.md", "AGENTS.md", ".keep"}
+        assert output.stat().st_ino == before_inode
+
+    def test_escape_rejected_before_any_unlink(self, temp_dir):
+        root = temp_dir / "admitted"
+        root.mkdir()
+        own = root / "selected.md"
+        own.write_text("own")
+        outside = temp_dir / "outside.md"
+        outside.write_text("outside")
+        alias = root / "escape.md"
+        alias.symlink_to(outside)
+        with pytest.raises(ValueError):
+            clear_all_outputs(root, plans=[{"artifacts": [
+                {"destination": own}, {"destination": alias},
+            ]}])
+        assert own.read_text() == "own"
+        assert outside.read_text() == "outside"
 
 
 class TestProcessModuleByTypeFormats:
     """Tests for process_module_by_type formats parameter."""
 
-    def test_formats_none_generates_all(self, temp_dir):
-        """formats=None generates all formats (default behavior)."""
-        module_dir = temp_dir / "module-01"
-        module_dir.mkdir()
-        (module_dir / "keys-to-success.md").write_text(
-            "# Keys to Success\n\nStudy hard.", encoding="utf-8"
-        )
-
-        output_dir = temp_dir / "output"
-        result = process_module_by_type(str(module_dir), str(output_dir), formats=None)
-
-        assert "summary" in result
-        # All format keys should exist in summary
-        for fmt in ["pdf", "mp3", "docx", "html", "txt"]:
-            assert fmt in result["summary"]
 
     def test_formats_txt_only(self, temp_dir):
         """formats=["txt"] only generates TXT, skips others."""
@@ -303,56 +209,19 @@ class TestProcessModuleByTypeFormats:
         assert result["summary"]["docx"] == 0
         assert result["summary"]["html"] == 0
 
-    def test_formats_unrecognized_ignored(self, temp_dir):
-        """Unrecognized format in list is silently ignored."""
-        module_dir = temp_dir / "module-01"
-        module_dir.mkdir()
-        (module_dir / "keys-to-success.md").write_text(
-            "# Keys to Success\n\nStudy hard.", encoding="utf-8"
-        )
-
-        output_dir = temp_dir / "output"
-        result = process_module_by_type(str(module_dir), str(output_dir), formats=["txt", "xyz"])
-
-        # TXT should have outputs, xyz does nothing
-        assert result["summary"]["txt"] >= 1
-        # Standard formats not requested should be zero
-        assert result["summary"]["pdf"] == 0
-        assert result["summary"]["mp3"] == 0
-        assert result["summary"]["docx"] == 0
-        assert result["summary"]["html"] == 0
-
-    def test_formats_empty_list(self, temp_dir):
-        """formats=[] generates nothing."""
-        module_dir = temp_dir / "module-01"
-        module_dir.mkdir()
-        (module_dir / "keys-to-success.md").write_text(
-            "# Keys to Success\n\nStudy hard.", encoding="utf-8"
-        )
-
-        output_dir = temp_dir / "output"
-        result = process_module_by_type(str(module_dir), str(output_dir), formats=[])
-
-        assert sum(result["summary"].values()) == 0
+    @pytest.mark.parametrize("formats", [[], ["txt", "xyz"]])
+    def test_invalid_formats_reject_before_output_creation(self, temp_dir, formats):
+        module = temp_dir / "01_systems"
+        module.mkdir()
+        (module / "module.md").write_text("# Systems\n\nBody.")
+        with pytest.raises(ValueError):
+            process_module_by_type(str(module), str(temp_dir / "output"), formats=formats)
+        assert not (temp_dir / "output").exists()
 
 
 class TestProcessSyllabusFormats:
     """Tests for process_syllabus formats parameter."""
 
-    def test_syllabus_formats_none(self, temp_dir):
-        """formats=None generates all formats."""
-        syllabus_dir = temp_dir / "syllabus"
-        syllabus_dir.mkdir()
-        (syllabus_dir / "Syllabus.md").write_text(
-            "# Syllabus\n\nCourse overview.", encoding="utf-8"
-        )
-
-        output_dir = temp_dir / "output"
-        result = process_syllabus(str(syllabus_dir), str(output_dir), formats=None)
-
-        assert "summary" in result
-        for fmt in ["pdf", "mp3", "docx", "html", "txt"]:
-            assert fmt in result["summary"]
 
     def test_syllabus_formats_txt_only(self, temp_dir):
         """formats=["txt"] only generates TXT."""

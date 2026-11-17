@@ -1,15 +1,13 @@
 # AII sidecar — InstituteOS metadata. Schema: aii_platform.aii_sidecar
 meta:
   sidecar_version: 1.3.0
-  updated: '2026-11-11'
+  updated: '2026-11-13'
 repo:
   name: courses
   slug: courses
   full_name: ActiveInferenceInstitute/courses
-  description: Welcome to the open-source curriculum infrastructure for Active Inference
-    education. This repository hosts 14 complete courses spanning Kindergarten to
-    PhD (plus a YouTube transcript archive and a GNN syntax track — 20 total entries
-    in COURSE_REGISTRY), powered by a modular Python publishing engine.
+  description: Source curricula spanning Kindergarten to PhD, a YouTube transcript
+    archive and a GNN syntax track, with a modular Python publishing engine.
 institute:
   category: education
   maturity: released
@@ -52,7 +50,7 @@ artifacts:
   description: Markdown source for every course and module.
 - path: software/
   kind: code
-  description: Python rendering engine (21 modules, 23 CLI scripts, tests and docs).
+  description: Python rendering engine, CLI scripts, tests and technical guides.
 - path: published/
   kind: publication
   description: Rendered course outputs produced by the pipeline.
@@ -75,9 +73,8 @@ tasks:
     cmd: git ls-files
     description: List tracked files.
   test:
-    cmd: uv run pytest tests/ -m "not requires_internet and not requires_api and not requires_whisper"
-    cwd: software
-    description: Run the offline test suite the CI gate uses.
+    cmd: ./run.sh test
+    description: Run the declared offline gate; not full-network or scientific acceptance.
 docs:
 - README.md
 - AGENTS.md

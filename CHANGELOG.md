@@ -2,6 +2,47 @@
 
 All notable changes to the Active Inference Institute courses repository.
 
+## [Unreleased] — 2026-11-17 (canonical parser reconciliation)
+
+- Preserve upstream PR #33's v5.1.0 parser pin and reconcile the guarded verifier
+  and hosted checkout with its independently supplied 1,232-file manifest.
+- Bind the existing immutable resource delivery to the matching v5.1.0 manifest,
+  retaining the frozen source guard and all original model/type/negative controls.
+- Carry upstream's documentation, model provenance and generated metrics forward;
+  do not relabel earlier v5.0.3 passes as v5.1.0 or installed/scientific proof.
+- Bind hosted parser artifact paths from the allocated runner environment in a
+  workflow step; job-level environment expressions cannot access `runner`.
+
+## [Unreleased] — 2026-11-16 (integration review corrections)
+
+- Reject symlinked or escaped publication destinations and publication roots
+  overlapping authored course sources before cleanup or copying.
+- Repair repeat publication of owned flattened artifacts and cleanup with a
+  relative repository root, preserving unrelated publication bytes. Ownership
+  receipts admit only origin-derived filenames, never arbitrary root targets.
+- Anchor the no-mocks gate to this checkout and compare every admitted
+  cross-repository term definition, including later bundles from one owner.
+- Wire hosted GNN artifact delivery to the immutable, independently published
+  bootstrap and v5.0.3 manifest; remove the unavailable repository URL-variable
+  prerequisite without changing the parser pin, content digests or gate scope.
+- Retain the original bounded qualification and negative receipts as history;
+  these corrections require their own focused acceptance. Hosted execution,
+  genuine installed-origin cases and full-network acceptance are separate proofs.
+
+## [Unreleased] — 2026-11-13 (bounded qualification)
+
+- Qualified the explicit-source GNN bootstrap/full-manifest guard and actual
+  five-exemplar gate at the unchanged pin. Fixed the parser caller to pass a
+  filesystem path rather than file contents.
+- Documented admitted manifest-scoped generation, complete publication identity,
+  failure propagation, explicit-root multi-bundle education and bound YouTube resume.
+- Reused earlier accepted engine evidence rather than repeating its suite.
+  Installed-origin fixtures, hosted artifact delivery and full-network acceptance
+  remain open; no coverage, timing or release result was manufactured.
+- Replaced copied current counts with source-bound fact references, linked both
+  documentation hubs and corrected numbered domain-tracker arithmetic without
+  authoring or changing any domain's status.
+
 ## [Unreleased] — 2026-11-12 (gate entry point and docs tree)
 
 ### Added

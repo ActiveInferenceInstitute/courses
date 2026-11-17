@@ -1,6 +1,6 @@
 # 📚 Documentation Index
 
-> **Navigation**: [← Repository Root](../../README.md)
+> **Navigation**: [Repository Root](../../README.md) | [Repository documentation hub](../../docs/README.md)
 
 Welcome to the **Documentation Hub** for the Active Inference Institute courses repository. This directory (`software/docs/`) contains all technical references, guides, and architectural decisions.
 
@@ -38,11 +38,11 @@ Detailed specifications for developers and power users:
 
 | Document | Purpose |
 | :--- | :--- |
-| **[CLI_REFERENCE](CLI_REFERENCE.md)** | Complete documentation for all 23 CLI scripts. |
+| **[CLI_REFERENCE](CLI_REFERENCE.md)** | CLI contracts and examples. |
 | **[MODULES](MODULES.md)** | Python API reference for the source (`src/`) modules. |
 | **[CONFIGURATION](CONFIGURATION.md)** | Schema for `publish.toml` and `pyproject.toml`. |
-| **[TESTING](TESTING.md)** | Guide to the test suite (1,029 collected) and "No Mocks" policy. |
-| **[COURSE_CATALOG](COURSE_CATALOG.md)** | Full list of all 14 courses and their structures. |
+| **[TESTING](TESTING.md)** | Test suite, measured-facts references and "No Mocks" policy. |
+| **[COURSE_CATALOG](COURSE_CATALOG.md)** | Course catalogue and structures. |
 
 ---
 

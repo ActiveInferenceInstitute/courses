@@ -3,7 +3,7 @@
 import logging
 import re
 from pathlib import Path
-from typing import List, Optional, Dict
+from typing import Any, List, Optional, Dict
 
 from . import config
 
@@ -298,15 +298,22 @@ def get_courses_to_process(course_arg: str) -> List[tuple]:
     ]
 
     if course_arg == "all":
-        return all_courses
+        # Consolidated entries own their descendants during an all-course run.
+        return [
+            entry
+            for entry in all_courses
+            if not any(
+                Path(entry[0]).is_relative_to(Path(other[0])) and entry[0] != other[0]
+                for other in all_courses
+            )
+        ]
 
     # Match by course ID in the registry
     if course_arg in config.COURSE_REGISTRY:
         reg = config.COURSE_REGISTRY[course_arg]
         return [(reg["rel_path"], reg["display_name"], course_arg)]
 
-    # Fallback: match by path suffix
-    return [(c, n, cid) for c, n, cid in all_courses if c.endswith(course_arg)]
+    raise ValueError(f"Unknown course: {course_arg}")
 
 
 def get_formats_to_process(formats_arg: str) -> List[str]:
@@ -324,9 +331,9 @@ def get_formats_to_process(formats_arg: str) -> List[str]:
     formats = [f.strip().lower() for f in formats_arg.split(",")]
     invalid = [f for f in formats if f not in config.AVAILABLE_FORMATS]
     if invalid:
-        logger.warning(f"Unknown formats will be ignored: {invalid}")
+        raise ValueError(f"Unsupported or empty output formats: {invalid}")
 
-    return [f for f in formats if f in config.AVAILABLE_FORMATS]
+    return list(dict.fromkeys(formats))
 
 
 def find_modules_for_course(course_path: Path, course_id: Optional[str] = None) -> List[Path]:
@@ -344,27 +351,30 @@ def find_modules_for_course(course_path: Path, course_id: Optional[str] = None) 
     Returns:
         Sorted list of module directory paths
     """
-    # Look up registry entry if course_id provided
-    reg = None
-    if course_id and course_id in config.COURSE_REGISTRY:
-        reg = config.COURSE_REGISTRY[course_id]
-    else:
-        # Try to match by rel_path suffix
-        for cid, r in config.COURSE_REGISTRY.items():
-            if str(course_path).endswith(r["rel_path"]):
-                reg = r
-                course_id = cid
-                break
+    identity = course_id or resolve_course_id(course_path)
+    reg = config.COURSE_REGISTRY.get(identity) if identity is not None else None
 
     if reg:
         module_glob = reg.get("module_glob", "module-*")
         has_course_subdir = reg.get("has_course_subdir", False)
         unit_glob = reg.get("unit_glob", None)
     else:
-        # Default: legacy biology pattern
-        module_glob = "module-*"
-        has_course_subdir = False
-        unit_glob = None
+        # Unregistered temporary/legacy trees retain structural discovery.
+        search = course_path / "course" if (course_path / "course").is_dir() else course_path
+        if not search.is_dir():
+            return []
+        children = sorted(
+            d
+            for d in search.iterdir()
+            if d.is_dir() and re.match(r"^(?:module-\d+(?:-|$)|\d+_)", d.name)
+        )
+        nested = [
+            m
+            for unit in children
+            for m in sorted(unit.iterdir())
+            if m.is_dir() and re.match(r"^(?:module-\d+(?:-|$)|\d+_)", m.name)
+        ]
+        return nested or children
 
     if has_course_subdir:
         search_dir = course_path / "course"
@@ -433,6 +443,332 @@ def get_course_id_from_path(course_rel_path: str) -> Optional[str]:
     return None
 
 
+def resolve_course_id(course_path: Path) -> Optional[str]:
+    """Resolve a registry identity by complete path components, never a string prefix."""
+    parts = course_path.parts
+    matches = [
+        (cid, reg)
+        for cid, reg in config.COURSE_REGISTRY.items()
+        if parts[-len(Path(reg["rel_path"]).parts) :] == Path(reg["rel_path"]).parts
+    ]
+    return (
+        max(matches, key=lambda item: len(Path(item[1]["rel_path"]).parts))[0] if matches else None
+    )
+
+
+def select_modules(
+    course_path: Path,
+    course_id: Optional[str] = None,
+    module_filter: Optional[int] = None,
+    unit_filter: Optional[str] = None,
+    max_module: Optional[int] = None,
+) -> List[Path]:
+    """Admit one numeric identity or an explicit unit; ambiguity is an error."""
+    from ..module_organization.utils import get_module_number_from_path
+
+    if not course_path.is_dir():
+        raise ValueError(f"Course directory does not exist: {course_path}")
+    for value in (module_filter, max_module):
+        if value is not None and (type(value) is not int or value < 1):
+            raise ValueError("Module selectors must be positive integers")
+    modules = find_modules_for_course(course_path, course_id)
+    if unit_filter is not None:
+        unit = Path(unit_filter)
+        if unit.is_absolute() or len(unit.parts) != 1 or unit.name in ("", ".", ".."):
+            raise ValueError(f"Invalid unit selector: {unit_filter}")
+        modules = [
+            m for m in modules if m.parent.relative_to(course_path).as_posix() == unit_filter
+        ]
+    if module_filter is not None:
+        modules = [m for m in modules if get_module_number_from_path(m) == module_filter]
+        if len(modules) > 1:
+            choices = ", ".join(m.relative_to(course_path).as_posix() for m in modules)
+            raise ValueError(f"Ambiguous module {module_filter}: {choices}; supply --unit")
+    if max_module is not None:
+        modules = [m for m in modules if get_module_number_from_path(m) <= max_module]
+    if not modules:
+        raise ValueError(f"No modules match selection in {course_path}")
+    for module in modules:
+        require_contained(module, course_path)
+    return modules
+
+
+def require_contained(path: Path, root: Path) -> Path:
+    """Reject escaped or symlink-aliased inputs and destinations before mutation."""
+    root = root.absolute()
+    path = path.absolute()
+    if not path.is_relative_to(root) or not path.resolve().is_relative_to(root.resolve()):
+        raise ValueError(f"Path escapes {root}: {path}")
+    current = path
+    while current != root:
+        if current.is_symlink():
+            raise ValueError(f"Symlink not admitted: {current}")
+        current = current.parent
+    return path
+
+
+def parse_limits(values: List[str]) -> Dict[str, int]:
+    """Admit every course:positive-integer limit or reject the whole request."""
+    limits = {}
+    for value in values:
+        course, separator, number = value.partition(":")
+        if (
+            not separator
+            or course not in config.COURSE_REGISTRY
+            or not number.isdecimal()
+            or int(number) < 1
+        ):
+            raise ValueError(f"Invalid course limit: {value}")
+        if course in limits:
+            raise ValueError(f"Duplicate course limit: {course}")
+        limits[course] = int(number)
+    return limits
+
+
+def module_sources(module_path: Path, skip_labs: bool = False) -> List[tuple]:
+    """Return unique authored (source, output category, basename) records."""
+    candidates = set(module_path.glob("*.md"))
+    for folder in ("assignments", "resources"):
+        candidates.update((module_path / folder).glob("*.md"))
+    candidates.update(
+        f
+        for f in find_markdown_files(module_path)
+        if f.name.startswith(config.SAMPLE_FILE_PREFIX)
+        and "output" not in f.relative_to(module_path).parts
+    )
+    records = []
+    destinations = set()
+    for source in sorted(candidates):
+        if source.name.startswith(("README", "AGENTS")):
+            continue
+        name = source.name
+        if "assignment" in name or source.parent.name == "assignments":
+            category = "assignments"
+        elif "lab-protocol" in name or name == "lab.md":
+            category = "lab-protocols"
+        elif "lecture-content" in name or name == "module.md":
+            category = "lecture-content"
+        elif (
+            "study-guide" in name
+            or name in ("questions.md", "practice_quiz.md")
+            or any(pattern in name for pattern in config.CONTENT_TYPE_PATTERNS)
+        ):
+            category = "study-guides"
+        else:
+            continue
+        if skip_labs and category == "lab-protocols":
+            continue
+        require_contained(source, module_path)
+        base = source.stem
+        if not base.startswith((module_path.name, "module-")):
+            base = f"{module_path.name}-{base}"
+        if (category, base) in destinations:
+            raise ValueError(f"Conflicting module output: {category}/{base}")
+        destinations.add((category, base))
+        records.append((source, category, base))
+    return records
+
+
+def module_artifacts(
+    module_path: Path,
+    formats: List[str],
+    *,
+    output_dir: Optional[Path] = None,
+    skip_labs: bool = False,
+) -> List[dict]:
+    formats = get_formats_to_process(",".join(formats))
+    output = output_dir if output_dir is not None else module_path / "output"
+    return [
+        {
+            "source": source,
+            "destination": output / category / f"{base}.{fmt}",
+            "kind": "module",
+            "category": category,
+            "format": fmt,
+            "module": module_path,
+        }
+        for source, category, base in module_sources(module_path, skip_labs)
+        for fmt in formats
+    ]
+
+
+def syllabus_artifacts(
+    course_path: Path, formats: List[str], course_id: Optional[str] = None
+) -> List[dict]:
+    identity = course_id or resolve_course_id(course_path)
+    reg = config.COURSE_REGISTRY.get(identity, {}) if identity is not None else {}
+    syllabus = course_path / reg.get("syllabus_location", "syllabus")
+    # File-style syllabi are copied at publication, not rendered by this producer.
+    if not syllabus.is_dir():
+        return []
+    return document_artifacts(syllabus, syllabus / "output", formats, "syllabus")
+
+
+def document_artifacts(
+    source_dir: Path, output_dir: Path, formats: List[str], kind: str
+) -> List[dict]:
+    return [
+        {
+            "source": source,
+            "destination": output_dir / f"{source.stem}.{fmt}",
+            "kind": kind,
+            "format": fmt,
+        }
+        for source in sorted(source_dir.glob("*.md"))
+        if not source.name.startswith(("README", "AGENTS"))
+        for fmt in formats
+    ]
+
+
+def lab_artifacts(
+    course_path: Path,
+    formats: List[str],
+    course_id: Optional[str] = None,
+    max_lab: Optional[int] = None,
+) -> List[dict]:
+    if max_lab is not None and (type(max_lab) is not int or max_lab < 1):
+        raise ValueError("Lab limit must be a positive integer")
+    identity = course_id or resolve_course_id(course_path)
+    reg = config.COURSE_REGISTRY.get(identity, {}) if identity is not None else {}
+    base = (
+        course_path / "course"
+        if reg.get("has_course_subdir", (course_path / "course").is_dir())
+        else course_path
+    )
+    labs = base / "labs"
+    records = []
+    for source in sorted(labs.glob("*.md")):
+        if source.name.startswith(("README", "AGENTS")):
+            continue
+        if max_lab is not None:
+            match = re.match(r"lab-?(\d+)", source.stem, re.IGNORECASE)
+            if match is None:
+                raise ValueError(f"Cannot apply numeric lab limit to {source}")
+            if int(match.group(1)) > max_lab:
+                continue
+        for fmt in formats:
+            if fmt in ("pdf", "html"):
+                records.append(
+                    {
+                        "source": source,
+                        "destination": labs / "output" / fmt / f"{source.stem}.{fmt}",
+                        "kind": "lab",
+                        "format": fmt,
+                    }
+                )
+    return records
+
+
+def practice_artifacts(course_path: Path, formats: List[str]) -> List[dict]:
+    if "pdf" not in formats:
+        return []
+    base = course_path / "course" if (course_path / "course").is_dir() else course_path
+    source = base / "practice_tests"
+    return document_artifacts(source, source / "output", ["pdf"], "practice")
+
+
+def plan_course(
+    course_path: Path,
+    course_name: str,
+    formats: List[str],
+    *,
+    course_id: Optional[str] = None,
+    module_filter: Optional[int] = None,
+    unit_filter: Optional[str] = None,
+    max_module: Optional[int] = None,
+    max_lab: Optional[int] = None,
+    generate_website: bool = True,
+    skip_labs: bool = False,
+) -> dict:
+    """One source-derived manifest for cleanup, generation and validation."""
+    formats = get_formats_to_process(",".join(formats))
+    modules = select_modules(course_path, course_id, module_filter, unit_filter, max_module)
+    artifacts = []
+    for module in modules:
+        if not module_sources(module):
+            raise ValueError(f"No authored renderable sources in {module}")
+        artifacts.extend(module_artifacts(module, formats, skip_labs=skip_labs))
+        if generate_website:
+            artifacts.append(
+                {
+                    "source": module,
+                    "destination": module / "output/website/index.html",
+                    "kind": "website",
+                    "format": "html",
+                    "module": module,
+                }
+            )
+    if module_filter is None and unit_filter is None:
+        artifacts.extend(syllabus_artifacts(course_path, formats, course_id))
+        if not skip_labs:
+            artifacts.extend(lab_artifacts(course_path, formats, course_id, max_lab))
+        artifacts.extend(practice_artifacts(course_path, formats))
+    destinations = set()
+    for artifact in artifacts:
+        require_contained(artifact["source"], course_path)
+        destination = require_contained(artifact["destination"], course_path)
+        if destination in destinations:
+            raise ValueError(f"Conflicting generated destination: {destination}")
+        if destination.exists() and not destination.is_file():
+            raise ValueError(f"Generated destination is not a regular file: {destination}")
+        destinations.add(destination)
+    return {
+        "course": course_name,
+        "course_id": course_id,
+        "path": course_path,
+        "formats": formats,
+        "modules": modules,
+        "artifacts": artifacts,
+        "include_course_extras": module_filter is None and unit_filter is None,
+    }
+
+
+def plan_generation(
+    repo_root: Path,
+    courses: List[tuple],
+    formats: List[str],
+    *,
+    max_modules: Optional[dict] = None,
+    max_labs: Optional[dict] = None,
+    **selection: Any,
+) -> List[dict]:
+    if not courses:
+        raise ValueError("No courses selected")
+    ids = {entry[2] for entry in courses if len(entry) > 2}
+    for limits in (max_modules or {}, max_labs or {}):
+        if set(limits) - ids:
+            raise ValueError(f"Limits name unselected courses: {sorted(set(limits) - ids)}")
+    plans = []
+    owned = set()
+    for entry in courses:
+        relative, name = entry[:2]
+        cid = entry[2] if len(entry) > 2 else get_course_id_from_path(relative)
+        path = require_contained(repo_root / relative, repo_root)
+        plan = plan_course(
+            path,
+            name,
+            formats,
+            course_id=cid,
+            max_module=(max_modules or {}).get(cid),
+            max_lab=(max_labs or {}).get(cid),
+            **selection,
+        )
+        for artifact in plan["artifacts"]:
+            if artifact["destination"] in owned:
+                raise ValueError(f"Overlapping course selection: {artifact['destination']}")
+            owned.add(artifact["destination"])
+        plans.append(plan)
+    return plans
+
+
+def describe_generation(plans: List[dict]) -> str:
+    return "\n".join(
+        ["DRY RUN - admitted generated destinations:"]
+        + [str(a["destination"]) for p in plans for a in p["artifacts"]]
+        + ["Dry run complete. No files were generated or removed."]
+    )
+
+
 def generate_dry_run_report(
     repo_root: Path,
     courses: List[tuple],
@@ -440,93 +776,16 @@ def generate_dry_run_report(
     module_filter: Optional[int] = None,
     generate_website: bool = True,
     skip_labs: bool = False,
+    **selection: Any,
 ) -> str:
-    """Generate a dry-run report of what would be processed.
-
-    Args:
-        repo_root: Path to repository root
-        courses: List of (relative_path, display_name, course_id) tuples
-        formats: List of format strings
-        module_filter: Optional module number to filter
-        generate_website: Whether website generation is enabled
-        skip_labs: Whether lab rendering is skipped
-
-    Returns:
-        Report string describing what would be processed
-    """
-    from src.module_organization.utils import matches_module_number
-
-    lines = [
-        "",
-        "=" * 60,
-        "DRY RUN - Files that would be processed:",
-        "=" * 60,
-    ]
-
-    for entry in courses:
-        # Support both 2-tuple (legacy) and 3-tuple (new) formats
-        if len(entry) >= 3:
-            course_dir, course_name, course_id = entry[0], entry[1], entry[2]
-        else:
-            course_dir, course_name = entry[0], entry[1]
-            course_id = get_course_id_from_path(course_dir)
-        course_path = repo_root / course_dir
-        if not course_path.exists():
-            continue
-
-        lines.append(f"\n{course_name}:")
-
-        # Use registry-aware module discovery
-        course_id = get_course_id_from_path(course_dir)
-        modules = find_modules_for_course(course_path, course_id)
-
-        if module_filter is not None:
-            modules = [m for m in modules if matches_module_number(m.name, module_filter)]
-
-        for module_dir in modules:
-            md_files = list(module_dir.glob("*.md"))
-            assignment_files = (
-                list((module_dir / "assignments").glob("*.md"))
-                if (module_dir / "assignments").exists()
-                else []
-            )
-            lines.append(
-                f"  {module_dir.name}: {len(md_files)} root files, "
-                f"{len(assignment_files)} assignments"
-            )
-            lines.append(f"    Would generate: {', '.join(formats)}")
-            if generate_website:
-                lines.append("    Would generate: website/index.html")
-
-        # Check for syllabus using registry syllabus_location
-        reg = config.COURSE_REGISTRY.get(course_id, {}) if course_id else {}
-        syllabus_loc = reg.get("syllabus_location", "syllabus")
-        syllabus_path = course_path / syllabus_loc
-        if syllabus_path.exists() and syllabus_path.is_dir():
-            syllabus_files = list(syllabus_path.glob("*.md"))
-            lines.append(f"  Syllabus: {len(syllabus_files)} files")
-            lines.append(f"    Would generate: {', '.join(formats)}")
-        elif syllabus_path.exists() and syllabus_path.is_file():
-            lines.append("  Syllabus: 1 file")
-            lines.append(f"    Would generate: {', '.join(formats)}")
-        elif (course_path / "syllabus.md").exists():
-            # Fallback for courses without registry entry
-            lines.append("  Syllabus: 1 file")
-            lines.append(f"    Would generate: {', '.join(formats)}")
-
-        if not skip_labs:
-            # Check both course/labs (biology) and direct labs (Active Inference)
-            labs_dir = course_path / "course" / "labs"
-            if not labs_dir.exists():
-                labs_dir = course_path / "labs"
-            if labs_dir.exists():
-                lab_files = list(labs_dir.glob("lab-*.md")) + list(labs_dir.glob("lab.md"))
-                lab_formats = [f for f in formats if f in ("pdf", "html")]
-                lines.append(f"  Labs: {len(lab_files)} files")
-                lines.append(
-                    f"    Would generate: "
-                    f"{', '.join(lab_formats) if lab_formats else 'none (no compatible formats)'}"
-                )
-
-    lines.append("\nDry run complete. No files were generated.")
-    return "\n".join(lines)
+    return describe_generation(
+        plan_generation(
+            repo_root,
+            courses,
+            formats,
+            module_filter=module_filter,
+            generate_website=generate_website,
+            skip_labs=skip_labs,
+            **selection,
+        )
+    )

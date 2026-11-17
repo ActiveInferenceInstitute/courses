@@ -229,10 +229,11 @@ All code in this software uses real methods and implementations. No mocks, stubs
 
 ## Test Coverage
 
-- **1,029 tests collected** (verify with `uv run pytest --collect-only`); the offline gate
-  runs 995 of them (34 internet/API/whisper-marked tests deselected), ~75% source coverage.
-  Generated counts live in [`../docs/_generated/GATE_METRICS.md`](../docs/_generated/GATE_METRICS.md).
-- Tests cover all major functionality across 21 modules
+- Counts and source-bound coverage live in
+  [`../docs/_generated/GATE_METRICS.md`](../docs/_generated/GATE_METRICS.md).
+  Preserve historical measurements; do not treat them as fresh acceptance.
+- Focused behavior and remaining full-network/GNN-origin limits are recorded in
+  the [run guide](../docs/RUN_GUIDE.md).
 - Run tests with: `uv run pytest tests/ -v`
 - Measure coverage with: `uv run pytest --cov=src --cov-report=html`
 

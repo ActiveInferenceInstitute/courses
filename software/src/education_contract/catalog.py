@@ -83,7 +83,7 @@ def read_objectives(module_path: Path) -> list[str]:
     return statements
 
 
-def read_glossary(glossary_path: Path) -> list[dict[str, Any]]:
+def read_glossary(glossary_path: Path, *, repo_root: Path = ROOT) -> list[dict[str, Any]]:
     """Return the bold-bullet glossary entries, in file order."""
     terms: list[dict[str, Any]] = []
     seen: set[str] = set()
@@ -101,14 +101,16 @@ def read_glossary(glossary_path: Path) -> list[dict[str, Any]]:
                 "term_id": term_id,
                 "term": term,
                 "definition": match.group("definition").strip(),
-                "source": str(glossary_path.relative_to(ROOT)),
+                "source": str(glossary_path.relative_to(repo_root)),
             }
         )
     return terms
 
 
-def read_units(course_dir: Path, course_id: str) -> list[dict[str, Any]]:
+def read_units(course_dir: Path, course_id: str, *, repo_root: Path = ROOT) -> list[dict[str, Any]]:
     """Return one unit per ``<discipline>/NN_<topic>/module.md`` under ``course_dir``."""
+    from .registry import contained_member_path
+
     units: list[dict[str, Any]] = []
     for discipline in sorted(path for path in course_dir.iterdir() if path.is_dir()):
         if not DIR_RE.match(discipline.name):
@@ -120,6 +122,7 @@ def read_units(course_dir: Path, course_id: str) -> list[dict[str, Any]]:
             module_path = module_dir / "module.md"
             if not module_path.is_file():
                 continue
+            contained_member_path(repo_root, module_path.relative_to(repo_root).as_posix())
             objectives = read_objectives(module_path)
             if not objectives:
                 raise ValueError(f"{module_path} has no numbered learning objectives")
@@ -138,21 +141,26 @@ def read_units(course_dir: Path, course_id: str) -> list[dict[str, Any]]:
                 for index, statement in enumerate(objectives, start=1)
             ]
             unit["prerequisites"] = []
-            unit["source_path"] = str(module_path.relative_to(ROOT))
+            unit["source_path"] = str(module_path.relative_to(repo_root))
             units.append(unit)
     return units
 
 
-def build_bundle(course: str) -> dict[str, Any]:
+def build_bundle(course: str, *, repo_root: Path = ROOT) -> dict[str, Any]:
     """Return the contract document for one course directory."""
-    course_dir = COURSE_DEVELOPMENT / course
+    from .registry import contained_member_path
+
+    course_dir = contained_member_path(repo_root, f"course_development/{course}")
     if not course_dir.is_dir():
         raise ValueError(f"no course directory at {course_dir}")
     course_id = _slug(course)
-    units = read_units(course_dir, course_id)
+    units = read_units(course_dir, course_id, repo_root=repo_root)
     if not units:
         raise ValueError(f"{course_dir} has no units in the <discipline>/NN_<topic> shape")
-    glossary_path = course_dir / "resources" / "glossary.md"
+    glossary_path = contained_member_path(
+        repo_root,
+        (course_dir / "resources/glossary.md").relative_to(repo_root).as_posix(),
+    )
     return {
         "schema": "education-contract/v1",
         "provenance": {
@@ -161,7 +169,9 @@ def build_bundle(course: str) -> dict[str, Any]:
         },
         "units": units,
         "prerequisite_edges": [],
-        "glossary": read_glossary(glossary_path) if glossary_path.is_file() else [],
+        "glossary": read_glossary(glossary_path, repo_root=repo_root)
+        if glossary_path.is_file()
+        else [],
     }
 
 

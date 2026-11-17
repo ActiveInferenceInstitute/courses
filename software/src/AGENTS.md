@@ -1,6 +1,6 @@
 # Source Code Technical Documentation
 
-**Test Coverage: 1,014 tests collected; ~995 pass in CI (34 internet/API/whisper tests deselected); ~75% source coverage**
+Test counts and coverage belong in [generated facts](../../docs/_generated/GATE_METRICS.md), qualified by their source/runtime provenance; see the [run guide](../../docs/RUN_GUIDE.md) for acceptance limits.
 
 ## Code Structure
 

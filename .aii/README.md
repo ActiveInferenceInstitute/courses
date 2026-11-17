@@ -1,7 +1,7 @@
 # .aii — InstituteOS sidecar
 
-This folder is the committed [InstituteOS](https://github.com/ActiveInferenceInstitute/InstituteOS)
-sidecar for **`ActiveInferenceInstitute/courses`**. It records curated institutional metadata that the GitHub
+This folder is the committed InstituteOS sidecar for **`ActiveInferenceInstitute/courses`**.
+It records curated institutional metadata that the GitHub
 API cannot provide — identity, category, maturity, ecosystem relations, key artifacts,
 provenance, and portable tasks — so InstituteOS can federate a unified view across
 Institute repositories without touching this project's own content. The schema is
@@ -39,7 +39,7 @@ Institute repositories without touching this project's own content. The schema i
 | Task | Command | Working directory | Description |
 | --- | --- | --- | --- |
 | `inventory` | `git ls-files` | `.` | List tracked files. |
-| `test` | `uv run pytest tests/ -m "not requires_internet and not requires_api and not requires_whisper"` | `software` | Run the offline test suite the CI gate uses. |
+| `test` | `./run.sh test` | `.` | Run the declared offline gate; not full-network or scientific acceptance. |
 
 ## Links
 

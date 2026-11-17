@@ -4,6 +4,8 @@ Uses real function calls with temporary file structures — no mocks.
 Tests use flat module structure (AIF convention).
 """
 
+import pytest
+
 from src.batch_processing.main import (
     process_course_modules,
 )
@@ -31,11 +33,8 @@ class TestProcessCourseModules:
         assert "module-02" in module_names
 
     def test_process_course_modules_missing_dir(self, temp_dir):
-        """Test processing with missing course directory."""
-        result = process_course_modules(temp_dir, "Test Course")
-
-        assert result["modules"] == []
-        assert result["errors"] == []
+        with pytest.raises(ValueError, match="No modules"):
+            process_course_modules(temp_dir, "Test Course", formats=["md"])
 
     def test_process_course_modules_filter(self, temp_dir):
         """Test filtering modules by module number."""
@@ -56,6 +55,5 @@ class TestProcessCourseModules:
         mod1 = temp_dir / "01_systems"
         mod1.mkdir()
 
-        result = process_course_modules(temp_dir, "Test Course", module_filter=99, formats=["txt"])
-
-        assert len(result["modules"]) == 0
+        with pytest.raises(ValueError, match="No modules"):
+            process_course_modules(temp_dir, "Test Course", module_filter=99, formats=["txt"])

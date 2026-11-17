@@ -26,10 +26,14 @@ sys.path.append(str(software_dir))
 
 from src.batch_processing.config import COURSE_REGISTRY  # noqa: E402
 
-from src.validation import (  # noqa: E402
-    validate_outputs,
+from src.batch_processing.utils import (  # noqa: E402
+    get_courses_to_process,
+    get_formats_to_process,
+    parse_limits,
+    plan_generation,
 )
-from src.validation.config import DEFAULT_REQUIRED_FORMATS, ALL_SUPPORTED_FORMATS  # noqa: E402
+from src.validation.main import validate_plan  # noqa: E402
+from src.validation.config import DEFAULT_REQUIRED_FORMATS  # noqa: E402
 
 # Configure logging
 logging.basicConfig(
@@ -41,18 +45,7 @@ logger = logging.getLogger(__name__)
 
 
 def parse_formats(formats_str: Optional[str]) -> Optional[List[str]]:
-    """Parse comma-separated formats string into list."""
-    if not formats_str:
-        return None
-    formats = [f.strip().lower() for f in formats_str.split(",")]
-
-    # Validate formats
-    invalid = [f for f in formats if f not in ALL_SUPPORTED_FORMATS]
-    if invalid:
-        logger.warning(f"Ignoring unsupported formats: {invalid}")
-        return [f for f in formats if f in ALL_SUPPORTED_FORMATS]
-
-    return formats
+    return None if formats_str is None else get_formats_to_process(formats_str)
 
 
 def parse_args(argv=None) -> argparse.Namespace:
@@ -71,70 +64,43 @@ def parse_args(argv=None) -> argparse.Namespace:
     )
     parser.add_argument("--json", action="store_true", help="Output results as JSON")
     parser.add_argument("--verbose", action="store_true", help="Show detailed module-level results")
+    parser.add_argument("--repo-root", type=Path, default=software_dir.parent)
+    parser.add_argument("--module", type=int)
+    parser.add_argument("--unit")
+    parser.add_argument("--max-module", action="append", default=[])
+    parser.add_argument("--max-lab", action="append", default=[])
+    parser.add_argument("--no-website", action="store_true")
+    parser.add_argument("--skip-labs", action="store_true")
 
     return parser.parse_args(argv)
 
 
 def main(argv=None) -> int:
     args = parse_args(argv)
-
-    repo_root = software_dir.parent
-
-    # Determine courses to validate
-    courses_to_validate = []
-    if args.course == "all":
-        courses_to_validate = list(COURSE_REGISTRY.keys())
-    else:
-        courses_to_validate = [args.course]
-
-    # Parse output formats
-    required_formats = parse_formats(args.formats)
-    if not required_formats:
-        required_formats = DEFAULT_REQUIRED_FORMATS
-
-    logger.info(f"Validating courses: {courses_to_validate}")
-    logger.info(f"Checking formats: {required_formats}")
-
-    # Run validation for each course
-    all_results = []
-    any_failed = False
-
-    for course_name in courses_to_validate:
-        course_path = repo_root / "course_development" / course_name
-        if not course_path.exists():
-            logger.error(f"Course path not found: {course_path}")
-            any_failed = True
-            continue
-
-        results = validate_outputs(str(course_path), formats=required_formats)
-        all_results.append(results)
-
-        if not results["valid"]:
-            any_failed = True
-
-        # Check if labs have issues
-        if results.get("issues"):
-            any_failed = True
-
-    # Generate report/summary
+    try:
+        active = parse_formats(args.formats)
+        plans = plan_generation(
+            args.repo_root,
+            get_courses_to_process(args.course),
+            DEFAULT_REQUIRED_FORMATS if active is None else active,
+            module_filter=args.module,
+            unit_filter=args.unit,
+            max_modules=parse_limits(args.max_module),
+            max_labs=parse_limits(args.max_lab),
+            generate_website=not args.no_website,
+            skip_labs=args.skip_labs,
+        )
+        results = [validate_plan(plan) for plan in plans]
+    except (ValueError, OSError) as error:
+        results = [{"course": args.course, "valid": False, "issues": [str(error)]}]
     if args.json:
-        print(json.dumps(all_results, indent=2))
+        print(json.dumps(results, indent=2))
     else:
-        for results in all_results:
-            print(f"\nValidation for {results['course']}:")
-            print(f"  Valid: {results['valid']}")
-            print(f"  Modules Checked: {results['modules_checked']}")
-            print(f"  Modules Valid: {results['modules_valid']}")
-            if results.get("issues"):
-                print("  Issues:")
-                for issue in results["issues"]:
-                    print(f"    - {issue}")
-
-    # Exit with error if any validation failed
-    if any_failed:
-        return 1
-
-    return 0
+        for result in results:
+            print(f"{result['course']}: {'valid' if result['valid'] else 'FAILED'}")
+            for issue in result["issues"]:
+                print(f"  {issue}")
+    return 0 if all(result["valid"] for result in results) else 1
 
 
 if __name__ == "__main__":

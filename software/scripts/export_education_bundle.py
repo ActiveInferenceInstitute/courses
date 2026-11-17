@@ -22,6 +22,7 @@ SOFTWARE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(SOFTWARE))
 
 from src.education_contract import build_bundle, render_bundle  # noqa: E402
+from src.education_contract.registry import contained_member_path  # noqa: E402
 
 ROOT = SOFTWARE.parent
 DEFAULT_COURSE = "active_inference"
@@ -33,14 +34,22 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--course", default=DEFAULT_COURSE, help="directory under course_development/"
     )
-    parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--out", type=Path)
+    parser.add_argument("--repo-root", type=Path, default=ROOT)
     parser.add_argument(
         "--check", action="store_true", help="do not write; fail if the file differs"
     )
     args = parser.parse_args(argv)
 
-    rendered = render_bundle(build_bundle(args.course))
-    destination = args.out if args.out.is_absolute() else ROOT / args.out
+    try:
+        root = args.repo_root.resolve()
+        rendered = render_bundle(build_bundle(args.course, repo_root=root))
+        output = args.out or Path("specs/education/active-inference.json")
+        relative = output.relative_to(root) if output.is_absolute() else output
+        destination = contained_member_path(root, relative.as_posix())
+    except (OSError, ValueError) as error:
+        print(f"Cannot export education bundle: {error}", file=sys.stderr)
+        return 1
 
     if args.check:
         if not destination.is_file():
@@ -48,7 +57,7 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         current = destination.read_text(encoding="utf-8")
         if current == rendered:
-            print(f"{destination.relative_to(ROOT)} is current")
+            print(f"{destination.relative_to(root)} is current")
             return 0
         diff = list(
             difflib.unified_diff(
@@ -60,12 +69,12 @@ def main(argv: list[str] | None = None) -> int:
             )
         )
         print("".join(diff[:80]), end="")
-        print(f"\n{destination.relative_to(ROOT)} is stale; run without --check to rewrite it")
+        print(f"\n{destination.relative_to(root)} is stale; run without --check to rewrite it")
         return 1
 
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(rendered, encoding="utf-8")
-    print(f"wrote {destination.relative_to(ROOT)} for course_development/{args.course}")
+    print(f"wrote {destination.relative_to(root)} for course_development/{args.course}")
     return 0
 
 

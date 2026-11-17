@@ -14,8 +14,8 @@ The lead repository is `courses`. Members keep their own gate; nothing here repl
 
 ## 1. The four records
 
-One document per repository, `education-contract/v1`, validated against the canonical
-schema. A worked example is
+One or more declared `education-contract/v1` bundles per repository, each validated
+against the canonical schema before semantic checks. A worked example is
 [`specs/education/examples/reference.json`](../../specs/education/examples/reference.json);
 this repository's own bundle is
 [`specs/education/active-inference.json`](../../specs/education/active-inference.json).
@@ -72,7 +72,7 @@ prerequisite graph that `Active_Skillference` renders. A unit may carry both.
 | Concern | Canonical home | Why there | What a member does |
 | --- | --- | --- | --- |
 | Document schema (all four records) | [`specs/education/schema.json`](../../specs/education/schema.json) in `courses` | The lead owns the multi-course corpus and the only Python engine with a test gate. | Vendors a byte-identical copy at `specs/education/schema.json`. |
-| Schema evaluation | [`software/src/education_contract/schema.py`](../../software/src/education_contract/schema.py) | Reads the schema file at call time; no second copy of the rules. | Calls it, or vendors it with the schema. |
+| Schema evaluation | [`software/src/education_contract/schema.py`](../../software/src/education_contract/schema.py) | Reads the schema at call time; no second rule copy. | Uses the qualified producer through its explicit-root API. |
 | Coherence rules (DAG, edge/prerequisite agreement, term resolution) | [`software/src/education_contract/rules.py`](../../software/src/education_contract/rules.py) | JSON Schema cannot express them; one implementation for the group. | Runs it over its own bundle before committing. |
 | Prerequisite graph semantics and rendering | `Active_Skillference` `src/curriculum/model.py` and `src/curriculum/graph.py` | It is the only member with a validated, rendered, exported prerequisite DAG (`CurriculumGraph.validate()`, `topological_order()`, `prerequisite_edges()`). | Exports its graph to `education-contract/v1`; the lead validates the export. |
 | Glossary term corpus | `cognitive` `knowledge_base/glossary.md` | Largest authored term set in the group, with typed frontmatter and `[[wikilink]]` identity. | Emits terms with `term_id` equal to its wikilink target. |
@@ -119,19 +119,18 @@ member's documentation hub; `manuscript` is the command that renders its manuscr
 | `fundamentals` | `./gate.sh {lint,fast,full,docs,validators,manuscript-check,manuscript,gnn,all}` (`gate.sh:166`) | `docs/README.md` (no `documentation-index.md`) | `./gate.sh manuscript` → `scripts/render_manuscript.py` | `specs/gnn-pin.json` — `v5.0.3`, `commit` |
 | `GEN24` | `./run.sh {lint,test-fast,docs,gnn,test-full,fast,all}` (`run.sh:90`) | `docs/README.md`, `docs/documentation-index.md` | none | `NHIM/gnn-pin.json` — `v5.0.3`, `release` |
 | `gen25` | `./run.sh {lint,links,counts,gnn,check,all,measure}` (`run.sh:136`) | `docs/README.md`, `docs/documentation-index.md` | none | `.github/gnn-pin.json` — `v5.0.3`, `8f293d9` |
-| `Parr_et_al_2022_ActInf_Textbook` | `./run.sh {lint,plaintext,docs,vfe,gnn,fast,full,report}` (`run.sh:16`) | `docs/README.md`, `docs/documentation-index.md` | none (`Chapters/` notebooks, `TextbookContent/PlainText`) | `.github/gnn-pin.json` — `v5.0.3`, `8f293d9` |
+| `Parr_et_al_2022_ActInf_Textbook` | `./run.sh --list` includes hermetic `tests` and explicit-producer `education`; `full` requires `COURSES_ROOT` | `docs/README.md`, `docs/documentation-index.md` | none (`Chapters/` notebooks, `TextbookContent/PlainText`) | `.github/gnn-pin.json` — unchanged `v5.0.3` |
 | `ActiveInferenceImplementations` | `./run.sh {setup,lint,test-fast,test,docs,gnn,notebooks,gate}` (`run.sh:157`) | `docs/README.md`, `docs/documentation-index.md` | none | `specs/gnn-pin.json` — `v5.0.3`, `commit` |
 | `ActiveInferenceCategoryTheory` | `./run.sh {docs,links,metadata,index,gnn,setup,all,measure}` (`run.sh:37`) | `docs/README.md`, `docs/documentation-index.md` | none | `.github/gnn-pin.json` — `v5.0.3`, `8f293d9` |
 | `Symposium` | `./gate.sh {lint,test,test-fast,build,program,site,docs,gnn,list,all}` (`gate.sh:80`) | `docs/README.md`, `docs/documentation-index.md` | none | `.github/gnn-pin.json` — `v5.0.3`, `8f293d9` |
 | `Start` | `uv run start-gate {lint,types,fast,full,docs,numbers,gnn,gnn-exemplar,artifacts,smoke,audit,lock,smoke-macos}` (`scripts/gate.py:65`, `pyproject.toml:73`) | `docs/README.md`, `docs/documentation-index.md` | none | `.github/gnn-pin.json` — `v5.0.3`, `8f293d9` |
 | `Active_Skillference` | `./gates.sh {default,all,record,sync,lint,types,fast,test,artifacts,checks,docs,gnn,render}` (`gates.sh:107`) | `docs/README.md`, `docs/documentation-index.md` | `./gates.sh render` → `scripts/render_manuscript.py` | none — `GNN_ROOT` names a prepared checkout (`gates.sh:89`) |
 
-Every member carries an `.aii/config.yaml` sidecar at `aii-sidecar/v1`. Ten of the eleven
-list `docs/INTEGRATION.md` under `docs:`, and that file exists in none of them; `gen25`,
-`ActiveInferenceImplementations`, `ActiveInferenceCategoryTheory` and `Symposium` also list
-`docs/AGENTS.md`, which is absent in those four. `Parr_et_al_2022_ActInf_Textbook` is the
-exception: ten entries, every one present. The sidecar's document list is unvalidated in
-every member — a defect this contract records rather than inherits.
+Every member carries an `.aii/config.yaml` sidecar. The canonical platform reader
+resolves `docs[]` relative to `.aii/`, whereas `artifacts[].path` is repository-relative.
+Do not prepend `.aii/` to an already sidecar-relative document or infer missing
+paths from a repository-root lookup. Generated projections belong to the
+source-bound canonical renderer, not a handwritten replacement.
 
 ---
 
@@ -179,16 +178,35 @@ member fails the gate; `--strict` also fails a pending one. The digest is the dr
 edit the canonical schema and every member that has not re-vendored it is reported as
 diverged, with the expected and actual digests.
 
+### Explicit source and member roots
+
+`check_member(member_root, spec, *, canonical_schema, repo_root=None)` accepts
+`repo_root` for the actual member checkout; it does not infer a sibling name.
+Legacy `member_root/spec.id` layout remains the explicit alternative.
+`check_contract(..., member_paths={member_id: checkout})` selects individual members.
+The CLI accepts repeated `--member-path ID=PATH`; `--repo-root` selects the
+registry/export owner. Relative arguments retain caller-relative meaning.
+
+Pointers, schema copies and every bundle must stay inside their member checkout.
+Schema admission precedes semantic rules; group EC120/EC121 checks see every
+bundle, not only the first. Malformed, missing or diverged inputs fail with
+structured diagnostics. `./run.sh contract --json` emits one complete JSON value
+covering checker and exporter; failure in either phase is nonzero.
+
+The textbook adapter now uses this actual producer and passed its explicit-root
+member controls and real CLI. This does not author missing topics, objectives,
+glossary definitions or prerequisite edges for any other member.
+
 ### Migration step per member
 
 | Member | Migration step |
 | --- | --- |
-| `courses` | Done for `active_inference`: `specs/education/active-inference.json` is generated by `software/scripts/export_education_bundle.py --course active_inference` and checked by `--check`. Remaining: run the extractor for the other six spine-shaped courses (`active_inference_101`, `_401`, `_es`, `_family`, `_hs`, `_ms`), add each output to `bundles`, and author `prerequisite_edges` for the chain that `resources/learning_pathways.md` states as prose. `domains/` needs an authored `topic` per unit before it can be transcribed. |
+| `courses` | The existing generated core bundle remains. Additional bundles require owner-authored objectives, explicit topics and prerequisite-edge payloads with provenance; directory order is not authority to invent them. |
 | `cognitive` | Fix `run.sh` to exec an existing gate (or delete it and document the CI arms). Emit `specs/education/cognitive.json` from `knowledge_base/`: one unit per knowledge-base page, `glossary_terms` from `knowledge_base/glossary.md` with `term_id` equal to the `[[wikilink]]` target, and `prerequisite_edges` from `knowledge_base/learning_roadmap.md`. |
 | `fundamentals` | Emit `specs/education/fundamentals.json`: one unit per `chapters/chapter_NN`, objectives from the chapter source, terms from `manuscript/98_symbols_glossary.md`. Add `./gate.sh contract` calling the vendored checker. |
 | `GEN24` | Emit `specs/education/gen24.json` for the `GEN-24/` and `NHIM/` units; declare `topic` only where the unit maps to the spine. Normalize `NHIM/gnn-pin.json` to the group's pin spelling in the same change. |
 | `gen25` | Emit `specs/education/gen25.json` for the generated course units; `gen25` has no test arm, so the contract check is its first executable content check. |
-| `Parr_et_al_2022_ActInf_Textbook` | Emit `specs/education/parr-2022.json`: one unit per `Chapters/` notebook and per `TextbookContent/PlainText` chapter, objectives from the chapter text, `prerequisite_edges` from the book's own chapter order. |
+| `Parr_et_al_2022_ActInf_Textbook` | Adopted authored chapter/notebook bundle; real explicit-root consumer passed. Empty glossary remains an author-held limit; hosted qualified-producer delivery remains open. |
 | `ActiveInferenceImplementations` | Emit `specs/education/implementations.json`: one unit per notebook, `objectives` from the notebook's first markdown cell, `prerequisite_edges` from the notebook's stated dependencies. |
 | `ActiveInferenceCategoryTheory` | Emit `specs/education/category-theory.json` from `IntroAdventureSyllabus.md` and `gnn/`; the syllabus is already a learning plan, so its sections become units. |
 | `Symposium` | Emit `specs/education/symposium.json` from the `program` arm's session data; sessions are units, `prerequisite_edges` stay empty unless the program states them. |

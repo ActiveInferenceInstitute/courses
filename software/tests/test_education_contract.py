@@ -355,7 +355,7 @@ def test_registry_digest_mismatch_is_reported(tmp_path: Path) -> None:
     path.write_text(json.dumps(registry_data), encoding="utf-8")
     report = check_contract(
         load_registry(path),
-        member_root=ROOT.parent,
+        member_root=tmp_path,
         canonical_schema=DEFAULT_SCHEMA_PATH,
         repo_root=ROOT,
     )
@@ -363,13 +363,14 @@ def test_registry_digest_mismatch_is_reported(tmp_path: Path) -> None:
     assert not report.ok
 
 
-def test_live_registry_reports_this_repository_as_adopted() -> None:
+def test_live_registry_reports_this_repository_as_adopted(tmp_path: Path) -> None:
     """The lead repository is a member of its own contract and must satisfy it."""
     report = check_contract(
         load_registry(REGISTRY),
-        member_root=ROOT.parent,
+        member_root=tmp_path,
         canonical_schema=DEFAULT_SCHEMA_PATH,
         repo_root=ROOT,
+        member_paths={"courses": ROOT},
     )
     assert report.registry_issues == ()
     courses = next(member for member in report.members if member.id == "courses")
@@ -416,3 +417,189 @@ def test_vendored_copy_helper_round_trips(tmp_path: Path) -> None:
     shutil.copyfile(DEFAULT_SCHEMA_PATH, target)
     assert target.read_bytes() == DEFAULT_SCHEMA_PATH.read_bytes()
     assert schema_digest(target) == schema_digest()
+
+
+def test_explicit_member_root_uses_actual_isolated_checkout(tmp_path: Path, reference: dict) -> None:
+    actual = tmp_path / "unrelated-isolated-lane-name"
+    _adopt(actual, schema_bytes=DEFAULT_SCHEMA_PATH.read_bytes(), digest=schema_digest(), bundle=reference)
+    guessed = tmp_path / "member"
+    guessed.mkdir()
+    (guessed / "education-contract.json").write_text("not JSON")
+    state = check_member(
+        tmp_path, MemberSpec("member", "ActiveInferenceInstitute/member"),
+        canonical_schema=DEFAULT_SCHEMA_PATH, repo_root=actual,
+    )
+    assert state.state == ADOPTED, state.issues
+    direct = check_member(
+        None, MemberSpec("member", "ActiveInferenceInstitute/member"),
+        canonical_schema=DEFAULT_SCHEMA_PATH, repo_root=actual,
+    )
+    assert direct.state == ADOPTED
+    assert direct.bundles == ("specs/education/bundle.json",)
+    assert (guessed / "education-contract.json").read_text() == "not JSON"
+
+
+@pytest.mark.parametrize("field", ["units", "prerequisite_edges", "glossary"])
+def test_malformed_bundle_does_not_abort_valid_peer(tmp_path: Path, reference: dict, field: str) -> None:
+    from scripts.check_education_contract import run_bundles
+
+    malformed = copy.deepcopy(reference)
+    malformed[field] = None
+    bad = tmp_path / "malformed.json"
+    good = tmp_path / "valid.json"
+    bad.write_text(json.dumps(malformed))
+    good.write_text(json.dumps(reference))
+    code, report = run_bundles([bad, good], DEFAULT_SCHEMA_PATH)
+    assert code == 1
+    assert report["ok"] is False
+    assert [bundle["ok"] for bundle in report["bundles"]] == [False, True]
+    assert report["bundles"][0]["issues"]
+
+
+def test_null_prerequisite_is_schema_failure_not_rule_crash(tmp_path: Path, reference: dict) -> None:
+    actual = tmp_path / "isolated-member"
+    malformed = copy.deepcopy(reference)
+    malformed["units"][0]["prerequisites"] = None
+    _adopt(actual, schema_bytes=DEFAULT_SCHEMA_PATH.read_bytes(), digest=schema_digest(), bundle=malformed)
+    state = check_member(
+        None, MemberSpec("member", "ActiveInferenceInstitute/member"),
+        canonical_schema=DEFAULT_SCHEMA_PATH, repo_root=actual,
+    )
+    assert state.state == DIVERGED
+    assert state.issues and state.documents == ()
+
+
+@pytest.mark.parametrize("field", ["pointer", "schema_path", "bundle"])
+@pytest.mark.parametrize("escape", ["relative", "absolute", "symlink"])
+def test_member_adoption_paths_are_contained_in_explicit_root(
+    tmp_path: Path, reference: dict, field: str, escape: str,
+) -> None:
+    actual = tmp_path / "isolated"
+    _adopt(actual, schema_bytes=DEFAULT_SCHEMA_PATH.read_bytes(), digest=schema_digest(), bundle=reference)
+    outside = tmp_path / "outside.json"
+    outside.write_text(json.dumps(reference))
+    if escape == "relative":
+        candidate = "../outside.json"
+    elif escape == "absolute":
+        candidate = str(outside)
+    else:
+        (actual / "linked.json").symlink_to(outside)
+        candidate = "linked.json"
+    if field == "bundle":
+        pointer = load(actual / "education-contract.json")
+        pointer["bundles"] = [candidate]
+        (actual / "education-contract.json").write_text(json.dumps(pointer))
+        spec = MemberSpec("member", "ActiveInferenceInstitute/member")
+    else:
+        spec = MemberSpec("member", "ActiveInferenceInstitute/member", **{field: candidate})
+    before = outside.read_bytes()
+    state = check_member(None, spec, canonical_schema=DEFAULT_SCHEMA_PATH, repo_root=actual)
+    assert state.state == DIVERGED
+    assert state.issues
+    assert outside.read_bytes() == before
+
+
+def test_group_rules_see_every_member_bundle(tmp_path: Path, reference: dict) -> None:
+    from src.education_contract.registry import Registry
+
+    def document(identity, repository, definition):
+        value = copy.deepcopy(reference)
+        value["provenance"]["repository"] = repository
+        value["units"] = [copy.deepcopy(reference["units"][0])]
+        value["units"][0]["unit_id"] = identity
+        value["units"][0]["prerequisites"] = []
+        value["units"][0]["glossary_terms"] = [identity]
+        value["prerequisite_edges"] = []
+        value["glossary"] = [copy.deepcopy(reference["glossary"][0])]
+        value["glossary"][0].update(
+            term_id=identity, term=f"Concept {identity}", definition=definition,
+        )
+        return value
+
+    specs = []
+    paths = {}
+    for identity in ("alpha", "beta"):
+        repository = f"ActiveInferenceInstitute/{identity}"
+        root = tmp_path / f"actual-{identity}-lane"
+        first = document("shared", repository, f"Definition from {identity}.")
+        _adopt(root, schema_bytes=DEFAULT_SCHEMA_PATH.read_bytes(), digest=schema_digest(), bundle=first)
+        tail = root / "specs/education/tail.json"
+        tail.write_text(json.dumps(document(
+            f"{identity}-tail", repository, "A distinct concept defined in this member's second bundle.",
+        )))
+        pointer = load(root / "education-contract.json")
+        pointer["bundles"].append("specs/education/tail.json")
+        (root / "education-contract.json").write_text(json.dumps(pointer))
+        specs.append(MemberSpec(identity, repository))
+        paths[identity] = root
+    (tmp_path / "contract.md").write_text("Fixture contract document.")
+    registry = Registry(tmp_path / "registry.json", "education-contract/v1", schema_digest(),
+                        "contract.md", tuple(specs))
+    report = check_contract(registry, member_root=tmp_path / "unused-parent",
+                            canonical_schema=DEFAULT_SCHEMA_PATH, repo_root=tmp_path,
+                            member_paths=paths)
+    assert all(len(member.documents) == 2 for member in report.members)
+    assert all(member.state == ADOPTED for member in report.members)
+    assert {"EC120", "EC121"} <= codes(report.registry_issues)
+    assert report.ok is False
+
+
+@pytest.mark.parametrize("multi_bundle_owner", ["alpha", "beta"])
+@pytest.mark.parametrize("matching_bundle", [0, 1])
+def test_group_term_drift_checks_every_owner_definition(
+    tmp_path: Path, reference: dict, multi_bundle_owner: str, matching_bundle: int,
+) -> None:
+    """A peer matching either definition must not hide the other bundle's drift."""
+    from src.education_contract.registry import Registry
+
+    definitions = ("A definition of the shared concept.", "A different definition of that concept.")
+    specs = []
+    paths = {}
+    for identity in ("alpha", "beta"):
+        repository = f"ActiveInferenceInstitute/{identity}"
+        root = tmp_path / f"actual-{identity}-lane"
+        member_definitions = (
+            definitions if identity == multi_bundle_owner else (definitions[matching_bundle],)
+        )
+        for index, definition in enumerate(member_definitions):
+            document = copy.deepcopy(reference)
+            document["provenance"]["repository"] = repository
+            document["units"] = [copy.deepcopy(reference["units"][0])]
+            document["units"][0].update(
+                unit_id=f"{identity}-{index}", prerequisites=[],
+                glossary_terms=[reference["glossary"][0]["term_id"]],
+            )
+            document["prerequisite_edges"] = []
+            document["glossary"] = [copy.deepcopy(reference["glossary"][0])]
+            document["glossary"][0]["definition"] = definition
+            if index == 0:
+                _adopt(root, schema_bytes=DEFAULT_SCHEMA_PATH.read_bytes(),
+                       digest=schema_digest(), bundle=document)
+            else:
+                (root / "specs/education/tail.json").write_text(json.dumps(document))
+                pointer = load(root / "education-contract.json")
+                pointer["bundles"].append("specs/education/tail.json")
+                (root / "education-contract.json").write_text(json.dumps(pointer))
+        specs.append(MemberSpec(identity, repository))
+        paths[identity] = root
+    (tmp_path / "contract.md").write_text("Fixture contract document.")
+    registry = Registry(tmp_path / "registry.json", "education-contract/v1", schema_digest(),
+                        "contract.md", tuple(specs))
+    report = check_contract(registry, member_root=tmp_path / "unused-parent",
+                            canonical_schema=DEFAULT_SCHEMA_PATH, repo_root=tmp_path,
+                            member_paths=paths)
+    assert all(member.state == ADOPTED for member in report.members)
+    assert [len(member.documents) for member in report.members] == (
+        [2, 1] if multi_bundle_owner == "alpha" else [1, 2]
+    )
+    assert codes(report.registry_issues) == {"EC121"}
+    assert report.ok is False
+
+
+def test_duplicate_registry_identity_is_not_silently_overwritten(tmp_path: Path) -> None:
+    data = load(REGISTRY)
+    data["members"] = [data["members"][0], data["members"][0]]
+    path = tmp_path / "registry.json"
+    path.write_text(json.dumps(data))
+    with pytest.raises(ValueError, match="duplicate member"):
+        load_registry(path)

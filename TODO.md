@@ -72,6 +72,19 @@ counts measured on this date)
 
 - None from the earlier passes.
 
+### Bounded qualification — 2026-11-13
+
+- Source-mode GNN controls and the actual five-exemplar gate passed after a
+  file-path caller repair. Genuine installed-origin controls and hosted artifact
+  publication remain open; the pin is unchanged.
+- Earlier accepted scoped engine/education evidence is retained; the actual
+  textbook member now has explicit-root consumer proof.
+- Numbered domain totals are corrected without creating curricula. Missing
+  authored topic/prerequisite metadata, full-network tests, formatting/pin policy,
+  generated-output ownership/tracking and counting conventions remain owner-held.
+- Canonical sidecar `docs[]` paths are relative to `.aii/`; the proposed root-prefix
+  correction is rejected rather than introducing broken paths.
+
 ### Gate and documentation pass — 2026-11-12
 
 - [x] Added `run.sh`: one entry point, one command per arm (`lint`, `types`,
@@ -112,10 +125,8 @@ Open items from this pass:
   self-skip when unreachable. Until then, treat `test-full` as unproven and do
   not claim the full gate is green. See
   [`docs/RUN_GUIDE.md`](docs/RUN_GUIDE.md#known-red-arm--test-full).
-- [ ] `software/docs/AGENTS.md` still describes 18 files under `software/docs/`;
-  that remains accurate (re-counted 2026-11-12), but the repository-level
-  `docs/` tree is not mentioned there. Owner: whoever owns the two hubs; blocked
-  only on that cross-linking decision.
+- [x] Link the repository and engine documentation hubs reciprocally and replace
+  copied inventory claims with generated, source-qualified fact references.
 - [ ] `pre-commit` pins ruff `v0.9.0` while the project environment resolves
   ruff 0.14.x; the two can disagree on formatting. Not changed here. Owner:
   whoever next touches formatting; blocked on the pin bump itself, which needs a
@@ -172,21 +183,10 @@ Open items from this pass:
   job on the cutover pull request is a second witness. Local evidence stays the
   record of this pass because hosted runs here have failed within
   seconds (billing), so the evidence has to be local.
-- [ ] **Documented test counts drifted again after #28.** Nine surfaces still
-  quote 1,029 collected / 995 offline. `uv run pytest tests/ --collect-only`
-  on 2026-11-12 reports **1,062 collected**, of which **1,028** are in the
-  offline selection and **34** are the internet/API/whisper tests. Files:
-  `README.md:6,207-209` (badge and prose), `AGENTS.md:7,56`,
-  `software/README.md:232-233`, `software/AGENTS.md:9`,
-  `software/docs/CONTRIBUTING.md:72-73`, `software/docs/README.md:44`,
-  `software/docs/TESTING.md:29`, `docs/RUN_GUIDE.md:90`,
-  `.agents/skills/courses/SKILL.md:20`. The module and script counts drifted with
-  them: `docs/_generated/GATE_METRICS.md` reports **22** importable modules and
-  **28** Python scripts, while `AGENTS.md:56`, `CLAUDE.md:70-71`,
-  `docs/INTEGRATION.md:48` and `.aii/config.yaml:55` still say 21 modules and
-  23 course scripts plus 3 gate tools (it is now 5 gate tools). Owner: the next
-  docs pass; nothing external blocks it, and `./run.sh docs` does not check prose
-  numbers.
+- [x] **Current prose count drift.** Replace copied test/module/script claims in
+  root, engine, contributor, testing, agent and skill guidance with generated-fact
+  references. Dated run-guide/changelog measurements remain historical; no fresh
+  coverage or full-suite count is claimed.
 
 ### Documentation completion pass 3 — 2026-11-11
 

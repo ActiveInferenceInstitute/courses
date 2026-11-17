@@ -12,6 +12,12 @@ sys.path.append(str(software_dir))
 
 from src.batch_processing.config import COURSE_REGISTRY  # noqa: E402
 from src.publish.main import publish_course  # noqa: E402
+from src.batch_processing.utils import (  # noqa: E402
+    get_courses_to_process,
+    get_formats_to_process,
+    parse_limits,
+    plan_generation,
+)
 
 # Configure logging
 logging.basicConfig(
@@ -31,52 +37,53 @@ def parse_args(argv=None) -> argparse.Namespace:
         required=True,
         help="Course to publish",
     )
+    parser.add_argument("--repo-root", type=Path, default=software_dir.parent)
+    parser.add_argument("--module", type=int)
+    parser.add_argument("--unit")
+    parser.add_argument("--formats", default="all")
+    parser.add_argument("--no-website", action="store_true")
+    parser.add_argument("--skip-labs", action="store_true")
+    parser.add_argument("--max-module", action="append", default=[])
+    parser.add_argument("--max-lab", action="append", default=[])
+    parser.add_argument("--clean", action="store_true")
+    parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args(argv)
 
 
-def main(argv=None):
+def main(argv=None) -> int:
     args = parse_args(argv)
-
-    repo_root = software_dir.parent
-
-    courses_to_process = []
-    if args.course == "all":
-        courses_to_process = list(COURSE_REGISTRY.keys())
-    else:
-        courses_to_process = [args.course]
-
-    for course_name in courses_to_process:
-        if course_name not in COURSE_REGISTRY:
-            logger.error(f"Course not found in registry: {course_name}")
-            continue
-
-        rel_path = COURSE_REGISTRY[course_name]["rel_path"]
-        course_path = repo_root / rel_path
-
-        if not course_path.exists():
-            logger.error(f"Course directory not found: {course_path}")
-            continue
-
-        try:
-            results = publish_course(str(course_path))
-
-            logger.info("=" * 60)
-            logger.info(f"Publishing Results for {results['course']}")
-            logger.info("=" * 60)
-            logger.info(f"Modules processed: {results['modules_published']}")
-            logger.info(f"Syllabus files: {results['syllabus_files']}")
-            logger.info(f"Total files published: {results['total_files']}")
-
-            if results["modules"]:
-                logger.info("\nModule Details:")
-                for mod in results["modules"]:
-                    logger.info(f"  - {mod['name']}: {mod['files']} files")
-
-        except Exception as e:
-            logger.error(f"Failed to publish {course_name}: {e}")
-            return 1
-
-    return 0
+    try:
+        plans = plan_generation(
+            args.repo_root,
+            get_courses_to_process(args.course),
+            get_formats_to_process(args.formats),
+            module_filter=args.module,
+            unit_filter=args.unit,
+            generate_website=not args.no_website,
+            skip_labs=args.skip_labs,
+            max_modules=parse_limits(args.max_module),
+            max_labs=parse_limits(args.max_lab),
+        )
+        if args.dry_run:
+            for plan in plans:
+                print(f"Would publish {plan['course_id']}: {len(plan['artifacts'])} artifacts")
+            return 0
+        errors = []
+        for plan in plans:
+            result = publish_course(
+                str(plan["path"]),
+                str(args.repo_root / "published"),
+                course_id=plan["course_id"],
+                plan=plan,
+                clean=args.clean,
+            )
+            errors.extend(result["errors"])
+        for error in errors:
+            logger.error(error)
+        return 1 if errors else 0
+    except (ValueError, OSError) as error:
+        logger.error("Publication rejected: %s", error)
+        return 1
 
 
 if __name__ == "__main__":

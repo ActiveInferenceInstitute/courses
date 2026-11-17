@@ -6,28 +6,10 @@ Technical documentation for course management software utilities, including func
 
 ## Test Coverage
 
-**Overall: 75%** (1,029 tests collected; the offline gate runs 995 and deselects 34 network/external/whisper tests — see [`../docs/_generated/GATE_METRICS.md`](../docs/_generated/GATE_METRICS.md))
-
-| Module | Coverage | Notes |
-| ------ | -------- | ----- |
-| `batch_processing` | 78% | Main processing functions |
-| `canvas_integration` | 45% | External API |
-| `file_validation` | 91-92% | Validation utilities |
-| `format_conversion` | 80-98% | Format-specific converters |
-| `html_website` | 92-100% | Website generation |
-| `lab_manual` | 90-95% | Lab rendering |
-| `markdown_to_pdf` | 90-92% | PDF generation |
-| `module_organization` | 78-93% | Module structure |
-| `publish` | 80-84% | Course publishing |
-| `schedule` | 93% | Schedule processing |
-| `speech_to_text` | 88-98% | Audio transcription |
-| `text_to_speech` | 89-91% | Audio generation |
-| `validation` | 31-64% | Output validation (syllabus, study guides) |
-| `content_processing` | — | Content transformation |
-| `course_config` | — | Layered TOML-based per-course config |
-| `course_generator` | — | Schema-driven curriculum generation |
-| `legacy_import` | — | Legacy format import |
-| `youtube_transcript` | — | YouTube transcript processing |
+Use [generated facts](../docs/_generated/GATE_METRICS.md) and their actual
+source/runtime bindings for counts and coverage. Module-level percentages require
+matching measured coverage, not copied estimates. See the
+[run guide](../docs/RUN_GUIDE.md) for focused acceptance and remaining gate limits.
 
 ## Modular Architecture
 
@@ -335,7 +317,7 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed design principles.
 
 ### Publish Module
 
-**Purpose**: Export finalized course materials to the public `PUBLISHED/` directory
+**Purpose**: Export finalized course materials to the lowercase `published/` tree
 
 **Location**: `src/publish/`
 
