@@ -241,9 +241,13 @@ def generate_module_media(module_path: str, output_dir: str) -> Dict[str, Any]:
 
 def _render_artifacts(artifacts: List[dict]) -> Dict[str, Any]:
     """Render each admitted artifact once; retain every per-artifact failure."""
-    results: Dict[str, Any] = {"files": [], "errors": [], "by_type": {},
-                               "by_format": {fmt: [] for fmt in config.AVAILABLE_FORMATS},
-                               "summary": {fmt: 0 for fmt in config.AVAILABLE_FORMATS}}
+    results: Dict[str, Any] = {
+        "files": [],
+        "errors": [],
+        "by_type": {},
+        "by_format": {fmt: [] for fmt in config.AVAILABLE_FORMATS},
+        "summary": {fmt: 0 for fmt in config.AVAILABLE_FORMATS},
+    }
     for artifact in artifacts:
         source = artifact["source"]
         destination = artifact["destination"]
@@ -262,18 +266,27 @@ def _render_artifacts(artifacts: List[dict]) -> Dict[str, Any]:
                     render_file = source
                     if artifact.get("category") == "lab-protocols":
                         render_file = Path(temporary) / source.name
-                        render_file.write_text(preprocess_lab_markdown(source.read_text(encoding="utf-8")), encoding="utf-8")
+                        render_file.write_text(
+                            preprocess_lab_markdown(source.read_text(encoding="utf-8")),
+                            encoding="utf-8",
+                        )
                     if fmt == "md":
                         shutil.copy2(render_file, destination)
                     elif fmt == "txt":
                         from ..text_to_speech.utils import extract_text_from_markdown
 
-                        destination.write_text(extract_text_from_markdown(render_file.read_text(encoding="utf-8")), encoding="utf-8")
+                        destination.write_text(
+                            extract_text_from_markdown(render_file.read_text(encoding="utf-8")),
+                            encoding="utf-8",
+                        )
                     elif fmt == "mp3":
                         from ..text_to_speech.main import generate_speech
                         from ..text_to_speech.utils import extract_text_from_markdown
 
-                        generate_speech(extract_text_from_markdown(render_file.read_text(encoding="utf-8")), str(destination))
+                        generate_speech(
+                            extract_text_from_markdown(render_file.read_text(encoding="utf-8")),
+                            str(destination),
+                        )
                         if config.TTS_RATE_LIMIT_DELAY > 0:
                             time.sleep(config.TTS_RATE_LIMIT_DELAY)
                     elif fmt == "pdf":
@@ -298,26 +311,38 @@ def _render_artifacts(artifacts: List[dict]) -> Dict[str, Any]:
     return results
 
 
-def process_module_by_type(module_path: str, output_dir: str,
-                           formats: Optional[List[str]] = None, *, skip_labs: bool = False) -> Dict[str, Any]:
+def process_module_by_type(
+    module_path: str,
+    output_dir: str,
+    formats: Optional[List[str]] = None,
+    *,
+    skip_labs: bool = False,
+) -> Dict[str, Any]:
     from .utils import module_artifacts
 
     module = Path(module_path)
     if not module.is_dir():
         raise ValueError(f"Module path does not exist: {module}")
-    artifacts = module_artifacts(module, config.AVAILABLE_FORMATS if formats is None else formats,
-                                 output_dir=Path(output_dir), skip_labs=skip_labs)
+    artifacts = module_artifacts(
+        module,
+        config.AVAILABLE_FORMATS if formats is None else formats,
+        output_dir=Path(output_dir),
+        skip_labs=skip_labs,
+    )
     return _render_artifacts(artifacts)
 
 
-def process_syllabus(syllabus_path: str, output_dir: str,
-                     formats: Optional[List[str]] = None) -> Dict[str, Any]:
+def process_syllabus(
+    syllabus_path: str, output_dir: str, formats: Optional[List[str]] = None
+) -> Dict[str, Any]:
     from .utils import document_artifacts, get_formats_to_process
 
     source = Path(syllabus_path)
     if not source.is_dir():
         raise ValueError(f"Syllabus directory does not exist: {source}")
-    active = get_formats_to_process(",".join(config.AVAILABLE_FORMATS if formats is None else formats))
+    active = get_formats_to_process(
+        ",".join(config.AVAILABLE_FORMATS if formats is None else formats)
+    )
     return _render_artifacts(document_artifacts(source, Path(output_dir), active, "syllabus"))
 
 
@@ -332,9 +357,17 @@ def clear_all_outputs(repo_root: Path, *, plans: List[dict]) -> Dict[str, Any]:
 
     repo_root = repo_root.absolute()
 
-    paths = sorted({a["destination"] for plan in plans for a in plan["artifacts"]
-                    if a["destination"].name not in ("README.md", "AGENTS.md")
-                    and not any(part.startswith(".") for part in a["destination"].relative_to(repo_root).parts)})
+    paths = sorted(
+        {
+            a["destination"]
+            for plan in plans
+            for a in plan["artifacts"]
+            if a["destination"].name not in ("README.md", "AGENTS.md")
+            and not any(
+                part.startswith(".") for part in a["destination"].relative_to(repo_root).parts
+            )
+        }
+    )
     for path in paths:
         require_contained(path, repo_root)
         if path.exists() and not path.is_file():
@@ -358,56 +391,88 @@ def generate_selected_outputs(plans: List[dict]) -> Dict[str, Any]:
     return _render_artifacts([artifact for plan in plans for artifact in plan["artifacts"]])
 
 
-def process_course_modules(course_path: Path, course_name: str,
-                           module_filter: Optional[int] = None, generate_website: bool = True,
-                           formats: Optional[List[str]] = None, max_module: Optional[int] = None,
-                           *, unit_filter: Optional[str] = None, skip_labs: bool = False) -> Dict[str, Any]:
+def process_course_modules(
+    course_path: Path,
+    course_name: str,
+    module_filter: Optional[int] = None,
+    generate_website: bool = True,
+    formats: Optional[List[str]] = None,
+    max_module: Optional[int] = None,
+    *,
+    unit_filter: Optional[str] = None,
+    skip_labs: bool = False,
+) -> Dict[str, Any]:
     from .utils import module_artifacts, select_modules
 
-    modules = select_modules(course_path, module_filter=module_filter, unit_filter=unit_filter,
-                             max_module=max_module)
+    modules = select_modules(
+        course_path, module_filter=module_filter, unit_filter=unit_filter, max_module=max_module
+    )
     result: Dict[str, Any] = {"course": course_name, "modules": [], "errors": []}
     for module in modules:
-        artifacts = module_artifacts(module, config.AVAILABLE_FORMATS if formats is None else formats,
-                                     skip_labs=skip_labs)
+        artifacts = module_artifacts(
+            module, config.AVAILABLE_FORMATS if formats is None else formats, skip_labs=skip_labs
+        )
         if generate_website:
-            artifacts.append({"source": module, "destination": module / "output/website/index.html",
-                              "kind": "website", "format": "html"})
+            artifacts.append(
+                {
+                    "source": module,
+                    "destination": module / "output/website/index.html",
+                    "kind": "website",
+                    "format": "html",
+                }
+            )
         started = time.monotonic()
         rendered = _render_artifacts(artifacts)
         identity = module.relative_to(course_path).as_posix()
-        result["modules"].append({"name": identity, "outputs": rendered, "duration": time.monotonic() - started})
+        result["modules"].append(
+            {"name": identity, "outputs": rendered, "duration": time.monotonic() - started}
+        )
         result["errors"].extend(rendered["errors"])
     return result
 
 
-def process_course_syllabus(course_path: Path, course_name: str,
-                            formats: Optional[List[str]] = None,
-                            course_id: Optional[str] = None) -> Dict[str, Any]:
+def process_course_syllabus(
+    course_path: Path,
+    course_name: str,
+    formats: Optional[List[str]] = None,
+    course_id: Optional[str] = None,
+) -> Dict[str, Any]:
     from .utils import syllabus_artifacts, get_formats_to_process
 
-    active = get_formats_to_process(",".join(config.AVAILABLE_FORMATS if formats is None else formats))
+    active = get_formats_to_process(
+        ",".join(config.AVAILABLE_FORMATS if formats is None else formats)
+    )
     artifacts = syllabus_artifacts(course_path, active, course_id)
     result = _render_artifacts(artifacts)
     return {"processed": bool(artifacts), "results": result, "errors": result["errors"]}
 
 
-def process_course_labs(course_path: Path, course_name: str, formats: Optional[List[str]] = None,
-                        max_lab: Optional[int] = None, course_id: Optional[str] = None) -> Dict[str, Any]:
+def process_course_labs(
+    course_path: Path,
+    course_name: str,
+    formats: Optional[List[str]] = None,
+    max_lab: Optional[int] = None,
+    course_id: Optional[str] = None,
+) -> Dict[str, Any]:
     from .utils import lab_artifacts, get_formats_to_process
 
-    active = get_formats_to_process(",".join(config.AVAILABLE_FORMATS if formats is None else formats))
+    active = get_formats_to_process(
+        ",".join(config.AVAILABLE_FORMATS if formats is None else formats)
+    )
     artifacts = lab_artifacts(course_path, active, course_id, max_lab)
     result = _render_artifacts(artifacts)
     result["processed"] = bool(artifacts)
     return result
 
 
-def process_course_practice_tests(course_path: Path, course_name: str,
-                                  formats: Optional[List[str]] = None) -> Dict[str, Any]:
+def process_course_practice_tests(
+    course_path: Path, course_name: str, formats: Optional[List[str]] = None
+) -> Dict[str, Any]:
     from .utils import practice_artifacts, get_formats_to_process
 
-    active = get_formats_to_process(",".join(config.AVAILABLE_FORMATS if formats is None else formats))
+    active = get_formats_to_process(
+        ",".join(config.AVAILABLE_FORMATS if formats is None else formats)
+    )
     artifacts = practice_artifacts(course_path, active)
     result = _render_artifacts(artifacts)
     result["processed"] = bool(artifacts)

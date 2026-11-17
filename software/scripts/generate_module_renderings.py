@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Render one explicitly selected module, rejecting ambiguous numeric identities."""
+
 import argparse
 import sys
 from pathlib import Path

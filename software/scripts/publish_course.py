@@ -13,7 +13,10 @@ sys.path.append(str(software_dir))
 from src.batch_processing.config import COURSE_REGISTRY  # noqa: E402
 from src.publish.main import publish_course  # noqa: E402
 from src.batch_processing.utils import (  # noqa: E402
-    get_courses_to_process, get_formats_to_process, parse_limits, plan_generation,
+    get_courses_to_process,
+    get_formats_to_process,
+    parse_limits,
+    plan_generation,
 )
 
 # Configure logging
@@ -51,10 +54,15 @@ def main(argv=None) -> int:
     args = parse_args(argv)
     try:
         plans = plan_generation(
-            args.repo_root, get_courses_to_process(args.course), get_formats_to_process(args.formats),
-            module_filter=args.module, unit_filter=args.unit,
-            generate_website=not args.no_website, skip_labs=args.skip_labs,
-            max_modules=parse_limits(args.max_module), max_labs=parse_limits(args.max_lab),
+            args.repo_root,
+            get_courses_to_process(args.course),
+            get_formats_to_process(args.formats),
+            module_filter=args.module,
+            unit_filter=args.unit,
+            generate_website=not args.no_website,
+            skip_labs=args.skip_labs,
+            max_modules=parse_limits(args.max_module),
+            max_labs=parse_limits(args.max_lab),
         )
         if args.dry_run:
             for plan in plans:
@@ -63,8 +71,11 @@ def main(argv=None) -> int:
         errors = []
         for plan in plans:
             result = publish_course(
-                str(plan["path"]), str(args.repo_root / "published"),
-                course_id=plan["course_id"], plan=plan, clean=args.clean,
+                str(plan["path"]),
+                str(args.repo_root / "published"),
+                course_id=plan["course_id"],
+                plan=plan,
+                clean=args.clean,
             )
             errors.extend(result["errors"])
         for error in errors:

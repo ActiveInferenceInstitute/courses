@@ -55,8 +55,12 @@ def _print_issues(issues: tuple[Issue, ...]) -> None:
 
 
 def run_members(
-    registry_path: Path, member_root: Path, schema_path: Path, *,
-    repo_root: Path = ROOT, member_paths: dict[str, Path] | None = None,
+    registry_path: Path,
+    member_root: Path,
+    schema_path: Path,
+    *,
+    repo_root: Path = ROOT,
+    member_paths: dict[str, Path] | None = None,
 ) -> tuple[int, dict]:
     """Check every member; return (exit code, machine-readable report)."""
     registry = load_registry(registry_path)
@@ -176,14 +180,26 @@ def main(argv: list[str] | None = None) -> int:
         default=ROOT.parent,
         help="directory holding one checkout per member (default: this repository's parent)",
     )
-    parser.add_argument("--repo-root", type=Path, default=ROOT,
-                        help="registry owner root for contract_doc containment")
-    parser.add_argument("--member-path", action="append", default=[], metavar="ID=PATH",
-                        help="actual isolated member checkout; repeat for multiple members")
+    parser.add_argument(
+        "--repo-root",
+        type=Path,
+        default=ROOT,
+        help="registry owner root for contract_doc containment",
+    )
+    parser.add_argument(
+        "--member-path",
+        action="append",
+        default=[],
+        metavar="ID=PATH",
+        help="actual isolated member checkout; repeat for multiple members",
+    )
     parser.add_argument("--strict", action="store_true", help="treat pending members as failures")
     parser.add_argument("--json", action="store_true", help="print a JSON report to stdout")
-    parser.add_argument("--check-export", action="store_true",
-                        help="also check authored courses bundle freshness without writing")
+    parser.add_argument(
+        "--check-export",
+        action="store_true",
+        help="also check authored courses bundle freshness without writing",
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -199,8 +215,11 @@ def main(argv: list[str] | None = None) -> int:
                 code, payload = run_bundles(args.bundles, args.schema)
             else:
                 code, payload = run_members(
-                    args.registry, args.member_root, args.schema,
-                    repo_root=args.repo_root, member_paths=member_paths,
+                    args.registry,
+                    args.member_root,
+                    args.schema,
+                    repo_root=args.repo_root,
+                    member_paths=member_paths,
                 )
                 if args.strict:
                     pending = payload["counts"][PENDING] + payload["counts"][UNAVAILABLE]
@@ -214,13 +233,22 @@ def main(argv: list[str] | None = None) -> int:
     if args.check_export:
         try:
             exported = subprocess.run(
-                [sys.executable, str(SOFTWARE / "scripts/export_education_bundle.py"),
-                 "--check", "--repo-root", str(args.repo_root)],
-                capture_output=True, text=True, check=False,
+                [
+                    sys.executable,
+                    str(SOFTWARE / "scripts/export_education_bundle.py"),
+                    "--check",
+                    "--repo-root",
+                    str(args.repo_root),
+                ],
+                capture_output=True,
+                text=True,
+                check=False,
             )
             payload["export"] = {
-                "ok": exported.returncode == 0, "exit_code": exported.returncode,
-                "stdout": exported.stdout, "stderr": exported.stderr,
+                "ok": exported.returncode == 0,
+                "exit_code": exported.returncode,
+                "stdout": exported.stdout,
+                "stderr": exported.stderr,
             }
             if exported.stdout:
                 print(exported.stdout, file=sys.stderr, end="")

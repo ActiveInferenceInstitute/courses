@@ -27,8 +27,11 @@ sys.path.insert(0, str(software_dir))
 from src.batch_processing.config import COURSE_REGISTRY  # noqa: E402
 from src.batch_processing.main import clear_all_outputs, generate_selected_outputs  # noqa: E402
 from src.batch_processing.utils import (  # noqa: E402
-    describe_generation, get_courses_to_process, get_formats_to_process,
-    parse_limits, plan_generation,
+    describe_generation,
+    get_courses_to_process,
+    get_formats_to_process,
+    parse_limits,
+    plan_generation,
 )
 from src.publish.main import publish_course  # noqa: E402
 from src.publish.config import PUBLISH_ROOT_NAME  # noqa: E402
@@ -49,10 +52,6 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 logger = logging.getLogger(__name__)
-
-
-
-
 
 
 def parse_args(argv=None) -> argparse.Namespace:
@@ -129,10 +128,15 @@ def main(argv=None) -> int:
         if args.skip_mp3:
             formats = [fmt for fmt in formats if fmt != "mp3"]
         plans = plan_generation(
-            root, get_courses_to_process(args.course), formats,
-            module_filter=args.module, unit_filter=args.unit,
-            max_modules=parse_limits(args.max_module), max_labs=parse_limits(args.max_lab),
-            skip_labs=args.skip_labs, generate_website=not args.no_website,
+            root,
+            get_courses_to_process(args.course),
+            formats,
+            module_filter=args.module,
+            unit_filter=args.unit,
+            max_modules=parse_limits(args.max_module),
+            max_labs=parse_limits(args.max_lab),
+            skip_labs=args.skip_labs,
+            generate_website=not args.no_website,
         )
         if args.skip_generation and args.clean_source_outputs:
             raise ValueError("--clean-source-outputs requires generation")
@@ -154,26 +158,36 @@ def main(argv=None) -> int:
         if not args.skip_publish:
             for plan in plans:
                 result = publish_course(
-                    str(plan["path"]), str(published), course_id=plan["course_id"],
-                    plan=plan, clean=args.clean and not args.skip_clear,
+                    str(plan["path"]),
+                    str(published),
+                    course_id=plan["course_id"],
+                    plan=plan,
+                    clean=args.clean and not args.skip_clear,
                 )
                 if result["errors"]:
                     raise OSError("\n".join(result["errors"]))
             courses = [plan["course_id"] for plan in plans]
             selected = {plan["course_id"]: plan["modules"] for plan in plans}
             if not args.skip_copy_extras:
-                copy_labs_and_dashboards(root, courses, args.verbose, plans=plans,
-                                         skip_labs=args.skip_labs)
+                copy_labs_and_dashboards(
+                    root, courses, args.verbose, plans=plans, skip_labs=args.skip_labs
+                )
                 if "pdf" in formats:
                     copy_slides_to_modules(root, courses, args.verbose, selected_modules=selected)
-                if args.module is None and args.unit is None and not args.max_module and not args.max_lab:
+                if (
+                    args.module is None
+                    and args.unit is None
+                    and not args.max_module
+                    and not args.max_lab
+                ):
                     if "pdf" in formats:
                         copy_slides(root, courses, args.verbose)
                     copy_practice_tests(root, courses, args.verbose, formats=formats)
             if not args.skip_flatten:
                 modules = [
                     published / plan["course_id"] / module.relative_to(plan["path"])
-                    for plan in plans for module in plan["modules"]
+                    for plan in plans
+                    for module in plan["modules"]
                 ]
                 flatten_published(published, modules=modules)
                 reorganize_to_categories(published, courses, modules=modules)

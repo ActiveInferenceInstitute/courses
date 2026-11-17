@@ -27,7 +27,10 @@ sys.path.append(str(software_dir))
 from src.batch_processing.config import COURSE_REGISTRY  # noqa: E402
 
 from src.batch_processing.utils import (  # noqa: E402
-    get_courses_to_process, get_formats_to_process, parse_limits, plan_generation,
+    get_courses_to_process,
+    get_formats_to_process,
+    parse_limits,
+    plan_generation,
 )
 from src.validation.main import validate_plan  # noqa: E402
 from src.validation.config import DEFAULT_REQUIRED_FORMATS  # noqa: E402
@@ -77,11 +80,15 @@ def main(argv=None) -> int:
     try:
         active = parse_formats(args.formats)
         plans = plan_generation(
-            args.repo_root, get_courses_to_process(args.course),
+            args.repo_root,
+            get_courses_to_process(args.course),
             DEFAULT_REQUIRED_FORMATS if active is None else active,
-            module_filter=args.module, unit_filter=args.unit,
-            max_modules=parse_limits(args.max_module), max_labs=parse_limits(args.max_lab),
-            generate_website=not args.no_website, skip_labs=args.skip_labs,
+            module_filter=args.module,
+            unit_filter=args.unit,
+            max_modules=parse_limits(args.max_module),
+            max_labs=parse_limits(args.max_lab),
+            generate_website=not args.no_website,
+            skip_labs=args.skip_labs,
         )
         results = [validate_plan(plan) for plan in plans]
     except (ValueError, OSError) as error:

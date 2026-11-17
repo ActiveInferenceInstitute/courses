@@ -114,8 +114,9 @@ def matches_module_number(dirname: str, target: int) -> bool:
         return False
 
 
-def find_module_path(course_path: Path, module_number: int,
-                     unit: Optional[str] = None) -> Optional[Path]:
+def find_module_path(
+    course_path: Path, module_number: int, unit: Optional[str] = None
+) -> Optional[Path]:
     """Find a unique current/legacy module, rejecting ambiguous numeric selectors."""
     modules = list_all_modules(course_path)
     if unit is not None:
@@ -131,8 +132,10 @@ def find_module_path(course_path: Path, module_number: int,
 def list_all_modules(course_path: Path) -> List[Path]:
     from ..batch_processing.utils import find_modules_for_course
 
-    return sorted(find_modules_for_course(course_path),
-                  key=lambda p: (p.parent.as_posix(), get_module_number_from_path(p)))
+    return sorted(
+        find_modules_for_course(course_path),
+        key=lambda p: (p.parent.as_posix(), get_module_number_from_path(p)),
+    )
 
 
 def get_next_module_number(course_path: Path) -> int:

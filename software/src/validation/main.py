@@ -26,8 +26,6 @@ from ..batch_processing.utils import (
 logger = logging.getLogger(__name__)
 
 
-
-
 def validate_outputs(
     course_path: str,
     formats: Optional[List[str]] = None,
@@ -46,18 +44,29 @@ def validate_outputs(
     try:
         active = get_formats_to_process(",".join(active))
         plan = plan_course(
-            course_dir, course_id or course_dir.name, active, course_id=course_id,
-            module_filter=module_filter, unit_filter=unit_filter,
-            max_module=max_module, max_lab=max_lab, skip_labs=skip_labs,
+            course_dir,
+            course_id or course_dir.name,
+            active,
+            course_id=course_id,
+            module_filter=module_filter,
+            unit_filter=unit_filter,
+            max_module=max_module,
+            max_lab=max_lab,
+            skip_labs=skip_labs,
             generate_website=("html" in active if generate_website is None else generate_website),
         )
         return validate_plan(plan)
     except (ValueError, OSError) as error:
         return {
-            "valid": False, "course": course_id or course_dir.name,
-            "formats_validated": active, "timestamp": get_timestamp(),
-            "modules_checked": 0, "modules_valid": 0, "modules": [],
-            "syllabus_valid": False, "issues": [str(error)],
+            "valid": False,
+            "course": course_id or course_dir.name,
+            "formats_validated": active,
+            "timestamp": get_timestamp(),
+            "modules_checked": 0,
+            "modules_valid": 0,
+            "modules": [],
+            "syllabus_valid": False,
+            "issues": [str(error)],
         }
 
 
@@ -78,30 +87,34 @@ def validate_plan(plan: dict) -> Dict[str, Any]:
     for module in plan["modules"]:
         expected = [a for a in artifacts if a.get("module") == module]
         absent = _missing_artifacts(expected)
-        modules.append({
-            "name": module.relative_to(plan["path"]).as_posix(),
-            "valid": not absent, "missing_files": absent,
-        })
+        modules.append(
+            {
+                "name": module.relative_to(plan["path"]).as_posix(),
+                "valid": not absent,
+                "missing_files": absent,
+            }
+        )
     syllabus = [a for a in artifacts if a["kind"] == "syllabus"]
     labs = [a for a in artifacts if a["kind"] == "lab"]
     return {
-        "valid": not missing, "course": plan["course_id"] or plan["course"],
-        "formats_validated": plan["formats"], "timestamp": get_timestamp(),
-        "modules_checked": len(modules), "modules_valid": sum(m["valid"] for m in modules),
-        "modules": modules, "syllabus_valid": not _missing_artifacts(syllabus),
-        "labs": {"source_labs": len({a["source"] for a in labs}),
-                 "missing_outputs": _missing_artifacts(labs), "issues": []},
+        "valid": not missing,
+        "course": plan["course_id"] or plan["course"],
+        "formats_validated": plan["formats"],
+        "timestamp": get_timestamp(),
+        "modules_checked": len(modules),
+        "modules_valid": sum(m["valid"] for m in modules),
+        "modules": modules,
+        "syllabus_valid": not _missing_artifacts(syllabus),
+        "labs": {
+            "source_labs": len({a["source"] for a in labs}),
+            "missing_outputs": _missing_artifacts(labs),
+            "issues": [],
+        },
         "issues": [f"Missing or empty required artifact: {path}" for path in missing],
     }
 
 
-
-
-
-
-def validate_published(
-    published_path: str, courses: Optional[List[str]] = None
-) -> Dict[str, Any]:
+def validate_published(published_path: str, courses: Optional[List[str]] = None) -> Dict[str, Any]:
     """Validate that published directory has expected structure.
 
     Args:
@@ -161,8 +174,10 @@ def validate_published(
         for module_dir in modules:
             mod_counts = count_files_by_extension(module_dir)
             payloads = [
-                path for path in module_dir.rglob("*")
-                if path.is_file() and path.name not in ("README.md", "AGENTS.md")
+                path
+                for path in module_dir.rglob("*")
+                if path.is_file()
+                and path.name not in ("README.md", "AGENTS.md")
                 and not any(part.startswith(".") for part in path.relative_to(module_dir).parts)
             ]
             if not payloads or any(path.stat().st_size == 0 for path in payloads):
@@ -170,10 +185,12 @@ def validate_published(
                 results["issues"].append(
                     f"Missing or empty published payload: {course_name}/{module_dir.relative_to(course_dir)}"
                 )
-            results["courses"][course_name]["modules"].append({
-                "name": module_dir.relative_to(course_dir).as_posix(),
-                "files": sum(mod_counts.values()),
-            })
+            results["courses"][course_name]["modules"].append(
+                {
+                    "name": module_dir.relative_to(course_dir).as_posix(),
+                    "files": sum(mod_counts.values()),
+                }
+            )
 
     logger.info(f"Published validation complete: {results['total_files']} total files")
 
@@ -229,7 +246,8 @@ def generate_validation_report(
             str(course_path),
             formats=formats,
             max_module=max_module,
-            max_lab=max_lab, course_id=course_name,
+            max_lab=max_lab,
+            course_id=course_name,
         )
     else:
         report["source_validation"] = {

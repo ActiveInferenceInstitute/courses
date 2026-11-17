@@ -1,9 +1,7 @@
 """Configuration for validation module."""
 
-
 # Default required formats when no --formats specified (minimum viable output)
 DEFAULT_REQUIRED_FORMATS = ["pdf", "docx"]
-
 
 
 # Expected website files

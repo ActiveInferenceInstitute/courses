@@ -158,7 +158,8 @@ def build_bundle(course: str, *, repo_root: Path = ROOT) -> dict[str, Any]:
     if not units:
         raise ValueError(f"{course_dir} has no units in the <discipline>/NN_<topic> shape")
     glossary_path = contained_member_path(
-        repo_root, (course_dir / "resources/glossary.md").relative_to(repo_root).as_posix(),
+        repo_root,
+        (course_dir / "resources/glossary.md").relative_to(repo_root).as_posix(),
     )
     return {
         "schema": "education-contract/v1",
@@ -168,7 +169,9 @@ def build_bundle(course: str, *, repo_root: Path = ROOT) -> dict[str, Any]:
         },
         "units": units,
         "prerequisite_edges": [],
-        "glossary": read_glossary(glossary_path, repo_root=repo_root) if glossary_path.is_file() else [],
+        "glossary": read_glossary(glossary_path, repo_root=repo_root)
+        if glossary_path.is_file()
+        else [],
     }
 
 

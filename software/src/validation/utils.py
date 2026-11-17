@@ -75,7 +75,8 @@ def check_study_guide_files(
         artifact["destination"].name: (
             artifact["destination"].is_file() and artifact["destination"].stat().st_size > 0
         )
-        for artifact in artifacts if artifact["category"] == "study-guides"
+        for artifact in artifacts
+        if artifact["category"] == "study-guides"
     }
 
 
@@ -126,7 +127,8 @@ def get_timestamp() -> str:
 
 
 def check_lab_files(
-    course_path: Path, max_lab: Optional[int] = None,
+    course_path: Path,
+    max_lab: Optional[int] = None,
     formats: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
     """Require each requested lab artifact from the shared source manifest."""
@@ -137,18 +139,21 @@ def check_lab_files(
     )
     artifacts = lab_artifacts(course_path, active, max_lab=max_lab)
     missing = [
-        str(a["destination"]) for a in artifacts
+        str(a["destination"])
+        for a in artifacts
         if not a["destination"].is_file() or a["destination"].stat().st_size == 0
     ]
     dashboard_dirs = {artifact["source"].parent / "dashboards" for artifact in artifacts}
     return {
         "source_labs": len({a["source"] for a in artifacts}),
         "output_files": {
-            fmt: sum(a["format"] == fmt and str(a["destination"]) not in missing
-                     for a in artifacts)
-            for fmt in active if fmt in config.LAB_OUTPUT_FORMATS
+            fmt: sum(a["format"] == fmt and str(a["destination"]) not in missing for a in artifacts)
+            for fmt in active
+            if fmt in config.LAB_OUTPUT_FORMATS
         },
-        "dashboards": sum(path.is_file() for directory in dashboard_dirs for path in directory.glob("*.html")),
+        "dashboards": sum(
+            path.is_file() for directory in dashboard_dirs for path in directory.glob("*.html")
+        ),
         "missing_outputs": missing,
         "issues": [f"Missing or empty required lab artifact: {path}" for path in missing],
     }

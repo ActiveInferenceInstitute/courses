@@ -11,7 +11,9 @@ import logging
 
 from . import config
 from ..batch_processing.utils import (
-    find_modules_for_course, get_courses_to_process, require_contained,
+    find_modules_for_course,
+    get_courses_to_process,
+    require_contained,
 )
 
 logger = logging.getLogger(__name__)
@@ -69,7 +71,9 @@ def copy_directory_contents(
         raise FileNotFoundError(src)
     excluded = config.EXCLUDE_PATTERNS if exclude_patterns is None else exclude_patterns
     files = [
-        path for path in sorted(src.rglob("*")) if path.is_file()
+        path
+        for path in sorted(src.rglob("*"))
+        if path.is_file()
         and not any(part.startswith(".") for part in path.relative_to(src).parts)
         and not any(path.match(pattern) for pattern in excluded)
     ]
@@ -87,8 +91,16 @@ def copy_directory_contents(
 
 
 _FLATTEN_CATEGORIES = {
-    "assignments", "lab-protocols", "lecture-content", "study-guides",
-    "pdf", "docx", "html", "txt", "md", "mp3",
+    "assignments",
+    "lab-protocols",
+    "lecture-content",
+    "study-guides",
+    "pdf",
+    "docx",
+    "html",
+    "txt",
+    "md",
+    "mp3",
 }
 _FLATTEN_RECEIPT_NAME = ".flatten-receipt.json"
 _FLATTEN_RECEIPT_SCHEMA = "courses-publication-flatten/v1"
@@ -112,7 +124,7 @@ def _load_flatten_receipt(module_dir: Path) -> Dict[str, Dict[str, str]]:
         or not isinstance(receipt.get("artifacts"), dict)
     ):
         raise ValueError(f"Invalid flattened publication receipt: {receipt_path}")
-    bindings = receipt["artifacts"]
+    bindings: Dict[str, Dict[str, str]] = receipt["artifacts"]
     targets = set()
     for origin, binding in bindings.items():
         if not isinstance(origin, str) or not isinstance(binding, dict):
@@ -149,12 +161,16 @@ def _save_flatten_receipt(module_dir: Path, bindings: Dict[str, Dict[str, str]])
     temporary = None
     try:
         with tempfile.NamedTemporaryFile(
-            mode="w", encoding="utf-8", dir=module_dir, delete=False,
+            mode="w",
+            encoding="utf-8",
+            dir=module_dir,
+            delete=False,
         ) as stream:
             temporary = Path(stream.name)
             json.dump(
                 {"schema": _FLATTEN_RECEIPT_SCHEMA, "artifacts": bindings},
-                stream, sort_keys=True,
+                stream,
+                sort_keys=True,
             )
             stream.write("\n")
         os.replace(temporary, receipt_path)
@@ -188,7 +204,8 @@ def flatten_module(module_dir: Path, dry_run: bool = False, verbose: bool = Fals
             origin = source.relative_to(module_dir).as_posix()
             previous = bindings.get(origin)
             names = ([previous["path"]] if previous is not None else []) + [
-                source.name, f"{directory.name}_{source.name}",
+                source.name,
+                f"{directory.name}_{source.name}",
             ]
             for name in dict.fromkeys(names):
                 target = module_dir / name
@@ -207,9 +224,7 @@ def flatten_module(module_dir: Path, dry_run: bool = False, verbose: bool = Fals
                 moves.append((source, target))
                 break
             else:
-                raise FileExistsError(
-                    f"Ambiguous flattened payload: {module_dir / names[-1]}"
-                )
+                raise FileExistsError(f"Ambiguous flattened payload: {module_dir / names[-1]}")
     if moves and not dry_run:
         for source, target in moves:
             os.replace(source, target)
@@ -218,20 +233,30 @@ def flatten_module(module_dir: Path, dry_run: bool = False, verbose: bool = Fals
 
 
 def flatten_published(
-    published_dir: Path, skip_dirs: Optional[List[str]] = None,
-    dry_run: bool = False, verbose: bool = False, *,
-    courses: Optional[List[str]] = None, modules: Optional[List[Path]] = None,
+    published_dir: Path,
+    skip_dirs: Optional[List[str]] = None,
+    dry_run: bool = False,
+    verbose: bool = False,
+    *,
+    courses: Optional[List[str]] = None,
+    modules: Optional[List[Path]] = None,
 ) -> int:
     """Flatten selected modules while retaining their full course/unit identities."""
     if not published_dir.is_dir():
         raise FileNotFoundError(published_dir)
     if modules is None:
         course_dirs = (
-            [published_dir / cid for cid in courses] if courses is not None
-            else [p for p in sorted(published_dir.iterdir()) if p.is_dir() and not p.name.startswith(".")]
+            [published_dir / cid for cid in courses]
+            if courses is not None
+            else [
+                p
+                for p in sorted(published_dir.iterdir())
+                if p.is_dir() and not p.name.startswith(".")
+            ]
         )
         modules = [
-            module for course in course_dirs
+            module
+            for course in course_dirs
             for module in find_modules_for_course(course, course.name)
             if module.name not in (skip_dirs or [])
         ]
@@ -254,7 +279,9 @@ def _course_paths(repo_root: Path, courses: Optional[List[str]]) -> List[tuple]:
     """Admit every selected course before copying any extras."""
     from ..batch_processing.config import COURSE_REGISTRY
 
-    identities = [entry[2] for entry in get_courses_to_process("all")] if courses is None else courses
+    identities = (
+        [entry[2] for entry in get_courses_to_process("all")] if courses is None else courses
+    )
     entries = []
     for identity in identities:
         if identity not in COURSE_REGISTRY:
@@ -269,8 +296,12 @@ def _course_paths(repo_root: Path, courses: Optional[List[str]]) -> List[tuple]:
 
 
 def copy_labs_and_dashboards(
-    repo_root: Path, courses: Optional[List[str]] = None, verbose: bool = False,
-    *, plans: Optional[List[dict]] = None, skip_labs: bool = False,
+    repo_root: Path,
+    courses: Optional[List[str]] = None,
+    verbose: bool = False,
+    *,
+    plans: Optional[List[dict]] = None,
+    skip_labs: bool = False,
 ) -> int:
     """Copy selected lab sources/outputs and module-owned dashboards."""
     published = repo_root / config.PUBLISH_ROOT_NAME
@@ -284,7 +315,8 @@ def copy_labs_and_dashboards(
             if dashboard.is_file():
                 require_contained(dashboard, course)
                 copy_file(
-                    dashboard, published / identity / module.relative_to(course) / dashboard.name,
+                    dashboard,
+                    published / identity / module.relative_to(course) / dashboard.name,
                     root=published,
                 )
                 total += 1
@@ -301,7 +333,9 @@ def copy_labs_and_dashboards(
             if source.name in ("README.md", "AGENTS.md"):
                 continue
             require_contained(source, course)
-            copy_file(source, published / identity / "labs" / source.relative_to(labs), root=published)
+            copy_file(
+                source, published / identity / "labs" / source.relative_to(labs), root=published
+            )
             total += 1
     return total
 
@@ -318,8 +352,11 @@ def copy_slides(repo_root: Path, courses: Optional[List[str]] = None, verbose: b
 
 
 def copy_slides_to_modules(
-    repo_root: Path, courses: Optional[List[str]] = None, verbose: bool = False,
-    *, selected_modules: Optional[Dict[str, List[Path]]] = None,
+    repo_root: Path,
+    courses: Optional[List[str]] = None,
+    verbose: bool = False,
+    *,
+    selected_modules: Optional[Dict[str, List[Path]]] = None,
 ) -> int:
     """Copy slides by source-relative module identity; refuse ambiguous shared slides."""
     copies = []
@@ -327,25 +364,35 @@ def copy_slides_to_modules(
 
     for identity, source_course, _ in _course_paths(repo_root, courses):
         modules = (
-            selected_modules[identity] if selected_modules is not None
+            selected_modules[identity]
+            if selected_modules is not None
             else find_modules_for_course(source_course, identity)
         )
         for module in modules:
             number = get_module_number_from_path(module)
             unit_slides = module.parent / "resources/slides"
             slides = unit_slides if unit_slides.is_dir() else source_course / "resources/slides"
-            matches = sorted(set(
-                list(slides.glob(f"module-{number}-slides-*.pdf"))
-                + list(slides.glob(f"Module {number:02d} - *.pdf"))
-                + list(slides.glob(f"Module {number} - *.pdf"))
-            ))
-            if matches and slides == source_course / "resources/slides" and sum(
-                get_module_number_from_path(other) == number
-                for other in find_modules_for_course(source_course, identity)
-            ) > 1:
+            matches = sorted(
+                set(
+                    list(slides.glob(f"module-{number}-slides-*.pdf"))
+                    + list(slides.glob(f"Module {number:02d} - *.pdf"))
+                    + list(slides.glob(f"Module {number} - *.pdf"))
+                )
+            )
+            if (
+                matches
+                and slides == source_course / "resources/slides"
+                and sum(
+                    get_module_number_from_path(other) == number
+                    for other in find_modules_for_course(source_course, identity)
+                )
+                > 1
+            ):
                 raise ValueError(f"Ambiguous course-wide slide number {number} in {identity}")
             require_contained(module, source_course)
-            destination = repo_root / config.PUBLISH_ROOT_NAME / identity / module.relative_to(source_course)
+            destination = (
+                repo_root / config.PUBLISH_ROOT_NAME / identity / module.relative_to(source_course)
+            )
             for source in matches:
                 require_contained(source, source_course)
                 require_contained(destination / source.name, repo_root / config.PUBLISH_ROOT_NAME)
@@ -363,17 +410,26 @@ def copy_exams(repo_root: Path, courses: Optional[List[str]] = None, verbose: bo
         base = course / "course" if meta.get("has_course_subdir", False) else course
         exams = base / "exams"
         for source in sorted(exams.rglob("*")):
-            if not source.is_file() or source.stem.endswith("_key") or source.name in ("README.md", "AGENTS.md"):
+            if (
+                not source.is_file()
+                or source.stem.endswith("_key")
+                or source.name in ("README.md", "AGENTS.md")
+            ):
                 continue
             require_contained(source, course)
-            copy_file(source, published / identity / "exams" / source.relative_to(exams), root=published)
+            copy_file(
+                source, published / identity / "exams" / source.relative_to(exams), root=published
+            )
             total += 1
     return total
 
 
 def copy_practice_tests(
-    repo_root: Path, courses: Optional[List[str]] = None, verbose: bool = False,
-    *, formats: Optional[List[str]] = None,
+    repo_root: Path,
+    courses: Optional[List[str]] = None,
+    verbose: bool = False,
+    *,
+    formats: Optional[List[str]] = None,
 ) -> int:
     from ..batch_processing.config import AVAILABLE_FORMATS
     from ..batch_processing.utils import get_formats_to_process
@@ -391,7 +447,8 @@ def copy_practice_tests(
                 continue
             require_contained(source, course)
             copy_file(
-                source, published / identity / "practice_tests" / source.relative_to(source_dir),
+                source,
+                published / identity / "practice_tests" / source.relative_to(source_dir),
                 root=published,
             )
             total += 1
@@ -404,8 +461,11 @@ def copy_practice_tests(
 
 
 def reorganize_to_categories(
-    published_dir: Path, courses: Optional[List[str]] = None, verbose: bool = False,
-    *, modules: Optional[List[Path]] = None,
+    published_dir: Path,
+    courses: Optional[List[str]] = None,
+    verbose: bool = False,
+    *,
+    modules: Optional[List[Path]] = None,
 ) -> int:
     """Move category files without erasing their course/unit/module identities."""
     selected = [entry[2] for entry in get_courses_to_process("all")] if courses is None else courses
@@ -416,7 +476,8 @@ def reorganize_to_categories(
             raise FileNotFoundError(course)
         selected_modules = (
             [module for module in modules if module.is_relative_to(course)]
-            if modules is not None else find_modules_for_course(course, identity)
+            if modules is not None
+            else find_modules_for_course(course, identity)
         )
         for module in selected_modules:
             relative = module.relative_to(course)
@@ -425,10 +486,13 @@ def reorganize_to_categories(
                     continue
                 name = source.name.lower()
                 category = (
-                    "homework" if "questions" in name else
-                    "module_keys" if "keys-to-success" in name else
-                    "slides" if name.endswith(".pdf") and ("slides" in name or name.startswith("module ")) else
-                    None
+                    "homework"
+                    if "questions" in name
+                    else "module_keys"
+                    if "keys-to-success" in name
+                    else "slides"
+                    if name.endswith(".pdf") and ("slides" in name or name.startswith("module "))
+                    else None
                 )
                 if category is None:
                     continue

@@ -21,11 +21,13 @@ from ..batch_processing.utils import require_contained, resolve_course_id, selec
 logger = logging.getLogger(__name__)
 
 
-
-
 def publish_course(
-    course_path: str, publish_root: Optional[str] = None, *,
-    course_id: Optional[str] = None, plan: Optional[dict] = None, clean: bool = False,
+    course_path: str,
+    publish_root: Optional[str] = None,
+    *,
+    course_id: Optional[str] = None,
+    plan: Optional[dict] = None,
+    clean: bool = False,
 ) -> Dict[str, Any]:
     """Publish source-relative module identities, retaining every copy failure.
 
@@ -35,13 +37,18 @@ def publish_course(
     course_dir = Path(course_path)
     identity = course_id or resolve_course_id(course_dir) or course_dir.name
     out_root = (
-        Path(publish_root) if publish_root is not None
+        Path(publish_root)
+        if publish_root is not None
         else Path(__file__).resolve().parents[3] / config.PUBLISH_ROOT_NAME
     )
     published_course = out_root / identity
     result: Dict[str, Any] = {
-        "course": identity, "modules_published": 0, "syllabus_files": 0,
-        "total_files": 0, "modules": [], "errors": [],
+        "course": identity,
+        "modules_published": 0,
+        "syllabus_files": 0,
+        "total_files": 0,
+        "modules": [],
+        "errors": [],
     }
     try:
         if course_id is not None and course_id not in COURSE_REGISTRY:
@@ -77,22 +84,35 @@ def publish_course(
                     result["errors"].append(f"Rendered output directory missing: {source_dir}")
                     continue
                 for source in sorted(source_dir.rglob("*")):
-                    if source.is_file() and source.name not in ("README.md", "AGENTS.md") and not any(
-                        part.startswith(".") for part in source.relative_to(source_dir).parts
+                    if (
+                        source.is_file()
+                        and source.name not in ("README.md", "AGENTS.md")
+                        and not any(
+                            part.startswith(".") for part in source.relative_to(source_dir).parts
+                        )
                     ):
-                        copies.append((
-                            source, published_course / relative / source.relative_to(source_dir),
-                            relative.as_posix(),
-                        ))
+                        copies.append(
+                            (
+                                source,
+                                published_course / relative / source.relative_to(source_dir),
+                                relative.as_posix(),
+                            )
+                        )
                 for extra in conf.get("additional_module_dirs", []):
                     extra_dir = module / extra
                     if extra_dir.is_dir():
                         for source in sorted(extra_dir.rglob("*")):
                             if source.is_file():
-                                copies.append((
-                                    source, published_course / relative / extra / source.relative_to(extra_dir),
-                                    relative.as_posix(),
-                                ))
+                                copies.append(
+                                    (
+                                        source,
+                                        published_course
+                                        / relative
+                                        / extra
+                                        / source.relative_to(extra_dir),
+                                        relative.as_posix(),
+                                    )
+                                )
         reg = COURSE_REGISTRY.get(identity, {})
         syllabus = course_dir / reg.get("syllabus_location", "syllabus")
         whole_course = plan is None or plan.get("include_course_extras", True)
@@ -103,10 +123,13 @@ def publish_course(
                 source_dir = syllabus / conf["syllabus_source_dir"]
                 for source in sorted(source_dir.rglob("*")):
                     if source.is_file():
-                        copies.append((
-                            source, published_course / "syllabus" / source.relative_to(source_dir),
-                            "syllabus",
-                        ))
+                        copies.append(
+                            (
+                                source,
+                                published_course / "syllabus" / source.relative_to(source_dir),
+                                "syllabus",
+                            )
+                        )
         if not copies:
             result["errors"].append(f"No generated outputs to publish for {identity}")
         for source, destination, _ in copies:

@@ -290,8 +290,13 @@ def scaffold_course_directory(
     if not course_slug or Path(course_slug).name != course_slug or course_slug in (".", ".."):
         raise ValueError(f"Invalid course slug: {course_slug}")
     if not videos:
-        return {"created": 0, "skipped": 0, "failed": 1, "modules": [],
-                "errors": [f"No videos selected for {course_slug}"]}
+        return {
+            "created": 0,
+            "skipped": 0,
+            "failed": 1,
+            "modules": [],
+            "errors": [f"No videos selected for {course_slug}"],
+        }
     names = set()
     for video in videos:
         identity = video.get("id")
@@ -304,7 +309,9 @@ def scaffold_course_directory(
         if name in names:
             raise ValueError(f"Duplicate module identity: {course_slug}/{name}")
         names.add(name)
-        require_contained(youtube_courses_dir / course_slug / name / "module.md", youtube_courses_dir)
+        require_contained(
+            youtube_courses_dir / course_slug / name / "module.md", youtube_courses_dir
+        )
         require_contained(transcript_dir / TRANSCRIPTS_SUBDIR / f"{identity}.txt", transcript_dir)
     course_dir = youtube_courses_dir / course_slug
     course_dir.mkdir(parents=True, exist_ok=True)
@@ -401,8 +408,13 @@ def scaffold_course_directory(
         modules.append({"name": module_name, "status": "created"})
         logger.info(f"  Created {module_name}/module.md ({len(transcript_text)} chars)")
 
-    return {"created": created, "skipped": skipped, "failed": failed, "modules": modules,
-            "errors": errors}
+    return {
+        "created": created,
+        "skipped": skipped,
+        "failed": failed,
+        "modules": modules,
+        "errors": errors,
+    }
 
 
 def _render_binding(module_dir: Path, formats: List[str]) -> tuple[dict, List[dict]]:
@@ -418,10 +430,14 @@ def _render_binding(module_dir: Path, formats: List[str]) -> tuple[dict, List[di
     return {
         "schema": "courses-youtube-render/v1",
         "formats": sorted(formats),
-        "sources": {str(path.relative_to(module_dir)): hashlib.sha256(path.read_bytes()).hexdigest()
-                    for path in sources},
-        "producer": {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
-                     for path in (producer / "main.py", producer / "utils.py", Path(__file__))},
+        "sources": {
+            str(path.relative_to(module_dir)): hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in sources
+        },
+        "producer": {
+            path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in (producer / "main.py", producer / "utils.py", Path(__file__))
+        },
     }, artifacts
 
 
@@ -431,12 +447,16 @@ def _output_binding(module_dir: Path, artifacts: List[dict]) -> dict:
         destination = artifact["destination"]
         if not destination.is_file() or destination.stat().st_size == 0:
             raise ValueError(f"Missing or empty render: {destination}")
-        outputs[str(destination.relative_to(module_dir))] = hashlib.sha256(destination.read_bytes()).hexdigest()
+        outputs[str(destination.relative_to(module_dir))] = hashlib.sha256(
+            destination.read_bytes()
+        ).hexdigest()
     return outputs
 
 
 def render_course_modules(
-    course_dir: Path, formats: Optional[List[str]] = None, resume: bool = True,
+    course_dir: Path,
+    formats: Optional[List[str]] = None,
+    resume: bool = True,
 ) -> Dict[str, Any]:
     """Resume only an exact source/format/producer-bound set of complete outputs."""
     from ..batch_processing.main import process_module_by_type
@@ -445,8 +465,9 @@ def render_course_modules(
     result: Dict[str, Any] = {"rendered": 0, "skipped": 0, "errors": [], "modules": []}
     try:
         active = get_formats_to_process("all" if formats is None else ",".join(formats))
-        modules = sorted(d for d in course_dir.iterdir()
-                         if d.is_dir() and (d / "module.md").is_file())
+        modules = sorted(
+            d for d in course_dir.iterdir() if d.is_dir() and (d / "module.md").is_file()
+        )
         if not modules:
             raise ValueError(f"No modules selected in {course_dir}")
     except (OSError, ValueError) as error:
@@ -479,8 +500,9 @@ def render_course_modules(
             receipt = {**binding, "outputs": _output_binding(module, artifacts)}
             temporary = None
             try:
-                with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8",
-                                                 dir=receipt_path.parent, delete=False) as stream:
+                with tempfile.NamedTemporaryFile(
+                    mode="w", encoding="utf-8", dir=receipt_path.parent, delete=False
+                ) as stream:
                     temporary = Path(stream.name)
                     json.dump(receipt, stream, sort_keys=True)
                     stream.write("\n")
@@ -489,8 +511,9 @@ def render_course_modules(
                 if temporary is not None and temporary.exists():
                     temporary.unlink()
             result["rendered"] += 1
-            result["modules"].append({"name": module.name, "status": "rendered",
-                                      "summary": rendered["summary"]})
+            result["modules"].append(
+                {"name": module.name, "status": "rendered", "summary": rendered["summary"]}
+            )
         except Exception as error:
             message = f"{course_dir.name}/{module.name}: {error}"
             result["errors"].append(message)
@@ -499,9 +522,13 @@ def render_course_modules(
 
 
 def render_all_youtube_courses(
-    youtube_courses_dir: Path, formats: Optional[List[str]] = None,
-    course_filter: Optional[str] = None, resume: bool = True, *,
-    course_slugs: Optional[List[str]] = None, limit: Optional[int] = None,
+    youtube_courses_dir: Path,
+    formats: Optional[List[str]] = None,
+    course_filter: Optional[str] = None,
+    resume: bool = True,
+    *,
+    course_slugs: Optional[List[str]] = None,
+    limit: Optional[int] = None,
 ) -> Dict[str, Any]:
     from ..batch_processing.utils import require_contained
 
@@ -509,8 +536,11 @@ def render_all_youtube_courses(
     try:
         if limit is not None and (type(limit) is not int or limit < 1):
             raise ValueError("Playlist limit must be a positive integer")
-        courses = sorted(d for d in youtube_courses_dir.iterdir()
-                         if d.is_dir() and not d.name.startswith((".", "__")))
+        courses = sorted(
+            d
+            for d in youtube_courses_dir.iterdir()
+            if d.is_dir() and not d.name.startswith((".", "__"))
+        )
         if course_filter is not None:
             courses = [d for d in courses if d.name == course_filter]
         if course_slugs is not None:

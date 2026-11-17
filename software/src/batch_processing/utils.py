@@ -3,7 +3,7 @@
 import logging
 import re
 from pathlib import Path
-from typing import List, Optional, Dict
+from typing import Any, List, Optional, Dict
 
 from . import config
 
@@ -299,10 +299,14 @@ def get_courses_to_process(course_arg: str) -> List[tuple]:
 
     if course_arg == "all":
         # Consolidated entries own their descendants during an all-course run.
-        return [entry for entry in all_courses if not any(
-            Path(entry[0]).is_relative_to(Path(other[0])) and entry[0] != other[0]
-            for other in all_courses
-        )]
+        return [
+            entry
+            for entry in all_courses
+            if not any(
+                Path(entry[0]).is_relative_to(Path(other[0])) and entry[0] != other[0]
+                for other in all_courses
+            )
+        ]
 
     # Match by course ID in the registry
     if course_arg in config.COURSE_REGISTRY:
@@ -348,7 +352,7 @@ def find_modules_for_course(course_path: Path, course_id: Optional[str] = None) 
         Sorted list of module directory paths
     """
     identity = course_id or resolve_course_id(course_path)
-    reg = config.COURSE_REGISTRY.get(identity)
+    reg = config.COURSE_REGISTRY.get(identity) if identity is not None else None
 
     if reg:
         module_glob = reg.get("module_glob", "module-*")
@@ -359,10 +363,17 @@ def find_modules_for_course(course_path: Path, course_id: Optional[str] = None) 
         search = course_path / "course" if (course_path / "course").is_dir() else course_path
         if not search.is_dir():
             return []
-        children = sorted(d for d in search.iterdir() if d.is_dir() and
-                          re.match(r"^(?:module-\d+(?:-|$)|\d+_)", d.name))
-        nested = [m for unit in children for m in sorted(unit.iterdir())
-                  if m.is_dir() and re.match(r"^(?:module-\d+(?:-|$)|\d+_)", m.name)]
+        children = sorted(
+            d
+            for d in search.iterdir()
+            if d.is_dir() and re.match(r"^(?:module-\d+(?:-|$)|\d+_)", d.name)
+        )
+        nested = [
+            m
+            for unit in children
+            for m in sorted(unit.iterdir())
+            if m.is_dir() and re.match(r"^(?:module-\d+(?:-|$)|\d+_)", m.name)
+        ]
         return nested or children
 
     if has_course_subdir:
@@ -435,14 +446,23 @@ def get_course_id_from_path(course_rel_path: str) -> Optional[str]:
 def resolve_course_id(course_path: Path) -> Optional[str]:
     """Resolve a registry identity by complete path components, never a string prefix."""
     parts = course_path.parts
-    matches = [(cid, reg) for cid, reg in config.COURSE_REGISTRY.items()
-               if parts[-len(Path(reg["rel_path"]).parts):] == Path(reg["rel_path"]).parts]
-    return max(matches, key=lambda item: len(Path(item[1]["rel_path"]).parts))[0] if matches else None
+    matches = [
+        (cid, reg)
+        for cid, reg in config.COURSE_REGISTRY.items()
+        if parts[-len(Path(reg["rel_path"]).parts) :] == Path(reg["rel_path"]).parts
+    ]
+    return (
+        max(matches, key=lambda item: len(Path(item[1]["rel_path"]).parts))[0] if matches else None
+    )
 
 
-def select_modules(course_path: Path, course_id: Optional[str] = None,
-                   module_filter: Optional[int] = None, unit_filter: Optional[str] = None,
-                   max_module: Optional[int] = None) -> List[Path]:
+def select_modules(
+    course_path: Path,
+    course_id: Optional[str] = None,
+    module_filter: Optional[int] = None,
+    unit_filter: Optional[str] = None,
+    max_module: Optional[int] = None,
+) -> List[Path]:
     """Admit one numeric identity or an explicit unit; ambiguity is an error."""
     from ..module_organization.utils import get_module_number_from_path
 
@@ -456,7 +476,9 @@ def select_modules(course_path: Path, course_id: Optional[str] = None,
         unit = Path(unit_filter)
         if unit.is_absolute() or len(unit.parts) != 1 or unit.name in ("", ".", ".."):
             raise ValueError(f"Invalid unit selector: {unit_filter}")
-        modules = [m for m in modules if m.parent.relative_to(course_path).as_posix() == unit_filter]
+        modules = [
+            m for m in modules if m.parent.relative_to(course_path).as_posix() == unit_filter
+        ]
     if module_filter is not None:
         modules = [m for m in modules if get_module_number_from_path(m) == module_filter]
         if len(modules) > 1:
@@ -490,7 +512,12 @@ def parse_limits(values: List[str]) -> Dict[str, int]:
     limits = {}
     for value in values:
         course, separator, number = value.partition(":")
-        if not separator or course not in config.COURSE_REGISTRY or not number.isdecimal() or int(number) < 1:
+        if (
+            not separator
+            or course not in config.COURSE_REGISTRY
+            or not number.isdecimal()
+            or int(number) < 1
+        ):
             raise ValueError(f"Invalid course limit: {value}")
         if course in limits:
             raise ValueError(f"Duplicate course limit: {course}")
@@ -503,9 +530,12 @@ def module_sources(module_path: Path, skip_labs: bool = False) -> List[tuple]:
     candidates = set(module_path.glob("*.md"))
     for folder in ("assignments", "resources"):
         candidates.update((module_path / folder).glob("*.md"))
-    candidates.update(f for f in find_markdown_files(module_path)
-                      if f.name.startswith(config.SAMPLE_FILE_PREFIX)
-                      and "output" not in f.relative_to(module_path).parts)
+    candidates.update(
+        f
+        for f in find_markdown_files(module_path)
+        if f.name.startswith(config.SAMPLE_FILE_PREFIX)
+        and "output" not in f.relative_to(module_path).parts
+    )
     records = []
     destinations = set()
     for source in sorted(candidates):
@@ -518,8 +548,11 @@ def module_sources(module_path: Path, skip_labs: bool = False) -> List[tuple]:
             category = "lab-protocols"
         elif "lecture-content" in name or name == "module.md":
             category = "lecture-content"
-        elif ("study-guide" in name or name in ("questions.md", "practice_quiz.md")
-              or any(pattern in name for pattern in config.CONTENT_TYPE_PATTERNS)):
+        elif (
+            "study-guide" in name
+            or name in ("questions.md", "practice_quiz.md")
+            or any(pattern in name for pattern in config.CONTENT_TYPE_PATTERNS)
+        ):
             category = "study-guides"
         else:
             continue
@@ -536,18 +569,34 @@ def module_sources(module_path: Path, skip_labs: bool = False) -> List[tuple]:
     return records
 
 
-def module_artifacts(module_path: Path, formats: List[str], *, output_dir: Optional[Path] = None,
-                     skip_labs: bool = False) -> List[dict]:
+def module_artifacts(
+    module_path: Path,
+    formats: List[str],
+    *,
+    output_dir: Optional[Path] = None,
+    skip_labs: bool = False,
+) -> List[dict]:
     formats = get_formats_to_process(",".join(formats))
     output = output_dir if output_dir is not None else module_path / "output"
-    return [{"source": source, "destination": output / category / f"{base}.{fmt}",
-             "kind": "module", "category": category, "format": fmt, "module": module_path}
-            for source, category, base in module_sources(module_path, skip_labs)
-            for fmt in formats]
+    return [
+        {
+            "source": source,
+            "destination": output / category / f"{base}.{fmt}",
+            "kind": "module",
+            "category": category,
+            "format": fmt,
+            "module": module_path,
+        }
+        for source, category, base in module_sources(module_path, skip_labs)
+        for fmt in formats
+    ]
 
 
-def syllabus_artifacts(course_path: Path, formats: List[str], course_id: Optional[str] = None) -> List[dict]:
-    reg = config.COURSE_REGISTRY.get(course_id or resolve_course_id(course_path), {})
+def syllabus_artifacts(
+    course_path: Path, formats: List[str], course_id: Optional[str] = None
+) -> List[dict]:
+    identity = course_id or resolve_course_id(course_path)
+    reg = config.COURSE_REGISTRY.get(identity, {}) if identity is not None else {}
     syllabus = course_path / reg.get("syllabus_location", "syllabus")
     # File-style syllabi are copied at publication, not rendered by this producer.
     if not syllabus.is_dir():
@@ -555,19 +604,37 @@ def syllabus_artifacts(course_path: Path, formats: List[str], course_id: Optiona
     return document_artifacts(syllabus, syllabus / "output", formats, "syllabus")
 
 
-def document_artifacts(source_dir: Path, output_dir: Path, formats: List[str], kind: str) -> List[dict]:
-    return [{"source": source, "destination": output_dir / f"{source.stem}.{fmt}",
-             "kind": kind, "format": fmt}
-            for source in sorted(source_dir.glob("*.md"))
-            if not source.name.startswith(("README", "AGENTS")) for fmt in formats]
+def document_artifacts(
+    source_dir: Path, output_dir: Path, formats: List[str], kind: str
+) -> List[dict]:
+    return [
+        {
+            "source": source,
+            "destination": output_dir / f"{source.stem}.{fmt}",
+            "kind": kind,
+            "format": fmt,
+        }
+        for source in sorted(source_dir.glob("*.md"))
+        if not source.name.startswith(("README", "AGENTS"))
+        for fmt in formats
+    ]
 
 
-def lab_artifacts(course_path: Path, formats: List[str], course_id: Optional[str] = None,
-                  max_lab: Optional[int] = None) -> List[dict]:
+def lab_artifacts(
+    course_path: Path,
+    formats: List[str],
+    course_id: Optional[str] = None,
+    max_lab: Optional[int] = None,
+) -> List[dict]:
     if max_lab is not None and (type(max_lab) is not int or max_lab < 1):
         raise ValueError("Lab limit must be a positive integer")
-    reg = config.COURSE_REGISTRY.get(course_id or resolve_course_id(course_path), {})
-    base = course_path / "course" if reg.get("has_course_subdir", (course_path / "course").is_dir()) else course_path
+    identity = course_id or resolve_course_id(course_path)
+    reg = config.COURSE_REGISTRY.get(identity, {}) if identity is not None else {}
+    base = (
+        course_path / "course"
+        if reg.get("has_course_subdir", (course_path / "course").is_dir())
+        else course_path
+    )
     labs = base / "labs"
     records = []
     for source in sorted(labs.glob("*.md")):
@@ -581,8 +648,14 @@ def lab_artifacts(course_path: Path, formats: List[str], course_id: Optional[str
                 continue
         for fmt in formats:
             if fmt in ("pdf", "html"):
-                records.append({"source": source, "destination": labs / "output" / fmt / f"{source.stem}.{fmt}",
-                                "kind": "lab", "format": fmt})
+                records.append(
+                    {
+                        "source": source,
+                        "destination": labs / "output" / fmt / f"{source.stem}.{fmt}",
+                        "kind": "lab",
+                        "format": fmt,
+                    }
+                )
     return records
 
 
@@ -594,11 +667,19 @@ def practice_artifacts(course_path: Path, formats: List[str]) -> List[dict]:
     return document_artifacts(source, source / "output", ["pdf"], "practice")
 
 
-def plan_course(course_path: Path, course_name: str, formats: List[str], *,
-                course_id: Optional[str] = None, module_filter: Optional[int] = None,
-                unit_filter: Optional[str] = None, max_module: Optional[int] = None,
-                max_lab: Optional[int] = None, generate_website: bool = True,
-                skip_labs: bool = False) -> dict:
+def plan_course(
+    course_path: Path,
+    course_name: str,
+    formats: List[str],
+    *,
+    course_id: Optional[str] = None,
+    module_filter: Optional[int] = None,
+    unit_filter: Optional[str] = None,
+    max_module: Optional[int] = None,
+    max_lab: Optional[int] = None,
+    generate_website: bool = True,
+    skip_labs: bool = False,
+) -> dict:
     """One source-derived manifest for cleanup, generation and validation."""
     formats = get_formats_to_process(",".join(formats))
     modules = select_modules(course_path, course_id, module_filter, unit_filter, max_module)
@@ -608,8 +689,15 @@ def plan_course(course_path: Path, course_name: str, formats: List[str], *,
             raise ValueError(f"No authored renderable sources in {module}")
         artifacts.extend(module_artifacts(module, formats, skip_labs=skip_labs))
         if generate_website:
-            artifacts.append({"source": module, "destination": module / "output/website/index.html",
-                              "kind": "website", "format": "html", "module": module})
+            artifacts.append(
+                {
+                    "source": module,
+                    "destination": module / "output/website/index.html",
+                    "kind": "website",
+                    "format": "html",
+                    "module": module,
+                }
+            )
     if module_filter is None and unit_filter is None:
         artifacts.extend(syllabus_artifacts(course_path, formats, course_id))
         if not skip_labs:
@@ -624,14 +712,26 @@ def plan_course(course_path: Path, course_name: str, formats: List[str], *,
         if destination.exists() and not destination.is_file():
             raise ValueError(f"Generated destination is not a regular file: {destination}")
         destinations.add(destination)
-    return {"course": course_name, "course_id": course_id, "path": course_path,
-            "formats": formats, "modules": modules, "artifacts": artifacts,
-            "include_course_extras": module_filter is None and unit_filter is None}
+    return {
+        "course": course_name,
+        "course_id": course_id,
+        "path": course_path,
+        "formats": formats,
+        "modules": modules,
+        "artifacts": artifacts,
+        "include_course_extras": module_filter is None and unit_filter is None,
+    }
 
 
-def plan_generation(repo_root: Path, courses: List[tuple], formats: List[str], *,
-                    max_modules: Optional[dict] = None, max_labs: Optional[dict] = None,
-                    **selection) -> List[dict]:
+def plan_generation(
+    repo_root: Path,
+    courses: List[tuple],
+    formats: List[str],
+    *,
+    max_modules: Optional[dict] = None,
+    max_labs: Optional[dict] = None,
+    **selection: Any,
+) -> List[dict]:
     if not courses:
         raise ValueError("No courses selected")
     ids = {entry[2] for entry in courses if len(entry) > 2}
@@ -644,9 +744,15 @@ def plan_generation(repo_root: Path, courses: List[tuple], formats: List[str], *
         relative, name = entry[:2]
         cid = entry[2] if len(entry) > 2 else get_course_id_from_path(relative)
         path = require_contained(repo_root / relative, repo_root)
-        plan = plan_course(path, name, formats, course_id=cid,
-                           max_module=(max_modules or {}).get(cid), max_lab=(max_labs or {}).get(cid),
-                           **selection)
+        plan = plan_course(
+            path,
+            name,
+            formats,
+            course_id=cid,
+            max_module=(max_modules or {}).get(cid),
+            max_lab=(max_labs or {}).get(cid),
+            **selection,
+        )
         for artifact in plan["artifacts"]:
             if artifact["destination"] in owned:
                 raise ValueError(f"Overlapping course selection: {artifact['destination']}")
@@ -656,13 +762,30 @@ def plan_generation(repo_root: Path, courses: List[tuple], formats: List[str], *
 
 
 def describe_generation(plans: List[dict]) -> str:
-    return "\n".join(["DRY RUN - admitted generated destinations:"] +
-                     [str(a["destination"]) for p in plans for a in p["artifacts"]] +
-                     ["Dry run complete. No files were generated or removed."])
+    return "\n".join(
+        ["DRY RUN - admitted generated destinations:"]
+        + [str(a["destination"]) for p in plans for a in p["artifacts"]]
+        + ["Dry run complete. No files were generated or removed."]
+    )
 
 
-def generate_dry_run_report(repo_root: Path, courses: List[tuple], formats: List[str],
-                            module_filter: Optional[int] = None, generate_website: bool = True,
-                            skip_labs: bool = False, **selection) -> str:
-    return describe_generation(plan_generation(repo_root, courses, formats,
-        module_filter=module_filter, generate_website=generate_website, skip_labs=skip_labs, **selection))
+def generate_dry_run_report(
+    repo_root: Path,
+    courses: List[tuple],
+    formats: List[str],
+    module_filter: Optional[int] = None,
+    generate_website: bool = True,
+    skip_labs: bool = False,
+    **selection: Any,
+) -> str:
+    return describe_generation(
+        plan_generation(
+            repo_root,
+            courses,
+            formats,
+            module_filter=module_filter,
+            generate_website=generate_website,
+            skip_labs=skip_labs,
+            **selection,
+        )
+    )

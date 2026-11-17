@@ -180,7 +180,9 @@ def read_timings(paths: list[Path] | None = None) -> dict[str, dict[str, object]
 
 
 def read_coverage(
-    path: Path | None = None, timings: dict | None = None, root: Path = ROOT,
+    path: Path | None = None,
+    timings: dict | None = None,
+    root: Path = ROOT,
 ) -> str:
     coverage_path = root / "software/coverage.json" if path is None else path
     if not coverage_path.is_file():
@@ -194,9 +196,11 @@ def read_coverage(
             raise ValueError("coverage percentage outside [0,100]")
         receipt = (read_timings() if timings is None else timings).get("test", {})
         bound = (
-            receipt.get("schema") == SCHEMA and receipt.get("attribution") == "bound"
+            receipt.get("schema") == SCHEMA
+            and receipt.get("attribution") == "bound"
             and receipt.get("source_unchanged") is True
-            and receipt.get("runtime_unchanged") is True and receipt.get("rc") == 0
+            and receipt.get("runtime_unchanged") is True
+            and receipt.get("rc") == 0
             and coverage_path.resolve() == (root / "software/coverage.json").resolve()
             and receipt.get("coverage") == coverage_identity(root)
             and receipt.get("coverage") is not None
@@ -206,7 +210,8 @@ def read_coverage(
     except (OSError, KeyError, TypeError, ValueError):
         return "unavailable (unreadable coverage or provenance)"
     qualification = (
-        "source/runtime-bound successful test receipt" if bound
+        "source/runtime-bound successful test receipt"
+        if bound
         else "unbound historical coverage; not evidence of the latest test run"
     )
     return f"{percent:.0f}% of `software/src` ({qualification})"
@@ -222,7 +227,8 @@ def render_timings(timings: dict[str, dict[str, object]], *, root: Path = ROOT) 
         bound = receipt.get("schema") == SCHEMA and receipt.get("attribution") == "bound"
         identity = (
             receipt.get("source_before", {}).get("sha256", "unknown")
-            if bound else receipt.get("commit", "unknown")
+            if bound
+            else receipt.get("commit", "unknown")
         )
         qualification = "source/runtime-bound" if bound else "historical/unbound"
         if receipt.get("attribution") == "rejected-drift":

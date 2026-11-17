@@ -188,9 +188,9 @@ def run_cross_rules(
                 if owner != repository:
                     issues.append(
                         Issue(
-                            "EC120", "$.units",
-                            f"unit_id {unit_id!r} is claimed by both "
-                            f"{owner!r} and {repository!r}",
+                            "EC120",
+                            "$.units",
+                            f"unit_id {unit_id!r} is claimed by both {owner!r} and {repository!r}",
                         )
                     )
             for term in _as_dicts(document.get("glossary")):
@@ -201,7 +201,8 @@ def run_cross_rules(
                     if owner != repository and any(value != definition for value in previous):
                         issues.append(
                             Issue(
-                                "EC121", "$.glossary",
+                                "EC121",
+                                "$.glossary",
                                 f"term_id {term_id!r} means different things in "
                                 f"{owner!r} and {repository!r}",
                             )

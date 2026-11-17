@@ -154,9 +154,11 @@ def main(argv=None) -> int:
             if args.course is not None:
                 playlists = [(slug, value) for slug, value in playlists if slug == args.course]
             if args.limit is not None:
-                playlists = playlists[:args.limit]
+                playlists = playlists[: args.limit]
             if not playlists:
-                raise ValueError("No playlists match selection; local dry-run requires an existing manifest")
+                raise ValueError(
+                    "No playlists match selection; local dry-run requires an existing manifest"
+                )
             selected = [slug for slug, _ in playlists]
             if args.dry_run:
                 for slug, playlist in playlists:
@@ -169,16 +171,25 @@ def main(argv=None) -> int:
             for slug, playlist in playlists:
                 try:
                     outcome = scaffold_course_directory(
-                        slug, playlist["videos"], transcript_dir, courses_dir, playlist,
-                        skip_whisper=args.skip_whisper, force=args.force_scaffold,
+                        slug,
+                        playlist["videos"],
+                        transcript_dir,
+                        courses_dir,
+                        playlist,
+                        skip_whisper=args.skip_whisper,
+                        force=args.force_scaffold,
                     )
                     errors.extend(outcome["errors"])
                 except (OSError, ValueError, KeyError, TypeError) as error:
                     errors.append(f"{slug}: {error}")
         if not args.skip_render:
             rendered = render_all_youtube_courses(
-                courses_dir, formats, args.course, not args.no_resume,
-                course_slugs=selected, limit=args.limit,
+                courses_dir,
+                formats,
+                args.course,
+                not args.no_resume,
+                course_slugs=selected,
+                limit=args.limit,
             )
             errors.extend(rendered["total_errors"])
     except Exception as error:

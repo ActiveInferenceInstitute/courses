@@ -60,9 +60,7 @@ def load_pin() -> dict[str, str]:
     if not isinstance(revision, str) or REVISION_RE.fullmatch(revision) is None:
         raise ConformanceError("GNN pin requires a full lowercase Git revision")
     if revision != EXPECTED_REVISION or pin.get("tag") != EXPECTED_TAG:
-        raise ConformanceError(
-            "GNN pin does not match the independently reviewed v5.1.0 manifest"
-        )
+        raise ConformanceError("GNN pin does not match the independently reviewed v5.1.0 manifest")
     return pin
 
 
@@ -143,9 +141,7 @@ def exemplar_paths(models_dir: Path = MODELS_DIR) -> list[Path]:
         raise ConformanceError(f"Missing GNN exemplar directory: {models_dir}")
     paths = sorted(path for path in models_dir.glob("*.md") if path.name != "README.md")
     if len(paths) != EXPECTED_EXEMPLARS:
-        raise ConformanceError(
-            f"Expected {EXPECTED_EXEMPLARS} GNN exemplars, found {len(paths)}"
-        )
+        raise ConformanceError(f"Expected {EXPECTED_EXEMPLARS} GNN exemplars, found {len(paths)}")
     return paths
 
 
@@ -155,9 +151,7 @@ def _typecheck(models_dir: Path) -> None:
 
     with tempfile.TemporaryDirectory(prefix="courses-gnn-") as output:
         # Spawned workers would escape this process's checked-source loader.
-        checked = GNNTypeChecker().validate_gnn_files(
-            models_dir, Path(output), file_workers=1
-        )
+        checked = GNNTypeChecker().validate_gnn_files(models_dir, Path(output), file_workers=1)
     if checked is not True:
         raise ConformanceError(f"GNN type checker did not succeed: {checked!r}")
 
@@ -172,12 +166,15 @@ def verify(
 ) -> dict[str, Any]:
     """Return conformance evidence only after successful guarded execution."""
     paths = exemplar_paths(models_dir)
-    with redirect_stdout(sys.stderr), qualified_runtime(
-        mode=mode,
-        bootstrap_path=bootstrap_path,
-        manifest_path=manifest_path,
-        package_root=package_root,
-    ) as source:
+    with (
+        redirect_stdout(sys.stderr),
+        qualified_runtime(
+            mode=mode,
+            bootstrap_path=bootstrap_path,
+            manifest_path=manifest_path,
+            package_root=package_root,
+        ) as source,
+    ):
         from gnn import __version__
         from gnn.parsers.basic import parse_gnn_formal, validate_gnn_syntax
 
@@ -209,15 +206,21 @@ def main(argv: list[str] | None = None) -> int:
         "--mode", choices=("installed", "source"), default=os.getenv("COURSES_GNN_MODE")
     )
     parser.add_argument(
-        "--bootstrap", type=Path, default=os.getenv("COURSES_GNN_BOOTSTRAP"),
+        "--bootstrap",
+        type=Path,
+        default=os.getenv("COURSES_GNN_BOOTSTRAP"),
         help="Reviewed standalone producer bootstrap; digest is frozen in this consumer",
     )
     parser.add_argument(
-        "--manifest", type=Path, default=os.getenv("COURSES_GNN_MANIFEST"),
+        "--manifest",
+        type=Path,
+        default=os.getenv("COURSES_GNN_MANIFEST"),
         help="Independent full v5.1.0 source manifest; never generated from the target",
     )
     parser.add_argument(
-        "--package-root", type=Path, default=os.getenv("COURSES_GNN_PACKAGE_ROOT"),
+        "--package-root",
+        type=Path,
+        default=os.getenv("COURSES_GNN_PACKAGE_ROOT"),
         help="Explicit gnn package directory; source mode also needs matching PYTHONPATH",
     )
     args = parser.parse_args(argv)

@@ -7,11 +7,11 @@ with `./run.sh metrics`; `./run.sh docs` fails if this file is stale.
 
 | Fact | Value |
 | --- | --- |
-| Tests collected (`pytest --collect-only`) | 1067 |
-| Test files (`software/tests/test_*.py`) | 69 |
-| Files scanned by the no-mocks check | 70 |
+| Tests collected (`pytest --collect-only`) | 1172 |
+| Test files (`software/tests/test_*.py`) | 72 |
+| Files scanned by the no-mocks check | 73 |
 | Importable modules (`software/src/*/__init__.py`) | 22 |
-| Python scripts (`software/scripts/*.py`) | 28 |
+| Python scripts (`software/scripts/*.py`) | 29 |
 | Pages under `docs/` (excluding `_generated/`) | 5 |
 | Pages under `software/docs/` | 18 |
 | Tracked Markdown files (excluding `docs/_generated/`) | 9274 |

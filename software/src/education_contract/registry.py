@@ -171,7 +171,10 @@ def check_member(
             repository_dir = contained_member_path(Path(member_root), spec.id)
         except (OSError, ValueError, RuntimeError) as error:
             return MemberState(
-                spec.id, spec.repository, DIVERGED, str(error),
+                spec.id,
+                spec.repository,
+                DIVERGED,
+                str(error),
                 (Issue("EC209", spec.id, str(error)),),
             )
     else:
@@ -187,24 +190,31 @@ def check_member(
         vendored_schema = contained_member_path(repository_dir, spec.schema_path)
     except (OSError, ValueError, RuntimeError) as error:
         return MemberState(
-            spec.id, spec.repository, DIVERGED, str(error),
+            spec.id,
+            spec.repository,
+            DIVERGED,
+            str(error),
             (Issue("EC209", spec.id, str(error)),),
         )
     expected_digest = schema_digest(canonical_schema)
     if not pointer_path.exists():
         if vendored_schema.exists():
             return MemberState(
-                spec.id, spec.repository, DIVERGED, "adoption pointer is missing",
+                spec.id,
+                spec.repository,
+                DIVERGED,
+                "adoption pointer is missing",
                 (Issue("EC201", spec.pointer, "adoption pointer is missing"),),
             )
-        return MemberState(
-            spec.id, spec.repository, PENDING, f"no {spec.pointer} in {spec.id}"
-        )
+        return MemberState(spec.id, spec.repository, PENDING, f"no {spec.pointer} in {spec.id}")
     try:
         pointer = _read_json(pointer_path)
     except (OSError, ValueError) as error:
         return MemberState(
-            spec.id, spec.repository, DIVERGED, f"{spec.pointer} is unreadable",
+            spec.id,
+            spec.repository,
+            DIVERGED,
+            f"{spec.pointer} is unreadable",
             (Issue("EC202", spec.pointer, str(error)),),
         )
     pointer_issues = validate_pointer(pointer, canonical_schema)
@@ -237,8 +247,7 @@ def check_member(
             continue
         structural = validate_document(document, canonical_schema)
         issues.extend(
-            Issue(issue.code, f"{entry}:{issue.location}", issue.message)
-            for issue in structural
+            Issue(issue.code, f"{entry}:{issue.location}", issue.message) for issue in structural
         )
         if structural:
             continue
@@ -250,11 +259,17 @@ def check_member(
     state = ADOPTED if not issues else DIVERGED
     detail = (
         f"adopted {len(bundles)} bundle(s)"
-        if state == ADOPTED else f"{len(issues)} contract violation(s)"
+        if state == ADOPTED
+        else f"{len(issues)} contract violation(s)"
     )
     return MemberState(
-        spec.id, spec.repository, state, detail,
-        tuple(issues), tuple(bundles), tuple(documents),
+        spec.id,
+        spec.repository,
+        state,
+        detail,
+        tuple(issues),
+        tuple(bundles),
+        tuple(documents),
     )
 
 
@@ -301,7 +316,9 @@ def check_contract(
         )
     members = tuple(
         check_member(
-            member_root, spec, canonical_schema=canonical_schema,
+            member_root,
+            spec,
+            canonical_schema=canonical_schema,
             repo_root=overrides.get(spec.id),
         )
         for spec in registry.members
