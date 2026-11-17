@@ -1,5 +1,10 @@
 """Tests for publish utils module — COURSE_REGISTRY-aware paths."""
 
+import hashlib
+import json
+
+import pytest
+
 from src.publish.utils import (
     flatten_module,
     flatten_published,
@@ -37,15 +42,15 @@ class TestFlattenModule:
         moved = flatten_module(module_dir)
         assert moved == 2
         assert (module_dir / "hw1.pdf").exists()
-        assert not subdir.exists()
+        assert subdir.is_dir()
 
     def test_handles_name_conflicts(self, temp_dir):
         md = temp_dir / "module-01"
         md.mkdir()
-        da = md / "dir_a"
+        da = md / "assignments"
         da.mkdir()
         (da / "file.pdf").write_text("a")
-        db = md / "dir_b"
+        db = md / "study-guides"
         db.mkdir()
         (db / "file.pdf").write_text("b")
         moved = flatten_module(md)
@@ -60,12 +65,124 @@ class TestFlattenModule:
         (sub / "hw1.pdf").write_text("c")
         moved = flatten_module(md, dry_run=True)
         assert moved == 1
+        assert not (md / ".flatten-receipt.json").exists()
         assert (sub / "hw1.pdf").exists()
 
     def test_empty_module(self, temp_dir):
         md = temp_dir / "module-01"
         md.mkdir()
         assert flatten_module(md) == 0
+
+    def test_category_collisions_keep_independent_owners_on_republication(self, tmp_path):
+        """Distinct generated sources retain their own stable flattened paths."""
+        module = tmp_path / "01_systems"
+        sources = [
+            module / "assignments/shared.pdf",
+            module / "study-guides/shared.pdf",
+        ]
+        for source in sources:
+            source.parent.mkdir(parents=True)
+        targets = [module / "shared.pdf", module / "study-guides_shared.pdf"]
+        for revision in range(3):
+            for index, source in enumerate(sources):
+                text = "same initial bytes" if revision == 0 else f"{index}: revision {revision}"
+                source.write_text(text)
+            expected = [source.read_bytes() for source in sources]
+            assert flatten_module(module) == 2
+            assert [target.read_bytes() for target in targets] == expected
+            assert set(module.glob("*.pdf")) == set(targets)
+            assert all(not source.exists() for source in sources)
+
+    @pytest.mark.parametrize("matching_bytes", [False, True])
+    def test_unknown_root_collision_is_never_adopted(self, tmp_path, matching_bytes):
+        """Equal bytes do not make an authored root file generated ownership."""
+        module = tmp_path / "01_systems"
+        source = module / "lecture-content/lesson.md"
+        source.parent.mkdir(parents=True)
+        foreign = module / "lesson.md"
+        authored = "revision 0" if matching_bytes else "authored root payload"
+        foreign.write_text(authored)
+        target = module / "lecture-content_lesson.md"
+        for revision in range(3):
+            source.write_text(f"revision {revision}")
+            assert flatten_module(module) == 1
+            assert foreign.read_text() == authored
+            assert target.read_text() == f"revision {revision}"
+            assert set(module.glob("*.md")) == {foreign, target}
+
+    def test_changed_owned_root_is_preserved_as_foreign(self, tmp_path):
+        """An authored edit revokes the receipt's permission to replace a root."""
+        module = tmp_path / "01_systems"
+        source = module / "lecture-content/lesson.md"
+        source.parent.mkdir(parents=True)
+        source.write_text("first generation")
+        assert flatten_module(module) == 1
+        foreign = module / "lesson.md"
+        foreign.write_text("authored replacement")
+        for revision in (1, 2):
+            source.write_text(f"generation {revision}")
+            assert flatten_module(module) == 1
+            assert foreign.read_text() == "authored replacement"
+            assert (module / "lecture-content_lesson.md").read_text() == f"generation {revision}"
+
+    def test_foreign_prefixed_collision_rejects_before_any_move(self, tmp_path):
+        """A second collision leaves both foreign files and every source intact."""
+        module = tmp_path / "01_systems"
+        category = module / "lecture-content"
+        category.mkdir(parents=True)
+        (category / "a-first.md").write_text("admitted but not yet moved")
+        (category / "lesson.md").write_text("generated")
+        (module / "lesson.md").write_text("authored root")
+        (module / "lecture-content_lesson.md").write_text("authored prefix")
+        before = {path.relative_to(module): path.read_bytes()
+                  for path in module.rglob("*") if path.is_file()}
+        with pytest.raises(FileExistsError, match="Ambiguous flattened payload"):
+            flatten_module(module)
+        after = {path.relative_to(module): path.read_bytes()
+                 for path in module.rglob("*") if path.is_file()}
+        assert after == before
+
+    @pytest.mark.parametrize("target_name", ["dashboard.html", "other-category_lesson.md"])
+    def test_receipt_cannot_authorize_unrelated_root_target(self, tmp_path, target_name):
+        """Even a matching digest cannot grant ownership of an unrelated filename."""
+        module = tmp_path / "01_systems"
+        source = module / "lecture-content/lesson.md"
+        source.parent.mkdir(parents=True)
+        source.write_text("generated lesson")
+        foreign = module / target_name
+        foreign.write_text("authored unrelated root payload")
+        (module / ".flatten-receipt.json").write_text(json.dumps({
+            "schema": "courses-publication-flatten/v1",
+            "artifacts": {
+                "lecture-content/lesson.md": {
+                    "path": target_name,
+                    "sha256": hashlib.sha256(foreign.read_bytes()).hexdigest(),
+                },
+            },
+        }))
+        before = {path.relative_to(module): path.read_bytes()
+                  for path in module.rglob("*") if path.is_file()}
+
+        with pytest.raises(ValueError, match="Invalid flattened publication binding"):
+            flatten_module(module)
+
+        assert {path.relative_to(module): path.read_bytes()
+                for path in module.rglob("*") if path.is_file()} == before
+
+    def test_dry_run_preserves_existing_receipt_and_owned_payload(self, tmp_path):
+        """Planning changed bytes must not alter either data or ownership."""
+        module = tmp_path / "01_systems"
+        source = module / "lecture-content/lesson.md"
+        source.parent.mkdir(parents=True)
+        source.write_text("first generation")
+        assert flatten_module(module) == 1
+        source.write_text("second generation")
+        before = {path.relative_to(module): path.read_bytes()
+                  for path in module.rglob("*") if path.is_file()}
+        assert flatten_module(module, dry_run=True) == 1
+        after = {path.relative_to(module): path.read_bytes()
+                 for path in module.rglob("*") if path.is_file()}
+        assert after == before
 
 
 class TestFlattenPublished:
@@ -107,15 +224,13 @@ class TestCopyPracticeTests:
         assert (pub / "ai-philosophy" / "practice_tests" / "test.md").exists()
         assert not (pub / "ai-philosophy" / "practice_tests" / "README.md").exists()
 
-    def test_skips_dir(self, temp_dir):
-        pub = temp_dir / config.PUBLISH_ROOT_NAME
-        pub.mkdir()
-        assert copy_practice_tests(temp_dir, courses=["ai-philosophy"]) == 0
+    def test_missing_course_fails(self, temp_dir):
+        with pytest.raises(FileNotFoundError):
+            copy_practice_tests(temp_dir, courses=["ai-philosophy"])
 
-    def test_unknown_course_warns(self, temp_dir):
-        pub = temp_dir / config.PUBLISH_ROOT_NAME
-        pub.mkdir()
-        assert copy_practice_tests(temp_dir, courses=["nonexistent"]) == 0
+    def test_unknown_course_fails(self, temp_dir):
+        with pytest.raises(ValueError):
+            copy_practice_tests(temp_dir, courses=["nonexistent"])
 
 
 class TestCopyLabsAndDashboards:
@@ -147,9 +262,8 @@ class TestCopyLabsAndDashboards:
         assert c >= 1
 
     def test_missing(self, temp_dir):
-        pub = temp_dir / config.PUBLISH_ROOT_NAME
-        pub.mkdir()
-        assert copy_labs_and_dashboards(temp_dir, courses=["ai-philosophy"]) == 0
+        with pytest.raises(FileNotFoundError):
+            copy_labs_and_dashboards(temp_dir, courses=["ai-philosophy"])
 
 
 class TestCopySlides:
@@ -163,9 +277,8 @@ class TestCopySlides:
         assert (pub / "ai-philosophy" / "slides" / "slides.pdf").exists()
 
     def test_missing(self, temp_dir):
-        pub = temp_dir / config.PUBLISH_ROOT_NAME
-        pub.mkdir()
-        assert copy_slides(temp_dir, courses=["ai-philosophy"]) == 0
+        with pytest.raises(FileNotFoundError):
+            copy_slides(temp_dir, courses=["ai-philosophy"])
 
 
 class TestCopySlidesToModules:
@@ -173,15 +286,17 @@ class TestCopySlidesToModules:
         slides_dir = temp_dir / _rel_path("ai-philosophy") / "resources" / "slides"
         slides_dir.mkdir(parents=True)
         (slides_dir / "module-1-slides-full.pdf").write_bytes(b"p")
+        (temp_dir / _rel_path("ai-philosophy") / "01_topic").mkdir()
         pub = temp_dir / config.PUBLISH_ROOT_NAME
-        (pub / "ai-philosophy" / "module-01-topic").mkdir(parents=True)
+        (pub / "ai-philosophy" / "01_topic").mkdir(parents=True)
         assert copy_slides_to_modules(temp_dir, courses=["ai-philosophy"]) == 1
-        assert (pub / "ai-philosophy" / "module-01-topic" / "module-1-slides-full.pdf").exists()
+        assert (pub / "ai-philosophy" / "01_topic" / "module-1-slides-full.pdf").read_bytes() == b"p"
 
     def test_no_match(self, temp_dir):
         slides_dir = temp_dir / _rel_path("ai-philosophy") / "resources" / "slides"
         slides_dir.mkdir(parents=True)
         (slides_dir / "module-99-slides.pdf").write_bytes(b"p")
+        (temp_dir / _rel_path("ai-philosophy") / "01_topic").mkdir()
         pub = temp_dir / config.PUBLISH_ROOT_NAME
         (pub / "ai-philosophy" / "module-01-topic").mkdir(parents=True)
         assert copy_slides_to_modules(temp_dir, courses=["ai-philosophy"]) == 0
@@ -199,7 +314,7 @@ class TestCopyExams:
         (e / "exam1_key.md").write_text("# K")
         pub = temp_dir / config.PUBLISH_ROOT_NAME
         pub.mkdir()
-        copy_exams(temp_dir)
+        copy_exams(temp_dir, courses=["ai-philosophy"])
         assert (pub / "ai-philosophy" / "exams" / "exam1.md").exists()
 
     def test_copies_outputs(self, temp_dir):
@@ -209,8 +324,8 @@ class TestCopyExams:
         (o / "exam1.pdf").write_bytes(b"pdf")
         pub = temp_dir / config.PUBLISH_ROOT_NAME
         pub.mkdir()
-        copy_exams(temp_dir)
-        assert (pub / "ai-philosophy" / "exams" / "exam1.pdf").exists()
+        copy_exams(temp_dir, courses=["ai-philosophy"])
+        assert (pub / "ai-philosophy" / "exams/output/exam1.pdf").read_bytes() == b"pdf"
 
 
 class TestCleanDirectory:
@@ -218,13 +333,13 @@ class TestCleanDirectory:
         t = temp_dir / "t"
         t.mkdir()
         (t / "old").write_text("o")
-        clean_directory(t)
+        clean_directory(t, files=[t / "old"])
         assert list(t.iterdir()) == []
 
-    def test_creates(self, temp_dir):
-        t = temp_dir / "new"
-        clean_directory(t)
-        assert t.exists()
+    def test_does_not_create_unselected_directory(self, temp_dir):
+        target = temp_dir / "new"
+        clean_directory(target, files=[])
+        assert not target.exists()
 
 
 class TestCopyDirectoryContents:
@@ -248,7 +363,8 @@ class TestCopyDirectoryContents:
         assert copy_directory_contents(src, dst) == 1
 
     def test_missing_source(self, temp_dir):
-        assert copy_directory_contents(temp_dir / "x", temp_dir / "d") == 0
+        with pytest.raises(FileNotFoundError):
+            copy_directory_contents(temp_dir / "x", temp_dir / "d")
 
 
 class TestGetCourseConfig:
@@ -265,13 +381,55 @@ class TestCleanPublished:
         p.mkdir()
         (p / "biol-1").mkdir()
         (p / "f.txt").write_text("")
-        clean_published(p)
-        assert not any(f for f in p.iterdir() if not f.name.startswith("."))
+        clean_published(p, destinations=[p / "f.txt"])
+        assert not (p / "f.txt").exists()
+        assert (p / "biol-1").is_dir()
 
     def test_preserves_dotfiles(self, temp_dir):
         p = temp_dir / "PUBLISHED"
         p.mkdir()
         (p / ".gitkeep").write_text("")
         (p / "biol-1").mkdir()
-        clean_published(p)
+        clean_published(p, destinations=[])
         assert (p / ".gitkeep").exists()
+
+
+def test_unit_specific_slides_and_dashboards_do_not_collide(tmp_path):
+    course = tmp_path / _rel_path("active-inference")
+    for unit in ("01_philosophy", "02_cognitive_science"):
+        module = course / unit / "01_systems"
+        module.mkdir(parents=True)
+        (module / "dashboard.html").write_text(f"<html>{unit}</html>")
+        slides = course / unit / "resources/slides"
+        slides.mkdir(parents=True)
+        (slides / "module-1-slides-full.pdf").write_bytes(unit.encode())
+    assert copy_slides_to_modules(tmp_path, ["active-inference"]) == 2
+    assert copy_labs_and_dashboards(tmp_path, ["active-inference"]) == 2
+    for unit in ("01_philosophy", "02_cognitive_science"):
+        module = tmp_path / "published/active-inference" / unit / "01_systems"
+        assert (module / "module-1-slides-full.pdf").read_bytes() == unit.encode()
+        assert (module / "dashboard.html").read_text() == f"<html>{unit}</html>"
+
+
+def test_ambiguous_course_wide_slides_reject_before_copy(tmp_path):
+    course = tmp_path / _rel_path("active-inference")
+    for unit in ("01_philosophy", "02_cognitive_science"):
+        (course / unit / "01_systems").mkdir(parents=True)
+    slides = course / "resources/slides"
+    slides.mkdir(parents=True)
+    (slides / "module-1-slides-full.pdf").write_bytes(b"ambiguous payload")
+    with pytest.raises(ValueError, match="Ambiguous"):
+        copy_slides_to_modules(tmp_path, ["active-inference"])
+    assert not (tmp_path / "published").exists()
+
+
+def test_copy_failure_does_not_replace_authored_guide(tmp_path):
+    source = tmp_path / "source"
+    destination = tmp_path / "destination"
+    source.mkdir()
+    destination.mkdir()
+    (source / "README.md").write_text("incoming guide")
+    (destination / "README.md").write_text("authored guide")
+    with pytest.raises(ValueError, match="authored guide"):
+        copy_directory_contents(source, destination, exclude_patterns=[])
+    assert (destination / "README.md").read_text() == "authored guide"

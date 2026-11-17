@@ -9,39 +9,23 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from . import config
-from .config import (
-    get_syllabus_required_formats,
-    DEFAULT_REQUIRED_FORMATS,
-)
+from .config import DEFAULT_REQUIRED_FORMATS
 from .utils import (
-    check_lab_files,
-    check_output_directory,
-    check_study_guide_files,
-    check_website_files,
     count_files_by_extension,
     format_file_counts,
     get_module_directories,
     get_timestamp,
 )
+from ..batch_processing.config import COURSE_REGISTRY
+from ..batch_processing.utils import (
+    get_courses_to_process,
+    get_formats_to_process,
+    plan_course,
+)
 
 logger = logging.getLogger(__name__)
 
 
-def _get_module_number(module_name: str) -> int:
-    """Extract module number from module directory name.
-
-    Args:
-        module_name: Directory name like 'module-01-study-of-life'
-
-    Returns:
-        Module number as integer (e.g., 1 for module-01)
-    """
-    import re
-
-    match = re.match(r"module-(\d+)", module_name)
-    if match:
-        return int(match.group(1))
-    return 0
 
 
 def validate_outputs(
@@ -49,219 +33,75 @@ def validate_outputs(
     formats: Optional[List[str]] = None,
     max_module: Optional[int] = None,
     max_lab: Optional[int] = None,
+    *,
+    course_id: Optional[str] = None,
+    module_filter: Optional[int] = None,
+    unit_filter: Optional[str] = None,
+    generate_website: Optional[bool] = None,
+    skip_labs: bool = False,
 ) -> Dict[str, Any]:
-    """Validate that all expected outputs exist for a course.
-
-    Args:
-        course_path: Path to course directory (e.g., course_development/biol-8)
-        formats: Optional list of formats to validate (e.g., ["pdf", "docx", "md"]).
-                 If None, uses DEFAULT_REQUIRED_FORMATS from config.
-        max_module: Optional max module number to validate (e.g., 6 means only validate 1-6)
-        max_lab: Optional max lab number to validate (e.g., 4 means only validate labs 1-4)
-
-    Returns:
-        Dictionary with validation results:
-        - valid: bool indicating overall validity
-        - course: course name
-        - formats_validated: list of formats being validated
-        - modules_checked: number of modules checked
-        - modules_valid: number of modules with complete outputs
-        - modules: list of module validation details
-        - syllabus_valid: bool for syllabus outputs
-        - issues: list of issues found
-    """
-    course_dir = Path(course_path).resolve()
-    course_name = course_dir.name
-
-    # Determine formats to validate
-    if formats is None:
-        formats = DEFAULT_REQUIRED_FORMATS
-
-    logger.info(f"Validating outputs for {course_name}")
-    logger.info(f"  Formats: {', '.join(formats)}")
-    if max_module:
-        logger.info(f"  Max module: {max_module}")
-    if max_lab:
-        logger.info(f"  Max lab: {max_lab}")
-
-    results: Dict[str, Any] = {
-        "valid": True,
-        "course": course_name,
-        "formats_validated": formats,
-        "timestamp": get_timestamp(),
-        "modules_checked": 0,
-        "modules_valid": 0,
-        "modules": [],
-        "syllabus_valid": False,
-        "issues": [],
-    }
-
-    # Get expected module count - use max_module limit if provided
-    full_expected = config.COURSE_CONFIG.get(course_name, {}).get("expected_modules", 0)
-    expected_modules = max_module if max_module else full_expected
-
-    # Validate modules - filter to max_module if specified
-    all_modules = get_module_directories(course_dir)
-    if max_module:
-        # Filter to only modules 1 through max_module
-        modules = [m for m in all_modules if _get_module_number(m.name) <= max_module]
-    else:
-        modules = all_modules
-    results["modules_checked"] = len(modules)
-
-    if expected_modules and len(modules) != expected_modules:
-        results["issues"].append(f"Expected {expected_modules} modules, found {len(modules)}")
-
-    for module_path in modules:
-        module_result = _validate_module_outputs(module_path, formats)
-        results["modules"].append(module_result)
-
-        if module_result["valid"]:
-            results["modules_valid"] += 1
-        else:
-            results["valid"] = False
-
-    # Validate syllabus
-    syllabus_result = _validate_syllabus_outputs(course_dir, formats)
-    results["syllabus_valid"] = syllabus_result["valid"]
-
-    if not syllabus_result["valid"]:
-        results["issues"].extend(syllabus_result.get("issues", []))
-
-    # Validate labs (with optional max_lab limit)
-    lab_result = check_lab_files(course_dir, max_lab=max_lab)
-    results["labs"] = lab_result
-
-    if lab_result["missing_outputs"]:
-        results["issues"].extend(
-            [f"Lab missing rendered output: {lab}" for lab in lab_result["missing_outputs"]]
+    """Validate exactly the artifacts admitted by the generation producer."""
+    course_dir = Path(course_path)
+    active = DEFAULT_REQUIRED_FORMATS if formats is None else formats
+    try:
+        active = get_formats_to_process(",".join(active))
+        plan = plan_course(
+            course_dir, course_id or course_dir.name, active, course_id=course_id,
+            module_filter=module_filter, unit_filter=unit_filter,
+            max_module=max_module, max_lab=max_lab, skip_labs=skip_labs,
+            generate_website=("html" in active if generate_website is None else generate_website),
         )
-    if lab_result["issues"]:
-        results["issues"].extend(lab_result["issues"])
-
-    # Log summary
-    logger.info(
-        f"Validation complete: {results['modules_valid']}/{results['modules_checked']} modules valid"
-    )
-    if lab_result["source_labs"] > 0:
-        logger.info(
-            f"Labs: {lab_result['source_labs']} source, outputs: {lab_result['output_files']}, dashboards: {lab_result['dashboards']}"
-        )
-
-    return results
+        return validate_plan(plan)
+    except (ValueError, OSError) as error:
+        return {
+            "valid": False, "course": course_id or course_dir.name,
+            "formats_validated": active, "timestamp": get_timestamp(),
+            "modules_checked": 0, "modules_valid": 0, "modules": [],
+            "syllabus_valid": False, "issues": [str(error)],
+        }
 
 
-def _validate_module_outputs(
-    module_path: Path, formats: Optional[List[str]] = None
-) -> Dict[str, Any]:
-    """Validate outputs for a single module.
+def _missing_artifacts(artifacts: List[dict]) -> List[str]:
+    missing = []
+    for artifact in artifacts:
+        path = artifact["destination"]
+        if not path.is_file() or path.stat().st_size == 0:
+            missing.append(str(path))
+    return missing
 
-    Args:
-        module_path: Path to module directory
-        formats: Optional list of formats to validate
 
-    Returns:
-        Dictionary with module validation results
-    """
-    module_name = module_path.name
-
-    result: Dict[str, Any] = {
-        "name": module_name,
-        "valid": True,
-        "has_output_dir": False,
-        "formats_checked": formats or DEFAULT_REQUIRED_FORMATS,
-        "study_guides": {},
-        "website": {},
-        "missing_files": [],
+def validate_plan(plan: dict) -> Dict[str, Any]:
+    """Consume an already admitted generation manifest without inventing inputs."""
+    artifacts = plan["artifacts"]
+    missing = _missing_artifacts(artifacts)
+    modules = []
+    for module in plan["modules"]:
+        expected = [a for a in artifacts if a.get("module") == module]
+        absent = _missing_artifacts(expected)
+        modules.append({
+            "name": module.relative_to(plan["path"]).as_posix(),
+            "valid": not absent, "missing_files": absent,
+        })
+    syllabus = [a for a in artifacts if a["kind"] == "syllabus"]
+    labs = [a for a in artifacts if a["kind"] == "lab"]
+    return {
+        "valid": not missing, "course": plan["course_id"] or plan["course"],
+        "formats_validated": plan["formats"], "timestamp": get_timestamp(),
+        "modules_checked": len(modules), "modules_valid": sum(m["valid"] for m in modules),
+        "modules": modules, "syllabus_valid": not _missing_artifacts(syllabus),
+        "labs": {"source_labs": len({a["source"] for a in labs}),
+                 "missing_outputs": _missing_artifacts(labs), "issues": []},
+        "issues": [f"Missing or empty required artifact: {path}" for path in missing],
     }
 
-    # Check output directory
-    has_output, subdirs = check_output_directory(module_path)
-    result["has_output_dir"] = has_output
-
-    if not has_output:
-        result["valid"] = False
-        result["missing_files"].append("output/")
-        return result
-
-    # Check study guide files (format-aware)
-    study_guide_files = check_study_guide_files(module_path, formats)
-    result["study_guides"] = study_guide_files
-
-    missing_sg = [f for f, exists in study_guide_files.items() if not exists]
-    if missing_sg:
-        result["missing_files"].extend([f"study-guides/{f}" for f in missing_sg])
-        result["valid"] = False
-
-    # Check website files (index.html is always required if html format requested)
-    # Website is optional unless html is in the formats list
-    if formats is None or "html" in formats:
-        website_files = check_website_files(module_path)
-        result["website"] = website_files
-
-        missing_web = [f for f, exists in website_files.items() if not exists]
-        if missing_web:
-            result["missing_files"].extend([f"website/{f}" for f in missing_web])
-            result["valid"] = False
-    else:
-        # Skip website validation if html not requested
-        result["website"] = {"index.html": "skipped (html not in formats)"}
-
-    return result
 
 
-def _validate_syllabus_outputs(
-    course_dir: Path, formats: Optional[List[str]] = None
+
+
+
+def validate_published(
+    published_path: str, courses: Optional[List[str]] = None
 ) -> Dict[str, Any]:
-    """Validate syllabus outputs for a course.
-
-    Syllabus outputs are placed directly in the syllabus/output/ directory
-    (flat structure), not in format subdirectories.
-
-    Args:
-        course_dir: Path to course directory
-        formats: Optional list of formats to validate. If None, uses default.
-
-    Returns:
-        Dictionary with syllabus validation results
-    """
-    result: Dict[str, Any] = {
-        "valid": True,
-        "formats_checked": formats,
-        "files": {},
-        "issues": [],
-    }
-
-    syllabus_output = course_dir / "syllabus" / "output"
-
-    if not syllabus_output.exists():
-        result["valid"] = False
-        result["issues"].append("Syllabus output directory not found")
-        return result
-
-    # Get required formats based on what was requested
-    required_formats = get_syllabus_required_formats(formats)
-    optional_formats = ["mp3", "md"]  # Always optional
-
-    # Track what we're checking
-    result["required_formats"] = required_formats
-
-    for fmt in required_formats:
-        files = list(syllabus_output.glob(f"*.{fmt}"))
-        result["files"][fmt] = len(files)
-        if len(files) == 0:
-            result["issues"].append(f"No syllabus {fmt.upper()} files found")
-            result["valid"] = False
-
-    for fmt in optional_formats:
-        files = list(syllabus_output.glob(f"*.{fmt}"))
-        result["files"][fmt] = len(files)
-        # No validity check for optional formats
-
-    return result
-
-
-def validate_published(published_path: str) -> Dict[str, Any]:
     """Validate that published directory has expected structure.
 
     Args:
@@ -288,8 +128,12 @@ def validate_published(published_path: str) -> Dict[str, Any]:
         results["issues"].append("Published directory does not exist")
         return results
 
-    # Check each expected course
-    for course_name in config.COURSE_CONFIG.keys():
+    selected = [entry[2] for entry in get_courses_to_process("all")] if courses is None else courses
+    for course_name in selected:
+        if course_name not in COURSE_REGISTRY:
+            results["issues"].append(f"Unknown course: {course_name}")
+            results["valid"] = False
+            continue
         course_dir = pub_dir / course_name
 
         if not course_dir.exists():
@@ -308,16 +152,28 @@ def validate_published(published_path: str) -> Dict[str, Any]:
         }
         results["total_files"] += total
 
-        # Check module directories
-        for module_dir in sorted(course_dir.glob("module-*")):
-            if module_dir.is_dir():
-                mod_counts = count_files_by_extension(module_dir)
-                results["courses"][course_name]["modules"].append(
-                    {
-                        "name": module_dir.name,
-                        "files": sum(mod_counts.values()),
-                    }
+        from ..batch_processing.utils import find_modules_for_course
+
+        modules = find_modules_for_course(course_dir, course_name)
+        if not modules:
+            results["valid"] = False
+            results["issues"].append(f"Course {course_name} has no published modules")
+        for module_dir in modules:
+            mod_counts = count_files_by_extension(module_dir)
+            payloads = [
+                path for path in module_dir.rglob("*")
+                if path.is_file() and path.name not in ("README.md", "AGENTS.md")
+                and not any(part.startswith(".") for part in path.relative_to(module_dir).parts)
+            ]
+            if not payloads or any(path.stat().st_size == 0 for path in payloads):
+                results["valid"] = False
+                results["issues"].append(
+                    f"Missing or empty published payload: {course_name}/{module_dir.relative_to(course_dir)}"
                 )
+            results["courses"][course_name]["modules"].append({
+                "name": module_dir.relative_to(course_dir).as_posix(),
+                "files": sum(mod_counts.values()),
+            })
 
     logger.info(f"Published validation complete: {results['total_files']} total files")
 
@@ -349,7 +205,9 @@ def generate_validation_report(
         # Auto-detect from this file's location
         root = Path(__file__).resolve().parent.parent.parent.parent
 
-    course_path = root / "course_development" / course_name
+    if course_name not in COURSE_REGISTRY:
+        raise ValueError(f"Unknown course: {course_name}")
+    course_path = root / COURSE_REGISTRY[course_name]["rel_path"]
     published_path = root / config.PUBLISHED_DIR_NAME
 
     logger.info(f"Generating validation report for {course_name}")
@@ -371,7 +229,7 @@ def generate_validation_report(
             str(course_path),
             formats=formats,
             max_module=max_module,
-            max_lab=max_lab,
+            max_lab=max_lab, course_id=course_name,
         )
     else:
         report["source_validation"] = {
@@ -381,7 +239,7 @@ def generate_validation_report(
 
     # Validate published outputs
     if published_path.exists():
-        report["published_validation"] = validate_published(str(published_path))
+        report["published_validation"] = validate_published(str(published_path), [course_name])
     else:
         report["published_validation"] = {
             "valid": False,
@@ -425,7 +283,7 @@ def get_output_summary(course_path: str) -> Dict[str, Any]:
     total_by_format: Dict[str, int] = {}
 
     for module_path in get_module_directories(course_dir):
-        module_name = module_path.name
+        module_name = module_path.relative_to(course_dir).as_posix()
         output_dir = module_path / "output"
 
         if output_dir.exists():

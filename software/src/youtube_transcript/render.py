@@ -5,6 +5,7 @@ with transcript-based module.md files, then renders them through the
 existing batch processing pipeline.
 """
 
+import hashlib
 import json
 import logging
 import os
@@ -284,6 +285,27 @@ def scaffold_course_directory(
     Returns:
         Dict with scaffolding results: created, skipped, failed counts
     """
+    from ..batch_processing.utils import require_contained
+
+    if not course_slug or Path(course_slug).name != course_slug or course_slug in (".", ".."):
+        raise ValueError(f"Invalid course slug: {course_slug}")
+    if not videos:
+        return {"created": 0, "skipped": 0, "failed": 1, "modules": [],
+                "errors": [f"No videos selected for {course_slug}"]}
+    names = set()
+    for video in videos:
+        identity = video.get("id")
+        index = video.get("playlist_index", 0)
+        if not isinstance(identity, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", identity):
+            raise ValueError(f"Invalid video identity: {identity}")
+        if type(index) is not int or index < 0:
+            raise ValueError(f"Invalid playlist index for {identity}: {index}")
+        name = f"{index + 1:02d}_{slugify(video.get('title', identity))}"
+        if name in names:
+            raise ValueError(f"Duplicate module identity: {course_slug}/{name}")
+        names.add(name)
+        require_contained(youtube_courses_dir / course_slug / name / "module.md", youtube_courses_dir)
+        require_contained(transcript_dir / TRANSCRIPTS_SUBDIR / f"{identity}.txt", transcript_dir)
     course_dir = youtube_courses_dir / course_slug
     course_dir.mkdir(parents=True, exist_ok=True)
 
@@ -308,6 +330,7 @@ def scaffold_course_directory(
     skipped = 0
     failed = 0
     modules: List[Dict[str, str]] = []
+    errors: List[str] = []
 
     for video in videos:
         video_id = video["id"]
@@ -329,6 +352,7 @@ def scaffold_course_directory(
         # Find or fetch transcript
         transcript_file = transcripts_path / f"{video_id}.txt"
         transcript_text = ""
+        failure = "empty transcript"
         transcript_method = "auto_caption"
 
         if transcript_file.exists():
@@ -344,19 +368,21 @@ def scaffold_course_directory(
                     rel_path = result.get("transcript_path", "")
                     if rel_path:
                         full_path = transcript_dir / rel_path
+                        require_contained(full_path, transcript_dir)
                         if full_path.exists():
                             transcript_text = full_path.read_text(encoding="utf-8").strip()
                     transcript_method = result.get("method", "auto_caption")
                 else:
-                    logger.warning(
-                        f"  Transcript failed for {video_id}: {result.get('error', 'unknown')}"
-                    )
+                    failure = str(result.get("error", "transcription failed"))
+                    logger.warning("Transcript failed for %s: %s", video_id, failure)
             except Exception as e:
+                failure = str(e)
                 logger.warning(f"  Transcript fetch error for {video_id}: {e}")
 
         if not transcript_text:
             failed += 1
             modules.append({"name": module_name, "status": "no_transcript"})
+            errors.append(f"{course_slug}/{module_name}: {failure}")
             continue
 
         # Create module directory and write module.md
@@ -375,139 +401,135 @@ def scaffold_course_directory(
         modules.append({"name": module_name, "status": "created"})
         logger.info(f"  Created {module_name}/module.md ({len(transcript_text)} chars)")
 
-    return {"created": created, "skipped": skipped, "failed": failed, "modules": modules}
+    return {"created": created, "skipped": skipped, "failed": failed, "modules": modules,
+            "errors": errors}
+
+
+def _render_binding(module_dir: Path, formats: List[str]) -> tuple[dict, List[dict]]:
+    from ..batch_processing.utils import module_artifacts, require_contained
+
+    artifacts = module_artifacts(module_dir, formats)
+    if not artifacts:
+        raise ValueError(f"No authored renderable sources in {module_dir}")
+    sources = sorted({artifact["source"] for artifact in artifacts})
+    for artifact in artifacts:
+        require_contained(artifact["destination"], module_dir)
+    producer = Path(__file__).parents[1] / "batch_processing"
+    return {
+        "schema": "courses-youtube-render/v1",
+        "formats": sorted(formats),
+        "sources": {str(path.relative_to(module_dir)): hashlib.sha256(path.read_bytes()).hexdigest()
+                    for path in sources},
+        "producer": {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+                     for path in (producer / "main.py", producer / "utils.py", Path(__file__))},
+    }, artifacts
+
+
+def _output_binding(module_dir: Path, artifacts: List[dict]) -> dict:
+    outputs = {}
+    for artifact in artifacts:
+        destination = artifact["destination"]
+        if not destination.is_file() or destination.stat().st_size == 0:
+            raise ValueError(f"Missing or empty render: {destination}")
+        outputs[str(destination.relative_to(module_dir))] = hashlib.sha256(destination.read_bytes()).hexdigest()
+    return outputs
 
 
 def render_course_modules(
-    course_dir: Path,
-    formats: Optional[List[str]] = None,
-    resume: bool = True,
+    course_dir: Path, formats: Optional[List[str]] = None, resume: bool = True,
 ) -> Dict[str, Any]:
-    """Render all module.md files in a course through process_module_by_type.
-
-    Args:
-        course_dir: Path to course directory containing numbered module subdirs
-        formats: List of output formats (default: all)
-        resume: If True, skip modules that already have output files
-
-    Returns:
-        Dict with rendering results per module
-    """
+    """Resume only an exact source/format/producer-bound set of complete outputs."""
     from ..batch_processing.main import process_module_by_type
+    from ..batch_processing.utils import get_formats_to_process, require_contained
 
-    rendered = 0
-    skipped_count = 0
-    errors: List[str] = []
-    module_results_list: List[Dict[str, Any]] = []
-
-    # Find module directories (numbered dirs containing module.md)
-    module_dirs = sorted(
-        [d for d in course_dir.iterdir() if d.is_dir() and (d / "module.md").exists()]
-    )
-
-    if not module_dirs:
-        logger.warning(f"No module directories found in {course_dir}")
-        return {
-            "rendered": rendered,
-            "skipped": skipped_count,
-            "errors": errors,
-            "modules": module_results_list,
-        }
-
-    logger.info(f"Rendering {len(module_dirs)} modules in {course_dir.name}")
-
-    for module_dir in module_dirs:
-        output_dir = module_dir / "output"
-
-        # Check if already rendered when resuming
-        if resume and output_dir.exists():
-            lecture_dir = output_dir / "lecture-content"
-            if lecture_dir.exists() and any(lecture_dir.iterdir()):
-                skipped_count += 1
-                module_results_list.append({"name": module_dir.name, "status": "skipped"})
-                continue
-
+    result: Dict[str, Any] = {"rendered": 0, "skipped": 0, "errors": [], "modules": []}
+    try:
+        active = get_formats_to_process("all" if formats is None else ",".join(formats))
+        modules = sorted(d for d in course_dir.iterdir()
+                         if d.is_dir() and (d / "module.md").is_file())
+        if not modules:
+            raise ValueError(f"No modules selected in {course_dir}")
+    except (OSError, ValueError) as error:
+        result["errors"].append(str(error))
+        return result
+    for module in modules:
         try:
-            logger.info(f"  Rendering {module_dir.name}...")
-            module_result = process_module_by_type(
-                str(module_dir), str(output_dir), formats=formats
-            )
-            rendered += 1
-            module_results_list.append(
-                {
-                    "name": module_dir.name,
-                    "status": "rendered",
-                    "summary": module_result.get("summary", {}),
-                }
-            )
-            if module_result.get("errors"):
-                errors.extend(module_result["errors"])
-        except Exception as e:
-            error_msg = f"Render failed for {module_dir.name}: {e}"
-            logger.error(error_msg)
-            errors.append(error_msg)
-            module_results_list.append(
-                {"name": module_dir.name, "status": "error", "error": str(e)}
-            )
-
-    return {
-        "rendered": rendered,
-        "skipped": skipped_count,
-        "errors": errors,
-        "modules": module_results_list,
-    }
+            require_contained(module, course_dir)
+            receipt_path = module / "output/.render-receipt.json"
+            require_contained(receipt_path, module)
+            binding, artifacts = _render_binding(module, active)
+            if resume and receipt_path.is_file():
+                try:
+                    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+                    complete = receipt == {**binding, "outputs": _output_binding(module, artifacts)}
+                except (OSError, ValueError, TypeError):
+                    complete = False
+                if complete:
+                    result["skipped"] += 1
+                    result["modules"].append({"name": module.name, "status": "skipped"})
+                    continue
+            if receipt_path.exists():
+                receipt_path.unlink()
+            rendered = process_module_by_type(str(module), str(module / "output"), formats=active)
+            if rendered["errors"]:
+                raise RuntimeError("; ".join(rendered["errors"]))
+            after, _ = _render_binding(module, active)
+            if binding != after:
+                raise RuntimeError("Authored source or producer changed during rendering")
+            receipt = {**binding, "outputs": _output_binding(module, artifacts)}
+            temporary = None
+            try:
+                with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8",
+                                                 dir=receipt_path.parent, delete=False) as stream:
+                    temporary = Path(stream.name)
+                    json.dump(receipt, stream, sort_keys=True)
+                    stream.write("\n")
+                os.replace(temporary, receipt_path)
+            finally:
+                if temporary is not None and temporary.exists():
+                    temporary.unlink()
+            result["rendered"] += 1
+            result["modules"].append({"name": module.name, "status": "rendered",
+                                      "summary": rendered["summary"]})
+        except Exception as error:
+            message = f"{course_dir.name}/{module.name}: {error}"
+            result["errors"].append(message)
+            result["modules"].append({"name": module.name, "status": "error", "error": message})
+    return result
 
 
 def render_all_youtube_courses(
-    youtube_courses_dir: Path,
-    formats: Optional[List[str]] = None,
-    course_filter: Optional[str] = None,
-    resume: bool = True,
+    youtube_courses_dir: Path, formats: Optional[List[str]] = None,
+    course_filter: Optional[str] = None, resume: bool = True, *,
+    course_slugs: Optional[List[str]] = None, limit: Optional[int] = None,
 ) -> Dict[str, Any]:
-    """Render all YouTube courses through the batch processing pipeline.
+    from ..batch_processing.utils import require_contained
 
-    Args:
-        youtube_courses_dir: Base directory containing course subdirs
-        formats: List of output formats (default: all)
-        course_filter: If set, only render this course slug
-        resume: If True, skip already-rendered modules
-
-    Returns:
-        Dict with rendering results per course
-    """
-    courses: Dict[str, Dict[str, Any]] = {}
-    total_rendered = 0
-    total_errors: List[str] = []
-
-    if not youtube_courses_dir.exists():
-        logger.warning(f"YouTube courses directory not found: {youtube_courses_dir}")
-        return {"courses": courses, "total_rendered": total_rendered, "total_errors": total_errors}
-
-    # Find course directories
-    course_dirs = sorted(
-        [d for d in youtube_courses_dir.iterdir() if d.is_dir() and d.name != "__pycache__"]
-    )
-
-    if course_filter:
-        course_dirs = [d for d in course_dirs if d.name == course_filter]
-        if not course_dirs:
-            logger.warning(f"Course not found: {course_filter}")
-            return {
-                "courses": courses,
-                "total_rendered": total_rendered,
-                "total_errors": total_errors,
-            }
-
-    for course_dir in course_dirs:
-        # Skip if no module dirs
-        has_modules = any((d / "module.md").exists() for d in course_dir.iterdir() if d.is_dir())
-        if not has_modules:
-            continue
-
-        logger.info(f"Rendering course: {course_dir.name}")
-        course_results = render_course_modules(course_dir, formats, resume)
-        courses[course_dir.name] = course_results
-        total_rendered += course_results["rendered"]
-        total_errors.extend(course_results["errors"])
-
-    return {"courses": courses, "total_rendered": total_rendered, "total_errors": total_errors}
+    result: Dict[str, Any] = {"courses": {}, "total_rendered": 0, "total_errors": []}
+    try:
+        if limit is not None and (type(limit) is not int or limit < 1):
+            raise ValueError("Playlist limit must be a positive integer")
+        courses = sorted(d for d in youtube_courses_dir.iterdir()
+                         if d.is_dir() and not d.name.startswith((".", "__")))
+        if course_filter is not None:
+            courses = [d for d in courses if d.name == course_filter]
+        if course_slugs is not None:
+            missing = set(course_slugs) - {course.name for course in courses}
+            if missing:
+                result["total_errors"].append(f"Missing selected courses: {sorted(missing)}")
+            courses = [course for course in courses if course.name in course_slugs]
+        if limit is not None:
+            courses = courses[:limit]
+        if not courses:
+            raise ValueError(f"No courses match selection in {youtube_courses_dir}")
+        for course in courses:
+            require_contained(course, youtube_courses_dir)
+    except (OSError, ValueError) as error:
+        result["total_errors"].append(str(error))
+        return result
+    for course in courses:
+        course_result = render_course_modules(course, formats, resume)
+        result["courses"][course.name] = course_result
+        result["total_rendered"] += course_result["rendered"]
+        result["total_errors"].extend(course_result["errors"])
+    return result

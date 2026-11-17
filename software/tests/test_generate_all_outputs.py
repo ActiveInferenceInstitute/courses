@@ -1,117 +1,142 @@
-"""Tests for the generate_all_outputs script.
+"""Real-file regressions for admitted generation and scoped cleanup."""
 
-Tests that orchestrate the full output-generation pipeline are marked
-with @pytest.mark.requires_api.
-"""
-
-import importlib.util
+import subprocess
 import sys
 from pathlib import Path
+
 import pytest
 
-# Add project root to sys.path
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
-# Load the script
-SCRIPT_PATH = PROJECT_ROOT / "scripts" / "generate_all_outputs.py"
-spec = importlib.util.spec_from_file_location("generate_all_outputs", SCRIPT_PATH)
-generate_all_outputs = importlib.util.module_from_spec(spec)
-sys.modules["generate_all_outputs"] = generate_all_outputs
-spec.loader.exec_module(generate_all_outputs)
+from scripts.generate_all_outputs import main
+from src.batch_processing.main import clear_all_outputs
+from src.batch_processing.utils import get_courses_to_process, plan_generation
 
 
-@pytest.fixture
-def script():
-    return generate_all_outputs
+def snapshot(root):
+    return {str(path.relative_to(root)): path.read_bytes()
+            for path in root.rglob("*") if path.is_file()}
 
 
-class TestGenerateAllOutputs:
-    def test_parse_args(self, script):
-        args = script.parse_args(["--course", "ai-philosophy", "--formats", "pdf,mp3", "--dry-run"])
-        assert args.course == "ai-philosophy"
-        assert args.formats == "pdf,mp3"
-        assert args.dry_run is True
+def modules(root):
+    course = root / "course_development/active_inference"
+    paths = [course / unit / module for unit in ("01_philosophy", "02_cognitive_science")
+             for module in ("01_systems", "02_agents")]
+    for path in paths:
+        path.mkdir(parents=True)
+        (path / "module.md").write_text(f"# {path.parent.name}\n\nAuthored explanation.\n")
+        (path / "lab.md").write_text("# Lab\n\nAuthored protocol.\n")
+        out = path / "output/lecture-content"
+        out.mkdir(parents=True)
+        for fmt in ("md", "pdf"):
+            (out / f"{path.name}-module.{fmt}").write_text(f"old {path} {fmt}")
+        (path / "output/README.md").write_text("authored guide")
+        (path / "output/.keep").write_text("hidden custody")
+    return course, paths
 
-    def test_parse_limits(self, script):
-        limits = script.parse_limits(["ai-math:6", "ai-robotics:5", "invalid"])
-        assert limits["ai-math"] == 6
-        assert limits["ai-robotics"] == 5
-        assert "invalid" not in limits
 
-    @pytest.mark.requires_api
-    def test_main_dry_run(self, script, monkeypatch):
-        """main() logs DRY RUN message and returns without generating files (requires API)."""
-        log_calls = []
+def test_numeric_ambiguity_rejected_before_cleanup(tmp_path, capsys):
+    _, paths = modules(tmp_path)
+    before = snapshot(tmp_path)
+    assert main(["--repo-root", str(tmp_path), "--course", "active-inference",
+                 "--module", "1", "--formats", "md", "--no-website"]) == 1
+    assert snapshot(tmp_path) == before
+    assert "Ambiguous module" in capsys.readouterr().err
+    assert all((path / "output/README.md").read_text() == "authored guide" for path in paths)
 
-        class FakeLogger:
-            def info(self, msg, *a, **kw):
-                log_calls.append(msg)
 
-            def warning(self, *a, **kw):
-                pass
+def test_selected_generation_preserves_other_units_modules_formats_guides(tmp_path):
+    _, paths = modules(tmp_path)
+    before = snapshot(tmp_path)
+    selected = paths[0]
+    output = selected / "output/lecture-content/01_systems-module.md"
+    output_directory_inode = output.parent.stat().st_ino
+    assert main(["--repo-root", str(tmp_path), "--course", "active-inference",
+                 "--unit", "01_philosophy", "--module", "1", "--formats", "md",
+                 "--skip-labs", "--no-website"]) == 0
+    after = snapshot(tmp_path)
+    assert output.read_bytes() == (selected / "module.md").read_bytes()
+    changed = {name for name in before.keys() | after.keys() if before.get(name) != after.get(name)}
+    assert changed == {str(output.relative_to(tmp_path))}
+    assert output.parent.stat().st_ino == output_directory_inode
 
-            def error(self, *a, **kw):
-                pass
 
-            def debug(self, *a, **kw):
-                pass
+@pytest.mark.parametrize("relative_root", [".", "child"])
+def test_cli_relative_repo_root_cleans_and_regenerates_only_selected_output(tmp_path, relative_root):
+    """Relative CLI roots share the planner's absolute cleanup boundary."""
+    _, paths = modules(tmp_path)
+    before = snapshot(tmp_path)
+    output = paths[0] / "output/lecture-content/01_systems-module.md"
+    directory_inode = output.parent.stat().st_ino
+    script = Path(__file__).resolve().parents[1] / "scripts/generate_all_outputs.py"
+    cwd = tmp_path if relative_root == "." else tmp_path.parent
+    root_argument = "." if relative_root == "." else tmp_path.name
+    result = subprocess.run(
+        [sys.executable, str(script), "--repo-root", root_argument,
+         "--course", "active-inference", "--unit", "01_philosophy", "--module", "1",
+         "--formats", "md", "--skip-labs", "--no-website"],
+        cwd=cwd, capture_output=True, text=True, check=False,
+    )
+    assert result.returncode == 0, result.stderr
+    after = snapshot(tmp_path)
+    assert output.read_bytes() == (paths[0] / "module.md").read_bytes()
+    changed = {name for name in before.keys() | after.keys() if before.get(name) != after.get(name)}
+    assert changed == {str(output.relative_to(tmp_path))}
+    assert output.parent.stat().st_ino == directory_inode
 
-        monkeypatch.setattr(
-            generate_all_outputs,
-            "get_courses_to_process",
-            lambda *a, **kw: [("active_inference/01_philosophy", "Philosophy", "ai-philosophy")],
-        )
-        monkeypatch.setattr(
-            generate_all_outputs, "generate_dry_run_report", lambda *a, **kw: "Dry run changes..."
-        )
-        monkeypatch.setattr(generate_all_outputs, "logger", FakeLogger())
 
-        script.main(["--dry-run", "--course", "ai-philosophy"])
+@pytest.mark.parametrize("extra", [
+    ["--formats", "md,unknown"], ["--module", "0"],
+    ["--max-module", "active-inference:0"], ["--max-lab", "ai-math:1"],
+])
+def test_invalid_admission_never_mutates(tmp_path, extra):
+    modules(tmp_path)
+    before = snapshot(tmp_path)
+    assert main(["--repo-root", str(tmp_path), "--course", "active-inference", *extra]) == 1
+    assert snapshot(tmp_path) == before
 
-        assert any("DRY RUN MODE" in msg for msg in log_calls)
 
-    @pytest.mark.requires_api
-    def test_main_execution(self, script, monkeypatch):
-        """main() runs the full module/lab/syllabus pipeline (requires API)."""
-        modules_calls = []
-        labs_calls = []
-        syllabus_calls = []
+def test_dry_run_is_nonmutating_and_unit_qualified(tmp_path, capsys):
+    modules(tmp_path)
+    before = snapshot(tmp_path)
+    assert main(["--repo-root", str(tmp_path), "--course", "active-inference",
+                 "--unit", "02_cognitive_science", "--module", "2",
+                 "--formats", "md", "--skip-labs", "--no-website", "--dry-run"]) == 0
+    assert snapshot(tmp_path) == before
+    text = capsys.readouterr().out
+    assert "02_cognitive_science/02_agents/output/lecture-content/02_agents-module.md" in text
+    assert "01_philosophy" not in text
+    assert "website" not in text
 
-        monkeypatch.setattr(
-            generate_all_outputs,
-            "get_courses_to_process",
-            lambda *a, **kw: [("active_inference/01_philosophy", "Philosophy", "ai-philosophy")],
-        )
-        monkeypatch.setattr(generate_all_outputs, "clear_all_outputs", lambda *a, **kw: None)
-        monkeypatch.setattr(
-            generate_all_outputs,
-            "process_course_modules",
-            lambda course_path, course_name, **kw: modules_calls.append((course_path, course_name)),
-        )
-        monkeypatch.setattr(
-            generate_all_outputs,
-            "process_course_labs",
-            lambda course_path, course_name, **kw: labs_calls.append(course_name),
-        )
-        monkeypatch.setattr(
-            generate_all_outputs,
-            "process_course_syllabus",
-            lambda course_path, course_name, **kw: syllabus_calls.append(course_name),
-        )
-        monkeypatch.setattr(
-            generate_all_outputs, "process_course_practice_tests", lambda *a, **kw: None
-        )
 
-        exit_code = script.main(["--course", "ai-philosophy", "--skip-clear"])
-        assert exit_code == 0
+def test_lab_and_module_limits_clean_only_admitted_outputs(tmp_path):
+    course, paths = modules(tmp_path)
+    labs = course / "labs"
+    for index in (1, 2):
+        labs.mkdir(exist_ok=True)
+        (labs / f"lab-{index}.md").write_text("# Lab\n\nProtocol.")
+        for fmt in ("pdf", "html"):
+            destination = labs / "output" / fmt / f"lab-{index}.{fmt}"
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(f"old lab {index} {fmt}")
+    plans = plan_generation(
+        tmp_path, get_courses_to_process("active-inference"), ["pdf"],
+        max_modules={"active-inference": 1}, max_labs={"active-inference": 1},
+        generate_website=False,
+    )
+    result = clear_all_outputs(tmp_path, plans=plans)
+    assert result["errors"] == []
+    assert not (labs / "output/pdf/lab-1.pdf").exists()
+    assert (labs / "output/pdf/lab-2.pdf").read_text() == "old lab 2 pdf"
+    assert (labs / "output/html/lab-1.html").read_text() == "old lab 1 html"
+    assert (paths[1] / "output/lecture-content/02_agents-module.pdf").exists()
+    assert (paths[0] / "output/lecture-content/01_systems-module.md").exists()
 
-        assert len(modules_calls) == 1
-        assert modules_calls[0][1] == "Philosophy"
 
-        assert len(labs_calls) == 1
-        assert labs_calls[0] == "Philosophy"
-
-        assert len(syllabus_calls) == 1
-        assert syllabus_calls[0] == "Philosophy"
+def test_real_render_failure_is_nonzero_and_retains_peer_result(tmp_path):
+    course = tmp_path / "course_development/active_inference/01_philosophy"
+    for name in ("01_systems", "02_agents"):
+        (course / name).mkdir(parents=True)
+    (course / "01_systems/module.md").write_bytes(b"\xff")
+    (course / "02_agents/module.md").write_text("# Agents\n\nWorking peer.")
+    assert main(["--repo-root", str(tmp_path), "--course", "ai-philosophy",
+                 "--formats", "txt", "--no-website"]) == 1
+    assert "Working peer" in (course / "02_agents/output/lecture-content/02_agents-module.txt").read_text()

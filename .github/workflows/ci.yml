@@ -29,6 +29,8 @@ jobs:
     name: Static checks (lint, types, no-mocks, docs, contract)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      UV_PYTHON: "3.11"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -42,7 +44,11 @@ jobs:
 
       - name: Install dependencies
         working-directory: software
-        run: uv sync --extra dev
+        run: uv sync --python "$UV_PYTHON" --extra dev
+
+      - name: Record selected runtime
+        working-directory: software
+        run: uv run --no-sync --python "$UV_PYTHON" python -c 'import os,sys; print(sys.executable, sys.version); assert ".".join(map(str,sys.version_info[:2])) == os.environ["UV_PYTHON"]'
 
       - name: Lint (ruff check + format check)
         run: ./run.sh lint
@@ -67,6 +73,8 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.11", "3.12"]
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -81,7 +89,11 @@ jobs:
 
       - name: Install dependencies
         working-directory: software
-        run: uv sync --extra dev
+        run: uv sync --python "$UV_PYTHON" --extra dev
+
+      - name: Record selected runtime
+        working-directory: software
+        run: uv run --no-sync --python "$UV_PYTHON" python -c 'import os,sys; print(sys.executable, sys.version); assert ".".join(map(str,sys.version_info[:2])) == os.environ["UV_PYTHON"]'
 
       - name: Offline test gate
         run: ./run.sh test
@@ -97,15 +109,54 @@ jobs:
     name: gnn conformance (pinned)
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      COURSES_GNN_MODE: source
+      COURSES_GNN_PYTHON: ${{ runner.temp }}/courses-gnn/bin/python
+      COURSES_GNN_BOOTSTRAP: ${{ runner.temp }}/courses-gnn-bootstrap.py
+      COURSES_GNN_MANIFEST: ${{ runner.temp }}/courses-gnn-manifest.json
+      COURSES_GNN_PACKAGE_ROOT: ${{ github.workspace }}/.gnn-source/src/gnn
+      COURSES_GNN_TEST_REQUIRED: "1"
+      PYTHONPATH: ${{ github.workspace }}/software:${{ github.workspace }}/.gnn-source/src
+      PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Select the exact v5.1.0 source artifact
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ActiveInferenceInstitute/Generalized_Notation_Notation
+          ref: 75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf
+          path: .gnn-source
+          persist-credentials: false
+
+      - name: Retrieve independently reviewed qualification artifacts
+        shell: bash
+        run: |
+          curl --fail --location --proto '=https' --proto-redir '=https' \
+            'https://raw.githubusercontent.com/ActiveInferenceInstitute/Generalized_Notation_Notation/66d491f86895443cf588011cc6f40c37b8bae8fd/interop/gnn_bootstrap.py' \
+            --output "$COURSES_GNN_BOOTSTRAP"
+          curl --fail --location --proto '=https' --proto-redir '=https' \
+            'https://raw.githubusercontent.com/ActiveInferenceInstitute/Generalized_Notation_Notation/66d491f86895443cf588011cc6f40c37b8bae8fd/interop/v5.1.0-source-manifest.json' \
+            --output "$COURSES_GNN_MANIFEST"
 
       - name: Install uv
         uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           enable-cache: true
 
-      # The arm creates its own seeded venv and installs the parser pinned in
-      # .github/gnn-pin.json; nothing else in the repository needs that package.
-      - name: GNN conformance (pin, parse, type-check)
+      # Provision dependencies explicitly, outside the non-mutating gate.
+      # GNN itself is imported only under the checked-source guard, never pip.
+      - name: Prepare isolated parser runtime
+        shell: bash
+        run: |
+          uv venv --python 3.12 "$RUNNER_TEMP/courses-gnn"
+          uv pip install --python "$COURSES_GNN_PYTHON" defusedxml psutil pyyaml pytest
+
+      - name: Real-source qualification regressions
+        run: >-
+          "$COURSES_GNN_PYTHON" -B -m pytest -c /dev/null --noconftest -q
+          software/tests/test_verify_gnn_conformance.py
+
+      # Source-mode evidence is not installed-origin qualification.
+      - name: GNN conformance (qualified source, parse, type-check)
         run: ./run.sh gnn

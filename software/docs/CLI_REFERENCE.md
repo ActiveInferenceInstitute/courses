@@ -33,18 +33,23 @@ The repo-root `publish.py` is the exception — it runs as plain `python` from t
 
 ### `generate_all_outputs.py`
 
-The master rendering script. Processes one or all courses.
+The master renderer admits a complete source manifest before writing or cleaning.
+Selection is scoped by course/unit/module, format and lab policy; ambiguous
+selectors and unsupported formats fail before mutation. Dry-run creates no outputs.
 
 ```bash
 uv run python scripts/generate_all_outputs.py [OPTIONS]
 ```
 
 - `--course <ID>`: Specific course (e.g., `ai-philosophy`, or `all`).
-- `--module <N>`: Specific module number.
+- `--unit <ID>` / `--module <N>`: Select a unique source unit/module; ambiguous numeric module matches fail.
 - `--formats <LIST>`: `txt,md,pdf,html,docx,mp3`.
 - `--dry-run`: Preview actions.
 - `--skip-clear`: Do not clear existing outputs.
 - `--no-website`: Skip module website generation.
+- Cleanup touches only artifacts selected by the admitted manifest, not unrelated
+  courses, units or formats. The same manifest drives generation and validation;
+  omitted websites/labs remain untouched.
 
 ### `generate_module_renderings.py`
 
@@ -102,6 +107,9 @@ python publish.py --course ai-101 --override-formats txt
 ### `publish_all.py`
 
 The underlying script called by `publish.py`. Generates, publishes, and validates.
+Nonzero generation, publication and validation failures propagate to the caller;
+empty work is not a successful publish. Full source identity is preserved in the
+lowercase `published/` tree, and replacement is atomic.
 
 ### `publish_course.py`
 
@@ -127,7 +135,9 @@ uv run python scripts/flatten_published.py --path /custom/PUBLISHED
 
 ### `validate_outputs.py`
 
-Checks that `published/` contains valid files (non-empty, correct types).
+Checks expected artifacts derived from the source manifest, including required
+Markdown/audio and selected syllabus/lab formats. Missing outputs are failures,
+not inferred success from a partially populated destination.
 
 ```bash
 uv run python scripts/validate_outputs.py --course ai-philosophy
@@ -222,6 +232,11 @@ uv run python scripts/render_youtube_courses.py --formats txt,md
 - `--formats <LIST>`: Output formats.
 - `--skip-scaffold`: Render existing courses only (no enumeration/scaffolding).
 - `--force-scaffold`: Overwrite existing `module.md` files during scaffolding.
+- Resume requires matching source, requested formats, renderer identity and actual
+  outputs; an old marker alone is insufficient. Empty selection and failed
+  enumeration/scaffolding/rendering are nonzero failures.
+- `--skip-whisper` disables Whisper fallback, not playlist/caption networking.
+  It is not an offline mode.
 
 ---
 

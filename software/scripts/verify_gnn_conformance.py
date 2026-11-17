@@ -1,33 +1,32 @@
 #!/usr/bin/env python3
-"""Verify the pinned GNN parser against the committed exemplars.
+"""Run the courses GNN verdicts under the independently qualified v5.1.0 source.
 
-This is the single implementation of the repository's GNN conformance check.
-`.github/workflows/ci.yml` and `./run.sh gnn` both call this file; neither
-carries its own copy of the logic.
+Both admission modes require the reviewed bootstrap and independent full
+manifest, supplied as files. Their digests are frozen here, not inferred from
+the target package. Source mode additionally requires an explicit package root
+already selected by Python's import resolution (normally via PYTHONPATH).
+Installed mode requires the producer's actual PEP 610 Git-origin admission.
 
-The pin lives in `.github/gnn-pin.json` (schema `gnn-importer-pin/v1`) and names
-the upstream repository, the exact commit, and the release tag. Conformance
-means: the installed parser reports the pinned version, every committed exemplar
-under `course_development/gnn/01_gnn_syntax/models` parses cleanly, and the GNN
-type checker accepts the directory.
-
-Usage:
-    python software/scripts/verify_gnn_conformance.py            # verify
-    python software/scripts/verify_gnn_conformance.py --install  # install pin, then verify
-
-`--install` installs the pinned parser with pip into the running interpreter.
-It is the only network step; verification itself is offline.
+Use a fresh process. No installation, version-based reuse, or mode fallback is
+performed. A successful receipt is returned only after the producer's guarded
+import/execution context exits successfully. This is parser/type-checker
+conformance, not scientific execution or dependency qualification.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import re
-import subprocess
 import sys
 import tempfile
+from collections.abc import Iterator
+from contextlib import contextmanager, redirect_stdout
 from pathlib import Path
+from types import ModuleType
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
 PIN_PATH = ROOT / ".github" / "gnn-pin.json"
@@ -36,10 +35,10 @@ MODELS_DIR = ROOT / "course_development" / "gnn" / "01_gnn_syntax" / "models"
 PIN_SCHEMA = "gnn-importer-pin/v1"
 EXPECTED_REPOSITORY = "ActiveInferenceInstitute/Generalized_Notation_Notation"
 EXPECTED_EXEMPLARS = 5
-# Runtime dependencies of the pinned parser that its own metadata does not
-# declare; installed explicitly so `--no-deps` stays honest.
-PARSER_DEPENDENCIES = ("defusedxml", "psutil", "pyyaml")
-
+EXPECTED_TAG = "v5.1.0"
+EXPECTED_REVISION = "75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf"
+BOOTSTRAP_SHA256 = "f638d4c01fe7de31e43d793e59bf382d0c3d1a82f365c59238334a2b40adfb37"
+MANIFEST_SHA256 = "43b33c0b2b40386afa3f306fec4cc13bc1fd7c3b570fbf11d5008bad5c8e6b51"
 REVISION_RE = re.compile(r"^[0-9a-f]{40}$")
 
 
@@ -48,145 +47,194 @@ class ConformanceError(RuntimeError):
 
 
 def load_pin() -> dict[str, str]:
-    """Read and validate the canonical pin file."""
+    """Read the repository pin without importing the package it describes."""
     try:
         pin = json.loads(PIN_PATH.read_text(encoding="utf-8"))
-    except OSError as exc:
-        raise ConformanceError(f"cannot read {PIN_PATH.relative_to(ROOT)}: {exc}") from exc
-    except json.JSONDecodeError as exc:
-        raise ConformanceError(f"{PIN_PATH.relative_to(ROOT)} is not valid JSON: {exc}") from exc
-
-    if not isinstance(pin, dict):
-        raise ConformanceError(f"{PIN_PATH.relative_to(ROOT)} must be a JSON object")
-    if pin.get("schema") != PIN_SCHEMA:
-        raise ConformanceError(f"pin schema is {pin.get('schema')!r}, expected {PIN_SCHEMA!r}")
+    except (OSError, UnicodeError, ValueError) as exc:
+        raise ConformanceError(f"Cannot read GNN pin {PIN_PATH}: {exc}") from exc
+    if not isinstance(pin, dict) or pin.get("schema") != PIN_SCHEMA:
+        raise ConformanceError(f"Expected {PIN_SCHEMA} in {PIN_PATH}")
     if pin.get("repository") != EXPECTED_REPOSITORY:
+        raise ConformanceError("GNN pin names a different repository")
+    revision = pin.get("revision")
+    if not isinstance(revision, str) or REVISION_RE.fullmatch(revision) is None:
+        raise ConformanceError("GNN pin requires a full lowercase Git revision")
+    if revision != EXPECTED_REVISION or pin.get("tag") != EXPECTED_TAG:
         raise ConformanceError(
-            f"pin repository is {pin.get('repository')!r}, expected {EXPECTED_REPOSITORY!r}"
+            "GNN pin does not match the independently reviewed v5.1.0 manifest"
         )
-    if not REVISION_RE.match(str(pin.get("revision", ""))):
-        raise ConformanceError(f"pin revision is not a full commit SHA: {pin.get('revision')!r}")
-    tag = str(pin.get("tag", ""))
-    if not tag.startswith("v") or not tag[1:]:
-        raise ConformanceError(f"pin tag is not a v-prefixed release: {tag!r}")
     return pin
 
 
-def installed_version() -> str | None:
-    """Return the importable parser version, or None when it is absent."""
+def _checked_bytes(path: Path, expected: str, label: str) -> bytes:
     try:
-        from gnn import __version__
-    except ImportError:
-        return None
-    return str(__version__)
+        payload = path.read_bytes()
+    except OSError as exc:
+        raise ConformanceError(f"Cannot read {label} {path}: {exc}") from exc
+    if hashlib.sha256(payload).hexdigest() != expected:
+        raise ConformanceError(f"{label} SHA-256 does not match the reviewed artifact")
+    return payload
 
 
-def ensure_pin(pin: dict[str, str]) -> None:
-    """Install the pinned parser unless the running interpreter already has it."""
-    if installed_version() == pin["tag"].removeprefix("v"):
-        return
-    spec = (
-        "generalized-notation-notation @ "
-        f"git+https://github.com/{pin['repository']}.git@{pin['revision']}"
-    )
-    subprocess.check_call(
-        [
-            sys.executable,
-            "-m",
-            "pip",
-            "install",
-            "--disable-pip-version-check",
-            *PARSER_DEPENDENCIES,
-        ]
-    )
-    subprocess.check_call(
-        [
-            sys.executable,
-            "-m",
-            "pip",
-            "install",
-            "--disable-pip-version-check",
-            "--no-deps",
-            spec,
-        ]
-    )
+@contextmanager
+def qualified_runtime(
+    *,
+    mode: str,
+    bootstrap_path: Path,
+    manifest_path: Path,
+    package_root: Path | None = None,
+) -> Iterator[dict[str, Any]]:
+    """Guard all GNN imports and verdict execution in a fresh process.
 
-
-def exemplar_paths() -> list[Path]:
-    """Return the committed exemplar sketches, excluding the folder README."""
-    if not MODELS_DIR.is_dir():
-        raise ConformanceError(f"missing exemplar directory: {MODELS_DIR.relative_to(ROOT)}")
-    sketches = sorted(path for path in MODELS_DIR.glob("*.md") if path.name != "README.md")
-    if len(sketches) != EXPECTED_EXEMPLARS:
-        raise ConformanceError(
-            f"expected {EXPECTED_EXEMPLARS} GNN exemplars, found {len(sketches)}"
+    The yielded receipt is provisional inside the block. It is qualified only
+    after successful exit. No sys.path alteration or installed-to-source
+    fallback is made; the producer checks the caller's actual import resolution.
+    """
+    if mode not in {"installed", "source"}:
+        raise ConformanceError("An explicit installed or source mode is required")
+    if mode == "source" and package_root is None:
+        raise ConformanceError("Source mode requires an explicit package root")
+    pin = load_pin()
+    bootstrap_path = bootstrap_path.resolve()
+    bootstrap_bytes = _checked_bytes(bootstrap_path, BOOTSTRAP_SHA256, "bootstrap")
+    manifest_bytes = _checked_bytes(manifest_path, MANIFEST_SHA256, "manifest")
+    name = "_courses_qualified_gnn_bootstrap"
+    if name in sys.modules:
+        raise ConformanceError("A GNN qualification is already active; use a fresh process")
+    bootstrap = ModuleType(name)
+    bootstrap.__file__ = str(bootstrap_path)
+    bootstrap.__package__ = ""
+    sys.modules[name] = bootstrap
+    try:
+        # Execute precisely the bytes just checked: no source loader or pyc read.
+        exec(
+            compile(bootstrap_bytes, str(bootstrap_path), "exec", dont_inherit=True),
+            bootstrap.__dict__,
         )
-    return sketches
+        producer_pin = bootstrap.ImporterPin(
+            path=PIN_PATH,
+            commit=pin["revision"],
+            tag=pin["tag"],
+            repository=pin["repository"],
+            schema=pin["schema"],
+            recorded=pin.get("recorded"),
+            raw=pin,
+        )
+        try:
+            with bootstrap.qualified_source(
+                producer_pin,
+                manifest=manifest_bytes,
+                manifest_sha256=MANIFEST_SHA256,
+                package_root=package_root,
+                origin_mode=mode,
+            ) as receipt:
+                yield receipt
+            if receipt["bootstrap"]["sha256"] != BOOTSTRAP_SHA256:
+                raise ConformanceError("Bootstrap changed during guarded execution")
+        except bootstrap.SourceQualificationError as exc:
+            raise ConformanceError(f"{exc.code}: {exc}") from exc
+    finally:
+        del sys.modules[name]
 
 
-def verify(pin: dict[str, str]) -> dict[str, object]:
-    """Check the installed parser and every exemplar against the pin."""
-    try:
+def exemplar_paths(models_dir: Path = MODELS_DIR) -> list[Path]:
+    """Keep the five-exemplar admission separate from producer source identity."""
+    if not models_dir.is_dir():
+        raise ConformanceError(f"Missing GNN exemplar directory: {models_dir}")
+    paths = sorted(path for path in models_dir.glob("*.md") if path.name != "README.md")
+    if len(paths) != EXPECTED_EXEMPLARS:
+        raise ConformanceError(
+            f"Expected {EXPECTED_EXEMPLARS} GNN exemplars, found {len(paths)}"
+        )
+    return paths
+
+
+def _typecheck(models_dir: Path) -> None:
+    """Called only inside qualified_runtime; warnings are not conformance."""
+    from gnn.type_checker import GNNTypeChecker
+
+    with tempfile.TemporaryDirectory(prefix="courses-gnn-") as output:
+        # Spawned workers would escape this process's checked-source loader.
+        checked = GNNTypeChecker().validate_gnn_files(
+            models_dir, Path(output), file_workers=1
+        )
+    if checked is not True:
+        raise ConformanceError(f"GNN type checker did not succeed: {checked!r}")
+
+
+def verify(
+    *,
+    mode: str,
+    bootstrap_path: Path,
+    manifest_path: Path,
+    package_root: Path | None = None,
+    models_dir: Path = MODELS_DIR,
+) -> dict[str, Any]:
+    """Return conformance evidence only after successful guarded execution."""
+    paths = exemplar_paths(models_dir)
+    with redirect_stdout(sys.stderr), qualified_runtime(
+        mode=mode,
+        bootstrap_path=bootstrap_path,
+        manifest_path=manifest_path,
+        package_root=package_root,
+    ) as source:
         from gnn import __version__
         from gnn.parsers.basic import parse_gnn_formal, validate_gnn_syntax
-        from gnn.type_checker import GNNTypeChecker
-    except ImportError as exc:
-        raise ConformanceError(
-            f"the pinned GNN parser is not importable ({exc}); run with --install"
-        ) from exc
 
-    expected_version = pin["tag"].removeprefix("v")
-    if __version__ != expected_version:
-        raise ConformanceError(
-            f"installed GNN {__version__!r} does not match pinned tag {pin['tag']!r}"
-        )
-
-    sketches = exemplar_paths()
-    for sketch in sketches:
-        parsed = parse_gnn_formal(sketch)
-        if parsed is None or getattr(parsed, "parse_errors", None):
-            raise ConformanceError(f"{sketch.name} did not parse cleanly")
-        valid, errors = validate_gnn_syntax(sketch.read_text(encoding="utf-8"))
-        if not valid:
-            raise ConformanceError(f"{sketch.name} syntax errors: {errors!r}")
-
-    with tempfile.TemporaryDirectory(prefix="courses-gnn-") as output_dir:
-        checked = GNNTypeChecker().validate_gnn_files(MODELS_DIR, Path(output_dir))
-        if checked is not True:
-            # 2 is the checker's "invalid files or none found" warning; truthiness
-            # would let it pass. Anything but literal True is a failed gate.
-            raise ConformanceError(
-                "GNN type checker rejected the exemplar directory "
-                f"(validate_gnn_files returned {checked!r}; expected True)"
-            )
-
+        if __version__ != EXPECTED_TAG.removeprefix("v"):
+            raise ConformanceError(f"Unexpected admitted GNN version: {__version__}")
+        for path in paths:
+            content = path.read_text(encoding="utf-8")
+            parsed = parse_gnn_formal(path)
+            if parsed is None or parsed.parse_errors:
+                errors = None if parsed is None else parsed.parse_errors
+                raise ConformanceError(f"{path}: GNN parse failed: {errors}")
+            valid, errors = validate_gnn_syntax(content, is_content=True)
+            if valid is not True:
+                raise ConformanceError(f"{path}: GNN syntax failed: {errors}")
+        _typecheck(models_dir)
     return {
         "gnn-version": __version__,
-        "parsed": len(sketches),
-        "type-checked": len(sketches),
+        "parsed": len(paths),
+        "type-checked": len(paths),
         "result": "verified",
+        "source": source,
+        "scope": "GNN parsing, syntax and type checking; no scientific execution",
     }
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--install",
-        action="store_true",
-        help="pip-install the pinned parser before verifying (network access required)",
+        "--mode", choices=("installed", "source"), default=os.getenv("COURSES_GNN_MODE")
+    )
+    parser.add_argument(
+        "--bootstrap", type=Path, default=os.getenv("COURSES_GNN_BOOTSTRAP"),
+        help="Reviewed standalone producer bootstrap; digest is frozen in this consumer",
+    )
+    parser.add_argument(
+        "--manifest", type=Path, default=os.getenv("COURSES_GNN_MANIFEST"),
+        help="Independent full v5.1.0 source manifest; never generated from the target",
+    )
+    parser.add_argument(
+        "--package-root", type=Path, default=os.getenv("COURSES_GNN_PACKAGE_ROOT"),
+        help="Explicit gnn package directory; source mode also needs matching PYTHONPATH",
     )
     args = parser.parse_args(argv)
-
+    for name in ("mode", "bootstrap", "manifest"):
+        if not getattr(args, name):
+            parser.error(f"--{name} or COURSES_GNN_{name.upper()} is required")
     try:
-        pin = load_pin()
-        if args.install:
-            ensure_pin(pin)
-        result = verify(pin)
-    except ConformanceError as exc:
+        result = verify(
+            mode=args.mode,
+            bootstrap_path=args.bootstrap,
+            manifest_path=args.manifest,
+            package_root=args.package_root,
+        )
+    except (ConformanceError, OSError, UnicodeError, ValueError, ImportError) as exc:
         print(f"GNN conformance failed: {exc}", file=sys.stderr)
         return 1
-
-    print(json.dumps(result, indent=2, sort_keys=True))
+    print(json.dumps(result, sort_keys=True))
     return 0
 
 

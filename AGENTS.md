@@ -4,7 +4,7 @@
 
 ## Repository Overview
 
-This repository contains the complete curriculum infrastructure for the Active Inference Institute: **14 courses**, **464 modules**, **6,100+ content files**, a **Python publishing engine**, and a **YouTube transcript archive** with **1,029 collected tests** (995 pass in the offline gate; 34 internet/API/whisper tests are deselected). Counts are generated in [`docs/_generated/GATE_METRICS.md`](docs/_generated/GATE_METRICS.md).
+This repository contains source curricula, a Python publishing engine and a YouTube transcript archive. Inventory and test counts belong in [generated facts](docs/_generated/GATE_METRICS.md), qualified by their recorded source/runtime; do not copy them into prose or imply a fresh full-gate pass.
 
 ---
 
@@ -51,9 +51,9 @@ per-arm wall times are generated into [`docs/_generated/`](docs/_generated/READM
 
 | Directory | Purpose | AGENTS.md |
 |-----------|---------|-----------|
-| `course_development/` | All source curricula (14 courses across levels and domains) | [AGENTS.md](course_development/AGENTS.md) |
+| `course_development/` | Source curricula across levels and domains | [AGENTS.md](course_development/AGENTS.md) |
 | `published/` | Rendered outputs for distribution (generated, not hand-edited) | [AGENTS.md](published/AGENTS.md) |
-| `software/` | Python engine: 21 modules, 23 course scripts + 3 gate tools, 18 docs, 1,029 tests | [AGENTS.md](software/AGENTS.md) |
+| `software/` | Python engine, CLI scripts, tests and technical guides | [AGENTS.md](software/AGENTS.md) |
 | `docs/` | Repository-level documentation: gate, CI, documentation index | [AGENTS.md](docs/AGENTS.md) |
 | `summaries/` | Generated course summaries | [AGENTS.md](summaries/AGENTS.md) |
 | `publish.py` | Top-level pipeline entry point | — |
@@ -102,7 +102,7 @@ Course content must match the target audience's level:
 
 ### 5. The 8-Topic Spine
 
-All 14 courses follow this exact topic order in every unit:
+The spine-shaped curricula follow this topic order in every unit:
 
 1. **Systems** → 2. **Agents** → 3. **Perception** → 4. **Cognition** → 5. **Action** → 6. **Learning** → 7. **Communication** → 8. **Planning**
 

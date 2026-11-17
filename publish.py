@@ -11,7 +11,7 @@ Options:
     --dry-run           Show what would be generated without generating
     --override-formats  Comma-separated formats to override publish.toml
     --course COURSE     Override to process only this course ID
-    --skip-clear        Skip clearing existing outputs before generation
+    --skip-clear        Skip clearing existing generation and publication outputs
     --no-website        Skip website generation
     --skip-labs         Skip lab rendering
     --generate-dashboards  Generate interactive dashboards
@@ -28,6 +28,7 @@ Examples:
 
 import argparse
 import logging
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -42,6 +43,11 @@ except ImportError:
             "ERROR: Python 3.11+ required, or install 'tomli' package.", file=sys.stderr
         )
         sys.exit(1)
+
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / "software"))
+from src.batch_processing.config import AVAILABLE_FORMATS, COURSE_REGISTRY
+from src.batch_processing.utils import find_modules_for_course
 
 
 logging.basicConfig(
@@ -93,6 +99,71 @@ def get_enabled_courses(config: dict) -> list:
     """
     courses_section = config.get("courses", {})
     return [course for course, enabled in courses_section.items() if enabled]
+
+
+def _validate_selection(courses: list[str], formats: list[str] | None = None) -> bool:
+    """Reject the entire selection before any pipeline side effects."""
+    valid = True
+    if not courses:
+        logger.error("No courses selected")
+        valid = False
+    invalid_courses = [course for course in courses if course not in COURSE_REGISTRY]
+    if invalid_courses:
+        logger.error("Unknown course IDs: %r", invalid_courses)
+        valid = False
+
+    if formats is not None:
+        if not formats:
+            logger.error("No output formats selected")
+            valid = False
+        invalid_formats = [fmt for fmt in formats if fmt not in AVAILABLE_FORMATS]
+        if invalid_formats:
+            logger.error("Unknown output formats: %r", invalid_formats)
+            valid = False
+    return valid
+
+
+def _is_authored_markdown(
+    path: Path, generated_markdown: set[str] | None = None
+) -> bool:
+    """Treat Markdown without registry-declared generated ownership as authored."""
+    return path.suffix.lower() in {".md", ".markdown"} and (
+        generated_markdown is None or path.name not in generated_markdown
+    )
+
+
+def _validate_publication_path(destination: Path, publication_root: Path) -> None:
+    """Refuse escaped paths and symlink aliases before touching publication bytes."""
+    root = publication_root.absolute()
+    path = destination.absolute()
+    if not path.resolve().is_relative_to(root.resolve()):
+        raise ValueError(f"Publication destination escapes its root: {destination}")
+    if not path.is_relative_to(root):
+        raise ValueError(f"Publication destination is outside its root: {destination}")
+    for node in (path, *path.parents):
+        if node.is_symlink():
+            raise ValueError(f"Symlinked publication destination: {node}")
+        if node == root:
+            break
+
+
+def _clean_generated_destination(
+    destination: Path, generated_markdown: set[str] | None = None, *,
+    publication_root: Path,
+) -> None:
+    """Remove payload files only inside a discovered generated destination.
+
+    Keep authored Markdown, hidden entries and directory identities. In particular,
+    never recursively remove a selected course, unit, module or static tree.
+    """
+    _validate_publication_path(destination, publication_root)
+    for path in destination.rglob("*"):
+        _validate_publication_path(path, publication_root)
+    for path in destination.rglob("*"):
+        if any(part.startswith(".") for part in path.relative_to(destination).parts):
+            continue
+        if path.is_file() and not _is_authored_markdown(path, generated_markdown):
+            path.unlink()
 
 
 def run_youtube_scaffold(repo_root: Path, dry_run: bool = False) -> bool:
@@ -159,6 +230,9 @@ def run_generation(
     Returns:
         True if generation succeeded, False otherwise
     """
+    if not _validate_selection(courses, formats):
+        return False
+
     for course in courses:
         cmd = [
             "uv",
@@ -171,8 +245,6 @@ def run_generation(
             ",".join(formats),
         ]
 
-        if dry_run:
-            cmd.append("--dry-run")
         if skip_clear:
             cmd.append("--skip-clear")
         if no_website:
@@ -183,11 +255,12 @@ def run_generation(
         logger.info(
             f"{'[DRY RUN] ' if dry_run else ''}Generating {course}: {', '.join(formats)}"
         )
-        result = subprocess.run(cmd, cwd=str(repo_root / "software"))
+        if not dry_run:
+            result = subprocess.run(cmd, cwd=str(repo_root / "software"))
 
-        if result.returncode != 0:
-            logger.error(f"Generation failed for {course}")
-            return False
+            if result.returncode != 0:
+                logger.error(f"Generation failed for {course}")
+                return False
 
         # Only clear on first course run
         skip_clear = True
@@ -196,7 +269,12 @@ def run_generation(
 
 
 def run_publish(
-    repo_root: Path, courses: list, output_dir: str, dry_run: bool = False
+    repo_root: Path,
+    courses: list,
+    output_dir: str,
+    dry_run: bool = False,
+    clean_before_publish: bool = True,
+    skip_clear: bool = False,
 ) -> bool:
     """Copy generated outputs to the published directory.
 
@@ -205,25 +283,36 @@ def run_publish(
         courses: List of course IDs to process
         output_dir: Name of the output directory
         dry_run: If True, show what would be published
+        clean_before_publish: If True, clean selected generated destinations first
+        skip_clear: If True, retain old generated artifacts regardless of config
 
     Returns:
         True if publishing succeeded, False otherwise
     """
+    if not _validate_selection(courses):
+        return False
+
     published_path = repo_root / output_dir
-    published_path.mkdir(parents=True, exist_ok=True)
-
-    sys.path.insert(0, str(repo_root / "software"))
-    from src.batch_processing.config import COURSE_REGISTRY
-    from src.batch_processing.utils import find_modules_for_course
-
-    import shutil
+    try:
+        _validate_publication_path(published_path, repo_root)
+        for course_id in courses:
+            source = (repo_root / COURSE_REGISTRY[course_id]["rel_path"]).resolve()
+            publication = published_path.resolve()
+            if source.is_relative_to(publication) or publication.is_relative_to(source):
+                raise ValueError(f"Publication overlaps authored course source: {source}")
+            course_pub = published_path / course_id
+            _validate_publication_path(course_pub, published_path)
+            for path in course_pub.rglob("*"):
+                _validate_publication_path(path, published_path)
+    except ValueError as error:
+        logger.error("%s", error)
+        return False
+    if not dry_run:
+        published_path.mkdir(parents=True, exist_ok=True)
+    clean = clean_before_publish and not skip_clear
 
     total_copied = 0
     for course_id in courses:
-        if course_id not in COURSE_REGISTRY:
-            logger.warning(f"Course '{course_id}' not in registry, skipping")
-            continue
-
         reg = COURSE_REGISTRY[course_id]
         course_path = repo_root / reg["rel_path"]
 
@@ -231,12 +320,34 @@ def run_publish(
             logger.warning(f"Course path not found: {course_path}")
             continue
 
-        # Create course output directory
         course_pub = published_path / course_id
-        course_pub.mkdir(parents=True, exist_ok=True)
+        if not dry_run:
+            course_pub.mkdir(parents=True, exist_ok=True)
 
         # Copy module outputs
         modules = find_modules_for_course(course_path, course_id)
+        content_names = {Path(name).name for name in reg.get("content_files", [])}
+
+        if clean:
+            if dry_run:
+                logger.info(
+                    "  [DRY RUN] Would clean generated destinations for %s", course_id
+                )
+            else:
+                # Discover existing publication modules too, so removed source
+                # modules do not leave stale generated files behind.
+                for module_pub in find_modules_for_course(course_pub, course_id):
+                    generated_markdown = content_names | {
+                        f"{module_pub.name}-{name}" for name in content_names
+                    }
+                    _clean_generated_destination(
+                        module_pub, generated_markdown, publication_root=published_path
+                    )
+                for static_dir in reg.get("static_dirs", []):
+                    _clean_generated_destination(
+                        course_pub / static_dir, publication_root=published_path
+                    )
+
         for module_dir in modules:
             output_dir_path = module_dir / "output"
             if not output_dir_path.exists():
@@ -248,7 +359,11 @@ def run_publish(
                 module_pub = course_pub / module_dir.parent.name / module_dir.name
             else:
                 module_pub = course_pub / module_dir.name
-            module_pub.mkdir(parents=True, exist_ok=True)
+            generated_markdown = content_names | {
+                f"{module_dir.name}-{name}" for name in content_names
+            }
+            if not dry_run:
+                module_pub.mkdir(parents=True, exist_ok=True)
 
             if dry_run:
                 file_count = sum(1 for _ in output_dir_path.rglob("*") if _.is_file())
@@ -259,6 +374,10 @@ def run_publish(
                 for f in output_dir_path.rglob("*"):
                     if f.is_file():
                         dest = module_pub / f.relative_to(output_dir_path)
+                        if dest.exists() and _is_authored_markdown(
+                            dest, generated_markdown
+                        ):
+                            continue
                         dest.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copy2(f, dest)
                         total_copied += 1
@@ -292,10 +411,18 @@ def run_publish(
                     f"  Would copy static dir {static_dir} ({file_count} files)"
                 )
             else:
-                if dest.exists():
-                    shutil.rmtree(dest)
-                shutil.copytree(source_dir, dest)
-                created_files = sum(1 for _ in dest.rglob("*") if _.is_file())
+                dest.mkdir(parents=True, exist_ok=True)
+                created_files = 0
+                for source in source_dir.rglob("*"):
+                    target = dest / source.relative_to(source_dir)
+                    if source.is_dir():
+                        target.mkdir(parents=True, exist_ok=True)
+                    elif source.is_file():
+                        if target.exists() and _is_authored_markdown(target):
+                            continue
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(source, target)
+                        created_files += 1
                 total_copied += created_files
                 logger.info(
                     f"  Copied static dir: {static_dir} ({created_files} files)"
@@ -347,15 +474,18 @@ def main() -> int:
         logging.getLogger().setLevel(logging.DEBUG)
 
     # Determine courses and formats
-    if args.course:
+    if args.course is not None:
         courses = [args.course]
     else:
         courses = get_enabled_courses(config)
 
-    if args.override_formats:
-        formats = [f.strip() for f in args.override_formats.split(",")]
+    if args.override_formats is not None:
+        formats = [f.strip().lower() for f in args.override_formats.split(",")]
     else:
         formats = get_enabled_formats(config)
+
+    if not _validate_selection(courses, formats):
+        return 1
 
     output_dir = config.get("general", {}).get("output_dir", "published")
     options = config.get("options", {})
@@ -416,24 +546,15 @@ def main() -> int:
         logger.info("--publish-only: skipping generation, copying existing outputs")
 
     # Step 2: Publish (copy to output directory)
-    if not args.dry_run:
-        # Clean output first if configured
-        clean = config.get("general", {}).get("clean_before_publish", True)
-        if clean:
-            published_path = repo_root / output_dir
-            if published_path.exists():
-                import shutil
 
-                for item in published_path.iterdir():
-                    if item.name.startswith("."):
-                        continue
-                    if item.is_dir():
-                        shutil.rmtree(item)
-                    else:
-                        item.unlink()
-                logger.info(f"Cleaned {output_dir}/")
-
-    success = run_publish(repo_root, courses, output_dir, dry_run=args.dry_run)
+    success = run_publish(
+        repo_root,
+        courses,
+        output_dir,
+        dry_run=args.dry_run,
+        clean_before_publish=config.get("general", {}).get("clean_before_publish", True),
+        skip_clear=args.skip_clear,
+    )
 
     if not success:
         return 1

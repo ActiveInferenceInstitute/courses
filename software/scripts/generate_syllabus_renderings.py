@@ -24,7 +24,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.batch_processing.config import COURSE_REGISTRY
-from src.batch_processing.main import process_syllabus
+from src.batch_processing.main import process_course_syllabus
+from src.batch_processing.utils import get_formats_to_process, require_contained
 
 
 def parse_args(argv=None) -> argparse.Namespace:
@@ -45,73 +46,38 @@ Examples:
         default="ai-philosophy",
         help="Course to process (default: ai-philosophy)",
     )
+    parser.add_argument("--repo-root", type=Path, default=Path(__file__).resolve().parents[2])
+    parser.add_argument("--formats", default="all")
+    parser.add_argument("--dry-run", action="store_true")
 
     return parser.parse_args(argv)
 
 
 def main(argv=None) -> int:
-    """Generate all renderings for syllabus files."""
     args = parse_args(argv)
-
-    # Paths
-    repo_root = Path(__file__).parent.parent.parent
-
-    if args.course not in COURSE_REGISTRY:
-        print(f"Error: Course {args.course} not found in registry")
-        return 1
-
-    rel_path = COURSE_REGISTRY[args.course]["rel_path"]
-
-    # Check if syllabus location is defined in registry, otherwise default to "syllabus"
-    syllabus_loc = COURSE_REGISTRY[args.course].get("syllabus_location", "syllabus")
-
-    # If syllabus_location is a file (ends in .md), get parent dir
-    # If it's a dir, use it directly
-    course_root = repo_root / rel_path
-
-    if syllabus_loc.endswith(".md"):
-        syllabus_path = course_root / Path(syllabus_loc).parent
-    else:
-        syllabus_path = course_root / syllabus_loc
-
-    output_dir = syllabus_path / "output"
-
-    if not syllabus_path.exists():
-        print(f"Error: Syllabus path does not exist: {syllabus_path}")
-        return 1
-
-    print(f"Processing: {args.course}/syllabus")
-    print(f"Output directory: {output_dir}")
-
     try:
-        results = process_syllabus(str(syllabus_path), str(output_dir))
+        formats = get_formats_to_process(args.formats)
+        metadata = COURSE_REGISTRY[args.course]
+        course = args.repo_root / metadata["rel_path"]
+        syllabus = course / metadata.get("syllabus_location", "syllabus")
+        require_contained(syllabus, args.repo_root)
+        if not syllabus.exists():
+            raise FileNotFoundError(syllabus)
+        if syllabus.is_file():
+            print(f"File-style syllabus is copied during publication, not rendered: {syllabus}")
+            return 0
+        if args.dry_run:
+            from src.batch_processing.utils import syllabus_artifacts
 
-        # Print summary
-        print("\n=== Generation Summary ===")
-        print(f"PDF files: {results['summary']['pdf']}")
-        print(f"Audio files (MP3): {results['summary']['mp3']}")
-        print(f"DOCX files: {results['summary']['docx']}")
-        print(f"HTML files: {results['summary']['html']}")
-        print(f"TXT files: {results['summary']['txt']}")
-
-        print("\n=== Files by Format ===")
-        for format_type, files in results["by_format"].items():
-            if files:
-                print(f"\n{format_type}/ ({len(files)} files):")
-                for file_path in sorted(files):
-                    print(f"  - {Path(file_path).name}")
-
-        if results["errors"]:
-            print("\n=== Errors ===")
-            for error in results["errors"]:
-                print(f"  - {error}")
-            return 1
-
-        print("\n✓ All renderings generated successfully!")
-        return 0
-
-    except Exception as e:
-        print(f"Error: {e}")
+            for artifact in syllabus_artifacts(course, formats, args.course):
+                print(artifact["destination"])
+            return 0
+        result = process_course_syllabus(course, metadata["display_name"], formats, args.course)
+        for error in result["errors"]:
+            print(error, file=sys.stderr)
+        return 1 if result["errors"] else 0
+    except (OSError, ValueError) as error:
+        print(f"Syllabus generation failed: {error}", file=sys.stderr)
         return 1
 
 

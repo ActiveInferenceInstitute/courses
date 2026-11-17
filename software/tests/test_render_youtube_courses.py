@@ -1,105 +1,63 @@
-"""Tests for the render_youtube_courses script.
+"""YouTube CLI regressions using existing local transcripts only."""
+import json
 
-Tests that scaffold/render real YouTube course directories are
-marked with @pytest.mark.requires_api.
-"""
-
-import importlib.util
-import sys
-from pathlib import Path
-import pytest
-
-# Add project root to sys.path
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
-# Load the script
-SCRIPT_PATH = PROJECT_ROOT / "scripts" / "render_youtube_courses.py"
-spec = importlib.util.spec_from_file_location("render_youtube_courses", SCRIPT_PATH)
-render_youtube_script = importlib.util.module_from_spec(spec)
-sys.modules["render_youtube_courses"] = render_youtube_script
-spec.loader.exec_module(render_youtube_script)
+from scripts.render_youtube_courses import main
+from src.youtube_transcript.config import TRANSCRIPTS_SUBDIR
 
 
-@pytest.fixture
-def script():
-    return render_youtube_script
+def _manifest(root):
+    courses = root / "course_development/youtube"
+    courses.mkdir(parents=True)
+    manifest = {"total_playlists": 1, "playlists": {
+        "local-course": {"title": "Local", "id": "playlist", "url": "https://example.invalid",
+                         "video_count": 1,
+                         "videos": [{"id": "video_1", "title": "Intro", "playlist_index": 0}]},
+    }}
+    path = courses / "youtube_courses.json"
+    path.write_text(json.dumps(manifest))
+    return courses, path
 
 
-class TestRenderYoutubeCourses:
-    def test_parse_args(self, script):
-        args = script.parse_args(["--limit", "5", "--formats", "pdf,txt", "--dry-run"])
-        assert args.limit == 5
-        assert args.formats == "pdf,txt"
-        assert args.dry_run is True
+def test_local_scaffold_and_render_success(tmp_path):
+    courses, _ = _manifest(tmp_path)
+    transcripts = tmp_path / "transcripts-root"
+    source = transcripts / TRANSCRIPTS_SUBDIR / "video_1.txt"
+    source.parent.mkdir(parents=True)
+    source.write_text("A local authored transcript.")
+    assert main(["--repo-root", str(tmp_path), "--transcript-dir", str(transcripts),
+                 "--formats", "md", "--skip-whisper"]) == 0
+    module = courses / "local-course/01_intro"
+    output = module / "output/lecture-content/01_intro-module.md"
+    assert "A local authored transcript." in output.read_text()
+    assert (module / "output/.render-receipt.json").is_file()
 
-    @pytest.mark.requires_api
-    def test_main_dry_run(self, script, caplog, monkeypatch):
-        """main() reports dry-run summary without touching filesystem (requires API)."""
-        fake_manifest = {
-            "total_playlists": 1,
-            "playlists": {"test-slug": {"title": "Test Playlist", "video_count": 2}},
-        }
-        monkeypatch.setattr(render_youtube_script, "load_youtube_manifest", lambda p: fake_manifest)
-        monkeypatch.setattr(Path, "exists", lambda self: False)
 
-        with caplog.at_level("INFO"):
-            exit_code = script.main(["--dry-run"])
-            assert exit_code == 0
+def test_empty_local_transcript_is_a_failed_scaffold_without_network(tmp_path):
+    _, _ = _manifest(tmp_path)
+    transcripts = tmp_path / "transcripts-root"
+    source = transcripts / TRANSCRIPTS_SUBDIR / "video_1.txt"
+    source.parent.mkdir(parents=True)
+    source.write_text("")
+    assert main(["--repo-root", str(tmp_path), "--transcript-dir", str(transcripts),
+                 "--formats", "md", "--skip-whisper", "--skip-render"]) == 1
 
-        assert "Dry run - 1 playlists" in caplog.text
 
-    @pytest.mark.requires_api
-    def test_main_list_playlists(self, script, caplog, monkeypatch):
-        """main() lists playlists without scaffolding (requires API)."""
-        fake_result = {
-            "total_playlists": 2,
-            "playlists": {
-                "slug1": {"title": "Title 1", "video_count": 1},
-                "slug2": {"title": "Title 2", "video_count": 2},
-            },
-        }
-        save_calls = []
-        monkeypatch.setattr(
-            render_youtube_script,
-            "enumerate_and_map_playlists",
-            lambda channel, transcript_dir, **kw: fake_result,
-        )
-        monkeypatch.setattr(
-            render_youtube_script, "save_youtube_manifest", lambda m, p: save_calls.append(m)
-        )
+def test_render_failure_and_empty_selection_are_nonzero(tmp_path):
+    courses, _ = _manifest(tmp_path)
+    module = courses / "local-course/01_intro"
+    module.mkdir(parents=True)
+    (module / "module.md").write_text("# Intro\n\nContent.")
+    (module / "output").write_text("blocking file")
+    args = ["--repo-root", str(tmp_path), "--skip-scaffold", "--formats", "md"]
+    assert main(args) == 1
+    assert main([*args, "--course", "not-present"]) == 1
+    assert (module / "output").read_text() == "blocking file"
 
-        with caplog.at_level("INFO"):
-            exit_code = script.main(["--list-playlists", "--dry-run"])
-            assert exit_code == 0
 
-        assert "Playlists (2):" in caplog.text
-        assert len(save_calls) == 0  # --dry-run suppresses save
-
-    @pytest.mark.requires_api
-    def test_main_execution(self, script, monkeypatch):
-        """main() scaffolds and renders courses (requires API)."""
-        fake_manifest = {"playlists": {"slug1": {"title": "Title 1", "videos": []}}}
-        scaffold_calls = []
-        render_calls = []
-
-        monkeypatch.setattr(render_youtube_script, "load_youtube_manifest", lambda p: fake_manifest)
-        monkeypatch.setattr(
-            render_youtube_script,
-            "scaffold_course_directory",
-            lambda *a, **kw: scaffold_calls.append(1) or {"created": 1, "skipped": 0, "failed": 0},
-        )
-        monkeypatch.setattr(
-            render_youtube_script,
-            "render_all_youtube_courses",
-            lambda *a, **kw: render_calls.append(1) or {"total_rendered": 1, "total_errors": []},
-        )
-        monkeypatch.setattr(Path, "mkdir", lambda self, **kw: None)
-        monkeypatch.setattr(Path, "exists", lambda self: True)
-
-        exit_code = script.main(["--skip-whisper"])
-        assert exit_code == 0
-
-        assert len(scaffold_calls) == 1
-        assert len(render_calls) == 1
+def test_dry_run_list_playlists_is_local_and_nonmutating(tmp_path):
+    courses, manifest = _manifest(tmp_path)
+    before = manifest.read_bytes()
+    assert main(["--repo-root", str(tmp_path), "--list-playlists", "--dry-run",
+                 "--formats", "md", "--course", "local-course"]) == 0
+    assert manifest.read_bytes() == before
+    assert list(courses.iterdir()) == [manifest]

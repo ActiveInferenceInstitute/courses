@@ -20,14 +20,17 @@
 
 | Status | Count |
 |--------|-------|
-| ✅ Complete | 7 |
+| ✅ Complete | 6 |
 | 🔨 In Progress | 0 |
 | 📋 Planned | 0 |
 | 💡 Proposed | 313 |
-| 🔬 Research | 10 |
+| 🔬 Research | 11 |
 | **Total Domains** | **330** |
 
-> *Update counts as courses progress.*
+These totals cover numbered rows 1–330 only. The existing comedy course is an
+additional unnumbered identity, not a seventh numbered complete row. Every
+proposed/research row still needs its owner-authored scope and content; this
+arithmetic correction changes no course status or curriculum.
 
 ---
 

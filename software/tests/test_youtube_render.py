@@ -388,24 +388,27 @@ class TestScaffoldCourseDirectory:
         assert "# Test Video Title" in content
         assert "Placeholder" not in content
 
-    def test_course_json_written(self, tmp_path: Path) -> None:
+    def test_empty_selection_preserves_existing_course(self, tmp_path: Path) -> None:
         transcript_dir = tmp_path / "transcription"
-        (transcript_dir / "transcripts").mkdir(parents=True)
-
+        transcripts = transcript_dir / "transcripts"
+        transcripts.mkdir(parents=True)
+        (transcripts / "vid001.txt").write_text("An existing authored transcript.", encoding="utf-8")
         youtube_dir = tmp_path / "youtube"
-        course_meta = {
-            "id": "PLtest",
-            "title": "My Course",
-            "url": "https://youtube.com/playlist?list=PLtest",
-        }
+        scaffold_course_directory(
+            "my-course", [{"id": "vid001", "title": "Retained", "playlist_index": 0}],
+            transcript_dir, youtube_dir, {"id": "PLtest", "title": "Existing course", "url": ""},
+        )
+        course_dir = youtube_dir / "my-course"
+        before = {p.relative_to(course_dir): p.read_bytes() for p in course_dir.rglob("*") if p.is_file()}
+        assert b"An existing authored transcript." in before[Path("01_retained/module.md")]
 
-        scaffold_course_directory("my-course", [], transcript_dir, youtube_dir, course_meta)
+        result = scaffold_course_directory(
+            "my-course", [], transcript_dir, youtube_dir, {"title": "Replacement"},
+        )
 
-        course_json = youtube_dir / "my-course" / "course.json"
-        assert course_json.exists()
-        data = json.loads(course_json.read_text(encoding="utf-8"))
-        assert data["title"] == "My Course"
-        assert data["playlist_id"] == "PLtest"
+        assert result["failed"] == 1
+        assert result["created"] == 0
+        assert {p.relative_to(course_dir): p.read_bytes() for p in course_dir.rglob("*") if p.is_file()} == before
 
 
 class TestRenderCourseModules:
@@ -442,21 +445,53 @@ class TestRenderCourseModules:
         assert ".txt" in extensions
         assert ".md" in extensions
 
-    def test_resume_skips_rendered(self, tmp_path: Path) -> None:
-        # Create course with already-rendered module
-        course_dir = tmp_path / "test-course"
-        mod_dir = course_dir / "01_intro"
-        mod_dir.mkdir(parents=True)
-        (mod_dir / "module.md").write_text("# Test\n\nContent.\n", encoding="utf-8")
+    def test_resume_requires_bound_complete_outputs(self, tmp_path: Path) -> None:
+        course = tmp_path / "test-course"
+        module = course / "01_intro"
+        module.mkdir(parents=True)
+        source = module / "module.md"
+        source.write_text("# Test\n\nFirst content.")
+        first = render_course_modules(course, formats=["md"])
+        assert first["errors"] == []
+        assert first["rendered"] == 1
+        assert render_course_modules(course, formats=["md"])["skipped"] == 1
+        expanded = render_course_modules(course, formats=["md", "txt"])
+        assert expanded["rendered"] == 1
+        output = module / "output/lecture-content/01_intro-module.txt"
+        assert "First content" in output.read_text()
+        output.unlink()
+        assert render_course_modules(course, formats=["md", "txt"])["rendered"] == 1
+        output.write_text("corrupted artifact")
+        assert render_course_modules(course, formats=["md", "txt"])["rendered"] == 1
+        source.write_text("# Test\n\nChanged content.")
+        assert render_course_modules(course, formats=["md", "txt"])["rendered"] == 1
+        assert "Changed content" in output.read_text()
+        assert render_course_modules(course, formats=["txt", "md"])["skipped"] == 1
 
-        # Create fake output to simulate already rendered
-        lecture_dir = mod_dir / "output" / "lecture-content"
-        lecture_dir.mkdir(parents=True)
-        (lecture_dir / "01_intro-module.txt").write_text("rendered", encoding="utf-8")
+    def test_legacy_unbound_output_is_not_resumed(self, tmp_path: Path) -> None:
+        course = tmp_path / "course"
+        module = course / "01_intro"
+        module.mkdir(parents=True)
+        (module / "module.md").write_text("# Title\n\nCurrent content.")
+        output = module / "output/lecture-content/01_intro-module.md"
+        output.parent.mkdir(parents=True)
+        output.write_text("unbound old content")
+        result = render_course_modules(course, formats=["md"])
+        assert result["rendered"] == 1 and result["skipped"] == 0
+        assert output.read_bytes() == (module / "module.md").read_bytes()
 
-        result = render_course_modules(course_dir, formats=["txt", "md"], resume=True)
-        assert result["skipped"] == 1
-        assert result["rendered"] == 0
+    def test_failure_has_no_success_receipt_and_does_not_hide_peer(self, tmp_path: Path) -> None:
+        course = tmp_path / "course"
+        for name in ("01_bad", "02_good"):
+            (course / name).mkdir(parents=True)
+            (course / name / "module.md").write_text("# Title\n\nContent.")
+        (course / "01_bad/output").write_text("blocking file")
+        result = render_course_modules(course, formats=["md"])
+        assert len(result["errors"]) == 1
+        assert result["rendered"] == 1
+        assert [entry["status"] for entry in result["modules"]] == ["error", "rendered"]
+        assert not (course / "01_bad/output/.render-receipt.json").exists()
+        assert (course / "02_good/output/.render-receipt.json").is_file()
 
     def test_no_modules_returns_empty(self, tmp_path: Path) -> None:
         course_dir = tmp_path / "empty-course"
@@ -465,6 +500,7 @@ class TestRenderCourseModules:
         result = render_course_modules(course_dir, formats=["txt"])
         assert result["rendered"] == 0
         assert result["skipped"] == 0
+        assert result["errors"]
 
 
 class TestRenderAllYoutubeCourses:
@@ -504,6 +540,7 @@ class TestRenderAllYoutubeCourses:
     def test_nonexistent_dir_returns_empty(self, tmp_path: Path) -> None:
         result = render_all_youtube_courses(tmp_path / "nonexistent")
         assert result["total_rendered"] == 0
+        assert result["total_errors"]
 
 
 @pytest.mark.requires_internet

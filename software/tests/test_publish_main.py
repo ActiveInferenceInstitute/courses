@@ -46,8 +46,8 @@ class TestPublishCourse:
         assert results["modules_published"] == 1
         assert (publish_root / "ai-philosophy" / "01_systems" / "gen.pdf").exists()
 
-    def test_clean_directory(self, temp_dir):
-        """Test that destination is cleaned before publishing."""
+    def test_preserves_unselected_destination_files(self, temp_dir):
+        """Publication does not erase prior payloads outside its manifest."""
         course_dir = temp_dir / "ai-math"
         course_dir.mkdir()
         mod1 = course_dir / "01_systems"
@@ -63,4 +63,4 @@ class TestPublishCourse:
         publish_course(str(course_dir), str(publish_root))
 
         assert (dest_mod / "new.pdf").exists()
-        assert not (dest_mod / "old.pdf").exists()
+        assert (dest_mod / "old.pdf").read_text() == "old"

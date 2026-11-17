@@ -11,7 +11,7 @@ Comprehensive guide to the test suite, conventions, and practices for the Active
 | Metric | Value |
 |--------|-------|
 | Framework | pytest |
-| Test files | 67 |
+| Test inventory | [Generated source-bound facts](../../docs/_generated/GATE_METRICS.md) |
 | Test location | `software/tests/` |
 | Coverage tool | pytest-cov |
 | Mock policy | **No mocks.** All tests use real implementations. |
@@ -26,7 +26,7 @@ The repository has one entry point for checks, and CI runs these same arms
 ([`../../docs/RUN_GUIDE.md`](../../docs/RUN_GUIDE.md)):
 
 ```bash
-./run.sh test       # offline gate: 995 passed, 34 deselected (the CI arm)
+./run.sh test       # offline selection used by CI; not a full-network result
 ./run.sh test-full  # every test, including internet/API/whisper
 ```
 
