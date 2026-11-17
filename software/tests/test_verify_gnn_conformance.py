@@ -464,7 +464,7 @@ def test_actual_same_version_foreign_installed_origin(
         """
         from importlib.metadata import distribution
         installed = distribution("generalized-notation-notation")
-        assert installed.version == "5.0.3"
+        assert installed.version == c.EXPECTED_TAG.removeprefix("v")
         origin = json.loads(installed.read_text("direct_url.json"))
         assert origin["vcs_info"]["vcs"] == "git"
         with c.qualified_runtime(**kwargs) as receipt:
