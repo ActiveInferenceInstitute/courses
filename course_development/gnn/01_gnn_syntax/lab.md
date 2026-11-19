@@ -26,14 +26,17 @@ Then answer: which two sections separate *declaration* from *value*, and why is 
 
 > **Learning Goal:** Observe the parse, type-check, render, and execute steps on a real specification.
 
-You need a GNN checkout. From the GNN repository root:
+Use a GNN checkout at the [pinned revision](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation/tree/75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf). From the GNN checkout root, install the pinned dependencies and set `MODELS` to the absolute path of the courses model directory.
 
 ```bash
+uv sync --frozen --python 3.14
+MODELS=/absolute/path/to/courses/course_development/gnn/01_gnn_syntax/models
+
 # Parse and type-check the shipped exemplars (steps 3 and 5)
-python src/gnn/main.py --target-dir <path-to-this-folder>/models --only-steps "3,5"
+uv run --frozen --no-sync python src/gnn/main.py --target-dir "$MODELS" --only-steps "3,5"
 
 # Add rendering and execution (steps 11 and 12)
-python src/gnn/main.py --target-dir <path-to-this-folder>/models --only-steps "3,5,11,12"
+uv run --frozen --no-sync python src/gnn/main.py --target-dir "$MODELS" --only-steps "3,5,11,12"
 ```
 
 Record what the run reports for each step. Note especially which steps succeed for all five models and which frameworks report `unsupported` for a model.
