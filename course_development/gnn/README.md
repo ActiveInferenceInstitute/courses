@@ -53,10 +53,12 @@ development, including the "triple play" of text, graph, and executable forms.
 
 ## Running the pipeline over the exemplars
 
-From a checkout of the GNN repository at the pinned revision:
+Use a GNN checkout at the [pinned revision](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation/tree/75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf). From the GNN checkout root, install the pinned dependencies and set `MODELS` to the absolute path of the courses model directory.
 
 ```bash
-python src/gnn/main.py --target-dir course_development/gnn/01_gnn_syntax/models --only-steps "3,5,11,12"
+uv sync --frozen --python 3.14
+MODELS=/absolute/path/to/courses/course_development/gnn/01_gnn_syntax/models
+uv run --frozen --no-sync python src/gnn/main.py --target-dir "$MODELS" --only-steps "3,5,11,12"
 ```
 
 Steps 3 (parse) and 5 (type check) need no simulator; steps 11 (render) and 12

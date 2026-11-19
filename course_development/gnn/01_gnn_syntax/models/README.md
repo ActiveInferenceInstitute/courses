@@ -17,7 +17,7 @@ type-check, render, and execute.
 | Release | v5.1.0 |
 | Commit | `75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf` |
 | Source folder | `input/gnn_files/` |
-| License | MIT (per the source repository) |
+| License | [CC BY-NC-SA 4.0](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation/blob/75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf/LICENSE.md) |
 
 These copies are verbatim: no edits, no parameter changes. All five are
 byte-identical at the earlier v5.0.3 commit `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1`
@@ -50,11 +50,12 @@ the source repository.
 
 ## Running the exemplars
 
-Every file is a valid `--target-dir` input for the GNN pipeline. For example,
-from a GNN checkout at the pinned revision:
+Use a GNN checkout at the [pinned revision](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation/tree/75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf). From the GNN checkout root, install the pinned dependencies and set `MODELS` to the absolute path of the courses model directory.
 
 ```bash
-python src/gnn/main.py --target-dir <path-to-this-folder> --only-steps "3,5,11,12"
+uv sync --frozen --python 3.14
+MODELS=/absolute/path/to/courses/course_development/gnn/01_gnn_syntax/models
+uv run --frozen --no-sync python src/gnn/main.py --target-dir "$MODELS" --only-steps "3,5,11,12"
 ```
 
 Step 3 parses the specs, Step 5 type-checks them, Step 11 renders framework
