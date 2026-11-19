@@ -3,7 +3,7 @@
 [Course catalogue](software/docs/COURSE_CATALOG.md) · [Module reference](software/docs/MODULES.md)
 [![Formats](https://img.shields.io/badge/output_formats-6-orange)](software/docs/QUICKSTART.md)
 [Measured test facts](docs/_generated/GATE_METRICS.md)
-[![License](https://img.shields.io/badge/license-CC--BY--4.0-lightgrey)](#license)
+[![License](https://img.shields.io/badge/license-CC--BY--4.0-lightgrey)](#-license)
 
 > **Minimize surprise. Maximize evidence.**
 
